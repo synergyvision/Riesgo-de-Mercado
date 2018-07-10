@@ -1,0 +1,45 @@
+\mainmatter
+
+# Función de precios teóricos mediante la metodología de Svensson
+
+La función principal utilizada para estimar los precios teóricos mediante la metodología de Svensson es la denominada "Tabla.sven", a grandes razgos esta función estima los precios teóricos para los títulos que se consideren ya sean Tif o Vebono.
+
+## Paquetes y funciones a utilizar
+
+Los paquetes necesarios para correr la función principal "Tabla.sven" son,
+
+* jrvFinance: necesario para calcular rendimientos y duraciones de los bonos considerados.
+* xlsx: necesario para leer y exportar archivos en excel.
+* nloptr: necesario para realizar una optimización no lineal.
+* alabama: igual que el paquete anterior, se usa para realizar una optimización no lineal mediante un método diferente.
+
+
+Las funciones que utiliza la función principal son las siguientes,
+
+1. sort.data.frame : función que permite ordenar un data frame según una columna específica. La misma cuenta con los siguientes parámetros,
+ * form: data frame a ordenar.
+ * dat: indica el nombre de la columna por el que se quiere ordenar.
+ 
+2. sven: función que calcula el rendimiento cero cupón, mediante la metodología de Svensson, la misma utiliza la siguiente fórmula para su cálculo,
+
+
+$$r_m =  \beta_0 + (\beta_1+\beta_2)*\left(\frac{1-\exp{\left(-\frac{m}{\tau_1}\right)}}{\left(\frac{m}{\tau_1}\right)}\right) -\beta_2*\exp{\left(-\frac{m}{\tau_1}\right)} + \beta_3*\left(\frac{1-\exp{\left(-\frac{m}{\tau_2}\right)}}{\left(\frac{m}{\tau_2}\right)}\right) - \beta_3*\exp{\left(-\frac{m}{\tau_2}\right)} $$
+Dicha función necesita los siguientes argumentos,
+
+* pa: vector que indica los parámetros $\beta_0, \beta_1, \beta_2, \beta_3,\tau_1$ y  $\tau_2$.
+* t: vector que indica el tiempo para el cual se quiere calcular el rendimiento cero cupón.
+
+3. Carac: lee y guarda en un data frame la información disponible en el documento de las características de la deuda pública nacional que se obtiene de la página del BCV. La función posee un solo argumento,
+
+* ruta: caracter que especifica la ruta donde se ubica el documento de las caracteristicas de la deuda pública nacional que ya se ha descargado de la página del BCV.
+
+4. precio.sven: función que calcula los precios teóricos mediante la metodología de Svensson, la misma necesita de los siguientes argumentos,
+
+* tit: vector de caracter ó caracteres donde se indica el nombre  corto del título al cual se le quiere estimar su precio teórico, por ejemplo "TIF082018" ó "VEBONO072018".
+
+* fv: caracter que indica la fecha de valoración, ejemplo "06/07/2018".
+
+* C: data frame que se obtiene de ejecutar la función "Carac", esta variable contiene la información del documento de las caracteristicas de la deuda pública nacional que se obtiene de la página del BCV.
+
+* pa: vector que indica los parámetros $\beta_0, \beta_1, \beta_2, \beta_3,\tau_1$ y  $\tau_2$.
+
