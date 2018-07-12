@@ -33,13 +33,159 @@ Dicha función necesita los siguientes argumentos,
 
 * ruta: caracter que especifica la ruta donde se ubica el documento de las caracteristicas de la deuda pública nacional que ya se ha descargado de la página del BCV.
 
-4. precio.sven: función que calcula los precios teóricos mediante la metodología de Svensson, la misma necesita de los siguientes argumentos,
+4. precio.sven: función que calcula los precios teóricos de los títulos considerados mediante la metodología de Svensson, la misma necesita de los siguientes argumentos,
 
 * tit: vector de caracter ó caracteres donde se indica el nombre  corto del título al cual se le quiere estimar su precio teórico, por ejemplo "TIF082018" ó "VEBONO072018".
 
-* fv: caracter que indica la fecha de valoración, ejemplo "06/07/2018".
+* fv: caracter que indica la fecha de valoración, por ejemplo "06/07/2018".
 
 * C: data frame que se obtiene de ejecutar la función "Carac", esta variable contiene la información del documento de las caracteristicas de la deuda pública nacional que se obtiene de la página del BCV.
 
 * pa: vector que indica los parámetros $\beta_0, \beta_1, \beta_2, \beta_3,\tau_1$ y  $\tau_2$.
+
+Una vez ingresado los imputs, la función internamente busca el nombre del título en el documento de las características más reciente, y extrae del mismo la fecha de pago del próximo cupón y su fecha de vencimiento, con el fin de crear un vector de  fujos, que representa cuantos cupones le quedan por pagar al título en consideración.
+
+Por ejemplo, si se quiere conocer el precio estimado del título "TIF102020" al "02/06/2017",
+la función busca su fecha de vencimiento (15/10/2020) y la fecha de pago del próximo cupón
+la cual es en este caso 20/07/2017. Luego con dichos valores calcula la siguiente tabla, que
+representa los cupones que le quedan por pagar al título,
+
+| Fecha      | Plazo | Plazo años | Rend Estimado | Exp        | Cupón     | Producto   |
+|------------|-------|------------|---------------|------------|-----------|------------|
+| 20/07/2017 |   48  |  0,1350685 |     0,03%     | 0,99995494 |  2,46875  | 2,46863876 |
+| 19/10/2017 |  139  | 0,38082192 |     0,57%     | 0,99781633 |  2,46875  | 2,46335906 |
+| 18/01/2018 |  230  | 0,63013699 |     1,11%     | 0,99300575 |  2,46875  | 2,45148295 |
+| 19/04/2018 |  321  | 0,87945205 |     1,65%     | 0,98555214 |  2,46875  | 2,43308184 |
+| 19/07/2018 |  412  | 1,12876712 |     2,20%     | 0,97548422 |  2,46875  | 2,40822667 |
+| 18/10/2018 |  503  | 1,37808219 |     2,75%     | 0,96286752 |  2,46875  | 2,37707920 |
+| 17/01/2019 |  594  | 1,62739726 |     3,28%     | 0,94796138 |  2,46875  | 2,34027965 |
+| 18/04/2019 |  685  | 1,87671233 |     3,80%     | 0,93117489 |  2,46875  | 2,29883801 |
+| 18/07/2019 |  776  |  2,1260274 |     4,29%     | 0,91282638 |  2,46875  | 2,25354012 |
+| 17/10/2019 |  867  | 2,37534247 |     4,75%     | 0,89320395 |  2,46875  | 2,20509724 |
+| 16/01/2020 |  958  | 2.62465753 |     5,19%     | 0,87257101 |  2,46875  | 2,15415967 |
+| 16/04/2020 |  1049 |  2,8739726 |     5,61%     | 0,85116993 |  2,46875  | 2,10132576 |
+| 16/07/2020 |  1140 | 3,12328767 |     6,00%     | 0,82922554 |  2,46875  | 2,04715055 |
+| 15/10/2020 |  1231 | 3,37260274 |     6,36%     | 0,80694407 | 102,46875 | 82,6865498 |
+|            |       |            |     Precio    |            |           | 112,688809 |
+
+Así la primera columna (Fecha) se obtiene de sumarle a la fecha de pago del próximo cupón (20/07/2017) 91 días, que representa el tiempo cada cuando el título paga cupón, esto se realiza hasta llegar a la fecha de vencimiento.
+
+Luego la columna "Plazo título", se obtiene realizando la diferencia entre la columna 1 y la fecha de valoración (02-06-2017). Luego la columna 3 se obtiene dividiendo el valor de la columna 2 entre 365, para pasar dicho valor a años. Después evalúo los valores de la columna 2 en el spline obtenido, para así obtener los rendimientos estimados (columna 4). Posteriormente en la columna 5 (EXP) calculo la exponencial del producto de menos uno con el plazo en años (columna 3) y con el rendimiento estimado (columna 4).
+
+La columna 6 (Cupón) la calculo dividiendo el valor del cupón del título entre 4, ya que cada cupón se paga cada tres meses, a diferencia del último al cual se le debe sumar el valor de 100. Finalmente en la última columna (Producto) calculo el producto del valor de la columna EXP con la columna Cupón, para luego realizar la sumatoria de todas sus filas y así obtener el precio estimado (112.688809 en este caso). El mismo procedimiento se repite para cada título ya sea Tif o Vebono.
+
+## Función Tabla.sven
+
+Esta función a parte de usar todas las funciones descritas anteriormente necesita de los siguientes argumentos para su correcto funcionamiento,
+
+* fv: caracter que indica la fecha de valoración, por ejemplo "06/07/2018".
+* tit: vector de caracter ó caracteres donde se indica el nombre  corto del título al cual se le quiere estimar su precio teórico, por ejemplo "TIF082018" ó "VEBONO072018".
+* pr: vector numérico que indica los precios promedios de los títulos considerados, esta variable es de suma importancia al momento de realizar el proceso de optimización.
+* pa: vector que indica los parámetros $\beta_0, \beta_1, \beta_2, \beta_3,\tau_1$ y  $\tau_2$.
+* ind: entero, 0 ó 1 que indica si se trabajará con TIF (0) ó con VEBONOS (1).
+* C: data frame que se obtiene de ejecutar la función "Carac", esta variable contiene la información del documento de las caracteristicas de la deuda pública nacional que se obtiene de la página del BCV.
+
+Inicialmente la función crea la siguiente tabla donde muestra los resultados de los precios estimados además de información adicional de cada instrumento considerado,
+
+|                                 |    TIF082018   |    TIF042019   |    TIF082019   |    TIF112019   |    TIF102020   |
+|---------------------------------|:--------------:|:--------------:|:--------------:|:--------------:|:--------------:|
+| ISIN                            | DPBS08773-0034 | DPBS08772-0026 | DPBS04686-0040 | DPBS09115-0024 | DPBS04686-0059 |
+| Fecha de Liquidación            |   06/07/2018   |   06/07/2018   |   06/07/2018   |   06/07/2018   |   06/07/2018   |
+| Fecha de emisión                |   11/01/2012   |   11/01/2012   |   17/07/2006   |   26/07/2012   |   17/07/2006   |
+| Fecha de Vencimiento            |   23/08/2018   |   18/04/2019   |   02/08/2019   |   21/11/2019   |   15/10/2020   |
+| Tasa de Cupón                   |      0,16      |      0,16      |     0,09875    |      0,16      |     0,09875    |
+| Precio Prom                     |       101      |       112      |       110      |    121,0234    |    116,5251    |
+| Fecha último Pago               |   24/05/2018   |   19/04/2018   |   04/05/2018   |   24/05/2018   |   19/04/2018   |
+| Fecha próximo pago              |   23/08/2018   |   19/07/2018   |   03/08/2018   |   23/08/2018   |   19/07/2018   |
+| RDTO al VMTO                    |   0,07608461   |   0,00577764   |   0,004909042  |   0,006009809  |   0,023786201  |
+| Duración                        |   0,130555556  |   0,730395202  |   1,018624797  |   1,254346022  |   2,032862623  |
+| Inverso de la duración          |   7,659574468  |   1,369121809  |   0,981715744  |   0,797228183  |   0,491917156  |
+| Ponderación                     |   0,677865002  |   0,121165968  |   0,086880903  |   0,07055393   |   0,043534197  |
+| Precio Modelo Svensson Ajustado |   102,9921258  |   116,0085721  |   111,9889864  |   122,104268   |   114,3006826  |
+| Residuos al cuadrado            |   1,823559602  |   0,23590694   |   0,029861545  |   0,005815509  |   0,009377642  |
+|                                 |                |                |                |                |    2,10E+00    |
+
+
+En la tabla anterior en cada columna se muestra el nombre corto de cada título considerado, en este caso se tomaron en cuenta cinco TIF (TIF082018, TIF042019, TIF082019,TIF112019, TIF102020). Por otra parte, cada fila contiene información adicional de cada instrumento, en la primera fila se encuentra el ISIN, el cual es un código único que identifica a cada  título. En la segunda fila se encuentra la fecha de liquidación, la cual no es más que la fecha de valoración que se eligió anteriormente. En la tercera y cuarta fila se ubica la fecha de emisión y la fecha de vencimiento respectivamente. En la quinta fila se encuentra la tasa de cupón asociada a cada TIF, en la sexta fila está el precio promedio de cada instrumento. En la septima y octava fila se encuentra la fecha de último pago y la fecha de próximo pago del cupón de cada título.
+
+Toda la información anterior a excepción de la sexta fila (precio promedio) se obtiene del documento de las características de la deuda pública nacional que se obtiene de la página del BCV. La información de la fila 6, se obtiene del documento de "resumersec" del BCV donde se observan las operaciones del mercado secundario. La información ubicada entre la novena y decima segunda fila, es necesaria para realizar la optimización no lineal sobre los parámetros de la metodología de Svensson. En la fila número nueve se encuentra el rendimiento al vencimiento de cada título, en la décima fila se ubica la duración, en la fila once se encuentra el inverso de la fila anterior. En la doceava fila se encuentra la ponderación , la cual se calcula en base a la duración de cada instrumento. En la fila número trece se ubica el precio obtenido mediante la función "precio.sven", finalmente en la última fila se ubica los residuos al cuadrado, los cuales se calculan a partir de la siguiente fórmula,
+
+$$ ((Precio Svensson - Precio Promedio)*Ponderación)^2$$
+La suma de estos errores (SRC) se presenta al final de la tabla y este representa que tanto se asemejan los precios teóricos a los precios promedio.
+
+## Proceso de optimización
+
+Este proceso se aplica directamente sobre los parámetros $\beta_0, \beta_1, \beta_2, \beta_3,\tau_1$ y  $\tau_2$. Donde se varian dichos parámetros con el fin de encontrar aquellos parámetros que minimicen el valor del SRC. Para aplicar este proceso es necesario tener una función objetivo, sobre la cual se realizará el proceso de optimización, ya sea para maximizar ó minimizar dicha función. Dependiendo de la forma de dicha función el proceso de optimización será lineal o no lineal. En nuestro caso particular se llevará a cabo un proceso de optimización no lineal donde se buscará minimizar la función objetivo.
+
+En el cálculo de nuestra función objetivo inteviene el concepto de la duración de un bono ó título, la cuál es una medida del vencimiento medio ponderado de todos los flujos que paga un bono. La misma viene dada mediante la siguiente expresión,
+
+$$Duración = \frac{1+r}{r} - \frac{n(c-r)+(1+r)}{c(1+n)^n - (c-r)}  $$
+
+donde,
+
+* r: es el rendimiento al vencimiento del bono durante el período considerado.
+* n: es el número de períodos que restan hasta la fecha de vencimiento del bono.
+* c: es el cupón del bono.
+
+Así nuestra función objetivo viene dada mediante la siguiente expresión,
+
+$$ f(x) = \sum_{i=1}^n (w_i \epsilon_i(x))^2$$
+
+donde $w_i$ representan las ponderaciones, y se calculan mediante la siguiente expresión,
+
+$$ w_i = \frac{\frac{1}{D_i}}{\sum_{j=1}^n\frac{1}{D_j}}$$
+
+por su parte, $\epsilon_i(x) = \hat{P_i}(x) - P_i$ , donde $P_i$ representan los precios promedios de los títulos a considerar, de entrada este es un parámetro ó valor con el que se cuenta. Por otra parte $\hat{P_i}(x)$ representa los precios estimados donde x es el parámetro que va a variar y es el valor que se quiere optimizar.
+
+Mediante la función objetivo descrita anteriormente se busca minimizar la diferencia
+que existe entre los precios promedios y los precios estimados, calculando un valor óptimo del parámetro $x$ mediante el proceso de optimización no lineal.
+
+El proceso de optimización se puede llevar a cabo mediante dos paquetes de R, el primero es "nloptr" el cual utiliza un método Lagrangiano aumentado que agrega términos adicionales a la función objetivo no restringida, diseñada para emular un multiplicador lagrangiano. El segundo paquete es "alabama", este paquete igual que el anterior utiliza un algoritmo de minimización lagrangiana aumentada, con la diferencia de que el mismo permite usar funciones objetivo no lineales con restricciones, las cuales pueden ser lineales ó no lineales.
+
+El método de optimización que usa por defecto el paquete "alabama" es el BFGS (Algoritmo de Broyden–Fletcher–Goldfarb–Shanno) el cual es un método iterativo para resolver problemas no lineasles de optimización. Por su parte, el paquete "nloptr" usa el método LBGS (Limited-memory Broyden–Fletcher–Goldfarb–Shanno) el cual aproxima el algoritmo BFGS usando una cantidad limitada de memoria del computador. Acorde con las pruebas realizadas se puede afirmar que los resultados obtenidos por el paquete nloptr son mejores a los dados por el paquete alabama, esto al comparar los valores SRC obtenidos luego de cada proceso, sin embargo, el paquete nloptr requiere más tiempo de cálculo para llegar a su valor óptimo mientras que el paquete alabama es más rápido en cumplir ese objetivo. A continuación se presentan los resultados obtenidos al aplicar cada uno de los procesos de optimización, es importante señalar que la optimización realizada por el paquete alabama es la mejor, esto se puede observar en el valor SRC (suma de residuos), lo que indica que los precios Svensson obtenidos mediante esta optimización son los que más se parecen a los precios promedio ingresados.
+
+Tabla obtenida mediante la optimización del paquete alabama
+
+|                                 |    TIF082018   |    TIF042019   |    TIF082019   |    TIF112019   |    TIF102020   |
+|---------------------------------|:--------------:|:--------------:|:--------------:|:--------------:|:--------------:|
+| ISIN                            | DPBS08773-0034 | DPBS08772-0026 | DPBS04686-0040 | DPBS09115-0024 | DPBS04686-0059 |
+| Fecha de Liquidación            |   06/07/2018   |   06/07/2018   |   06/07/2018   |   06/07/2018   |   06/07/2018   |
+| Fecha de emisión                |   11/01/2012   |   11/01/2012   |   17/07/2006   |   26/07/2012   |   17/07/2006   |
+| Fecha de Vencimiento            |   23/08/2018   |   18/04/2019   |   02/08/2019   |   21/11/2019   |   15/10/2020   |
+| Tasa de Cupón                   |      0,16      |      0,16      |     0,09875    |      0,16      |     0,09875    |
+| Precio Prom                     |       101      |       112      |       110      |    121,0234    |    116,5251    |
+| Fecha último Pago               |   24/05/2018   |   19/04/2018   |   04/05/2018   |   24/05/2018   |   19/04/2018   |
+| Fecha próximo pago              |   23/08/2018   |   19/07/2018   |   03/08/2018   |   23/08/2018   |   19/07/2018   |
+| RDTO al VMTO                    |   0,07608461   |   0,00577764   |   0,004909042  |   0,006009809  |   0,023786201  |
+| Duración                        |   0,130555556  |   0,730395202  |   1,018624797  |   1,254346022  |   2,032862623  |
+| Inverso de la duración          |   7,659574468  |   1,369121809  |   0,981715744  |   0,797228183  |   0,491917156  |
+| Ponderación                     |   0,677865002  |   0,121165968  |   0,086880903  |   0,07055393   |   0,043534197  |
+| Precio Modelo Svensson Ajustado |   100,9971913  |   112,1371665  |   109,6489894  |   121,2079619  |   116,5454994  |
+| Residuos al cuadrado            |    3,62E-06    |   0,000276221  |   0,000930013  |   0,000169561  |    7,89E-07    |
+|                                 |                |                |                |                |    1,38E-03    |
+
+Tabla obtenida mediante la optimización del Nloptr
+
+|                                 |    TIF082018   |    TIF042019   |    TIF082019   |    TIF112019   |    TIF102020   |
+|---------------------------------|:--------------:|:--------------:|:--------------:|:--------------:|:--------------:|
+| ISIN                            | DPBS08773-0034 | DPBS08772-0026 | DPBS04686-0040 | DPBS09115-0024 | DPBS04686-0059 |
+| Fecha de Liquidación            |   06/07/2018   |   06/07/2018   |   06/07/2018   |   06/07/2018   |   06/07/2018   |
+| Fecha de emisión                |   11/01/2012   |   11/01/2012   |   17/07/2006   |   26/07/2012   |   17/07/2006   |
+| Fecha de Vencimiento            |   23/08/2018   |   18/04/2019   |   02/08/2019   |   21/11/2019   |   15/10/2020   |
+| Tasa de Cupón                   |      0,16      |      0,16      |     0,09875    |      0,16      |     0,09875    |
+| Precio Prom                     |       101      |       112      |       110      |    121,0234    |    116,5251    |
+| Fecha último Pago               |   24/05/2018   |   19/04/2018   |   04/05/2018   |   24/05/2018   |   19/04/2018   |
+| Fecha próximo pago              |   23/08/2018   |   19/07/2018   |   03/08/2018   |   23/08/2018   |   19/07/2018   |
+| RDTO al VMTO                    |   0,07608461   |   0,00577764   |   0,004909042  |   0,006009809  |   0,023786201  |
+| Duración                        |   0,130555556  |   0,730395202  |   1,018624797  |   1,254346022  |   2,032862623  |
+| Inverso de la duración          |   7,659574468  |   1,369121809  |   0,981715744  |   0,797228183  |   0,491917156  |
+| Ponderación                     |   0,677865002  |   0,121165968  |   0,086880903  |   0,07055393   |   0,043534197  |
+| Precio Modelo Svensson Ajustado |   100,9987932  |   112,0987759  |   109,6758328  |   121,2655549  |   116,4765443  |
+| Residuos al cuadrado            |    6,69E-07    |   0,00014324   |   0,000793207  |   0,000291897  |    4,47E-06    |
+|                                 |                |                |                |                |    1,23E-03    |
+
+
+
+
+
 
