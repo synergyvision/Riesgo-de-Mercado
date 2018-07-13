@@ -115,7 +115,14 @@ La suma de estos errores (SRC) se presenta al final de la tabla y este represent
 
 ## Proceso de optimización
 
-Este proceso se aplica directamente sobre los parámetros $\beta_0, \beta_1, \beta_2, \beta_3,\tau_1$ y  $\tau_2$. Donde se varian dichos parámetros con el fin de encontrar aquellos parámetros que minimicen el valor del SRC. Para aplicar este proceso es necesario tener una función objetivo, sobre la cual se realizará el proceso de optimización, ya sea para maximizar ó minimizar dicha función. Dependiendo de la forma de dicha función el proceso de optimización será lineal o no lineal. En nuestro caso particular se llevará a cabo un proceso de optimización no lineal donde se buscará minimizar la función objetivo.
+Este proceso se aplica directamente sobre los parámetros $\beta_0, \beta_1, \beta_2, \beta_3,\tau_1$ y  $\tau_2$. Donde se varian dichos parámetros con el fin de encontrar aquellos parámetros que minimicen el valor del SRC. Es importante señalar las restricciones que existen sobre estos parámetros, ellas son,
+
+* $\beta_0 > 0$ 
+* $\beta_0 + \beta_1 > 0$  
+* $\tau_1 > 0$
+* $\tau_2 > 0$
+
+Para aplicar este proceso es necesario tener una función objetivo, sobre la cual se realizará el proceso de optimización, ya sea para maximizar ó minimizar dicha función. Dependiendo de la forma de dicha función el proceso de optimización será lineal o no lineal. En nuestro caso particular se llevará a cabo un proceso de optimización no lineal donde se buscará minimizar la función objetivo.
 
 En el cálculo de nuestra función objetivo inteviene el concepto de la duración de un bono ó título, la cuál es una medida del vencimiento medio ponderado de todos los flujos que paga un bono. La misma viene dada mediante la siguiente expresión,
 
@@ -185,7 +192,51 @@ Tabla obtenida mediante la optimización del Nloptr
 |                                 |                |                |                |                |    1,23E-03    |
 
 
+## Ejemplo en R
+
+Una vez cargados todos los paquetes y funciones necesarias para ejecutar la función principal "Tabla.sven", se definen los argumentos necesarios para esta función, primero defino los nombres de los títulos, su precio promedio y los parámetros iniciales.
 
 
+```{r}
+#Prueba Julio 2018
+#ejemplo
+source('C:/Users/Freddy Tapia/Desktop/Svensson/funciones.R')
+
+#TIF
+tit=c("TIF082018","TIF042019","TIF082019",
+      "TIF112019","TIF102020","TIF112020","TIF022021","TIF032022","TIF042023",
+      "TIF012024","TIF062025","TIF012026","TIF112027","TIF032028","TIF052028",
+      "TIF022029","TIF032029","TIF022030","TIF102030","TIF022031","TIF032031",
+      "TIF022032","TIF032032","TIF032033","TIF052034")
+
+#precios promedio
+pr=c(101,112,110,121.0234,116.5251,130.0234,
+     129.0156,125.0626,128.1000,120,124,122,126.5234,128.5235,128.1913,
+     129,132.0391,128.5235,129.8875,130.1,128.5313,127,128.5235,127.0156,
+     127.0156)
+
+#parametros TIF
+
+pa=c(0.133799434790145,-0.01,-0.307885339616438,-0.134075672659356,
+     0.545398124008073,0.350692201663154)
+```
+
+Luego creo la variable "C", la cual se genera a partir de la información del documento de las características de la deuda pública nacional que se obtiene de la página del BCV,
+
+```{r}
+#Documento de la características
+C <- Carac("C:/Users/Freddy Tapia/Desktop/29-06-18.xls")
+
+head(C)
+
+```
+
+Finalmente ejecuto la función,
+
+```{r}
+Tabla11t=Tabla.sven(fv = "06/07/2018",tit = tit,pr = pr,pa = pa,ind = 0,C = C) 
+```
+
+Inicialmente la función muestra una tabla con los valores iniciales, luego de esto se pregunta al usuario si desea optimizar los precios, en caso afirmativo se ofrecen dos métodos uno mediante el paquete nloptr y el otro mediante alabama.
 
 
