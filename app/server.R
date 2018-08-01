@@ -23,8 +23,15 @@ shinyServer(function(input, output) {
   output$Ca <- renderPrint({head(C)})
   output$Ca1 <- renderPrint({head(C)})
   
-  #precios estimados
-  output$p_est_tif <- renderPrint({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = pa,ind = 0,C = C) })
+  #precios estimados iniciales
+  output$p_est_tif <- renderPrint({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = pa,ind = 0,C = C,fe2=0,fe3=0) })
+  output$p_est_veb <- renderPrint({Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = pa1,ind = 1,C = C,fe2=0,fe3=0) })
+  
+  #precios estimados optimizados
+  #paquete alabama
+  output$p_est_tif_opt <- renderPrint({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = pa,ind = 0,C = C,fe2=input$opt_tif,fe3=0) })
+  output$p_est_veb_opt <- renderPrint({Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = pa1,ind = 1,C = C,fe2=input$opt_veb,fe3=0) })
+  
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()

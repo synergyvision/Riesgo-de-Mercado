@@ -32,7 +32,7 @@ sven=function(pa,t){
 #Calcula el precio de los titulos considerados mediante 
 #la metodologia de Svensson
 #ARGUMENTOS
-#tit: t√???tulo o t√???tulos a considerar, debe ser el nombre corto
+#tit: t????tulo o t????tulos a considerar, debe ser el nombre corto
 #ej: TIF082018 (OJO, mejor considerar el ISIN)
 #fv: fecha de valoraci√≥n, ej: "11/08/2017"
 #C: documento de las caracteristicas, que previamente ya ha sido
@@ -157,14 +157,16 @@ precio.sven=function(tit,fv,C,pa){
 #que se asemejen los m√°s posible a los precios promedio ingresados
 #ARGUMENTOS
 #fv: fecha de valoraci√≥n, ej: "11/08/2017"
-#tit: t√???tulo o t√???tulos a considerar, debe ser el nombre corto
+#tit: t????tulo o t????tulos a considerar, debe ser el nombre corto
 #ej: TIF082018 (OJO, mejor considerar el ISIN)
 #pr: vector de precios promedios
 #pa: parametros Svensson
 #ind: 0 = Tif o 1 = veb
 #C: documento de las caracteristicas, que previamente ya ha sido
 #leido mediante la funcion "Carac"
-Tabla.sven=function(fv,tit,pr,pa,ind,C){
+#fe2: valor que indica si se optimizaran los precios, 1 (Si) 0 (No)
+#fe3: valido solo si se optimizan precios, 1 (paquete Nloptr) 0 (alabama)
+Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
   #Creo data frame donde guardare calculo
   Tabla=as.data.frame(matrix(0,14,length(tit)))
   colnames(Tabla)=tit
@@ -262,7 +264,7 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C){
       Tabla[12,i]=(as.numeric(gsub("[,]",".",Tabla[11,i])))/sum((as.numeric(gsub("[,]",".",Tabla[11,]))))
     }
     
-    print("Muestro tabla preliminar")
+    #print("Muestro tabla preliminar")
     
     #CALCULO PRECIOS ESTIMADOS
     fv=as.Date(fv,format="%d/%m/%Y")
@@ -283,7 +285,7 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C){
     #guardo src inicial
     q <- sum(as.numeric(gsub("[,]",".",Tabla[14,])))
     
-    View(Tabla)
+    #View(Tabla)
     Tablainitif<<-Tabla
     
     #SOLVER
@@ -310,10 +312,11 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C){
       h
     }
     
-    fe2 <- readline(prompt="Desea optimizar?   (1) Si, (0) No    ")
+    #modifico esta linea de tal manera q le pase un valor
+    #fe2 <- readline(prompt="Desea optimizar?   (1) Si, (0) No    ")
     if(fe2==1){
-      print("Por favor, seleccionar el paquete a usar: ")
-      fe3 <- readline(prompt="Seleccionar (1) para Nloptr, (0) para Alabama   ")
+      #print("Por favor, seleccionar el paquete a usar: ")
+      #fe3 <- readline(prompt="Seleccionar (1) para Nloptr, (0) para Alabama   ")
       
       if(fe3==1){
         #Broyden‚ÄìFletcher‚ÄìGoldfarb‚ÄìShanno-metodo cuasi Newton
@@ -340,8 +343,8 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C){
         q1 <- sum(as.numeric(gsub("[,]",".",Tabla[14,])))
         
         if(q==q1){
-          print("OPtimizaciÛn fallida..")
-          print("Optimizando por un mÈtodo diferente")
+          print("OPtimizaci?n fallida..")
+          print("Optimizando por un m?todo diferente")
           ala1=nloptr::auglag(pa, fn=mifuncion, hin=res)
           ala<<-ala1
           Tabla[13,]=precio.sven(tit,fv,C,ala1$par)
@@ -369,8 +372,8 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C){
         q1 <- sum(as.numeric(gsub("[,]",".",Tabla[14,])))
         
         if(q==q1){
-          print("OptimizaciÛn fallida..")
-          # print("Optimizando por un mÈtodo diferente")
+          print("Optimizaci?n fallida..")
+          # print("Optimizando por un m?todo diferente")
           # ala1=alabama::auglag(pa, fn=mifuncion, hin=res)
           # ala<<-ala1
           # Tabla[13,]=precio.sven(tit,fv,C,ala1$par)
@@ -435,7 +438,7 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C){
         Tabla[9,i]=bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
       }
       #muestro tabla
-      View(Tabla)
+      #View(Tabla)
       
     }#final if rend negativo
     
@@ -453,7 +456,7 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C){
       Tabla[12,i]=(as.numeric(gsub("[,]",".",Tabla[11,i])))/sum((as.numeric(gsub("[,]",".",Tabla[11,]))))
     }
     
-    print("Muestro tabla preliminar")
+    #print("Muestro tabla preliminar")
     
     #CALCULO PRECIOS ESTIMADOS
     fv=as.Date(fv,format="%d/%m/%Y")
@@ -474,7 +477,7 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C){
     #guardo src inicial
     q <- sum(as.numeric(gsub("[,]",".",Tabla[14,])))
     
-    View(Tabla)
+    #View(Tabla)
     
     TablainiVeb<<-Tabla
     
@@ -501,11 +504,11 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C){
       h
     }
     
-    fe2 <- readline(prompt="Desea optimizar?   (1) Si, (0) No    ")
+    #fe2 <- readline(prompt="Desea optimizar?   (1) Si, (0) No    ")
     if(fe2==1){
       
-      print("Por favor seleccionar un paquete para optimizar")
-      fe3 <- readline(prompt="Seleccionar (1) para el paquete Nloptr, (0) para alabama    ")
+      #print("Por favor seleccionar un paquete para optimizar")
+      #fe3 <- readline(prompt="Seleccionar (1) para el paquete Nloptr, (0) para alabama    ")
       
       if(fe3==1){
         #Broyden‚ÄìFletcher‚ÄìGoldfarb‚ÄìShanno-metodo cuasi Newton
@@ -532,8 +535,8 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C){
         q1 <- sum(as.numeric(gsub("[,]",".",Tabla[14,])))
         
         if(q==q1){
-          print("OPtimizaciÛn fallida..")
-          print("Optimizando por un mÈtodo diferente")
+          print("OPtimizaci?n fallida..")
+          print("Optimizando por un m?todo diferente")
           ala1=nloptr::auglag(pa, fn=mifuncion, hin=res)
           ala<<-ala1
           Tabla[13,]=precio.sven(tit,fv,C,ala1$par)
@@ -560,8 +563,8 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C){
         q1 <- sum(as.numeric(gsub("[,]",".",Tabla[14,])))
         
         if(q==q1){
-          print("OptimizaciÛn fallida..")
-          # print("Optimizando por un mÈtodo diferente")
+          print("Optimizaci?n fallida..")
+          # print("Optimizando por un m?todo diferente")
           # ala1=alabama::auglag(pa, fn=mifuncion, hin=res)
           # ala<<-ala1
           # Tabla[13,]=precio.sven(tit,fv,C,ala1$par)
