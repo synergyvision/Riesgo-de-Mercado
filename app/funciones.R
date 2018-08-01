@@ -1,5 +1,5 @@
 #funciones y paquetes necesarios
-source('C:/Users/Freddy Tapia/Desktop/Svensson/orden data frame.R')
+source('C:/Users/Freddy Tapia/Desktop/Svensson/orden_data_frame.R')
 source('C:/Users/Freddy Tapia/Desktop/Svensson/fprecios022T.R')
 
 #cargo librerias a usar

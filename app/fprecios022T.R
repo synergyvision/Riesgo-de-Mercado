@@ -346,7 +346,8 @@ formatop=function(C3,b3){
   
   #en caso de Haber letras pongo cupon 0
   if(length(which(substr(b3$Instrumento.,1,3)=="LTB"))!=0){
-  b3$CupÃ³n....[which(substr(b3$Instrumento.,1,3)=="LTB")]=0
+  #b3$CupÃ³n....[which(substr(b3$Instrumento.,1,3)=="LTB")]=0
+    b3$Cupón....[which(substr(b3$Instrumento.,1,3)=="LTB")]=0
   }
   
   #traigo la fecha de vencimiento
