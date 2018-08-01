@@ -9,6 +9,22 @@ shinyServer(function(input, output) {
   output$q1<-renderPrint({c(input$t1,input$t2,input$t3,input$t4)})
   #vebonos
   output$q2<-renderPrint({c(input$v1,input$v2,input$v3,input$v4)})
+  #precios
+  tf <- reactive({pos(c(input$t1,input$t2,input$t3,input$t4),0)})
+  tv <- reactive({pos(c(input$v1,input$v2,input$v3,input$v4),1)})
+  output$pre1 <-renderPrint({tf()})
+  output$pre2 <-renderPrint({tv()})
+  
+  #parametros
+  output$pa_tif <- renderPrint({pa})
+  output$pa_veb <- renderPrint({pa1})
+  
+  #muestro caracteristicas
+  output$Ca <- renderPrint({head(C)})
+  output$Ca1 <- renderPrint({head(C)})
+  
+  #precios estimados
+  output$p_est_tif <- renderPrint({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = pa,ind = 0,C = C) })
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()

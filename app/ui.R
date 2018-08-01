@@ -59,14 +59,25 @@ shinyUI(
                             label = " ",choices=tit[14:19])),column(width = 3,
                               checkboxGroupInput( inputId = "t4", label = " ",choices=tit[20:25])) ) ,
         
-        verbatimTextOutput("q1") ),tabPanel("VEBONO",fluidRow(column(width = 3,
+        verbatimTextOutput("q1"),h2(" Precios Promedios"),verbatimTextOutput("pre1"),
+        h2(" Parámetros iniciales"),verbatimTextOutput("pa_tif"),
+        h2(" Características"),verbatimTextOutput("Ca"),
+        h2(" Precios estimados"),verbatimTextOutput("p_est_tif")),
+        tabPanel("VEBONO",fluidRow(column(width = 3,
                                             checkboxGroupInput( inputId = "v1", label = " ",
                                                       choices=tit1[1:8])),
                                   column(width = 3,checkboxGroupInput( inputId = "v2", label = " ",
                               choices=tit1[9:16])), column(width = 3,checkboxGroupInput( inputId = "v3", 
                                 label = " ",choices=tit1[17:24])),column(width = 3,
                         checkboxGroupInput( inputId = "v4", label = " ",choices=tit1[25:29])) ) ,
-                                             verbatimTextOutput("q2") )))
+                                             verbatimTextOutput("q2"), h2(" Precios Promedios"),verbatimTextOutput("pre2")
+                                            ,h2(" Parámetros iniciales"),verbatimTextOutput("pa_veb"), 
+                 h2(" Características"),verbatimTextOutput("Ca1"))
+      
+        
+        )
+        
+        )
        
         )),
       
