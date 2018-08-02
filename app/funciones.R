@@ -1,14 +1,3 @@
-#funciones y paquetes necesarios
-source('C:/Users/Freddy Tapia/Desktop/Svensson/orden_data_frame.R')
-source('C:/Users/Freddy Tapia/Desktop/Svensson/fprecios022T.R')
-
-#cargo librerias a usar
-library(jrvFinance)
-library(xlsx)
-library(nloptr)
-library(alabama)
-options(OutDec = ",")
-
 #DEFINO OTRAS FUNCIONES
 #funcion rend cero cupon
 #funcion que calcula el rendimiento cero cupon 
@@ -600,3 +589,153 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
 }#Final funcion excel-sven
 
 ##################
+
+#funcion Carateristicas
+Carac=function(ruta){
+  #c=read.xlsx("C:/Users/ftapia/Documents/DESCARGAS R/Caracteristicas.xls", sheetName = "DPN",startRow = 7,colIndex = 1:15,header = TRUE)
+  #c=read.xlsx("C:/Users/Nancy/Desktop/Modelos Aleatorios/prueba 190717/Caracteristicas.xls", sheetName = "DPN",startRow = 7,colIndex = 1:15,header = TRUE)
+  c=read.xlsx(ruta, sheetName = "DPN",startRow = 7,colIndex = 1:15,header = TRUE)
+  c1=c[,c(3,5,6,8,10,11,13,15)]
+  c2=c1[-which(is.na(c1[,8])),]
+  c3=cbind(as.character(rep("TIF",1,length(c2[,8]))),c2)
+  c3[,1]=as.character(c3[,1])
+  c3[,1][which(c3[,5]!="Tasa Fija")]="VEBONO"
+  names(c3)=c("Tipo Instrumento","Sicet","F.Emision","F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1","Pago cupon 2","Cupon")
+  
+  #tranformo formato fecha
+  c3$F.Emision=format(c3$F.Emision,"%d/%m/%Y")
+  c3$F.Vencimiento=format(c3$F.Vencimiento,"%d/%m/%Y")
+  c3$`Pago cupon 1`=format(c3$`Pago cupon 1`,"%d/%m/%Y")
+  c3$`Pago cupon 2`=format(c3$`Pago cupon 2`,"%d/%m/%Y")
+  
+  #agrego columna Nombre TIf o Vebono + fecha venc
+  c4=c3$`Tipo Instrumento`
+  
+  Nombre=c()
+  for(i in 1:length(c4)){
+    Nombre[i]=paste(c4[i],paste(substr(c3$F.Vencimiento[i],4,5),substr(c3$F.Vencimiento[i],7,10),sep = ""),sep = "")
+  }
+  
+  c3=cbind(c3$`Tipo Instrumento`,Nombre,c3[,2:ncol(c3)])
+  names(c3)[1]="Tipo Instrumento"
+  
+  #pestaña DPN-TICC
+  #d=read.xlsx("C:/Users/Nancy/Desktop/Modelos Aleatorios/prueba 190717/Caracteristicas.xls", sheetName = "DPN - TICC",startRow = 7,colIndex = 1:14,header = TRUE)
+  d=read.xlsx(ruta, sheetName = "DPN - TICC",startRow = 7,colIndex = 1:14,header = TRUE)
+  
+  #d=read.xlsx("C:/Users/ftapia/Documents/DESCARGAS R/Caracteristicas.xls", sheetName = "DPN - TICC",startRow = 7,colIndex = 1:14,header = TRUE)
+  
+  d=d[-which(is.na(d[,2])),c(3,4,5,7,9,10,12,14)]
+  #cambio formato fechas
+  d[,2]=format(d[,2],"%d/%m/%Y")
+  d[,3]=format(d[,3],"%d/%m/%Y")
+  d[,6]=format(d[,6],"%d/%m/%Y")
+  d[,7]=format(d[,7],"%d/%m/%Y")
+  
+  d1=rep("TICC",1,nrow(d))
+  
+  d2=c()
+  for(i in 1:length(d1)){
+    d2[i]=paste(d1[i],paste(substr(d[i,3],4,5),substr(d[i,3],7,10),sep = ""),sep = "")
+  }
+  
+  d3=cbind(d1,d2,d)
+  names(d3)=names(c3) 
+  
+  #Añado nuevo titulo VF
+  #v=read.xlsx("C:/Users/ftapia/Documents/DESCARGAS R/Caracteristicas.xls", sheetName = "VF",startRow = 7,colIndex = 1:14,header = TRUE)
+  v=read.xlsx(ruta, sheetName = "VF",startRow = 7,colIndex = 1:14,header = TRUE)
+  v=v[-which(is.na(v[,2])),c(3,4,5,7,9,10,12,14)]
+  #cambio formato fechas
+  v[,2]=format(v[,2],"%d/%m/%Y")
+  v[,3]=format(v[,3],"%d/%m/%Y")
+  v[,6]=format(v[,6],"%d/%m/%Y")
+  v[,7]=format(v[,7],"%d/%m/%Y")
+  
+  v1=rep("Valores Fin.",1,nrow(v))
+  
+  v2=c()
+  for(i in 1:length(v1)){
+    v2[i]=paste(v1[i],paste(substr(v[i,3],4,5),substr(v[i,3],7,10),sep = ""),sep = "")
+  }
+  
+  v3=cbind(v1,v2,v)
+  names(v3)=names(c3) 
+  
+  
+  
+  #CARACTERISTICAS DEFINITIVA
+  C3=rbind(c3,d3,v3) 
+  
+  #En caso que no lea bien un numero
+  C3$Cupon=as.numeric(sub(",",".",C3$Cupon))
+  
+  return(C3)
+} #final funcion Caracteristicas
+
+
+##################################
+
+#ordenar data frame
+sort.data.frame <- function(form,dat){ 
+  # Author: Kevin Wright 
+  # Some ideas from Andy Liaw 
+  # http://tolstoy.newcastle.edu.au/R/help/04/07/1076.html 
+  # Use + for ascending, - for decending. 
+  # Sorting is left to right in the formula 
+  
+  
+  # Useage is either of the following: 
+  # sort.data.frame(~Block-Variety,Oats) 
+  # sort.data.frame(Oats,~-Variety+Block) 
+  
+  
+  # If dat is the formula, then switch form and dat 
+  if(inherits(dat,"formula")){ 
+    f=dat 
+    dat=form 
+    form=f 
+  } 
+  if(form[[1]] != "~") 
+    stop("Formula must be one-sided.")
+  
+  # Make the formula into character and remove spaces 
+  formc <- as.character(form[2]) 
+  formc <- gsub(" ","",formc) 
+  # If the first character is not + or -, add + 
+  if(!is.element(substring(formc,1,1),c("+","-")))     formc <- paste("+",formc,sep="") 
+  # Extract the variables from the formula 
+  vars <- unlist(strsplit(formc, "[\\+\\-]"))
+  vars <- vars[vars!=""] # Remove spurious "" terms
+  
+  # Build a list of arguments to pass to "order" function 
+  calllist <- list() 
+  pos=1 # Position of + or - 
+  for(i in 1:length(vars)){ 
+    varsign <- substring(formc,pos,pos) 
+    pos <- pos+1+nchar(vars[i]) 
+    if(is.factor(dat[,vars[i]])){
+      
+      if(varsign=="-")
+        calllist[[i]] <- -rank(dat[,vars[i]])
+      else
+        calllist[[i]] <- rank(dat[,vars[i]])
+    } 
+    else {
+      if(varsign=="-")
+        calllist[[i]] <- -dat[,vars[i]]
+      else
+        calllist[[i]] <- dat[,vars[i]]
+      
+    } 
+  } 
+  dat[do.call("order",calllist),]
+}
+
+#d = data.frame(b=factor(c("Hi","Med","Hi","Low"),levels=c("Low","Med","Hi"),ordered=TRUE),x=c("A","D","A","C"),y=c(8,3,9,9),z=c(1,1,1,2))
+#sort.data.frame(~-z-b,d)
+#sort.data.frame(~x+y+z,d)
+#sort.data.frame(~-x+y+z,d) 
+#sort.data.frame(d,~x-y+z)
+
+#########################################

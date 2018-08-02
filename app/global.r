@@ -1,7 +1,16 @@
 rm(list = ls())
 
+#cargo librerias a usar
 library(shiny)
 library(shinydashboard)
+#
+library(jrvFinance)
+library(xlsx)
+library(nloptr)
+library(alabama)
+options(OutDec = ",")
+
+
 #TIF iniciales
 tit=c("TIF082018","TIF042019","TIF082019",
       "TIF112019","TIF102020","TIF112020","TIF022021","TIF032022","TIF042023",
@@ -65,9 +74,10 @@ pa1=c(0.135872169451391,0.1,-0.503768911829894,-0.288755056029301,
       0.11951691203874,0.501729233062216)
 
 #leo documento caracteristicas
-source('C:/Users/Freddy Tapia/Riesgo-de-Mercado/app/funciones.R')
-C <- Carac("C:/Users/Freddy Tapia/Desktop/29-06-18.xls")
-
+#source('C:/Users/Freddy Tapia/Riesgo-de-Mercado/app/funciones.R')
+source(paste(getwd(),"funciones.R",sep = "/"))
+#C <- Carac("C:/Users/Freddy Tapia/Desktop/29-06-18.xls")
+C <- Carac(paste(getwd(),"data","29-06-18.xls",sep = "/"))
 
 # Encabezado Vision
 VisionHeader <- function(){tags$head(
