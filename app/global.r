@@ -5,7 +5,7 @@ library(shiny)
 library(shinydashboard)
 #
 library(jrvFinance)
-library(xlsx)
+#library(xlsx)
 library(nloptr)
 library(alabama)
 options(OutDec = ",")
@@ -77,7 +77,11 @@ pa1=c(0.135872169451391,0.1,-0.503768911829894,-0.288755056029301,
 #source('C:/Users/Freddy Tapia/Riesgo-de-Mercado/app/funciones.R')
 source(paste(getwd(),"funciones.R",sep = "/"))
 #C <- Carac("C:/Users/Freddy Tapia/Desktop/29-06-18.xls")
-C <- Carac(paste(getwd(),"data","29-06-18.xls",sep = "/"))
+#C <- Carac(paste(getwd(),"data","29-06-18.xls",sep = "/"))
+C <- read.csv(paste(getwd(),"data","C.txt",sep = "/"), sep="")
+names(C) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+              "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+              "Pago cupon 2","Cupon")
 
 # Encabezado Vision
 VisionHeader <- function(){tags$head(
