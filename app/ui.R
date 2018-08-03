@@ -61,13 +61,13 @@ shinyUI(
         
         verbatimTextOutput("q1"),h2(" Precios Promedios"),verbatimTextOutput("pre1"),
         h2(" Parámetros iniciales"),verbatimTextOutput("pa_tif"),
-        h2(" Características"),verbatimTextOutput("Ca"),
-        h2(" Precios estimados iniciales"),verbatimTextOutput("p_est_tif"),
+        h2(" Características"),dataTableOutput("Ca"),
+        h2(" Precios estimados iniciales"),dataTableOutput("p_est_tif"),
         h2(" Precios estimados optimizados"),
         radioButtons( inputId = "opt_tif",label = "Desea optimizar los precios obtenidos:", 
                       choices = c("Si"=1, "No"=0),
                       selected=" ")
-        ,verbatimTextOutput("p_est_tif_opt") ),
+        ,dataTableOutput("p_est_tif_opt") ),
         tabPanel("VEBONO",fluidRow(column(width = 3,
                                             checkboxGroupInput( inputId = "v1", label = " ",
                                                       choices=tit1[1:8])),
@@ -77,12 +77,12 @@ shinyUI(
                         checkboxGroupInput( inputId = "v4", label = " ",choices=tit1[25:29])) ) ,
                                              verbatimTextOutput("q2"), h2(" Precios Promedios"),verbatimTextOutput("pre2")
                                             ,h2(" Parámetros iniciales"),verbatimTextOutput("pa_veb"), 
-                 h2(" Características"),verbatimTextOutput("Ca1"),
-                 h2(" Precios estimados iniciales"),verbatimTextOutput("p_est_veb"),
+                 h2(" Características"),dataTableOutput("Ca1"),
+                 h2(" Precios estimados iniciales"),dataTableOutput("p_est_veb"),
                  h2(" Precios estimados optimizados"),
                  radioButtons( inputId = "opt_veb",label = "Desea optimizar los precios obtenidos:", 
                                choices = c("Si"=1, "No"=0),
-                               selected=" "),verbatimTextOutput("p_est_veb_opt"))
+                               selected=" "),dataTableOutput("p_est_veb_opt"))
       
         
         )

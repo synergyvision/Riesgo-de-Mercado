@@ -8,6 +8,7 @@ library(jrvFinance)
 #library(xlsx)
 library(nloptr)
 library(alabama)
+library(DT)
 options(OutDec = ",")
 
 
