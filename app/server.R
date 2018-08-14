@@ -27,7 +27,11 @@ shinyServer(function(input, output) {
   output$pre2_ns <-renderPrint({tv_ns()})
   
   #parametros
+  #output$pa_tif <- renderPrint({print(paste0("$$\\beta_{0}$$"))})
   output$pa_tif <- renderPrint({pa})
+  # output$formula <- renderPrint({
+  #   return(paste0("Use this formula: $$\beta_{0}", 1,"$$"))
+  # })
   output$pa_tif_ns <- renderPrint({pa_ns})
   output$pa_veb <- renderPrint({pa1})
   output$pa_veb_ns <- renderPrint({pa1_ns})

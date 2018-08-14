@@ -9,6 +9,7 @@ library(jrvFinance)
 library(nloptr)
 library(alabama)
 library(DT)
+library(xtable)
 options(OutDec = ",")
 
 
@@ -68,15 +69,25 @@ return(p1)
 #Parametros iniciales
 #tif
 pa=c(0.133799434790145,-0.01,-0.307885339616438,-0.134075672659356,
-     0.545398124008073,0.350692201663154)
+    0.545398124008073,0.350692201663154)
+
+names(pa) <- c("B0","B1","B2","B3","T1","T2")
+
+#pa <- xtable(as.data.frame(pa))
 
 pa_ns=c(0.133799434790145,-0.01,-0.307885339616438,0.545398124008073)
+
+names(pa_ns) <- c("B0","B1","B2","T1")
 
 #vebono
 pa1=c(0.135872169451391,0.1,-0.503768911829894,-0.288755056029301,
       0.11951691203874,0.501729233062216)
 
+names(pa1) <- c("B0","B1","B2","B3","T1","T2")
+
 pa1_ns <- c(0.135872169451391,0.1,-0.503768911829894,0.11951691203874)
+
+names(pa1_ns) <- c("B0","B1","B2","T1")
 
 #leo documento caracteristicas
 #source('C:/Users/Freddy Tapia/Riesgo-de-Mercado/app/funciones.R')
