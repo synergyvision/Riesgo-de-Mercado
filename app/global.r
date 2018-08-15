@@ -35,9 +35,11 @@ pr=c(101,112,110,121.0234,116.5251,130.0234,
      129,132.0391,128.5235,129.8875,130.1,128.5313,127,128.5235,127.0156,
      127.0156)
 
+#names(pr) <- tit
+
 #defino vector de precios donde tengo nombre de titulo
 p_t <- cbind.data.frame(tit,pr)
-
+#p_t <- t(pr)
 
 #precios 11-08 - veb
 pr1=c(100.4,106,110,111,118,121,
@@ -63,6 +65,7 @@ if(ind==1){
     p1[i] <- pr1[which(t[i]==p_v$tit1)]
   }
 }#final caso veb
+names(p1) <- t
 return(p1)
 }#final funcion pos
 
@@ -72,6 +75,7 @@ pa=c(0.133799434790145,-0.01,-0.307885339616438,-0.134075672659356,
     0.545398124008073,0.350692201663154)
 
 names(pa) <- c("B0","B1","B2","B3","T1","T2")
+#names(pa) <- c("$$\beta_{0}$$","$$\\beta_{1}$$","$$\\beta_{2}$$","$$\\beta_{3}$$","$$\\tau_{1}$$","$$\\tau_{2}$$")
 
 #pa <- xtable(as.data.frame(pa))
 

@@ -134,14 +134,20 @@ shinyUI(
                                                               ) #final column
                                                        ),#final fluidrow
                                                         verbatimTextOutput("q1_ns"),h2(" Precios Promedios"),verbatimTextOutput("pre1_ns"),
-                                                        h2(" Parámetros iniciales"),verbatimTextOutput("pa_tif_ns"),
+                                                        h2(" Parámetros iniciales"), 
+                                              #withMathJax(),
+                                              #helpText('\\(\\beta_{0}\\) \\(\\beta_{1}\\) \\(\\beta_{2}\\) \\(\\tau_{1}\\) '),
+                                              #uiOutput('ex1')
+                                              verbatimTextOutput("pa_tif_ns"),
                                                         h2(" Características"),dataTableOutput("Ca_ns"),
-                                                        h2(" Precios estimados iniciales"),dataTableOutput("p_est_tif_ns"),
+                                                        h2(" Precios estimados iniciales"),dataTableOutput("p_est_tif_ns"),plotOutput("c_tif_ns"),
                                                         h2(" Precios estimados optimizados"),
                                                         radioButtons( inputId = "opt_tif_ns",label = "Desea optimizar los precios obtenidos:", 
                                                                       choices = c("Si"=1, "No"=0),
                                                                       selected=" "), #finalradiobuttons
-                                                        dataTableOutput("p_est_tif_opt_ns") 
+                                                        dataTableOutput("p_est_tif_opt_ns"),
+                                                        h2(" Curva de rendimientos"),
+                                                        plotOutput("c_tif_ns_op")
                                               ),#final tabpanel tif
                                      tabPanel("VEBONO",fluidRow(
                                                       column(width = 3,checkboxGroupInput(inputId = "v1_ns", label = " ",

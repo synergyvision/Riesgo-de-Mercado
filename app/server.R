@@ -32,7 +32,11 @@ shinyServer(function(input, output) {
   # output$formula <- renderPrint({
   #   return(paste0("Use this formula: $$\beta_{0}", 1,"$$"))
   # })
-  output$pa_tif_ns <- renderPrint({pa_ns})
+  # output$ex1 <- renderPrint({
+  #  #withMathJax(helpText('$$\\beta_{0} \\quad \\beta_{1}  \\quad \\beta_{2} \\quad \\beta_{3} \\quad \\tau_{1} \\quad\\tau_{2} $$'))
+  #   withMathJax(print(pa_ns))
+  #   })
+  output$pa_tif_ns <- renderPrint({(pa_ns)})
   output$pa_veb <- renderPrint({pa1})
   output$pa_veb_ns <- renderPrint({pa1_ns})
   
@@ -59,6 +63,11 @@ shinyServer(function(input, output) {
   
   output$p_est_veb_opt <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = pa1,ind = 1,C = C,fe2=input$opt_veb,fe3=0) })
   output$p_est_veb_opt_ns <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns),pr =tv_ns() ,pa = pa1_ns,ind = 1,C = C,fe2=input$opt_veb_ns,fe3=0) })
+  
+  #graficos
+  output$c_tif_ns <- renderPlot({plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=pa_ns)*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Iniciales")})
+  gra <- reactive({ala$par})
+  output$c_tif_ns_op <- renderPlot({if(input$opt_tif_ns==1){plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados")}else{}})
   
   
   # Almacenar Variables Reactivas
