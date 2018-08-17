@@ -28,7 +28,7 @@ shinyServer(function(input, output) {
   
   #parametros
   #output$pa_tif <- renderPrint({print(paste0("$$\\beta_{0}$$"))})
-  output$pa_tif <- renderPrint({pa})
+  output$pa_tif <- renderPrint({pa_sven})
   # output$formula <- renderPrint({
   #   return(paste0("Use this formula: $$\beta_{0}", 1,"$$"))
   # })
@@ -37,7 +37,7 @@ shinyServer(function(input, output) {
   #   withMathJax(print(pa_ns))
   #   })
   output$pa_tif_ns <- renderPrint({(pa_ns)})
-  output$pa_veb <- renderPrint({pa1})
+  output$pa_veb <- renderPrint({pa1_sven})
   output$pa_veb_ns <- renderPrint({pa1_ns})
   
   #muestro caracteristicas
@@ -47,25 +47,64 @@ shinyServer(function(input, output) {
   output$Ca1_ns <- renderDataTable({head(C)})
   
   #precios estimados iniciales
-  output$p_est_tif <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = pa,ind = 0,C = C,fe2=0,fe3=0) })
+  output$p_est_tif <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = pa_sven,ind = 0,C = C,fe2=0,fe3=0) })
   output$p_est_tif_ns <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = pa_ns,ind = 0,C = C,fe2=0,fe3=0) })
   
   
-  output$p_est_veb <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = pa1,ind = 1,C = C,fe2=0,fe3=0) })
+  output$p_est_veb <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = pa1_sven,ind = 1,C = C,fe2=0,fe3=0) })
   output$p_est_veb_ns <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns),pr =tv_ns() ,pa = pa1_ns,ind = 1,C = C,fe2=0,fe3=0) })
   
   
   #precios estimados optimizados
   #paquete alabama
-  output$p_est_tif_opt <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = pa,ind = 0,C = C,fe2=input$opt_tif,fe3=0) })
+  output$p_est_tif_opt <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = pa_sven,ind = 0,C = C,fe2=input$opt_tif,fe3=0) })
   output$p_est_tif_opt_ns <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = pa_ns,ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0) })
   
   
-  output$p_est_veb_opt <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = pa1,ind = 1,C = C,fe2=input$opt_veb,fe3=0) })
+  output$p_est_veb_opt <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = pa1_sven,ind = 1,C = C,fe2=input$opt_veb,fe3=0) })
   output$p_est_veb_opt_ns <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns),pr =tv_ns() ,pa = pa1_ns,ind = 1,C = C,fe2=input$opt_veb_ns,fe3=0) })
   
   #graficos
-  output$c_tif_ns <- renderPlot({plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=pa_ns)*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Iniciales")})
+  #output$c_tif_ns <- renderPlot({plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=pa_ns)*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Iniciales")})
+  #NELSON Y SIEGEL
+  #TIF 
+   output$c_tif_ns <- renderPlot({
+    ggplot(cbind.data.frame(x=seq(1,20,0.1),y=nelson_siegel(t=seq(1,20,0.1),pa=pa_ns)*100),aes(x=x,y=y))+
+      geom_line(color="blue")+xlab("Maduración (años)")+
+      ylab("Rendimiento (%)")+theme_gray()+
+      ggtitle("Curva de rendimiento Nelson y Siegel Parámetros Iniciales TIF")+
+      theme(plot.title = element_text(hjust = 0.5))
+    
+  })
+  #
+  output$c_veb_ns <- renderPlot({
+    ggplot(cbind.data.frame(x=seq(1,20,0.1),y=nelson_siegel(t=seq(1,20,0.1),pa=pa1_ns)*100),aes(x=x,y=y))+
+      geom_line(color="green")+xlab("Maduración (años)")+
+      ylab("Rendimiento (%)")+theme_gray()+
+      ggtitle("Curva de rendimiento Nelson y Siegel Parámetros Iniciales VEBONOS")+
+      theme(plot.title = element_text(hjust = 0.5))
+    
+  })
+  
+  #SVENSSON
+  output$c_tif_sven <- renderPlot({
+    ggplot(cbind.data.frame(x=seq(1,20,0.1),y=sven(t=seq(1,20,0.1),pa=pa_sven)*100),aes(x=x,y=y))+
+      geom_line(color="blue")+xlab("Maduración (años)")+
+      ylab("Rendimiento (%)")+theme_gray()+
+      ggtitle("Curva de rendimiento Svensson Parámetros Iniciales TIF")+
+      theme(plot.title = element_text(hjust = 0.5))
+    
+  })
+  #
+  output$c_veb_sven <- renderPlot({
+    ggplot(cbind.data.frame(x=seq(1,20,0.1),y=sven(t=seq(1,20,0.1),pa=pa1_sven)*100),aes(x=x,y=y))+
+      geom_line(color="green")+xlab("Maduración (años)")+
+      ylab("Rendimiento (%)")+theme_gray()+
+      ggtitle("Curva de rendimiento Svensson Parámetros Iniciales VEBONOS")+
+      theme(plot.title = element_text(hjust = 0.5))
+    
+  })
+  
   gra <- reactive({ala$par})
   output$c_tif_ns_op <- renderPlot({if(input$opt_tif_ns==1){plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados")}else{}})
   

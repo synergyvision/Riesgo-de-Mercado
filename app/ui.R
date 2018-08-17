@@ -27,9 +27,9 @@ shinyUI(
                           
                 menuItem("Curva de Rendimiento", icon = icon("bar-chart-o"),
                          
-                            menuSubItem("Metodología Nelson y Siegel", tabName = "subitem2", icon = icon("circle-o")),
+                            menuSubItem("Metodología Nelson y Siegel", tabName = "subitem1", icon = icon("circle-o")),
                             
-                            menuSubItem("Metodología Svensson", tabName = "subitem1", icon = icon("circle-o")),
+                            menuSubItem("Metodología Svensson", tabName = "subitem2", icon = icon("circle-o")),
                             
                             menuSubItem("Metodología Diebold-Li", tabName = "subitem3", icon = icon("circle-o")),
                             
@@ -43,72 +43,8 @@ shinyUI(
     #Body
     dashboardBody(VisionHeader(),
             tabItems(
-              #SVENSSON
+              #NELSON Y SIEGEL
                tabItem(tabName = "subitem1",
-                        fluidRow(h2("  Svensson"),
-                            fluidRow(column(width = 6,box( width = 12, background = "navy",
-                                                dateInput(inputId="n1", label="Por favor, seleccionar una fecha", language= "es",
-                                                          width = "100%")#final dateimput 
-                                                          )#final box
-                                           ),#final column
-                                    column(width = 6,box(width = 12,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p1')
-                                                        )#final box
-                                          )#final column
-                                    ),#final fluidrow
-                            h2("  Títulos"), h5("  Favor seleccionar los títulos a considerar: "),
-                                fluidRow(tabBox(width = 12, title = "Títulos", id = "tab1", height = "50px", 
-                                      tabPanel("TIF",fluidRow(column(width = 3,checkboxGroupInput( inputId = "t1", label = " ",
-                                                                          choices=tit[1:7])#final checkboximput
-                                                                      ),#final column
-                                                               column(width = 3,checkboxGroupInput( inputId = "t2", label = " ",
-                                                                      choices=tit[8:13])#final checkboximput
-                                                                      ),#final column
-                                                               column(width = 3,checkboxGroupInput( inputId = "t3",label = " ", 
-                                                                      choices=tit[14:19])#final checkboximput
-                                                                      ),#final column
-                                                               column(width = 3,checkboxGroupInput( inputId = "t4", label = " ",
-                                                                      choices=tit[20:25])#final checkboximput
-                                                                      )#final column
-                                                                ),#final fluidrow 
-                                                        verbatimTextOutput("q1"),h2(" Precios Promedios"),verbatimTextOutput("pre1"),
-                                                        h2(" Parámetros iniciales"),verbatimTextOutput("pa_tif"),#withMathJax(uiOutput("formula")),
-                                                        h2(" Características"),dataTableOutput("Ca"),
-                                                        h2(" Precios estimados iniciales"),dataTableOutput("p_est_tif"),
-                                                        h2(" Precios estimados optimizados"),
-                                                        radioButtons(inputId = "opt_tif",label = "Desea optimizar los precios obtenidos:", 
-                                                                      choices = c("Si"=1, "No"=0),
-                                                                      selected=" "
-                                                                    )#final radiobuttoms
-                                                        ,dataTableOutput("p_est_tif_opt") 
-                                                ),#final tabpanel tif
-                                        tabPanel("VEBONO",fluidRow(column(width = 3,checkboxGroupInput( inputId = "v1", label = " ",
-                                                                      choices=tit1[1:8])#final checkboximput
-                                                                          ),#final column
-                                                                  column(width = 3,checkboxGroupInput( inputId = "v2", label = " ",
-                                                                      choices=tit1[9:16])#final checkboximput
-                                                                          ),#final column
-                                                                  column(width = 3,checkboxGroupInput( inputId = "v3", label = " ",
-                                                                      choices=tit1[17:24])#final checkboximput
-                                                                        ),#final column
-                                                                  column(width = 3,checkboxGroupInput( inputId = "v4", label = " ",
-                                                                      choices=tit1[25:29])#final checkboximput
-                                                                        )#final column
-                                                                  ),#final fluidrow 
-                                                        verbatimTextOutput("q2"), h2(" Precios Promedios"),verbatimTextOutput("pre2"),
-                                                        h2(" Parámetros iniciales"),verbatimTextOutput("pa_veb"), 
-                                                        h2(" Características"),dataTableOutput("Ca1"),
-                                                        h2(" Precios estimados iniciales"),dataTableOutput("p_est_veb"),
-                                                        h2(" Precios estimados optimizados"),
-                                                        radioButtons(inputId = "opt_veb",label = "Desea optimizar los precios obtenidos:", 
-                                                                     choices = c("Si"=1, "No"=0),
-                                                                     selected=" "),dataTableOutput("p_est_veb_opt")
-                                                )#final tabitem vebono
-                                                )#final tabbox
-                                          )#finalfluidrow
-                                  )#finalfluidrow
-                        ),#final tabitem
-               #NELSON Y SIEGEL
-               tabItem(tabName = "subitem2",
                          h2("Nelson y Siegel"),
                          fluidRow(column(width = 6,box( width = 12, background = "navy",
                                                           dateInput(inputId="n2", label="Por favor, seleccionar una fecha", language= "es",
@@ -140,7 +76,9 @@ shinyUI(
                                               #uiOutput('ex1')
                                               verbatimTextOutput("pa_tif_ns"),
                                                         h2(" Características"),dataTableOutput("Ca_ns"),
-                                                        h2(" Precios estimados iniciales"),dataTableOutput("p_est_tif_ns"),plotOutput("c_tif_ns"),
+                                                        h2(" Precios estimados iniciales"),dataTableOutput("p_est_tif_ns"),
+                                                        h2(" Curva de rendimientos inicial"),
+                                                        plotOutput("c_tif_ns"),
                                                         h2(" Precios estimados optimizados"),
                                                         radioButtons( inputId = "opt_tif_ns",label = "Desea optimizar los precios obtenidos:", 
                                                                       choices = c("Si"=1, "No"=0),
@@ -167,6 +105,8 @@ shinyUI(
                                                         h2(" Parámetros iniciales"),verbatimTextOutput("pa_veb_ns") ,
                                                         h2(" Características"),dataTableOutput("Ca1_ns"),
                                                         h2(" Precios estimados iniciales"),dataTableOutput("p_est_veb_ns"),
+                                                        h2(" Curva de rendimientos inicial"),
+                                                        plotOutput("c_veb_ns"),
                                                         h2(" Precios estimados optimizados"),
                                                         radioButtons( inputId = "opt_veb_ns",label = "Desea optimizar los precios obtenidos:", 
                                                                     choices = c("Si"=1, "No"=0),
@@ -176,6 +116,74 @@ shinyUI(
                                         )#final tabbox
                                   )#final fluidrow
                       ),#final tabitem 
+               #SVENSSON
+               tabItem(tabName = "subitem2",
+                       fluidRow(h2("  Svensson"),
+                                fluidRow(column(width = 6,box( width = 12, background = "navy",
+                                                               dateInput(inputId="n1", label="Por favor, seleccionar una fecha", language= "es",
+                                                                         width = "100%")#final dateimput 
+                                )#final box
+                                ),#final column
+                                column(width = 6,box(width = 12,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p1')
+                                )#final box
+                                )#final column
+                                ),#final fluidrow
+                                h2("  Títulos"), h5("  Favor seleccionar los títulos a considerar: "),
+                                fluidRow(tabBox(width = 12, title = "Títulos", id = "tab1", height = "50px", 
+                                                tabPanel("TIF",fluidRow(column(width = 3,checkboxGroupInput( inputId = "t1", label = " ",
+                                                                                                             choices=tit[1:7])#final checkboximput
+                                                ),#final column
+                                                column(width = 3,checkboxGroupInput( inputId = "t2", label = " ",
+                                                                                     choices=tit[8:13])#final checkboximput
+                                                ),#final column
+                                                column(width = 3,checkboxGroupInput( inputId = "t3",label = " ", 
+                                                                                     choices=tit[14:19])#final checkboximput
+                                                ),#final column
+                                                column(width = 3,checkboxGroupInput( inputId = "t4", label = " ",
+                                                                                     choices=tit[20:25])#final checkboximput
+                                                )#final column
+                                                ),#final fluidrow 
+                                                verbatimTextOutput("q1"),h2(" Precios Promedios"),verbatimTextOutput("pre1"),
+                                                h2(" Parámetros iniciales"),verbatimTextOutput("pa_tif"),#withMathJax(uiOutput("formula")),
+                                                h2(" Características"),dataTableOutput("Ca"),
+                                                h2(" Precios estimados iniciales"),dataTableOutput("p_est_tif"),
+                                                h2(" Curva de rendimientos inicial"),
+                                                plotOutput("c_tif_sven"),
+                                                h2(" Precios estimados optimizados"),
+                                                radioButtons(inputId = "opt_tif",label = "Desea optimizar los precios obtenidos:", 
+                                                             choices = c("Si"=1, "No"=0),
+                                                             selected=" "
+                                                )#final radiobuttoms
+                                                ,dataTableOutput("p_est_tif_opt") 
+                                                ),#final tabpanel tif
+                                                tabPanel("VEBONO",fluidRow(column(width = 3,checkboxGroupInput( inputId = "v1", label = " ",
+                                                                                                                choices=tit1[1:8])#final checkboximput
+                                                ),#final column
+                                                column(width = 3,checkboxGroupInput( inputId = "v2", label = " ",
+                                                                                     choices=tit1[9:16])#final checkboximput
+                                                ),#final column
+                                                column(width = 3,checkboxGroupInput( inputId = "v3", label = " ",
+                                                                                     choices=tit1[17:24])#final checkboximput
+                                                ),#final column
+                                                column(width = 3,checkboxGroupInput( inputId = "v4", label = " ",
+                                                                                     choices=tit1[25:29])#final checkboximput
+                                                )#final column
+                                                ),#final fluidrow 
+                                                verbatimTextOutput("q2"), h2(" Precios Promedios"),verbatimTextOutput("pre2"),
+                                                h2(" Parámetros iniciales"),verbatimTextOutput("pa_veb"), 
+                                                h2(" Características"),dataTableOutput("Ca1"),
+                                                h2(" Precios estimados iniciales"),dataTableOutput("p_est_veb"),
+                                                h2(" Curva de rendimientos inicial"),
+                                                plotOutput("c_veb_sven"),
+                                                h2(" Precios estimados optimizados"),
+                                                radioButtons(inputId = "opt_veb",label = "Desea optimizar los precios obtenidos:", 
+                                                             choices = c("Si"=1, "No"=0),
+                                                             selected=" "),dataTableOutput("p_est_veb_opt")
+                                                )#final tabitem vebono
+                                )#final tabbox
+                                )#finalfluidrow
+                       )#finalfluidrow
+               ),#final tabitem
                #DIEBOLD-LI
                tabItem(tabName = "subitem3",
                     h2("Diebold-Li"),
