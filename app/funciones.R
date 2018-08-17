@@ -390,9 +390,14 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
     }
     
+    #if para exportar resultados
+    if(fe2==1){
+      Tabla1 <- list(Tabla,ala$par)
+    }else if(fe2==0){
+      Tabla1 <- list(Tabla,pa)
+    }
     
-    
-    return(Tabla)
+    return(Tabla1)
   } #final if ind -tif
   
   #CASO VEBONOS
@@ -580,7 +585,14 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
     }
     
-    return(Tabla)
+    #if para exportar resultados
+    if(fe2==1){
+      Tabla1 <- list(Tabla,ala$par)
+    }else if(fe2==0){
+      Tabla1 <- list(Tabla,pa)
+    }
+    
+    return(Tabla1)
     
   }#final if ind vebono
   
@@ -980,7 +992,14 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     
     
     
-    return(Tabla)
+    #if para exportar resultados
+    if(fe2==1){
+      Tabla1 <- list(Tabla,ala$par)
+    }else if(fe2==0){
+      Tabla1 <- list(Tabla,pa)
+    }
+    
+    return(Tabla1)
   } #final if ind -tif
   
   #CASO VEBONOS
@@ -1169,7 +1188,14 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
     }
     
-    return(Tabla)
+    #if para exportar resultados
+    if(fe2==1){
+      Tabla1 <- list(Tabla,ala$par)
+    }else if(fe2==0){
+      Tabla1 <- list(Tabla,pa)
+    }
+    
+    return(Tabla1)
     
   }#final if ind vebono
   

@@ -84,6 +84,8 @@ shinyUI(
                                                                       choices = c("Si"=1, "No"=0),
                                                                       selected=" "), #finalradiobuttons
                                                         dataTableOutput("p_est_tif_opt_ns"),
+                                                        h2(" Parámetros optimizados"),
+                                                        verbatimTextOutput("par_tif_ns_op"),
                                                         h2(" Curva de rendimientos"),
                                                         plotOutput("c_tif_ns_op")
                                               ),#final tabpanel tif
@@ -111,7 +113,11 @@ shinyUI(
                                                         radioButtons( inputId = "opt_veb_ns",label = "Desea optimizar los precios obtenidos:", 
                                                                     choices = c("Si"=1, "No"=0),
                                                                     selected=" "),#final radiobuttons
-                                                        dataTableOutput("p_est_veb_opt_ns")
+                                                        dataTableOutput("p_est_veb_opt_ns"),
+                                                        h2(" Parámetros optimizados"),
+                                                        verbatimTextOutput("par_veb_ns_op"),
+                                                        h2(" Curva de rendimientos"),
+                                                        plotOutput("c_veb_ns_op")
                                               )#final tabitem vebono
                                         )#final tabbox
                                   )#final fluidrow
