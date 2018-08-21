@@ -44,8 +44,9 @@ shinyUI(
     dashboardBody(VisionHeader(),
             tabItems(
               #NELSON Y SIEGEL
+              
                tabItem(tabName = "subitem1",
-                         h2("Nelson y Siegel"),
+                 fluidRow(    h2("Nelson y Siegel"),
                          fluidRow(column(width = 6,box( width = 12, background = "navy",
                                                           dateInput(inputId="n2", label="Por favor, seleccionar una fecha", language= "es",
                                                                     width = "100%")#final dateimput 
@@ -70,26 +71,72 @@ shinyUI(
                                                               ) #final column
                                                        ),#final fluidrow
                                                         verbatimTextOutput("q1_ns"),h2(" Precios Promedios"),verbatimTextOutput("pre1_ns"),
-                                                        h2(" Parámetros iniciales"), 
+                                                        
                                               #withMathJax(),
                                               #helpText('\\(\\beta_{0}\\) \\(\\beta_{1}\\) \\(\\beta_{2}\\) \\(\\tau_{1}\\) '),
                                               #uiOutput('ex1')
-                                              verbatimTextOutput("pa_tif_ns"),
+                                              
                                                         h2(" Características"),dataTableOutput("Ca_ns"),
+                                                        h2(" Parámetros"), 
+                                              fluidRow(
+                                                        tabBox( width = 12, title = "Parámetros", id = "tab1_ns_tif", height = "50px", 
+                                                       
+                                                        tabPanel(" Parámetros Iniciales ",
+                                                        verbatimTextOutput("pa_tif_ns"),
                                                         h2(" Precios estimados iniciales"),dataTableOutput("p_est_tif_ns"),
-                                                        h2(" Curva de rendimientos inicial"),
-                                                        plotOutput("c_tif_ns"),
-                                                        h2(" Precios estimados optimizados"),
-                                                        radioButtons( inputId = "opt_tif_ns",label = "Desea optimizar los precios obtenidos:", 
-                                                                      choices = c("Si"=1, "No"=0),
-                                                                      selected=" "), #finalradiobuttons
-                                                        dataTableOutput("p_est_tif_opt_ns"),
-                                                        h2(" Parámetros optimizados"),
-                                                        verbatimTextOutput("par_tif_ns_op"),
-                                                        h2(" Curva de rendimientos"),
-                                                        plotOutput("c_tif_ns_op")
+                                                        h2(" Curva de rendimientos inicial TIF"),
+                                                        plotOutput("c_tif_ns")
+                                                        
+                                                        ),# final tabpanel pa iniciales 
+                                                        
+                                                        tabPanel(" Elegir Parámetros",
+                                                                 # verbatimTextOutput("pa_tif_ns_el"),
+                                                                 # h2(" Precios estimados"),dataTableOutput("p_est_tif_ns_el"),
+                                                                 # h2(" Curva de rendimientos TIF"),
+                                                                 # plotOutput("c_tif_ns_el")
+                                                                 h4(" Por favor, insertar parámetros"),
+                                                                 box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
+                                                                     collapse= TRUE,"Al ingresar los parámetros considere las siguientes restricciones, ",br(),withMathJax(helpText("$$1) \\quad \\beta_{0} > 0$$")),
+                                                                     withMathJax(helpText("$$2) \\quad \\beta_{0}+\\beta_{1} > 0$$")),withMathJax(helpText("$$3) \\quad \\tau > 0$$"))),#final box
+                                                                 column(width = 3,numericInput( inputId = "ns_b0_tif", label="B0: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%")
+                                                                        , verbatimTextOutput("num_ns_b0_tif")),#final column,
+                                                                 column(width = 3,numericInput( inputId = "ns_b1_tif", label="B1: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                        verbatimTextOutput("num_ns_b1_tif")),#final column
+                                                                 column(width = 3,numericInput( inputId = "ns_b2_tif", label="B2: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                        verbatimTextOutput("num_ns_b2_tif")),#final column
+                                                                 column(width = 3,numericInput( inputId = "ns_t_tif", label="T: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                        verbatimTextOutput("num_ns_t_tif")),#final column
+                                                                 h4(" Los nuevos parámetros considerados son, "),
+                                                                 verbatimTextOutput("new_ns_tif"),
+                                                                 h4(" Verificación, "),
+                                                                 verbatimTextOutput("ver_ns_tif"),
+                                                                 h2(" Precios estimados"),dataTableOutput("p_est_tif_ns_el"),
+                                                                 h4(" Curva de Rendimiento"),
+                                                                 plotOutput("c_tif_ns1_new")
+                                                                 ),# final tabpanel pa elegir
+                                                         
+                                                        tabPanel(" Parámetros Optimizados",
+                                                                 # verbatimTextOutput("pa_tif_ns_el"),
+                                                                 # h2(" Precios estimados iniciales"),dataTableOutput("p_est_tif_ns_el"),
+                                                                 # h2(" Curva de rendimientos inicial"),
+                                                                 # plotOutput("c_tif_ns_el")
+                                                                 h2(" Precios estimados optimizados"),
+                                                                 radioButtons( inputId = "opt_tif_ns",label = "Desea optimizar los precios obtenidos:", 
+                                                                               choices = c("Si"=1, "No"=0),
+                                                                               selected=" "), #finalradiobuttons
+                                                                 dataTableOutput("p_est_tif_opt_ns"),
+                                                                 h2(" Parámetros optimizados"),
+                                                                 verbatimTextOutput("par_tif_ns_op"),
+                                                                 h2(" Curva de rendimientos TIF"),
+                                                                 plotOutput("c_tif_ns_op")
+                                                                  )#final tabpanel
+                                                               
+                                                                 )#final tabbox
+                                              )#final fluidrow
+                                                        
                                               ),#final tabpanel tif
-                                     tabPanel("VEBONO",fluidRow(
+                                  
+                                           tabPanel("VEBONO",fluidRow(
                                                       column(width = 3,checkboxGroupInput(inputId = "v1_ns", label = " ",
                                                                 choices=tit1[1:8])#final checkboxgroupimput
                                                              ),#final column
@@ -104,24 +151,61 @@ shinyUI(
                                                              )#final column
                                                                 ),#final fluidrow
                                                         verbatimTextOutput("q2_ns"), h2(" Precios Promedios"),verbatimTextOutput("pre2_ns"),
-                                                        h2(" Parámetros iniciales"),verbatimTextOutput("pa_veb_ns") ,
+                                                       
                                                         h2(" Características"),dataTableOutput("Ca1_ns"),
+                                                    fluidRow(
+                                                    tabBox( width = 12, title = "Parámetros", id = "tab1_ns_veb", height = "50px", 
+                                                            tabPanel(" Parámetros Iniciales ",
+                                                        h2(" Parámetros iniciales"),verbatimTextOutput("pa_veb_ns") ,
                                                         h2(" Precios estimados iniciales"),dataTableOutput("p_est_veb_ns"),
                                                         h2(" Curva de rendimientos inicial"),
-                                                        plotOutput("c_veb_ns"),
+                                                        plotOutput("c_veb_ns")
+                                                            ),#final tabpanel iniciales
+                                                        tabPanel(" Elegir Parámetros ",
+                                                                 # h2(" Parámetros iniciales"),verbatimTextOutput("pa_veb_ns_el") ,
+                                                                 # h2(" Precios estimados iniciales"),dataTableOutput("p_est_veb_ns_el"),
+                                                                 # h2(" Curva de rendimientos inicial"),
+                                                                 # plotOutput("c_veb_ns_el")
+                                                                 h4(" Por favor, insertar parámetros"),
+                                                                 box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
+                                                                     collapse= TRUE,"Al ingresar los parámetros considere las siguientes restricciones, ",br(),withMathJax(helpText("$$1) \\quad \\beta_{0} > 0$$")),
+                                                                     withMathJax(helpText("$$2) \\quad \\beta_{0}+\\beta_{1} > 0$$")),withMathJax(helpText("$$3) \\quad \\tau > 0$$"))),#final box
+                                                                 column(width = 3,numericInput( inputId = "ns_b0_veb", label="B0: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%")
+                                                                        , verbatimTextOutput("num_ns_b0_veb")),#final column,
+                                                                 column(width = 3,numericInput( inputId = "ns_b1_veb", label="B1: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                        verbatimTextOutput("num_ns_b1_veb")),#final column
+                                                                 column(width = 3,numericInput( inputId = "ns_b2_veb", label="B2: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                        verbatimTextOutput("num_ns_b2_veb")),#final column
+                                                                 column(width = 3,numericInput( inputId = "ns_t_veb", label="T: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                        verbatimTextOutput("num_ns_t_veb")),#final column
+                                                                 h4(" Los nuevos parámetros considerados son, "),
+                                                                 verbatimTextOutput("new_ns_veb"),
+                                                                 h4(" Verificación, "),
+                                                                 verbatimTextOutput("ver_ns_veb"),
+                                                                 h2(" Precios estimados"),dataTableOutput("p_est_veb_ns_el"),
+                                                                 h4(" Curva de Rendimiento"),
+                                                                 plotOutput("c_veb_ns1_new")
+                                                        ),#final tabpanel elegir
+                                                        tabPanel(" Parámetros Optimizados ",
                                                         h2(" Precios estimados optimizados"),
                                                         radioButtons( inputId = "opt_veb_ns",label = "Desea optimizar los precios obtenidos:", 
-                                                                    choices = c("Si"=1, "No"=0),
-                                                                    selected=" "),#final radiobuttons
+                                                                      choices = c("Si"=1, "No"=0),
+                                                                      selected=" "),#final radiobuttons
                                                         dataTableOutput("p_est_veb_opt_ns"),
                                                         h2(" Parámetros optimizados"),
                                                         verbatimTextOutput("par_veb_ns_op"),
                                                         h2(" Curva de rendimientos"),
                                                         plotOutput("c_veb_ns_op")
-                                              )#final tabitem vebono
+                                                        )#final tabpanel
+                                                        )#final tabbox
+                                                        
+                                                        )#final tabitem vebono,
+                                           )#final fluidrow
+                                              
                                         )#final tabbox
                                   )#final fluidrow
-                      ),#final tabitem 
+                      )#final fluidrow 
+              ),#final tabitem
                #SVENSSON
                tabItem(tabName = "subitem2",
                        fluidRow(h2("  Svensson"),
@@ -150,17 +234,63 @@ shinyUI(
                                                 )#final column
                                                 ),#final fluidrow 
                                                 verbatimTextOutput("q1"),h2(" Precios Promedios"),verbatimTextOutput("pre1"),
-                                                h2(" Parámetros iniciales"),verbatimTextOutput("pa_tif"),#withMathJax(uiOutput("formula")),
+                                                
                                                 h2(" Características"),dataTableOutput("Ca"),
-                                                h2(" Precios estimados iniciales"),dataTableOutput("p_est_tif"),
-                                                h2(" Curva de rendimientos inicial"),
-                                                plotOutput("c_tif_sven"),
-                                                h2(" Precios estimados optimizados"),
-                                                radioButtons(inputId = "opt_tif",label = "Desea optimizar los precios obtenidos:", 
-                                                             choices = c("Si"=1, "No"=0),
-                                                             selected=" "
-                                                )#final radiobuttoms
-                                                ,dataTableOutput("p_est_tif_opt") 
+                                                h2(" Parámetros"),
+                                                fluidRow(
+                                                  tabBox( width = 12, title = "Parámetros", id = "tab1_ns_tif", height = "50px", 
+                                                          tabPanel(" Parámetros Iniciales ",verbatimTextOutput("pa_tif"),#withMathJax(uiOutput("formula")),
+                                                                   h2(" Precios estimados iniciales"),dataTableOutput("p_est_tif"),
+                                                                   h2(" Curva de rendimientos inicial"),
+                                                                   plotOutput("c_tif_sven")
+                                                          ),#final tabpanel p iniciales
+                                                          tabPanel(" Elegir Parámetros ",
+                                                                   # verbatimTextOutput("pa_tif"),#withMathJax(uiOutput("formula")),
+                                                                   # h2(" Precios estimados iniciales"),dataTableOutput("p_est_tif"),
+                                                                   # h2(" Curva de rendimientos inicial"),
+                                                                   # plotOutput("c_tif_sven")
+                                                                   h4(" Por favor, insertar parámetros"),
+                                                                   box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
+                                                                       collapse= TRUE,"Al ingresar los parámetros considere las siguientes restricciones, ",br(),withMathJax(helpText("$$1) \\quad \\beta_{0} > 0$$")),
+                                                                       withMathJax(helpText("$$2) \\quad \\beta_{0}+\\beta_{1} > 0$$")),withMathJax(helpText("$$3) \\quad \\tau_{1} > 0$$")),
+                                                                       withMathJax(helpText("$$3) \\quad \\tau_{2} > 0$$"))),#final box
+                                                                   column(width = 2,numericInput( inputId = "sven_b0_tif", label="B0: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%")
+                                                                          , verbatimTextOutput("num_sven_b0_tif")),#final column,
+                                                                   column(width = 2,numericInput( inputId = "sven_b1_tif", label="B1: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                          verbatimTextOutput("num_sven_b1_tif")),#final column
+                                                                   column(width = 2,numericInput( inputId = "sven_b2_tif", label="B2: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                          verbatimTextOutput("num_sven_b2_tif")),#final column
+                                                                   column(width = 2,numericInput( inputId = "sven_b3_tif", label="B3: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                          verbatimTextOutput("num_sven_b3_tif")),#final column
+                                                                   column(width = 2,numericInput( inputId = "sven_t1_tif", label="T1: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                          verbatimTextOutput("num_sven_t1_tif")),#final column
+                                                                   column(width = 2,numericInput( inputId = "sven_t2_tif", label="T2: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                          verbatimTextOutput("num_sven_t2_tif")),#final column
+                                                                   h4(" Los nuevos parámetros considerados son, "),
+                                                                   verbatimTextOutput("new_sven_tif"),
+                                                                   h4(" Verificación, "),
+                                                                   verbatimTextOutput("ver_sven_tif"),
+                                                                   h2(" Precios estimados"),dataTableOutput("p_est_tif_opt_sven_el"),
+                                                                   h4(" Curva de Rendimiento"),
+                                                                   plotOutput("c_tif_sven_new")
+                                                                   
+                                                          ),#final tabpanel p elegidos
+                                                          tabPanel(" Parámetros Optimizados",
+                                                                   h2(" Precios estimados optimizados"),
+                                                                   radioButtons(inputId = "opt_tif_sven",label = "Desea optimizar los precios obtenidos:", 
+                                                                                choices = c("Si"=1, "No"=0),
+                                                                                selected=" "
+                                                                   )#final radiobuttoms
+                                                                   ,dataTableOutput("p_est_tif_opt"),
+                                                                   h2(" Parámetros optimizados"),
+                                                                   verbatimTextOutput("par_tif_sven_op"),
+                                                                   h2(" Curva de rendimientos TIF"),
+                                                                   plotOutput("c_tif_sven_op")
+                                                          )#final tabpanel p optimizados
+                                                  )#final tabbox
+                                                )#final fluidrow
+                                                
+                                                
                                                 ),#final tabpanel tif
                                                 tabPanel("VEBONO",fluidRow(column(width = 3,checkboxGroupInput( inputId = "v1", label = " ",
                                                                                                                 choices=tit1[1:8])#final checkboximput
@@ -176,8 +306,9 @@ shinyUI(
                                                 )#final column
                                                 ),#final fluidrow 
                                                 verbatimTextOutput("q2"), h2(" Precios Promedios"),verbatimTextOutput("pre2"),
-                                                h2(" Parámetros iniciales"),verbatimTextOutput("pa_veb"), 
+                                                 
                                                 h2(" Características"),dataTableOutput("Ca1"),
+                                                h2(" Parámetros iniciales"),verbatimTextOutput("pa_veb"),
                                                 h2(" Precios estimados iniciales"),dataTableOutput("p_est_veb"),
                                                 h2(" Curva de rendimientos inicial"),
                                                 plotOutput("c_veb_sven"),
