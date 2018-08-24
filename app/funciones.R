@@ -1,4 +1,7 @@
 #DEFINO OTRAS FUNCIONES
+################################
+######### SVENSSON  ############
+################################
 #funcion rend cero cupon
 #funcion que calcula el rendimiento cero cupon 
 #mediante la met Svensson, para unos parametros dados
@@ -600,8 +603,9 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
   
 }#Final funcion excel-sven
 
-##############################3
-#NELSON Y SIEGEL
+################################
+###### NELSON Y SIEGEL #########
+################################
 #funcion rend cero cupon
 #funcion que calcula el rendimiento cero cupon 
 #mediante la met Nelson y Siegel, para unos parametros dados
@@ -1202,6 +1206,336 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
   
   
 }#Final funcion 
+
+################################
+########## SPLINES #############
+################################
+
+#Funcion que extrae de una data dada una cantidad determinada de observaciones
+#argumentos:
+#fv = fecha a partir de la cual se extraera la data hacia atras
+#dias = cantidad de dias a extraer
+#data = data a trabajar
+#ojo con el orden de la data debe estar ordenada de mas reciente a mas antigua
+extrae <- function(fv,dias,data){
+  f1 <- as.Date(fv)
+  f2 <- f1-dias
+  f3 <- data$Fecha.op-f2
+  
+  #con esto hallo el extremo inferior de la data
+  f4 <- data[which(as.numeric(min(abs(f3)))==abs(f3)),]
+  
+  #hallo ahora el extremo superior
+  g<- data$Fecha.op-fv
+  g1 <- data[which(as.numeric(min(abs(g)))==abs(g)),]
+  
+  while(anyNA(g1)){
+    #print("Obs con NA")
+    data1 <- data[-which(as.numeric(min(abs(g)))==abs(g)),]
+    
+    g <- data1$Fecha.op-fv
+    
+    g1 <- data1[which(as.numeric(min(abs(g)))==abs(g)),]
+    
+  }
+  
+  if(dim(g1)[1]==1){
+    #print("Hay una sola obs")
+    #print("Fecha selecionada")
+    #print(g1$Fecha.op)
+    #return(f4$Fecha.op)
+  }else{
+    #print("Hay mas de una obs")
+    g1 <- g1[which(g1$Monto==max(g1$Monto)),]
+    #print("Fecha selecionada")
+    #print(g1$Fecha.op)
+    #return(f4$Fecha.op)
+  }#final if obs
+  
+  while(anyNA(f4)){
+    #print("Obs con NA")
+    data1 <- data[-which(as.numeric(min(abs(f3)))==abs(f3)),]
+    
+    f3 <- data1$Fecha.op-f2
+    
+    f4 <- data1[which(as.numeric(min(abs(f3)))==abs(f3)),]
+    
+  }
+  
+  
+  if(dim(f4)[1]==1){
+    #print("Hay una sola obs")
+    #print("Fecha selecionada")
+    #print(f4$Fecha.op)
+    #return(f4$Fecha.op)
+  }else{
+    #print("Hay mas de una obs")
+    f4 <- f4[which(f4$Monto==max(f4$Monto)),]
+    #print("Fecha selecionada")
+    #print(f4$Fecha.op)
+    #return(f4$Fecha.op)
+  }#final if obs
+  
+  #extremo inferior
+  q1 <- which(f4$Fecha.op==data$Fecha.op)
+  
+  #extremo superior
+  q2 <- which(g1$Fecha.op==data$Fecha.op)[1]
+  
+  
+  #data2 <- data[1:q1[length(q1)],]
+  data2 <- data[q1[length(q1)]:q2,]
+  
+  # a1 <- data.frame(t(c(length(which(data2$segmento1=="C1")),
+  #                      length(which(data2$segmento1=="C2")),
+  #                      length(which(data2$segmento1=="M1")),
+  #                      length(which(data2$segmento1=="M2")),
+  #                      length(which(data2$segmento1=="L1")),
+  #                      length(which(data2$segmento1=="L2")),
+  #                      length(which(data2$segmento1=="L3")))))
+  # 
+  # a1 <- data.frame(a1,sum(a1))
+  # names(a1) <- c("Obs. C1","Obs. C2","Obs. M1","Obs. M2","Obs. L1","Obs. L2","Obs. L3","Suma")
+  # print(a1)
+  #s <<-a1
+  return(data2)
+}#final funcion extrae
+
+#
+#Funcion que calcula el precio de un titiulo a partir de la curva de rend
+#generado por el spline
+#tit = nombre corto de títulos a calcular su precio
+#spline1 = objeto smooth spline que se obtine del ajuste de los datos
+#fv = fecha de valoración
+#C = documento de las características a la fecha
+precio=function(tit,spline1,fv,C){
+  
+  Pr=c()
+  #print(fv)
+  for(j in 1:length(tit)){
+    
+    #print(j)
+    
+    (n=which(C$Nombre==tit[j]))
+    (n1=as.Date(C$`Pago cupon 1`[n],format="%d/%m/%Y"))
+    
+    if(as.numeric(n1-fv)<0){
+      (n1=as.Date(C$`Pago cupon 2`[n],format="%d/%m/%Y"))
+    }
+    
+    #
+    
+    (n2=as.Date(C$F.Vencimiento[n],format="%d/%m/%Y"))
+    (n3=as.numeric(n2-n1))
+    
+    #creo vector del tamaÃ±o de 1 + division de n3/91
+    #print("Le quedan")
+    #print(1+(n3/91))
+    #print("cupones por pagar")
+    
+    
+    n4=n1
+    #n4[1]=as.Date(n1,format="%d/%m/%Y")
+    
+    #condicion queda 1 cupon
+    if(n3!=0){
+      n5=rep(91,(n3/91))
+      for(i in 1:(n3/91)){
+        n4=unique(c(n4,n4+n5[i]))
+      }
+    }else{}
+    
+    #vector de fechas de los flujos
+    #(n4=unique(n4))
+    
+    #valores a predecir mediante el Spline
+    (n5=as.numeric(n4-fv))
+    
+    n6=predict(spline1,n5)
+    (n6=n6$y/100)
+    
+    #calculo exponencial
+    (n7=exp(-(n5/365)*n6))
+    
+    #cupon
+    (n8=rep(C$Cupon[n]/4,(n3/91)))
+    
+    (n9=c(n8,C$Cupon[n]/4+100))
+    
+    #(n9=unique(n9))
+    
+    #PRECIO ESTIMADO
+    (n10=sum(n7*n9))
+    
+    Pr[j]=n10
+    
+    
+  }
+  
+  return(Pr)
+  
+}#final funcion precios estimados
+
+
+#
+#Función que calcula precio diario mediante met splines
+#argumentos
+#fe: fecha
+#num: numero de dias hacia atras
+#par: parametro spar
+#datatif: data a usar
+#tit : titulos
+#C: caracteristica
+#funcion que me genera tres variables
+#candidatos: data frame con titulos usados
+#Pr_tit: precio de los titulos de la variable tit
+#Pr_coin: precios coincidencias con precio promedio
+
+precio_diario_sp <- function(fe,num,par,datatif,tit,C,letra){
+  
+  D <- extrae(fe,num,datatif)
+  (s <- as.character(unique(D$Nombre)))
+  
+  s2 <- c()
+  
+  for(i in 1:length(s)){
+    s1 <- D[which(s[i]==D$Nombre),]
+    
+    if(nrow(s1)==1){
+      
+      s2 <- rbind(s2,s1)
+    }else{
+      s1 <- s1[which(s1$Monto==max(s1$Monto)),]
+      s2 <- rbind(s2,s1)
+    }
+  }#final for elegir obs
+  
+  s2 <- arrange(s2,desc(Fecha.op))
+  
+  if(length(which(duplicated(s2$Nombre)))!=0){
+    s2 <- s2[-which(duplicated(s2$Nombre)),]
+  }
+  s2 <- arrange(s2,(F.Vencimiento))
+  
+  #quito obs con monto menor a 10 MM
+  #(s2 <- s2[-which(s2$Monto<10000000),])
+  candidatos <<-s2
+  
+  #anado letra
+  
+  #s2 es la data con la que creare la curva
+  #tomo puntos y grafico
+  #par(mfrow=c(2,1))
+  if(is.data.frame(letra)){
+    x <- c(letra$Plazo,s2$Plazo)
+    y <- c(letra$Rendimiento,s2$Rendimiento)
+  }else if(length(letra)==2){
+    x <- c(letra[1],s2$Plazo)
+    y <- c(letra[2],s2$Rendimiento)
+  } 
+  #letra<<- datatif[max(which(datatif$Tipo.Instrumento=="LETRA"))]
+  #plot(x,y)
+  
+  spline1<<-smooth.spline(x,y,spar = par)
+  
+  #p <- predict(spline1,seq(1,7000,50))
+  
+  #plot(p$x,p$y,type = "l",col=3)
+  
+  
+  (Pr=precio(tit,spline1,fe,C))
+  
+  (Pr <- cbind.data.frame(tit,Pr))
+  names(Pr) <- c("Títulos","Precios")
+  #Pr_tit <<- Pr
+  
+  #coincidencias
+  #(z <- inner_join(t1,Pr,by="tit"))
+  #Pr_coin <<- z
+  
+  #Pr1 <- list(Pr,letra)
+  
+  return(Pr)
+}#final funcion precio_diario
+
+#Creo funcion para obtener precios Splines
+#argumentos
+#data = data a trabajar es el historico proveniente de 0-22
+#tipo = un caracter indicando TIF o VEBONO
+#fe = fecha de valoracion , ej: as.Date("2018-03-08")
+#num = numero de días hacia atras
+#par = parametro de suavizamiento spar
+#tit = nombre corto de los títulos
+#C = documento de las características al día
+
+Tabla.splines <- function(data,tipo,fe,num,par,tit,C){
+  if(tipo=="TIF"){
+    #extraigo solo TIF
+    
+    datatif <- data[which(data$Tipo.Instrumento=="TIF"),]
+    datatif <- arrange(datatif,desc(Fecha.op))
+    
+    datatif$F.Vencimiento <- as.Date(datatif$F.Vencimiento,format="%d/%m/%Y")
+    datatif$year <- year(datatif$F.Vencimiento)
+    datatif$segmento <- cut(datatif$year,breaks = c(2015,2019,2030,2038),labels = c("Corto Plazo","Mediano Plazo","Largo Plazo"))
+    
+    datatif$segmento1 <- cut(datatif$year,breaks = c(2015,2017,2019,2025,2030,2033,2035,2038),labels = c("C1","C2","M1","M2","L1","L2","L3"))
+    
+    #extraigo letra
+    #letra<<- data[min(which(data$Tipo.Instrumento=="LETRA")),]
+    D1 <- extrae(fe,num,arrange(data,desc(Fecha.op)))
+    
+    if(length(which(D1$Tipo.Instrumento=="LETRA"))!=0){
+      letra<<- D1[max(which(D1$Tipo.Instrumento=="LETRA")),]
+    }else{
+      print("no hay letra")
+      letra <- c(97,1.34)
+    }
+    
+    #datatif <- datatif[which(datatif$Tipo.Instrumento=="TIF"),]
+    
+    #calculo precios
+    Pr_tit_tif <- precio_diario_sp(fe,num,par,datatif,tit,C,letra)
+    
+    res_tif <- list(Pr_tit_tif,candidatos[,c(2,3,6,7,12,13,15,17,18)],letra,spline1) 
+    
+    return(res_tif)
+    
+  }else if(tipo=="VEBONO"){
+    #letra<<- data[max(which(data$Tipo.Instrumento=="LETRA")),]
+    
+    dataveb <- data[which(data$Tipo.Instrumento=="VEBONO"),]
+    dataveb <- arrange(dataveb,desc(Fecha.op))
+    
+    dataveb$F.Vencimiento <- as.Date(dataveb$F.Vencimiento,format="%d/%m/%Y")
+    dataveb$year <- year(dataveb$F.Vencimiento)
+    dataveb$segmento <- cut(dataveb$year,breaks = c(2015,2019,2030,2038),labels = c("Corto Plazo","Mediano Plazo","Largo Plazo"))
+    
+    dataveb$segmento1 <- cut(dataveb$year,breaks = c(2015,2017,2019,2025,2030,2033,2035,2038),labels = c("C1","C2","M1","M2","L1","L2","L3"))
+    
+    #extraigo letra
+    #letra<<- data[min(which(data$Tipo.Instrumento=="LETRA")),]
+    D1 <- extrae(fe,num,arrange(data,desc(Fecha.op)))
+    
+    if(length(which(D1$Tipo.Instrumento=="LETRA"))!=0){
+      letra<<- D1[max(which(D1$Tipo.Instrumento=="LETRA")),]
+    }else{
+      print("no hay letra")
+      letra <- c(97,1.34)
+    }
+    
+    Pr_tit_veb <- precio_diario_sp(fe,num,par,dataveb,tit,C,letra)
+    
+    res_veb <- list(Pr_tit_veb,candidatos[,c(2,3,6,7,12,13,15,17,18)],letra,spline1) 
+    
+    return(res_veb)
+    
+    
+  }#final if
+  
+  
+}#final funcion Tabla.splines
+
 
 
 ##################

@@ -3,10 +3,12 @@ rm(list = ls())
 #cargo librerias a usar
 library(shiny)
 library(shinydashboard)
-#
+library(dplyr)
+library(lubridate)
 library(ggplot2)
 library(reshape2)
 library(jrvFinance)
+library(plotly)
 #library(xlsx)
 library(nloptr)
 library(alabama)
@@ -104,6 +106,25 @@ C <- read.csv(paste(getwd(),"data","C.txt",sep = "/"), sep="")
 names(C) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
               "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
               "Pago cupon 2","Cupon")
+
+#carateristica Splines
+C_splines <- read.csv(paste(getwd(),"data","C_splines.txt",sep = "/"), sep="")
+names(C_splines) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+              "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+              "Pago cupon 2","Cupon")
+
+#cargo data de prueba 0-22
+data_splines <- read.csv(paste(getwd(),"data","Data_splines.txt",sep = "/"), sep="")
+data_splines$Fecha.op <- as.Date(as.character(data_splines$Fecha.op))
+
+datatif <- data_splines[which(data_splines$Tipo.Instrumento=="TIF"),]
+datatif <- arrange(datatif,desc(Fecha.op))
+datatif$F.Vencimiento <- as.Date(datatif$F.Vencimiento,format="%d/%m/%Y")
+datatif$year <- year(datatif$F.Vencimiento)
+datatif$segmento <- cut(datatif$year,breaks = c(2015,2019,2030,2038),labels = c("Corto Plazo","Mediano Plazo","Largo Plazo"))
+datatif$segmento1 <- cut(datatif$year,breaks = c(2015,2017,2019,2025,2030,2033,2035,2038),labels = c("C1","C2","M1","M2","L1","L2","L3"))
+
+
 
 # Encabezado Vision
 VisionHeader <- function(){tags$head(
