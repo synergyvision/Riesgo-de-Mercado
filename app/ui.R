@@ -461,7 +461,7 @@ shinyUI(
                                     ),#final box
                                     numericInput( inputId = "parametro_tif", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                            verbatimTextOutput("spar_tif"),
-                                    h2(" Precios Splines"),verbatimTextOutput("pre_sp"),
+                                    h2(" Precios Splines"),verbatimTextOutput("pre_sp_tif"),
                                     h2(" Curva de rendimientos TIF"),
                                     plotlyOutput("c_tif_splines")#verbatimTextOutput("datos")
                                     
@@ -487,7 +487,26 @@ shinyUI(
                                     ),#final fluidrow
                                     verbatimTextOutput("q2_sp"), h2(" Precios Promedios"),verbatimTextOutput("pre2_sp"),
                                     
-                                    h2(" Características"),dataTableOutput("Ca1_sp")
+                                    h2(" Características"),dataTableOutput("Ca1_sp"),
+                                    h3(" Por favor seleccionar el cantidad de días "),
+                                    box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
+                                        collapse= TRUE,"Recuerde que esta es la cantidad de días a considerar hacia atras en el tiempo
+                                        con el fin de generar la data con la que se trabajará, por ejemplo si se elige 30 la data 
+                                        a considerar serán las observaciones comprendidas entre la fecha de valoración y 
+                                        la fecha resultante luego de restarle 30 días a la fecha de valoración" 
+                                    ),#final box
+                                    numericInput( inputId = "d_veb", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
+                                    verbatimTextOutput("dias_veb"),
+                                    h2(" Títulos candidatos"),dataTableOutput("tit_cand_veb"),
+                                    h3(" Por favor ingresar el parámetro de suavizamiento "),
+                                    box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
+                                        collapse= TRUE,"Recuerde que este valor corresponde al grado de suavidad que tendrá la curva de rendimientos resultante" 
+                                    ),#final box
+                                    numericInput( inputId = "parametro_veb", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
+                                    verbatimTextOutput("spar_veb"),
+                                    h2(" Precios Splines"),verbatimTextOutput("pre_sp_veb"),
+                                    h2(" Curva de rendimientos VEBONO"),
+                                    plotlyOutput("c_veb_splines")#verbatimTextOutput("datos")
                                     
                                     )#final tabpanel veb
                     )#final tabbox
