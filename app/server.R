@@ -304,37 +304,49 @@ shinyServer(function(input, output) {
   
   #curva de rendimiento
   #tif
-  output$c_tif_splines <- renderPlotly({
+  output$c_tif_splines <- renderRbokeh({
     y <-predict(Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines)[[4]],seq(1,20,0.1)*365)$y
-    f <- ggplot(cbind.data.frame(x=seq(1,20,0.1)*365,y),aes(x=x,y=y))+
-      geom_line(color="black")+
-      geom_point(data = pto_sp_tif(),aes(x=pto_sp_tif()[,1],y=pto_sp_tif()[,2]),color="blue",size=3)+
-      xlab("Maduración (días)")+
-      ylab("Rendimiento (%)")+theme_gray()+
-      ggtitle("Curva de redimientos Splines TIF ")+
-      theme(plot.title = element_text(hjust = 0.5))
-      
+    # f <- ggplot(cbind.data.frame(x=seq(1,20,0.1)*365,y),aes(x=x,y=y))+
+    #   geom_line(color="black")+
+    #   geom_point(data = pto_sp_tif(),aes(x=pto_sp_tif()[,1],y=pto_sp_tif()[,2]),color="blue",size=3)+
+    #   xlab("Maduración (días)")+
+    #   ylab("Rendimiento (%)")+theme_gray()+
+    #   ggtitle("Curva de redimientos Splines TIF ")+
+    #   theme(plot.title = element_text(hjust = 0.5))
+    #   
+    # 
+    # ggplotly(f) 
     
-    ggplotly(f) 
-    # %>%
-    #   add_markers(text= ~  pto_sp_tif()[,1],hoverinfo = "text")
+    figure(width = 1000,height = 400) %>%
+      ly_points(pto_sp_tif()[,4],pto_sp_tif()[,7],pto_sp_tif(),hover=list("Nombre"=pto_sp_tif()[,1],"Fecha de operación"=pto_sp_tif()[,2])) %>%
+      ly_points(x=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2],color="blue",hover=list("Plazo"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2]),size=4) %>%
+      # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
+      x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
+  
   })
 
   #veb
-  output$c_veb_splines <- renderPlotly({
+  output$c_veb_splines <- renderRbokeh({
     y <-predict(Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines)[[4]],seq(1,20,0.1)*365)$y
-    f <- ggplot(cbind.data.frame(x=seq(1,20,0.1)*365,y),aes(x=x,y=y))+
-      geom_line(color="black")+
-      geom_point(data = pto_sp_veb(),aes(x=pto_sp_veb()[,1],y=pto_sp_veb()[,2]),color="blue",size=3)+
-      xlab("Maduración (días)")+
-      ylab("Rendimiento (%)")+theme_gray()+
-      ggtitle("Curva de redimientos Splines VEBONO ")+
-      theme(plot.title = element_text(hjust = 0.5))
-    
-    
-    ggplotly(f) 
+    # f <- ggplot(cbind.data.frame(x=seq(1,20,0.1)*365,y),aes(x=x,y=y))+
+    #   geom_line(color="black")+
+    #   geom_point(data = pto_sp_veb(),aes(x=pto_sp_veb()[,1],y=pto_sp_veb()[,2]),color="blue",size=3)+
+    #   xlab("Maduración (días)")+
+    #   ylab("Rendimiento (%)")+theme_gray()+
+    #   ggtitle("Curva de redimientos Splines VEBONO ")+
+    #   theme(plot.title = element_text(hjust = 0.5))
+    # 
+    # 
+    # ggplotly(f) 
     # %>%
     #   add_markers(text= ~  pto_sp_tif()[,1],hoverinfo = "text")
+    figure(width = 1000,height = 400) %>%
+      ly_points(pto_sp_veb()[,4],pto_sp_veb()[,7],pto_sp_veb(),hover=list("Nombre"=pto_sp_veb()[,1],"Fecha de operación"=pto_sp_veb()[,2])) %>%
+      ly_points(x=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2],color="blue",hover=list("Plazo"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2]),size=4) %>%
+      # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
+      x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
+    
+    
   })
   
   #titulos candidatos
@@ -349,17 +361,17 @@ shinyServer(function(input, output) {
   #tif
   pto_sp_tif <- reactive({
     a <- Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines)[[2]]
-    a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
-    names(a1) <- c("Plazo","Rendimiento")
-    return(a1)
+    # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
+    # names(a1) <- c("Plazo","Rendimiento")
+    return(a)
     })
   
   #veb
   pto_sp_veb <- reactive({
     a <- Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines)[[2]]
-    a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
-    names(a1) <- c("Plazo","Rendimiento")
-    return(a1)
+    # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
+    # names(a1) <- c("Plazo","Rendimiento")
+    return(a)
   })
   
   #output$datos <- renderPrint({pto_sp_tif()})

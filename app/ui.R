@@ -463,7 +463,7 @@ shinyUI(
                                            verbatimTextOutput("spar_tif"),
                                     h2(" Precios Splines"),verbatimTextOutput("pre_sp_tif"),
                                     h2(" Curva de rendimientos TIF"),
-                                    plotlyOutput("c_tif_splines")#verbatimTextOutput("datos")
+                                    rbokehOutput("c_tif_splines")#verbatimTextOutput("datos")
                                     
                                     
                                     
@@ -506,7 +506,7 @@ shinyUI(
                                     verbatimTextOutput("spar_veb"),
                                     h2(" Precios Splines"),verbatimTextOutput("pre_sp_veb"),
                                     h2(" Curva de rendimientos VEBONO"),
-                                    plotlyOutput("c_veb_splines")#verbatimTextOutput("datos")
+                                    rbokehOutput("c_veb_splines")#verbatimTextOutput("datos")
                                     
                                     )#final tabpanel veb
                     )#final tabbox
