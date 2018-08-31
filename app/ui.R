@@ -393,7 +393,13 @@ shinyUI(
                                                     ),#final fluidrow 
                                                     verbatimTextOutput("q1_dl"),h2(" Precios Promedios"),verbatimTextOutput("pre1_dl"),
                                                     
-                                                    h2(" Características"),dataTableOutput("Ca_dl")
+                                                    h2(" Características"),dataTableOutput("Ca_dl"),
+                                                    h2(" Precios estimados"),
+                                                    h2(" Spline a usar"),
+                                                    verbatimTextOutput("spline_tif"),
+                                                    verbatimTextOutput("p_est_dl_tif")
+                                                    
+                                                    
                                                     ),#final tabpanel tif
                                                     
                                                     tabPanel("VEBONO",fluidRow(

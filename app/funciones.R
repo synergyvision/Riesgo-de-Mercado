@@ -1208,6 +1208,231 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
 }#Final funcion 
 
 ################################
+####### DIEBOLD-LI #############
+################################
+#Defino funcion que calcula el rendimiento mediante la metodologia de Diebold-Li
+#funcion rend cero cupon
+#funcion que calcula el rendimiento cero cupon 
+#mediante la met Nelson y Siegel, para unos parametros dados
+#y un tiempo t especifico que se deriva de la fecha de pago de cupon
+#ARGUMENTOS
+#pa: vector de 4 parametros B0, B1, B2, y T1
+#los cuales estan sujetos a ciertas restricciones
+#B0 > 0
+#B0 + B1 > 0
+#T1 > 0
+#t: tiempo 
+diebold_li <- function(pa,t){
+  r=pa[1]+((pa[2]+pa[3])*(1-exp((-t)*(pa[4])))/(t*pa[4]))-
+    pa[3]*exp(-t*pa[4])
+  return(r)
+}
+
+
+#creo funcion que calcula parametros de Diebold-Li por tiempo
+#Caso 1: donde vario parametro por cada tiempo, es lo que deberia ser
+#aunque lo q veo es que estos valores van a ser muy similares a los
+#obtenidos por la curva de rendimiento de los splines
+#caso 2: vario parametros por conjunto de t's los cuales se obtiene 
+#para cada titulo
+#para acceder a cada caso se debe pasar un unico valor (caso 1)
+#o pasar un vector (caso 2) (OJO)
+
+par_dl <- function(t,spline1,pa){
+  #defino rendimientos observados, con los cuales se hará la comparacion
+  pp <- predict(spline1,t*365)$y/100
+  
+  #ojo-prueba
+  pa <- as.numeric(pa)
+  
+  #defino funcion a minimizar
+  mifuncion<- function(x){
+    pa=c(x[1],x[2],x[3],x[4])
+    #p=precio.ns(tit,fv,C,pa) 
+    p <- diebold_li(pa,t)
+    #x=sum(((p-pp)*w)^2)
+    x <- sum(((p-pp))^2)
+    return(x)
+  }
+  
+  #restricciones
+  res <- function(x) {
+    h <- rep(NA, 1)
+    h[1] <- x[1] # B0 > 0
+    h[2] <- x[1]+x[2] # B0 + B1 > 0
+    h[3] <- x[4] # lambda1 > 0
+    h[4] <- x[2]+0.01
+    #h[4] <- x[2] #ojo
+    h
+  }
+  
+  #
+  ala1=alabama::auglag(pa, fn=mifuncion, hin=res,control.outer=list(trace=FALSE)) #mejor igual al solver
+  
+  return(ala1$par)
+  
+}#final funcion par_dl
+
+#funcion precios estimados
+#Calcula el precio de los titulos considerados mediante 
+#la metodologia de Diebold Li
+#ARGUMENTOS
+#tit: titulo o titulos a considerar, debe ser el nombre corto
+#ej: TIF082018 (OJO, mejor considerar el ISIN)
+#fv: fecha de valoraci?n, ej: "11/08/2017"
+#C: documento de las caracteristicas, que previamente ya ha sido
+#leido mediante la funcion "Carac"
+#pa: parametros Diebold Li, ojo se puede empezar con cualquier parametros
+#la funcion internamente calcula diferentes parametros por cada tiempo
+#con as.numeric
+precio.dl=function(tit,fv,C,pa,spline1){
+  #creo variable vacia
+  Pr=c()
+  
+  for(j in 1:length(tit)){
+    #verifico en que posicion de la variable c se encuentra el i-esimo titulo
+    (n=which(C$Nombre==tit[j]))
+    #Extraigo la proxima fecha de pago de cupon (pago cupon 1, fecha inicial
+    #cuando el  titulo debe pagar cupon)
+    (n1=as.Date(C$`Pago cupon 1`[n],format="%d/%m/%Y"))
+    
+    #verifico si esta fecha es menor que la fecha de valoracion,
+    #de ser asi tomo la fecha de cupon 2 (fecha final cuando el titulo debe 
+    #pagar cupon)
+    if(as.numeric(n1-fv)<0){
+      (n1=as.Date(C$`Pago cupon 2`[n],format="%d/%m/%Y"))
+    }
+    
+    #extraigo la fecha de vencimiento del i-esimo titulo
+    (n2=as.Date(C$F.Vencimiento[n],format="%d/%m/%Y"))
+    
+    #creo variable para determinar diferencia entre fecha de vencimiento y
+    #la fecha cupon
+    (n3=as.numeric(n2-n1))
+    
+    #si este valor es cero, entonces en este
+    #caso queda 1 solo cupon
+    if(n3==0){
+      #print("Al titulo")
+      #print(tit[j])
+      #print("Le queda un cupon por pagar")
+      #reasigno variable
+      (n4=n1)
+      #creo vector de fechas
+      (n6=c(fv,n4))
+      
+      #valor t años
+      #creo vector de tiempos
+      (f1=c(0.000000001,(as.numeric(n6[2]-n6[1])/360)+0.000000001))
+      
+      #rendimiento cero cupon
+      #calculo rendimientos cero cupon, para cada tiempo del vector creado
+      #anteriormente
+      var_par <- as.data.frame(matrix(0,length(f1),4))
+      
+      #guardo parametros segun cada tiempo
+      for(i in 1:length(f1)){
+        var_par[i,] <- par_dl(f1[i],spline1,pa)
+      }
+      
+      #calculo nuevos rendimientos a partir de los nuevos parametros
+      pa1 <- as.data.frame(matrix(0,length(f1),1))
+      
+      for(i in 1:length(f1)){
+        #pa1[i,1] <- diebold_li(var_par[i,],f1[i])
+        pa1[i,1] <- diebold_li(as.numeric(var_par[i,]),f1[i])
+      }
+      
+      #(pa1=c(nelson_siegel(pa,f1[1]),nelson_siegel(pa,f1[2])))
+      
+      #exp del producto
+      (ep=exp(-pa1*f1))
+      
+      #cupon
+      cu=c(0,100+C$Cupon[n]/4)
+      
+      #precio
+      #calculo precio usando una suma producto
+      (Pr[j]=sum(cu*ep))
+      #return(Pr)
+    }else{ #final if 1 cupon
+      #reasigno variable
+      n4=n1
+      
+      #creo variable,  que me determina cuantos cupones le queda por pagar al
+      #i-esimo titulo
+      n5=rep(91,(n3/91))
+      #creo vector de fechas
+      for(i in 1:(n3/91)){
+        n4=unique(c(n4,n4+n5[i]))
+      }
+      
+      #depuro vector de fechas
+      (n5=unique(c(fv,n4)))
+      
+      #valor t años
+      #creo vector de tiempos
+      ti=0.000000001
+      (f1=rep(0,length(n5)))
+      f1[1]=ti
+      
+      for(i in 2:length(n5)){
+        f1[i]=(as.numeric(n5[i]-n5[i-1])/360)+f1[i-1]
+      }
+      
+      #calculo rend cero cupon
+      # (pa1=rep(0,length(n5)))
+      # 
+      # for(i in 1:length(n5)){
+      #   pa1[i]=nelson_siegel(pa,f1[i])
+      # }
+      
+      #rendimiento cero cupon
+      #calculo rendimientos cero cupon, para cada tiempo del vector creado
+      #anteriormente
+      var_par <- as.data.frame(matrix(0,length(f1),4))
+      
+      #guardo parametros segun cada tiempo
+      for(i in 1:length(f1)){
+        var_par[i,] <- par_dl(f1[i],spline1,pa)
+      }
+      
+      #calculo nuevos rendimientos a partir de los nuevos parametros
+      pa1 <- as.data.frame(matrix(0,length(f1),1))
+      
+      for(i in 1:length(f1)){
+        #pa1[i,1] <- diebold_li(var_par[i,],f1[i])
+        pa1[i,1] <- diebold_li(as.numeric(var_par[i,]),f1[i])
+      }
+      
+      #exponencial del producto
+      (ep=exp(-pa1*f1))
+      
+      
+      #cupon 
+      (cu=rep(0,length(n5)))
+      for(i in 2:(length(n5)-1)){
+        cu[i]=C$Cupon[n]/4
+      }
+      cu[length(n5)]=C$Cupon[n]/4+100
+      
+      
+      #PRECIO ESTIMADO
+      (n10=sum(cu*ep))
+      
+      Pr[j]=n10
+    } 
+    
+  }#final for 
+  
+  #retorno precios
+  Pr <- cbind.data.frame("Titulos"=tit,"Precio"=Pr)
+  return(Pr)
+  
+}#final funcion precios estimados
+
+
+################################
 ########## SPLINES #############
 ################################
 

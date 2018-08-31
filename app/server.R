@@ -144,6 +144,14 @@ shinyServer(function(input, output) {
   output$p_est_veb_opt_ns <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns),pr =tv_ns() ,pa = pa1_ns,ind = 1,C = C,fe2=input$opt_veb_ns,fe3=0)[[1]] })
   output$p_est_veb_opt_sven_el <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb),ind = 1,C = C,fe2=0,fe3=0)[[1]]})
   
+  #precios DL
+  #extraigo spline
+  dl_spline_tif <- reactive({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n3,num =40,par = 0.1,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),C_splines)[[4]] })
+  
+  output$spline_tif <- renderPrint({dl_spline_tif()})
+  
+  output$p_est_dl_tif <- renderPrint({precio.dl(tit = c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),fv = input$n3 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_tif())})
+  
   #parametros optimizados
   # output$par_tif_ns_op <- renderPrint({a <- Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = pa_ns,ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)
   # a[[2]]
