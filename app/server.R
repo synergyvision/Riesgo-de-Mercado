@@ -146,11 +146,201 @@ shinyServer(function(input, output) {
   
   #precios DL
   #extraigo spline
-  dl_spline_tif <- reactive({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n3,num =40,par = 0.1,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),C_splines)[[4]] })
+  #parametro de suavizamiento de splines para DL
+  #TIF
+  output$spar_tif_dl <- renderPrint({input$parametro_tif_dl})
+  
+  dl_spline_tif <- reactive({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n3,num =40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),C_splines)[[4]] })
   
   output$spline_tif <- renderPrint({dl_spline_tif()})
   
   output$p_est_dl_tif <- renderPrint({precio.dl(tit = c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),fv = input$n3 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_tif())})
+  
+  #Vebonos
+  output$spar_veb_dl <- renderPrint({input$parametro_veb_dl})
+  
+  dl_spline_veb <- reactive({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n3,num =40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),C_splines)[[4]] })
+  
+  output$spline_veb <- renderPrint({dl_spline_veb()})
+  
+  output$p_est_dl_veb <- renderPrint({precio.dl(tit = c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),fv = input$n3 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_veb())})
+  
+  
+  #grafico 
+  #extraigo puntos con los q se hace la curva, para DL
+  #tif
+  pto_sp_tif_dl <- reactive({
+    a <- Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),C_splines)[[2]]
+    # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
+    # names(a1) <- c("Plazo","Rendimiento")
+    return(a)
+  })
+  
+  #veb
+  pto_sp_veb_dl <- reactive({
+    a <- Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n3,num = 40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),C_splines)[[2]]
+    # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
+    # names(a1) <- c("Plazo","Rendimiento")
+    return(a)
+  })
+  
+  #Splines para Diebold-Li
+  #tif
+  output$c_tif_splines_dl <- renderRbokeh({
+    y <-predict(Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),C_splines)[[4]],seq(1,20,0.1)*365)$y
+    
+    figure(width = 1000,height = 400) %>%
+      ly_points(pto_sp_tif_dl()[,4],pto_sp_tif_dl()[,7],pto_sp_tif_dl(),hover=list("Nombre"=pto_sp_tif_dl()[,1],"Fecha de operación"=pto_sp_tif_dl()[,2])) %>%
+      ly_points(x=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2],color="green",hover=list("Plazo"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2]),size=4) %>%
+      # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
+      x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
+    
+  })
+  
+  #vebonos
+  output$c_veb_splines_dl <- renderRbokeh({
+    y <-predict(Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n3,num = 40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),C_splines)[[4]],seq(1,20,0.1)*365)$y
+    
+    figure(width = 1000,height = 400) %>%
+      ly_points(pto_sp_veb_dl()[,4],pto_sp_veb_dl()[,7],pto_sp_veb_dl(),hover=list("Nombre"=pto_sp_veb_dl()[,1],"Fecha de operación"=pto_sp_veb_dl()[,2])) %>%
+      ly_points(x=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2],color="brown",hover=list("Plazo"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2]),size=4) %>%
+      # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
+      x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
+    
+  })
+  
+  #Grafico 3D!
+  #tif
+  output$curva_tif_dl <- renderPlotly({ 
+    #defino eje maduracion
+    X1 <- seq(0.1,20,0.1)
+    
+    #defino tiempos
+    Y1 <- seq(1,50,1)
+    
+    #
+    var_par <- as.data.frame(matrix(0,length(Y1),4))
+    
+    #guardo parametros segun cada tiempo
+    for(i in 1:length(Y1)){
+      #var_par[i,] <- par_dl(t[i],spline1,pa=c(1,1,1,1))
+      var_par[i,] <- par_dl(Y1,dl_spline_tif(),pa=c(1,1,1,1))
+      
+    }
+    
+    #calculo nuevos rendimientos a partir de los nuevos parametros
+    new_rend <- as.data.frame(matrix(0,length(X1),length(Y1)))
+    
+    
+    for(i in 1:length(Y1)){
+      
+      new_rend[,i] <- diebold_li(as.numeric(var_par[i,]),X1)
+      #new_rend[,i] <- nelson_siegel(as.numeric(var_par[i,]),X)
+    }
+    
+    Z1 <- as.matrix(new_rend*100)
+    row.names(Z1) <- X1
+    colnames(Z1) <- Y1
+    
+    #defino configuracion de los ejes
+    # Create lists for axis properties
+    # f1 <- list(
+    #   family = "Arial, sans-serif",
+    #   size = 18,
+    #   color = "blue")
+    # 
+    # f2 <- list(
+    #   family = "Old Standard TT, serif",
+    #   size = 14,
+    #   color = "green")
+    # 
+    # axis <- list(
+    #   titlefont = f1,
+    #   tickfont = f2
+    #   #showgrid = F
+    # )
+    
+    scene = list(
+      xaxis = list(domain = c(0, 50),
+                   title = "Tiempo"),
+      yaxis = list(domain = c(0, 200),
+                   title = "Maduración (años)"),
+      zaxis = list(domain = c(0, 0.12),
+                   title = "Rendimiento (%)"),
+      camera = list(eye = list(x = -1.25, y = 1.25, z = 1.25))
+    )
+    
+    
+    plot_ly(z = Z1,  type = "surface") %>%
+      layout(title = "Curva de Rendimientos metodología Diebold-Li",scene = scene)
+    
+    })
+  
+  #vebonos
+  output$curva_veb_dl <- renderPlotly({ 
+    #defino eje maduracion
+    X1 <- seq(0.1,20,0.1)
+    
+    #defino tiempos
+    Y1 <- seq(1,50,1)
+    
+    #
+    var_par <- as.data.frame(matrix(0,length(Y1),4))
+    
+    #guardo parametros segun cada tiempo
+    for(i in 1:length(Y1)){
+      #var_par[i,] <- par_dl(t[i],spline1,pa=c(1,1,1,1))
+      var_par[i,] <- par_dl(Y1,dl_spline_veb(),pa=c(1,1,1,1))
+      
+    }
+    
+    #calculo nuevos rendimientos a partir de los nuevos parametros
+    new_rend <- as.data.frame(matrix(0,length(X1),length(Y1)))
+    
+    
+    for(i in 1:length(Y1)){
+      
+      new_rend[,i] <- diebold_li(as.numeric(var_par[i,]),X1)
+      #new_rend[,i] <- nelson_siegel(as.numeric(var_par[i,]),X)
+    }
+    
+    Z1 <- as.matrix(new_rend*100)
+    row.names(Z1) <- X1
+    colnames(Z1) <- Y1
+    
+    #defino configuracion de los ejes
+    # Create lists for axis properties
+    # f1 <- list(
+    #   family = "Arial, sans-serif",
+    #   size = 18,
+    #   color = "blue")
+    # 
+    # f2 <- list(
+    #   family = "Old Standard TT, serif",
+    #   size = 14,
+    #   color = "green")
+    # 
+    # axis <- list(
+    #   titlefont = f1,
+    #   tickfont = f2
+    #   #showgrid = F
+    # )
+    
+    scene = list(
+      xaxis = list(domain = c(0, 50),
+                   title = "Tiempo"),
+      yaxis = list(domain = c(0, 200),
+                   title = "Maduración (años)"),
+      zaxis = list(domain = c(0, 0.12),
+                   title = "Rendimiento (%)"),
+      camera = list(eye = list(x = -1.25, y = 1.25, z = 1.25))
+    )
+    
+    
+    plot_ly(z = Z1,  type = "surface") %>%
+      layout(title = "Curva de Rendimientos metodología Diebold-Li",scene = scene)
+    
+  })
   
   #parametros optimizados
   # output$par_tif_ns_op <- renderPrint({a <- Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = pa_ns,ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)
