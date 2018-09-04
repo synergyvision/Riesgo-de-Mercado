@@ -393,11 +393,15 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
     }
     
+    #creo vector de precios para exportar
+    precios <- cbind.data.frame(tit,precio.sven(tit,fv,C,pa))
+    names(precios) <- c("Títulos","Precios")
+    
     #if para exportar resultados
     if(fe2==1){
-      Tabla1 <- list(Tabla,ala$par)
+      Tabla1 <- list(Tabla,ala$par,precios)
     }else if(fe2==0){
-      Tabla1 <- list(Tabla,pa)
+      Tabla1 <- list(Tabla,pa,precios)
     }
     
     return(Tabla1)
@@ -588,11 +592,16 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
     }
     
+    #creo vector de precios para exportar
+    precios <- cbind.data.frame(tit,precio.sven(tit,fv,C,pa))
+    names(precios) <- c("Títulos","Precios")
+    
+    
     #if para exportar resultados
     if(fe2==1){
-      Tabla1 <- list(Tabla,ala$par)
+      Tabla1 <- list(Tabla,ala$par,precios)
     }else if(fe2==0){
-      Tabla1 <- list(Tabla,pa)
+      Tabla1 <- list(Tabla,pa,precios)
     }
     
     return(Tabla1)
@@ -602,6 +611,11 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
   
   
 }#Final funcion excel-sven
+
+#Exporta una lista de tres elementos
+#1: Tabla de resultados
+#2: Parámetros optimizados
+#3: Precios calculados
 
 ################################
 ###### NELSON Y SIEGEL #########
@@ -994,13 +1008,16 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
     }
     
+    #creo vector de precios para exportar
+    precios <- cbind.data.frame(tit,precio.ns(tit,fv,C,pa))
+    names(precios) <- c("Títulos","Precios")
     
     
     #if para exportar resultados
     if(fe2==1){
-      Tabla1 <- list(Tabla,ala$par)
+      Tabla1 <- list(Tabla,ala$par,precios)
     }else if(fe2==0){
-      Tabla1 <- list(Tabla,pa)
+      Tabla1 <- list(Tabla,pa,precios)
     }
     
     return(Tabla1)
@@ -1192,11 +1209,15 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
     }
     
+    #creo vector de precios para exportar
+    precios <- cbind.data.frame(tit,precio.ns(tit,fv,C,pa))
+    names(precios) <- c("Títulos","Precios")
+    
     #if para exportar resultados
     if(fe2==1){
-      Tabla1 <- list(Tabla,ala$par)
+      Tabla1 <- list(Tabla,ala$par,precios)
     }else if(fe2==0){
-      Tabla1 <- list(Tabla,pa)
+      Tabla1 <- list(Tabla,pa,precios)
     }
     
     return(Tabla1)
@@ -1693,7 +1714,7 @@ precio_diario_sp <- function(fe,num,par,datatif,tit,C,letra){
 #tit = nombre corto de los títulos
 #C = documento de las características al día
 
-Tabla.splines <- function(data,tipo,fe,num,par,tit,C){
+Tabla.splines <- function(data,tipo,fe,num,par,tit,C,pr){
   if(tipo=="TIF"){
     #extraigo solo TIF
     
@@ -1722,7 +1743,87 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C){
     #calculo precios
     Pr_tit_tif <- precio_diario_sp(fe,num,par,datatif,tit,C,letra)
     
-    res_tif <- list(Pr_tit_tif,candidatos[,c(2,3,6,7,12,13,15,17,18)],letra,spline1) 
+    #creo Tabla de resultados (similar a NS y Sv)
+    Tabla=as.data.frame(matrix(0,14,length(tit)))
+    colnames(Tabla)=tit
+    rownames(Tabla)=c("ISIN","Fecha de Liquidación",
+                      "Fecha de emisión","Fecha de Vencimiento","Tasa de Cupón",
+                      "Precio Prom","Fecha último Pago","Fecha próximo pago",
+                      "RDTO al VMTO","Duración","Inverso de la duración",
+                      "Ponderación","Precio Modelo Spline",
+                      "Residuos al cuadrado")
+    
+    #relleno ISIN
+    for(i in 1:ncol(Tabla)){
+      Tabla[1,i]=as.character(C$Sicet[which(names(Tabla)[i]==C$Nombre)])
+    }
+    
+    #relleno fecha Liquidación
+    for(i in 1:ncol(Tabla)){
+      Tabla[2,i]=as.character(fe)
+    }
+    
+    #relleno fecha Emision
+    for(i in 1:ncol(Tabla)){
+      Tabla[3,i]=as.character(C$F.Emision[which(names(Tabla)[i]==C$Nombre)])
+    }
+    
+    #relleno fecha Vencimiento
+    for(i in 1:ncol(Tabla)){
+      Tabla[4,i]=as.character(C$F.Vencimiento[which(names(Tabla)[i]==C$Nombre)])
+    }
+    
+    #relleno cupón
+    for(i in 1:ncol(Tabla)){
+      Tabla[5,i]=C$Cupon[which(names(Tabla)[i]==C$Nombre)]/100
+    }
+    
+    #relleno fecha ultimo pago
+    for(i in 1:ncol(Tabla)){
+      Tabla[7,i]=as.character(C$`Pago cupon 1`[which(names(Tabla)[i]==C$Nombre)])
+    }
+    
+    #relleno proximo pago
+    for(i in 1:ncol(Tabla)){
+      Tabla[8,i]=as.character(C$`Pago cupon 2`[which(names(Tabla)[i]==C$Nombre)])
+    }
+    
+    #añado precios promedios
+    Tabla[6,]=pr
+    
+    #rendimiento
+    for(i in 1:ncol(Tabla)){
+      Tabla[9,i]=bond.yield(as.Date(fe,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
+    }
+    
+    #duracion
+    for(i in 1:ncol(Tabla)){
+      Tabla[10,i]=bond.duration(as.Date(fe,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[9,i])),convention = c("ACT/360"),4)
+    }
+    
+    #añado inverso duracion
+    Tabla[11,]=1/(as.numeric(gsub("[,]",".",Tabla[10,])))
+    
+    #añado ponderacion
+    for(i in 1:ncol(Tabla)){
+      Tabla[12,i]=(as.numeric(gsub("[,]",".",Tabla[11,i])))/sum((as.numeric(gsub("[,]",".",Tabla[11,]))))
+    }
+    
+    #relleno precios
+    Tabla[13,]=as.numeric(Pr_tit_tif[,2]) 
+    
+    #relleno residuos al cuadrado
+    
+    for(i in 1:ncol(Tabla)){
+      Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
+    }
+    
+    #SRC
+    print("EL SRC es")
+    print(sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
+    
+    
+    res_tif <- list(Pr_tit_tif,candidatos[,c(2,3,6,7,12,13,15,17,18)],letra,spline1,Tabla) 
     
     return(res_tif)
     
@@ -1751,7 +1852,86 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C){
     
     Pr_tit_veb <- precio_diario_sp(fe,num,par,dataveb,tit,C,letra)
     
-    res_veb <- list(Pr_tit_veb,candidatos[,c(2,3,6,7,12,13,15,17,18)],letra,spline1) 
+    #creo Tabla de resultados (similar a NS y Sv)
+    Tabla=as.data.frame(matrix(0,14,length(tit)))
+    colnames(Tabla)=tit
+    rownames(Tabla)=c("ISIN","Fecha de Liquidación",
+                      "Fecha de emisión","Fecha de Vencimiento","Tasa de Cupón",
+                      "Precio Prom","Fecha último Pago","Fecha próximo pago",
+                      "RDTO al VMTO","Duración","Inverso de la duración",
+                      "Ponderación","Precio Modelo Spline",
+                      "Residuos al cuadrado")
+    
+    #relleno ISIN
+    for(i in 1:ncol(Tabla)){
+      Tabla[1,i]=as.character(C$Sicet[which(names(Tabla)[i]==C$Nombre)])
+    }
+    
+    #relleno fecha Liquidación
+    for(i in 1:ncol(Tabla)){
+      Tabla[2,i]=as.character(fe)
+    }
+    
+    #relleno fecha Emision
+    for(i in 1:ncol(Tabla)){
+      Tabla[3,i]=as.character(C$F.Emision[which(names(Tabla)[i]==C$Nombre)])
+    }
+    
+    #relleno fecha Vencimiento
+    for(i in 1:ncol(Tabla)){
+      Tabla[4,i]=as.character(C$F.Vencimiento[which(names(Tabla)[i]==C$Nombre)])
+    }
+    
+    #relleno cupón
+    for(i in 1:ncol(Tabla)){
+      Tabla[5,i]=C$Cupon[which(names(Tabla)[i]==C$Nombre)]/100
+    }
+    
+    #relleno fecha ultimo pago
+    for(i in 1:ncol(Tabla)){
+      Tabla[7,i]=as.character(C$`Pago cupon 1`[which(names(Tabla)[i]==C$Nombre)])
+    }
+    
+    #relleno proximo pago
+    for(i in 1:ncol(Tabla)){
+      Tabla[8,i]=as.character(C$`Pago cupon 2`[which(names(Tabla)[i]==C$Nombre)])
+    }
+    
+    #añado precios promedios
+    Tabla[6,]=pr
+    
+    #rendimiento
+    for(i in 1:ncol(Tabla)){
+      Tabla[9,i]=bond.yield(as.Date(fe,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
+    }
+    
+    #duracion
+    for(i in 1:ncol(Tabla)){
+      Tabla[10,i]=bond.duration(as.Date(fe,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[9,i])),convention = c("ACT/360"),4)
+    }
+    
+    #añado inverso duracion
+    Tabla[11,]=1/(as.numeric(gsub("[,]",".",Tabla[10,])))
+    
+    #añado ponderacion
+    for(i in 1:ncol(Tabla)){
+      Tabla[12,i]=(as.numeric(gsub("[,]",".",Tabla[11,i])))/sum((as.numeric(gsub("[,]",".",Tabla[11,]))))
+    }
+    
+    #relleno precios
+    Tabla[13,]=as.numeric(Pr_tit_veb[,2]) 
+    
+    #relleno residuos al cuadrado
+    
+    for(i in 1:ncol(Tabla)){
+      Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
+    }
+    
+    #SRC
+    print("EL SRC es")
+    print(sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
+    
+    res_veb <- list(Pr_tit_veb,candidatos[,c(2,3,6,7,12,13,15,17,18)],letra,spline1,Tabla) 
     
     return(res_veb)
     
@@ -1761,7 +1941,12 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C){
   
 }#final funcion Tabla.splines
 
-
+#esta funcion me retorna una lista de 5 elementos
+#1: Precios calculados
+#2: data frame de candidatos
+#3: letra
+#4: spline
+#5: Tabla de resultados
 
 ##################
 

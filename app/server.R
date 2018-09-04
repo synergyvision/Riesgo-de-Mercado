@@ -150,7 +150,7 @@ shinyServer(function(input, output) {
   #TIF
   output$spar_tif_dl <- renderPrint({input$parametro_tif_dl})
   
-  dl_spline_tif <- reactive({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n3,num =40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),C_splines)[[4]] })
+  dl_spline_tif <- reactive({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n3,num =40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),C_splines,pr=tf_dl())[[4]] })
   
   output$spline_tif <- renderPrint({dl_spline_tif()})
   
@@ -159,7 +159,7 @@ shinyServer(function(input, output) {
   #Vebonos
   output$spar_veb_dl <- renderPrint({input$parametro_veb_dl})
   
-  dl_spline_veb <- reactive({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n3,num =40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),C_splines)[[4]] })
+  dl_spline_veb <- reactive({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n3,num =40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),C_splines,pr=tv_dl())[[4]] })
   
   output$spline_veb <- renderPrint({dl_spline_veb()})
   
@@ -170,7 +170,7 @@ shinyServer(function(input, output) {
   #extraigo puntos con los q se hace la curva, para DL
   #tif
   pto_sp_tif_dl <- reactive({
-    a <- Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),C_splines)[[2]]
+    a <- Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),C_splines,pr=tf_dl())[[2]]
     # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
     # names(a1) <- c("Plazo","Rendimiento")
     return(a)
@@ -178,7 +178,7 @@ shinyServer(function(input, output) {
   
   #veb
   pto_sp_veb_dl <- reactive({
-    a <- Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n3,num = 40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),C_splines)[[2]]
+    a <- Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n3,num = 40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),C_splines,pr=tv_dl())[[2]]
     # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
     # names(a1) <- c("Plazo","Rendimiento")
     return(a)
@@ -187,7 +187,7 @@ shinyServer(function(input, output) {
   #Splines para Diebold-Li
   #tif
   output$c_tif_splines_dl <- renderRbokeh({
-    y <-predict(Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),C_splines)[[4]],seq(1,20,0.1)*365)$y
+    y <-predict(Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),C_splines,pr=tf_dl())[[4]],seq(1,20,0.1)*365)$y
     
     figure(width = 1000,height = 400) %>%
       ly_points(pto_sp_tif_dl()[,4],pto_sp_tif_dl()[,7],pto_sp_tif_dl(),hover=list("Nombre"=pto_sp_tif_dl()[,1],"Fecha de operación"=pto_sp_tif_dl()[,2])) %>%
@@ -199,7 +199,7 @@ shinyServer(function(input, output) {
   
   #vebonos
   output$c_veb_splines_dl <- renderRbokeh({
-    y <-predict(Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n3,num = 40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),C_splines)[[4]],seq(1,20,0.1)*365)$y
+    y <-predict(Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n3,num = 40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),C_splines,pr=tv_dl())[[4]],seq(1,20,0.1)*365)$y
     
     figure(width = 1000,height = 400) %>%
       ly_points(pto_sp_veb_dl()[,4],pto_sp_veb_dl()[,7],pto_sp_veb_dl(),hover=list("Nombre"=pto_sp_veb_dl()[,1],"Fecha de operación"=pto_sp_veb_dl()[,2])) %>%
@@ -496,14 +496,14 @@ shinyServer(function(input, output) {
   
   
   #precios
-  output$pre_sp_tif <- renderPrint({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines)[[1]] })
+  output$pre_sp_tif <- renderDataTable({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[5]] })
   #output$pre_sp <- renderPrint({precio_diario_sp(fe=input$n4,num=input$d_tif,par =input$parametro_tif ,datatif =datatif ,tit =tf_sp() ,C=C_splines,letra=c(97,1.34)) })
-  output$pre_sp_veb <- renderPrint({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines)[[1]] })
+  output$pre_sp_veb <- renderDataTable({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[5]] })
   
   #curva de rendimiento
   #tif
   output$c_tif_splines <- renderRbokeh({
-    y <-predict(Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines)[[4]],seq(1,20,0.1)*365)$y
+    y <-predict(Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[4]],seq(1,20,0.1)*365)$y
     # f <- ggplot(cbind.data.frame(x=seq(1,20,0.1)*365,y),aes(x=x,y=y))+
     #   geom_line(color="black")+
     #   geom_point(data = pto_sp_tif(),aes(x=pto_sp_tif()[,1],y=pto_sp_tif()[,2]),color="blue",size=3)+
@@ -525,7 +525,7 @@ shinyServer(function(input, output) {
 
   #veb
   output$c_veb_splines <- renderRbokeh({
-    y <-predict(Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines)[[4]],seq(1,20,0.1)*365)$y
+    y <-predict(Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[4]],seq(1,20,0.1)*365)$y
     # f <- ggplot(cbind.data.frame(x=seq(1,20,0.1)*365,y),aes(x=x,y=y))+
     #   geom_line(color="black")+
     #   geom_point(data = pto_sp_veb(),aes(x=pto_sp_veb()[,1],y=pto_sp_veb()[,2]),color="blue",size=3)+
@@ -549,16 +549,16 @@ shinyServer(function(input, output) {
   
   #titulos candidatos
   #tif
-  output$tit_cand_tif <- renderDataTable({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines)[[2]] })
+  output$tit_cand_tif <- renderDataTable({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]] })
   
   #veb
-  output$tit_cand_veb <- renderDataTable({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines)[[2]] })
+  output$tit_cand_veb <- renderDataTable({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[2]] })
   
   
   #extraigo puntos con los q se hace la curva
   #tif
   pto_sp_tif <- reactive({
-    a <- Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines)[[2]]
+    a <- Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
     # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
     # names(a1) <- c("Plazo","Rendimiento")
     return(a)
@@ -566,7 +566,7 @@ shinyServer(function(input, output) {
   
   #veb
   pto_sp_veb <- reactive({
-    a <- Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines)[[2]]
+    a <- Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[2]]
     # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
     # names(a1) <- c("Plazo","Rendimiento")
     return(a)

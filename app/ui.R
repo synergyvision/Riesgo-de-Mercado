@@ -486,7 +486,7 @@ shinyUI(
                                     ),#final box
                                     numericInput( inputId = "parametro_tif", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                            verbatimTextOutput("spar_tif"),
-                                    h2(" Precios Splines"),verbatimTextOutput("pre_sp_tif"),
+                                    h2(" Precios Splines"),dataTableOutput("pre_sp_tif"),
                                     h2(" Curva de rendimientos TIF"),
                                     rbokehOutput("c_tif_splines")#verbatimTextOutput("datos")
                                     
@@ -529,7 +529,7 @@ shinyUI(
                                     ),#final box
                                     numericInput( inputId = "parametro_veb", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                     verbatimTextOutput("spar_veb"),
-                                    h2(" Precios Splines"),verbatimTextOutput("pre_sp_veb"),
+                                    h2(" Precios Splines"),dataTableOutput("pre_sp_veb"),
                                     h2(" Curva de rendimientos VEBONO"),
                                     rbokehOutput("c_veb_splines")#verbatimTextOutput("datos")
                                     
