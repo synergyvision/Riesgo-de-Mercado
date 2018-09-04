@@ -1306,7 +1306,7 @@ par_dl <- function(t,spline1,pa){
 #pa: parametros Diebold Li, ojo se puede empezar con cualquier parametros
 #la funcion internamente calcula diferentes parametros por cada tiempo
 #con as.numeric
-precio.dl=function(tit,fv,C,pa,spline1){
+precio.dl=function(tit,fv,C,pa,spline1,pr){
   #creo variable vacia
   Pr=c()
   
@@ -1446,12 +1446,99 @@ precio.dl=function(tit,fv,C,pa,spline1){
     
   }#final for 
   
+  #Creo tabla de Resultados
+  Tabla=as.data.frame(matrix(0,14,length(tit)))
+  colnames(Tabla)=tit
+  rownames(Tabla)=c("ISIN","Fecha de Liquidación",
+                    "Fecha de emisión","Fecha de Vencimiento","Tasa de Cupón",
+                    "Precio Prom","Fecha último Pago","Fecha próximo pago",
+                    "RDTO al VMTO","Duración","Inverso de la duración",
+                    "Ponderación","Precio Modelo Diebold Li",
+                    "Residuos al cuadrado")
+  
+  #relleno ISIN
+  for(i in 1:ncol(Tabla)){
+    Tabla[1,i]=as.character(C$Sicet[which(names(Tabla)[i]==C$Nombre)])
+  }
+  
+  #relleno fecha Liquidación
+  for(i in 1:ncol(Tabla)){
+    Tabla[2,i]=fv
+  }
+  
+  #relleno fecha Emision
+  for(i in 1:ncol(Tabla)){
+    Tabla[3,i]=as.character(C$F.Emision[which(names(Tabla)[i]==C$Nombre)])
+  }
+  
+  #relleno fecha Vencimiento
+  for(i in 1:ncol(Tabla)){
+    Tabla[4,i]=as.character(C$F.Vencimiento[which(names(Tabla)[i]==C$Nombre)])
+  }
+  
+  #relleno cupón
+  for(i in 1:ncol(Tabla)){
+    Tabla[5,i]=C$Cupon[which(names(Tabla)[i]==C$Nombre)]/100
+  }
+  
+  #relleno fecha ultimo pago
+  for(i in 1:ncol(Tabla)){
+    Tabla[7,i]=as.character(C$`Pago cupon 1`[which(names(Tabla)[i]==C$Nombre)])
+  }
+  
+  #relleno proximo pago
+  for(i in 1:ncol(Tabla)){
+    Tabla[8,i]=as.character(C$`Pago cupon 2`[which(names(Tabla)[i]==C$Nombre)])
+  }
+  
+  #añado precios promedios
+  Tabla[6,]=pr
+  
+  #rendimiento
+  for(i in 1:ncol(Tabla)){
+    Tabla[9,i]=bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
+  }
+  
+  #duracion
+  for(i in 1:ncol(Tabla)){
+    Tabla[10,i]=bond.duration(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[9,i])),convention = c("ACT/360"),4)
+  }
+  
+  #añado inverso duracion
+  Tabla[11,]=1/(as.numeric(gsub("[,]",".",Tabla[10,])))
+  
+  #añado ponderacion
+  for(i in 1:ncol(Tabla)){
+    Tabla[12,i]=(as.numeric(gsub("[,]",".",Tabla[11,i])))/sum((as.numeric(gsub("[,]",".",Tabla[11,]))))
+  }
+  
+  #relleno precios
+  Tabla[13,]=Pr
+  
+  #relleno residuos al cuadrado
+  
+  for(i in 1:ncol(Tabla)){
+    Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
+  }
+  
+  #SRC
+  print("EL SRC es")
+  print(sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
+  
+  
   #retorno precios
-  Pr <- cbind.data.frame("Titulos"=tit,"Precio"=Pr)
-  return(Pr)
+  Pre <- cbind.data.frame("Titulos"=tit,"Precio"=Pr)
+  
+  #creo lista
+  Pre1 <- list(Tabla,Pre)
+  
+  return(Pre1)
   
 }#final funcion precios estimados
 
+#esta funcion me retorna una lista de dos elementos
+#1: Tabla de resultados
+#2: precios calculados
 
 ################################
 ########## SPLINES #############

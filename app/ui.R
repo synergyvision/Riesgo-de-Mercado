@@ -37,6 +37,9 @@ shinyUI(
                        
                           ),#fin menuitem 
                 
+                            menuItem("Comparativo", icon = icon("circle-o"), tabName = "comparativo"),
+                
+                
                             menuItem("Acerca", icon = icon("exclamation-circle"), tabName = "acerca"))
                   
                 ), #final dashboardsidebar
@@ -402,7 +405,7 @@ shinyUI(
                                                     h2(" Curva spline Tif"),
                                                     rbokehOutput("c_tif_splines_dl"),
                                                     h2(" Precios estimados"),
-                                                    verbatimTextOutput("p_est_dl_tif"),
+                                                    dataTableOutput("p_est_dl_tif"),
                                                     h2(" Curva de Rendimientos"),
                                                     plotlyOutput("curva_tif_dl")
                                                     
@@ -434,7 +437,7 @@ shinyUI(
                                                     h2(" Curva spline Vebonos"),
                                                     rbokehOutput("c_veb_splines_dl"),
                                                     h2(" Precios estimados"),
-                                                    verbatimTextOutput("p_est_dl_veb"),
+                                                    dataTableOutput("p_est_dl_veb"),
                                                     h2(" Curva de Rendimientos"),
                                                     plotlyOutput("curva_veb_dl")
                                                     
@@ -538,6 +541,86 @@ shinyUI(
                     )#final fluidrow
                     
                     ),#final tabitem
+              #COMPARATIVO
+              tabItem(tabName = "comparativo",
+                      h2(" Comparativo"),
+                      fluidRow(column(width = 6,box( width = 12, background = "navy",
+                                                     dateInput(inputId="n5", label="Por favor, seleccionar una fecha", language= "es",
+                                                               width = "100%")#final dateimput 
+                      )#final box
+                      ),#final column
+                      box( width = 6,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p5')) #final box
+                      ),#final fluidrow
+                      h2("  Títulos"), h5("  Favor seleccionar los títulos a considerar: "),
+                      fluidRow(
+                        tabBox(width = 12, title = "Títulos", id = "tab5", height = "50px", 
+                                      tabPanel("TIF",fluidRow(column(width = 3,checkboxGroupInput( inputId = "t1_comp", label = " ",
+                                                                                                   choices=tit[1:7])#final checkboximput
+                                      ),#final column
+                                      column(width = 3,checkboxGroupInput( inputId = "t2_comp", label = " ",
+                                                                           choices=tit[8:13])#final checkboximput
+                                      ),#final column
+                                      column(width = 3,checkboxGroupInput( inputId = "t3_comp",label = " ", 
+                                                                           choices=tit[14:19])#final checkboximput
+                                      ),#final column
+                                      column(width = 3,checkboxGroupInput( inputId = "t4_comp", label = " ",
+                                                                           choices=tit[20:25])#final checkboximput
+                                      )#final column
+                                      ),#final fluidrow 
+                                      verbatimTextOutput("q1_comp"),
+                                      h2(" Características"),dataTableOutput("Ca_comp"),
+                                      h2(" Metodologías"),
+                                      fluidRow(tabBox(width = 12, title = " ", id = "tab5", height = "50px", 
+                                             tabPanel("Nelson y siegel"
+                                             ),#final tabpanel Nelson y siegel
+                                             
+                                             tabPanel("Svensson"
+                                             ),#final tabpanel Svensson 
+                                             tabPanel("Diebold Li"
+                                             ),#final tabpanel Diebold li 
+                                             tabPanel("Splines"
+                                             )#final tabpanel Splines 
+                                      )#final tabbox
+                                      )#final fluidrow
+                                      ),#final tabpanel tif
+                      
+                      tabPanel("VEBONO",fluidRow(
+                        column(width = 3,checkboxGroupInput(inputId = "v1_comp", label = " ",
+                                                            choices=tit1[1:8])#final checkboxgroupimput
+                        ),#final column
+                        column(width = 3,checkboxGroupInput( inputId = "v2_comp", label = " ",
+                                                             choices=tit1[9:16])#final checkboxgroupimput
+                        ),#final column
+                        column(width = 3,checkboxGroupInput( inputId = "v3_comp",label = " ",
+                                                             choices=tit1[17:24])#final checkboxgroupimput
+                        ),#final column
+                        column(width = 3,checkboxGroupInput( inputId = "v4_comp", label = " ",
+                                                             choices=tit1[25:29])#final checkboxgroupimput
+                        )#final column
+                      ),#final fluidrow
+                      verbatimTextOutput("q2_comp"),
+                      h2(" Características"),dataTableOutput("Ca1_comp"),
+                      h2(" Metodologías"),
+                      fluidRow(tabBox(width = 12, title = " ", id = "tab5", height = "50px", 
+                             tabPanel("Nelson y siegel"
+                             ),#final tabpanel tif
+                             tabPanel("Svensson"
+                             ),#final tabpanel Svensson 
+                             tabPanel("Diebold Li"
+                             ),#final tabpanel Diebold li 
+                             tabPanel("Splines"
+                             )#final tabpanel Splines 
+                      )#final tabbox
+                      )#final fluid row
+                      )#tabpanel veb
+                    )#final tabbox
+                   
+                  )#final fluidrow
+                      
+                      
+                      
+              ),#final tabitem
+              
               #ACERCA
                        tabItem(tabName = "acerca",
                               box( width = 9, status="warning",

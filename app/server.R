@@ -9,17 +9,24 @@ shinyServer(function(input, output) {
   output$p3<-renderPrint({paste(substr(input$n3,9,10),substr(input$n3,6,7),substr(input$n3,1,4),sep = "/")})
   #Splines
   output$p4<-renderPrint({paste(substr(input$n4,9,10),substr(input$n4,6,7),substr(input$n4,1,4),sep = "/")})
+  #Comparativo
+  output$p5<-renderPrint({paste(substr(input$n5,9,10),substr(input$n5,6,7),substr(input$n5,1,4),sep = "/")})
+  
   #titulos
   #tif
   output$q1<-renderPrint({c(input$t1,input$t2,input$t3,input$t4)})
   output$q1_ns<-renderPrint({c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns)})
   output$q1_dl <- renderPrint({c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl)})
   output$q1_sp <- renderPrint({c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp)})
+  output$q1_comp <- renderPrint({c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp)})
+  
   #vebonos
   output$q2<-renderPrint({c(input$v1,input$v2,input$v3,input$v4)})
   output$q2_ns<-renderPrint({c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns)})
   output$q2_dl<-renderPrint({c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl)})
   output$q2_sp<-renderPrint({c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp)})
+  output$q2_comp<-renderPrint({c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp)})
+  
   #precios
   tf <- reactive({pos(c(input$t1,input$t2,input$t3,input$t4),0)})
   tf_ns <- reactive({pos(c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),0)})
@@ -115,14 +122,16 @@ shinyServer(function(input, output) {
   
   
   #muestro caracteristicas
-  output$Ca <- renderDataTable({head(C)})
-  output$Ca_ns <- renderDataTable({head(C)})
-  output$Ca_dl <- renderDataTable({head(C)})
-  output$Ca_sp <- renderDataTable({head(C)})
-  output$Ca1 <- renderDataTable({head(C)})
-  output$Ca1_ns <- renderDataTable({head(C)})
-  output$Ca1_dl <- renderDataTable({head(C)})
-  output$Ca1_sp <- renderDataTable({head(C)})
+  output$Ca <- renderDataTable({C})
+  output$Ca_ns <- renderDataTable({C})
+  output$Ca_dl <- renderDataTable({C})
+  output$Ca_sp <- renderDataTable({C})
+  output$Ca1 <- renderDataTable({C})
+  output$Ca1_ns <- renderDataTable({C})
+  output$Ca1_dl <- renderDataTable({C})
+  output$Ca1_sp <- renderDataTable({C})
+  output$Ca_comp <- renderDataTable({C})
+  output$Ca1_comp <- renderDataTable({C})
   
   #precios estimados iniciales
   output$p_est_tif <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = pa_sven,ind = 0,C = C,fe2=0,fe3=0)[[1]] })
@@ -154,7 +163,7 @@ shinyServer(function(input, output) {
   
   output$spline_tif <- renderPrint({dl_spline_tif()})
   
-  output$p_est_dl_tif <- renderPrint({precio.dl(tit = c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),fv = input$n3 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_tif())})
+  output$p_est_dl_tif <- renderDataTable({precio.dl(tit = c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),fv = input$n3 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_tif(),pr=tf_dl())[[1]]})
   
   #Vebonos
   output$spar_veb_dl <- renderPrint({input$parametro_veb_dl})
@@ -163,7 +172,7 @@ shinyServer(function(input, output) {
   
   output$spline_veb <- renderPrint({dl_spline_veb()})
   
-  output$p_est_dl_veb <- renderPrint({precio.dl(tit = c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),fv = input$n3 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_veb())})
+  output$p_est_dl_veb <- renderDataTable({precio.dl(tit = c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),fv = input$n3 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_veb(),pr=tv_dl())[[1]]})
   
   
   #grafico 
