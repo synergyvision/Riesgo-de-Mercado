@@ -1066,6 +1066,22 @@ shinyServer(function(input, output) {
   
   #output$datos <- renderPrint({pto_sp_tif()})
   
+  #COMPARATIVO DE PRECIOS
+  precios_veb <- reactive({
+    #ojo con los dos primeros
+    a <-   Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_ns_comp,fe3=0)[[3]]
+    b <-   Tabla.sven(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_sven_comp,fe3=0)[[3]]
+    #
+    c <-   precio.dl(tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),fv = input$n5 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_veb_comp(),pr=tv_comp())[[2]]
+    d <-   Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[1]]
+    
+    e <- cbind.data.frame(a,b[,2],c[,2],d[,2])
+    
+    return(e)
+    
+  })
+  
+  output$comparativo_precios_veb <- renderDataTable({precios_veb()})
   
   
   # Almacenar Variables Reactivas

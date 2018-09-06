@@ -883,7 +883,8 @@ shinyUI(
               ),#final tabitem
               
               tabItem(tabName = "precios",
-                      h2("Comparativo de precios")
+                      h2("Comparativo de precios"),
+                      dataTableOutput("comparativo_precios_veb")
                       
                       ),#final tabitem
               

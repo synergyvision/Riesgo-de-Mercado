@@ -1228,6 +1228,12 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
   
 }#Final funcion 
 
+#funcion que me retorna una lista de 3 elementos
+#1: tabla de resultados
+#2: parametros
+#3: precios calculados
+
+
 ################################
 ####### DIEBOLD-LI #############
 ################################
