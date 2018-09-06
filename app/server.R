@@ -262,6 +262,16 @@ shinyServer(function(input, output) {
   
   output$p_est_dl_tif <- renderDataTable({precio.dl(tit = c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),fv = input$n3 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_tif(),pr=tf_dl())[[1]]})
   
+  #comparativo
+  output$spar_tif_dl_comp <- renderPrint({input$parametro_tif_dl_comp})
+  
+  dl_spline_tif_comp <- reactive({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num =40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[4]] })
+  
+  output$spline_tif_comp <- renderPrint({dl_spline_tif_comp()})
+  
+  output$p_est_dl_tif_comp <- renderDataTable({precio.dl(tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),fv = input$n5 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_tif_comp(),pr=tf_comp())[[1]]})
+  
+  
   #Vebonos
   output$spar_veb_dl <- renderPrint({input$parametro_veb_dl})
   
@@ -270,6 +280,15 @@ shinyServer(function(input, output) {
   output$spline_veb <- renderPrint({dl_spline_veb()})
   
   output$p_est_dl_veb <- renderDataTable({precio.dl(tit = c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),fv = input$n3 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_veb(),pr=tv_dl())[[1]]})
+  
+  #Comparativo
+  output$spar_veb_dl_comp <- renderPrint({input$parametro_veb_dl_comp})
+  
+  dl_spline_veb_comp <- reactive({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num =40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[4]] })
+  
+  output$spline_veb_comp <- renderPrint({dl_spline_veb_comp()})
+  
+  output$p_est_dl_veb_comp <- renderDataTable({precio.dl(tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),fv = input$n5 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_veb_comp(),pr=tv_comp())[[1]]})
   
   
   #grafico 
@@ -282,6 +301,15 @@ shinyServer(function(input, output) {
     return(a)
   })
   
+  #comparativo
+  pto_sp_tif_dl_comp <- reactive({
+    a <- Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num = 40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[2]]
+    # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
+    # names(a1) <- c("Plazo","Rendimiento")
+    return(a)
+  })
+  
+  
   #veb
   pto_sp_veb_dl <- reactive({
     a <- Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n3,num = 40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),C_splines,pr=tv_dl())[[2]]
@@ -289,6 +317,15 @@ shinyServer(function(input, output) {
     # names(a1) <- c("Plazo","Rendimiento")
     return(a)
   })
+  
+  #comparativo
+  pto_sp_veb_dl_comp <- reactive({
+    a <- Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num = 40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[2]]
+    # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
+    # names(a1) <- c("Plazo","Rendimiento")
+    return(a)
+  })
+  
   
   #Splines para Diebold-Li
   #tif
@@ -303,12 +340,36 @@ shinyServer(function(input, output) {
     
   })
   
+  #comparativo
+  output$c_tif_splines_dl_comp <- renderRbokeh({
+    y <-predict(Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num = 40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[4]],seq(1,20,0.1)*365)$y
+    
+    figure(width = 1000,height = 400) %>%
+      ly_points(pto_sp_tif_dl_comp()[,4],pto_sp_tif_dl_comp()[,7],pto_sp_tif_dl_comp(),hover=list("Nombre"=pto_sp_tif_dl_comp()[,1],"Fecha de operación"=pto_sp_tif_dl_comp()[,2])) %>%
+      ly_points(x=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2],color="green",hover=list("Plazo"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2]),size=4) %>%
+      # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
+      x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
+    
+  })
+  
   #vebonos
   output$c_veb_splines_dl <- renderRbokeh({
     y <-predict(Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n3,num = 40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),C_splines,pr=tv_dl())[[4]],seq(1,20,0.1)*365)$y
     
     figure(width = 1000,height = 400) %>%
       ly_points(pto_sp_veb_dl()[,4],pto_sp_veb_dl()[,7],pto_sp_veb_dl(),hover=list("Nombre"=pto_sp_veb_dl()[,1],"Fecha de operación"=pto_sp_veb_dl()[,2])) %>%
+      ly_points(x=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2],color="brown",hover=list("Plazo"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2]),size=4) %>%
+      # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
+      x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
+    
+  })
+  
+  #comparativo
+  output$c_veb_splines_dl_comp <- renderRbokeh({
+    y <-predict(Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num = 40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[4]],seq(1,20,0.1)*365)$y
+    
+    figure(width = 1000,height = 400) %>%
+      ly_points(pto_sp_veb_dl_comp()[,4],pto_sp_veb_dl_comp()[,7],pto_sp_veb_dl_comp(),hover=list("Nombre"=pto_sp_veb_dl_comp()[,1],"Fecha de operación"=pto_sp_veb_dl_comp()[,2])) %>%
       ly_points(x=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2],color="brown",hover=list("Plazo"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2]),size=4) %>%
       # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
       x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
@@ -382,6 +443,72 @@ shinyServer(function(input, output) {
     
     })
   
+  #comparativo
+  output$curva_tif_dl_comp <- renderPlotly({ 
+    #defino eje maduracion
+    X1 <- seq(0.1,20,0.1)
+    
+    #defino tiempos
+    Y1 <- seq(1,50,1)
+    
+    #
+    var_par <- as.data.frame(matrix(0,length(Y1),4))
+    
+    #guardo parametros segun cada tiempo
+    for(i in 1:length(Y1)){
+      #var_par[i,] <- par_dl(t[i],spline1,pa=c(1,1,1,1))
+      var_par[i,] <- par_dl(Y1,dl_spline_tif_comp(),pa=c(1,1,1,1))
+      
+    }
+    
+    #calculo nuevos rendimientos a partir de los nuevos parametros
+    new_rend <- as.data.frame(matrix(0,length(X1),length(Y1)))
+    
+    
+    for(i in 1:length(Y1)){
+      
+      new_rend[,i] <- diebold_li(as.numeric(var_par[i,]),X1)
+      #new_rend[,i] <- nelson_siegel(as.numeric(var_par[i,]),X)
+    }
+    
+    Z1 <- as.matrix(new_rend*100)
+    row.names(Z1) <- X1
+    colnames(Z1) <- Y1
+    
+    #defino configuracion de los ejes
+    # Create lists for axis properties
+    # f1 <- list(
+    #   family = "Arial, sans-serif",
+    #   size = 18,
+    #   color = "blue")
+    # 
+    # f2 <- list(
+    #   family = "Old Standard TT, serif",
+    #   size = 14,
+    #   color = "green")
+    # 
+    # axis <- list(
+    #   titlefont = f1,
+    #   tickfont = f2
+    #   #showgrid = F
+    # )
+    
+    scene = list(
+      xaxis = list(domain = c(0, 50),
+                   title = "Tiempo"),
+      yaxis = list(domain = c(0, 200),
+                   title = "Maduración (años)"),
+      zaxis = list(domain = c(0, 0.12),
+                   title = "Rendimiento (%)"),
+      camera = list(eye = list(x = -1.25, y = 1.25, z = 1.25))
+    )
+    
+    
+    plot_ly(z = Z1,  type = "surface") %>%
+      layout(title = "Curva de Rendimientos metodología Diebold-Li",scene = scene)
+    
+  })
+  
   #vebonos
   output$curva_veb_dl <- renderPlotly({ 
     #defino eje maduracion
@@ -397,6 +524,72 @@ shinyServer(function(input, output) {
     for(i in 1:length(Y1)){
       #var_par[i,] <- par_dl(t[i],spline1,pa=c(1,1,1,1))
       var_par[i,] <- par_dl(Y1,dl_spline_veb(),pa=c(1,1,1,1))
+      
+    }
+    
+    #calculo nuevos rendimientos a partir de los nuevos parametros
+    new_rend <- as.data.frame(matrix(0,length(X1),length(Y1)))
+    
+    
+    for(i in 1:length(Y1)){
+      
+      new_rend[,i] <- diebold_li(as.numeric(var_par[i,]),X1)
+      #new_rend[,i] <- nelson_siegel(as.numeric(var_par[i,]),X)
+    }
+    
+    Z1 <- as.matrix(new_rend*100)
+    row.names(Z1) <- X1
+    colnames(Z1) <- Y1
+    
+    #defino configuracion de los ejes
+    # Create lists for axis properties
+    # f1 <- list(
+    #   family = "Arial, sans-serif",
+    #   size = 18,
+    #   color = "blue")
+    # 
+    # f2 <- list(
+    #   family = "Old Standard TT, serif",
+    #   size = 14,
+    #   color = "green")
+    # 
+    # axis <- list(
+    #   titlefont = f1,
+    #   tickfont = f2
+    #   #showgrid = F
+    # )
+    
+    scene = list(
+      xaxis = list(domain = c(0, 50),
+                   title = "Tiempo"),
+      yaxis = list(domain = c(0, 200),
+                   title = "Maduración (años)"),
+      zaxis = list(domain = c(0, 0.12),
+                   title = "Rendimiento (%)"),
+      camera = list(eye = list(x = -1.25, y = 1.25, z = 1.25))
+    )
+    
+    
+    plot_ly(z = Z1,  type = "surface") %>%
+      layout(title = "Curva de Rendimientos metodología Diebold-Li",scene = scene)
+    
+  })
+  
+  #Comparativo
+  output$curva_veb_dl_comp <- renderPlotly({ 
+    #defino eje maduracion
+    X1 <- seq(0.1,20,0.1)
+    
+    #defino tiempos
+    Y1 <- seq(1,50,1)
+    
+    #
+    var_par <- as.data.frame(matrix(0,length(Y1),4))
+    
+    #guardo parametros segun cada tiempo
+    for(i in 1:length(Y1)){
+      #var_par[i,] <- par_dl(t[i],spline1,pa=c(1,1,1,1))
+      var_par[i,] <- par_dl(Y1,dl_spline_veb_comp(),pa=c(1,1,1,1))
       
     }
     
@@ -701,15 +894,32 @@ shinyServer(function(input, output) {
   output$dias_tif <- renderPrint({input$d_tif})
   output$spar_tif <- renderPrint({input$parametro_tif})
   
+  #comparativo
+  output$dias_tif_comp <- renderPrint({input$d_tif_comp})
+  output$spar_tif_comp <- renderPrint({input$parametro_tif_comp})
+  
   #veb
   output$dias_veb <- renderPrint({input$d_veb})
   output$spar_veb <- renderPrint({input$parametro_veb})
+  
+  #comparativo
+  output$dias_veb_comp <- renderPrint({input$d_veb_comp})
+  output$spar_veb_comp <- renderPrint({input$parametro_veb_comp})
   
   
   #precios
   output$pre_sp_tif <- renderDataTable({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[5]] })
   #output$pre_sp <- renderPrint({precio_diario_sp(fe=input$n4,num=input$d_tif,par =input$parametro_tif ,datatif =datatif ,tit =tf_sp() ,C=C_splines,letra=c(97,1.34)) })
   output$pre_sp_veb <- renderDataTable({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[5]] })
+  
+  #comparativo
+  #tif
+  output$pre_sp_tif_comp <- renderDataTable({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num = input$d_tif_comp,par = input$parametro_tif_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[5]] })
+
+  #veb
+  output$pre_sp_veb_comp <- renderDataTable({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[5]] })
+  
+  
   
   #curva de rendimiento
   #tif
@@ -734,6 +944,28 @@ shinyServer(function(input, output) {
   
   })
 
+  #comparativo
+  output$c_tif_splines_comp <- renderRbokeh({
+    y <-predict(Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num = input$d_tif_comp,par = input$parametro_tif_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[4]],seq(1,20,0.1)*365)$y
+    # f <- ggplot(cbind.data.frame(x=seq(1,20,0.1)*365,y),aes(x=x,y=y))+
+    #   geom_line(color="black")+
+    #   geom_point(data = pto_sp_tif(),aes(x=pto_sp_tif()[,1],y=pto_sp_tif()[,2]),color="blue",size=3)+
+    #   xlab("Maduración (días)")+
+    #   ylab("Rendimiento (%)")+theme_gray()+
+    #   ggtitle("Curva de redimientos Splines TIF ")+
+    #   theme(plot.title = element_text(hjust = 0.5))
+    #   
+    # 
+    # ggplotly(f) 
+    
+    figure(width = 1000,height = 400) %>%
+      ly_points(pto_sp_tif_comp()[,4],pto_sp_tif_comp()[,7],pto_sp_tif_comp(),hover=list("Nombre"=pto_sp_tif_comp()[,1],"Fecha de operación"=pto_sp_tif_comp()[,2])) %>%
+      ly_points(x=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2],color="blue",hover=list("Plazo"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2]),size=4) %>%
+      # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
+      x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
+    
+  })
+  
   #veb
   output$c_veb_splines <- renderRbokeh({
     y <-predict(Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[4]],seq(1,20,0.1)*365)$y
@@ -758,12 +990,44 @@ shinyServer(function(input, output) {
     
   })
   
+  #comparativo
+  output$c_veb_splines_comp <- renderRbokeh({
+    y <-predict(Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[4]],seq(1,20,0.1)*365)$y
+    # f <- ggplot(cbind.data.frame(x=seq(1,20,0.1)*365,y),aes(x=x,y=y))+
+    #   geom_line(color="black")+
+    #   geom_point(data = pto_sp_veb(),aes(x=pto_sp_veb()[,1],y=pto_sp_veb()[,2]),color="blue",size=3)+
+    #   xlab("Maduración (días)")+
+    #   ylab("Rendimiento (%)")+theme_gray()+
+    #   ggtitle("Curva de redimientos Splines VEBONO ")+
+    #   theme(plot.title = element_text(hjust = 0.5))
+    # 
+    # 
+    # ggplotly(f) 
+    # %>%
+    #   add_markers(text= ~  pto_sp_tif()[,1],hoverinfo = "text")
+    figure(width = 1000,height = 400) %>%
+      ly_points(pto_sp_veb_comp()[,4],pto_sp_veb_comp()[,7],pto_sp_veb_comp(),hover=list("Nombre"=pto_sp_veb_comp()[,1],"Fecha de operación"=pto_sp_veb_comp()[,2])) %>%
+      ly_points(x=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2],color="blue",hover=list("Plazo"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2]),size=4) %>%
+      # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
+      x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
+    
+    
+  })
+  
   #titulos candidatos
   #tif
   output$tit_cand_tif <- renderDataTable({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]] })
   
+  #comparativo
+  output$tit_cand_tif_comp <- renderDataTable({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num = input$d_tif_comp,par = input$parametro_tif_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[2]] })
+  
+  
   #veb
   output$tit_cand_veb <- renderDataTable({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[2]] })
+  
+  #comparativo
+  output$tit_cand_veb_comp <- renderDataTable({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[2]] })
+  
   
   
   #extraigo puntos con los q se hace la curva
@@ -775,6 +1039,14 @@ shinyServer(function(input, output) {
     return(a)
     })
   
+  #comparativo
+  pto_sp_tif_comp <- reactive({
+    a <- Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num = input$d_tif_comp,par = input$parametro_tif_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[2]]
+    # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
+    # names(a1) <- c("Plazo","Rendimiento")
+    return(a)
+  })
+  
   #veb
   pto_sp_veb <- reactive({
     a <- Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[2]]
@@ -782,6 +1054,15 @@ shinyServer(function(input, output) {
     # names(a1) <- c("Plazo","Rendimiento")
     return(a)
   })
+  
+  #comparativo
+  pto_sp_veb_comp <- reactive({
+    a <- Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[2]]
+    # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
+    # names(a1) <- c("Plazo","Rendimiento")
+    return(a)
+  })
+  
   
   #output$datos <- renderPrint({pto_sp_tif()})
   

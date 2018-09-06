@@ -37,8 +37,15 @@ shinyUI(
                        
                           ),#fin menuitem 
                 
-                            menuItem("Comparativo", icon = icon("circle-o"), tabName = "comparativo"),
-                
+                            #menuItem("Comparativo", icon = icon("circle-o"), tabName = "comparativo"),
+                menuItem("Comparativo", icon = icon("bar-chart-o"), 
+                            menuSubItem("Metodologías", tabName = "metodologias", icon = icon("circle-o")),
+                         
+                            menuSubItem("Precios estimados", tabName = "precios", icon = icon("circle-o")),
+                         
+                            menuSubItem("Curvas", tabName = "curvas", icon = icon("circle-o"))
+                         
+                          ),#fin menuitem 
                 
                             menuItem("Acerca", icon = icon("exclamation-circle"), tabName = "acerca"))
                   
@@ -541,9 +548,13 @@ shinyUI(
                     )#final fluidrow
                     
                     ),#final tabitem
+           
+              
               #COMPARATIVO
-              tabItem(tabName = "comparativo",
-                      h2(" Comparativo"),
+             
+                tabItem(tabName = "metodologias",
+                      fluidRow(
+                       h2(" Comparativo"),
                       fluidRow(column(width = 6,box( width = 12, background = "navy",
                                                      dateInput(inputId="n5", label="Por favor, seleccionar una fecha", language= "es",
                                                                width = "100%")#final dateimput 
@@ -669,9 +680,40 @@ shinyUI(
                                                       )#final fluid row
                                                       
                                              ),#final tabpanel Svensson 
-                                             tabPanel("Diebold Li"
+                                             tabPanel("Diebold Li",
+                                                      h2(" Parámetro de suavizamiento"),
+                                                      numericInput( inputId = "parametro_tif_dl_comp", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
+                                                      verbatimTextOutput("spar_tif_dl_comp"),
+                                                      h2(" Spline a usar"),
+                                                      verbatimTextOutput("spline_tif_comp"),
+                                                      h2(" Curva spline Tif"),
+                                                      rbokehOutput("c_tif_splines_dl_comp"),
+                                                      h2(" Precios estimados"),
+                                                      dataTableOutput("p_est_dl_tif_comp"),
+                                                      h2(" Curva de Rendimientos"),
+                                                      plotlyOutput("curva_tif_dl_comp")
+                                                      
                                              ),#final tabpanel Diebold li 
-                                             tabPanel("Splines"
+                                             tabPanel("Splines",
+                                                      h3(" Por favor seleccionar el cantidad de días "),
+                                                      box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
+                                                          collapse= TRUE,"Recuerde que esta es la cantidad de días a considerar hacia atras en el tiempo
+                                                          con el fin de generar la data con la que se trabajará, por ejemplo si se elige 30 la data 
+                                                          a considerar serán las observaciones comprendidas entre la fecha de valoración y 
+                                                          la fecha resultante luego de restarle 30 días a la fecha de valoración" 
+                                                      ),#final box
+                                                      numericInput( inputId = "d_tif_comp", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
+                                                      verbatimTextOutput("dias_tif_comp"),
+                                                      h2(" Títulos candidatos"),dataTableOutput("tit_cand_tif_comp"),
+                                                      h3(" Por favor ingresar el parámetro de suavizamiento "),
+                                                      box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
+                                                          collapse= TRUE,"Recuerde que este valor corresponde al grado de suavidad que tendrá la curva de rendimientos resultante" 
+                                                      ),#final box
+                                                      numericInput( inputId = "parametro_tif_comp", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
+                                                      verbatimTextOutput("spar_tif_comp"),
+                                                      h2(" Precios Splines"),dataTableOutput("pre_sp_tif_comp"),
+                                                      h2(" Curva de rendimientos TIF"),
+                                                      rbokehOutput("c_tif_splines_comp")#verbatimTextOutput("datos")
                                              )#final tabpanel Splines 
                                       )#final tabbox
                                       )#final fluidrow
@@ -793,20 +835,63 @@ shinyUI(
                                         )#final tabbox
                                       )#final fluid row
                              ),#final tabpanel Svensson 
-                             tabPanel("Diebold Li"
+                             tabPanel("Diebold Li",
+                                      h2(" Parámetro de suavizamiento"),
+                                      numericInput( inputId = "parametro_veb_dl_comp", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
+                                      verbatimTextOutput("spar_veb_dl_comp"),
+                                      h2(" Spline a usar"),
+                                      verbatimTextOutput("spline_veb_comp"),
+                                      h2(" Curva spline Tif"),
+                                      rbokehOutput("c_veb_splines_dl_comp"),
+                                      h2(" Precios estimados"),
+                                      dataTableOutput("p_est_dl_veb_comp"),
+                                      h2(" Curva de Rendimientos"),
+                                      plotlyOutput("curva_veb_dl_comp")
                              ),#final tabpanel Diebold li 
-                             tabPanel("Splines"
+                             tabPanel("Splines",
+                                      h3(" Por favor seleccionar el cantidad de días "),
+                                      box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
+                                          collapse= TRUE,"Recuerde que esta es la cantidad de días a considerar hacia atras en el tiempo
+                                          con el fin de generar la data con la que se trabajará, por ejemplo si se elige 30 la data 
+                                          a considerar serán las observaciones comprendidas entre la fecha de valoración y 
+                                          la fecha resultante luego de restarle 30 días a la fecha de valoración" 
+                                      ),#final box
+                                      numericInput( inputId = "d_veb_comp", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
+                                      verbatimTextOutput("dias_veb_comp"),
+                                      h2(" Títulos candidatos"),dataTableOutput("tit_cand_veb_comp"),
+                                      h3(" Por favor ingresar el parámetro de suavizamiento "),
+                                      box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
+                                          collapse= TRUE,"Recuerde que este valor corresponde al grado de suavidad que tendrá la curva de rendimientos resultante" 
+                                      ),#final box
+                                      numericInput( inputId = "parametro_veb_comp", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
+                                      verbatimTextOutput("spar_veb_comp"),
+                                      h2(" Precios Splines"),dataTableOutput("pre_sp_veb_comp"),
+                                      h2(" Curva de rendimientos VEBONOS"),
+                                      rbokehOutput("c_veb_splines_comp")#verbatimTextOutput("datos")
                              )#final tabpanel Splines 
                       )#final tabbox
                       )#final fluid row
                       )#tabpanel veb
-                    )#final tabbox
-                   
-                  )#final fluidrow
+                    )#final tabbox tif y vebonos
+                    
+                  )#final fluidrow que engloba panel tif y veb
+                  #  h2(" Comparativo de precios"),
+                  # verbatimTextOutput("datos"),
+                  #  h2(" Curva de rendimientos comparativa")
                       
+              )#final fluid row  
+              ),#final tabitem
+              
+              tabItem(tabName = "precios",
+                      h2("Comparativo de precios")
                       
+                      ),#final tabitem
+              
+              tabItem(tabName = "curvas",
+                      h2("Comparativo de curvas")
                       
               ),#final tabitem
+              
               
               #ACERCA
                        tabItem(tabName = "acerca",
