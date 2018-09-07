@@ -394,7 +394,7 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     }
     
     #creo vector de precios para exportar
-    precios <- cbind.data.frame(tit,precio.sven(tit,fv,C,pa))
+    precios <- cbind.data.frame(c(tit,"SRC"),c(precio.sven(tit,fv,C,pa),sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
     names(precios) <- c("Títulos","Precios")
     
     #if para exportar resultados
@@ -593,7 +593,7 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     }
     
     #creo vector de precios para exportar
-    precios <- cbind.data.frame(tit,precio.sven(tit,fv,C,pa))
+    precios <- cbind.data.frame(c(tit,"SRC"),c(precio.sven(tit,fv,C,pa),sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
     names(precios) <- c("Títulos","Precios")
     
     
@@ -615,7 +615,7 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
 #Exporta una lista de tres elementos
 #1: Tabla de resultados
 #2: Parámetros optimizados
-#3: Precios calculados
+#3: precios calculados, la ultima fila me trae el valor del SRC
 
 ################################
 ###### NELSON Y SIEGEL #########
@@ -1009,7 +1009,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     }
     
     #creo vector de precios para exportar
-    precios <- cbind.data.frame(tit,precio.ns(tit,fv,C,pa))
+    precios <- cbind.data.frame(c(tit,"SRC"),c(precio.ns(tit,fv,C,pa),sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
     names(precios) <- c("Títulos","Precios")
     
     
@@ -1210,7 +1210,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     }
     
     #creo vector de precios para exportar
-    precios <- cbind.data.frame(tit,precio.ns(tit,fv,C,pa))
+    precios <- cbind.data.frame(c(tit,"SRC"),c(precio.ns(tit,fv,C,pa),sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
     names(precios) <- c("Títulos","Precios")
     
     #if para exportar resultados
@@ -1231,7 +1231,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
 #funcion que me retorna una lista de 3 elementos
 #1: tabla de resultados
 #2: parametros
-#3: precios calculados
+#3: precios calculados, la ultima fila me trae el valor del SRC
 
 
 ################################
@@ -1533,7 +1533,7 @@ precio.dl=function(tit,fv,C,pa,spline1,pr){
   
   
   #retorno precios
-  Pre <- cbind.data.frame("Titulos"=tit,"Precio"=Pr)
+  Pre <- cbind.data.frame("Titulos"=c(tit,"SRC"),"Precio"=c(Pr,sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
   
   #creo lista
   Pre1 <- list(Tabla,Pre)
@@ -1544,7 +1544,7 @@ precio.dl=function(tit,fv,C,pa,spline1,pr){
 
 #esta funcion me retorna una lista de dos elementos
 #1: Tabla de resultados
-#2: precios calculados
+#2: precios calculados, la ultima fila trae el valor del SRC
 
 ################################
 ########## SPLINES #############
@@ -1915,6 +1915,8 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C,pr){
     print("EL SRC es")
     print(sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
     
+    Pr_tit_tif <- rbind.data.frame(Pr_tit_tif,sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
+    #rownames(Pr_tit_tif)[length(Pr_tit_tif[,1])] <- "SRC"
     
     res_tif <- list(Pr_tit_tif,candidatos[,c(2,3,6,7,12,13,15,17,18)],letra,spline1,Tabla) 
     
@@ -2023,6 +2025,9 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C,pr){
     #SRC
     print("EL SRC es")
     print(sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
+    
+    Pr_tit_veb <- rbind.data.frame(Pr_tit_veb,sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
+    #rownames(Pr_tit_veb)[length(Pr_tit_veb[,1])] <- "SRC"
     
     res_veb <- list(Pr_tit_veb,candidatos[,c(2,3,6,7,12,13,15,17,18)],letra,spline1,Tabla) 
     

@@ -1067,17 +1067,50 @@ shinyServer(function(input, output) {
   #output$datos <- renderPrint({pto_sp_tif()})
   
   #COMPARATIVO DE PRECIOS
+  #tif
+  gra_tif_ns_comp_i <- reactive({Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=1,fe3=0)[[2]] })
+  
+  gra_tif_sven_comp_i <- reactive({Tabla.sven(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(1,1,1,1,1,1),ind = 0,C = C,fe2=1,fe3=0)[[2]] })
+  
+  
+  precios_tif <- reactive({
+    #ojo con los dos primeros
+    a <-   Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = gra_tif_ns_comp_i(),ind = 0,C = C,fe2=0,fe3=0)[[3]]
+    b <-   Tabla.sven(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = gra_tif_sven_comp_i() ,ind = 0,C = C,fe2=0,fe3=0)[[3]]
+    #
+    c <-   precio.dl(tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),fv = input$n5 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_tif_comp(),pr=tf_comp())[[2]]
+    d <-   Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num = input$d_tif_comp,par = input$parametro_tif_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[1]]
+    
+    f <- cbind.data.frame(c(tf_comp(),0),a[,2],b[,2],c[,2],d[,2])
+    names(f) <- c("Precio Promedio","Nelson y Siegel","Svensson","Diebold-Li","Splines")
+    #row.names(f)[length(f[,1])] <- "SRC"
+    row.names(f)[dim(f)[1]] <- "SRC"
+    return(f)
+    
+  })
+  
+  output$comparativo_precios_tif <- renderDataTable({precios_tif()})
+  
+  
+  #veb
+  gra_veb_ns_comp_i <- reactive({Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1),ind = 1,C = C,fe2=1,fe3=0)[[2]] })
+  
+  gra_veb_sven_comp_i <- reactive({Tabla.sven(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1,1,1),ind = 1,C = C,fe2=1,fe3=0)[[2]] })
+  
+  
   precios_veb <- reactive({
     #ojo con los dos primeros
-    a <-   Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_ns_comp,fe3=0)[[3]]
-    b <-   Tabla.sven(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_sven_comp,fe3=0)[[3]]
+     a <-   Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = gra_veb_ns_comp_i(),ind = 1,C = C,fe2=0,fe3=0)[[3]]
+     b <-   Tabla.sven(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = gra_veb_sven_comp_i() ,ind = 1,C = C,fe2=0,fe3=0)[[3]]
     #
-    c <-   precio.dl(tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),fv = input$n5 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_veb_comp(),pr=tv_comp())[[2]]
-    d <-   Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[1]]
+     c <-   precio.dl(tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),fv = input$n5 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_veb_comp(),pr=tv_comp())[[2]]
+     d <-   Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[1]]
     
-    e <- cbind.data.frame(a,b[,2],c[,2],d[,2])
-    
-    return(e)
+     f <- cbind.data.frame(c(tv_comp(),0),a[,2],b[,2],c[,2],d[,2])
+     names(f) <- c("Precio Promedio","Nelson y Siegel","Svensson","Diebold-Li","Splines")
+     #row.names(f)[length(f[,1])] <- "SRC"
+     row.names(f)[dim(f)[1]] <- "SRC"
+     return(f)
     
   })
   
