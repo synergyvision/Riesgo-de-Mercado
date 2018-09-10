@@ -1116,6 +1116,138 @@ shinyServer(function(input, output) {
   
   output$comparativo_precios_veb <- renderDataTable({precios_veb()})
   
+  #Graficas comparativos
+  #tif
+  spline_tif_comp <- reactive({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num =40,par = input$parametro_tif_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[4]] })
+  
+  dl_spline_tif_comp_i <- reactive({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num =40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[4]] })
+  
+  
+
+  dl_tif <- reactive({
+  #defino eje maduracion
+  X1 <- seq(0.1,20,0.1)
+  
+  #defino tiempos
+  Y1 <- seq(1,50,1)
+  
+  #
+  var_par <- as.data.frame(matrix(0,length(Y1),4))
+  
+  #guardo parametros segun cada tiempo
+  for(i in 1:length(Y1)){
+    #var_par[i,] <- par_dl(t[i],spline1,pa=c(1,1,1,1))
+    var_par[i,] <- par_dl(Y1,dl_spline_tif_comp_i(),pa=c(1,1,1,1))
+    
+  }
+  
+  return(var_par[dim(var_par)[1],])
+  })
+  
+  
+  #TIF
+  output$curva_comp_tif <- renderPlotly({ 
+    #data
+    x <- seq(1,20,0.1)
+    y_ns <- nelson_siegel(x,pa=gra_tif_ns_comp_i())*100
+    y_sven <- sven(x,pa=gra_tif_sven_comp_i())*100
+    y_dl <- diebold_li(pa=as.numeric(dl_tif()),x)*100
+    y_sp <- predict(spline_tif_comp(),x*365)$y
+  
+    #dataframe
+    data <- data.frame(x,y_ns,y_sven,y_dl,y_sp)
+    
+    #curva 
+    #defino nombres de ejes
+    f <- list(
+      family = "Courier New, monospace",
+      size = 18,
+      color = "#7f7f7f"
+    )
+    x1 <- list(
+      title = "Maduración (días)",
+      titlefont = f
+    )
+    y1 <- list(
+      title = "Rendimientos (%)",
+      titlefont = f
+    )
+    
+    #
+    plot_ly(data, x = ~x, y = ~y_ns, name = 'Nelson y Siegel', type = 'scatter', mode = 'lines') %>%
+      add_trace(y = ~y_sven, name = 'Svensson', mode = 'lines') %>% 
+      add_trace(y = ~y_dl, name = 'Diebold-Li', mode = 'lines') %>% 
+      add_trace(y = ~y_sp, name = 'Splines', mode = 'lines') %>%
+    layout(title = "Curvas de Rendimientos TIF",xaxis = x1, yaxis = y1)
+      
+    })
+  
+  #VEBONOS
+  spline_veb_comp <- reactive({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num =40,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[4]] })
+  
+  dl_spline_veb_comp_i <- reactive({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num =40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[4]] })
+  
+  
+  
+  dl_veb <- reactive({
+    #defino eje maduracion
+    X1 <- seq(0.1,20,0.1)
+    
+    #defino tiempos
+    Y1 <- seq(1,50,1)
+    
+    #
+    var_par <- as.data.frame(matrix(0,length(Y1),4))
+    
+    #guardo parametros segun cada tiempo
+    for(i in 1:length(Y1)){
+      #var_par[i,] <- par_dl(t[i],spline1,pa=c(1,1,1,1))
+      var_par[i,] <- par_dl(Y1,dl_spline_veb_comp_i(),pa=c(1,1,1,1))
+      
+    }
+    
+    return(var_par[dim(var_par)[1],])
+  })
+  
+  
+  #TIF
+  output$curva_comp_veb <- renderPlotly({ 
+    #data
+    x <- seq(1,20,0.1)
+    y_ns <- nelson_siegel(x,pa=gra_veb_ns_comp_i())*100
+    y_sven <- sven(x,pa=gra_veb_sven_comp_i())*100
+    y_dl <- diebold_li(pa=as.numeric(dl_veb()),x)*100
+    y_sp <- predict(spline_veb_comp(),x*365)$y
+    
+    #dataframe
+    data <- data.frame(x,y_ns,y_sven,y_dl,y_sp)
+    
+    #curva 
+    #defino nombres de ejes
+    f <- list(
+      family = "Courier New, monospace",
+      size = 18,
+      color = "#7f7f7f"
+    )
+    x1 <- list(
+      title = "Maduración (días)",
+      titlefont = f
+    )
+    y1 <- list(
+      title = "Rendimientos (%)",
+      titlefont = f
+    )
+    
+    #
+    plot_ly(data, x = ~x, y = ~y_ns, name = 'Nelson y Siegel', type = 'scatter', mode = 'lines') %>%
+      add_trace(y = ~y_sven, name = 'Svensson', mode = 'lines') %>% 
+      add_trace(y = ~y_dl, name = 'Diebold-Li', mode = 'lines') %>% 
+      add_trace(y = ~y_sp, name = 'Splines', mode = 'lines') %>%
+      layout(title = "Curvas de Rendimientos VEBONO",xaxis = x1, yaxis = y1)
+    
+  })
+  
+  
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()

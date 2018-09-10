@@ -899,7 +899,20 @@ shinyUI(
                       ),#final tabitem
               
               tabItem(tabName = "curvas",
-                      h2("Comparativo de curvas")
+                      h2("Comparativo de curvas"),
+                      tabBox( width = 12, title = "Instrumentos", id = "curvas_comp", height = "50px", 
+                              tabPanel("TIF",
+                                       plotlyOutput("curva_comp_tif")
+                                       
+                              ),#final tabpanel
+                              tabPanel("VEBONO",
+                                       
+                                       plotlyOutput("curva_comp_veb")
+                                       
+                              )#final tabpanel
+                      )#final tabbox
+                      
+                      
                       
               ),#final tabitem
               
