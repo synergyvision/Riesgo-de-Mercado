@@ -1247,7 +1247,33 @@ shinyServer(function(input, output) {
     
   })
   
+  # Reporte código genérico
   
+  output$report <- downloadHandler(
+    filename = "reporte1.pdf",
+    content = function(file) {
+      tempReport <- file.path(tempdir(), "reporte1.Rmd")
+      file.copy("reporte1.Rmd", tempReport, overwrite = TRUE)
+      
+      # Configuración de parámetros pasados a documento Rmd
+      params <- list(data1 = data()$ahorro,
+                     data2 = data()$corriente,
+                     data3 = data()$corriente.rem,
+                     dist1 = input$distVarA,
+                     dist2 = input$distVarC,
+                     dist3 = input$distVarCR,
+                     pconf = input$porVar,
+                     reali = input$reali,
+                     revi = input$revi)
+      
+      # Knit the document, passing in the `params` list, and eval it in a
+      # child of the global environment (this isolates the code in the document
+      # from the code in this app).
+      rmarkdown::render(tempReport, output_file = file,
+                        params = params,
+                        envir = new.env(parent = globalenv())
+      )
+    })
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()
