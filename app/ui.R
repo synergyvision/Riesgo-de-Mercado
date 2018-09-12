@@ -902,7 +902,11 @@ shinyUI(
                       h2("Comparativo de curvas"),
                       tabBox( width = 12, title = "Instrumentos", id = "curvas_comp", height = "50px", 
                               tabPanel("TIF",
-                                       plotlyOutput("curva_comp_tif")
+                                       plotlyOutput("curva_comp_tif"),
+                                       h2("Reporte"),
+                                       downloadButton("report", "Descargar")
+                                       
+                                       
                                        
                               ),#final tabpanel
                               tabPanel("VEBONO",

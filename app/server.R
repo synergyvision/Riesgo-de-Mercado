@@ -1174,11 +1174,11 @@ shinyServer(function(input, output) {
     )
     
     #
-    plot_ly(data, x = ~x, y = ~y_ns, name = 'Nelson y Siegel', type = 'scatter', mode = 'lines') %>%
-      add_trace(y = ~y_sven, name = 'Svensson', mode = 'lines') %>% 
-      add_trace(y = ~y_dl, name = 'Diebold-Li', mode = 'lines') %>% 
-      add_trace(y = ~y_sp, name = 'Splines', mode = 'lines') %>%
-    layout(title = "Curvas de Rendimientos TIF",xaxis = x1, yaxis = y1)
+    plot_ly(data, x = ~x, y = ~y_ns, name = 'Nelson y Siegel', type = 'scatter', mode = 'lines') %>% 
+    add_trace(y = ~y_sven, name = 'Svensson', mode = 'lines') %>% 
+    add_trace(y = ~y_dl, name = 'Diebold-Li', mode = 'lines') %>% 
+    add_trace(y = ~y_sp, name = 'Splines', mode = 'lines') %>%
+     layout(title = "Curvas de Rendimientos TIF",xaxis = x1, yaxis = y1)
       
     })
   
@@ -1253,18 +1253,29 @@ shinyServer(function(input, output) {
     filename = "reporte1.pdf",
     content = function(file) {
       tempReport <- file.path(tempdir(), "reporte1.Rmd")
+      #tempReport <- file.path(getwd(), "reporte1.Rmd")
+      
       file.copy("reporte1.Rmd", tempReport, overwrite = TRUE)
       
       # Configuración de parámetros pasados a documento Rmd
-      params <- list(data1 = data()$ahorro,
-                     data2 = data()$corriente,
-                     data3 = data()$corriente.rem,
-                     dist1 = input$distVarA,
-                     dist2 = input$distVarC,
-                     dist3 = input$distVarCR,
-                     pconf = input$porVar,
-                     reali = input$reali,
-                     revi = input$revi)
+      params <- list(titulos = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),
+                    pre_prom = tf_comp(),
+                    par_ns_t = gra_tif_ns_comp_i(),
+                    par_sven_t= gra_tif_sven_comp_i(),
+                    par_dl_t=dl_tif(),
+                    par_sp_t=spline_tif_comp(),
+                    comp_pre_t=precios_tif()
+                    
+                    
+                     # data2 = data()$corriente,
+                     # data3 = data()$corriente.rem,
+                     # dist1 = input$distVarA,
+                     # dist2 = input$distVarC,
+                     # dist3 = input$distVarCR,
+                     # pconf = input$porVar,
+                     # reali = input$reali,
+                     # revi = input$revi
+                     )
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document
