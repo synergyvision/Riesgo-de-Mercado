@@ -1,6 +1,11 @@
 ---
 #title: "reporte1"
-output: pdf_document
+output: 
+  pdf_document:
+    includes:
+      in_header: ~/preambulo.tex
+      #paste(getwd(),"preambulo.tex",sep="/") 
+      #~/Documents/Vision/liquidez/preambulo.tex
 params:
   titulos: NA
   pre_prom: NA
@@ -21,14 +26,16 @@ knitr::opts_chunk$set(echo = TRUE)
 Los \text{t\'itulos} seleccionados fueron
 
 ```{r,echo = FALSE}
-print(params$titulos)
+params$titulos
 ```
 
 Su precio promedio es el siguiente,
 
 
 ```{r,echo = FALSE}
-print(params$pre_prom)
+#library(DT)
+#datatable(as.data.frame(params$pre_prom))
+params$pre_prom
 ```
 
 ## Parámetros obtenidos
@@ -50,7 +57,8 @@ print(params$par_sven_t)
 Los precios teóricos obtenidos mediante las diferentes metodologías se presentan a continuación,
 
 ```{r,echo = FALSE}
-print(params$comp_pre_t)
+#library(DT)
+params$comp_pre_t
 ```
 
 ##Curva de rendimientos
