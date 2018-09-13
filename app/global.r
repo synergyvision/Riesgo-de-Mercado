@@ -16,6 +16,7 @@ library(nloptr)
 library(alabama)
 library(DT)
 library(xtable)
+library(webshot)
 options(OutDec = ",")
 
 

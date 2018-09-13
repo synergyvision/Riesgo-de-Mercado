@@ -3,7 +3,7 @@
 output: 
   pdf_document:
     includes:
-      in_header: ~/preambulo.tex
+      in_header: /Users/dmorales/Documents/Vision/Riesgo-de-Mercado/app/preambulo.tex
       #paste(getwd(),"preambulo.tex",sep="/") 
       #~/Documents/Vision/liquidez/preambulo.tex
 params:
@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Precios teóricos obtenidos mediante las diferentes metodologías
 
-Los \text{t\'itulos} seleccionados fueron
+Los títulos seleccionados fueron
 
 ```{r,echo = FALSE}
 params$titulos
@@ -33,9 +33,8 @@ Su precio promedio es el siguiente,
 
 
 ```{r,echo = FALSE}
-#library(DT)
-#datatable(as.data.frame(params$pre_prom))
-params$pre_prom
+library(knitr)
+kable(params$pre_prom)
 ```
 
 ## Parámetros obtenidos
@@ -56,9 +55,9 @@ print(params$par_sven_t)
 
 Los precios teóricos obtenidos mediante las diferentes metodologías se presentan a continuación,
 
-```{r,echo = FALSE}
-#library(DT)
-params$comp_pre_t
+```{r warning=FALSE, echo=FALSE}
+library(knitr)
+kable(params$comp_pre_t)
 ```
 
 ##Curva de rendimientos
