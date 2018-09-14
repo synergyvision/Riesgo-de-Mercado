@@ -3,7 +3,8 @@
 output: 
   pdf_document:
     includes:
-      in_header: /Users/dmorales/Documents/Vision/Riesgo-de-Mercado/app/preambulo.tex
+      in_header: C:/Users/Freddy Tapia/Documents/preambulo.tex
+      #/Users/dmorales/Documents/Vision/Riesgo-de-Mercado/app/preambulo.tex
       #paste(getwd(),"preambulo.tex",sep="/") 
       #~/Documents/Vision/liquidez/preambulo.tex
 params:
@@ -26,7 +27,8 @@ knitr::opts_chunk$set(echo = TRUE)
 Los títulos seleccionados fueron
 
 ```{r,echo = FALSE}
-params$titulos
+library(knitr)
+kable(params$titulos,col.names=c("Instrumentos"),align="c")
 ```
 
 Su precio promedio es el siguiente,
@@ -34,7 +36,7 @@ Su precio promedio es el siguiente,
 
 ```{r,echo = FALSE}
 library(knitr)
-kable(params$pre_prom)
+kable(params$pre_prom,col.names=c("Precios Promedio"),align="c")
 ```
 
 ## Parámetros obtenidos
@@ -42,13 +44,13 @@ kable(params$pre_prom)
 Los parámetros optimizados obtenidos para la metodología de Nelson y Siegel son,
 
 ```{r,echo = FALSE}
-print(params$par_ns_t)
+kable(cbind.data.frame(c("B0","B1","B2","T1"),params$par_ns_t),col.names=c("Parámetros","Valores"),align="c")
 ```
 
 Los parámetros optimizados obtenidos para la metodología de Svensson son,
 
 ```{r,echo = FALSE}
-print(params$par_sven_t)
+kable(cbind.data.frame(c("B0","B1","B2","B3","T1","T2"),params$par_sven_t),col.names=c("Parámetros","Valores"),align="c")
 ```
 
 ##Precios teóricos
@@ -57,7 +59,7 @@ Los precios teóricos obtenidos mediante las diferentes metodologías se present
 
 ```{r warning=FALSE, echo=FALSE}
 library(knitr)
-kable(params$comp_pre_t)
+kable(params$comp_pre_t,align="c")
 ```
 
 ##Curva de rendimientos
@@ -109,7 +111,8 @@ library(plotly)
     #
 
     ggplot(data1,aes(x=x,y=y,colour=met,group=met))+
-      geom_line()
+      geom_line() +  xlab("Maduración (días)")+
+       ylab("Rendimiento (%)")
     
     # ggplot(data, x = ~x, y = ~y_ns, name = 'Nelson y Siegel', type = 'scatter',          mode = 'lines') 
     # %>%
