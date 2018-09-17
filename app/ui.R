@@ -911,7 +911,9 @@ shinyUI(
                               ),#final tabpanel
                               tabPanel("VEBONO",
                                        
-                                       plotlyOutput("curva_comp_veb")
+                                       plotlyOutput("curva_comp_veb"),
+                                       h2("Reporte"),
+                                       downloadButton("report1", "Descargar")
                                        
                               )#final tabpanel
                       )#final tabbox

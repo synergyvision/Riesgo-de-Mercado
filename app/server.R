@@ -236,7 +236,17 @@ shinyServer(function(input, output) {
   
   #comparacion
   output$p_est_tif_opt_comp <- renderDataTable({Tabla.sven(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(1,1,1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_sven_comp,fe3=0)[[1]] })
-  output$p_est_tif_opt_ns_comp <- renderDataTable({Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns_comp,fe3=0)[[1]] })
+  output$p_est_tif_opt_ns_comp <- renderDataTable({
+    if(input$opt_tif_ns_comp==1){
+    withProgress(message = 'Calculando parámetros optimizados', value = 0, {
+      incProgress(1/2, detail = "Realizando iteraciones")
+    Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns_comp,fe3=0)[[1]] 
+    incProgress(1/2, detail = "Fin")
+    })
+    }else{}
+  
+ 
+    })
   output$p_est_tif_opt_sven_el_comp <- renderDataTable({Tabla.sven(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(input$sven_b0_tif_comp,input$sven_b1_tif_comp,input$sven_b2_tif_comp,input$sven_b3_tif_comp,input$sven_t1_tif_comp,input$sven_t2_tif_comp),ind = 0,C = C,fe2=0,fe3=0)[[1]] })
   
   
@@ -247,7 +257,16 @@ shinyServer(function(input, output) {
   #comparacion
   output$p_est_veb_opt_comp <- renderDataTable({Tabla.sven(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_sven_comp,fe3=0)[[1]]})
   output$p_est_veb_opt_sven_el_comp <- renderDataTable({Tabla.sven(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(input$sven_b0_veb_comp,input$sven_b1_veb_comp,input$sven_b2_veb_comp,input$sven_b3_veb_comp,input$sven_t1_veb_comp,input$sven_t2_veb_comp),ind = 1,C = C,fe2=0,fe3=0)[[1]]})
-  output$p_est_veb_opt_ns_comp <- renderDataTable({Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_ns_comp,fe3=0)[[1]] })
+  output$p_est_veb_opt_ns_comp <- renderDataTable({
+    if(input$opt_veb_ns_comp==1){
+    withProgress(message = 'Calculando precios...', value = 0, {
+      incProgress(1/2, detail = "Realizando iteraciones")
+      Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_ns_comp,fe3=0)[[1]] 
+      incProgress(1/2, detail = "Fin")
+      })
+    }else{}
+      
+    })
   
   
   #precios DL
@@ -1075,11 +1094,18 @@ shinyServer(function(input, output) {
   
   precios_tif <- reactive({
     #ojo con los dos primeros
+    withProgress(message = 'Calculando precios...', value = 0, {
+      incProgress(1/5, detail = "Metodología Nelson y Siegel")
     a <-   Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = gra_tif_ns_comp_i(),ind = 0,C = C,fe2=0,fe3=0)[[3]]
+    incProgress(1/5, detail = "Metodología Svensson")
     b <-   Tabla.sven(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = gra_tif_sven_comp_i() ,ind = 0,C = C,fe2=0,fe3=0)[[3]]
     #
+    incProgress(1/5, detail = "Metodología Diebold-Li")
     c <-   precio.dl(tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),fv = input$n5 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_tif_comp(),pr=tf_comp())[[2]]
+    incProgress(1/5, detail = "Metodología Splines")
     d <-   Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num = input$d_tif_comp,par = input$parametro_tif_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[1]]
+    
+    })
     
     f <- cbind.data.frame(c(tf_comp(),0),a[,2],b[,2],c[,2],d[,2])
     names(f) <- c("Precio Promedio","Nelson y Siegel","Svensson","Diebold-Li","Splines")
@@ -1100,12 +1126,19 @@ shinyServer(function(input, output) {
   
   precios_veb <- reactive({
     #ojo con los dos primeros
+    withProgress(message = 'Calculando precios...', value = 0, {
+      incProgress(1/5, detail = "Metodología Nelson y Siegel")
      a <-   Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = gra_veb_ns_comp_i(),ind = 1,C = C,fe2=0,fe3=0)[[3]]
+     incProgress(1/5, detail = "Metodología Svensson")
      b <-   Tabla.sven(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = gra_veb_sven_comp_i() ,ind = 1,C = C,fe2=0,fe3=0)[[3]]
     #
+     incProgress(1/5, detail = "Metodología Diebold-Li")
      c <-   precio.dl(tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),fv = input$n5 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_veb_comp(),pr=tv_comp())[[2]]
-     d <-   Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[1]]
+     incProgress(1/5, detail = "Metodología Splines")
+      d <-   Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[1]]
     
+    })
+     
      f <- cbind.data.frame(c(tv_comp(),0),a[,2],b[,2],c[,2],d[,2])
      names(f) <- c("Precio Promedio","Nelson y Siegel","Svensson","Diebold-Li","Splines")
      #row.names(f)[length(f[,1])] <- "SRC"
@@ -1148,12 +1181,20 @@ shinyServer(function(input, output) {
   #TIF
   output$curva_comp_tif <- renderPlotly({ 
     #data
-    x <- seq(1,20,0.1)
+    x <- seq(0,20,0.1)
+    withProgress(message = 'Calculando alturas...', value = 0, {
+    #y_ns <- c(0.0097,nelson_siegel(x[2:length(x)],pa=gra_tif_ns_comp_i()))*100
+    incProgress(1/5, detail = "Metodología Nelson y Siegel")
     y_ns <- nelson_siegel(x,pa=gra_tif_ns_comp_i())*100
+    incProgress(1/5, detail = "Metodología Svensson")
     y_sven <- sven(x,pa=gra_tif_sven_comp_i())*100
+    incProgress(1/5, detail = "Metodología Diebold-Li")
     y_dl <- diebold_li(pa=as.numeric(dl_tif()),x)*100
+    incProgress(1/5, detail = "Metodología Splines")
     y_sp <- predict(spline_tif_comp(),x*365)$y
   
+    })
+    
     #dataframe
     data <- data.frame(x,y_ns,y_sven,y_dl,y_sp)
     
@@ -1214,10 +1255,16 @@ shinyServer(function(input, output) {
   output$curva_comp_veb <- renderPlotly({ 
     #data
     x <- seq(1,20,0.1)
+    withProgress(message = 'Calculando alturas...', value = 0, {
+      incProgress(1/5, detail = "Metodología Nelson y Siegel")  
     y_ns <- nelson_siegel(x,pa=gra_veb_ns_comp_i())*100
+    incProgress(1/5, detail = "Metodología Svensson")
     y_sven <- sven(x,pa=gra_veb_sven_comp_i())*100
+    incProgress(1/5, detail = "Metodología Diebold-Li")
     y_dl <- diebold_li(pa=as.numeric(dl_veb()),x)*100
+    incProgress(1/5, detail = "Metodología Splines")
     y_sp <- predict(spline_veb_comp(),x*365)$y
+    })
     
     #dataframe
     data <- data.frame(x,y_ns,y_sven,y_dl,y_sp)
@@ -1276,6 +1323,44 @@ shinyServer(function(input, output) {
                      # reali = input$reali,
                      # revi = input$revi
                      )
+      
+      # Knit the document, passing in the `params` list, and eval it in a
+      # child of the global environment (this isolates the code in the document
+      # from the code in this app).
+      rmarkdown::render(tempReport, output_file = file,
+                        params = params,
+                        envir = new.env(parent = globalenv())
+      )
+    })
+  
+  #reporte vebonos
+  output$report1 <- downloadHandler(
+    filename = "reporte2.pdf",
+    content = function(file) {
+      tempReport <- file.path(tempdir(), "reporte2.Rmd")
+      #tempReport <- file.path(getwd(), "reporte1.Rmd")
+      
+      file.copy("reporte2.Rmd", tempReport, overwrite = TRUE)
+      
+      # Configuración de parámetros pasados a documento Rmd
+      params <- list(titulos = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),
+                     pre_prom = tv_comp(),
+                     par_ns_v = gra_veb_ns_comp_i(),
+                     par_sven_v= gra_veb_sven_comp_i(),
+                     par_dl_v=dl_veb(),
+                     par_sp_v=spline_veb_comp(),
+                     comp_pre_v=precios_veb()
+                     
+                     
+                     # data2 = data()$corriente,
+                     # data3 = data()$corriente.rem,
+                     # dist1 = input$distVarA,
+                     # dist2 = input$distVarC,
+                     # dist3 = input$distVarCR,
+                     # pconf = input$porVar,
+                     # reali = input$reali,
+                     # revi = input$revi
+      )
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document
