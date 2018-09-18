@@ -231,11 +231,28 @@ shinyServer(function(input, output) {
   #precios estimados optimizados
   #paquete alabama
   output$p_est_tif_opt <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = pa_sven,ind = 0,C = C,fe2=input$opt_tif_sven,fe3=0)[[1]] })
-  output$p_est_tif_opt_ns <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = pa_ns,ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[1]] })
+  output$p_est_tif_opt_ns <- renderDataTable({
+    if(input$opt_tif_ns==1){
+    withProgress(message = 'Calculando precios teóricos...', value = 0, {
+      incProgress(1/2, detail = "Realizando iteraciones")
+    Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = pa_ns,ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[1]] 
+    })
+    }else{}
+    })
   output$p_est_tif_opt_sven_el <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif),ind = 0,C = C,fe2=0,fe3=0)[[1]] })
   
   #comparacion
-  output$p_est_tif_opt_comp <- renderDataTable({Tabla.sven(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(1,1,1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_sven_comp,fe3=0)[[1]] })
+  output$p_est_tif_opt_comp <- renderDataTable({
+    if(input$opt_tif_sven_comp==1){
+    withProgress(message = 'Calculando parámetros optimizados', value = 0, {
+      incProgress(1/2, detail = "Realizando iteraciones")
+    Tabla.sven(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(1,1,1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_sven_comp,fe3=0)[[1]]
+    incProgress(1/2, detail = "Fin")
+     })
+    }else{}
+    
+    })
+  
   output$p_est_tif_opt_ns_comp <- renderDataTable({
     if(input$opt_tif_ns_comp==1){
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
@@ -255,7 +272,15 @@ shinyServer(function(input, output) {
   output$p_est_veb_opt_sven_el <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb),ind = 1,C = C,fe2=0,fe3=0)[[1]]})
   
   #comparacion
-  output$p_est_veb_opt_comp <- renderDataTable({Tabla.sven(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_sven_comp,fe3=0)[[1]]})
+  output$p_est_veb_opt_comp <- renderDataTable({
+    if(input$opt_veb_sven_comp==1){
+    withProgress(message = 'Calculando precios teóricos...', value = 0, {
+      incProgress(1/2, detail = "Realizando iteraciones")
+      Tabla.sven(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_sven_comp,fe3=0)[[1]]
+    })
+    }else{}
+    })
+  
   output$p_est_veb_opt_sven_el_comp <- renderDataTable({Tabla.sven(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(input$sven_b0_veb_comp,input$sven_b1_veb_comp,input$sven_b2_veb_comp,input$sven_b3_veb_comp,input$sven_t1_veb_comp,input$sven_t2_veb_comp),ind = 1,C = C,fe2=0,fe3=0)[[1]]})
   output$p_est_veb_opt_ns_comp <- renderDataTable({
     if(input$opt_veb_ns_comp==1){
@@ -284,11 +309,21 @@ shinyServer(function(input, output) {
   #comparativo
   output$spar_tif_dl_comp <- renderPrint({input$parametro_tif_dl_comp})
   
-  dl_spline_tif_comp <- reactive({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num =40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[4]] })
+  dl_spline_tif_comp <- reactive({
+    withProgress(message = 'Calculando spline a utilizar...', value = 0, {
+      Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num =40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[4]] 
+    #incProgress(1/2, detail = "Fin")
+    })
+    })
   
   output$spline_tif_comp <- renderPrint({dl_spline_tif_comp()})
   
-  output$p_est_dl_tif_comp <- renderDataTable({precio.dl(tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),fv = input$n5 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_tif_comp(),pr=tf_comp())[[1]]})
+  output$p_est_dl_tif_comp <- renderDataTable({
+    withProgress(message = 'Calculando precios teóricos...', value = 0, {
+      incProgress(1/2, detail = "Realizando iteraciones")
+      precio.dl(tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),fv = input$n5 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_tif_comp(),pr=tf_comp())[[1]]
+      })
+    })
   
   
   #Vebonos
@@ -303,11 +338,20 @@ shinyServer(function(input, output) {
   #Comparativo
   output$spar_veb_dl_comp <- renderPrint({input$parametro_veb_dl_comp})
   
-  dl_spline_veb_comp <- reactive({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num =40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[4]] })
+  dl_spline_veb_comp <- reactive({
+    withProgress(message = 'Calculando spline a utilizar...', value = 0, {
+    Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num =40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[4]] 
+    })
+      })
   
   output$spline_veb_comp <- renderPrint({dl_spline_veb_comp()})
   
-  output$p_est_dl_veb_comp <- renderDataTable({precio.dl(tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),fv = input$n5 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_veb_comp(),pr=tv_comp())[[1]]})
+  output$p_est_dl_veb_comp <- renderDataTable({
+    withProgress(message = 'Calculando precios teóricos', value = 0, {
+      incProgress(1/2, detail = "Realizando iteraciones")
+      precio.dl(tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),fv = input$n5 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_veb_comp(),pr=tv_comp())[[1]]
+      })
+    })
   
   
   #grafico 
@@ -361,14 +405,16 @@ shinyServer(function(input, output) {
   
   #comparativo
   output$c_tif_splines_dl_comp <- renderRbokeh({
+    withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
+      incProgress(1/2, detail = "Calculando alturas")
     y <-predict(Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num = 40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[4]],seq(1,20,0.1)*365)$y
-    
+    incProgress(1/2, detail = "ajustando spline")
     figure(width = 1000,height = 400) %>%
       ly_points(pto_sp_tif_dl_comp()[,4],pto_sp_tif_dl_comp()[,7],pto_sp_tif_dl_comp(),hover=list("Nombre"=pto_sp_tif_dl_comp()[,1],"Fecha de operación"=pto_sp_tif_dl_comp()[,2])) %>%
       ly_points(x=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2],color="green",hover=list("Plazo"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2]),size=4) %>%
       # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
       x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
-    
+    })
   })
   
   #vebonos
@@ -385,14 +431,16 @@ shinyServer(function(input, output) {
   
   #comparativo
   output$c_veb_splines_dl_comp <- renderRbokeh({
+    withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
+      incProgress(1/2, detail = "Calculando alturas")
     y <-predict(Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num = 40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[4]],seq(1,20,0.1)*365)$y
-    
+    incProgress(1/2, detail = "ajustando spline")
     figure(width = 1000,height = 400) %>%
       ly_points(pto_sp_veb_dl_comp()[,4],pto_sp_veb_dl_comp()[,7],pto_sp_veb_dl_comp(),hover=list("Nombre"=pto_sp_veb_dl_comp()[,1],"Fecha de operación"=pto_sp_veb_dl_comp()[,2])) %>%
       ly_points(x=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2],color="brown",hover=list("Plazo"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(1,20,0.1)*365,y)[,2]),size=4) %>%
       # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
       x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
-    
+    })
   })
   
   #Grafico 3D!
