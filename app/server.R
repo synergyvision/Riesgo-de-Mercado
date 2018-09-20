@@ -234,7 +234,7 @@ shinyServer(function(input, output) {
     if(input$opt_tif_sven==1){
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
-    Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = pa_sven,ind = 0,C = C,fe2=input$opt_tif_sven,fe3=0)[[1]] 
+    Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = c(1,1,1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_sven,fe3=0)[[1]] 
     })
     }else{}
     })
@@ -243,7 +243,7 @@ shinyServer(function(input, output) {
     if(input$opt_tif_ns==1){
     withProgress(message = 'Calculando precios teóricos...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
-    Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = pa_ns,ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[1]] 
+    Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[1]] 
     })
     }else{}
     })
@@ -280,7 +280,7 @@ shinyServer(function(input, output) {
     if(input$opt_veb_sven==1){
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
-    Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = pa1_sven,ind = 1,C = C,fe2=input$opt_veb_sven,fe3=0)[[1]]
+    Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = c(1,1,1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_sven,fe3=0)[[1]]
     })
       }else{}
     })
@@ -289,7 +289,7 @@ shinyServer(function(input, output) {
     if(input$opt_veb_ns==1){
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
-    Tabla.ns(fv = input$n2 ,tit = c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns),pr =tv_ns() ,pa = pa1_ns,ind = 1,C = C,fe2=input$opt_veb_ns,fe3=0)[[1]] 
+    Tabla.ns(fv = input$n2 ,tit = c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns),pr =tv_ns() ,pa = c(1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_ns,fe3=0)[[1]] 
     })
     }else{}
     })
@@ -877,8 +877,8 @@ shinyServer(function(input, output) {
   })
   
   #caso Nelson y Siegel
-  gra_tif_ns <- reactive({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = pa_ns,ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[2]] })
-  gra_veb_ns <- reactive({Tabla.ns(fv = input$n2 ,tit = c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns),pr =tv_ns() ,pa = pa1_ns,ind = 1,C = C,fe2=input$opt_veb_ns,fe3=0)[[2]] })
+  gra_tif_ns <- reactive({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[2]] })
+  gra_veb_ns <- reactive({Tabla.ns(fv = input$n2 ,tit = c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns),pr =tv_ns() ,pa = c(1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_ns,fe3=0)[[2]] })
   
 
   output$par_tif_ns_op<-renderPrint({if(input$opt_tif_ns==1){gra_tif_ns()
@@ -942,8 +942,8 @@ shinyServer(function(input, output) {
   }else{}})
   
   #caso Svensson
-  gra_tif_sven <- reactive({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = pa_sven,ind = 0,C = C,fe2=input$opt_tif_sven,fe3=0)[[2]] })
-  gra_veb_sven <- reactive({Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = pa1_sven,ind = 1,C = C,fe2=input$opt_veb_sven,fe3=0)[[2]] })
+  gra_tif_sven <- reactive({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = c(1,1,1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_sven,fe3=0)[[2]] })
+  gra_veb_sven <- reactive({Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = c(1,1,1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_sven,fe3=0)[[2]] })
   
   #tif
   output$par_tif_sven_op<-renderPrint({if(input$opt_tif_sven==1){gra_tif_sven()
