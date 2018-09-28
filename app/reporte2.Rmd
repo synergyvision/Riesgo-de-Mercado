@@ -3,7 +3,8 @@
 output: 
   pdf_document:
     includes:
-      in_header: C:/Users/Freddy Tapia/Documents/preambulo.tex
+      in_header: /Users/freddytapia/Documents/preambulo.tex 
+      #C:/Users/Freddy Tapia/Documents/preambulo.tex
       #/Users/dmorales/Documents/Vision/Riesgo-de-Mercado/app/preambulo.tex
       #paste(getwd(),"preambulo.tex",sep="/") 
       #~/Documents/Vision/liquidez/preambulo.tex
@@ -121,3 +122,4 @@ library(plotly)
     #   add_trace(y = ~y_sp, name = 'Splines', mode = 'lines') %>%
     # layout(title = "Curvas de Rendimientos TIF",xaxis = x1, yaxis = y1)
 ```
+

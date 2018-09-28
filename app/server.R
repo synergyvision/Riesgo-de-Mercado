@@ -1468,6 +1468,29 @@ shinyServer(function(input, output) {
       )
     })
   
+  #descarga BCV
+  datasetInput <- reactive({
+    switch(input$dataset,
+           "0-22" = ruta_bcv("0-22"),
+           "Caracteristicas" = ruta_bcv("caracteristicas"))
+  })
+  
+  output$desc <- renderPrint({ input$dataset })
+  
+  # Downloadable csv of selected dataset ----
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste(input$dataset, ".xls", sep = "")
+    },
+    content = function(file) {
+      file<-paste(getwd(),"data",paste(input$dataset, ".xls", sep = ""),sep="/")
+      download.file(url=datasetInput(),destfile=file,method = "libcurl",mode="wb")
+      #write.xlsx(datasetInput(), file, row.names = FALSE)
+    }
+  )
+  
+  
+  
   # Almacenar Variables Reactivas
   RV <- reactiveValues()
 

@@ -1,6 +1,6 @@
 library(shiny)
 library(readr)
-library("xlsx")
+#library("xlsx")
 library(ggplot2)
 library(readxl)
 library(xml2)
@@ -8,7 +8,8 @@ library(dplyr)
 library(rvest)
 
 #ojo 
-source('C:/Users/Freddy Tapia/Desktop/Scripts Trabajo/ruta_bcv.R')
+#source('C:/Users/Freddy Tapia/Desktop/Scripts Trabajo/ruta_bcv.R')
+source(paste(getwd(),"ruta_bcv.R",sep = "/"))
 
 # Define UI for data download app ----
 ui <- fluidPage(
@@ -36,8 +37,8 @@ ui <- fluidPage(
     
     # Main panel for displaying outputs ----
     mainPanel(
-      verbatimTextOutput("p1"),
-      tableOutput("table")
+      verbatimTextOutput("p1")
+    #  tableOutput("table")
       
     )
     # fluidRow(
@@ -75,13 +76,13 @@ server <- function(input, output) {
   output$p1 <- renderPrint({ input$dataset })
   
   #Table of selected dataset ----
-  output$table <- renderTable({
-    
-    nombre <- paste("C:/Users/Freddy Tapia/Desktop/Scripts Trabajo/",input$dataset,".xls",sep ="")
-    data <- read_excel(nombre, sheet = 1)
-    data
-    
-  })
+  # output$table <- renderTable({
+  #   
+  #   nombre <- paste("C:/Users/Freddy Tapia/Desktop/Scripts Trabajo/",input$dataset,".xls",sep ="")
+  #   data <- read_excel(nombre, sheet = 1)
+  #   data
+  #   
+  # })
   
   # Downloadable csv of selected dataset ----
   output$downloadData <- downloadHandler(

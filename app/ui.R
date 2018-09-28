@@ -39,6 +39,9 @@ shinyUI(
                 
                             #menuItem("Comparativo", icon = icon("circle-o"), tabName = "comparativo"),
                 menuItem("Comparativo", icon = icon("bar-chart-o"), 
+                         
+                            menuSubItem("Datos", tabName = "datos", icon = icon("circle-o")),
+                         
                             menuSubItem("Metodologías", tabName = "metodologias", icon = icon("circle-o")),
                          
                             menuSubItem("Precios estimados", tabName = "precios", icon = icon("circle-o")),
@@ -552,6 +555,21 @@ shinyUI(
               
               #COMPARATIVO
              
+              tabItem(tabName = "datos",
+                      h2(" Descarga de archivos"),
+                      # Input: Choose dataset ----
+                      selectInput("dataset", "Elegir un Archivo:",
+                                  choices = c("0-22", "Caracteristicas"
+                                             )),
+                      
+                      # Button
+                      downloadButton("downloadData", "Descargar"),
+                      h5(" Usted seleccionó"),
+                      verbatimTextOutput("desc")
+                      
+                      ),
+              
+              
                 tabItem(tabName = "metodologias",
                       fluidRow(
                        h2(" Comparativo"),
