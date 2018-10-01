@@ -1489,6 +1489,16 @@ shinyServer(function(input, output) {
     }
   )
   
+  #leo caracteristica guardada en carpeta data
+  output$Ca_leida <- renderDataTable({
+    ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
+    if(class(ca)=="try-error"){
+      v <- print("El archivo no se encuentra, descargar y recargar página!")
+      return(as.data.frame(v))
+    }else{
+    return(ca)
+    }
+    })
   
   
   # Almacenar Variables Reactivas

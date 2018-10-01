@@ -565,7 +565,10 @@ shinyUI(
                       # Button
                       downloadButton("downloadData", "Descargar"),
                       h5(" Usted seleccionó"),
-                      verbatimTextOutput("desc")
+                      verbatimTextOutput("desc"),
+                      h5(" Vista previa documento Características"),
+                      dataTableOutput("Ca_leida")
+                      
                       
                       ),
               

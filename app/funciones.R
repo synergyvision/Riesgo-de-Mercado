@@ -2323,17 +2323,33 @@ Preciosbcv=function(ca,dh,ar,ruta){
     if(i<10){ #IF MENOR A 10   
       m1=paste("022 0",i,sep="")
       m2=paste(m1,ca,sep = "-")
-      fe.=paste(ca,"2017",sep="/")
+      fe.=paste(ca,"2018",sep="/")
       fe=paste(i,fe.,sep = "/")
       fe1=paste(0,fe,sep = "")
       ar1=paste(ruta,ar,sep = "/")
-      b=try(read.xlsx(ar1, sheetName = m2,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
+      #b=try(read.xlsx(ar1, sheetName = m2,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
+      b=try(read_excel(ar1, sheet = m2,range = "A10:I34",col_names = TRUE),silent = TRUE)
       
-      if(class(b)=="try-error"){ #IF ESPACIO
+      
+      
+      if(class(b)[1]=="try-error"){ #IF ESPACIO
         print("hay un espacio" )
         m3=paste(m2,"",sep = " ")
         ar1=paste(ruta,ar,sep = "/")
-        b=try(read.xlsx(ar1, sheetName = m3,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
+        #b=try(read.xlsx(ar1, sheetName = m3,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
+        b=try(read_excel(ar1, sheet = m3,range = "A10:I34",col_names = TRUE),silent = TRUE)
+        
+        if(class(b)[1]=="try-error"){
+          #print("hay un espacio al inicio" )
+          m3=paste("",m2,sep = " ")
+          ar1=paste(ruta,ar,sep = "/")
+          #b=try(read.xlsx(ar1, sheetName = m3,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
+          b=try(read_excel(ar1, sheet = m3,range = "A10:I34",col_names = TRUE),silent = TRUE)
+          nn=nn+1
+          
+        }
+        
+        
         if(ncol(b)==8){#if solo letras
           print("Existe un dia donde hubo solo op de Letras!")
           b=data.frame(b,nueva=rep(0,dim(b)[1]))
@@ -2342,7 +2358,7 @@ Preciosbcv=function(ca,dh,ar,ruta){
         names(b)[9]="Cupón...."
         
         #if 
-        if(class(b)=="try-error"){
+        if(class(b)[1]=="try-error"){
           print("el doc 0-22 no corresponde con el mes ingresado o existe un problema con el nombre de la pestaña" )
           print("Favor Revisar el dia")
           print(i)
@@ -2361,7 +2377,7 @@ Preciosbcv=function(ca,dh,ar,ruta){
           #filtro para cuando no haya TICC
           if(length(which(is.na(b1[,8])))!=0){
             b2=b1[-which(is.na(b1[,8])),]
-            b3=b2[-which(b2[,1]=="Instrumento "),]
+            b3=b2[-which(b2[,1]=="Instrumento"),]
             b3.=rep(fe1,length(b3[,1]))
             b4=cbind(b3.,b3)
             b5=rbind(b5,b4)
@@ -2379,7 +2395,7 @@ Preciosbcv=function(ca,dh,ar,ruta){
           nn=nn+1
         }
         
-        if(is.na(b[1,5])==T){ 
+        if(is.na(b[1,5])==T  & nn==0){ 
           #caso en que no hay operaciones
           print("No hubo operacion el dia ")
           print(i)
@@ -2401,7 +2417,7 @@ Preciosbcv=function(ca,dh,ar,ruta){
         #filtro para cuando no haya TICC
         if(length(which(is.na(b1[,8])))!=0){
           b2=b1[-which(is.na(b1[,8])),]
-          b3=b2[-which(b2[,1]=="Instrumento "),]
+          b3=b2[-which(b2[,1]=="Instrumento"),]
           b3.=rep(fe1,length(b3[,1]))
           b4=cbind(b3.,b3)
           b5=rbind(b5,b4)
@@ -2429,22 +2445,40 @@ Preciosbcv=function(ca,dh,ar,ruta){
     if(i>=10){ #IF MAYOR A 10    
       m1=paste("022 ",i,sep="")
       m2=paste(m1,ca,sep = "-")
-      fe.=paste(ca,"2017",sep="/")
+      fe.=paste(ca,"2018",sep="/")
       fe=paste(i,fe.,sep = "/")
       ar1=paste(ruta,ar,sep = "/")
-      b=try(read.xlsx(ar1, sheetName = m2,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
+      #b=try(read.xlsx(ar1, sheetName = m2,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
+      b=try(read_excel(ar1, sheet = m2,range = "A10:I34",col_names = TRUE),silent = TRUE)
       
-      if(class(b)=="try-error"){ #IF ESPACIO
+      
+      if(class(b)[1]=="try-error"){ #IF ESPACIO
         print("hay un espacio" )
+        print("en el día")
+        print(i)
         m3=paste(m2,"",sep = " ")
         ar1=paste(ruta,ar,sep = "/")
-        b=try(read.xlsx(ar1, sheetName = m3,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
-        names(b)[9]="Cupón...."
+        #b=try(read.xlsx(ar1, sheetName = m3,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
+        b=try(read_excel(ar1, sheet = m3,range = "A10:I34",col_names = TRUE),silent = TRUE)
         
-        if(class(b)=="try-error"){
+        
+        #names(b)[9]="Cupón...."
+        if(class(b)[1]=="try-error"){
+          #print("hay un espacio al inicio" )
+          m3=paste("",m2,sep = " ")
+          ar1=paste(ruta,ar,sep = "/")
+          #b=try(read.xlsx(ar1, sheetName = m3,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
+          b=try(read_excel(ar1, sheet = m3,range = "A10:I34",col_names = TRUE),silent = TRUE)
+          nn=nn+1
+          
+        }
+        
+        
+        if(class(b)[1]=="try-error"){
           print("el doc 0-22 no corresponde con el mes ingresado o existe un problema con el nombre de la pestaña" )
           print("Favor Revisar el dia")
           print(i)
+          break
         }
         
         if(is.na(b[1,5])!=T){ 
@@ -2459,7 +2493,7 @@ Preciosbcv=function(ca,dh,ar,ruta){
           #filtro para cuando no haya TICC
           if(length(which(is.na(b1[,8])))!=0){
             b2=b1[-which(is.na(b1[,8])),]
-            b3=b2[-which(b2[,1]=="Instrumento "),]
+            b3=b2[-which(b2[,1]=="Instrumento"),]
             b3.=rep(fe,length(b3[,1]))
             b4=cbind(b3.,b3)
             b5=rbind(b5,b4)
@@ -2477,7 +2511,7 @@ Preciosbcv=function(ca,dh,ar,ruta){
           nn=nn+1
         }
         
-        if(is.na(b[1,5])==T){ 
+        if(is.na(b[1,5])==T & nn==0){ 
           #caso en que no hay operaciones
           print("No hubo operacion el dia ")
           print(i)
@@ -2498,7 +2532,7 @@ Preciosbcv=function(ca,dh,ar,ruta){
         #filtro para cuando no haya TICC
         if(length(which(is.na(b1[,8])))!=0){
           b2=b1[-which(is.na(b1[,8])),]
-          b3=b2[-which(b2[,1]=="Instrumento "),]
+          b3=b2[-which(b2[,1]=="Instrumento"),]
           b3.=rep(fe,length(b3[,1]))
           b4=cbind(b3.,b3)
           b5=rbind(b5,b4)
@@ -2554,80 +2588,82 @@ faux=function(b6){
 #funcion que extrae informacion del documento de las
 #caracteristicas y lee todas sus pesta?as
 Carac=function(ruta){
-  #c=read.xlsx("C:/Users/ftapia/Documents/DESCARGAS R/Caracteristicas.xls", sheetName = "DPN",startRow = 7,colIndex = 1:15,header = TRUE)
-  #c=read.xlsx("C:/Users/Nancy/Desktop/Modelos Aleatorios/prueba 190717/Caracteristicas.xls", sheetName = "DPN",startRow = 7,colIndex = 1:15,header = TRUE)
-  c=read.xlsx(ruta, sheetName = "DPN",startRow = 7,colIndex = 1:15,header = TRUE)
+  c=read_excel(ruta, sheet = "DPN",range = "A7:O90",col_names = TRUE)
   c1=c[,c(3,5,6,8,10,11,13,15)]
-  c2=c1[-which(is.na(c1$X...)),]
-  c3=cbind(as.character(rep("TIF",1,length(c2$X...))),c2)
-  c3$`as.character(rep("TIF", 1, length(c2$X...)))`=as.character(c3$`as.character(rep("TIF", 1, length(c2$X...)))`)
-  c3$`as.character(rep("TIF", 1, length(c2$X...)))`[which(c3$Referencia...b_..!="Tasa Fija")]="VEBONO"
+  c2=c1[-which(is.na(c1[,1])),]
+  c3=cbind(as.character(rep("TIF",1,length(c2[,1]))),c2)
+  c3[,1]=as.character(c3[,1])
+  c3[which(c3[,5]!="Tasa Fija"),1]="VEBONO"
   names(c3)=c("Tipo Instrumento","Sicet","F.Emision","F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1","Pago cupon 2","Cupon")
   
   #tranformo formato fecha
-  c3$F.Emision=format(c3$F.Emision,"%d/%m/%Y")
-  c3$F.Vencimiento=format(c3$F.Vencimiento,"%d/%m/%Y")
-  c3$`Pago cupon 1`=format(c3$`Pago cupon 1`,"%d/%m/%Y")
-  c3$`Pago cupon 2`=format(c3$`Pago cupon 2`,"%d/%m/%Y")
+  c3[,3]=format(c3[,3],"%d/%m/%Y")
+  c3[,4]=format(c3[,4],"%d/%m/%Y")
+  c3[,7]=format(c3[,7],"%d/%m/%Y")
+  c3[,8]=format(c3[,8],"%d/%m/%Y")
   
   #agrego columna Nombre TIf o Vebono + fecha venc
-  c4=c3$`Tipo Instrumento`
+  c4=c3[,1]
   
   Nombre=c()
   for(i in 1:length(c4)){
-    Nombre[i]=paste(c4[i],paste(substr(c3$F.Vencimiento[i],4,5),substr(c3$F.Vencimiento[i],7,10),sep = ""),sep = "")
+    Nombre[i]=paste(c4[i],paste(substr(c3[i,4],4,5),substr(c3[i,4],7,10),sep = ""),sep = "")
   }
   
-  c3=cbind(c3$`Tipo Instrumento`,Nombre,c3[,2:ncol(c3)])
+  c3=cbind(c3[,1],Nombre,c3[,2:ncol(c3)])
   names(c3)[1]="Tipo Instrumento"
   
+  
   #pestaña DPN-TICC
-  #d=read.xlsx("C:/Users/Nancy/Desktop/Modelos Aleatorios/prueba 190717/Caracteristicas.xls", sheetName = "DPN - TICC",startRow = 7,colIndex = 1:14,header = TRUE)
-  d=read.xlsx(ruta, sheetName = "DPN - TICC",startRow = 7,colIndex = 1:14,header = TRUE)
-  
-  #d=read.xlsx("C:/Users/ftapia/Documents/DESCARGAS R/Caracteristicas.xls", sheetName = "DPN - TICC",startRow = 7,colIndex = 1:14,header = TRUE)
-  
-  d=d[-which(is.na(d[,2])),c(3,4,5,7,9,10,12,14)]
-  #cambio formato fechas
-  d[,2]=format(d[,2],"%d/%m/%Y")
-  d[,3]=format(d[,3],"%d/%m/%Y")
-  d[,6]=format(d[,6],"%d/%m/%Y")
-  d[,7]=format(d[,7],"%d/%m/%Y")
-  
-  d1=rep("TICC",1,nrow(d))
-  
-  d2=c()
-  for(i in 1:length(d1)){
-    d2[i]=paste(d1[i],paste(substr(d[i,3],4,5),substr(d[i,3],7,10),sep = ""),sep = "")
-  }
-  
-  d3=cbind(d1,d2,d)
-  names(d3)=names(c3) 
-  
+  #d=read.xlsx(ruta, sheetName = "DPN - TICC",startRow = 7,colIndex = 1:14,header = TRUE)
+  d <- try(read_excel(ruta,sheet = "DPN - TICC",range = "A7:N13",col_names = TRUE),silent = TRUE)
   #Añado nuevo titulo VF
-  #v=read.xlsx("C:/Users/ftapia/Documents/DESCARGAS R/Caracteristicas.xls", sheetName = "VF",startRow = 7,colIndex = 1:14,header = TRUE)
-  v=try(read.xlsx(ruta, sheetName = "VF",startRow = 7,colIndex = 1:14,header = TRUE),silent = TRUE)
-  #b=try(read.xlsx("C:/Users/ftapia/Documents/DESCARGAS R/0-22.xls", sheetName = m3,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
-  vb=try(read.xlsx(ruta, sheetName = "VB",startRow = 7,colIndex = 1:15,header = TRUE),silent = TRUE)
+  #v=try(read.xlsx(ruta, sheetName = "VF",startRow = 7,colIndex = 1:14,header = TRUE),silent = TRUE)
+  v=try(read_excel(ruta, sheet = "VF",range = "A7:N30" ,col_names = TRUE),silent = TRUE)
   #
-  cf=try(read.xlsx(ruta, sheetName = "CF",startRow = 7,colIndex = 1:14,header = TRUE),silent = TRUE)
+  #vb=try(read.xlsx(ruta, sheetName = "VB",startRow = 7,colIndex = 1:15,header = TRUE),silent = TRUE)
+  vb=try(read_excel(ruta, sheet = "VB",range = "A7:O50",col_names = TRUE),silent = TRUE)
   #
-  cb=try(read.xlsx(ruta, sheetName = "CB",startRow = 7,colIndex = 1:14,header = TRUE),silent = TRUE)
+  #cf=try(read.xlsx(ruta, sheetName = "CF",startRow = 7,colIndex = 1:14,header = TRUE),silent = TRUE)
+  cf=try(read_excel(ruta, sheet = "CF",range = "A7:N30",col_names = TRUE),silent = TRUE)
+  #
+  #cb=try(read.xlsx(ruta, sheetName = "CB",startRow = 7,colIndex = 1:14,header = TRUE),silent = TRUE)
+  cb=try(read_excel(ruta, sheet = "CB",range = "A7:N20",col_names = TRUE),silent = TRUE)
+  
+  
+  #if pestaña dpn - ticc
+  if(class(d)[1]=="try-error"){
+    d3=1
+  }else{
+    d=d[-which(is.na(d[,2])),c(3,4,5,7,9,10,12,14)]
+    d <- as.data.frame(d)
+    #cambio formato fechas
+    d[,2]=format(d[,2],"%d/%m/%Y")
+    d[,3]=format(d[,3],"%d/%m/%Y")
+    d[,6]=format(d[,6],"%d/%m/%Y")
+    d[,7]=format(d[,7],"%d/%m/%Y")
+    
+    d1=rep("TICC",1,nrow(d))
+    
+    d2=c()
+    for(i in 1:length(d1)){
+      d2[i]=paste(d1[i],paste(substr(d[i,3],4,5),substr(d[i,3],7,10),sep = ""),sep = "")
+    }
+    
+    d3=cbind(d1,d2,d)
+    names(d3)=names(c3) 
+    
+  }
   
   
   #if peta?a VF
-  if(class(v)=="try-error"){
+  if(class(v)[1]=="try-error"){
     print("No hay pesta?a VF")
-    #CARACTERISTICAS DEFINITIVA
-    #C3=rbind(c3,d3) 
-    
-    #En caso que no lea bien un numero
-    #C3$Cupon=as.numeric(sub(",",".",C3$Cupon))
     w3=1
-    #return(C3)  
   }else{
     #leo VF
     v=v[-which(is.na(v[,2])),c(3,4,5,7,9,10,12,14)]
+    v<-as.data.frame(v)
     #cambio formato fechas
     v[,2]=format(v[,2],"%d/%m/%Y")
     v[,3]=format(v[,3],"%d/%m/%Y")
@@ -2647,7 +2683,7 @@ Carac=function(ruta){
   }#final if VF
   
   #if Pesta?a VB
-  if(class(vb)=="try-error"){
+  if(class(vb)[1]=="try-error"){
     print("No hay pesta?a VB")
     #CARACTERISTICAS DEFINITIVA
     #C3=rbind(c3,d3) 
@@ -2661,6 +2697,7 @@ Carac=function(ruta){
     #leo Vb   
     vb=vb[,-4]
     vb=vb[-which(is.na(vb[,2])),c(3,4,5,7,9,10,12,14)]
+    vb <- as.data.frame(vb)
     #cambio formato fechas
     vb[,2]=format(vb[,2],"%d/%m/%Y")
     vb[,3]=format(vb[,3],"%d/%m/%Y")
@@ -2680,7 +2717,7 @@ Carac=function(ruta){
   }#final if VB
   
   
-  if(class(cf)=="try-error"){
+  if(class(cf)[1]=="try-error"){
     print("No hay pesta?a CF")
     #CARACTERISTICAS DEFINITIVA
     #C3=rbind(c3,d3) 
@@ -2693,6 +2730,7 @@ Carac=function(ruta){
   }else{
     #leo cf
     cf=cf[-which(is.na(cf[,2])),c(3,4,5,7,9,10,12,14)]
+    cf <- as.data.frame(cf)
     #cambio formato fechas
     cf[,2]=format(cf[,2],"%d/%m/%Y")
     cf[,3]=format(cf[,3],"%d/%m/%Y")
@@ -2712,7 +2750,7 @@ Carac=function(ruta){
   }#final if CF
   
   
-  if(class(cb)=="try-error"){
+  if(class(cb)[1]=="try-error"){
     print("No hay pesta?a CB")
     #CARACTERISTICAS DEFINITIVA
     #C3=rbind(c3,d3) 
@@ -2723,69 +2761,10 @@ Carac=function(ruta){
     #return(C3)  
     y3=1
   }else{
-    #leo pesta?a VB
-    #b=try(read.xlsx("C:/Users/ftapia/Documents/DESCARGAS R/0-22.xls", sheetName = m3,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
-    
-    
-    #v=read.xlsx(ruta, sheetName = "VF",startRow = 7,colIndex = 1:14,header = TRUE)
-    #leo Vb   
-    #vb=vb[,-4]
-    #vb=vb[-which(is.na(vb[,2])),c(3,4,5,7,9,10,12,14)]
-    #cambio formato fechas
-    #vb[,2]=format(vb[,2],"%d/%m/%Y")
-    #vb[,3]=format(vb[,3],"%d/%m/%Y")
-    #vb[,6]=format(vb[,6],"%d/%m/%Y")
-    #vb[,7]=format(vb[,7],"%d/%m/%Y")
-    
-    #v1=rep("Valores Bol.",1,nrow(vb))
-    
-    #v2=c()
-    #for(i in 1:length(v1)){
-    #  v2[i]=paste(v1[i],paste(substr(vb[i,3],4,5),substr(vb[i,3],7,10),sep = ""),sep = "")
-    #}
-    
-    #v3=cbind(v1,v2,vb)
-    #names(v3)=names(c3) 
-    
-    #leo VF
-    #v=v[-which(is.na(v[,2])),c(3,4,5,7,9,10,12,14)]
-    #cambio formato fechas
-    #v[,2]=format(v[,2],"%d/%m/%Y")
-    #v[,3]=format(v[,3],"%d/%m/%Y")
-    #v[,6]=format(v[,6],"%d/%m/%Y")
-    #v[,7]=format(v[,7],"%d/%m/%Y")
-    
-    #w1=rep("Valores Fin.",1,nrow(v))
-    
-    #w2=c()
-    #for(i in 1:length(w1)){
-    # w2[i]=paste(w1[i],paste(substr(v[i,3],4,5),substr(v[i,3],7,10),sep = ""),sep = "")
-    #}
-    
-    #w3=cbind(w1,w2,v)
-    #names(w3)=names(c3) 
-    
-    #leo cf
-    #cf=cf[-which(is.na(cf[,2])),c(3,4,5,7,9,10,12,14)]
-    #cambio formato fechas
-    #cf[,2]=format(cf[,2],"%d/%m/%Y")
-    #cf[,3]=format(cf[,3],"%d/%m/%Y")
-    #cf[,6]=format(cf[,6],"%d/%m/%Y")
-    #cf[,7]=format(cf[,7],"%d/%m/%Y")
-    
-    #x1=rep("Certificado Part. Simon Bolivar",1,nrow(cf))
-    
-    #x2=c()
-    #for(i in 1:length(x1)){
-    # x2[i]=paste(x1[i],paste(substr(cf[i,3],4,5),substr(cf[i,3],7,10),sep = ""),sep = "")
-    #}
-    
-    #x3=cbind(x1,x2,cf)
-    #names(x3)=names(c3) 
-    
     
     #leo cb
     cb=cb[-which(is.na(cb[,2])),c(3,4,5,7,9,10,12,14)]
+    cb <- as.data.frame(cb)
     #cambio formato fechas
     cb[,2]=format(cb[,2],"%d/%m/%Y")
     cb[,3]=format(cb[,3],"%d/%m/%Y")
@@ -2802,6 +2781,7 @@ Carac=function(ruta){
     y3=cbind(y1,y2,cb)
     names(y3)=names(c3) 
   }#final if CB
+  
   #CARACTERISTICAS DEFINITIVA
   #if de pesta?as
   if(length(c3)==1|length(d3)==1|length(v3)==1|length(w3)==1|length(x3)==1|length(y3)==1){
@@ -2809,6 +2789,11 @@ Carac=function(ruta){
     ve=c(length(c3),length(d3),length(v3),length(w3),length(x3),length(y3))
     h1=which(ve==1)
     
+    if(h1==2){
+      print("Falta pesta?a DPN-TICC")
+      C3=rbind(c3,v3,w3,x3,y3)
+      return(C3)
+    }
     if(h1==3){
       print("Falta pesta?a VB")
       C3=rbind(c3,d3,w3,x3,y3)
@@ -2839,6 +2824,7 @@ Carac=function(ruta){
     return(C3)}#final if pesta?as
   
 }#final funcion Caracteristicas
+
 
 #Funcion Formato
 #funcion que toma la el documento de las caracteristicas informacion 
@@ -2953,65 +2939,6 @@ formatop=function(C3,b3){
   
   return(B3)
 }#final funcion formato precios 022
-
-#funcion para ordenar un dataframe
-#ordenar data frame, de acuerdo a una fila cualquiera sin 
-#importar el tipo de variable
-sort.data.frame <- function(form,dat){ 
-  # Author: Kevin Wright 
-  # Some ideas from Andy Liaw 
-  # http://tolstoy.newcastle.edu.au/R/help/04/07/1076.html 
-  # Use + for ascending, - for decending. 
-  # Sorting is left to right in the formula 
-  
-  
-  # Useage is either of the following: 
-  # sort.data.frame(~Block-Variety,Oats) 
-  # sort.data.frame(Oats,~-Variety+Block) 
-  
-  
-  # If dat is the formula, then switch form and dat 
-  if(inherits(dat,"formula")){ 
-    f=dat 
-    dat=form 
-    form=f 
-  } 
-  if(form[[1]] != "~") 
-    stop("Formula must be one-sided.")
-  
-  # Make the formula into character and remove spaces 
-  formc <- as.character(form[2]) 
-  formc <- gsub(" ","",formc) 
-  # If the first character is not + or -, add + 
-  if(!is.element(substring(formc,1,1),c("+","-")))     formc <- paste("+",formc,sep="") 
-  # Extract the variables from the formula 
-  vars <- unlist(strsplit(formc, "[\\+\\-]"))
-  vars <- vars[vars!=""] # Remove spurious "" terms
-  
-  # Build a list of arguments to pass to "order" function 
-  calllist <- list() 
-  pos=1 # Position of + or - 
-  for(i in 1:length(vars)){ 
-    varsign <- substring(formc,pos,pos) 
-    pos <- pos+1+nchar(vars[i]) 
-    if(is.factor(dat[,vars[i]])){
-      
-      if(varsign=="-")
-        calllist[[i]] <- -rank(dat[,vars[i]])
-      else
-        calllist[[i]] <- rank(dat[,vars[i]])
-    } 
-    else {
-      if(varsign=="-")
-        calllist[[i]] <- -dat[,vars[i]]
-      else
-        calllist[[i]] <- dat[,vars[i]]
-      
-    } 
-  } 
-  dat[do.call("order",calllist),]
-}
-
 
 
 

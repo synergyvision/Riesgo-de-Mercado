@@ -2,6 +2,8 @@ rm(list = ls())
 
 #cargo librerias a usar
 library(shiny)
+library(readr)
+
 library(shinydashboard)
 library(dplyr)
 library(lubridate)
@@ -17,6 +19,10 @@ library(alabama)
 library(DT)
 library(xtable)
 library(webshot)
+library(readxl)
+library(xml2)
+library(rvest)
+
 options(OutDec = ",")
 
 
