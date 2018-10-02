@@ -2313,42 +2313,40 @@ ruta_bcv <- function(file){
 #dh:d?a habil o vector de dias habiles  
 #ar:nombre documento 0-22, ej: "0-22.xls"  
 #ruta: direccion del documento 0-22  
-Preciosbcv=function(ca,dh,ar,ruta){
+
+Preciosbcv=function(ruta){
   b5=array()
-  print(ca)
-  print(ar)
+  pes <- excel_sheets(ruta)
   
-  for(i in dh){
+  
+  for(i in 1:(length(pes))){
     nn=0
-    if(i<10){ #IF MENOR A 10   
-      m1=paste("022 0",i,sep="")
-      m2=paste(m1,ca,sep = "-")
-      fe.=paste(ca,"2018",sep="/")
-      fe=paste(i,fe.,sep = "/")
-      fe1=paste(0,fe,sep = "")
-      ar1=paste(ruta,ar,sep = "/")
-      #b=try(read.xlsx(ar1, sheetName = m2,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
-      b=try(read_excel(ar1, sheet = m2,range = "A10:I34",col_names = TRUE),silent = TRUE)
+    
+    #Validador de lectura pestaña 0-22
+    if(length(grep(pattern ='022',pes[i],fixed = TRUE))==1){
+      b=try(read_excel(ruta, sheet = i,range = "A10:I34",col_names = TRUE),silent = TRUE)
       
-      
-      
+      #verificardor posible error
       if(class(b)[1]=="try-error"){ #IF ESPACIO
-        print("hay un espacio" )
-        m3=paste(m2,"",sep = " ")
-        ar1=paste(ruta,ar,sep = "/")
-        #b=try(read.xlsx(ar1, sheetName = m3,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
-        b=try(read_excel(ar1, sheet = m3,range = "A10:I34",col_names = TRUE),silent = TRUE)
-        
-        if(class(b)[1]=="try-error"){
-          #print("hay un espacio al inicio" )
-          m3=paste("",m2,sep = " ")
-          ar1=paste(ruta,ar,sep = "/")
-          #b=try(read.xlsx(ar1, sheetName = m3,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
-          b=try(read_excel(ar1, sheet = m3,range = "A10:I34",col_names = TRUE),silent = TRUE)
-          nn=nn+1
-          
-        }
-        
+        print("Error de lectura")
+        print("Favor revisar la pestaña")
+        print(pes[i])
+      }
+      
+      #leo nombre del dia de operacion
+      #ojo es una manera, la otra forma seria usar el vector de dh
+      name <- try(read_excel(ruta, sheet = i,range = "A2",col_names = FALSE),silent = TRUE)
+      fecha <- substr(name,68,77)
+      
+      
+      if(ncol(b)==8){#if solo letras
+        print("Existe un dia donde hubo solo op de Letras!")
+        b=data.frame(b,nueva=rep(0,dim(b)[1]))
+      }#final if solo letras
+      
+      
+      
+      if(is.na(b[1,5])!=T){ 
         
         if(ncol(b)==8){#if solo letras
           print("Existe un dia donde hubo solo op de Letras!")
@@ -2356,53 +2354,33 @@ Preciosbcv=function(ca,dh,ar,ruta){
         }#final if solo letras
         
         names(b)[9]="Cupón...."
+        b1=b[-which(is.na(b[,1])),]
         
-        #if 
-        if(class(b)[1]=="try-error"){
-          print("el doc 0-22 no corresponde con el mes ingresado o existe un problema con el nombre de la pestaña" )
-          print("Favor Revisar el dia")
-          print(i)
-        }#final if error lectura
-        
-        
-        if(is.na(b[1,5])!=T){ 
-          if(ncol(b)==8){#if solo letras
-            print("Existe un dia donde hubo solo op de Letras!")
-            b=data.frame(b,nueva=rep(0,dim(b)[1]))
-          }#final if solo letras
-          
-          names(b)[9]="Cupón...."
-          b1=b[-which(is.na(b[,1])),]
-          
-          #filtro para cuando no haya TICC
-          if(length(which(is.na(b1[,8])))!=0){
-            b2=b1[-which(is.na(b1[,8])),]
-            b3=b2[-which(b2[,1]=="Instrumento"),]
-            b3.=rep(fe1,length(b3[,1]))
-            b4=cbind(b3.,b3)
-            b5=rbind(b5,b4)
-            b5[which(substr(b5[,1],1,3)=="LTB"),10]=0
-            b5=faux(b5)
-          }#final if na en promedio
-          
-          if(length(which(is.na(b1[,8])))==0){
-            b3.=rep(fe1,length(b1[,1]))
-            b4=cbind(b3.,b1)
-            b5=rbind(b5,b4)
-            b5[which(substr(b5[,2],1,3)=="LTB"),10]=0
-            b5=faux(b5)
-          }
-          nn=nn+1
+        #filtro para cuando no haya TICC
+        if(length(which(is.na(b1[,8])))!=0){
+          b2=b1[-which(is.na(b1[,8])),]
+          b3=b2[-which(b2[,1]=="Instrumento"),]
+          b3.=rep(fecha,length(b3[,1]))
+          b4=cbind(b3.,b3)
+          b5=rbind(b5,b4)
+          b5[which(substr(b5[,1],1,3)=="LTB"),10]=0
+          b5=faux(b5)
+        }else{
+          b3.=rep(fecha,length(b1[,1]))
+          b4=cbind(b3.,b1)
+          b5=rbind(b5,b4)
+          b5[which(substr(b5[,2],1,3)=="LTB"),10]=0
+          b5=faux(b5)
         }
-        
-        if(is.na(b[1,5])==T  & nn==0){ 
-          #caso en que no hay operaciones
-          print("No hubo operacion el dia ")
-          print(i)
-          
-        }
-        
-      }#final if espacio
+        nn=nn+1
+      }
+      
+      # if(is.na(b[1,5])==T  & nn==0){
+      #   #caso en que no hay operaciones
+      #   print("No hubo operacion el dia ")
+      #   print(pes[i])
+      # }
+      
       #caso normal
       
       if(is.na(b[1,5])!=T & nn==0){  
@@ -2418,145 +2396,33 @@ Preciosbcv=function(ca,dh,ar,ruta){
         if(length(which(is.na(b1[,8])))!=0){
           b2=b1[-which(is.na(b1[,8])),]
           b3=b2[-which(b2[,1]=="Instrumento"),]
-          b3.=rep(fe1,length(b3[,1]))
+          b3.=rep(fecha,length(b3[,1]))
           b4=cbind(b3.,b3)
           b5=rbind(b5,b4)
           b5[which(substr(b5[,2],1,3)=="LTB"),10]=0
           b5=faux(b5)
-        }
-        
-        if(length(which(is.na(b1[,8])))==0){
-          b3.=rep(fe1,length(b1[,1]))
+        }else{
+          b3.=rep(fecha,length(b1[,1]))
           b4=cbind(b3.,b1)
           b5=rbind(b5,b4)
           b5[which(substr(b5[,2],1,3)=="LTB"),10]=0
           b5=faux(b5)
         }
-      }
-      
-      if(is.na(b[1,5])==T){ 
-        #caso en que no hay operaciones
-        print("No hubo operacion el dia ")
-        print(i)
-      }
-      
-    }#final if < 10
-    
-    if(i>=10){ #IF MAYOR A 10    
-      m1=paste("022 ",i,sep="")
-      m2=paste(m1,ca,sep = "-")
-      fe.=paste(ca,"2018",sep="/")
-      fe=paste(i,fe.,sep = "/")
-      ar1=paste(ruta,ar,sep = "/")
-      #b=try(read.xlsx(ar1, sheetName = m2,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
-      b=try(read_excel(ar1, sheet = m2,range = "A10:I34",col_names = TRUE),silent = TRUE)
-      
-      
-      if(class(b)[1]=="try-error"){ #IF ESPACIO
-        print("hay un espacio" )
-        print("en el día")
-        print(i)
-        m3=paste(m2,"",sep = " ")
-        ar1=paste(ruta,ar,sep = "/")
-        #b=try(read.xlsx(ar1, sheetName = m3,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
-        b=try(read_excel(ar1, sheet = m3,range = "A10:I34",col_names = TRUE),silent = TRUE)
-        
-        
-        #names(b)[9]="Cupón...."
-        if(class(b)[1]=="try-error"){
-          #print("hay un espacio al inicio" )
-          m3=paste("",m2,sep = " ")
-          ar1=paste(ruta,ar,sep = "/")
-          #b=try(read.xlsx(ar1, sheetName = m3,startRow = 10,colIndex = 1:9,header = TRUE),silent = T)
-          b=try(read_excel(ar1, sheet = m3,range = "A10:I34",col_names = TRUE),silent = TRUE)
-          nn=nn+1
-          
-        }
-        
-        
-        if(class(b)[1]=="try-error"){
-          print("el doc 0-22 no corresponde con el mes ingresado o existe un problema con el nombre de la pestaña" )
-          print("Favor Revisar el dia")
-          print(i)
-          break
-        }
-        
-        if(is.na(b[1,5])!=T){ 
-          if(ncol(b)==8){#if solo letras
-            print("Existe un dia donde hubo solo op de Letras!")
-            b=data.frame(b,nueva=rep(0,dim(b)[1]))
-          }#final if solo letras
-          
-          names(b)[9]="Cupón...."
-          b1=b[-which(is.na(b[,1])),]
-          
-          #filtro para cuando no haya TICC
-          if(length(which(is.na(b1[,8])))!=0){
-            b2=b1[-which(is.na(b1[,8])),]
-            b3=b2[-which(b2[,1]=="Instrumento"),]
-            b3.=rep(fe,length(b3[,1]))
-            b4=cbind(b3.,b3)
-            b5=rbind(b5,b4)
-            b5[which(substr(b5[,2],1,3)=="LTB"),10]=0
-            b5=faux(b5)
-          }
-          
-          if(length(which(is.na(b1[,8])))==0){
-            b3.=rep(fe,length(b1[,1]))
-            b4=cbind(b3.,b1)
-            b5=rbind(b5,b4)
-            b5[which(substr(b5[,2],1,3)=="LTB"),10]=0
-            b5=faux(b5)
-          }
-          nn=nn+1
-        }
-        
-        if(is.na(b[1,5])==T & nn==0){ 
-          #caso en que no hay operaciones
-          print("No hubo operacion el dia ")
-          print(i)
-        }
-        
-      }#final if espacio
-      
-      #CASO NORMAL
-      if(is.na(b[1,5])!=T & nn==0){ 
-        if(ncol(b)==8){#if solo letras
-          print("Existe un dia donde hubo solo op de Letras!")
-          b=data.frame(b,nueva=rep(0,dim(b)[1]))
-        }#final if solo letras
-        
-        names(b)[9]="Cupón...."
-        b1=b[-which(is.na(b[,1])),]
-        
-        #filtro para cuando no haya TICC
-        if(length(which(is.na(b1[,8])))!=0){
-          b2=b1[-which(is.na(b1[,8])),]
-          b3=b2[-which(b2[,1]=="Instrumento"),]
-          b3.=rep(fe,length(b3[,1]))
-          b4=cbind(b3.,b3)
-          b5=rbind(b5,b4)
-          b5[which(substr(b5[,2],1,3)=="LTB"),10]=0
-          b5=faux(b5)
-        }
-        
-        if(length(which(is.na(b1[,8])))==0){
-          b3.=rep(fe,length(b1[,1]))
-          b4=cbind(b3.,b1)
-          b5=rbind(b5,b4)
-          b5[which(substr(b5[,2],1,3)=="LTB"),10]=0
-          b5=faux(b5)
-        }
-        
       }
       
       if(is.na(b[1,5])==T){
         #caso en que no hay operaciones
         print("No hubo operacion el dia ")
-        print(i)
+        print(pes[i])
       }
       
-    }#final if > 10
+      
+    }else{
+      # print("La pestaña")
+      # print(pes[i])
+      # print("No es pestaña 0-22")
+    }
+    
     
   }#final for
   
