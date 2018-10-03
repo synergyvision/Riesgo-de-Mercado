@@ -201,7 +201,16 @@ shinyServer(function(input, output) {
   
   #muestro caracteristicas
   output$Ca <- renderDataTable({C})
-  output$Ca_ns <- renderDataTable({C})
+  #output$Ca_ns <- renderDataTable({C})
+  output$Ca_ns <- renderDataTable({
+    ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
+    if(class(ca)=="try-error"){
+      v <- print("El archivo no se encuentra, descargar y recargar página!")
+      return(as.data.frame(v))
+    }else{
+      return(ca)
+    }
+  })
   output$Ca_dl <- renderDataTable({C})
   output$Ca_sp <- renderDataTable({C})
   output$Ca1 <- renderDataTable({C})
@@ -213,8 +222,11 @@ shinyServer(function(input, output) {
   
   #precios estimados iniciales
   output$p_est_tif <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = pa_sven,ind = 0,C = C,fe2=0,fe3=0)[[1]] })
-  output$p_est_tif_ns <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = pa_ns,ind = 0,C = C,fe2=0,fe3=0)[[1]] })
-  output$p_est_tif_ns_el <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif),ind = 0,C = C,fe2=0,fe3=0)[[1]] })
+  #output$p_est_tif_ns <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = pa_ns,ind = 0,C = C,fe2=0,fe3=0)[[1]] })
+  output$p_est_tif_ns <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = pa_ns,ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,fe2=0,fe3=0)[[1]] })
+  #output$p_est_tif_ns_el <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif),ind = 0,C = C,fe2=0,fe3=0)[[1]] })
+  output$p_est_tif_ns_el <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] })
+  
   
   #comparativo
   output$p_est_tif_ns_el_comp <- renderDataTable({Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(input$ns_b0_tif_comp,input$ns_b1_tif_comp,input$ns_b2_tif_comp,input$ns_t_tif_comp),ind = 0,C = C,fe2=0,fe3=0)[[1]] })
@@ -243,7 +255,9 @@ shinyServer(function(input, output) {
     if(input$opt_tif_ns==1){
     withProgress(message = 'Calculando precios teóricos...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
-    Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[1]] 
+    #Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[1]] 
+    Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,fe2=input$opt_tif_ns,fe3=0)[[1]] 
+    
     })
     }else{}
     })
@@ -877,7 +891,9 @@ shinyServer(function(input, output) {
   })
   
   #caso Nelson y Siegel
-  gra_tif_ns <- reactive({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[2]] })
+  #gra_tif_ns <- reactive({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[2]] })
+  gra_tif_ns <- reactive({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_ns,fe3=0)[[2]] })
+  
   gra_veb_ns <- reactive({Tabla.ns(fv = input$n2 ,tit = c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns),pr =tv_ns() ,pa = c(1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_ns,fe3=0)[[2]] })
   
 
@@ -1484,7 +1500,8 @@ shinyServer(function(input, output) {
     },
     content = function(file) {
       file<-paste(getwd(),"data",paste(input$dataset, ".xls", sep = ""),sep="/")
-      download.file(url=datasetInput(),destfile=file,method = "libcurl",mode="wb")
+      #antes en method estaba libcurl
+      download.file(url=datasetInput(),destfile=file,method = "internal",mode="wb")
       #write.xlsx(datasetInput(), file, row.names = FALSE)
     }
   )
@@ -1500,6 +1517,16 @@ shinyServer(function(input, output) {
     }
     })
   
+  #leo documento 022
+  output$docbcv <- renderDataTable({
+    ca <- try(Preciosbcv(paste(getwd(),"data","0-22.xls",sep = "/")))
+    if(class(ca)=="try-error"){
+      v <- print("El archivo no se encuentra, descargar y recargar página!")
+      return(as.data.frame(v))
+    }else{
+      return(ca)
+    }
+  })
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()

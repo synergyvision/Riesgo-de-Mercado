@@ -567,7 +567,9 @@ shinyUI(
                       h5(" Usted seleccionó"),
                       verbatimTextOutput("desc"),
                       h5(" Vista previa documento Características"),
-                      dataTableOutput("Ca_leida")
+                      dataTableOutput("Ca_leida"),
+                      h5(" Vista previa documento 0-22"),
+                      dataTableOutput("docbcv")
                       
                       
                       ),
