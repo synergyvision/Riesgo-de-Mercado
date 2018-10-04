@@ -1520,11 +1520,21 @@ shinyServer(function(input, output) {
   #leo documento 022
   output$docbcv <- renderDataTable({
     ca <- try(Preciosbcv(paste(getwd(),"data","0-22.xls",sep = "/")))
-    if(class(ca)=="try-error"){
+    ca1 <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
+    
+    if(class(ca)=="try-error" | class(ca1)=="try-error" ){
       v <- print("El archivo no se encuentra, descargar y recargar página!")
       return(as.data.frame(v))
     }else{
-      return(ca)
+      ca2 <- formatop(ca1,ca)
+      #convierto fecha de op y venc en fechas
+      ca2$`Fecha op` <- as.Date(as.character(ca2$`Fecha op`),format="%d/%m/%Y")
+      ca2$F.Vencimiento <- as.Date(as.character(ca2$F.Vencimiento),format="%d/%m/%Y")
+      
+      #este data frame es el que utiliza la metodologia Spline para los calculos
+      ca3 <- dplyr::arrange(ca2,(`Fecha op`))
+      
+      return(ca3)
     }
   })
   

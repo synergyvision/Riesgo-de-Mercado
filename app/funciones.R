@@ -2698,17 +2698,17 @@ Carac=function(ruta){
 formatop=function(C3,b3){
   
   #en caso de Haber letras pongo cupon 0
-  if(length(which(substr(b3$Instrumento.,1,3)=="LTB"))!=0){
-    b3$Cupón....[which(substr(b3$Instrumento.,1,3)=="LTB")]=0
+  if(length(which(substr(b3$Instrumento,1,3)=="LTB"))!=0){
+    b3$'Cupón....'[which(substr(b3$Instrumento,1,3)=="LTB")]=0
   }
   
   #traigo la fecha de vencimiento
   b3$Vencimiento=as.character(b3$Vencimiento)
   
   for(i in 1:length(b3$b3.)){
-    if(substr(b3$Instrumento.[i],1,3)!="LTB"){
-      #which(as.character(b3$Instrumento.[i])==as.character(c3$Sicet))
-      b3$Vencimiento[i]=C3$F.Vencimiento[which(as.character(b3$Instrumento.[i])==as.character(C3$Sicet))]
+    if(substr(b3$Instrumento[i],1,3)!="LTB"){
+      #which(as.character(b3$Instrumento[i])==as.character(c3$Sicet))
+      b3$Vencimiento[i]=C3$F.Vencimiento[which(as.character(b3$Instrumento[i])==as.character(C3$Sicet))]
     }else{ 
       b3$Vencimiento[i]=as.character(format(as.Date("1900-01-01")+as.numeric(b3$Vencimiento[i])-2,"%d/%m/%Y"))
     }
@@ -2719,36 +2719,13 @@ formatop=function(C3,b3){
   b3.$`as.character(rep("TIF", 1, length(b3$b3.)))`=as.character(b3.$`as.character(rep("TIF", 1, length(b3$b3.)))`)
   
   for(i in 1:length(b3.$b3.)){
-    #Letra
-    if(substr(b3$Instrumento.[i],1,3)=="LTB"){
+    if(substr(b3$Instrumento[i],1,3)!="LTB"){
+      b3.$`as.character(rep("TIF", 1, length(b3$b3.)))`[i]=as.character(C3$`Tipo Instrumento`[which(as.character(b3.$Instrumento[i])==as.character(C3$Sicet))])
+    }else{
       b3.$`as.character(rep("TIF", 1, length(b3$b3.)))`[i]="LETRA"
-    }#final if letra
-    #TICC
-    if(substr(b3$Instrumento.[i],1,3)=="DPU"){
-      b3.$`as.character(rep("TIF", 1, length(b3$b3.)))`[i]="TICC"
+      
     }
-    #valores bol
-    if(substr(b3$Instrumento.[i],1,3)=="VBB"){
-      b3.$`as.character(rep("TIF", 1, length(b3$b3.)))`[i]="VALORES BOLIVARIANOS"
-    }
-    #cert part Simon Bolivar
-    if(substr(b3$Instrumento.[i],1,3)=="CFB"){
-      b3.$`as.character(rep("TIF", 1, length(b3$b3.)))`[i]="CERT. PART. SIMON BOLIVAR"
-    }
-    #Valores financieros
-    if(substr(b3$Instrumento.[i],1,3)=="VFB"){
-      b3.$`as.character(rep("TIF", 1, length(b3$b3.)))`[i]="VALORES FINANCIEROS"
-    }
-    #Certificado Bandes
-    if(substr(b3$Instrumento.[i],1,3)=="CBB"){
-      b3.$`as.character(rep("TIF", 1, length(b3$b3.)))`[i]="CERT. PART. BANDES"
-    }
-    #vebono
-    if(length(which(as.character(b3.$Instrumento.[i])==as.character(C3$Sicet)))!=0){
-      b3.$`as.character(rep("TIF", 1, length(b3$b3.)))`[i]=as.character(C3$`Tipo Instrumento`[which(as.character(b3.$Instrumento.[i])==as.character(C3$Sicet))])
-    }
-    
-  }#final for nombres
+  }
   
   #fuente
   p=as.character(rep("022 BCV",1,length(b3.$b3.)))
@@ -2759,8 +2736,8 @@ formatop=function(C3,b3){
   nom=c()
   
   for(i in 1:nrow(B3)){
-    if(substr(b3$Instrumento.[i],1,3)!="LTB"){
-      nom[i]=as.character(C3$Nombre[which(as.character(B3$Instrumento.[i])==C3$Sicet)])
+    if(substr(b3$Instrumento[i],1,3)!="LTB"){
+      nom[i]=as.character(C3$Nombre[which(as.character(B3$Instrumento[i])==C3$Sicet)])
     }else{
       n1=substr(b3.$Vencimiento[i],4,5)
       n2=substr(b3.$Vencimiento[i],7,10)
@@ -2784,9 +2761,6 @@ formatop=function(C3,b3){
       }
       if(substr(as.character(C3$Inicio[which(as.character(B3$Sicet[i])==C3$Sicet)]),6,8)=="180" |substr(as.character(C3$Inicio[which(as.character(B3$Sicet[i])==C3$Sicet)]),6,8)=="182"){
         B3$Frecuencia[i]=2
-      }
-      if(substr(as.character(C3$Inicio[which(as.character(B3$Sicet[i])==C3$Sicet)]),6,8)=="364"){
-        B3$Frecuencia[i]=1
       }
     }
   }
