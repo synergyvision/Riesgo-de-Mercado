@@ -27,13 +27,13 @@ shinyUI(
                           
                 menuItem("Curva de Rendimiento", icon = icon("bar-chart-o"),
                          
-                            menuSubItem("Metodología Nelson y Siegel", tabName = "subitem1", icon = icon("circle-o")),
+                            menuSubItem("Nelson y Siegel", tabName = "subitem1", icon = icon("circle-o")),
                             
-                            menuSubItem("Metodología Svensson", tabName = "subitem2", icon = icon("circle-o")),
+                            menuSubItem("Svensson", tabName = "subitem2", icon = icon("circle-o")),
                             
-                            menuSubItem("Metodología Diebold-Li", tabName = "subitem3", icon = icon("circle-o")),
+                            menuSubItem("Diebold-Li", tabName = "subitem3", icon = icon("circle-o")),
                             
-                            menuSubItem("Metodología Splines", tabName = "subitem4", icon = icon("circle-o"))
+                            menuSubItem("Splines", tabName = "subitem4", icon = icon("circle-o"))
                        
                           ),#fin menuitem 
                 
