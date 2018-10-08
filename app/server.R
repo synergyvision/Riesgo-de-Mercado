@@ -1534,6 +1534,21 @@ shinyServer(function(input, output) {
       #este data frame es el que utiliza la metodologia Spline para los calculos
       ca3 <- dplyr::arrange(ca2,(`Fecha op`))
       
+      #guardo historico_actualizado
+      hist <- read.csv(paste(getwd(),"data","Historico.txt",sep = "/"),sep="")
+      hist[,3] <- as.Date(as.character(hist[,3]))
+      hist[,6] <- as.Date(as.character(hist[,6]))
+      
+      
+      names(ca3)=names(hist)
+     #print(str(ca3))
+     #print(str(hist))
+     
+      hist_act <- rbind.data.frame(hist,ca3)
+      
+  
+      write.table(hist_act,paste(getwd(),"data","Historico_act.txt",sep = "/"),row.names = FALSE)
+      
       return(ca3)
     }
   })
