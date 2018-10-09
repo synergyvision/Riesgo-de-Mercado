@@ -1530,27 +1530,135 @@ shinyServer(function(input, output) {
       #convierto fecha de op y venc en fechas
       ca2$`Fecha op` <- as.Date(as.character(ca2$`Fecha op`),format="%d/%m/%Y")
       ca2$F.Vencimiento <- as.Date(as.character(ca2$F.Vencimiento),format="%d/%m/%Y")
-      
+
       #este data frame es el que utiliza la metodologia Spline para los calculos
       ca3 <- dplyr::arrange(ca2,(`Fecha op`))
-      
+
       #guardo historico_actualizado
       hist <- read.csv(paste(getwd(),"data","Historico.txt",sep = "/"),sep="")
       hist[,3] <- as.Date(as.character(hist[,3]))
       hist[,6] <- as.Date(as.character(hist[,6]))
-      
-      
+
+
       names(ca3)=names(hist)
      #print(str(ca3))
      #print(str(hist))
-     
+
       hist_act <- rbind.data.frame(hist,ca3)
-      
-  
+
+
       write.table(hist_act,paste(getwd(),"data","Historico_act.txt",sep = "/"),row.names = FALSE)
-      
+
       return(ca3)
     }
+  })
+  
+  
+  output$pre_prom_tif <- renderPrint({
+            #leo el historico actualizado
+            hist <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+            
+            #como primer enfoque busco todos los tif y veb
+            #luego se puede buscar solamente los tit seleccionados
+            #no seria muy dificil este cambio
+            hist_18 <- pre_prom(hist,"2018")
+            hist_17 <- pre_prom(hist,"2017")
+            hist_16 <- pre_prom(hist,"2016")
+            
+            #para buscar tif uso hist_18 u otro año y uso el segundo 
+            #elemento de la lista
+            #busco tif de mi cartera en historico 2018
+            tif_18 <- comp(tit,hist_18[[2]])
+            
+            #los tif que no encuentro en 2018 los busco en 2017
+            if(length(tif_18[[2]])!=0){
+              tif_17 <- comp(tif_18[[2]],hist_17[[2]])
+            }else{
+              print("Todos los instrumentos estan")
+            }
+            
+            #los tif que no encuentro en 2017 los busco en 2016
+            if(length(tif_17[[2]])!=0){
+              tif_16 <- comp(tif_17[[2]],hist_16[[2]])
+            }else{
+              print("Todos los instrumentos estan")
+            }
+            
+            #precios promedio que salen
+            TIF <- rbind.data.frame(tif_18[[1]],tif_17[[1]],tif_16[[1]])
+            names(TIF) <- c("Títulos","Precio Promedio","Año")
+            write.table(TIF,paste(getwd(),"data","Precio_prom_tif.txt",sep = "/"),row.names = FALSE)
+            
+            
+            #titulos tif que no salen
+            no_tif <- as.data.frame(tif_16[[2]])
+            names(no_tif) <- "Títulos faltantes"
+            write.table(no_tif,paste(getwd(),"data","Tif_faltantes.txt",sep = "/"),row.names = FALSE)
+            
+            
+            #return(TIF)
+            print("Titulos en historico")
+            print(TIF)
+            
+            print("Titulos que no salen")
+            print(no_tif)
+
+            
+            
+                          })
+    
+    
+  output$pre_prom_veb <- renderPrint({
+    #leo el historico actualizado
+    hist <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    
+    #como primer enfoque busco todos los tif y veb
+    #luego se puede buscar solamente los tit seleccionados
+    #no seria muy dificil este cambio
+    hist_18 <- pre_prom(hist,"2018")
+    hist_17 <- pre_prom(hist,"2017")
+    hist_16 <- pre_prom(hist,"2016")
+    
+    #para buscar tif uso hist_18 u otro año y uso el tercer 
+    #elemento de la lista
+    #busco veb de mi cartera en historico 2018
+    veb_18 <- comp(tit1,hist_18[[3]])
+    
+    #los tif que no encuentro en 2018 los busco en 2017
+    if(length(veb_18[[2]])!=0){
+      veb_17 <- comp(veb_18[[2]],hist_17[[3]])
+    }else{
+      print("Todos los instrumentos estan")
+    }
+    
+    #los tif que no encuentro en 2017 los busco en 2016
+    if(length(veb_17[[2]])!=0){
+      veb_16 <- comp(veb_17[[2]],hist_16[[3]])
+    }else{
+      print("Todos los instrumentos estan")
+    }
+    
+    #precios promedio que salen
+    VEB <- rbind.data.frame(veb_18[[1]],veb_17[[1]],veb_16[[1]])
+    names(VEB) <- c("Títulos","Precio Promedio","Año")
+    write.table(VEB,paste(getwd(),"data","Precio_prom_veb.txt",sep = "/"),row.names = FALSE)
+    
+    
+    #titulos tif que no salen
+    no_veb <- as.data.frame(veb_16[[2]])
+    names(no_veb) <- "Títulos faltantes"
+    write.table(no_veb,paste(getwd(),"data","Veb_faltantes.txt",sep = "/"),row.names = FALSE)
+    
+    
+    #return(TIF)
+    print("Titulos en historico")
+    print(VEB)
+    
+    print("Titulos que no salen")
+    print(no_veb)
+    
+    
+    
   })
   
   # Almacenar Variables Reactivas

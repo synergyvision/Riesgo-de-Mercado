@@ -569,7 +569,14 @@ shinyUI(
                       h5(" Vista previa documento Características"),
                       dataTableOutput("Ca_leida"),
                       h5(" Vista previa documento 0-22"),
-                      dataTableOutput("docbcv")
+                      dataTableOutput("docbcv"),
+                      h2("Calculo precio promedio"),
+                      tabBox(width = 12, title = "Títulos", height = "50px",
+                      tabPanel("TIF",
+                      verbatimTextOutput("pre_prom_tif")),
+                      tabPanel("VEBONOS",
+                               verbatimTextOutput("pre_prom_veb"))
+                      )
                       
                       
                       ),

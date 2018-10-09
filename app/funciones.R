@@ -2499,7 +2499,7 @@ Carac=function(ruta){
   
   #if pestaña dpn - ticc
   if(class(d)[1]=="try-error"){
-    d3=1
+    d3=c()
   }else{
     d=d[-which(is.na(d[,2])),c(3,4,5,7,9,10,12,14)]
     d <- as.data.frame(d)
@@ -2525,7 +2525,7 @@ Carac=function(ruta){
   #if peta?a VF
   if(class(v)[1]=="try-error"){
     print("No hay pesta?a VF")
-    w3=1
+    w3=c()
   }else{
     #leo VF
     v=v[-which(is.na(v[,2])),c(3,4,5,7,9,10,12,14)]
@@ -2558,7 +2558,7 @@ Carac=function(ruta){
     #C3$Cupon=as.numeric(sub(",",".",C3$Cupon))
     
     #return(C3)  
-    v3=1
+    v3=c()
   }else{
     #leo Vb   
     vb=vb[,-4]
@@ -2592,7 +2592,7 @@ Carac=function(ruta){
     #C3$Cupon=as.numeric(sub(",",".",C3$Cupon))
     
     #return(C3)  
-    x3=1
+    x3=c()
   }else{
     #leo cf
     cf=cf[-which(is.na(cf[,2])),c(3,4,5,7,9,10,12,14)]
@@ -2625,7 +2625,7 @@ Carac=function(ruta){
     #C3$Cupon=as.numeric(sub(",",".",C3$Cupon))
     
     #return(C3)  
-    y3=1
+    y3=c()
   }else{
     
     #leo cb
@@ -2653,29 +2653,29 @@ Carac=function(ruta){
   if(length(c3)==1|length(d3)==1|length(v3)==1|length(w3)==1|length(x3)==1|length(y3)==1){
     print("No hay una pesta?a!") 
     ve=c(length(c3),length(d3),length(v3),length(w3),length(x3),length(y3))
-    h1=which(ve==1)
+    #h1=which(ve==1)
     
-    if(h1==2){
+    if(ve[2]==1){
       print("Falta pesta?a DPN-TICC")
       C3=rbind(c3,v3,w3,x3,y3)
       return(C3)
     }
-    if(h1==3){
+    if(ve[3]==1){
       print("Falta pesta?a VB")
       C3=rbind(c3,d3,w3,x3,y3)
       return(C3)
     }
-    if(h1==4){
+    if(ve[4]==1){
       print("Falta pesta?a VF")
       C3=rbind(c3,d3,v3,x3,y3)
       return(C3)
     }
-    if(h1==5){
+    if(ve[5]==1){
       print("Falta pesta?a CF")
       C3=rbind(c3,d3,v3,w3,y3)
       return(C3)
     }
-    if(h1==6){
+    if(ve[6]==1){
       print("Falta pesta?a CB")
       C3=rbind(c3,d3,v3,w3,x3)
       return(C3)
@@ -2781,5 +2781,96 @@ formatop=function(C3,b3){
 }#final funcion formato precios 022
 
 
+#imputs: 
+#hist: historico 022 con el que se va a trabajar
+#ye: año donde se quiere buscar el precio promedio
+#el mismo debe estar en el historico
+#output: 
+#f: lista de 3 elementos
+#f1: total de titulos en el historico con su precio promedio
+#f2: precio promedio TIF
+#f3: precio promedio VEBONO
+pre_prom <- function(hist,ye){
+  
+  hist$year <- year(hist[,3])
+  
+  hist <- hist[which(hist$year==ye),]
+  
+  #tit diferentes en 2018
+  a <- levels(as.factor(as.character(unique(hist[,2]))))
+  
+  #posiciones en el historico donde se encuentra un tit
+  b <- list()
+  
+  for(i in 1:length(a)){
+    b[[i]] <-  which(a[i]==as.character(hist[,2]))
+  }
+  
+  #precio promedio 2018
+  c <- c()
+  
+  for(i in 1:length(a)){
+    c[i] <-  mean(hist[b[[i]],12])
+  }
+  
+  f <- list()
+  
+  #tit con su precio prom
+  f[[1]] <- cbind.data.frame("titulos"=a,"precio prom"=c)
+  f[[1]]$year <- ye
+  
+  #precios prom tif 2018
+  f[[2]] <- f[[1]][which(substr(f[[1]]$titulos,1,3)=="TIF"),]
+  
+  #precios prom veb 2018
+  f[[3]] <- f[[1]][which(substr(f[[1]]$titulos,1,3)=="VEB"),]
+  
+  
+  return(f)
+  
+}#final funcion pre_prom
 
+#creo funcion que me dicd que titulos de mi cartera esta en un
+#determinado año
+#imputs
+#veb: titulos en mi cartera 
+#v1: precios prom de tit en determinado año
+#outpus: lista de 2 elementos
+#1er: precio promedio de los que salen
+#2do: nombre de los q no salen
+comp <- function(veb,v1){
+  v1$titulos <- as.character(v1$titulos)
+  
+  x <- c()
+  for(i in 1:length(veb)){
+    x[i] <- length(which(veb[i]==v1$titulos))
+    
+  }
+  
+  #titulos que no salen
+  veb1 <- veb[c(which(x==0))]
+  
+  #titulos que salen
+  veb2 <- veb[c(which(x==1))]
+  
+  #los busco en v1
+  y <- c()
+  
+  for(i in 1:length(veb2)){
+    y[i] <- which(veb2[i]==v1$titulos)
+  }
+  
+  #
+  veb3 <- v1[y,]
+  
+  #exporto resultados
+  f <- list()
+  
+  f[[1]] <-  veb3
+  
+  f[[2]] <- veb1
+  
+  return(f)
+  
+}
 #########################################
