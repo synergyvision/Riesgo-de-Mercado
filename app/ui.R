@@ -567,16 +567,22 @@ shinyUI(
                       h5(" Usted seleccionó"),
                       verbatimTextOutput("desc"),
                       h5(" Vista previa documento Características"),
-                      dataTableOutput("Ca_leida"),
+                      box(style="overflow-x:scroll",width = 12,
+                      dataTableOutput("Ca_leida")),
                       h5(" Vista previa documento 0-22"),
-                      dataTableOutput("docbcv"),
+                      box(style="overflow-x:scroll",width = 12,
+                      dataTableOutput("docbcv")),
                       h2("Calculo precio promedio"),
-                      tabBox(width = 12, title = "Títulos", height = "50px",
+                      #tabBox(width = 12, title = "Títulos", height = "50px",
+                      #mainPanel(
+                        tabsetPanel(type="pills",
                       tabPanel("TIF",
                       verbatimTextOutput("pre_prom_tif")),
                       tabPanel("VEBONOS",
                                verbatimTextOutput("pre_prom_veb"))
-                      )
+                        )
+                      #)
+                      #)
                       
                       
                       ),
