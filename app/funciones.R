@@ -1815,6 +1815,9 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C,pr){
     datatif <- arrange(datatif,desc(Fecha.op))
     
     datatif$F.Vencimiento <- as.Date(datatif$F.Vencimiento,format="%d/%m/%Y")
+    #datatif$F.Vencimiento <- as.Date(datatif$F.Vencimiento)
+    
+        
     datatif$year <- year(datatif$F.Vencimiento)
     datatif$segmento <- cut(datatif$year,breaks = c(2015,2019,2030,2038),labels = c("Corto Plazo","Mediano Plazo","Largo Plazo"))
     
@@ -1915,7 +1918,9 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C,pr){
     print("EL SRC es")
     print(sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
     
-    Pr_tit_tif <- rbind.data.frame(Pr_tit_tif,sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
+    #Pr_tit_tif <- rbind.data.frame(Pr_tit_tif,sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
+    Pr_tit_tif <- cbind.data.frame("Títulos"=c(Pr_tit_tif[,1],"SRC"),"Precios"=c(Pr_tit_tif[,2],sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
+    
     #rownames(Pr_tit_tif)[length(Pr_tit_tif[,1])] <- "SRC"
     
     res_tif <- list(Pr_tit_tif,candidatos[,c(2,3,6,7,12,13,15,17,18)],letra,spline1,Tabla) 
@@ -1928,7 +1933,10 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C,pr){
     dataveb <- data[which(data$Tipo.Instrumento=="VEBONO"),]
     dataveb <- arrange(dataveb,desc(Fecha.op))
     
-    dataveb$F.Vencimiento <- as.Date(dataveb$F.Vencimiento,format="%d/%m/%Y")
+    #dataveb$F.Vencimiento <- as.Date(dataveb$F.Vencimiento,format="%d/%m/%Y")
+    dataveb$F.Vencimiento <- as.Date(dataveb$F.Vencimiento)
+    
+    
     dataveb$year <- year(dataveb$F.Vencimiento)
     dataveb$segmento <- cut(dataveb$year,breaks = c(2015,2019,2030,2038),labels = c("Corto Plazo","Mediano Plazo","Largo Plazo"))
     
@@ -2026,7 +2034,9 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C,pr){
     print("EL SRC es")
     print(sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
     
-    Pr_tit_veb <- rbind.data.frame(Pr_tit_veb,sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
+    #Pr_tit_veb <- rbind.data.frame(Pr_tit_veb,sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
+    Pr_tit_veb <- cbind.data.frame("Títulos"=c(Pr_tit_veb[,1],"SRC"),"Precios"=c(Pr_tit_veb[,2],sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
+    
     #rownames(Pr_tit_veb)[length(Pr_tit_veb[,1])] <- "SRC"
     
     res_veb <- list(Pr_tit_veb,candidatos[,c(2,3,6,7,12,13,15,17,18)],letra,spline1,Tabla) 
