@@ -82,6 +82,58 @@ names(p1) <- t
 return(p1)
 }#final funcion pos
 
+
+#Defino función para extraer precios promedio del archivo en la carpeta data
+pos1 <- function(t,ind){
+  #caso tif
+  if(ind==0){
+    tif <- read.csv(paste(getwd(),"data","Precio_prom_tif.txt",sep = "/"),sep="")
+    tif$Títulos <- as.character(tif$Títulos)
+    p <- c()
+    
+    #condicional de existencia
+    for(i in 1:length(t)){
+      if(length(which(t[i]==tif$Títulos))!=0){
+           p[i] <- tif$Precio.Promedio[which(t[i]==tif$Títulos)]
+      }else{
+        #print("Titulo no encontrado")
+        p[i] <- 0
+      }
+    }
+    
+    names(p) <- t
+    return(p)
+    
+    
+    } #final if tif
+    
+  
+  #caso veb
+  if(ind==1){
+    veb <- read.csv(paste(getwd(),"data","Precio_prom_veb.txt",sep = "/"),sep="")
+    veb$Títulos <- as.character(veb$Títulos)
+    
+    p <- c()
+    #condicional de existencia
+    for(i in 1:length(t)){
+      if(length(which(t[i]==veb$Títulos))!=0){
+        p[i] <- veb$Precio.Promedio[which(t[i]==veb$Títulos)]
+      }else{
+        #print("Titulo no encontrado")
+        p[i] <- 0
+      }
+    } 
+    
+    names(p) <- t
+    return(p)
+    
+  }
+  
+  
+  
+}#final funcion pos1
+
+
 #Parametros iniciales
 #tif
 pa_sven=c(0.133799434790145,-0.01,-0.307885339616438,-0.134075672659356,

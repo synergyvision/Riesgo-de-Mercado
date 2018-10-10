@@ -31,7 +31,9 @@ shinyServer(function(input, output) {
   tf <- reactive({pos(c(input$t1,input$t2,input$t3,input$t4),0)})
   tf_ns <- reactive({pos(c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),0)})
   tf_dl <- reactive({pos(c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),0)})
-  tf_sp <- reactive({pos(c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),0)})
+  #tf_sp <- reactive({pos(c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),0)})
+  tf_sp <- reactive({pos1(c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),0)})
+  
   tv <- reactive({pos(c(input$v1,input$v2,input$v3,input$v4),1)})
   tv_ns <- reactive({pos(c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns),1)})
   tv_dl <- reactive({pos(c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),1)})
@@ -1148,7 +1150,16 @@ shinyServer(function(input, output) {
   
   #titulos candidatos
   #tif
-  output$tit_cand_tif <- renderDataTable({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]] })
+  output$tit_cand_tif <- renderDataTable({
+    Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
+    
+    #dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    #dat[,3] <- as.Date(as.character(dat[,3]))
+    #car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    #print(str(data_splines))
+    #print(str(dat))
+    #Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
+    })
   
   #comparativo
   output$tit_cand_tif_comp <- renderDataTable({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num = input$d_tif_comp,par = input$parametro_tif_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[2]] })

@@ -482,7 +482,7 @@ shinyUI(
                                     ),#final fluidrow 
                                     verbatimTextOutput("q1_sp"),h2(" Precios Promedios"),verbatimTextOutput("pre1_sp"),
                                     
-                                    h2(" Características"),dataTableOutput("Ca_sp"),
+                                    h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca_sp")),
                                     h3(" Por favor seleccionar el cantidad de días "),
                                     box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                         collapse= TRUE,"Recuerde que esta es la cantidad de días a considerar hacia atras en el tiempo
@@ -492,14 +492,14 @@ shinyUI(
                                         ),#final box
                                     numericInput( inputId = "d_tif", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
                                            verbatimTextOutput("dias_tif"),
-                                    h2(" Títulos candidatos"),dataTableOutput("tit_cand_tif"),
+                                    h2(" Títulos candidatos"),box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_tif")),
                                     h3(" Por favor ingresar el parámetro de suavizamiento "),
                                     box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                         collapse= TRUE,"Recuerde que este valor corresponde al grado de suavidad que tendrá la curva de rendimientos resultante" 
                                     ),#final box
                                     numericInput( inputId = "parametro_tif", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                            verbatimTextOutput("spar_tif"),
-                                    h2(" Precios Splines"),dataTableOutput("pre_sp_tif"),
+                                    h2(" Precios Splines"),box(style="overflow-x:scroll",width = 12,dataTableOutput("pre_sp_tif")),
                                     h2(" Curva de rendimientos TIF"),
                                     rbokehOutput("c_tif_splines")#verbatimTextOutput("datos")
                                     
@@ -566,12 +566,18 @@ shinyUI(
                       downloadButton("downloadData", "Descargar"),
                       h5(" Usted seleccionó"),
                       verbatimTextOutput("desc"),
-                      h5(" Vista previa documento Características"),
-                      box(style="overflow-x:scroll",width = 12,
-                      dataTableOutput("Ca_leida")),
-                      h5(" Vista previa documento 0-22"),
-                      box(style="overflow-x:scroll",width = 12,
-                      dataTableOutput("docbcv")),
+                      h5(" Vista previa"),
+                      tabsetPanel(type="pills",
+                          tabPanel("Características",
+                              h5("Documento Características"),
+                              box(style="overflow-x:scroll",width = 12,
+                              dataTableOutput("Ca_leida"))),
+                          tabPanel("Operaciones BCV 022",
+                              h5("Documento 0-22"),
+                              box(style="overflow-x:scroll",width = 12,
+                              dataTableOutput("docbcv"))
+                                )
+                                ),
                       h2("Calculo precio promedio"),
                       #tabBox(width = 12, title = "Títulos", height = "50px",
                       #mainPanel(
