@@ -1810,12 +1810,13 @@ precio_diario_sp <- function(fe,num,par,datatif,tit,C,letra){
 Tabla.splines <- function(data,tipo,fe,num,par,tit,C,pr){
   if(tipo=="TIF"){
     #extraigo solo TIF
+    #data[,3] <- as.Date(as.character(data[,3]))
     
     datatif <- data[which(data$Tipo.Instrumento=="TIF"),]
     datatif <- arrange(datatif,desc(Fecha.op))
     
-    datatif$F.Vencimiento <- as.Date(datatif$F.Vencimiento,format="%d/%m/%Y")
-    #datatif$F.Vencimiento <- as.Date(datatif$F.Vencimiento)
+    #datatif$F.Vencimiento <- as.Date(datatif$F.Vencimiento,format="%d/%m/%Y")
+    datatif$F.Vencimiento <- as.Date(datatif$F.Vencimiento)
     
         
     datatif$year <- year(datatif$F.Vencimiento)

@@ -37,7 +37,9 @@ shinyServer(function(input, output) {
   tv <- reactive({pos(c(input$v1,input$v2,input$v3,input$v4),1)})
   tv_ns <- reactive({pos(c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns),1)})
   tv_dl <- reactive({pos(c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),1)})
-  tv_sp <- reactive({pos(c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),1)})
+  #tv_sp <- reactive({pos(c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),1)})
+  tv_sp <- reactive({pos1(c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),1)})
+  
   output$pre1 <-renderPrint({tf()})
   output$pre1_ns <-renderPrint({tf_ns()})
   output$pre2 <-renderPrint({tv()})
@@ -214,7 +216,11 @@ shinyServer(function(input, output) {
     }
   })
   output$Ca_dl <- renderDataTable({C})
-  output$Ca_sp <- renderDataTable({C})
+  #output$Ca_sp <- renderDataTable({C})
+  output$Ca_sp <- renderDataTable({
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    })
+  
   output$Ca1 <- renderDataTable({C})
   output$Ca1_ns <- renderDataTable({C})
   output$Ca1_dl <- renderDataTable({C})
@@ -1042,9 +1048,30 @@ shinyServer(function(input, output) {
   
   
   #precios
-  output$pre_sp_tif <- renderDataTable({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[5]] })
+  #output$pre_sp_tif <- renderDataTable({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[5]] })
+  output$pre_sp_tif <- renderDataTable({
+    #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[5]] 
+     dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+     dat[,3] <- as.Date(as.character(dat[,3]))
+     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    # #print(str(data_splines))
+    # #print(str(dat))
+     Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[5]]
+    # 
+    
+    })
+  
   #output$pre_sp <- renderPrint({precio_diario_sp(fe=input$n4,num=input$d_tif,par =input$parametro_tif ,datatif =datatif ,tit =tf_sp() ,C=C_splines,letra=c(97,1.34)) })
-  output$pre_sp_veb <- renderDataTable({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[5]] })
+  output$pre_sp_veb <- renderDataTable({
+    #Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[5]] 
+     dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+     dat[,3] <- as.Date(as.character(dat[,3]))
+     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+     
+     Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),car,pr=tv_sp())[[5]] 
+    
+    
+    })
   
   #comparativo
   #tif
@@ -1058,7 +1085,12 @@ shinyServer(function(input, output) {
   #curva de rendimiento
   #tif
   output$c_tif_splines <- renderRbokeh({
-    y <-predict(Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[4]],seq(1,20,0.1)*365)$y
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    
+    
+    y <-predict(Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[4]],seq(1,20,0.1)*365)$y
     # f <- ggplot(cbind.data.frame(x=seq(1,20,0.1)*365,y),aes(x=x,y=y))+
     #   geom_line(color="black")+
     #   geom_point(data = pto_sp_tif(),aes(x=pto_sp_tif()[,1],y=pto_sp_tif()[,2]),color="blue",size=3)+
@@ -1102,7 +1134,11 @@ shinyServer(function(input, output) {
   
   #veb
   output$c_veb_splines <- renderRbokeh({
-    y <-predict(Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[4]],seq(1,20,0.1)*365)$y
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    
+    y <-predict(Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),car,pr=tv_sp())[[4]],seq(1,20,0.1)*365)$y
     # f <- ggplot(cbind.data.frame(x=seq(1,20,0.1)*365,y),aes(x=x,y=y))+
     #   geom_line(color="black")+
     #   geom_point(data = pto_sp_veb(),aes(x=pto_sp_veb()[,1],y=pto_sp_veb()[,2]),color="blue",size=3)+
@@ -1151,22 +1187,32 @@ shinyServer(function(input, output) {
   #titulos candidatos
   #tif
   output$tit_cand_tif <- renderDataTable({
-    Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
+    #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
+     dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+     dat[,3] <- as.Date(as.character(dat[,3]))
+     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    #return(car)
+     # #print(str(data_splines))
+    # #print(str(dat))
+     Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
     
-    #dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-    #dat[,3] <- as.Date(as.character(dat[,3]))
-    #car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    #print(str(data_splines))
-    #print(str(dat))
-    #Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
-    })
+     })
   
   #comparativo
   output$tit_cand_tif_comp <- renderDataTable({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num = input$d_tif_comp,par = input$parametro_tif_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[2]] })
   
   
   #veb
-  output$tit_cand_veb <- renderDataTable({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[2]] })
+  output$tit_cand_veb <- renderDataTable({
+    #Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[2]] 
+     dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+     dat[,3] <- as.Date(as.character(dat[,3]))
+     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+     
+     Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),car,pr=tv_sp())[[2]] 
+     
+    
+    })
   
   #comparativo
   output$tit_cand_veb_comp <- renderDataTable({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[2]] })
@@ -1176,7 +1222,13 @@ shinyServer(function(input, output) {
   #extraigo puntos con los q se hace la curva
   #tif
   pto_sp_tif <- reactive({
-    a <- Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    
+    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
+    
+    #a <- Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
     # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
     # names(a1) <- c("Plazo","Rendimiento")
     return(a)
@@ -1192,7 +1244,12 @@ shinyServer(function(input, output) {
   
   #veb
   pto_sp_veb <- reactive({
-    a <- Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[2]]
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    
+    
+    a <- Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),car,pr=tv_sp())[[2]]
     # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
     # names(a1) <- c("Plazo","Rendimiento")
     return(a)
