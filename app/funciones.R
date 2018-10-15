@@ -759,6 +759,32 @@ precio.ns=function(tit,fv,C,pa){
   
 }#final funcion precios estimados
 
+#funcion que calcula precio, para no tener un rend negativo
+#es una manera de evitar el inconveniente de ingresar el precio promedio 
+#de forma manual
+#argumentos:
+#pre: precio para el cual existe rend negativo
+#Tabla: tabla que genera la funcion Tabla.sven
+#output:
+#precio: precio para el cual no existe rendimiento negativo
+find_pre <- function(pre,Tabla){
+  
+  #vt1=seq(100,Tabla[6,which(Tabla[9,]<0)],by=0.01)
+  vt1=seq(100,pre,by=0.01)
+  vt1 <- vt1[length(vt1):1]
+  
+  j <- 1
+  vt2 <- as.numeric(gsub("[,]",".",Tabla[9,j]))
+  while(vt2<0){
+    vt2 <- bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,vt1[j],convention = c("ACT/360"),4)
+    j <- j+1
+  }
+  
+  #consigo precio de manera que el rend no es negativo
+  return(vt1[j])
+  
+} #final funcion find_pre
+
 #Funcion que calcula precios de los titulos considerados
 #y exporta una tabla con los resultados, donde es posible 
 #optimizar los precios dados inicialmente, de tal manera
@@ -834,26 +860,32 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     #verifico si rendimiento es negativo
     
     while(length(which(Tabla[9,]<0))!=0){
-      print("Existe rendimiento negativo")
-      print("En las posiciones")
-      print(which(Tabla[9,]<0))
+      #print("Existe rendimiento negativo")
+      #print("En las posiciones")
+      #print(which(Tabla[9,]<0))
       
       #pido ingresar nuevos valores para las posiciones indicadas
-      print("Favor Ingresar los")
-      print(length(which(Tabla[9,]<0)))
-      print("precios promedio nuevos")
-      vt=c()
+      #print("Favor Ingresar los")
+      #print(length(which(Tabla[9,]<0)))
+      #print("precios promedio nuevos")
+      
+      
+      vt <- c()
       for(i in 1:length(which(Tabla[9,]<0))){
-        vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
+        #vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
+        vt[i] <- find_pre(as.numeric(gsub("[,]",".",Tabla[6,i])),Tabla)
       }
       
       #sustituyo precios promedio
       Tabla[6,which(Tabla[9,]<0)]=vt
       
-      #calculo de nuevo los rendimientos
+      #calculo nuevos rendimientos
+      #rendimiento
       for(i in 1:ncol(Tabla)){
         Tabla[9,i]=bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
       }
+      #muestro tabla
+      # View(Tabla)
       
     }#final if rend negativo
     
@@ -922,7 +954,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     
     #fe2 <- readline(prompt="Desea optimizar?   (1) Si, (0) No    ")
     if(fe2==1){
-     # print("Por favor, seleccionar el paquete a usar: ")
+      # print("Por favor, seleccionar el paquete a usar: ")
       #fe3 <- readline(prompt="Seleccionar (1) para Nloptr, (0) para Alabama   ")
       
       if(fe3==1){
@@ -1038,17 +1070,20 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     #verifico si rendimiento es negativo
     
     while(length(which(Tabla[9,]<0))!=0){
-      print("Existe rendimiento negativo")
-      print("En las posiciones")
-      print(which(Tabla[9,]<0))
+      #print("Existe rendimiento negativo")
+      #print("En las posiciones")
+      #print(which(Tabla[9,]<0))
       
       #pido ingresar nuevos valores para las posiciones indicadas
-      print("Favor Ingresar los")
-      print(length(which(Tabla[9,]<0)))
-      print("precios promedio nuevos")
-      vt=c()
+      #print("Favor Ingresar los")
+      #print(length(which(Tabla[9,]<0)))
+      #print("precios promedio nuevos")
+      
+      
+      vt <- c()
       for(i in 1:length(which(Tabla[9,]<0))){
-        vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
+        #vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
+        vt[i] <- find_pre(as.numeric(gsub("[,]",".",Tabla[6,i])),Tabla)
       }
       
       #sustituyo precios promedio
@@ -1060,9 +1095,10 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
         Tabla[9,i]=bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
       }
       #muestro tabla
-     # View(Tabla)
+      # View(Tabla)
       
     }#final if rend negativo
+    
     
     
     #duracion
@@ -1130,7 +1166,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     #fe2 <- readline(prompt="Desea optimizar?   (1) Si, (0) No    ")
     if(fe2==1){
       
-     # print("Por favor seleccionar un paquete para optimizar")
+      # print("Por favor seleccionar un paquete para optimizar")
       #fe3 <- readline(prompt="Seleccionar (1) para el paquete Nloptr, (0) para alabama    ")
       
       if(fe3==1){
@@ -1237,6 +1273,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
   
   
 }#Final funcion 
+
 
 #funcion que me retorna una lista de 3 elementos
 #1: tabla de resultados
