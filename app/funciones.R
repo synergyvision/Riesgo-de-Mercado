@@ -965,7 +965,12 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       
       if(fe3==0){
         print("Optimizando mediante paquete alabama...")
-        ala1=alabama::auglag(pa, fn=mifuncion, hin=res) #mejor igual al solver
+        ala1=try(alabama::auglag(pa, fn=mifuncion, hin=res)) #mejor igual al solver
+        
+        if(class(ala1)[1]=="try-error"){
+          print("Existe un problema al optimizar")
+          break
+        }
         
         ala<<-ala1
         Tabla[13,]=precio.ns(tit,fv,C,ala1$par)
@@ -1167,7 +1172,12 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       
       if(fe3==0){
         print("Optimizando mediante paquete alabama...")
-        ala1=alabama::auglag(pa, fn=mifuncion, hin=res) #mejor igual al solver
+        ala1=try(alabama::auglag(pa, fn=mifuncion, hin=res)) #mejor igual al solver
+        
+        if(class(ala1)[1]=="try-error"){
+          print("Existe un problema al optimizar")
+          break
+        }
         
         ala<<-ala1
         Tabla[13,]=precio.ns(tit,fv,C,ala1$par)
