@@ -803,6 +803,8 @@ find_pre <- function(pre,Tabla,fv,i){
 #fe2: valor que indica si se optimizaran los precios, 1 (Si) 0 (No)
 #fe3: valido solo si se optimizan precios, 1 (paquete Nloptr) 0 (alabama)
 Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
+  #variable que me permite señalar error
+  cond <- 0
   #Creo data frame donde guardare calculo
   Tabla=as.data.frame(matrix(0,14,length(tit)))
   colnames(Tabla)=tit
@@ -1005,10 +1007,13 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
         if(class(ala1)[1]=="try-error"){
           #print("Existe un problema al optimizar")
           ff <- print("Existe un problema al optimizar")
+          #Tabla[13,]=precio.ns(tit,fv,C,pa)
+          
           #return(as.data.frame(ff))
           #break
-          #ala <- c()
-          #ala1 <- pa
+          ala1 <- c()
+          ala1$par <- pa
+          cond <- 1
         }
         
         ala<<-ala1
@@ -1059,7 +1064,14 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     
     #if para exportar resultados
     if(fe2==1){
-      Tabla1 <- list(Tabla,ala$par,precios)
+      if(cond==1){
+        Tabla <- as.data.frame(print("Problemas al optimizar"))
+        names(Tabla) <- "Aviso"
+        Tabla1 <- list(Tabla,NULL,NULL)
+      }else{
+        Tabla1 <- list(Tabla,ala$par,precios)
+      }
+      
     }else if(fe2==0){
       Tabla1 <- list(Tabla,pa,precios)
     }
@@ -1202,7 +1214,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
         q1 <- sum(as.numeric(gsub("[,]",".",Tabla[14,])))
         
         if(q==q1){
-          print("OPtimizaci?n fallida..")
+          print("Optimizaci?n fallida..")
           print("Optimizando por un m?todo diferente")
           ala1=nloptr::auglag(pa, fn=mifuncion, hin=res)
           ala<<-ala1
@@ -1221,10 +1233,12 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
         if(class(ala1)[1]=="try-error"){
           #print("Existe un problema al optimizar")
           ff <- print("Existe un problema al optimizar")
+          #Tabla[13,]=precio.ns(tit,fv,C,pa)
+          
           #return(as.data.frame(ff))
           #break
-          #ala <- c()
-          #ala1 <- pa
+          ala1 <- c()
+          ala1$par <- pa
           
         }
         
@@ -1274,7 +1288,13 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     
     #if para exportar resultados
     if(fe2==1){
-      Tabla1 <- list(Tabla,ala$par,precios)
+      if(cond==1){
+        Tabla <- as.data.frame(print("Problemas al optimizar"))
+        names(Tabla) <- "Aviso"
+        Tabla1 <- list(Tabla,Tabla,Tabla)
+      }else{
+        Tabla1 <- list(Tabla,ala$par,precios)
+      }
     }else if(fe2==0){
       Tabla1 <- list(Tabla,pa,precios)
     }
