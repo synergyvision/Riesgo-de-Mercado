@@ -765,9 +765,11 @@ precio.ns=function(tit,fv,C,pa){
 #argumentos:
 #pre: precio para el cual existe rend negativo
 #Tabla: tabla que genera la funcion Tabla.sven
+#fv: fecha de valoracion
+#i: posiciones donde hay rendimientos negativos
 #output:
 #precio: precio para el cual no existe rendimiento negativo
-find_pre <- function(pre,Tabla){
+find_pre <- function(pre,Tabla,fv,i){
   
   #vt1=seq(100,Tabla[6,which(Tabla[9,]<0)],by=0.01)
   vt1=seq(100,pre,by=0.01)
@@ -818,7 +820,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
   
   #relleno fecha Liquidación
   for(i in 1:ncol(Tabla)){
-    Tabla[2,i]=fv
+    Tabla[2,i]=paste(substr(fv,9,10),substr(fv,6,7),substr(fv,1,4),sep = "/")
   }
   
   #relleno fecha Emision
@@ -869,11 +871,12 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       #print(length(which(Tabla[9,]<0)))
       #print("precios promedio nuevos")
       
+      rendneg <- which(Tabla[9,]<0)
       
       vt <- c()
       for(i in 1:length(which(Tabla[9,]<0))){
         #vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
-        vt[i] <- find_pre(as.numeric(gsub("[,]",".",Tabla[6,i])),Tabla)
+        vt[i] <- find_pre(as.numeric(gsub("[,]",".",Tabla[6,rendneg[i]])),Tabla,fv,rendneg[i])
       }
       
       #sustituyo precios promedio
@@ -982,7 +985,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
         q1 <- sum(as.numeric(gsub("[,]",".",Tabla[14,])))
         
         if(q==q1){
-          print("OPtimizaci?n fallida..")
+          print("Optimizaci?n fallida..")
           print("Optimizando por un m?todo diferente")
           ala1=nloptr::auglag(pa, fn=mifuncion, hin=res)
           ala<<-ala1
@@ -1000,8 +1003,12 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
         ala1=try(alabama::auglag(pa, fn=mifuncion, hin=res)) #mejor igual al solver
         
         if(class(ala1)[1]=="try-error"){
-          print("Existe un problema al optimizar")
-          break
+          #print("Existe un problema al optimizar")
+          ff <- print("Existe un problema al optimizar")
+          #return(as.data.frame(ff))
+          #break
+          #ala <- c()
+          #ala1 <- pa
         }
         
         ala<<-ala1
@@ -1079,11 +1086,12 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       #print(length(which(Tabla[9,]<0)))
       #print("precios promedio nuevos")
       
+      rendneg <- which(Tabla[9,]<0)
       
       vt <- c()
       for(i in 1:length(which(Tabla[9,]<0))){
         #vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
-        vt[i] <- find_pre(as.numeric(gsub("[,]",".",Tabla[6,i])),Tabla)
+        vt[i] <- find_pre(as.numeric(gsub("[,]",".",Tabla[6,rendneg[i]])),Tabla,fv,rendneg[i])
       }
       
       #sustituyo precios promedio
@@ -1211,8 +1219,13 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
         ala1=try(alabama::auglag(pa, fn=mifuncion, hin=res)) #mejor igual al solver
         
         if(class(ala1)[1]=="try-error"){
-          print("Existe un problema al optimizar")
-          break
+          #print("Existe un problema al optimizar")
+          ff <- print("Existe un problema al optimizar")
+          #return(as.data.frame(ff))
+          #break
+          #ala <- c()
+          #ala1 <- pa
+          
         }
         
         ala<<-ala1
