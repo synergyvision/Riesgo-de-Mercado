@@ -406,7 +406,7 @@ shinyUI(
                                                     ),#final fluidrow 
                                                     verbatimTextOutput("q1_dl"),h2(" Precios Promedios"),verbatimTextOutput("pre1_dl"),
                                                     
-                                                    h2(" Características"),dataTableOutput("Ca_dl"),
+                                                    h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca_dl")),
                                                     h2(" Parámetro de suavizamiento"),
                                                     numericInput( inputId = "parametro_tif_dl", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                                     verbatimTextOutput("spar_tif_dl"),
@@ -415,7 +415,7 @@ shinyUI(
                                                     h2(" Curva spline Tif"),
                                                     rbokehOutput("c_tif_splines_dl"),
                                                     h2(" Precios estimados"),
-                                                    dataTableOutput("p_est_dl_tif"),
+                                                    box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_dl_tif")),
                                                     h2(" Curva de Rendimientos"),
                                                     plotlyOutput("curva_tif_dl")
                                                     
@@ -438,7 +438,7 @@ shinyUI(
                                                     ),#final fluidrow
                                                     verbatimTextOutput("q2_dl"), h2(" Precios Promedios"),verbatimTextOutput("pre2_dl"),
                                                     
-                                                    h2(" Características"),dataTableOutput("Ca1_dl"),
+                                                    h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca1_dl")),
                                                     h2(" Parámetro de suavizamiento"),
                                                     numericInput( inputId = "parametro_veb_dl", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                                     verbatimTextOutput("spar_veb_dl"),
@@ -447,7 +447,7 @@ shinyUI(
                                                     h2(" Curva spline Vebonos"),
                                                     rbokehOutput("c_veb_splines_dl"),
                                                     h2(" Precios estimados"),
-                                                    dataTableOutput("p_est_dl_veb"),
+                                                    box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_dl_veb")),
                                                     h2(" Curva de Rendimientos"),
                                                     plotlyOutput("curva_veb_dl")
                                                     

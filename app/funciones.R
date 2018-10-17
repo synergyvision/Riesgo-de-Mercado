@@ -1597,7 +1597,7 @@ precio.dl=function(tit,fv,C,pa,spline1,pr){
   
   #relleno fecha Liquidación
   for(i in 1:ncol(Tabla)){
-    Tabla[2,i]=fv
+    Tabla[2,i]=paste(substr(fv,9,10),substr(fv,6,7),substr(fv,1,4),sep = "/")
   }
   
   #relleno fecha Emision
