@@ -248,12 +248,12 @@ shinyUI(
                                                 ),#final fluidrow 
                                                 verbatimTextOutput("q1"),h2(" Precios Promedios"),verbatimTextOutput("pre1"),
                                                 
-                                                h2(" Características"),dataTableOutput("Ca"),
+                                                h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca")),
                                                 h2(" Parámetros"),
                                                 fluidRow(
                                                   tabBox( width = 12, title = "Parámetros", id = "tab1_sven_tif", height = "50px", 
                                                           tabPanel(" Parámetros Iniciales ",verbatimTextOutput("pa_tif"),#withMathJax(uiOutput("formula")),
-                                                                   h2(" Precios estimados iniciales"),dataTableOutput("p_est_tif"),
+                                                                   h2(" Precios estimados iniciales"),box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_tif")),
                                                                    h2(" Curva de rendimientos inicial"),
                                                                    plotOutput("c_tif_sven")
                                                           ),#final tabpanel p iniciales
@@ -283,7 +283,7 @@ shinyUI(
                                                                    verbatimTextOutput("new_sven_tif"),
                                                                    h4(" Verificación, "),
                                                                    verbatimTextOutput("ver_sven_tif"),
-                                                                   h2(" Precios estimados"),dataTableOutput("p_est_tif_opt_sven_el"),
+                                                                   h2(" Precios estimados"),box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_tif_opt_sven_el")),
                                                                    h4(" Curva de Rendimiento"),
                                                                    plotOutput("c_tif_sven_new")
                                                                    
@@ -294,7 +294,7 @@ shinyUI(
                                                                                 choices = c("Si"=1, "No"=0),
                                                                                 selected=" "
                                                                    )#final radiobuttoms
-                                                                   ,dataTableOutput("p_est_tif_opt"),
+                                                                   ,box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_tif_opt")),
                                                                    h2(" Parámetros optimizados"),
                                                                    verbatimTextOutput("par_tif_sven_op"),
                                                                    h2(" Curva de rendimientos TIF"),
@@ -320,12 +320,12 @@ shinyUI(
                                                 ),#final fluidrow 
                                                 verbatimTextOutput("q2"), h2(" Precios Promedios"),verbatimTextOutput("pre2"),
                                                  
-                                                h2(" Características"),dataTableOutput("Ca1"),
+                                                h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca1")),
                                                 h2(" Parámetros"),
                                                 fluidRow(
                                                   tabBox( width = 12, title = "Parámetros", id = "tab1_sven_veb", height = "50px", 
                                                           tabPanel(" Parámetros Iniciales ",verbatimTextOutput("pa_veb"),#withMathJax(uiOutput("formula")),
-                                                                   h2(" Precios estimados iniciales"),dataTableOutput("p_est_veb"),
+                                                                   h2(" Precios estimados iniciales"),box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_veb")),
                                                                    h2(" Curva de rendimientos inicial"),
                                                                    plotOutput("c_veb_sven")
                                                           ),#final tabpanel p iniciales
@@ -355,7 +355,7 @@ shinyUI(
                                                                    verbatimTextOutput("new_sven_veb"),
                                                                    h4(" Verificación, "),
                                                                    verbatimTextOutput("ver_sven_veb"),
-                                                                   h2(" Precios estimados"),dataTableOutput("p_est_veb_opt_sven_el"),
+                                                                   h2(" Precios estimados"),box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_veb_opt_sven_el")),
                                                                    h4(" Curva de Rendimiento"),
                                                                    plotOutput("c_veb_sven_new")
                                                                    
@@ -364,7 +364,7 @@ shinyUI(
                                                                    h2(" Precios estimados optimizados"),
                                                                    radioButtons(inputId = "opt_veb_sven",label = "Desea optimizar los precios obtenidos:", 
                                                                                 choices = c("Si"=1, "No"=0),
-                                                                                selected=" "),dataTableOutput("p_est_veb_opt")
+                                                                                selected=" "),box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_veb_opt"))
                                                                    ,
                                                                    h2(" Parámetros optimizados"),
                                                                    verbatimTextOutput("par_veb_sven_op"),

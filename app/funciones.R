@@ -159,6 +159,8 @@ precio.sven=function(tit,fv,C,pa){
 #fe2: valor que indica si se optimizaran los precios, 1 (Si) 0 (No)
 #fe3: valido solo si se optimizan precios, 1 (paquete Nloptr) 0 (alabama)
 Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
+  #variable que me permite señalar error
+  cond <- 0
   #Creo data frame donde guardare calculo
   Tabla=as.data.frame(matrix(0,14,length(tit)))
   colnames(Tabla)=tit
@@ -176,7 +178,7 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
   
   #relleno fecha Liquidación
   for(i in 1:ncol(Tabla)){
-    Tabla[2,i]=fv
+    Tabla[2,i]=paste(substr(fv,9,10),substr(fv,6,7),substr(fv,1,4),sep = "/")
   }
   
   #relleno fecha Emision
@@ -218,26 +220,33 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     #verifico si rendimiento es negativo
     
     while(length(which(Tabla[9,]<0))!=0){
-      print("Existe rendimiento negativo")
-      print("En las posiciones")
-      print(which(Tabla[9,]<0))
+      #print("Existe rendimiento negativo")
+      #print("En las posiciones")
+      #print(which(Tabla[9,]<0))
       
       #pido ingresar nuevos valores para las posiciones indicadas
-      print("Favor Ingresar los")
-      print(length(which(Tabla[9,]<0)))
-      print("precios promedio nuevos")
-      vt=c()
+      #print("Favor Ingresar los")
+      #print(length(which(Tabla[9,]<0)))
+      #print("precios promedio nuevos")
+      
+      rendneg <- which(Tabla[9,]<0)
+      
+      vt <- c()
       for(i in 1:length(which(Tabla[9,]<0))){
-        vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
+        #vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
+        vt[i] <- find_pre(as.numeric(gsub("[,]",".",Tabla[6,rendneg[i]])),Tabla,fv,rendneg[i])
       }
       
       #sustituyo precios promedio
       Tabla[6,which(Tabla[9,]<0)]=vt
       
-      #calculo de nuevo los rendimientos
+      #calculo nuevos rendimientos
+      #rendimiento
       for(i in 1:ncol(Tabla)){
         Tabla[9,i]=bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
       }
+      #muestro tabla
+      # View(Tabla)
       
     }#final if rend negativo
     
@@ -350,7 +359,19 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       
       if(fe3==0){
         print("Optimizando mediante paquete alabama...")
-        ala1=alabama::auglag(pa, fn=mifuncion, hin=res) #mejor igual al solver
+        ala1=try(alabama::auglag(pa, fn=mifuncion, hin=res)) #mejor igual al solver
+        
+        if(class(ala1)[1]=="try-error"){
+          #print("Existe un problema al optimizar")
+          ff <- print("Existe un problema al optimizar")
+          #Tabla[13,]=precio.ns(tit,fv,C,pa)
+          
+          #return(as.data.frame(ff))
+          #break
+          ala1 <- c()
+          ala1$par <- pa
+          cond <- 1
+        }
         
         ala<<-ala1
         Tabla[13,]=precio.sven(tit,fv,C,ala1$par)
@@ -399,7 +420,13 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     
     #if para exportar resultados
     if(fe2==1){
-      Tabla1 <- list(Tabla,ala$par,precios)
+      if(cond==1){
+        Tabla <- as.data.frame(print("Problemas al optimizar"))
+        names(Tabla) <- "Aviso"
+        Tabla1 <- list(Tabla,NULL,NULL)
+      }else{
+        Tabla1 <- list(Tabla,ala$par,precios)
+      }
     }else if(fe2==0){
       Tabla1 <- list(Tabla,pa,precios)
     }
@@ -417,17 +444,21 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     #verifico si rendimiento es negativo
     
     while(length(which(Tabla[9,]<0))!=0){
-      print("Existe rendimiento negativo")
-      print("En las posiciones")
-      print(which(Tabla[9,]<0))
+      #print("Existe rendimiento negativo")
+      #print("En las posiciones")
+      #print(which(Tabla[9,]<0))
       
       #pido ingresar nuevos valores para las posiciones indicadas
-      print("Favor Ingresar los")
-      print(length(which(Tabla[9,]<0)))
-      print("precios promedio nuevos")
-      vt=c()
+      #print("Favor Ingresar los")
+      #print(length(which(Tabla[9,]<0)))
+      #print("precios promedio nuevos")
+      
+      rendneg <- which(Tabla[9,]<0)
+      
+      vt <- c()
       for(i in 1:length(which(Tabla[9,]<0))){
-        vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
+        #vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
+        vt[i] <- find_pre(as.numeric(gsub("[,]",".",Tabla[6,rendneg[i]])),Tabla,fv,rendneg[i])
       }
       
       #sustituyo precios promedio
@@ -439,7 +470,7 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
         Tabla[9,i]=bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
       }
       #muestro tabla
-      #View(Tabla)
+      # View(Tabla)
       
     }#final if rend negativo
     
@@ -550,8 +581,19 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       
       if(fe3==0){
         print("Optimizando mediante paquete alabama...")
-        ala1=alabama::auglag(pa, fn=mifuncion, hin=res) #mejor igual al solver
+        ala1=try(alabama::auglag(pa, fn=mifuncion, hin=res)) #mejor igual al solver
         
+        if(class(ala1)[1]=="try-error"){
+          #print("Existe un problema al optimizar")
+          ff <- print("Existe un problema al optimizar")
+          #Tabla[13,]=precio.ns(tit,fv,C,pa)
+          
+          #return(as.data.frame(ff))
+          #break
+          ala1 <- c()
+          ala1$par <- pa
+          cond <- 1
+        }
         ala<<-ala1
         Tabla[13,]=precio.sven(tit,fv,C,ala1$par)
         
@@ -599,7 +641,13 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     
     #if para exportar resultados
     if(fe2==1){
-      Tabla1 <- list(Tabla,ala$par,precios)
+      if(cond==1){
+        Tabla <- as.data.frame(print("Problemas al optimizar"))
+        names(Tabla) <- "Aviso"
+        Tabla1 <- list(Tabla,NULL,NULL)
+      }else{
+        Tabla1 <- list(Tabla,ala$par,precios)
+      }
     }else if(fe2==0){
       Tabla1 <- list(Tabla,pa,precios)
     }
