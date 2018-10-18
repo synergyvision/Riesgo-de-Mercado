@@ -702,7 +702,7 @@ shinyUI(
                                                                          verbatimTextOutput("new_sven_tif_comp"),
                                                                          h4(" Verificación, "),
                                                                          verbatimTextOutput("ver_sven_tif_comp"),
-                                                                         h2(" Precios estimados"),dataTableOutput("p_est_tif_opt_sven_el_comp"),
+                                                                         h2(" Precios estimados"),box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_tif_opt_sven_el_comp")),
                                                                          h4(" Curva de Rendimiento"),
                                                                          plotOutput("c_tif_sven_new_comp")
                                                                          
@@ -714,7 +714,7 @@ shinyUI(
                                                                                       choices = c("Si"=1, "No"=0),
                                                                                       selected=" "
                                                                          )#final radiobuttoms
-                                                                         ,dataTableOutput("p_est_tif_opt_comp"),
+                                                                         ,box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_tif_opt_comp")),
                                                                          h2(" Parámetros optimizados"),
                                                                          verbatimTextOutput("par_tif_sven_op_comp"),
                                                                          h2(" Curva de rendimientos TIF"),
@@ -735,7 +735,7 @@ shinyUI(
                                                       h2(" Curva spline Tif"),
                                                       rbokehOutput("c_tif_splines_dl_comp"),
                                                       h2(" Precios estimados"),
-                                                      dataTableOutput("p_est_dl_tif_comp"),
+                                                      box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_dl_tif_comp")),
                                                       h2(" Curva de Rendimientos"),
                                                       plotlyOutput("curva_tif_dl_comp")
                                                       
@@ -750,14 +750,14 @@ shinyUI(
                                                       ),#final box
                                                       numericInput( inputId = "d_tif_comp", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
                                                       verbatimTextOutput("dias_tif_comp"),
-                                                      h2(" Títulos candidatos"),dataTableOutput("tit_cand_tif_comp"),
+                                                      h2(" Títulos candidatos"),box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_tif_comp")),
                                                       h3(" Por favor ingresar el parámetro de suavizamiento "),
                                                       box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                                           collapse= TRUE,"Recuerde que este valor corresponde al grado de suavidad que tendrá la curva de rendimientos resultante" 
                                                       ),#final box
                                                       numericInput( inputId = "parametro_tif_comp", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                                       verbatimTextOutput("spar_tif_comp"),
-                                                      h2(" Precios Splines"),dataTableOutput("pre_sp_tif_comp"),
+                                                      h2(" Precios Splines"),box(style="overflow-x:scroll",width = 12,dataTableOutput("pre_sp_tif_comp")),
                                                       h2(" Curva de rendimientos TIF"),
                                                       rbokehOutput("c_tif_splines_comp")#verbatimTextOutput("datos")
                                              )#final tabpanel Splines 
@@ -857,7 +857,7 @@ shinyUI(
                                                          verbatimTextOutput("new_sven_veb_comp"),
                                                          h4(" Verificación, "),
                                                          verbatimTextOutput("ver_sven_veb_comp"),
-                                                         h2(" Precios estimados"),dataTableOutput("p_est_veb_opt_sven_el_comp"),
+                                                         h2(" Precios estimados"),box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_veb_opt_sven_el_comp")),
                                                          h4(" Curva de Rendimiento"),
                                                          plotOutput("c_veb_sven_new_comp")
                                                          
@@ -870,7 +870,7 @@ shinyUI(
                                                                       choices = c("Si"=1, "No"=0),
                                                                       selected=" "
                                                          )#final radiobuttoms
-                                                         ,dataTableOutput("p_est_veb_opt_comp"),
+                                                         ,box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_veb_opt_comp")),
                                                          h2(" Parámetros optimizados"),
                                                          verbatimTextOutput("par_veb_sven_op_comp"),
                                                          h2(" Curva de rendimientos VEBONOS"),
@@ -890,7 +890,7 @@ shinyUI(
                                       h2(" Curva spline Tif"),
                                       rbokehOutput("c_veb_splines_dl_comp"),
                                       h2(" Precios estimados"),
-                                      dataTableOutput("p_est_dl_veb_comp"),
+                                      box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_dl_veb_comp")),
                                       h2(" Curva de Rendimientos"),
                                       plotlyOutput("curva_veb_dl_comp")
                              ),#final tabpanel Diebold li 
@@ -904,14 +904,14 @@ shinyUI(
                                       ),#final box
                                       numericInput( inputId = "d_veb_comp", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
                                       verbatimTextOutput("dias_veb_comp"),
-                                      h2(" Títulos candidatos"),dataTableOutput("tit_cand_veb_comp"),
+                                      h2(" Títulos candidatos"),box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_veb_comp")),
                                       h3(" Por favor ingresar el parámetro de suavizamiento "),
                                       box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                           collapse= TRUE,"Recuerde que este valor corresponde al grado de suavidad que tendrá la curva de rendimientos resultante" 
                                       ),#final box
                                       numericInput( inputId = "parametro_veb_comp", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                       verbatimTextOutput("spar_veb_comp"),
-                                      h2(" Precios Splines"),dataTableOutput("pre_sp_veb_comp"),
+                                      h2(" Precios Splines"),box(style="overflow-x:scroll",width = 12,dataTableOutput("pre_sp_veb_comp")),
                                       h2(" Curva de rendimientos VEBONOS"),
                                       rbokehOutput("c_veb_splines_comp")#verbatimTextOutput("datos")
                              )#final tabpanel Splines 
