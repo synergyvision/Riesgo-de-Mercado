@@ -625,7 +625,7 @@ shinyUI(
                                       )#final column
                                       ),#final fluidrow 
                                       verbatimTextOutput("q1_comp"),
-                                      h2(" Características"),dataTableOutput("Ca_comp"),
+                                      h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca_comp")),
                                       h2(" Metodologías"),
                                       fluidRow(tabBox(width = 12, title = " ", id = "tab5", height = "50px", 
                                              tabPanel("Nelson y siegel",
@@ -650,7 +650,7 @@ shinyUI(
                                                                          verbatimTextOutput("new_ns_tif_comp"),
                                                                          h4(" Verificación, "),
                                                                          verbatimTextOutput("ver_ns_tif_comp"),
-                                                                         h2(" Precios estimados"),dataTableOutput("p_est_tif_ns_el_comp"),
+                                                                         h2(" Precios estimados"),box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_tif_ns_el_comp")),
                                                                          h4(" Curva de Rendimiento"),
                                                                          plotOutput("c_tif_ns1_new_comp")
                                                                        
@@ -661,8 +661,8 @@ shinyUI(
                                                                          radioButtons( inputId = "opt_tif_ns_comp",label = "Desea optimizar los precios obtenidos:", 
                                                                                        choices = c("Si"=1, "No"=0),
                                                                                        selected=" "), #finalradiobuttons
-                                                                         dataTableOutput("p_est_tif_opt_ns_comp"),
-                                                                         h2(" Parámetros optimizados"),
+                                                                         box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_tif_opt_ns_comp")),
+                                                                         h2(" Parámetros optimizadoss"),
                                                                          verbatimTextOutput("par_tif_ns_op_comp"),
                                                                          h2(" Curva de rendimientos TIF"),
                                                                          plotOutput("c_tif_ns_op_comp")
@@ -780,7 +780,7 @@ shinyUI(
                         )#final column
                       ),#final fluidrow
                       verbatimTextOutput("q2_comp"),
-                      h2(" Características"),dataTableOutput("Ca1_comp"),
+                      h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca1_comp")),
                       h2(" Metodologías"),
                       fluidRow(tabBox(width = 12, title = " ", id = "tab5", height = "50px", 
                              tabPanel("Nelson y siegel",
@@ -805,7 +805,7 @@ shinyUI(
                                                          verbatimTextOutput("new_ns_veb_comp"),
                                                          h4(" Verificación, "),
                                                          verbatimTextOutput("ver_ns_veb_comp"),
-                                                         h2(" Precios estimados"),dataTableOutput("p_est_veb_ns_el_comp"),
+                                                         h2(" Precios estimados"),box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_veb_ns_el_comp")),
                                                          h4(" Curva de Rendimiento"),
                                                          plotOutput("c_veb_ns1_new_comp")
                                                          
@@ -817,7 +817,7 @@ shinyUI(
                                                          radioButtons( inputId = "opt_veb_ns_comp",label = "Desea optimizar los precios obtenidos:", 
                                                                        choices = c("Si"=1, "No"=0),
                                                                        selected=" "), #finalradiobuttons
-                                                         dataTableOutput("p_est_veb_opt_ns_comp"),
+                                                         box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_veb_opt_ns_comp")),
                                                          h2(" Parámetros optimizados"),
                                                          verbatimTextOutput("par_veb_ns_op_comp"),
                                                          h2(" Curva de rendimientos VEBONO"),

@@ -64,8 +64,8 @@ shinyServer(function(input, output) {
   
   #comparativo
   #Nelson y Siegel - Svensson
-  tf_comp <- reactive({pos(c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),0)})
-  tv_comp <- reactive({pos(c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),1)})
+  tf_comp <- reactive({pos1(c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),0)})
+  tv_comp <- reactive({pos1(c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),1)})
   
   output$pre_comp_tif_ns <- renderPrint({tf_comp()})
   output$pre_comp_tif_sven <- renderPrint({tf_comp()})
@@ -279,9 +279,33 @@ shinyServer(function(input, output) {
       return(ca)
     }
   })
-  output$Ca1_sp <- renderDataTable({C})
-  output$Ca_comp <- renderDataTable({C})
-  output$Ca1_comp <- renderDataTable({C})
+  output$Ca1_sp <- renderDataTable({
+    ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
+    if(class(ca)=="try-error"){
+      v <- print("El archivo no se encuentra, descargar y recargar página!")
+      return(as.data.frame(v))
+    }else{
+      return(ca)
+    }
+  })
+  output$Ca_comp <- renderDataTable({
+    ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
+    if(class(ca)=="try-error"){
+      v <- print("El archivo no se encuentra, descargar y recargar página!")
+      return(as.data.frame(v))
+    }else{
+      return(ca)
+    }
+  })
+  output$Ca1_comp <- renderDataTable({
+    ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
+    if(class(ca)=="try-error"){
+      v <- print("El archivo no se encuentra, descargar y recargar página!")
+      return(as.data.frame(v))
+    }else{
+      return(ca)
+    }
+  })
   
   #precios estimados iniciales
   output$p_est_tif <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = pa_sven,ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] })
@@ -292,7 +316,7 @@ shinyServer(function(input, output) {
   
   
   #comparativo
-  output$p_est_tif_ns_el_comp <- renderDataTable({Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(input$ns_b0_tif_comp,input$ns_b1_tif_comp,input$ns_b2_tif_comp,input$ns_t_tif_comp),ind = 0,C = C,fe2=0,fe3=0)[[1]] })
+  output$p_est_tif_ns_el_comp <- renderDataTable({Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(input$ns_b0_tif_comp,input$ns_b1_tif_comp,input$ns_b2_tif_comp,input$ns_t_tif_comp),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] })
   
   
   output$p_est_veb <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = pa1_sven,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] })
@@ -300,7 +324,7 @@ shinyServer(function(input, output) {
   output$p_est_veb_ns_el <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns),pr =tv_ns() ,pa =c(input$ns_b0_veb,input$ns_b1_veb,input$ns_b2_veb,input$ns_t_veb) ,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] })
   
   #comparativo
-  output$p_est_veb_ns_el_comp <- renderDataTable({Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa =c(input$ns_b0_veb_comp,input$ns_b1_veb_comp,input$ns_b2_veb_comp,input$ns_t_veb_comp) ,ind = 1,C = C,fe2=0,fe3=0)[[1]] })
+  output$p_est_veb_ns_el_comp <- renderDataTable({Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa =c(input$ns_b0_veb_comp,input$ns_b1_veb_comp,input$ns_b2_veb_comp,input$ns_t_veb_comp) ,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] })
   
   
   #precios estimados optimizados
@@ -349,10 +373,13 @@ shinyServer(function(input, output) {
     if(input$opt_tif_ns_comp==1){
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
-    Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns_comp,fe3=0)[[1]] 
-    incProgress(1/2, detail = "Fin")
+    Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_ns_comp,fe3=0)[[1]] 
+    #incProgress(1/2, detail = "Fin")
     })
-    }else{}
+    }else{
+      Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
+      return(as.data.frame(Aviso))
+    }
   
  
     })
@@ -400,10 +427,13 @@ shinyServer(function(input, output) {
     if(input$opt_veb_ns_comp==1){
     withProgress(message = 'Calculando precios...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
-      Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_ns_comp,fe3=0)[[1]] 
-      incProgress(1/2, detail = "Fin")
+      Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns_comp,fe3=0)[[1]] 
+      #incProgress(1/2, detail = "Fin")
       })
-    }else{}
+    }else{
+    Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
+    return(as.data.frame(Aviso))
+    }
       
     })
   
@@ -996,7 +1026,7 @@ shinyServer(function(input, output) {
   }else{}})
   
   #comparativo
-  gra_tif_ns_comp <- reactive({Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns_comp,fe3=0)[[2]] })
+  gra_tif_ns_comp <- reactive({Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_ns_comp,fe3=0)[[2]] })
   
   
   output$par_tif_ns_op_comp<-renderPrint({if(input$opt_tif_ns_comp==1){gra_tif_ns_comp()
@@ -1037,7 +1067,7 @@ shinyServer(function(input, output) {
   }else{}})
     
   #comparativo
-  gra_veb_ns_comp <- reactive({Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1),ind = 1,C = C,fe2=input$opt_veb_ns_comp,fe3=0)[[2]] })
+  gra_veb_ns_comp <- reactive({Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns_comp,fe3=0)[[2]] })
   
   
   output$par_veb_ns_op_comp<-renderPrint({if(input$opt_veb_ns_comp==1){gra_veb_ns_comp()
