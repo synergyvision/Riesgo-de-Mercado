@@ -932,12 +932,12 @@ shinyUI(
                       h2("Comparativo de precios"),
                       tabBox( width = 12, title = "Instrumentos", id = "precios_comp", height = "50px", 
                               tabPanel("TIF",
-                                       dataTableOutput("comparativo_precios_tif")
+                                       box(style="overflow-x:scroll",width = 12,dataTableOutput("comparativo_precios_tif"))
                             
                               ),#final tabpanel
                               tabPanel("VEBONO",
                       
-                                      dataTableOutput("comparativo_precios_veb")
+                                       box(style="overflow-x:scroll",width = 12,dataTableOutput("comparativo_precios_veb"))
                       
                               )#final tabpanel
                       )#final tabbox

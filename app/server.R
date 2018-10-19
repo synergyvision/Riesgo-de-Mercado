@@ -1440,23 +1440,26 @@ shinyServer(function(input, output) {
   
   #COMPARATIVO DE PRECIOS
   #tif
-  gra_tif_ns_comp_i <- reactive({Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=1,fe3=0)[[2]] })
+  gra_tif_ns_comp_i <- reactive({Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] })
   
-  gra_tif_sven_comp_i <- reactive({Tabla.sven(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(1,1,1,1,1,1),ind = 0,C = C,fe2=1,fe3=0)[[2]] })
+  gra_tif_sven_comp_i <- reactive({Tabla.sven(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] })
   
   
   precios_tif <- reactive({
     #ojo con los dos primeros
     withProgress(message = 'Calculando precios...', value = 0, {
       incProgress(1/5, detail = "Metodología Nelson y Siegel")
-    a <-   Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = gra_tif_ns_comp_i(),ind = 0,C = C,fe2=0,fe3=0)[[3]]
+      dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+      dat[,3] <- as.Date(as.character(dat[,3]))
+      car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    a <-   Tabla.ns(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = gra_tif_ns_comp_i(),ind = 0,C = car,fe2=0,fe3=0)[[3]]
     incProgress(1/5, detail = "Metodología Svensson")
-    b <-   Tabla.sven(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = gra_tif_sven_comp_i() ,ind = 0,C = C,fe2=0,fe3=0)[[3]]
+    b <-   Tabla.sven(fv = input$n5 ,tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),pr =tf_comp() ,pa = gra_tif_sven_comp_i() ,ind = 0,C = car,fe2=0,fe3=0)[[3]]
     #
     incProgress(1/5, detail = "Metodología Diebold-Li")
-    c <-   precio.dl(tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),fv = input$n5 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_tif_comp(),pr=tf_comp())[[2]]
+    c <-   precio.dl(tit = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),fv = input$n5 ,C = car ,pa = c(1,1,1,1),spline1 = dl_spline_tif_comp(),pr=tf_comp())[[2]]
     incProgress(1/5, detail = "Metodología Splines")
-    d <-   Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num = input$d_tif_comp,par = input$parametro_tif_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[1]]
+    d <-   Tabla.splines(data = dat,tipo = "TIF",fe=input$n5,num = input$d_tif_comp,par = input$parametro_tif_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),car,pr=tf_comp())[[1]]
     
     })
     
@@ -1472,23 +1475,26 @@ shinyServer(function(input, output) {
   
   
   #veb
-  gra_veb_ns_comp_i <- reactive({Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1),ind = 1,C = C,fe2=1,fe3=0)[[2]] })
+  gra_veb_ns_comp_i <- reactive({Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] })
   
-  gra_veb_sven_comp_i <- reactive({Tabla.sven(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1,1,1),ind = 1,C = C,fe2=1,fe3=0)[[2]] })
+  gra_veb_sven_comp_i <- reactive({Tabla.sven(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] })
   
   
   precios_veb <- reactive({
     #ojo con los dos primeros
     withProgress(message = 'Calculando precios...', value = 0, {
       incProgress(1/5, detail = "Metodología Nelson y Siegel")
-     a <-   Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = gra_veb_ns_comp_i(),ind = 1,C = C,fe2=0,fe3=0)[[3]]
+      dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+      dat[,3] <- as.Date(as.character(dat[,3]))
+      car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+     a <-   Tabla.ns(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = gra_veb_ns_comp_i(),ind = 1,C = car,fe2=0,fe3=0)[[3]]
      incProgress(1/5, detail = "Metodología Svensson")
-     b <-   Tabla.sven(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = gra_veb_sven_comp_i() ,ind = 1,C = C,fe2=0,fe3=0)[[3]]
+     b <-   Tabla.sven(fv = input$n5 ,tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),pr =tv_comp() ,pa = gra_veb_sven_comp_i() ,ind = 1,C = car,fe2=0,fe3=0)[[3]]
     #
      incProgress(1/5, detail = "Metodología Diebold-Li")
-     c <-   precio.dl(tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),fv = input$n5 ,C = C_splines ,pa = c(1,1,1,1),spline1 = dl_spline_veb_comp(),pr=tv_comp())[[2]]
+     c <-   precio.dl(tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),fv = input$n5 ,C = car ,pa = c(1,1,1,1),spline1 = dl_spline_veb_comp(),pr=tv_comp())[[2]]
      incProgress(1/5, detail = "Metodología Splines")
-      d <-   Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[1]]
+      d <-   Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())[[1]]
     
     })
      
@@ -1511,7 +1517,12 @@ shinyServer(function(input, output) {
     Tabla.splines(data = dat,tipo = "TIF",fe=input$n5,num =40,par = input$parametro_tif_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),car,pr=tf_comp())[[4]] 
     })
   
-  dl_spline_tif_comp_i <- reactive({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n5,num =40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),C_splines,pr=tf_comp())[[4]] })
+  dl_spline_tif_comp_i <- reactive({
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    Tabla.splines(data = dat,tipo = "TIF",fe=input$n5,num =40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),car,pr=tf_comp())[[4]] 
+    })
   
   
 
@@ -1582,9 +1593,19 @@ shinyServer(function(input, output) {
     })
   
   #VEBONOS
-  spline_veb_comp <- reactive({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num =40,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[4]] })
+  spline_veb_comp <- reactive({
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num =40,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())[[4]] 
+    })
   
-  dl_spline_veb_comp_i <- reactive({Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n5,num =40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),C_splines,pr=tv_comp())[[4]] })
+  dl_spline_veb_comp_i <- reactive({
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num =40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())[[4]]
+    })
   
   
   
