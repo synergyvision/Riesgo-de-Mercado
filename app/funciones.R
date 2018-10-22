@@ -309,7 +309,7 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       h[2] <- x[1]+x[2]
       h[3] <- x[5]
       h[4] <- x[6]
-      h[5] <- x[2]+0.01
+      #h[5] <- x[2]+0.01
       h
     }
     
@@ -1000,7 +1000,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       h[1] <- x[1] # B0 > 0
       h[2] <- x[1]+x[2] # B0 + B1 > 0
       h[3] <- x[4] # lambda1 > 0
-      h[4] <- x[2]+0.01
+      #h[4] <- x[2]+0.01
       #h[4] <- x[2] #ojo
       h
     }
@@ -1226,7 +1226,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       h[1] <- x[1]
       h[2] <- x[1]+x[2]
       h[3] <- x[4]
-      h[4] <- x[2]+0.01
+      #h[4] <- x[2]+0.01
       #h[4] <- x[2]
       h
     }
@@ -1416,7 +1416,7 @@ par_dl <- function(t,spline1,pa){
     h[1] <- x[1] # B0 > 0
     h[2] <- x[1]+x[2] # B0 + B1 > 0
     h[3] <- x[4] # lambda1 > 0
-    h[4] <- x[2]+0.01
+    #h[4] <- x[2]+0.01
     #h[4] <- x[2] #ojo
     h
   }
