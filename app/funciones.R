@@ -309,6 +309,7 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       h[2] <- x[1]+x[2]
       h[3] <- x[5]
       h[4] <- x[6]
+      h[5] <- check_rn(sven(pa = c(x[1],x[2],x[3],x[4],x[5],x[6]),t = seq(0.1,20,0.1) ))
       #h[5] <- x[2]+0.01
       h
     }
@@ -533,6 +534,7 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       h[2] <- x[1]+x[2]
       h[3] <- x[5]
       h[4] <- x[6]
+      h[5] <- check_rn(sven(pa = c(x[1],x[2],x[3],x[4],x[5],x[6]),t = seq(0.1,20,0.1) ))
       h
     }
     
@@ -1000,6 +1002,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       h[1] <- x[1] # B0 > 0
       h[2] <- x[1]+x[2] # B0 + B1 > 0
       h[3] <- x[4] # lambda1 > 0
+      h[4] <- check_rn(nelson_siegel(pa = c(x[1],x[2],x[3],x[4]),t = seq(0.1,20,0.1) ))
       #h[4] <- x[2]+0.01
       #h[4] <- x[2] #ojo
       h
@@ -1226,6 +1229,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       h[1] <- x[1]
       h[2] <- x[1]+x[2]
       h[3] <- x[4]
+      h[4] <- check_rn(nelson_siegel(pa = c(x[1],x[2],x[3],x[4]),t = seq(0.1,20,0.1) ))
       #h[4] <- x[2]+0.01
       #h[4] <- x[2]
       h
@@ -1355,6 +1359,15 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
   
 }#Final funcion 
 
+#creo funcion auxiliar para garantizar que los rendimientos
+#en la curva sean positivos
+check_rn <- function(fre){
+  if (length(which(fre<0))==0){
+    return(1)
+  }else{
+    return(-1)
+  }
+}
 
 #funcion que me retorna una lista de 3 elementos
 #1: tabla de resultados
