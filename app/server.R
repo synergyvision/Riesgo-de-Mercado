@@ -660,7 +660,7 @@ shinyServer(function(input, output) {
   #tif
   output$curva_tif_dl <- renderPlotly({ 
     #defino eje maduracion
-    X1 <- seq(0.1,20,0.1)
+    X1 <- seq(1,20,0.1)
     
     #defino tiempos
     Y1 <- seq(1,50,1)
@@ -726,7 +726,7 @@ shinyServer(function(input, output) {
   #comparativo
   output$curva_tif_dl_comp <- renderPlotly({ 
     #defino eje maduracion
-    X1 <- seq(0.1,20,0.1)
+    X1 <- seq(1,20,0.1)
     
     #defino tiempos
     Y1 <- seq(1,50,1)
@@ -792,7 +792,7 @@ shinyServer(function(input, output) {
   #vebonos
   output$curva_veb_dl <- renderPlotly({ 
     #defino eje maduracion
-    X1 <- seq(0.1,20,0.1)
+    X1 <- seq(1,20,0.1)
     
     #defino tiempos
     Y1 <- seq(1,50,1)
@@ -858,7 +858,7 @@ shinyServer(function(input, output) {
   #Comparativo
   output$curva_veb_dl_comp <- renderPlotly({ 
     #defino eje maduracion
-    X1 <- seq(0.1,20,0.1)
+    X1 <- seq(1,20,0.1)
     
     #defino tiempos
     Y1 <- seq(1,50,1)
@@ -1550,7 +1550,7 @@ shinyServer(function(input, output) {
   #TIF
   output$curva_comp_tif <- renderPlotly({ 
     #data
-    x <- seq(0.1,20,0.1)
+    x <- seq(1,20,0.1)
     withProgress(message = 'Calculando alturas...', value = 0, {
     #y_ns <- c(0.0097,nelson_siegel(x[2:length(x)],pa=gra_tif_ns_comp_i()))*100
     incProgress(1/5, detail = "Metodología Nelson y Siegel")
@@ -1633,7 +1633,7 @@ shinyServer(function(input, output) {
   #TIF
   output$curva_comp_veb <- renderPlotly({ 
     #data
-    x <- seq(0.1,20,0.1)
+    x <- seq(1,20,0.1)
     withProgress(message = 'Calculando alturas...', value = 0, {
       incProgress(1/5, detail = "Metodología Nelson y Siegel")  
     y_ns <- nelson_siegel(x,pa=gra_veb_ns_comp_i())*100
