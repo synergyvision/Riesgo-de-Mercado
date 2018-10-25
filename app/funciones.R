@@ -416,7 +416,7 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     }
     
     #creo vector de precios para exportar
-    precios <- cbind.data.frame(c(tit,"SRC"),c(precio.sven(tit,fv,C,pa),sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
+    precios <- cbind.data.frame(c(tit,"SRC"),c(precio.sven(tit,fv,C,ala1$par),sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
     names(precios) <- c("Títulos","Precios")
     
     #if para exportar resultados
@@ -637,7 +637,7 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     }
     
     #creo vector de precios para exportar
-    precios <- cbind.data.frame(c(tit,"SRC"),c(precio.sven(tit,fv,C,pa),sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
+    precios <- cbind.data.frame(c(tit,"SRC"),c(precio.sven(tit,fv,C,ala1$par),sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
     names(precios) <- c("Títulos","Precios")
     
     
@@ -1109,7 +1109,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     }
     
     #creo vector de precios para exportar
-    precios <- cbind.data.frame(c(tit,"SRC"),c(precio.ns(tit,fv,C,pa),sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
+    precios <- cbind.data.frame(c(tit,"SRC"),c(precio.ns(tit,fv,C,ala1$par),sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
     names(precios) <- c("Títulos","Precios")
     
     
@@ -1335,7 +1335,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     }
     
     #creo vector de precios para exportar
-    precios <- cbind.data.frame(c(tit,"SRC"),c(precio.ns(tit,fv,C,pa),sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
+    precios <- cbind.data.frame(c(tit,"SRC"),c(precio.ns(tit,fv,C,ala1$par),sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
     names(precios) <- c("Títulos","Precios")
     
     #if para exportar resultados
