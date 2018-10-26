@@ -211,3 +211,89 @@ Sveb <- cbind.data.frame(s_veb,s2_veb[,-1])
 names(Sveb) <- c("Titulos/Precios",oct)
 
 write.table(Sveb,"precios_sv_veb_oct.txt")
+
+#DIEBOLD-LI
+dat <- read.csv(paste(getwd(),"app","data","Historico_act.txt",sep = "/"),sep="")
+dat[,3] <- as.Date(as.character(dat[,3]))
+car <- Carac(paste(getwd(),"app","data","Caracteristicas.xls",sep = "/"))
+
+
+
+#TIF
+sp_tif <- Tabla.splines(data = dat,tipo = "TIF",fe=as.Date(oct[1],format = "%d/%m/%Y"),num =40,par = 0.1,tit=tit[-c(1,3,5,11,19,20)],ca,pr=pos1(tit[-c(1,3,5,11,19,20)],0,Precio_prom_tif))[[4]] 
+
+
+d_tif <- precio.dl(tit = tit[-c(1,3,5,11,19,20)],fv = as.Date(oct[1],format = "%d/%m/%Y") ,C = ca,pa = c(1,1,1,1),spline1 = sp_tif,pr=pos1(tit[-c(1,3,5,11,19,20)],0,Precio_prom_tif))[[2]]
+
+  
+s2_tif <- rep(0,20)
+for(i in 2:length(oct)){
+  s1_tif <- Tabla.sven(fv=oct[i],tit[-c(1,3,5,11,19,20)],pos1(tit[-c(1,3,5,11,19,20)],0,Precio_prom_tif),pa=c(1,1,1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]]
+  s2_tif <- cbind.data.frame(s2_tif,s1_tif$Precios)
+}
+
+Stif <- cbind.data.frame(s_tif,s2_tif[,-1])
+names(Stif) <- c("Titulos/Precios",oct)
+
+write.table(Stif,"precios_sv_tif_oct.txt")
+
+#pruebo funcion extrae
+extrae <- function(fv,dias,data){
+  f1 <- as.Date(fv)
+  f2 <- f1-dias
+  f3 <- data$Fecha.op-f2
+  
+  f4 <- data[which(as.numeric(min(abs(f3)))==abs(f3)),]
+  
+  while(anyNA(f4)){
+    print("Obs con NA")
+    data1 <- data[-which(as.numeric(min(abs(f3)))==abs(f3)),]
+    
+    f3 <- data1$Fecha.op-f2
+    
+    f4 <- data1[which(as.numeric(min(abs(f3)))==abs(f3)),]
+    
+  }
+  
+  
+  if(dim(f4)[1]==1){
+    print("Hay una sola obs")
+    print("Fecha selecionada")
+    print(f4$Fecha.op)
+    #return(f4$Fecha.op)
+  }else{
+    print("Hay mas de una obs")
+    f4 <- f4[which(f4$Monto==max(f4$Monto)),]
+    print("Fecha selecionada")
+    print(f4$Fecha.op)
+    #return(f4$Fecha.op)
+  }#final if obs
+  
+  q1 <- which(f4$Fecha.op==data$Fecha.op)
+  
+  data2 <- data[1:q1[length(q1)],]
+  
+  a1 <- data.frame(t(c(length(which(data2$segmento1=="C1")),
+                       length(which(data2$segmento1=="C2")),
+                       length(which(data2$segmento1=="M1")),
+                       length(which(data2$segmento1=="M2")),
+                       length(which(data2$segmento1=="L1")),
+                       length(which(data2$segmento1=="L2")),
+                       length(which(data2$segmento1=="L3")))))
+  
+  a1 <- data.frame(a1,sum(a1))
+  names(a1) <- c("Obs. C1","Obs. C2","Obs. M1","Obs. M2","Obs. L1","Obs. L2","Obs. L3","Suma")
+  print(a1)
+  s <<-a1
+  return(data2)
+}#final funcion extrae
+
+
+
+ext <- extrae(fv = as.Date(oct[1],format = "%d/%m/%Y"),dias = 40,data = dat1)
+
+
+#VEBONOS
+
+
+
