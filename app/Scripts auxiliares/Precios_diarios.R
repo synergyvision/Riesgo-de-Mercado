@@ -220,80 +220,158 @@ car <- Carac(paste(getwd(),"app","data","Caracteristicas.xls",sep = "/"))
 
 
 #TIF
-sp_tif <- Tabla.splines(data = dat,tipo = "TIF",fe=as.Date(oct[1],format = "%d/%m/%Y"),num =40,par = 0.1,tit=tit[-c(1,3,5,11,19,20)],ca,pr=pos1(tit[-c(1,3,5,11,19,20)],0,Precio_prom_tif))[[4]] 
+sp_tif <- Tabla.splines(data = dat,tipo = "TIF",fe=as.Date(oct[1],format = "%d/%m/%Y"),num =40,par = 0.3,tit=tit[-c(1,3,5,11,19,20)],ca,pr=pos1(tit[-c(1,3,5,11,19,20)],0,Precio_prom_tif))[[4]] 
 
 
 d_tif <- precio.dl(tit = tit[-c(1,3,5,11,19,20)],fv = as.Date(oct[1],format = "%d/%m/%Y") ,C = ca,pa = c(1,1,1,1),spline1 = sp_tif,pr=pos1(tit[-c(1,3,5,11,19,20)],0,Precio_prom_tif))[[2]]
 
   
-s2_tif <- rep(0,20)
+d2_tif <- rep(0,20)
 for(i in 2:length(oct)){
-  s1_tif <- Tabla.sven(fv=oct[i],tit[-c(1,3,5,11,19,20)],pos1(tit[-c(1,3,5,11,19,20)],0,Precio_prom_tif),pa=c(1,1,1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]]
-  s2_tif <- cbind.data.frame(s2_tif,s1_tif$Precios)
+  sp_tif <- Tabla.splines(data = dat,tipo = "TIF",fe=as.Date(oct[i],format = "%d/%m/%Y"),num =40,par = 0.2,tit=tit[-c(1,3,5,11,19,20)],ca,pr=pos1(tit[-c(1,3,5,11,19,20)],0,Precio_prom_tif))[[4]] 
+  d1_tif <-  precio.dl(tit = tit[-c(1,3,5,11,19,20)],fv = as.Date(oct[i],format = "%d/%m/%Y") ,C = ca,pa = c(1,1,1,1),spline1 = sp_tif,pr=pos1(tit[-c(1,3,5,11,19,20)],0,Precio_prom_tif))[[2]]
+  d2_tif <- cbind.data.frame(d2_tif,d1_tif$Precio)
 }
 
-Stif <- cbind.data.frame(s_tif,s2_tif[,-1])
-names(Stif) <- c("Titulos/Precios",oct)
+Dtif <- cbind.data.frame(d_tif,d2_tif[,-1])
+names(Dtif) <- c("Titulos/Precios",oct)
 
-write.table(Stif,"precios_sv_tif_oct.txt")
+write.table(Dtif,"precios_DL_tif_oct.txt")
 
 #pruebo funcion extrae
+#funcion vieja
+# extrae <- function(fv,dias,data){
+#   f1 <- as.Date(fv)
+#   f2 <- f1-dias
+#   f3 <- data$Fecha.op-f2
+#   
+#   #con esto hallo el extremo inferior de la data
+#   f4 <- data[which(as.numeric(min(abs(f3)))==abs(f3)),]
+#   
+#   #hallo ahora el extremo superior
+#   g<- data$Fecha.op-fv
+#   g1 <- data[which(as.numeric(min(abs(g)))==abs(g)),]
+#   
+#   while(anyNA(g1)){
+#     #print("Obs con NA")
+#     data1 <- data[-which(as.numeric(min(abs(g)))==abs(g)),]
+#     
+#     g <- data1$Fecha.op-fv
+#     
+#     g1 <- data1[which(as.numeric(min(abs(g)))==abs(g)),]
+#     
+#   }
+#   
+#   if(dim(g1)[1]==1){
+#     #print("Hay una sola obs")
+#     #print("Fecha selecionada")
+#     #print(g1$Fecha.op)
+#     #return(f4$Fecha.op)
+#   }else{
+#     #print("Hay mas de una obs")
+#     g1 <- g1[which(g1$Monto==max(g1$Monto)),]
+#     #print("Fecha selecionada")
+#     #print(g1$Fecha.op)
+#     #return(f4$Fecha.op)
+#   }#final if obs
+#   
+#   while(anyNA(f4)){
+#     #print("Obs con NA")
+#     data1 <- data[-which(as.numeric(min(abs(f3)))==abs(f3)),]
+#     
+#     f3 <- data1$Fecha.op-f2
+#     
+#     f4 <- data1[which(as.numeric(min(abs(f3)))==abs(f3)),]
+#     
+#   }
+#   
+#   
+#   if(dim(f4)[1]==1){
+#     #print("Hay una sola obs")
+#     #print("Fecha selecionada")
+#     #print(f4$Fecha.op)
+#     #return(f4$Fecha.op)
+#   }else{
+#     #print("Hay mas de una obs")
+#     f4 <- f4[which(f4$Monto==max(f4$Monto)),]
+#     #print("Fecha selecionada")
+#     #print(f4$Fecha.op)
+#     #return(f4$Fecha.op)
+#   }#final if obs
+#   
+#   #extremo inferior
+#   q1 <- which(f4$Fecha.op==data$Fecha.op)
+#   
+#   #extremo superior
+#   q2 <- which(g1$Fecha.op==data$Fecha.op)[1]
+#   
+#   
+#   #data2 <- data[1:q1[length(q1)],]
+#   data2 <- data[q1[length(q1)]:q2,]
+#   
+#   # a1 <- data.frame(t(c(length(which(data2$segmento1=="C1")),
+#   #                      length(which(data2$segmento1=="C2")),
+#   #                      length(which(data2$segmento1=="M1")),
+#   #                      length(which(data2$segmento1=="M2")),
+#   #                      length(which(data2$segmento1=="L1")),
+#   #                      length(which(data2$segmento1=="L2")),
+#   #                      length(which(data2$segmento1=="L3")))))
+#   # 
+#   # a1 <- data.frame(a1,sum(a1))
+#   # names(a1) <- c("Obs. C1","Obs. C2","Obs. M1","Obs. M2","Obs. L1","Obs. L2","Obs. L3","Suma")
+#   # print(a1)
+#   #s <<-a1
+#   return(data2)
+# }#final funcion extrae
+
+
+#ojo con el orden de la data debe estar ordenada de mas reciente a mas antigua
+dat1 <- dat[order(dat$Fecha.op,decreasing = TRUE),]
+
 extrae <- function(fv,dias,data){
   f1 <- as.Date(fv)
   f2 <- f1-dias
-  f3 <- data$Fecha.op-f2
   
-  f4 <- data[which(as.numeric(min(abs(f3)))==abs(f3)),]
-  
-  while(anyNA(f4)){
-    print("Obs con NA")
-    data1 <- data[-which(as.numeric(min(abs(f3)))==abs(f3)),]
-    
-    f3 <- data1$Fecha.op-f2
-    
-    f4 <- data1[which(as.numeric(min(abs(f3)))==abs(f3)),]
-    
+  #hallo extremo superior (mas reciente) de la data a extraer
+  f3 <- fv
+  while(length(which(f3==data$Fecha.op))==0){
+    f3 <- f3-1
   }
   
+  #con esto hallo el extremo inferior (mas antiguo) de la data
+  f4 <- f2
+  while(length(which(f4==data$Fecha.op))==0){
+    f4 <- f4-1
+  }
   
-  if(dim(f4)[1]==1){
-    print("Hay una sola obs")
-    print("Fecha selecionada")
-    print(f4$Fecha.op)
-    #return(f4$Fecha.op)
-  }else{
-    print("Hay mas de una obs")
-    f4 <- f4[which(f4$Monto==max(f4$Monto)),]
-    print("Fecha selecionada")
-    print(f4$Fecha.op)
-    #return(f4$Fecha.op)
-  }#final if obs
+  data1 <- data[which(f3==data$Fecha.op)[1]:which(f4==data$Fecha.op)[1],]
   
-  q1 <- which(f4$Fecha.op==data$Fecha.op)
   
-  data2 <- data[1:q1[length(q1)],]
-  
-  a1 <- data.frame(t(c(length(which(data2$segmento1=="C1")),
-                       length(which(data2$segmento1=="C2")),
-                       length(which(data2$segmento1=="M1")),
-                       length(which(data2$segmento1=="M2")),
-                       length(which(data2$segmento1=="L1")),
-                       length(which(data2$segmento1=="L2")),
-                       length(which(data2$segmento1=="L3")))))
-  
-  a1 <- data.frame(a1,sum(a1))
-  names(a1) <- c("Obs. C1","Obs. C2","Obs. M1","Obs. M2","Obs. L1","Obs. L2","Obs. L3","Suma")
-  print(a1)
-  s <<-a1
-  return(data2)
+  return(data1)
 }#final funcion extrae
-
 
 
 ext <- extrae(fv = as.Date(oct[1],format = "%d/%m/%Y"),dias = 40,data = dat1)
 
 
 #VEBONOS
+sp_veb <- Tabla.splines(data = dat,tipo = "VEBONO",fe=as.Date(oct[1],format = "%d/%m/%Y"),num =40,par = 0.3,tit=tit1[-c(1,5,8,12,19,24,25)],ca,pr=pos1(tit1[-c(1,5,8,12,19,24,25)],1,Precio_prom_veb))[[4]] 
+
+
+d_veb <- precio.dl(tit = tit1[-c(1,5,8,12,19,24,25)],fv = as.Date(oct[1],format = "%d/%m/%Y") ,C = ca,pa = c(1,1,1,1),spline1 = sp_veb,pr=pos1(tit1[-c(1,5,8,12,19,24,25)],1,Precio_prom_veb))[[2]]
+
+
+d2_veb <- rep(0,23)
+for(i in 2:length(oct)){
+  sp_veb <- Tabla.splines(data = dat,tipo = "TIF",fe=as.Date(oct[i],format = "%d/%m/%Y"),num =40,par = 0.2,tit=tit1[-c(1,5,8,12,19,24,25)],ca,pr=pos1(tit1[-c(1,5,8,12,19,24,25)],1,Precio_prom_veb))[[4]] 
+  d1_veb <-  precio.dl(tit = tit1[-c(1,5,8,12,19,24,25)],fv = as.Date(oct[i],format = "%d/%m/%Y") ,C = ca,pa = c(1,1,1,1),spline1 = sp_veb,pr=pos1(tit1[-c(1,5,8,12,19,24,25)],1,Precio_prom_veb))[[2]]
+  d2_veb <- cbind.data.frame(d2_veb,d1_veb$Precio)
+}
+
+Dveb <- cbind.data.frame(d_veb,d2_veb[,-1])
+names(Dveb) <- c("Titulos/Precios",oct)
+
+write.table(Dveb,"precios_DL_veb_oct.txt")
 
 
 
