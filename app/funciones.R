@@ -406,7 +406,9 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     if(fe2==0){
       print("No se  optimizará, se mantendrán los mismos precios")
       #sustituyo precios estimados mas ajustados
-      Tabla[13,]=precio.sven(tit,fv,C,pa)
+      ala1 <- c()
+      ala1$par <- pa
+      Tabla[13,]=precio.sven(tit,fv,C,ala1$par)
     }
     
     #relleno residuos al cuadrado
@@ -627,7 +629,9 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     
     if(fe2==0){
       print("No se optimizara")
-      Tabla[13,]=precio.sven(tit,fv,C,pa)
+      ala1 <- c()
+      ala1$par <- pa
+      Tabla[13,]=precio.sven(tit,fv,C,ala1$par)
     }
     
     #relleno residuos al cuadrado
@@ -1099,7 +1103,9 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     if(fe2==0){
       print("No se  optimizará, se mantendrán los mismos precios")
       #sustituyo precios estimados mas ajustados
-      Tabla[13,]=precio.ns(tit,fv,C,pa)
+      ala1 <- c()
+      ala1$par <- pa
+      Tabla[13,]=precio.ns(tit,fv,C,ala1$par)
     }
     
     #relleno residuos al cuadrado
@@ -1325,7 +1331,9 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
     
     if(fe2==0){
       print("No se optimizara")
-      Tabla[13,]=precio.ns(tit,fv,C,pa)
+      ala1 <- c()
+      ala1$par <- pa
+      Tabla[13,]=precio.ns(tit,fv,C,ala1$par)
     }
     
     #relleno residuos al cuadrado

@@ -373,5 +373,31 @@ names(Dveb) <- c("Titulos/Precios",oct)
 
 write.table(Dveb,"precios_DL_veb_oct.txt")
 
+#SPLINES
+#TIF
+spline_tif <- Tabla.splines(data = dat,tipo = "TIF",fe=as.Date(oct[1],format = "%d/%m/%Y"),num =40,par = 0.3,tit=tit[-c(1,3,5,11,19,20)],ca,pr=pos1(tit[-c(1,3,5,11,19,20)],0,Precio_prom_tif))[[1]]
+
+
+spline2_tif <- rep(0,20)
+for(i in 2:length(oct)){
+  spl_tif <-  Tabla.splines(data = dat,tipo = "TIF",fe=as.Date(oct[i],format = "%d/%m/%Y"),num =40,par = 0.3,tit=tit[-c(1,3,5,11,19,20)],ca,pr=pos1(tit[-c(1,3,5,11,19,20)],0,Precio_prom_tif))[[1]]
+  spline2_tif <- cbind.data.frame(spline2_tif,spl_tif$Precios)
+}
+
+SPtif <- cbind.data.frame(spline_tif,spline2_tif[,-1])
+names(SPtif) <- c("Titulos/Precios",oct)
+
+write.table(Dtif,"precios_DL_tif_oct.txt")
+
+
+
+
+#VEBONOS
+
+
+
+
+
+
 
 
