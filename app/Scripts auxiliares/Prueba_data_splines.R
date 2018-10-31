@@ -373,7 +373,8 @@ spline3 <- smooth.spline(tres_1$Plazo,tres_1$Rendimiento,spar = 0.5)
 lines(x=seq(0.1,20,0.1)*365,predict(spline3,seq(0.1,20,0.1)*365)$y)
 
 #calculo nuevos precios 
+pre <- precio(tit = tit[-c(1,3,5,11,19,20)],spline1 =spline3 ,fv =as.Date("08/03/2018",format = "%d/%m/%Y") ,C = ca)
 
-
-
-
+#nueva comparacion
+freddy <- cbind.data.frame(t,c(pre,0))
+freddy
