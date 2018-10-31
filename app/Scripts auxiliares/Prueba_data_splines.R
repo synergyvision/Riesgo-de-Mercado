@@ -20,7 +20,7 @@ ca2$F.Vencimiento <- as.Date(as.character(ca2$F.Vencimiento),format="%d/%m/%Y")
 ca3 <- dplyr::arrange(ca2,(`Fecha op`))
 
 
-
+#................................
 #funcion formato nueva
 #Funcion Formato
 #funcion que toma la el documento de las caracteristicas informacion 
@@ -308,6 +308,71 @@ ca2_3$F.Vencimiento <- as.Date(as.character(ca2_3$F.Vencimiento),format="%d/%m/%
 
 #este data frame es el que utiliza la metodologia Spline para los calculos
 ca3_3 <- dplyr::arrange(ca2_3,(`Fecha op`))
+#................................
+
+#pruebo data vieja y caracteristicas vieja en fecha prueba 08/03/18
+#cargo caracteristica y data vieja
+#carateristica Splines
+C_splines <- read.csv(paste(getwd(),"app","data","C_splines.txt",sep = "/"), sep="")
+names(C_splines) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+                      "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+                      "Pago cupon 2","Cupon")
+
+#cargo data de prueba 0-22
+data_splines <- read.csv(paste(getwd(),"app","data","Data_splines.txt",sep = "/"), sep="")
+data_splines$Fecha.op <- as.Date(as.character(data_splines$Fecha.op))
+data_splines$F.Vencimiento <- as.Date(as.character(data_splines$F.Vencimiento),format = "%d/%m/%Y")
+
+
+#cargar titulos de script precios_diarios.R
+#usando data y carac viejas
+tif <- Tabla.splines(data = data_splines,tipo = "TIF",fe=as.Date("08/03/2018",format = "%d/%m/%Y"),num =40,par = 0.3,tit=tit[-c(1,3,5,11,19,20)],C_splines,pr=pos1(tit[-c(1,3,5,11,19,20)],0,Precio_prom_tif))
+
+#usando data vieja y carac nueva (no tiene mucho sentido)
+tif1 <- Tabla.splines(data = data_splines,tipo = "TIF",fe=as.Date("08/03/2018",format = "%d/%m/%Y"),num =40,par = 0.3,tit=tit[-c(1,3,5,11,19,20)],ca,pr=pos1(tit[-c(1,3,5,11,19,20)],0,Precio_prom_tif))
+
+#usando data y carac nuevas
+tif2 <- Tabla.splines(data = dat,tipo = "TIF",fe=as.Date("08/03/2018",format = "%d/%m/%Y"),num =40,par = 0.5,tit=tit[-c(1,3,5,11,19,20)],ca,pr=pos1(tit[-c(1,3,5,11,19,20)],0,Precio_prom_tif))
+
+#comparacion precios
+t <- cbind.data.frame(tif[[1]],tif1[[1]]$Precios,tif2[[1]]$Precios)
+
+#realizo comparacion de titulos candidatos
+rend <- list(tif[[2]][c(1,7)],tif1[[2]][c(1,7)],tif2[[2]][c(1,7)])
+
+#comparo splines generados
+sp <- list(tif[[4]],tif1[[4]],tif2[[4]])
+
+#realizo graficas
+#1era
+plot(x=seq(0.1,20,0.1)*365,predict(tif[[4]],seq(0.1,20,0.1)*365)$y,type="l")
+
+#2da
+lines(x=seq(0.1,20,0.1)*365,predict(tif1[[4]],seq(0.1,20,0.1)*365)$y)
+
+#3era
+lines(x=seq(0.1,20,0.1)*365,predict(tif2[[4]],seq(0.1,20,0.1)*365)$y)
+
+#candidatos
+#1era y 2da
+uno <- as.data.frame(tif[[2]])
+plot(uno$Plazo,uno$Rendimiento)
+lines(x=seq(0.1,20,0.1)*365,predict(tif[[4]],seq(0.1,20,0.1)*365)$y)
+
+
+#3era
+tres <- as.data.frame(tif2[[2]])
+plot(tres$Plazo,tres$Rendimiento)
+lines(x=seq(0.1,20,0.1)*365,predict(tif2[[4]],seq(0.1,20,0.1)*365)$y)
+
+#pruebo ahora elimninando obs (1000,4.5) 
+tres_1 <- tres[-2,]
+plot(tres_1$Plazo,tres_1$Rendimiento)
+
+spline3 <- smooth.spline(tres_1$Plazo,tres_1$Rendimiento,spar = 0.5)
+lines(x=seq(0.1,20,0.1)*365,predict(spline3,seq(0.1,20,0.1)*365)$y)
+
+#calculo nuevos precios 
 
 
 
