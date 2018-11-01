@@ -503,8 +503,22 @@ shinyUI(
                                     box(style="overflow-x:scroll",width = 12,dataTableOutput("pre_sp_tif")),
                                     h2(" Curva de rendimientos TIF")
                                     ,
-                                    rbokehOutput("c_tif_splines")#verbatimTextOutput("datos")
+                                    rbokehOutput("c_tif_splines"),#verbatimTextOutput("datos")
+                                    h2(" Eliminar observaciones"),
+                                    htmlOutput("selectUI_tif"),
+                                    h3(" Títulos elegidos"),
+                                    verbatimTextOutput("obs_elim_tif"),
+                                    h2(" Nuevos títulos candidatos"),
+                                    box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_tif_new")),
+                                    h2(" Nuevos precios"),
+                                    box(style="overflow-x:scroll",width = 12,dataTableOutput("precios_tif_nuevos")),
                                     
+                                    
+                                    
+                                    radioButtons(inputId = "elim_tif",label = "Desea eliminar alguna observación:", 
+                                                 choices = c("Si"=1, "No"=0),
+                                                 selected="0"),
+                                    box(style="overflow-x:scroll",width = 12,dataTableOutput("tabla_elim_tif"))
                                     
                                     
                                     

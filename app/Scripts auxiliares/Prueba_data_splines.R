@@ -378,3 +378,13 @@ pre <- precio(tit = tit[-c(1,3,5,11,19,20)],spline1 =spline3 ,fv =as.Date("08/03
 #nueva comparacion
 freddy <- cbind.data.frame(t,c(pre,0))
 freddy
+
+#####
+#####
+#####
+
+
+
+
+
+

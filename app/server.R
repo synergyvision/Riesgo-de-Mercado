@@ -1927,6 +1927,105 @@ shinyServer(function(input, output) {
     
   })
   
+  #opcion eliminar SPLINES
+  output$tabla_elim_tif <- renderDataTable({
+    if(input$elim_tif==1){
+        
+  
+    }else{
+      Aviso <- "No se eliminarán observaciones iniciales"
+      return(as.data.frame(Aviso))
+    }
+  })
+  
+  #calculo candidatos a elimnar
+  obs_elim_tif <- reactive({
+    #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    #return(car)
+    # #print(str(data_splines))
+    # #print(str(dat))
+    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
+    return(as.character(a[,1]))
+  })
+    
+    #hago el imputselect interactivo
+  output$selectUI_tif <- renderUI({ 
+    selectInput("obs_tif", "Seleccionar títulos", obs_elim_tif(),multiple = TRUE)
+  })
+  
+  #imprimo titulos seleccionados a eliminar
+  output$obs_elim_tif <- renderPrint(input$obs_tif)
+  
+  #muestro nuevos candidatos
+  output$tit_cand_tif_new <- renderDataTable({
+    #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    #return(car)
+    # #print(str(data_splines))
+    # #print(str(dat))
+    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
+    
+    if(length(input$obs_tif)==0){
+      Aviso <- "No se ha seleccionado nada"
+      return(as.data.frame(Aviso))
+      
+    }else{
+    
+    b <- c()
+    for(i in 1:length(input$obs_tif)){
+    b[i] <- which(input$obs_tif[i]==as.character(a[,1]))
+    }
+    a <- a[-b,]
+    return(a)
+    
+    }
+    
+   
+    
+  })
+  
+  #calculo nuevos precios
+  output$precios_tif_nuevos <- renderDataTable({
+    #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    #return(car)
+    # #print(str(data_splines))
+    # #print(str(dat))
+    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
+    
+    if(length(input$obs_tif)==0){
+      Aviso <- "No se ha eliminado nada, ver tabla anterior"
+      return(as.data.frame(Aviso))
+      
+    }else{
+      
+      b <- c()
+      for(i in 1:length(input$obs_tif)){
+        b[i] <- which(input$obs_tif[i]==as.character(a[,1]))
+      }
+      a <- a[-b,]
+      
+      
+      #calculo spline
+      spline <- smooth.spline(a[,4],a[,7],spar = input$parametro_tif)
+      
+      #calculo precios
+      pre <- precio(tit = c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),spline1 = spline,fv =input$n4 ,C = car)
+      
+      pre1 <- cbind.data.frame("Títulos"=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),"Precios"=pre)
+      
+      return(pre1)
+    }
+  
+  })
+  
   # Almacenar Variables Reactivas
   RV <- reactiveValues()
 
