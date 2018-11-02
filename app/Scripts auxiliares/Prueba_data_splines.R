@@ -383,7 +383,30 @@ freddy
 #####
 #####
 
+#veo grafico
+y <-predict(Tabla.splines(data = data_splines,tipo = "TIF",fe=as.Date("08/03/2018",format = "%d/%m/%Y"),num =40,par = 0.3,tit=tit[-c(1,3,5,11,19,20)],C_splines,pr=pos1(tit[-c(1,3,5,11,19,20)],0,Precio_prom_tif))[[4]],seq(0.1,20,0.1)*365)$y
+# f <- ggplot(cbind.data.frame(x=seq(1,20,0.1)*365,y),aes(x=x,y=y))+
+#   geom_line(color="black")+
+#   geom_point(data = pto_sp_tif(),aes(x=pto_sp_tif()[,1],y=pto_sp_tif()[,2]),color="blue",size=3)+
+#   xlab("Maduración (días)")+
+#   ylab("Rendimiento (%)")+theme_gray()+
+#   ggtitle("Curva de redimientos Splines TIF ")+
+#   theme(plot.title = element_text(hjust = 0.5))
+#   
+# 
+# ggplotly(f) 
 
+letra <- tif[[3]]
+letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+
+cand <- tif[[2]]
+names(letra1)=names(cand)
+
+figure(width = 1000,height = 400) %>%
+  ly_points(c(letra[,7],cand[,4]),c(letra[,15],cand[,7]),rbind.data.frame(letra1,cand),hover=list("Nombre"=c(as.character(letra[,2]),as.character(cand[,1])),"Fecha de operación"=c(letra[,3],cand[,2]))) %>%
+  ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="blue",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
+  # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
+  x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
 
 
 

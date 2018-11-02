@@ -512,8 +512,9 @@ shinyUI(
                                     box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_tif_new")),
                                     h2(" Nuevos precios"),
                                     box(style="overflow-x:scroll",width = 12,dataTableOutput("precios_tif_nuevos")),
-                                    
-                                    
+                                    h2(" Nueva curva de rendimientos"),
+                                    rbokehOutput("c_tif_splines_new"),
+                                    #plotOutput("c_tif_splines_new"),
                                     
                                     radioButtons(inputId = "elim_tif",label = "Desea eliminar alguna observación:", 
                                                  choices = c("Si"=1, "No"=0),

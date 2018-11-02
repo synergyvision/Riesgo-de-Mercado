@@ -1254,8 +1254,13 @@ shinyServer(function(input, output) {
     # 
     # ggplotly(f) 
     
+    letra <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[3]]
+    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    
+    names(letra1)=names(pto_sp_tif())
+    
     figure(width = 1000,height = 400) %>%
-      ly_points(pto_sp_tif()[,4],pto_sp_tif()[,7],pto_sp_tif(),hover=list("Nombre"=pto_sp_tif()[,1],"Fecha de operación"=pto_sp_tif()[,2])) %>%
+      ly_points(c(letra[,7],pto_sp_tif()[,4]),c(letra[,15],pto_sp_tif()[,7]),rbind.data.frame(letra1,pto_sp_tif()),hover=list("Nombre"=c(as.character(letra[,2]),as.character(pto_sp_tif()[,1])),"Fecha de operación"=c(letra[,3],pto_sp_tif()[,2]))) %>%
       ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="blue",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
       # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
       x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
@@ -1948,7 +1953,14 @@ shinyServer(function(input, output) {
     # #print(str(data_splines))
     # #print(str(dat))
     a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
-    return(as.character(a[,1]))
+    
+    # a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+    # letra <- a[[3]]
+    # cand <- a[[2]]
+    # 
+    # a1 <- c(as.character(letra[,2]),as.character(cand[,1]))
+    # return(as.character(a1))
+    return(a)
   })
     
     #hago el imputselect interactivo
@@ -2025,6 +2037,48 @@ shinyServer(function(input, output) {
     }
   
   })
+  
+  #nueva curva TIF
+  #renderRbokeh
+  output$c_tif_splines_new <- renderRbokeh({
+     withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
+       incProgress(1/2, detail = "Calculando alturas")
+       dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+       dat[,3] <- as.Date(as.character(dat[,3]))
+       car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+       
+       a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
+       
+       if(length(input$obs_tif)==0){
+         figure(width = 1000,height = 400) 
+       }else{
+         
+         b <- c()
+         for(i in 1:length(input$obs_tif)){
+           b[i] <- which(input$obs_tif[i]==as.character(a[,1]))
+         }
+         a <- a[-b,]
+       }
+         
+         #calculo spline
+         spline <- smooth.spline(a[,4],a[,7],spar = input$parametro_tif)
+         
+       y <-predict(spline,seq(0.1,20,0.1)*365)$y
+       incProgress(1/2, detail = "Ajustando spline")
+       
+    #   plot(seq(0.1,20,0.1)*365,y)
+    #   figure(width = 1000,height = 400) %>%
+    #     ly_points(pto_sp_tif_dl()[,4],pto_sp_tif_dl()[,7],pto_sp_tif_dl(),hover=list("Nombre"=pto_sp_tif_dl()[,1],"Fecha de operación"=pto_sp_tif_dl()[,2])) %>%
+    #     ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="green",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
+    #     x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
+         figure(width = 1000,height = 400) %>%
+           ly_points(a[,4],a[,7],a,hover=list("Nombre"=a[,1],"Fecha de operación"=a[,2])) %>%
+           ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="green",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
+           x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)")
+       })
+  })
+  
+  
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()
