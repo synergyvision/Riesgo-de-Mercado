@@ -1357,7 +1357,19 @@ shinyServer(function(input, output) {
     #return(car)
      # #print(str(data_splines))
     # #print(str(dat))
-     Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
+     a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+     letra <- a[[3]]
+     letra[,6] <- as.Date(letra[,6])
+     letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+     cand <- a[[2]]
+     
+     
+     names(letra1)=names(cand)
+     
+     a1 <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+     return(a1)
+     
+     #Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
     
      })
   
@@ -1952,15 +1964,15 @@ shinyServer(function(input, output) {
     #return(car)
     # #print(str(data_splines))
     # #print(str(dat))
-    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
+    #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
     
-    # a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
-    # letra <- a[[3]]
-    # cand <- a[[2]]
-    # 
-    # a1 <- c(as.character(letra[,2]),as.character(cand[,1]))
-    # return(as.character(a1))
-    return(a)
+     a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+     letra <- a[[3]]
+     cand <- a[[2]]
+     
+     a1 <- c(as.character(letra[,2]),as.character(cand[,1]))
+     return(as.character(a1))
+    #return(as.character(a[,1]))
   })
     
     #hago el imputselect interactivo
@@ -1980,7 +1992,18 @@ shinyServer(function(input, output) {
     #return(car)
     # #print(str(data_splines))
     # #print(str(dat))
-    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
+    #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
+    
+    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+    letra <- a[[3]]
+    letra[,6] <- as.Date(letra[,6])
+    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    cand <- a[[2]]
+    
+    
+    names(letra1)=names(cand)
+    
+    a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
     
     if(length(input$obs_tif)==0){
       Aviso <- "No se ha seleccionado nada"
@@ -2010,7 +2033,17 @@ shinyServer(function(input, output) {
     #return(car)
     # #print(str(data_splines))
     # #print(str(dat))
-    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
+    #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
+    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+    letra <- a[[3]]
+    letra[,6] <- as.Date(letra[,6])
+    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    cand <- a[[2]]
+    
+    
+    names(letra1)=names(cand)
+    
+    a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
     
     if(length(input$obs_tif)==0){
       Aviso <- "No se ha eliminado nada, ver tabla anterior"
@@ -2047,7 +2080,18 @@ shinyServer(function(input, output) {
        dat[,3] <- as.Date(as.character(dat[,3]))
        car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
        
-       a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
+       #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
+       a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+       letra <- a[[3]]
+       letra[,6] <- as.Date(letra[,6])
+       letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+       cand <- a[[2]]
+       
+       
+       names(letra1)=names(cand)
+       
+       a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+       
        
        if(length(input$obs_tif)==0){
          figure(width = 1000,height = 400) 
