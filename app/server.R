@@ -1193,13 +1193,15 @@ shinyServer(function(input, output) {
   #output$pre_sp_tif <- renderDataTable({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[5]] })
   output$pre_sp_tif <- renderDataTable({
     #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[5]] 
-     dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-     dat[,3] <- as.Date(as.character(dat[,3]))
-     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    # #print(str(data_splines))
+    #  dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    #  dat[,3] <- as.Date(as.character(dat[,3]))
+    #  car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    # # #print(str(data_splines))
     # #print(str(dat))
-     Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[5]]
-    # 
+     #Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[5]]
+    a <- tabla_sp_tif()
+    a[[5]]
+     # 
     
     })
   
@@ -1237,12 +1239,16 @@ shinyServer(function(input, output) {
   #curva de rendimiento
   #tif
   output$c_tif_splines <- renderRbokeh({
-    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-    dat[,3] <- as.Date(as.character(dat[,3]))
-    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    # dat[,3] <- as.Date(as.character(dat[,3]))
+    # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    # 
     
     
-    y <-predict(Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[4]],seq(0.1,20,0.1)*365)$y
+    # y <-predict(Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[4]],seq(0.1,20,0.1)*365)$y
+    a <- tabla_sp_tif()
+    y <-predict(a[[4]],seq(0.1,20,0.1)*365)$y
+    
     # f <- ggplot(cbind.data.frame(x=seq(1,20,0.1)*365,y),aes(x=x,y=y))+
     #   geom_line(color="black")+
     #   geom_point(data = pto_sp_tif(),aes(x=pto_sp_tif()[,1],y=pto_sp_tif()[,2]),color="blue",size=3)+
@@ -1254,13 +1260,19 @@ shinyServer(function(input, output) {
     # 
     # ggplotly(f) 
     
-    letra <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[3]]
+    #letra <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[3]]
+    letra <- a[[3]]
     letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
     
-    names(letra1)=names(pto_sp_tif())
-    
-    figure(width = 1000,height = 400) %>%
-      ly_points(c(letra[,7],pto_sp_tif()[,4]),c(letra[,15],pto_sp_tif()[,7]),rbind.data.frame(letra1,pto_sp_tif()),hover=list("Nombre"=c(as.character(letra[,2]),as.character(pto_sp_tif()[,1])),"Fecha de operación"=c(letra[,3],pto_sp_tif()[,2]))) %>%
+    # names(letra1)=names(pto_sp_tif())
+    # 
+    # figure(width = 1000,height = 400) %>%
+    #   ly_points(c(letra[,7],pto_sp_tif()[,4]),c(letra[,15],pto_sp_tif()[,7]),rbind.data.frame(letra1,pto_sp_tif()),hover=list("Nombre"=c(as.character(letra[,2]),as.character(pto_sp_tif()[,1])),"Fecha de operación"=c(letra[,3],pto_sp_tif()[,2]))) %>%
+     
+      names(letra1)=names(a[[2]])
+     
+      figure(width = 1000,height = 400) %>%
+      ly_points(c(letra[,7],a[[2]][,4]),c(letra[,15],a[[2]][,7]),rbind.data.frame(letra1,a[[2]]),hover=list("Nombre"=c(as.character(letra[,2]),as.character(a[[2]][,1])),"Fecha de operación"=c(letra[,3],a[[2]][,2]))) %>%
       ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="blue",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
       # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
       x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
@@ -1348,16 +1360,27 @@ shinyServer(function(input, output) {
   })
   
   #titulos candidatos
+  #funcion que calcula una sola vez valores de funcion "Tabla Spline"
+  tabla_sp_tif <- reactive({
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+    return(a)
+  })
+  
+  
   #tif
   output$tit_cand_tif <- renderDataTable({
     #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
-     dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-     dat[,3] <- as.Date(as.character(dat[,3]))
-     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+     # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+     # dat[,3] <- as.Date(as.character(dat[,3]))
+     # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     #return(car)
      # #print(str(data_splines))
     # #print(str(dat))
-     a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+     #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+     a <- tabla_sp_tif()
      letra <- a[[3]]
      letra[,6] <- as.Date(letra[,6])
      letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
@@ -1958,15 +1981,16 @@ shinyServer(function(input, output) {
   #calculo candidatos a elimnar
   obs_elim_tif <- reactive({
     #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
-    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-    dat[,3] <- as.Date(as.character(dat[,3]))
-    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    #return(car)
+    # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    # dat[,3] <- as.Date(as.character(dat[,3]))
+    # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    # #return(car)
     # #print(str(data_splines))
     # #print(str(dat))
     #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
     
-     a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+     #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+     a <- tabla_sp_tif()
      letra <- a[[3]]
      cand <- a[[2]]
      
@@ -1986,15 +2010,16 @@ shinyServer(function(input, output) {
   #muestro nuevos candidatos
   output$tit_cand_tif_new <- renderDataTable({
     #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
-    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-    dat[,3] <- as.Date(as.character(dat[,3]))
-    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    #return(car)
+    # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    # dat[,3] <- as.Date(as.character(dat[,3]))
+    # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    # #return(car)
     # #print(str(data_splines))
     # #print(str(dat))
     #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
     
-    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+    #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+    a <- tabla_sp_tif()
     letra <- a[[3]]
     letra[,6] <- as.Date(letra[,6])
     letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
@@ -2027,14 +2052,15 @@ shinyServer(function(input, output) {
   #calculo nuevos precios
   output$precios_tif_nuevos <- renderDataTable({
     #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
-    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-    dat[,3] <- as.Date(as.character(dat[,3]))
-    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    #return(car)
+    # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    # dat[,3] <- as.Date(as.character(dat[,3]))
+     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    # #return(car)
     # #print(str(data_splines))
     # #print(str(dat))
     #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
-    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+    #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+    a <- tabla_sp_tif()
     letra <- a[[3]]
     letra[,6] <- as.Date(letra[,6])
     letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
@@ -2076,12 +2102,13 @@ shinyServer(function(input, output) {
   output$c_tif_splines_new <- renderRbokeh({
      withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
        incProgress(1/2, detail = "Calculando alturas")
-       dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-       dat[,3] <- as.Date(as.character(dat[,3]))
-       car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-       
+       # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+       # dat[,3] <- as.Date(as.character(dat[,3]))
+       # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+       # 
        #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
-       a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+       #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+       a <- tabla_sp_tif()
        letra <- a[[3]]
        letra[,6] <- as.Date(letra[,6])
        letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
