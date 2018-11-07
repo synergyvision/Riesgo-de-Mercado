@@ -513,13 +513,13 @@ shinyUI(
                                     h2(" Nuevos precios"),
                                     box(style="overflow-x:scroll",width = 12,dataTableOutput("precios_tif_nuevos")),
                                     h2(" Nueva curva de rendimientos"),
-                                    rbokehOutput("c_tif_splines_new"),
+                                    rbokehOutput("c_tif_splines_new")
                                     #plotOutput("c_tif_splines_new"),
                                     
-                                    radioButtons(inputId = "elim_tif",label = "Desea eliminar alguna observación:", 
-                                                 choices = c("Si"=1, "No"=0),
-                                                 selected="0"),
-                                    box(style="overflow-x:scroll",width = 12,dataTableOutput("tabla_elim_tif"))
+                                    #radioButtons(inputId = "elim_tif",label = "Desea eliminar alguna observación:", 
+                                     #            choices = c("Si"=1, "No"=0),
+                                      #           selected="0"),
+                                    #box(style="overflow-x:scroll",width = 12,dataTableOutput("tabla_elim_tif"))
                                     
                                     
                                     
@@ -563,8 +563,17 @@ shinyUI(
                                     h2(" Precios Splines"),
                                     box(style="overflow-x:scroll",width = 12,dataTableOutput("pre_sp_veb")),
                                     h2(" Curva de rendimientos VEBONO"),
-                                    rbokehOutput("c_veb_splines")#verbatimTextOutput("datos")
-                                    
+                                    rbokehOutput("c_veb_splines"),#verbatimTextOutput("datos")
+                                    h2(" Eliminar observaciones"),
+                                    htmlOutput("selectUI_veb"),
+                                    h3(" Títulos elegidos"),
+                                    verbatimTextOutput("obs_elim_veb"),
+                                    h2(" Nuevos títulos candidatos"),
+                                    box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_veb_new")),
+                                    h2(" Nuevos precios"),
+                                    box(style="overflow-x:scroll",width = 12,dataTableOutput("precios_veb_nuevos")),
+                                    h2(" Nueva curva de rendimientos"),
+                                    rbokehOutput("c_veb_splines_new")
                                     )#final tabpanel veb
                     )#final tabbox
                     )#final fluidrow

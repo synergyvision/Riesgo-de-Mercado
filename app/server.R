@@ -1208,12 +1208,14 @@ shinyServer(function(input, output) {
   #output$pre_sp <- renderPrint({precio_diario_sp(fe=input$n4,num=input$d_tif,par =input$parametro_tif ,datatif =datatif ,tit =tf_sp() ,C=C_splines,letra=c(97,1.34)) })
   output$pre_sp_veb <- renderDataTable({
     #Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[5]] 
-     dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-     dat[,3] <- as.Date(as.character(dat[,3]))
-     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-     
-     Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),car,pr=tv_sp())[[5]] 
-    
+     # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+     # dat[,3] <- as.Date(as.character(dat[,3]))
+     # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+     # 
+     # Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),car,pr=tv_sp())[[5]] 
+     # 
+    a <- tabla_sp_veb()
+    a[[5]]
     
     })
   
@@ -1306,11 +1308,15 @@ shinyServer(function(input, output) {
   
   #veb
   output$c_veb_splines <- renderRbokeh({
-    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-    dat[,3] <- as.Date(as.character(dat[,3]))
-    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    # dat[,3] <- as.Date(as.character(dat[,3]))
+    # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    # 
+    # y <-predict(Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),car,pr=tv_sp())[[4]],seq(0.1,20,0.1)*365)$y
+    a <- tabla_sp_veb()
+    y <-predict(a[[4]],seq(0.1,20,0.1)*365)$y
     
-    y <-predict(Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),car,pr=tv_sp())[[4]],seq(0.1,20,0.1)*365)$y
+    
     # f <- ggplot(cbind.data.frame(x=seq(1,20,0.1)*365,y),aes(x=x,y=y))+
     #   geom_line(color="black")+
     #   geom_point(data = pto_sp_veb(),aes(x=pto_sp_veb()[,1],y=pto_sp_veb()[,2]),color="blue",size=3)+
@@ -1323,12 +1329,28 @@ shinyServer(function(input, output) {
     # ggplotly(f) 
     # %>%
     #   add_markers(text= ~  pto_sp_tif()[,1],hoverinfo = "text")
+    # figure(width = 1000,height = 400) %>%
+    #   ly_points(pto_sp_veb()[,4],pto_sp_veb()[,7],pto_sp_veb(),hover=list("Nombre"=pto_sp_veb()[,1],"Fecha de operación"=pto_sp_veb()[,2])) %>%
+    #   ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="blue",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
+    #   # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
+    #   x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
+    # 
+    
+    letra <- a[[3]]
+    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    
+    # names(letra1)=names(pto_sp_tif())
+    # 
+    # figure(width = 1000,height = 400) %>%
+    #   ly_points(c(letra[,7],pto_sp_tif()[,4]),c(letra[,15],pto_sp_tif()[,7]),rbind.data.frame(letra1,pto_sp_tif()),hover=list("Nombre"=c(as.character(letra[,2]),as.character(pto_sp_tif()[,1])),"Fecha de operación"=c(letra[,3],pto_sp_tif()[,2]))) %>%
+    
+    names(letra1)=names(a[[2]])
+    
     figure(width = 1000,height = 400) %>%
-      ly_points(pto_sp_veb()[,4],pto_sp_veb()[,7],pto_sp_veb(),hover=list("Nombre"=pto_sp_veb()[,1],"Fecha de operación"=pto_sp_veb()[,2])) %>%
+      ly_points(c(letra[,7],a[[2]][,4]),c(letra[,15],a[[2]][,7]),rbind.data.frame(letra1,a[[2]]),hover=list("Nombre"=c(as.character(letra[,2]),as.character(a[[2]][,1])),"Fecha de operación"=c(letra[,3],a[[2]][,2]))) %>%
       ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="blue",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
       # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
       x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
-    
     
   })
   
@@ -1361,11 +1383,21 @@ shinyServer(function(input, output) {
   
   #titulos candidatos
   #funcion que calcula una sola vez valores de funcion "Tabla Spline"
+  #TIF
   tabla_sp_tif <- reactive({
     dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     dat[,3] <- as.Date(as.character(dat[,3]))
     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+    return(a)
+  })
+  
+  #VEBONOS
+  tabla_sp_veb <- reactive({
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    a <- Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),car,pr=tv_sp())
     return(a)
   })
   
@@ -1408,12 +1440,24 @@ shinyServer(function(input, output) {
   #veb
   output$tit_cand_veb <- renderDataTable({
     #Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),C_splines,pr=tv_sp())[[2]] 
-     dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-     dat[,3] <- as.Date(as.character(dat[,3]))
-     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-     
-     Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),car,pr=tv_sp())[[2]] 
-     
+     # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+     # dat[,3] <- as.Date(as.character(dat[,3]))
+     # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+     # 
+     # Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),car,pr=tv_sp())[[2]] 
+     # 
+    a <- tabla_sp_veb()
+    letra <- a[[3]]
+    letra[,6] <- as.Date(letra[,6])
+    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    cand <- a[[2]]
+    
+    
+    names(letra1)=names(cand)
+    
+    a1 <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+    return(a1)
+    
     
     })
   
@@ -1968,17 +2012,18 @@ shinyServer(function(input, output) {
   })
   
   #opcion eliminar SPLINES
-  output$tabla_elim_tif <- renderDataTable({
-    if(input$elim_tif==1){
-        
-  
-    }else{
-      Aviso <- "No se eliminarán observaciones iniciales"
-      return(as.data.frame(Aviso))
-    }
-  })
+  # output$tabla_elim_tif <- renderDataTable({
+  #   if(input$elim_tif==1){
+  #       
+  # 
+  #   }else{
+  #     Aviso <- "No se eliminarán observaciones iniciales"
+  #     return(as.data.frame(Aviso))
+  #   }
+  # })
   
   #calculo candidatos a elimnar
+  #TIF
   obs_elim_tif <- reactive({
     #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
     # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
@@ -1998,16 +2043,38 @@ shinyServer(function(input, output) {
      return(as.character(a1))
     #return(as.character(a[,1]))
   })
+  
+  #VEBONO
+  obs_elim_veb <- reactive({
+    a <- tabla_sp_veb()
+    letra <- a[[3]]
+    cand <- a[[2]]
+    
+    a1 <- c(as.character(letra[,2]),as.character(cand[,1]))
+    return(as.character(a1))
+  })
     
     #hago el imputselect interactivo
+  #TIF
   output$selectUI_tif <- renderUI({ 
     selectInput("obs_tif", "Seleccionar títulos", obs_elim_tif(),multiple = TRUE)
   })
   
+  #VEBONO
+  output$selectUI_veb <- renderUI({ 
+    selectInput("obs_veb", "Seleccionar títulos", obs_elim_veb(),multiple = TRUE)
+  })
+  
   #imprimo titulos seleccionados a eliminar
+  #TIF
   output$obs_elim_tif <- renderPrint(input$obs_tif)
   
+  #VEBONO
+  output$obs_elim_veb <- renderPrint(input$obs_veb)
+  
+  
   #muestro nuevos candidatos
+  #TIF
   output$tit_cand_tif_new <- renderDataTable({
     #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
     # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
@@ -2045,11 +2112,40 @@ shinyServer(function(input, output) {
     
     }
     
-   
+  })
+  
+  #VEBONOS
+  output$tit_cand_veb_new <- renderDataTable({
+    a <- tabla_sp_veb()
+    letra <- a[[3]]
+    letra[,6] <- as.Date(letra[,6])
+    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    cand <- a[[2]]
+    
+    
+    names(letra1)=names(cand)
+    
+    a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+    
+    if(length(input$obs_veb)==0){
+      Aviso <- "No se ha seleccionado nada"
+      return(as.data.frame(Aviso))
+      
+    }else{
+      
+      b <- c()
+      for(i in 1:length(input$obs_veb)){
+        b[i] <- which(input$obs_veb[i]==as.character(a[,1]))
+      }
+      a <- a[-b,]
+      return(a)
+      
+    }
     
   })
   
   #calculo nuevos precios
+  #TIF
   output$precios_tif_nuevos <- renderDataTable({
     #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
     # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
@@ -2095,6 +2191,46 @@ shinyServer(function(input, output) {
       return(pre1)
     }
   
+  })
+  
+  #VEBONOS
+  output$precios_veb_nuevos <- renderDataTable({
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    a <- tabla_sp_veb()
+    letra <- a[[3]]
+    letra[,6] <- as.Date(letra[,6])
+    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    cand <- a[[2]]
+    
+    
+    names(letra1)=names(cand)
+    
+    a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+    
+    if(length(input$obs_veb)==0){
+      Aviso <- "No se ha eliminado nada, ver tabla anterior"
+      return(as.data.frame(Aviso))
+      
+    }else{
+      
+      b <- c()
+      for(i in 1:length(input$obs_veb)){
+        b[i] <- which(input$obs_veb[i]==as.character(a[,1]))
+      }
+      a <- a[-b,]
+      
+      
+      #calculo spline
+      spline <- smooth.spline(a[,4],a[,7],spar = input$parametro_veb)
+      
+      #calculo precios
+      pre <- precio(tit = c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),spline1 = spline,fv =input$n4 ,C = car)
+      
+      pre1 <- cbind.data.frame("Títulos"=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),"Precios"=pre)
+      
+      return(pre1)
+    }
+    
   })
   
   #nueva curva TIF
@@ -2149,6 +2285,44 @@ shinyServer(function(input, output) {
        })
   })
   
+  #VEBONOS
+  output$c_veb_splines_new <- renderRbokeh({
+    withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
+      incProgress(1/2, detail = "Calculando alturas")
+      a <- tabla_sp_veb()
+      letra <- a[[3]]
+      letra[,6] <- as.Date(letra[,6])
+      letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+      
+      
+      if(length(input$obs_veb)==0){
+        figure(width = 1000,height = 400) 
+      }else{
+        
+        b <- c()
+        for(i in 1:length(input$obs_veb)){
+          b[i] <- which(input$obs_veb[i]==as.character(a[,1]))
+        }
+        a <- a[-b,]
+      }
+      
+      #calculo spline
+      spline <- smooth.spline(a[,4],a[,7],spar = input$parametro_veb)
+      
+      y <-predict(spline,seq(0.1,20,0.1)*365)$y
+      incProgress(1/2, detail = "Ajustando spline")
+      
+      figure(width = 1000,height = 400) %>%
+        ly_points(a[,4],a[,7],a,hover=list("Nombre"=a[,1],"Fecha de operación"=a[,2])) %>%
+        ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="green",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
+        x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)")
+    })
+  })
   
   
   # Almacenar Variables Reactivas
