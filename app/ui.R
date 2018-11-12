@@ -136,7 +136,7 @@ shinyUI(
                                                                  h2(" Precios estimados optimizados"),
                                                                  radioButtons( inputId = "opt_tif_ns",label = "Desea optimizar los precios obtenidos:", 
                                                                                choices = c("Si"=1, "No"=0),
-                                                                               selected=" "), #finalradiobuttons
+                                                                               selected=0), #finalradiobuttons
                                                                  box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_tif_opt_ns")),
                                                                  h2(" Parámetros optimizados"),
                                                                  verbatimTextOutput("par_tif_ns_op"),

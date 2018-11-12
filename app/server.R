@@ -307,6 +307,8 @@ shinyServer(function(input, output) {
     }
   })
   
+
+  
   #precios estimados iniciales
   output$p_est_tif <- renderDataTable({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = pa_sven,ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] })
   #output$p_est_tif_ns <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = pa_ns,ind = 0,C = C,fe2=0,fe3=0)[[1]] })
@@ -450,12 +452,21 @@ shinyServer(function(input, output) {
   #TIF
   output$spar_tif_dl <- renderPrint({input$parametro_tif_dl})
   
+  #defino funcion auxliliar que hace el llamado a la funcion tabla.Splines
+  #una sola vez
+  tabla_sp_dl_tif <- reactive({
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num =40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),car,pr=tf_dl())
+    })
+  
   dl_spline_tif <- reactive({
     withProgress(message = 'Calculando spline a utilizar', value = 0, {
-      dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-      dat[,3] <- as.Date(as.character(dat[,3]))
-      car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-      Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num =40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),car,pr=tf_dl())[[4]] 
+      # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+      # dat[,3] <- as.Date(as.character(dat[,3]))
+      # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+      tabla_sp_dl_tif()[[4]] 
     })
     })
   
@@ -495,12 +506,23 @@ shinyServer(function(input, output) {
   #Vebonos
   output$spar_veb_dl <- renderPrint({input$parametro_veb_dl})
   
+  #defino funcion auxliliar que hace el llamado a la funcion tabla.Splines
+  #una sola vez
+  tabla_sp_dl_veb <- reactive({
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n3,num =40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),car,pr=tv_dl())
+  })
+  
+  
   dl_spline_veb <- reactive({
     withProgress(message = 'Calculando spline a utilizar...', value = 0, {
-      dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-      dat[,3] <- as.Date(as.character(dat[,3]))
-      car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-      Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n3,num =40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),car,pr=tv_dl())[[4]] 
+      # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+      # dat[,3] <- as.Date(as.character(dat[,3]))
+      # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+      # Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n3,num =40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),car,pr=tv_dl())[[4]] 
+      tabla_sp_dl_veb()[[4]] 
     })
     })
   
@@ -540,10 +562,12 @@ shinyServer(function(input, output) {
   #extraigo puntos con los q se hace la curva, para DL
   #tif
   pto_sp_tif_dl <- reactive({
-    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-    dat[,3] <- as.Date(as.character(dat[,3]))
-    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),car,pr=tf_dl())[[2]]
+    # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    # dat[,3] <- as.Date(as.character(dat[,3]))
+    # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),car,pr=tf_dl())[[2]]
+    a <- tabla_sp_dl_tif()[[2]]
+    
     # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
     # names(a1) <- c("Plazo","Rendimiento")
     return(a)
@@ -564,10 +588,13 @@ shinyServer(function(input, output) {
   
   #veb
   pto_sp_veb_dl <- reactive({
-    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-    dat[,3] <- as.Date(as.character(dat[,3]))
-    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    a <- Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n3,num = 40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),car,pr=tv_dl())[[2]]
+    # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    # dat[,3] <- as.Date(as.character(dat[,3]))
+    # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    # a <- Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n3,num = 40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),car,pr=tv_dl())[[2]]
+    a <- tabla_sp_dl_veb()[[2]]
+    
+    
     # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
     # names(a1) <- c("Plazo","Rendimiento")
     return(a)
@@ -590,11 +617,13 @@ shinyServer(function(input, output) {
   output$c_tif_splines_dl <- renderRbokeh({
     withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
       incProgress(1/2, detail = "Calculando alturas")
-      dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-      dat[,3] <- as.Date(as.character(dat[,3]))
-      car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-      y <-predict(Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),car,pr=tf_dl())[[4]],seq(0.1,20,0.1)*365)$y
-    incProgress(1/2, detail = "Ajustando spline")
+      # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+      # dat[,3] <- as.Date(as.character(dat[,3]))
+      # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+      #y <-predict(Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),car,pr=tf_dl())[[4]],seq(0.1,20,0.1)*365)$y
+      y <-predict(tabla_sp_dl_tif()[[4]],seq(0.1,20,0.1)*365)$y
+      
+      incProgress(1/2, detail = "Ajustando spline")
     
     figure(width = 1000,height = 400) %>%
       ly_points(pto_sp_tif_dl()[,4],pto_sp_tif_dl()[,7],pto_sp_tif_dl(),hover=list("Nombre"=pto_sp_tif_dl()[,1],"Fecha de operación"=pto_sp_tif_dl()[,2])) %>%
@@ -625,11 +654,13 @@ shinyServer(function(input, output) {
   output$c_veb_splines_dl <- renderRbokeh({
     withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
       incProgress(1/2, detail = "Calculando alturas")
-      dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-      dat[,3] <- as.Date(as.character(dat[,3]))
-      car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    y <-predict(Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n3,num = 40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),car,pr=tv_dl())[[4]],seq(0.1,20,0.1)*365)$y
-    incProgress(1/2, detail = "Ajustando spline")
+    #   dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    #   dat[,3] <- as.Date(as.character(dat[,3]))
+    #   car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    # y <-predict(Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n3,num = 40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),car,pr=tv_dl())[[4]],seq(0.1,20,0.1)*365)$y
+      y <-predict(tabla_sp_dl_veb()[[4]],seq(0.1,20,0.1)*365)$y
+      
+      incProgress(1/2, detail = "Ajustando spline")
     
     figure(width = 1000,height = 400) %>%
       ly_points(pto_sp_veb_dl()[,4],pto_sp_veb_dl()[,7],pto_sp_veb_dl(),hover=list("Nombre"=pto_sp_veb_dl()[,1],"Fecha de operación"=pto_sp_veb_dl()[,2])) %>%
