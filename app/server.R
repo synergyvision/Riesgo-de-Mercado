@@ -483,17 +483,26 @@ shinyServer(function(input, output) {
   #comparativo
   output$spar_tif_dl_comp <- renderPrint({input$parametro_tif_dl_comp})
   
+  #creo funcion para acelerar calculo en seccion comparativo DL 
+  tabla_sp_dl_tif_comp  <- reactive({
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    Tabla.splines(data = dat,tipo = "TIF",fe=input$n5,num =40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),car,pr=tf_comp())
+  })
+  
   dl_spline_tif_comp <- reactive({
     withProgress(message = 'Calculando spline a utilizar...', value = 0, {
-      dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-      dat[,3] <- as.Date(as.character(dat[,3]))
-      car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-      Tabla.splines(data = dat,tipo = "TIF",fe=input$n5,num =40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),car,pr=tf_comp())[[4]] 
-    #incProgress(1/2, detail = "Fin")
+      # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+      # dat[,3] <- as.Date(as.character(dat[,3]))
+      # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+      # Tabla.splines(data = dat,tipo = "TIF",fe=input$n5,num =40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),car,pr=tf_comp())[[4]] 
+      tabla_sp_dl_tif_comp()[[4]] 
+      #incProgress(1/2, detail = "Fin")
     })
     })
   
-  output$spline_tif_comp <- renderPrint({dl_spline_tif_comp()})
+  output$spline_tif_comp_out <- renderPrint({dl_spline_tif_comp()})
   
   output$p_est_dl_tif_comp <- renderDataTable({
     withProgress(message = 'Calculando precios teóricos...', value = 0, {
@@ -539,16 +548,29 @@ shinyServer(function(input, output) {
   #Comparativo
   output$spar_veb_dl_comp <- renderPrint({input$parametro_veb_dl_comp})
   
+  #
+  #creo funcion que me calcula una sola llamada de la funcion de splines
+  tabla_sp_dl_veb_comp <- reactive({
+    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    dat[,3] <- as.Date(as.character(dat[,3]))
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num =40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())
+    
+  })
+  
+  
+  
   dl_spline_veb_comp <- reactive({
     withProgress(message = 'Calculando spline a utilizar...', value = 0, {
-      dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-      dat[,3] <- as.Date(as.character(dat[,3]))
-      car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num =40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())[[4]] 
+    #   dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    #   dat[,3] <- as.Date(as.character(dat[,3]))
+    #   car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    # Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num =40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())[[4]] 
+      tabla_sp_dl_veb_comp()[[4]]
     })
       })
   
-  output$spline_veb_comp <- renderPrint({dl_spline_veb_comp()})
+  output$spline_veb_comp_out <- renderPrint({dl_spline_veb_comp()})
   
   output$p_est_dl_veb_comp <- renderDataTable({
     withProgress(message = 'Calculando precios teóricos', value = 0, {
@@ -575,11 +597,12 @@ shinyServer(function(input, output) {
   
   #comparativo
   pto_sp_tif_dl_comp <- reactive({
-    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-    dat[,3] <- as.Date(as.character(dat[,3]))
-    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    
-    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n5,num = 40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),car,pr=tf_comp())[[2]]
+    # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    # dat[,3] <- as.Date(as.character(dat[,3]))
+    # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    # 
+    # a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n5,num = 40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),car,pr=tf_comp())[[2]]
+    a <- tabla_sp_dl_tif_comp()[[2]]
     # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
     # names(a1) <- c("Plazo","Rendimiento")
     return(a)
@@ -602,10 +625,11 @@ shinyServer(function(input, output) {
   
   #comparativo
   pto_sp_veb_dl_comp <- reactive({
-    dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-    dat[,3] <- as.Date(as.character(dat[,3]))
-    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    a <- Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num = 40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())[[2]]
+    # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    # dat[,3] <- as.Date(as.character(dat[,3]))
+    # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    # a <- Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num = 40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())[[2]]
+    a <- tabla_sp_dl_veb_comp()[[2]]
     # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
     # names(a1) <- c("Plazo","Rendimiento")
     return(a)
@@ -637,11 +661,12 @@ shinyServer(function(input, output) {
   output$c_tif_splines_dl_comp <- renderRbokeh({
     withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
       incProgress(1/2, detail = "Calculando alturas")
-      dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-      dat[,3] <- as.Date(as.character(dat[,3]))
-      car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    y <-predict(Tabla.splines(data = dat,tipo = "TIF",fe=input$n5,num = 40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),car,pr=tf_comp())[[4]],seq(0.1,20,0.1)*365)$y
-    incProgress(1/2, detail = "ajustando spline")
+      # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+      # dat[,3] <- as.Date(as.character(dat[,3]))
+      # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    #y <-predict(Tabla.splines(data = dat,tipo = "TIF",fe=input$n5,num = 40,par = input$parametro_tif_dl_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),car,pr=tf_comp())[[4]],seq(0.1,20,0.1)*365)$y
+      y <-predict(tabla_sp_dl_tif_comp()[[4]],seq(0.1,20,0.1)*365)$y
+      incProgress(1/2, detail = "ajustando spline")
     figure(width = 1000,height = 400) %>%
       ly_points(pto_sp_tif_dl_comp()[,4],pto_sp_tif_dl_comp()[,7],pto_sp_tif_dl_comp(),hover=list("Nombre"=pto_sp_tif_dl_comp()[,1],"Fecha de operación"=pto_sp_tif_dl_comp()[,2])) %>%
       ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="green",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
@@ -674,10 +699,11 @@ shinyServer(function(input, output) {
   output$c_veb_splines_dl_comp <- renderRbokeh({
     withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
       incProgress(1/2, detail = "Calculando alturas")
-      dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
-      dat[,3] <- as.Date(as.character(dat[,3]))
-      car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    y <-predict(Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num = 40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())[[4]],seq(0.1,20,0.1)*365)$y
+    #   dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    #   dat[,3] <- as.Date(as.character(dat[,3]))
+    #   car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    # y <-predict(Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num = 40,par = input$parametro_veb_dl_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())[[4]],seq(0.1,20,0.1)*365)$y
+    y <-predict(tabla_sp_dl_veb_comp()[[4]],seq(0.1,20,0.1)*365)$y
     incProgress(1/2, detail = "ajustando spline")
     figure(width = 1000,height = 400) %>%
       ly_points(pto_sp_veb_dl_comp()[,4],pto_sp_veb_dl_comp()[,7],pto_sp_veb_dl_comp(),hover=list("Nombre"=pto_sp_veb_dl_comp()[,1],"Fecha de operación"=pto_sp_veb_dl_comp()[,2])) %>%
@@ -1708,11 +1734,13 @@ shinyServer(function(input, output) {
     })
   
   #VEBONOS
+  
   spline_veb_comp <- reactive({
     dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     dat[,3] <- as.Date(as.character(dat[,3]))
     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num =40,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())[[4]] 
+    Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num =40,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())[[4]]
+    #tabla_sp_dl_veb_comp()[[4]]
     })
   
   dl_spline_veb_comp_i <- reactive({
