@@ -783,8 +783,21 @@ shinyUI(
                                                       verbatimTextOutput("spar_tif_comp"),
                                                       h2(" Precios Splines"),box(style="overflow-x:scroll",width = 12,dataTableOutput("pre_sp_tif_comp")),
                                                       h2(" Curva de rendimientos TIF"),
-                                                      rbokehOutput("c_tif_splines_comp")#verbatimTextOutput("datos")
-                                             )#final tabpanel Splines 
+                                                      rbokehOutput("c_tif_splines_comp"),#verbatimTextOutput("datos")
+                                                      h2(" Eliminar observaciones"),
+                                                      htmlOutput("selectUI_tif_comp"),
+                                                      h3(" Títulos elegidos"),
+                                                      verbatimTextOutput("obs_elim_tif_comp"),
+                                                      h2(" Nuevos títulos candidatos"),
+                                                      box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_tif_new_comp")),
+                                                      h2(" Nuevos precios"),
+                                                      box(style="overflow-x:scroll",width = 12,dataTableOutput("precios_tif_nuevos_comp")),
+                                                      h2(" Nueva curva de rendimientos"),
+                                                      rbokehOutput("c_tif_splines_new_comp")
+                                                      
+                                                      
+                                                      
+                                                      )#final tabpanel Splines 
                                       )#final tabbox
                                       )#final fluidrow
                                       ),#final tabpanel tif
