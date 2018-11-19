@@ -950,7 +950,17 @@ shinyUI(
                                       verbatimTextOutput("spar_veb_comp"),
                                       h2(" Precios Splines"),box(style="overflow-x:scroll",width = 12,dataTableOutput("pre_sp_veb_comp")),
                                       h2(" Curva de rendimientos VEBONOS"),
-                                      rbokehOutput("c_veb_splines_comp")#verbatimTextOutput("datos")
+                                      rbokehOutput("c_veb_splines_comp"),#verbatimTextOutput("datos")
+                                      h2(" Eliminar observaciones"),
+                                      htmlOutput("selectUI_veb_comp"),
+                                      h3(" Títulos elegidos"),
+                                      verbatimTextOutput("obs_elim_veb_comp"),
+                                      h2(" Nuevos títulos candidatos"),
+                                      box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_veb_new_comp")),
+                                      h2(" Nuevos precios"),
+                                      box(style="overflow-x:scroll",width = 12,dataTableOutput("precios_veb_nuevos_comp")),
+                                      h2(" Nueva curva de rendimientos"),
+                                      rbokehOutput("c_veb_splines_new_comp")
                              )#final tabpanel Splines 
                       )#final tabbox
                       )#final fluid row
