@@ -12,7 +12,7 @@ library(reshape2)
 library(jrvFinance)
 library(plotly)
 library(rbokeh)
-library(reshape2)
+#library(reshape2)
 #library(xlsx)
 library(nloptr)
 library(alabama)
@@ -185,7 +185,32 @@ datatif$year <- year(datatif$F.Vencimiento)
 datatif$segmento <- cut(datatif$year,breaks = c(2015,2019,2030,2038),labels = c("Corto Plazo","Mediano Plazo","Largo Plazo"))
 datatif$segmento1 <- cut(datatif$year,breaks = c(2015,2017,2019,2025,2030,2033,2035,2038),labels = c("C1","C2","M1","M2","L1","L2","L3"))
 
+#TEXTOS
+############################################# DATA ###############################################
 
+UPLOADDATA_TEXT<-"Cargar el archivo con los datos"
+SELECTFILE_TEXT<-'Seleccione el archivo'
+FILESELEC_TEXT<-'Aun no seleccionas el archivo...'
+BUTTSELEC_TEXT<-'Buscar'
+WITHHEADER_TEXT<-"Con encabezado"
+SEPARATOR_TEXT<-"Separador"
+COMILLAS_TEXT<-"Comillas"
+ENCABEZADO_TEXT<-"Encabezado de los datos"
+
+UPLOADFILETYPE_CONF<-c('text/csv',
+                       'text/comma-separated-values',
+                       'text/tab-separated-values',
+                       'text/plain',
+                       '.csv',
+                       '.tsv')
+
+UPLOADFILESEP_CONF<-c('Coma'=',',
+                      'Punto y coma'=';',
+                      'Tab'='\t')
+
+UPLOADCOMILLAS_CONF<-c('Ninguna'='',
+                       'Comilla doble'='"',
+                       'Comilla simple'="'")
 
 # Encabezado Vision
 VisionHeader <- function(){tags$head(

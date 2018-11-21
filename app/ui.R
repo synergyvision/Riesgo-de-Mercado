@@ -49,6 +49,15 @@ shinyUI(
                             menuSubItem("Curvas", tabName = "curvas", icon = icon("circle-o"))
                          
                           ),#fin menuitem 
+                menuItem("Valor en Riego", icon = icon("bar-chart-o"), 
+                         
+                         menuSubItem("Datos", tabName = "datos_var", icon = icon("circle-o")),
+                         
+                         menuSubItem("Distribución", tabName = "distribucion_var", icon = icon("circle-o")),
+                         
+                         menuSubItem("VaR", tabName = "var", icon = icon("circle-o"))
+                         
+                ),#fin menuitem 
                 
                             menuItem("Acerca", icon = icon("exclamation-circle"), tabName = "acerca"))
                   
@@ -1014,6 +1023,45 @@ shinyUI(
                       
                       
               ),#final tabitem
+              
+              #VALUE AT RISK
+              #CARGO DATOS VAR
+              tabItem(tabName = "datos_var",
+                      h2(" Seleccionar archivo"),
+                      fluidRow(
+                        box(width = 12, title = h3(UPLOADDATA_TEXT),
+                            box( width=12,background = "navy",
+                                 fileInput('file_data', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
+                                           placeholder = FILESELEC_TEXT, buttonLabel = BUTTSELEC_TEXT )
+                            ),
+                            fluidRow(
+                              box(width=4,background="olive",strong(ENCABEZADO_TEXT),
+                                  checkboxInput( width="100%", 'header', WITHHEADER_TEXT, TRUE)),
+                              box(width=4,background="olive",
+                                  radioButtons( width="40%", 'sep', SEPARATOR_TEXT, UPLOADFILESEP_CONF, ';')),
+                              box(width=4,background="olive",
+                                  radioButtons( width="40%", 'quote', COMILLAS_TEXT, UPLOADCOMILLAS_CONF, ''))
+                            )
+                        )
+                      ),
+                      fluidRow(
+                        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable'))
+                      )
+                      
+              ),
+              #CALCULO Y BUSCO DISTRIBUCION DE LOS RETORNOS
+              tabItem(tabName = "distribucion_var",
+                      h2(" Muestro rendimientos"),
+                      box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('dat')),
+                      h2(" Elijo distribución")
+                      
+              ),
+              #CALCULO VAR PARA UN HORIZONTE TEMPORAL DADO
+              tabItem(tabName = "var",
+                      h2(" Calculo VaR")
+                      
+              ),
+              
               
               
               #ACERCA

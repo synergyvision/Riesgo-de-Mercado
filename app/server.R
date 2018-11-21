@@ -2765,6 +2765,61 @@ shinyServer(function(input, output) {
     })
   })
   
+  ##############
+  ##############
+  ##############
+  #VALUE AT RISK 
+  ##############
+  ##############
+  
+  data <- reactive({
+    # input$file1 will be NULL initially. After the user selects
+    # and uploads a file, it will be a data frame with 'name',
+    # 'size', 'type', and 'datapath' columns. The 'datapath'
+    # column will contain the local filenames where the data can
+    # be found.
+    
+    inFile <- input$file_data
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    # read.table(inFile$datapath, header = input$header,
+    #            sep = input$sep, quote = input$quote)
+    read.delim2(inFile$datapath, header = input$header,
+              sep = input$sep, quote = input$quote)
+    
+  })
+  
+  ###############################################################################
+  ###############################################################################
+  #################################    Datos    #################################
+  ###############################################################################
+  ###############################################################################
+  
+  output$datatable<-renderDataTable({
+    if(is.null(data())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    datatable(data())
+    })
+  
+  #DISTRIBUCION
+  output$dat<-renderDataTable({
+    if(is.null(data())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    data1 <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data()-1))))
+    names(data1) <- names(data())[-1]
+    
+    
+    for(i in 1:(ncol(data())-1)){
+      data1[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    datatable(head(data1))
+  })
+  
+  
+  
   # Almacenar Variables Reactivas
   RV <- reactiveValues()
 

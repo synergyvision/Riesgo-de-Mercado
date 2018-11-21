@@ -52,7 +52,16 @@ valor1*b*sqrt(720)-valor1*b*sqrt(360)
 
 
 
+#prueba con todos los titulos
+dim(tif)
 
+tif1 <- as.data.frame(matrix(0,nrow = 341,ncol = 27))
+names(tif1) <- names(tif)[-1]
+
+
+for(i in 1:(ncol(tif)-1)){
+tif1[,i] <- diff(log(tif[,i+1]))
+}
 
 
 
