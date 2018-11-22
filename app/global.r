@@ -3,7 +3,7 @@ rm(list = ls())
 #cargo librerias a usar
 library(shiny)
 library(readr)
-
+library(rriskDistributions)
 library(shinydashboard)
 library(dplyr)
 library(lubridate)
@@ -211,6 +211,74 @@ UPLOADFILESEP_CONF<-c('Coma'=',',
 UPLOADCOMILLAS_CONF<-c('Ninguna'='',
                        'Comilla doble'='"',
                        'Comilla simple'="'")
+
+############################################ ESTADÍSTICA ##############################################
+
+RENDTITLE_TEXT<-'Rendimientos'
+FRETITLE_TEXT<-'Frecuencias'
+STATTITLE_TEXT<-'Estadísticos Básicos'
+
+############################################# ANÁLISIS ##############################################
+
+PRUEBDISTTITLE_TEXT<-"Resultados de Pruebas de Distribución"
+DISTWITHPARAMTITLE_TEXT<-"Función de Distribución con los Parámetros correspondientes"
+GRAFTITLE_TEXT<-"Gráficos"
+AHORROTABTITLE_TEXT<-"Análisis Cuentas de Ahorro"
+CORRITABTITLE_TEXT<-"Análisis Cuentas Corrientes"
+CORRIRTABTITLE_TEXT<-"Análisis Cuentas Corrientes Remuneradas"
+SELECFUNCTION_TEXT<-"Seleccione una Distribución"
+CORRTABTITLE_TEXT<-"Análisis Cuentas Corrientes"
+CORRRTABTITLE_TEXT<-"Análisis Cuentas Corrientes Remuneradas"
+
+#SELECCIÓN DE DISTRIBUCIÓN
+#NORMAL
+NLABEL1<-"Media"
+NLABEL2<-"Desviación Típica"
+#EXPONENCIAL
+ELABEL1<-"Lambda"
+#CAUCHY
+CLABEL1<-"Mu"
+CLABEL2<-"Theta"
+#LOGISTICA
+LLABEL1<-"S"
+LLABEL2<-"L"
+#BETA
+BLABEL1<-"S1"
+BLABEL2<-"S2"
+#CHICUADRADO
+CCLABEL<-"Grados de Libertad"
+#UNIFORME
+ULABEL1<-"Valor mínimo"
+ULABEL2<-"Valor máximo"
+#GAMMA
+GLABEL1<-"M"
+GLABEL2<-"Lambda"
+#LOGNORMAL
+LNLABEL1<-"Media"
+LNLABEL2<-"Desviación Típica"
+#WEIBULL
+WLABEL1<-"S1"
+WLABEL2<-"S2"
+#FISHER
+FLABEL1<-"Grados de Libertad 1"
+FLABEL2<-"Grados de Libertad 2"
+#T-STUDENT
+TLABEL1<-"Grados de Libertad"
+#GOMPERTZ
+GOLABEL1<-"S1"
+GOLABEL2<-"S2"
+
+
+#Selección análisis cuentas de ahorro
+DISTANALAH_CONF<-c("Normal"="Normal", "Exponential"="Exponential",
+                   "Cauchy"="Cauchy", "Logistic"="Logistic",
+                   "Beta"="Beta", "Chi-square"="Chi-square",
+                   "Uniform"="Uniform","Gamma"="Gamma",
+                   "Lognormal"="Lognormal", "Weibull"="Weibull",
+                   "F"="F", "Student"="Student", "Gompertz"="Gompertz")
+
+
+
 
 # Encabezado Vision
 VisionHeader <- function(){tags$head(

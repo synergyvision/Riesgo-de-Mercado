@@ -2804,10 +2804,12 @@ shinyServer(function(input, output) {
     })
   
   #DISTRIBUCION
+  #CALCULO RENDIMIENTOS
+  
   output$dat<-renderDataTable({
     if(is.null(data())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
-    data1 <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data()-1))))
+    data1 <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
     names(data1) <- names(data())[-1]
     
     
@@ -2815,9 +2817,140 @@ shinyServer(function(input, output) {
       data1[,i] <- diff(log(data()[,i+1]))
     }
     
-    datatable(head(data1))
+    #datatable(head(data1))
+    datatable(data1)
   })
   
+  #muestro posibles elecciones de titulos
+  output$instrumento <- renderUI({ 
+    selectInput("inst", "Seleccionar títulos",choices =  names(data())[-1] )
+  })
+  
+  #eleccion
+  output$elec <- renderPrint({input$inst})
+  
+  #muestro resultados de ajuste
+  output$result <- renderTable({
+    if(is.null(data())){return()}
+    n <- which(input$inst==names(data()))
+    dat <- data()[,n]
+    dat1 <- diff(log(dat))
+    dat2 <- useFitdist(dat1)
+    dat2$res.matrix
+    #AHORRO.BA <-uFitdifflog(data()$ahorro)
+    #AHORRO.BA$res.matrix
+  },
+  rownames = TRUE, striped = TRUE,
+  hover = TRUE, bordered = TRUE
+  )
+  
+  #muestro valores de los paramentros ajustados
+  #defino funciones auxiliares
+  #Calcula el log() diff() y useFitdist()
+  uFitdifflog<-function(data) {
+    useFitdist(diff(log(data)))
+  }
+  ##Funciones para calcular parámetros de las distribuciones
+  ##Normal
+  mediaNormal <- function(data)
+  { uFitdifflog(data)$fit.list$Normal$estimate[1] }
+  sdNormal <- function(data)
+  { uFitdifflog(data)$fit.list$Normal$estimate[2] }
+  ##Esponencial
+  lambdaExponential <- function(data)
+  { uFitdifflog(data)$fit.list$Exponential$estimate[1]}
+  ##Logistica
+  s1Logistic <- function(data)
+  { uFitdifflog(data)$fit.list$Logistic$estimate[1] }
+  s2Logistic <- function(data)
+  { uFitdifflog(data)$fit.list$Logistic$estimate[2] }
+  ##Cauchy
+  muCauchy <- function(data)
+  { uFitdifflog(data)$fit.list$Cauchy$estimate[1] }
+  thetaCauchy <- function(data)
+  { uFitdifflog(data)$fit.list$Cauchy$estimate[2] }
+  ##Beta
+  s1Beta <- function(data)
+  { uFitdifflog(data)$fit.list$Beta$estimate[1] }
+  s2Beta <- function(data)
+  { uFitdifflog(data)$fit.list$Beta$estimate[2] }
+  ##Chi Cuadrado
+  dfChisquare <- function(data)
+  { uFitdifflog(data)$fit.list$`Chi-square`$estimate[1] }
+  ##Uniforme
+  minUniform <- function(data)
+  { uFitdifflog(data)$fit.list$Uniform$estimate[1] }
+  maxUniform <- function(data)
+  { uFitdifflog(data)$fit.list$Uniform$estimate[2] }
+  ##Gamma
+  mGamma <- function(data)
+  { uFitdifflog(data)$fit.list$Gamma$estimate[1] }
+  lambdaGamma <- function(data)
+  { uFitdifflog(data)$fit.list$Gamma$estimate[2] }
+  ##Lognormal
+  mediaLognormal <- function(data)
+  { uFitdifflog(data)$fit.list$Lognormal$estimate[1] }
+  sdLognormal <- function(data)
+  { uFitdifflog(data)$fit.list$Lognormal$estimate[2] }
+  ##Weibull
+  s1Weibull <- function(data)
+  { uFitdifflog(data)$fit.list$Weibull$estimate[1] }
+  s2Weibull <- function(data)
+  { uFitdifflog(data)$fit.list$Weibull$estimate[2] }
+  ##Fisher
+  df1F <- function(data)
+  { uFitdifflog(data)$fit.list$F$estimate[1] }
+  df2F <- function(data)
+  { uFitdifflog(data)$fit.list$F$estimate[2] }
+  ##T-student
+  dfStudent <- function(data)
+  { uFitdifflog(data)$fit.list$Student$estimate[1] }
+  ##Gompertz
+  s1Gompertz <- function(data)
+  { uFitdifflog(data)$fit.list$Gompertz$estimate[1] }
+  s2Gompertz <- function(data)
+  { uFitdifflog(data)$fit.list$Gompertz$estimate[2] }
+  
+  
+  #Nombre de parámetros con valores de dichos parámetros
+  distParams<-function(condition, data) {
+    v<-switch(condition,
+              "Normal"=c(NLABEL1,mediaNormal(data),NLABEL2,sdNormal(data)),
+              "Exponential"=c(ELABEL1,lambdaExponential(data), NULL, NULL),
+              "Cauchy"=c(CLABEL1,muCauchy(data),CLABEL2,thetaCauchy(data)),
+              "Logistic"=c(LLABEL1,s1Logistic(data),LLABEL2,s2Logistic(data)),
+              "Beta"=c(BLABEL1,s1Beta(data),BLABEL2,s2Beta(data)),
+              "Chi-square"=c(CCLABEL,dfChisquare(data), NULL, NULL),
+              "Uniform"=c(ULABEL1,minUniform(data),ULABEL2,maxUniform(data)),
+              "Gamma"=c(GLABEL1,mGamma(data),GLABEL2,lambdaGamma(data)),
+              "Lognormal"=c(LNLABEL1,mediaLognormal(data),LNLABEL2,sdLognormal(data)),
+              "Weibull"=c(WLABEL1,s1Weibull(data),WLABEL2,s2Weibull(data)),
+              "F"=c(FLABEL1,df1F(data),FLABEL2,df2F(data)),
+              "Student"=c(TLABEL1,dfStudent(data), NULL, NULL),
+              "Gompertz"=c(GOLABEL1,s1Gompertz(data),GOLABEL2,s2Gompertz(data))
+    )
+  }
+  
+  #Caja con parámetros de distribución
+  distBox<-function(label1, out1, label2, out2) {
+    box( width = 6, status ="success",
+         h5(label1), out1,
+         h5(label2), out2
+    )
+  }
+  
+  Distrib<- reactive ({
+    n <- which(input$inst==names(data()))
+    dat <- data()[,n]
+    #dat1 <- diff(log(dat))
+    v<-distParams(input$distsA, dat)
+    distBox(v[1],v[2],v[3],v[4])
+  })
+  
+  output$parametros_dist<-renderUI({
+    if(is.null(data())){return()}
+    Distrib()
+  })
   
   
   # Almacenar Variables Reactivas

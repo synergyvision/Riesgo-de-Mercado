@@ -1053,8 +1053,24 @@ shinyUI(
               tabItem(tabName = "distribucion_var",
                       h2(" Muestro rendimientos"),
                       box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('dat')),
-                      h2(" Elijo distribución")
-                      
+                      h2(" Por favor seleccione un instrumento:"),
+                      htmlOutput("instrumento"),
+                      h3(" Elección:"),
+                      verbatimTextOutput("elec"),
+                      h2(" Resultados ajuste de distribución:"),
+                      fluidRow(
+                        box( width=10, style="overflow-x:scroll",status = "success",
+                             tableOutput("result")
+                        )
+                      ),
+                      h2(" Elijo distribución"),
+                      fluidRow(box( width=12,background = "navy",
+                           selectInput( width="100%", inputId = "distsA", label = SELECFUNCTION_TEXT,
+                                        choices= DISTANALAH_CONF, selected = NULL)
+                      ),
+              
+                      htmlOutput("parametros_dist")
+                      )
               ),
               #CALCULO VAR PARA UN HORIZONTE TEMPORAL DADO
               tabItem(tabName = "var",
