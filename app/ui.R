@@ -1074,6 +1074,18 @@ shinyUI(
               ),
               #CALCULO VAR PARA UN HORIZONTE TEMPORAL DADO
               tabItem(tabName = "var",
+                      h2(" Elegir porcentaje del VaR:"),
+                      fluidRow(
+                        box( width = 6, background = "navy",
+                             selectInput( inputId = "porVar", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
+                        )
+                      ),
+                      box( width = 6, background = "navy",
+                           selectInput( inputId = "distVar", label = SELECFUNCTION_TEXT, choices= DISTANALAH_CONF, selected = NULL)
+                      ),
+                      uiOutput("VaR"),
+                      
+                      
                       h2(" Calculo VaR")
                       
               ),

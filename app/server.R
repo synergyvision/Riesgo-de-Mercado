@@ -2952,6 +2952,79 @@ shinyServer(function(input, output) {
     Distrib()
   })
   
+  #calculo VaR
+  #defino funcion auxiliar
+  ##Función para mostrar el VAR y VART en riesgo
+  VarR<-function(p,data,condition) {
+    switch(condition,
+           "Normal"    =c(VARINNOR_TEXT,
+                          varnormal(p, as.numeric(data$fit.list$Normal$estimate[1]),as.numeric(data$fit.list$Normal$estimate[2])),
+                          VARTINNOR_TEXT,
+                          esnormal(p, as.numeric(data$fit.list$Normal$estimate[1]),as.numeric(data$fit.list$Normal$estimate[2])) ) ,
+           "Exponential" =c(VARINEXP_TEXT,
+                            varexponential(p, as.numeric(data$fit.list$Exponential$estimate[1])),
+                            VARTINEXP_TEXT,
+                            esexponential(p, as.numeric(data$fit.list$Exponential$estimate[1])) ),
+           "Cauchy"    =c(VARINCAU_TEXT,
+                          varCauchy(p, as.numeric(data$fit.list$Cauchy$estimate[1]),as.numeric(data$fit.list$Cauchy$estimate[2])),
+                          VARTINCAU_TEXT,
+                          esCauchy(p, as.numeric(data$fit.list$Cauchy$estimate[1]),as.numeric(data$fit.list$Cauchy$estimate[2])) ),
+           "Logistic"  =c(VARINLOG_TEXT,
+                          varlogistic(p, as.numeric(data$fit.list$Logistic$estimate[1]),as.numeric(data$fit.list$Logistic$estimate[2])),
+                          VARTINLOG_TEXT,
+                          eslogistic(p, as.numeric(data$fit.list$Logistic$estimate[1]),as.numeric(data$fit.list$Logistic$estimate[2])) ),
+           "Beta"      =c(VARINBET_TEXT,
+                          NULL,
+                          VARTINBET_TEXT,
+                          NULL ),
+           "Chi-square"=c(VARINCHC_TEXT,
+                          NULL,
+                          VARTINCHC_TEXT,
+                          NULL),
+           "Uniform"   =c(VARINUNF_TEXT,
+                          varuniform(p, as.numeric(data$fit.list$Uniform$estimate[1]), as.numeric(data$fit.list$Uniform$estimate[2])),
+                          VARTINUNF_TEXT,
+                          esuniform(p, as.numeric(data$fit.list$Uniform$estimate[1]), as.numeric(data$fit.list$Uniform$estimate[2])) ),
+           "Gamma"     =c(VARINGAM_TEXT,
+                          varGamma(p, as.numeric(data$fit.list$Gamma$estimate[1]), as.numeric(data$fit.list$Gamma$estimate[2])),
+                          VARTINGAM_TEXT,
+                          esGamma(p, as.numeric(data$fit.list$Gamma$estimate[1]), as.numeric(data$fit.list$Gamma$estimate[2])) ),
+           "Lognormal" =c(VARINLGN_TEXT,
+                          varlognorm(p, as.numeric(data$fit.list$Lognormal$estimate[1]), as.numeric(data$fit.list$Lognormal$estimate[2])),
+                          VARTINLGN_TEXT,
+                          eslognorm(p, as.numeric(data$fit.list$Lognormal$estimate[1]), as.numeric(data$fit.list$Lognormal$estimate[2])) ),
+           "Weibull"   =c(VARINWEI_TEXT,
+                          varWeibull(p, as.numeric(data$fit.list$Weibull$estimate[1]),as.numeric(data$fit.list$Weibull$estimate[2])),
+                          VARTINWEI_TEXT,
+                          esWeibull(p, as.numeric(data$fit.list$Weibull$estimate[1]),as.numeric(data$fit.list$Weibull$estimate[2])) ),
+           "F"         =c(VARINF_TEXT,
+                          varF(p, as.numeric(data$fit.list$F$estimate[1]), as.numeric(data$fit.list$F$estimate[2])),
+                          VARTINF_TEXT,
+                          esF(p, as.numeric(data$fit.list$F$estimate[1]), as.numeric(data$fit.list$F$estimate[2])) ),
+           "Student"   =c(VARINTST_TEXT,
+                          varT(p, as.numeric(data$fit.list$Student$estimate[1])),
+                          VARTINTST_TEXT,
+                          esT(p, as.numeric(data$fit.list$Student$estimate[1])) ),
+           "Gompertz"  =c(VARINGOM_TEXT,
+                          NULL,
+                          VARTINGOM_TEXT,
+                          NULL)
+    )
+  }
+  
+  #output del VaR
+  # output$VaR<-renderUI({
+  #   if(is.null(data())){return()}
+  #   # n <- which(input$inst==names(data()))
+  #   # dat <- data()[,n]
+  #   v<-VarR(as.numeric(input$porVar),uFitdifflog(data()[,4]),input$distVar)
+  #   box( width=12, status="success",
+  #        withMathJax(v[1]), br(),
+  #        withMathJax( sprintf("$$VaR_p(X) = %0.05s$$", v[2] ) ), br(),
+  #        withMathJax(v[3]), br(),
+  #        withMathJax( sprintf("$$TVaR_p(X) = %0.05s$$", v[4] ) )
+  #   )
+  # })
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()
