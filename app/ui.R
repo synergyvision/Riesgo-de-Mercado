@@ -1052,7 +1052,7 @@ shinyUI(
               #CALCULO Y BUSCO DISTRIBUCION DE LOS RETORNOS
               tabItem(tabName = "distribucion_var",
                       h2(" Muestro rendimientos"),
-                      box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('dat')),
+                      box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('dat_rend')),
                       h2(" Por favor seleccione un instrumento:"),
                       htmlOutput("instrumento"),
                       h3(" Elección:"),
@@ -1076,6 +1076,13 @@ shinyUI(
                              selectInput(  width="100%",inputId = "porVar0", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
                         )
                       ),
+                      h2(" Datos a usar:"),
+                      fluidRow(
+                        box( width=10, style="overflow-x:scroll",status = "success",
+                             tableOutput("datos_var")
+                        )
+                      )
+                      ,
                       h2(" VaR:"),
                       uiOutput("VaR_inicial0")
                       

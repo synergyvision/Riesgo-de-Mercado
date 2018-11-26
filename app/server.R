@@ -2806,7 +2806,7 @@ shinyServer(function(input, output) {
   #DISTRIBUCION
   #CALCULO RENDIMIENTOS
   
-  output$dat<-renderDataTable({
+  output$dat_rend<-renderDataTable({
     if(is.null(data())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     data1 <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
@@ -3011,6 +3011,16 @@ shinyServer(function(input, output) {
                           NULL)
     )
   }
+  
+  #datos VaR
+  output$datos_var <- renderTable({
+    if(is.null(data())){return()}
+    n <- which(input$inst==names(data()))
+    dat <- data()[,n]
+    dat1 <- as.numeric(diff(log(dat)))
+    dat2 <- useFitdist(dat1)
+    dat2$res.matrix
+  })
   
   #output del VaR
   output$VaR_inicial0<-renderUI({
