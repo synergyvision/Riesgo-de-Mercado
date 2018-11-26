@@ -1069,7 +1069,16 @@ shinyUI(
                                         choices= DISTANALAH_CONF, selected = NULL)
                       ),
               
-                      htmlOutput("parametros_dist")
+                      htmlOutput("parametros_dist"),
+                      h2(" Elegir porcentaje del VaR:"),
+                      fluidRow(
+                        box( width = 12, background = "navy",
+                             selectInput(  width="100%",inputId = "porVar0", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
+                        )
+                      ),
+                      h2(" VaR:"),
+                      uiOutput("VaR_inicial0")
+                      
                       )
               ),
               #CALCULO VAR PARA UN HORIZONTE TEMPORAL DADO
@@ -1083,7 +1092,7 @@ shinyUI(
                       box( width = 6, background = "navy",
                            selectInput( inputId = "distVar", label = SELECFUNCTION_TEXT, choices= DISTANALAH_CONF, selected = NULL)
                       ),
-                      uiOutput("VaR"),
+                      uiOutput("VaR_inicial"),
                       
                       
                       h2(" Calculo VaR")

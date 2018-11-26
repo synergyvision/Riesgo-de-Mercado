@@ -64,9 +64,24 @@ tif1[,i] <- diff(log(tif[,i+1]))
 }
 
 
+############
+#PRUEBAS CALCULO DEL VAR- PROBLEMAS
 
+#n <- which(input$inst==names(data()))
+n <- 4
+dat <- tif[,n]
+dat1 <- diff(log(dat))
+dat2 <- useFitdist(dat1)
+#print(dat2)
+#print(uFitdifflog(data1)$fit.list$Normal$estimate[1])
+p <- 0.95
+dist <- "Normal"
 
+v<-VarR(p,dat2,dist)
 
+#
+dat3 <- uFitdifflog(dat)
+v<-VarR(p,dat3,dist)
 
 
 

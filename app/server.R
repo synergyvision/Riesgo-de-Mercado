@@ -2933,7 +2933,7 @@ shinyServer(function(input, output) {
   
   #Caja con parámetros de distribución
   distBox<-function(label1, out1, label2, out2) {
-    box( width = 6, status ="success",
+    box( width = 12, status ="success",
          h5(label1), out1,
          h5(label2), out2
     )
@@ -3013,18 +3013,24 @@ shinyServer(function(input, output) {
   }
   
   #output del VaR
-  # output$VaR<-renderUI({
-  #   if(is.null(data())){return()}
-  #   # n <- which(input$inst==names(data()))
-  #   # dat <- data()[,n]
-  #   v<-VarR(as.numeric(input$porVar),uFitdifflog(data()[,4]),input$distVar)
-  #   box( width=12, status="success",
-  #        withMathJax(v[1]), br(),
-  #        withMathJax( sprintf("$$VaR_p(X) = %0.05s$$", v[2] ) ), br(),
-  #        withMathJax(v[3]), br(),
-  #        withMathJax( sprintf("$$TVaR_p(X) = %0.05s$$", v[4] ) )
-  #   )
-  # })
+  output$VaR_inicial0<-renderUI({
+    if(is.null(data())){return()}
+    n <- which(input$inst==names(data()))
+    dat <- data()[,n]
+    dat1 <- diff(log(dat))
+    dat2 <- useFitdist(dat1)
+    #print(dat2)
+    #print(uFitdifflog(data1)$fit.list$Normal$estimate[1])
+    
+    #v<-VarR(p = as.numeric(input$porVar),data = dat2,condition = input$distVar)
+    v<-VarR(p = as.numeric(input$porVar),data = dat2,condition = input$distsA)
+    box( width=12, status="success",
+         withMathJax(v[1]), br(),
+         withMathJax( sprintf("$$VaR_p(X) = %0.05s$$", v[2] ) ), br(),
+         withMathJax(v[3]), br(),
+         withMathJax( sprintf("$$TVaR_p(X) = %0.05s$$", v[4] ) )
+    )
+  })
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()
