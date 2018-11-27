@@ -1073,18 +1073,18 @@ shinyUI(
                       h2(" Elegir porcentaje del VaR:"),
                       fluidRow(
                         box( width = 12, background = "navy",
-                             selectInput(  width="100%",inputId = "porVar0", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
+                             selectInput(  width="100%",inputId = "porVar", "Seleccione Porcentaje del VaR", choices = c(0.90, 0.95, 0.99), selected = 0.95)
                         )
                       ),
-                      h2(" Datos a usar:"),
-                      fluidRow(
-                        box( width=10, style="overflow-x:scroll",status = "success",
-                             tableOutput("datos_var")
-                        )
-                      )
-                      ,
-                      h2(" VaR:"),
-                      uiOutput("VaR_inicial0")
+                      # h2(" Datos a usar:"),
+                      # fluidRow(
+                      #   box( width=10, style="overflow-x:scroll",status = "success",
+                      #        tableOutput("datos_var")
+                      #   )
+                      # )
+                      
+                      h2(" VaR Individual:"),
+                      uiOutput("VaR_inicial")
                       
                       )
               ),
@@ -1093,16 +1093,16 @@ shinyUI(
                       h2(" Elegir porcentaje del VaR:"),
                       fluidRow(
                         box( width = 6, background = "navy",
-                             selectInput( inputId = "porVar", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
+                             selectInput( inputId = "porVarP", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
                         )
                       ),
                       box( width = 6, background = "navy",
-                           selectInput( inputId = "distVar", label = SELECFUNCTION_TEXT, choices= DISTANALAH_CONF, selected = NULL)
+                           selectInput( inputId = "distVarP", label = SELECFUNCTION_TEXT, choices= DISTANALAH_CONF, selected = NULL)
                       ),
-                      uiOutput("VaR_inicial"),
+                      uiOutput("VaR_inicialP"),
                       
                       
-                      h2(" Calculo VaR")
+                      h2(" Calculo VaR portafolio:")
                       
               ),
               

@@ -3013,27 +3013,27 @@ shinyServer(function(input, output) {
   }
   
   #datos VaR
-  output$datos_var <- renderTable({
-    if(is.null(data())){return()}
-    n <- which(input$inst==names(data()))
-    dat <- data()[,n]
-    dat1 <- as.numeric(diff(log(dat)))
-    dat2 <- useFitdist(dat1)
-    dat2$res.matrix
-  })
+  # output$datos_var <- renderTable({
+  #   if(is.null(data())){return()}
+  #   n <- which(input$inst==names(data()))
+  #   dat <- data()[,n]
+  #   dat1 <- as.numeric(diff(log(dat)))
+  #   dat2 <- useFitdist(dat1)
+  #   #dat2$res.matrix
+  #   #data.frame(mu=as.numeric(dat2$fit.list$Normal$estimate[1]),sd=as.numeric(dat2$fit.list$Normal$estimate[2]))
+  #   #varnormal(as.numeric(input$porVar0), as.numeric(dat2$fit.list$Normal$estimate[1]),as.numeric(dat2$fit.list$Normal$estimate[2]))
+  #   varnormal(as.numeric(sub(",",".",input$porVar)), as.numeric(dat2$fit.list$Normal$estimate[1]),as.numeric(dat2$fit.list$Normal$estimate[2]))
+  #   #c(class(input$porVar0),class(as.numeric(input$porVar0)),input$porVar0,as.numeric(sub(",",".",input$porVar0)))
+  #   })
   
   #output del VaR
-  output$VaR_inicial0<-renderUI({
+  output$VaR_inicial<-renderUI({
     if(is.null(data())){return()}
     n <- which(input$inst==names(data()))
     dat <- data()[,n]
     dat1 <- diff(log(dat))
     dat2 <- useFitdist(dat1)
-    #print(dat2)
-    #print(uFitdifflog(data1)$fit.list$Normal$estimate[1])
-    
-    #v<-VarR(p = as.numeric(input$porVar),data = dat2,condition = input$distVar)
-    v<-VarR(p = as.numeric(input$porVar),data = dat2,condition = input$distsA)
+    v<-VarR(p = as.numeric(sub(",",".",input$porVar)),data = dat2,condition = input$distsA)
     box( width=12, status="success",
          withMathJax(v[1]), br(),
          withMathJax( sprintf("$$VaR_p(X) = %0.05s$$", v[2] ) ), br(),
