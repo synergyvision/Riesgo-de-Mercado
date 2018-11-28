@@ -2829,6 +2829,14 @@ shinyServer(function(input, output) {
   #eleccion
   output$elec <- renderPrint({input$inst})
   
+  #VaR portafolio - eleccion distribucion
+  output$instrumento_varp <- renderUI({ 
+    selectInput("inst_varp", "Seleccionar títulos",choices =  names(data())[-1] )
+  })
+  
+  #eleccion
+  output$elec_varp <- renderPrint({input$inst_varp})
+  
   #muestro resultados de ajuste
   output$result <- renderTable({
     if(is.null(data())){return()}
@@ -2839,6 +2847,19 @@ shinyServer(function(input, output) {
     dat2$res.matrix
     #AHORRO.BA <-uFitdifflog(data()$ahorro)
     #AHORRO.BA$res.matrix
+  },
+  rownames = TRUE, striped = TRUE,
+  hover = TRUE, bordered = TRUE
+  )
+  
+  #resultados ajuste distribucion VaR portafolio
+  output$result_varp <- renderTable({
+    if(is.null(data())){return()}
+    n <- which(input$inst_varp==names(data()))
+    dat <- data()[,n]
+    dat1 <- diff(log(dat))
+    dat2 <- useFitdist(dat1)
+    dat2$res.matrix
   },
   rownames = TRUE, striped = TRUE,
   hover = TRUE, bordered = TRUE
@@ -2952,6 +2973,19 @@ shinyServer(function(input, output) {
     Distrib()
   })
   
+  #var de portafolio
+  Distrib_varp<- reactive ({
+    n <- which(input$inst_varp==names(data()))
+    dat <- data()[,n]
+    v<-distParams(input$distsA_varp, dat)
+    distBox(v[1],v[2],v[3],v[4])
+  })
+  
+  output$parametros_dist_varp<-renderUI({
+    if(is.null(data())){return()}
+    Distrib_varp()
+  })
+  
   #calculo VaR
   #defino funcion auxiliar
   ##Función para mostrar el VAR y VART en riesgo
@@ -3041,6 +3075,39 @@ shinyServer(function(input, output) {
          withMathJax( sprintf("$$TVaR_p(X) = %0.05s$$", v[4] ) )
     )
   })
+  
+  #tabla dinamica que me guarda la distribucion de cada instrumento
+  #creo funcion auxiliar
+  varp_dist <- function(data,ind,dist){
+    
+    # n <- which(input$inst_varp==names(data()))
+    # a[,(n-1)] <- input$distsA_varp
+    # a
+    n <- which(ind==data)
+    data[,(n-1)] <- dist
+    return(data)
+    
+  }
+  
+  distribuciones <- reactive({
+
+    a <- as.data.frame(matrix(NA,nrow = 1,ncol = (ncol(data())-1)))
+    names(a) <- names(data())[-1]
+    rownames(a) <- "Distribuciones"
+    #b <- varp_dist(data = a ,ind =input$inst_varp  ,dist =input$distsA_varp )
+    #b  
+    n <- which(input$inst_varp==names(data()))
+    a[,(n-1)] <- input$distsA_varp
+    a
+    })
+
+  
+  output$dist_varp <- renderTable({
+    if(is.null(data())){return()}
+    distribuciones()
+  })
+  
+  
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()

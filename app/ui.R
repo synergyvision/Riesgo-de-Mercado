@@ -1051,42 +1051,73 @@ shinyUI(
               ),
               #CALCULO Y BUSCO DISTRIBUCION DE LOS RETORNOS
               tabItem(tabName = "distribucion_var",
-                      h2(" Muestro rendimientos"),
-                      box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('dat_rend')),
-                      h2(" Por favor seleccione un instrumento:"),
-                      htmlOutput("instrumento"),
-                      h3(" Elección:"),
-                      verbatimTextOutput("elec"),
-                      h2(" Resultados ajuste de distribución:"),
-                      fluidRow(
-                        box( width=10, style="overflow-x:scroll",status = "success",
-                             tableOutput("result")
-                        )
-                      ),
-                      h2(" Elijo distribución"),
-                      fluidRow(box( width=12,background = "navy",
-                           selectInput( width="100%", inputId = "distsA", label = SELECFUNCTION_TEXT,
-                                        choices= DISTANALAH_CONF, selected = NULL)
-                      ),
-              
-                      htmlOutput("parametros_dist"),
-                      h2(" Elegir porcentaje del VaR:"),
-                      fluidRow(
-                        box( width = 12, background = "navy",
-                             selectInput(  width="100%",inputId = "porVar", "Seleccione Porcentaje del VaR", choices = c(0.90, 0.95, 0.99), selected = 0.95)
-                        )
-                      ),
-                      # h2(" Datos a usar:"),
-                      # fluidRow(
-                      #   box( width=10, style="overflow-x:scroll",status = "success",
-                      #        tableOutput("datos_var")
-                      #   )
-                      # )
+                      fluidRow(tabBox( width = 12, title = "VaR", id = "vares", height = "50px", 
                       
-                      h2(" VaR Individual:"),
-                      uiOutput("VaR_inicial")
+                        tabPanel("VaR Individual",
+                              h2(" Muestro rendimientos"),
+                               box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('dat_rend')),
+                               h2(" Por favor seleccione un instrumento:"),
+                               htmlOutput("instrumento"),
+                               h3(" Elección:"),
+                               verbatimTextOutput("elec"),
+                               h2(" Resultados ajuste de distribución:"),
+                                 box( width=12, style="overflow-x:scroll",status = "success",
+                                      tableOutput("result")
+                                 ),
+                               h2(" Elegir distribución"),
+                                 box( width=12,background = "navy",
+                                             selectInput( width="100%", inputId = "distsA", label = SELECFUNCTION_TEXT,
+                                                          choices= DISTANALAH_CONF, selected = NULL)
+                               ),
+                               htmlOutput("parametros_dist"),
+                               h2(" Elegir porcentaje del VaR:"),
+                                 box( width = 12, background = "navy",
+                                      selectInput(  width="100%",inputId = "porVar", "Seleccione Porcentaje del VaR", choices = c(0.90, 0.95, 0.99), selected = 0.95)
+                                 ),
+                               h2(" VaR Individual:"),
+                               uiOutput("VaR_inicial")  
+                      ),#final tabpanel
+                      tabPanel("VaR Portafolio",
+                               fluidRow(tabBox( width = 12, title = "Distribuciones", id = "eleccion_dist", height = "50px", 
+                                                
+                                                tabPanel("Eleccíon individual",
+                                                         h2(" Por favor seleccione un instrumento:"),
+                                                         htmlOutput("instrumento_varp"),
+                                                         h3(" Elección:"),
+                                                         verbatimTextOutput("elec_varp"),
+                                                         h2(" Resultados ajuste de distribución:"),
+                                                         box( width=12, style="overflow-x:scroll",status = "success",
+                                                              tableOutput("result_varp")
+                                                         ),
+                                                         h2(" Elegir distribución"),
+                                                         box( width=12,background = "navy",
+                                                              selectInput( width="100%", inputId = "distsA_varp", label = SELECFUNCTION_TEXT,
+                                                                           choices= DISTANALAH_CONF, selected = NULL)
+                                                         ),
+                                                         h2(" Parámetros obtenidos"),
+                                                         htmlOutput("parametros_dist_varp"),
+                                                         h2(" Distribuciones seleccionadas:"),
+                                                         box( width=12, style="overflow-x:scroll",status = "success",
+                                                              tableOutput("dist_varp")
+                                                         )
+                                                         
+                                                ),
+                                                
+                                                tabPanel("Elección automática",
+                                                         h2(" Las distribuciones asignadas son:")
+                                                )
+                                                
+                               )#final tabbox
+                               )#final fluidrow
+                               
+                               
+                               
+                               
+
+                      )#final tabpanel
+              )#final tabbox
+                      )#final fluid row        
                       
-                      )
               ),
               #CALCULO VAR PARA UN HORIZONTE TEMPORAL DADO
               tabItem(tabName = "var",
