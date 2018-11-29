@@ -1097,6 +1097,8 @@ shinyUI(
                                                          h2(" Parámetros obtenidos"),
                                                          htmlOutput("parametros_dist_varp"),
                                                          h2(" Distribuciones seleccionadas:"),
+                                                         radioButtons( inputId = "seleccion_varp",label = "Desea guardar distribución:", 
+                                                                       choices = c("Si"=1, "No"=0),selected=0), #finalradiobuttons  
                                                          box( width=12, style="overflow-x:scroll",status = "success",
                                                               tableOutput("dist_varp")
                                                          )

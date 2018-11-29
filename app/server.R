@@ -3083,8 +3083,8 @@ shinyServer(function(input, output) {
     # n <- which(input$inst_varp==names(data()))
     # a[,(n-1)] <- input$distsA_varp
     # a
-    n <- which(ind==data)
-    data[,(n-1)] <- dist
+    n <- which(ind==names(data))
+    data[,n] <- dist
     return(data)
     
   }
@@ -3094,17 +3094,38 @@ shinyServer(function(input, output) {
     a <- as.data.frame(matrix(NA,nrow = 1,ncol = (ncol(data())-1)))
     names(a) <- names(data())[-1]
     rownames(a) <- "Distribuciones"
-    #b <- varp_dist(data = a ,ind =input$inst_varp  ,dist =input$distsA_varp )
-    #b  
-    n <- which(input$inst_varp==names(data()))
-    a[,(n-1)] <- input$distsA_varp
-    a
+    a <- varp_dist(data = a ,ind =input$inst_varp  ,dist =input$distsA_varp )
+    #write.table(a,paste(getwd(),"data","distribuciones.txt",sep = "/"),row.names = FALSE)
+    
+    #a
+   if(input$seleccion_varp==1){
+    #write.table(a,paste(getwd(),"data","distribuciones.txt",sep = "/"),row.names = FALSE)
+    b <- read.csv(paste(getwd(),"data","distribuciones.txt",sep = "/"),sep="")
+    c <- varp_dist(data = b ,ind =input$inst_varp ,dist =input$distsA_varp )
+    #c
+    
+    #actualizo
+    write.table(c,paste(getwd(),"data","distribuciones.txt",sep = "/"),row.names = FALSE)
+    c
+   }else{
+     write.table(a,paste(getwd(),"data","distribuciones.txt",sep = "/"),row.names = FALSE)
+     a
+   }
+    
+    
     })
 
   
   output$dist_varp <- renderTable({
     if(is.null(data())){return()}
     distribuciones()
+    # a <- as.data.frame(matrix(NA,nrow = 1,ncol = (ncol(data())-1)))
+    # names(a) <- names(data())[-1]
+    # rownames(a) <- "Distribuciones"
+    # 
+    # b <- varp_dist(data = a ,ind =input$inst_varp  ,dist =input$distsA_varp )
+    # b
+    
   })
   
   
