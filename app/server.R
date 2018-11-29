@@ -3128,6 +3128,45 @@ shinyServer(function(input, output) {
     
   })
   
+  #seccion VaR Parametrico Normal
+  output$rend_varn<-renderDataTable({
+    if(is.null(data())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    data1 <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(data1) <- names(data())[-1]
+    
+    
+    for(i in 1:(ncol(data())-1)){
+      data1[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #datatable(head(data1))
+    datatable(data1)
+  })
+  
+  
+  #parametros u y sigma de cada titulo
+  output$parametros_varn<-renderDataTable({
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    data1 <- as.data.frame(matrix(0,nrow = 2,ncol = (ncol(data())-1)))
+    names(data1) <- names(data())[-1]
+    rownames(data1) <- c("Media","Desviación estandar")
+    
+    for(i in 3:ncol(data1)){
+    data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[1]
+    data1[2,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+    }
+    data1
+  })
   
   
   # Almacenar Variables Reactivas
