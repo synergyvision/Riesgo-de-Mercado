@@ -1028,6 +1028,7 @@ shinyUI(
               #CARGO DATOS VAR
               tabItem(tabName = "datos_var",
                       h2(" Seleccionar archivo"),
+                      h2(" Hstórico de precios:"),
                       fluidRow(
                         box(width = 12, title = h3(UPLOADDATA_TEXT),
                             box( width=12,background = "navy",
@@ -1046,8 +1047,27 @@ shinyUI(
                       ),
                       fluidRow(
                         box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable'))
+                      ),
+                      h2(" Posiciones:"),
+                      fluidRow(
+                        box(width = 12, title = h3(UPLOADDATA_TEXT),
+                            box( width=12,background = "navy",
+                                 fileInput('file_data_pos', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
+                                           placeholder = FILESELEC_TEXT, buttonLabel = BUTTSELEC_TEXT )
+                            ),
+                            fluidRow(
+                              box(width=4,background="olive",strong(ENCABEZADO_TEXT),
+                                  checkboxInput( width="100%", 'header_pos', WITHHEADER_TEXT, TRUE)),
+                              box(width=4,background="olive",
+                                  radioButtons( width="40%", 'sep_pos', SEPARATOR_TEXT, UPLOADFILESEP_CONF, ';')),
+                              box(width=4,background="olive",
+                                  radioButtons( width="40%", 'quote_pos', COMILLAS_TEXT, UPLOADCOMILLAS_CONF, ''))
+                            )
+                        )
+                      ),
+                      fluidRow(
+                        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_pos'))
                       )
-                      
               ),
               #CALCULO Y BUSCO DISTRIBUCION DE LOS RETORNOS
               tabItem(tabName = "distribucion_var",

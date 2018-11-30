@@ -2803,7 +2803,40 @@ shinyServer(function(input, output) {
     datatable(data())
     })
   
-  #DISTRIBUCION
+ #POSICIONES
+  
+  data_pos <- reactive({
+    # input$file1 will be NULL initially. After the user selects
+    # and uploads a file, it will be a data frame with 'name',
+    # 'size', 'type', and 'datapath' columns. The 'datapath'
+    # column will contain the local filenames where the data can
+    # be found.
+    
+    inFile <- input$file_data_pos
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    read.table(inFile$datapath, header = input$header_pos,
+               sep = input$sep_pos, quote = input$quote_pos)
+  
+  })
+  
+  ###############################################################################
+  ###############################################################################
+  #################################    Datos    #################################
+  ###############################################################################
+  ###############################################################################
+  
+  output$datatable_pos<-renderDataTable({
+    if(is.null(data_pos())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    #datatable(data_pos())
+    data_pos()
+  })
+  
+  
+   #DISTRIBUCION
   #CALCULO RENDIMIENTOS
   
   output$dat_rend<-renderDataTable({
@@ -3161,9 +3194,15 @@ shinyServer(function(input, output) {
     names(data1) <- names(data())[-1]
     rownames(data1) <- c("Media","Desviación estandar")
     
-    for(i in 3:ncol(data1)){
+    for(i in 1:ncol(data1)){
+      if(anyNA(rend[,i])){
+        a <- which(is.na(rend[,i])|is.infinite(rend[,i]))
+        data1[1,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[1]
+        data1[2,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[2]
+      }else{
     data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[1]
     data1[2,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      }
     }
     data1
   })

@@ -84,6 +84,50 @@ dat3 <- uFitdifflog(dat)
 v<-VarR(p,dat3,dist)
 
 
+#creo txt de valores nominales
+#tif
+a <- as.data.frame(matrix(0,nrow = (ncol(tif)-1),ncol=2))
+names(a) <- c("titulo","valor_nominal")
+a[,1] <- names(tif)[-1]
+
+vt <- c(1000000,3000000,2000000,10000000,5000000,7000000,1000000,
+        2000000,4000000,3000000,20000000,6000000,8000000,2000000,
+        10000000,30000000,6000000,10000000,5000000,9000000,5000000,
+        5000000,9000000,4000000,70000000,5000000,7000000)
+
+a[,2] <- vt
+
+write.table(a,"posicion_tif.txt",row.names = FALSE,quote = FALSE,sep = ",")
+
+#veb
+a <- as.data.frame(matrix(0,nrow = (ncol(veb)-1),ncol=2))
+names(a) <- c("titulo","valor nominal")
+a[,1] <- names(veb)[-1]
+
+vb <- c(1000000,3000000,2000000,10000000,5000000,7000000,1000000,
+        2000000,4000000,3000000,20000000,6000000,8000000,2000000,
+        10000000,30000000,6000000,10000000,5000000,9000000,5000000,
+        5000000,9000000,4000000,70000000,5000000,7000000,7000000,
+        4000000,8000000,9000000)
+
+a[,2] <- vb
+
+write.table(a,"posicion_veb.txt",row.names = FALSE,quote = FALSE,sep = ",")
+
+#tif-veb
+a <- as.data.frame(matrix(0,nrow = (ncol(data_montecarlo)-1),ncol=2))
+names(a) <- c("titulo","valor nominal")
+a[,1] <- names(data_montecarlo)[-1]
+
+vb <- c(1000000,3000000,2000000,10000000,5000000,7000000,1000000,
+        2000000,4000000,3000000,20000000,6000000,8000000,2000000,
+        10000000,30000000,6000000,10000000,5000000,9000000,5000000,
+        5000000,9000000,4000000,70000000,5000000,7000000,7000000,
+        4000000,8000000,9000000,5000000,3000000)
+
+a[,2] <- c(vt,vb)
+
+write.table(a,"posicion_montec.txt",row.names = FALSE,quote = FALSE,sep = ",")
 
 
 
