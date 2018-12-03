@@ -3207,6 +3207,103 @@ shinyServer(function(input, output) {
     data1
   })
   
+  #creo tabla para VaR individuales metodo parametrico
+  output$tabla_varn<-renderDataTable({
+    #creo estructura de tabla
+    tabla <- as.data.frame(matrix(0,nrow = (ncol(data())),ncol = 4))
+    names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
+    rownames(tabla) <- c(names(data())[-1],"Totales")
+    
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+  
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    data1 <- as.data.frame(matrix(0,nrow = 1,ncol = (ncol(data())-1)))
+    names(data1) <- names(data())[-1]
+    
+    
+    for(i in 1:ncol(data1)){
+      if(anyNA(rend[,i])){
+        a <- which(is.na(rend[,i])|is.infinite(rend[,i]))
+        data1[1,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[2]
+      }else{
+        data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      }
+    }
+    
+    #relleno desviaciones estandar
+     tabla[,1] <- c(as.numeric(data1),NA)
+  
+    # #relleno valor nominal
+     tabla[,2] <- c(data_pos()[,2],sum(data_pos()[,2]))
+    
+    # #relleno Vares individuales
+     tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(0.95,0,1))
+     tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+    
+    #relleno VaR en porcentaje
+     tabla[,4] <- tabla[,3]*100/tabla[nrow(tabla),3]
+     tabla[nrow(tabla),4] <- sum(tabla[1:((nrow(tabla))-1),4])
+     
+     tabla
+  })
+  
+  #calculo VaR normal Portafolio
+  output$varn_portafolio <- renderPrint({
+    #creo estructura de tabla
+    tabla <- as.data.frame(matrix(0,nrow = (ncol(data())),ncol = 3))
+    names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual")
+    rownames(tabla) <- c(names(data())[-1],"Totales")
+    
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    data1 <- as.data.frame(matrix(0,nrow = 1,ncol = (ncol(data())-1)))
+    names(data1) <- names(data())[-1]
+    
+    
+    for(i in 1:ncol(data1)){
+      if(anyNA(rend[,i])){
+        a <- which(is.na(rend[,i])|is.infinite(rend[,i]))
+        data1[1,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[2]
+      }else{
+        data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      }
+    }
+    
+    #relleno desviaciones estandar
+    tabla[,1] <- c(as.numeric(data1),NA)
+    
+    # #relleno valor nominal
+    tabla[,2] <- c(data_pos()[,2],sum(data_pos()[,2]))
+    
+    # #relleno Vares individuales
+    tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(0.95,0,1))
+    tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+    
+    #calculo matriz de correlaciones (diagonal de 1's)
+    S<- cor(rend[,-c(1,2)])
+    
+    #VaR
+     var_ind <- tabla[3:(nrow(tabla)-1),3]
+     #var_ind%*%S
+     VaR <- sqrt(var_ind%*%S%*%as.matrix(var_ind))
+     VaR
+
+    
+    
+  })
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()

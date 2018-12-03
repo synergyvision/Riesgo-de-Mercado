@@ -1150,7 +1150,13 @@ shinyUI(
                                                 h3(" Rendimientos:"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('rend_varn')),
                                                 h3(" Parámetros seleccionados:"),
-                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('parametros_varn'))
+                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('parametros_varn')),
+                                                h3(" Vares individuales:"),
+                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varn')),
+                                                h3(" VaR portafolio:"),
+                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varn_portafolio'))
+                                                
+                                                
                                                 
                                                 
                                                 
