@@ -1,4 +1,6 @@
 #Prueba VaR, usando paquete VaRES
+library(corpcor)
+library(tseries)
 #cargo la data
 tif <- read.delim2("~/Downloads/tif.txt")
 veb <- read.delim2("~/Downloads/vebono.txt")
@@ -130,8 +132,116 @@ a[,2] <- c(vt,vb)
 write.table(a,"posicion_montec.txt",row.names = FALSE,quote = FALSE,sep = ",")
 
 
+#calculo VaR portafolio por los pasos anotados en el cuaderno
+#1) leer datos de precio (ver arriba) 
+#la variable con la que se trabajara es tif_252
+head(tif_252)
+
+#2)calcular rend a los precios 
+rend_tif <- as.data.frame(matrix(0,nrow = (nrow(tif_252)-1),ncol = (ncol(tif_252)-1)))
+names(rend_tif) <- names(tif_252)[-1]
 
 
+for(i in 1:(ncol(tif_252)-1)){
+  rend_tif[,i] <- diff(log(tif_252[,(i+1)]))
+}
+
+#3)calcular parametros de la dist normal por instrumento
+dist_tif <- as.data.frame(matrix(0,nrow = 2,ncol = (ncol(tif_252)-1)))
+names(dist_tif) <- names(tif_252)[-1]
+rownames(dist_tif) <- c("Media","Desviación estandar")
+
+for(i in 1:ncol(dist_tif)){
+  if(anyNA(rend_tif[,i])){
+    a <- which(is.na(rend_tif[,i])|is.infinite(rend_tif[,i]))
+    dist_tif[1,i] <- as.numeric(fitdistr(rend_tif[-a,i],"normal")$estimate)[1]
+    dist_tif[2,i] <- as.numeric(fitdistr(rend_tif[-a,i],"normal")$estimate)[2]
+  }else{
+    dist_tif[1,i] <- as.numeric(fitdistr(rend_tif[,i],"normal")$estimate)[1]
+    dist_tif[2,i] <- as.numeric(fitdistr(rend_tif[,i],"normal")$estimate)[2]
+  }
+}
+
+#4) ingreso valores nominales para calcular el rend esperado del portafolio
+#que se define como sigue q1*u1+q2*u2+...+qn*un
+#donde ui es la media de titulo i, qi es la participacion del titulo i
+
+vt <- vt[-c(1,2)]
+q <- vt
+V_inicial <- sum(vt)
+
+q <- vt/V_inicial
 
 
+rend_esp_p <-  sum(q*as.numeric(dist_tif[1,]))
 
+#5)calculo ahora la varianza del portafolio que se define como
+#[q1 q2 ... qn][S][q1 q2 ... qn]T , donde S es la matriz de varianzas y cov
+
+S <- cov(rend_tif)
+#Shrinkage estimate of covariance
+cov.shrink(S)
+
+#Transform covariance to correlation matrix
+S_tif <- cov2cor(S)
+
+S_tif_1 <- cor(rend_tif)
+
+#ojo en este caso la transpuesta funciono con as.matrix
+#esto debido a la forma de vt que es un vector de valores
+var_p <- q%*%S_tif%*%as.matrix(q)
+
+sd_p <- sqrt(var_p)
+
+
+#6)una vez tengo la media y varianza dek portafolio, procedo a calcular el VaR
+#como si fuera para una activo
+V_inicial <- sum(vt)
+V_inicial <- 100
+
+#calculo rend final esperado
+e_vf <- V_inicial*(1+(rend_esp_p))
+
+#calculo var final del portafolio
+var_vf <- V_inicial*sqrt(var_p)
+
+#calculo valor de corte
+V_corte <- qnorm(0.05,e_vf,var_vf)
+
+VaR_tif <- V_inicial-V_corte
+VaR_tif
+
+##
+qnorm(0.95,rend_esp_p,sd_p)
+
+#metodo video
+#1)calculo rend usar rend_tif
+
+#2)calculo matriz de correlaciones (diagonal de 1's)
+S_cor_tif <- cor(rend_tif)
+
+#3)calculo var individual, para ello creo tabla
+#1era col: sd de cada instrumento
+#2da col: valor nominal de cada instrumento
+#3era col: VaR = sd*nominal*factor dist normal (1,64 si es 95%)
+#4ta col: VaR en %
+#usar variable dist_tif
+
+tabla <- as.data.frame(matrix(0,nrow = ncol(rend_tif),ncol = 4))
+names(tabla) <- c("SD","Nominal","VaR_individual","VaR_porcentaje")
+rownames(tabla) <- names(rend_tif)
+
+tabla[,1] <- as.numeric(dist_tif[2,])
+tabla[,2] <- vt
+
+tabla[,3] <-  tabla[,1]*tabla[,2]*qnorm(0.95,0,1)
+tabla[,4] <- tabla[,3]*100/sum(tabla[,3])
+
+
+#4) calculo VaR 
+
+VaR <-  sqrt(tabla[,3]%*%S_cor_tif%*%as.matrix(tabla[,3]))
+VaR
+
+#var individuales suma
+sum(tabla[,3])
