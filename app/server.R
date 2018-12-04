@@ -2786,8 +2786,17 @@ shinyServer(function(input, output) {
     
     # read.table(inFile$datapath, header = input$header,
     #            sep = input$sep, quote = input$quote)
-    read.delim2(inFile$datapath, header = input$header,
+    a <- read.delim2(inFile$datapath, header = input$header,
               sep = input$sep, quote = input$quote)
+    
+    #ordeno la data de fecha mas reciente a fecha mas antigua
+    a[,1] <- as.Date(a[,1])
+    a <- a[order(a[,1],decreasing = TRUE),]
+    
+    #seleciono 252 obs
+    a <- a[1:252,]
+    
+    return(a)
     
   })
   
@@ -3189,31 +3198,56 @@ shinyServer(function(input, output) {
       rend[,i] <- diff(log(data()[,i+1]))
     }
     
-    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    #veo problemas con rend
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      #creo data frame para distribuciones
+      data1 <- as.data.frame(matrix(0,nrow = 2,ncol = ncol(rend) ))
+      names(data1) <- names(data())[-c(1,(b+1))]
+      rownames(data1) <- c("Media","Desviación estandar")
+      
+      for(i in 1:ncol(data1)){
+        data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[1]
+        data1[2,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+        
+      }
+      return(data1)
+ 
+    }
+    
+    #creo data frame para distribuciones
     data1 <- as.data.frame(matrix(0,nrow = 2,ncol = (ncol(data())-1)))
     names(data1) <- names(data())[-1]
     rownames(data1) <- c("Media","Desviación estandar")
     
     for(i in 1:ncol(data1)){
-      if(anyNA(rend[,i])){
-        a <- which(is.na(rend[,i])|is.infinite(rend[,i]))
-        data1[1,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[1]
-        data1[2,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[2]
-      }else{
-    data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[1]
-    data1[2,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
-      }
+    #   if(anyNA(rend[,i])){
+    #     a <- which(is.na(rend[,i])|is.infinite(rend[,i]))
+    #     data1[1,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[1]
+    #     data1[2,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[2]
+    #   }else{
+    # data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[1]
+    # data1[2,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+    #   }
+       data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[1]
+       data1[2,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      
     }
     data1
   })
   
   #creo tabla para VaR individuales metodo parametrico
   output$tabla_varn<-renderDataTable({
-    #creo estructura de tabla
-    tabla <- as.data.frame(matrix(0,nrow = (ncol(data())),ncol = 4))
-    names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
-    rownames(tabla) <- c(names(data())[-1],"Totales")
-    
     #calculo sd
     if(is.null(data())){return()}
     rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
@@ -3223,17 +3257,69 @@ shinyServer(function(input, output) {
       rend[,i] <- diff(log(data()[,i+1]))
     }
     
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      #creo estructura de tabla
+      tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 4))
+      names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
+      rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
+      
+      data1 <- as.data.frame(matrix(0,nrow = 1,ncol = ncol(rend)))
+      names(data1) <- names(data())[-c(1,(b+1))]
+      
+      
+      for(i in 1:ncol(data1)){
+        data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      }
+      
+      #relleno desviaciones estandar
+      tabla[,1] <- c(as.numeric(data1),NA)
+      
+      # #relleno valor nominal
+      tabla[,2] <- c(data_pos()[-b,2],sum(data_pos()[-b,2]))
+      
+      # #relleno Vares individuales
+      tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(0.95,0,1))
+      tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+      
+      #relleno VaR en porcentaje
+      tabla[,4] <- tabla[,3]*100/tabla[nrow(tabla),3]
+      tabla[nrow(tabla),4] <- sum(tabla[1:((nrow(tabla))-1),4])
+      
+      return(tabla)
+      
+    }
+    
+    #creo estructura de tabla
+    tabla <- as.data.frame(matrix(0,nrow = (ncol(data())),ncol = 4))
+    names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
+    rownames(tabla) <- c(names(data())[-1],"Totales")
+    
     data1 <- as.data.frame(matrix(0,nrow = 1,ncol = (ncol(data())-1)))
     names(data1) <- names(data())[-1]
     
     
     for(i in 1:ncol(data1)){
-      if(anyNA(rend[,i])){
-        a <- which(is.na(rend[,i])|is.infinite(rend[,i]))
-        data1[1,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[2]
-      }else{
-        data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
-      }
+      # if(anyNA(rend[,i])){
+      #   a <- which(is.na(rend[,i])|is.infinite(rend[,i]))
+      #   data1[1,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[2]
+      # }else{
+      #   data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      # }
+      data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      
     }
     
     #relleno desviaciones estandar
@@ -3255,11 +3341,6 @@ shinyServer(function(input, output) {
   
   #calculo VaR normal Portafolio
   output$varn_portafolio <- renderPrint({
-    #creo estructura de tabla
-    tabla <- as.data.frame(matrix(0,nrow = (ncol(data())),ncol = 3))
-    names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual")
-    rownames(tabla) <- c(names(data())[-1],"Totales")
-    
     #calculo sd
     if(is.null(data())){return()}
     rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
@@ -3269,17 +3350,68 @@ shinyServer(function(input, output) {
       rend[,i] <- diff(log(data()[,i+1]))
     }
     
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      #creo estructura de tabla
+      tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 4))
+      names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
+      rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
+      
+      data1 <- as.data.frame(matrix(0,nrow = 1,ncol = ncol(rend)))
+      names(data1) <- names(data())[-c(1,(b+1))]
+      
+      
+      for(i in 1:ncol(data1)){
+        data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      }
+      
+      #relleno desviaciones estandar
+      tabla[,1] <- c(as.numeric(data1),NA)
+      
+      # #relleno valor nominal
+      tabla[,2] <- c(data_pos()[-b,2],sum(data_pos()[-b,2]))
+      
+      # #relleno Vares individuales
+      tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(0.95,0,1))
+      tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+      
+      
+      #calculo matriz de correlaciones (diagonal de 1's)
+      S<- cor(rend)
+      
+      #VaR
+      var_ind <- tabla[1:(nrow(tabla)-1),3]
+      #var_ind%*%S
+      VaR <- sqrt(var_ind%*%S%*%as.matrix(var_ind))
+      return(VaR)
+ 
+      
+    }#final if problemas de rend
+    
+    #creo estructura de tabla
+    tabla <- as.data.frame(matrix(0,nrow = (ncol(data())),ncol = 3))
+    names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual")
+    rownames(tabla) <- c(names(data())[-1],"Totales")
+    
+    
     data1 <- as.data.frame(matrix(0,nrow = 1,ncol = (ncol(data())-1)))
     names(data1) <- names(data())[-1]
     
     
     for(i in 1:ncol(data1)){
-      if(anyNA(rend[,i])){
-        a <- which(is.na(rend[,i])|is.infinite(rend[,i]))
-        data1[1,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[2]
-      }else{
-        data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
-      }
+     data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
     }
     
     #relleno desviaciones estandar
@@ -3293,10 +3425,10 @@ shinyServer(function(input, output) {
     tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
     
     #calculo matriz de correlaciones (diagonal de 1's)
-    S<- cor(rend[,-c(1,2)])
+    S<- cor(rend)
     
     #VaR
-     var_ind <- tabla[3:(nrow(tabla)-1),3]
+     var_ind <- tabla[1:(nrow(tabla)-1),3]
      #var_ind%*%S
      VaR <- sqrt(var_ind%*%S%*%as.matrix(var_ind))
      VaR
@@ -3305,6 +3437,35 @@ shinyServer(function(input, output) {
     
   })
   
+  #advertencia por problemas en rend
+  output$advertencia_varn <-renderPrint({
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+         a[i] <- 1
+      }
+    }
+    
+    if(sum(a)>=1){
+      print("Existen problemas con los rendimientos de los títulos")
+      print(names(rend)[which(a==1)])
+      print("los mismos se excluirán del estudio")
+    }else{
+    print("No hay problemas con los rendimientos")
+    }
+    
+  })
+    
   # Almacenar Variables Reactivas
   RV <- reactiveValues()
 

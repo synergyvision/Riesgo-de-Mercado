@@ -1149,6 +1149,8 @@ shinyUI(
                                                 h2(" VaR normal"),
                                                 h3(" Rendimientos:"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('rend_varn')),
+                                                h3(" Advertencias:"),
+                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('advertencia_varn')),
                                                 h3(" Parámetros seleccionados:"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('parametros_varn')),
                                                 h3(" Vares individuales:"),
