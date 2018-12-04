@@ -245,3 +245,98 @@ VaR
 
 #var individuales suma
 sum(tabla[,3])
+
+
+#GRAFICOS
+#GRAFICO VALOR NOMINAL
+library(plotly)
+
+USPersonalExpenditure <- data.frame("Categorie"=rownames(USPersonalExpenditure), USPersonalExpenditure)
+data <- USPersonalExpenditure[,c('Categorie', 'X1960')]
+
+p <- plot_ly(data, labels = ~Categorie, values = ~X1960, type = 'pie') %>%
+  layout(title = 'United States Personal Expenditures by Categories in 1960',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+
+p
+
+#creo data
+pie <- cbind.data.frame(rownames(tabla),tabla$Nominal)
+names(pie) <- c("Titulo","nominal")
+
+p <- plot_ly(pie, labels = ~Titulo, values = ~nominal, type = 'pie') %>%
+  layout(title = 'Valor nominal TIF',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+
+p
+
+#GRAFICO VAR IND
+pie1 <- cbind.data.frame(rownames(tabla),tabla$VaR_individual)
+names(pie1) <- c("Titulo","var")
+
+p1 <- plot_ly(pie1, labels = ~Titulo, values = ~var, type = 'pie') %>%
+  layout(title = 'VaR individual TIF',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+
+p1
+
+#GRAFICO COMPARATIVO VAR IND VS PORTAFOLIO
+
+
+# p2 <- plot_ly(
+#   x = c("giraffes", "orangutans", "monkeys"),
+#   y = c(20, 14, 23),
+#   #name = "SF Zoo",
+#   type = "bar"
+# )
+# 
+# p2
+
+#
+# x_b = c("Suma VaRes individuales", "VaR Portafolio")
+# y_b = c(sum(tabla[,3]), VaR)
+# width = c(0.3, 0.3)
+# data <- data.frame(x_b, y_b, width)
+# 
+# 
+# p <- plot_ly(data,marker = list(color = 'royalblue1',
+#                                 line = list(color = 'rgb(8,48,107)',
+#                                             width = 3))) %>%
+#   add_bars(
+#     x= ~x_b,
+#     y= ~y_b,
+#     width = ~width
+#   )
+# 
+# p
+
+#otra opcion
+p <- plot_ly(marker = list(color = 'royalblue1',
+                           line = list(color = 'rgb(8,48,107)',
+                                       width = 3))) %>%
+  add_bars(
+    x = c(" "),
+    y = c(sum(tabla[,3])),
+    width = 0.3,
+    marker = list(
+      color = 'royalblue1'
+    ),
+    name = 'Suma VaRes individuales'
+  ) %>%
+  add_bars(
+    x = c(" "),
+    y = c(VaR),
+    width = 0.3,
+    marker = list(
+      color = 'mediumseagreen'
+    ),
+    name = 'VaR Portafolio'
+  )
+
+p

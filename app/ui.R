@@ -1156,8 +1156,9 @@ shinyUI(
                                                 h3(" Vares individuales:"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varn')),
                                                 h3(" VaR portafolio:"),
-                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varn_portafolio'))
-                                                
+                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varn_portafolio')),
+                                                h3(" Graficos:"),
+                                                plotlyOutput("grafico_vnominal")
                                                 
                                                 
                                                 
