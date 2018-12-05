@@ -101,6 +101,11 @@ a[,2] <- vt
 
 write.table(a,"posicion_tif.txt",row.names = FALSE,quote = FALSE,sep = ",")
 
+#data prueba
+a[,2] <- vt[-c(1,2)]
+write.table(a,"posicion_tif_1.txt",row.names = FALSE,quote = FALSE,sep = ",")
+
+
 #veb
 a <- as.data.frame(matrix(0,nrow = (ncol(veb)-1),ncol=2))
 names(a) <- c("titulo","valor nominal")

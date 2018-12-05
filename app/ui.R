@@ -49,13 +49,15 @@ shinyUI(
                             menuSubItem("Curvas", tabName = "curvas", icon = icon("circle-o"))
                          
                           ),#fin menuitem 
-                menuItem("Valor en Riego", icon = icon("bar-chart-o"), 
+                menuItem("Valor en Riesgo", icon = icon("bar-chart-o"), 
                          
                          menuSubItem("Datos", tabName = "datos_var", icon = icon("circle-o")),
                          
                          menuSubItem("Distribución", tabName = "distribucion_var", icon = icon("circle-o")),
                          
-                         menuSubItem("VaR", tabName = "var", icon = icon("circle-o"))
+                         menuSubItem("VaR", tabName = "var", icon = icon("circle-o")),
+                         
+                         menuSubItem("Gráficos", tabName = "graficos", icon = icon("circle-o"))
                          
                 ),#fin menuitem 
                 
@@ -1028,7 +1030,7 @@ shinyUI(
               #CARGO DATOS VAR
               tabItem(tabName = "datos_var",
                       h2(" Seleccionar archivo"),
-                      h2(" Hstórico de precios:"),
+                      h2(" Histórico de precios:"),
                       fluidRow(
                         box(width = 12, title = h3(UPLOADDATA_TEXT),
                             box( width=12,background = "navy",
@@ -1153,12 +1155,17 @@ shinyUI(
                                                 box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('advertencia_varn')),
                                                 h3(" Parámetros seleccionados:"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('parametros_varn')),
+                                                h3(" Elegir porcentaje del VaR:"),
+                                                box( width = 12, background = "navy",
+                                                        selectInput( inputId = "porVarn", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
+                                                       ),
+                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('porcentaje_varn')),
                                                 h3(" Vares individuales:"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varn')),
                                                 h3(" VaR portafolio:"),
-                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varn_portafolio')),
-                                                h3(" Graficos:"),
-                                                plotlyOutput("grafico_vnominal")
+                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varn_portafolio'))
+                                                #h3(" Graficos:"),
+                                                #plotlyOutput("grafico_vnominal")
                                                 
                                                 
                                                 
@@ -1188,6 +1195,39 @@ shinyUI(
                       # h2(" Calculo VaR portafolio:")
                       
               ),
+              #GRAFICOS
+              tabItem(tabName = "graficos",
+                      fluidRow(tabBox( width = 12, title = " ", id = "graficos_var_normal", height = "50px", 
+                                       
+                                       tabPanel("Paramétrico",
+                                                tabBox( width = 12, title = "VaR Delta-Normal", id = "graficos_varn", height = "50px", 
+                                                        
+                                                        tabPanel("Valor Nominal",
+                                                                 plotlyOutput("grafico_vnominal")
+                                                        ),
+                                                        tabPanel("VaR individuales",
+                                                                 plotlyOutput("grafico_vind")
+                                                        ),
+                                                        tabPanel("Comparativo",
+                                                                 plotlyOutput("grafico_vcomp")
+                                                        )
+                                                )#final tabbox
+                                       ),
+                                       tabPanel("Simulación Histórica",
+                                                h2("Var simulación")
+                                                
+                                       )
+                      )#final tabbox
+                        
+                        
+                        
+                       
+                      )#final fluidrow
+                      
+                      
+                      
+                      ),#final tab item graficos
+              
               
               
               

@@ -3246,6 +3246,12 @@ shinyServer(function(input, output) {
     data1
   })
   
+  #elijo % del VaR
+  output$porcentaje_varn <- renderPrint({
+    print(as.numeric(sub(",",".",input$porVarn)))
+  })
+  
+  
   #creo tabla para VaR individuales metodo parametrico
   output$tabla_varn<-renderDataTable({
     #calculo sd
@@ -3291,7 +3297,7 @@ shinyServer(function(input, output) {
       tabla[,2] <- c(data_pos()[-b,2],sum(data_pos()[-b,2]))
       
       # #relleno Vares individuales
-      tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(0.95,0,1))
+      tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
       tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
       
       #relleno VaR en porcentaje
@@ -3329,7 +3335,7 @@ shinyServer(function(input, output) {
      tabla[,2] <- c(data_pos()[,2],sum(data_pos()[,2]))
     
     # #relleno Vares individuales
-     tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(0.95,0,1))
+     tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
      tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
     
     #relleno VaR en porcentaje
@@ -3384,7 +3390,7 @@ shinyServer(function(input, output) {
       tabla[,2] <- c(data_pos()[-b,2],sum(data_pos()[-b,2]))
       
       # #relleno Vares individuales
-      tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(0.95,0,1))
+      tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
       tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
       
       
@@ -3421,7 +3427,7 @@ shinyServer(function(input, output) {
     tabla[,2] <- c(data_pos()[,2],sum(data_pos()[,2]))
     
     # #relleno Vares individuales
-    tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(0.95,0,1))
+    tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
     tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
     
     #calculo matriz de correlaciones (diagonal de 1's)
@@ -3512,7 +3518,7 @@ shinyServer(function(input, output) {
       tabla[,2] <- c(data_pos()[-b,2],sum(data_pos()[-b,2]))
       
       # #relleno Vares individuales
-      tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(0.95,0,1))
+      tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
       tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
       
       #relleno VaR en porcentaje
@@ -3521,43 +3527,43 @@ shinyServer(function(input, output) {
       
       #return(tabla)
       
-    }
+    }else{
     
     # #creo estructura de tabla
-    # tabla <- as.data.frame(matrix(0,nrow = (ncol(data())),ncol = 4))
-    # names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
-    # rownames(tabla) <- c(names(data())[-1],"Totales")
-    # 
-    # data1 <- as.data.frame(matrix(0,nrow = 1,ncol = (ncol(data())-1)))
-    # names(data1) <- names(data())[-1]
-    # 
-    # 
-    # for(i in 1:ncol(data1)){
-    #   # if(anyNA(rend[,i])){
-    #   #   a <- which(is.na(rend[,i])|is.infinite(rend[,i]))
-    #   #   data1[1,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[2]
-    #   # }else{
-    #   #   data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
-    #   # }
-    #   data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
-    #   
-    # }
-    # 
-    # #relleno desviaciones estandar
-    # tabla[,1] <- c(as.numeric(data1),NA)
-    # 
-    # # #relleno valor nominal
-    # tabla[,2] <- c(data_pos()[,2],sum(data_pos()[,2]))
-    # 
-    # # #relleno Vares individuales
-    # tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(0.95,0,1))
-    # tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
-    # 
-    # #relleno VaR en porcentaje
-    # tabla[,4] <- tabla[,3]*100/tabla[nrow(tabla),3]
-    # tabla[nrow(tabla),4] <- sum(tabla[1:((nrow(tabla))-1),4])
-    # 
-    
+    tabla <- as.data.frame(matrix(0,nrow = (ncol(data())),ncol = 4))
+    names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
+    rownames(tabla) <- c(names(data())[-1],"Totales")
+
+    data1 <- as.data.frame(matrix(0,nrow = 1,ncol = (ncol(data())-1)))
+    names(data1) <- names(data())[-1]
+
+
+    for(i in 1:ncol(data1)){
+      # if(anyNA(rend[,i])){
+      #   a <- which(is.na(rend[,i])|is.infinite(rend[,i]))
+      #   data1[1,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[2]
+      # }else{
+      #   data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      # }
+      data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+
+    }
+
+    #relleno desviaciones estandar
+    tabla[,1] <- c(as.numeric(data1),NA)
+
+    # #relleno valor nominal
+    tabla[,2] <- c(data_pos()[,2],sum(data_pos()[,2]))
+
+    # #relleno Vares individuales
+    tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
+    tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+
+    #relleno VaR en porcentaje
+    tabla[,4] <- tabla[,3]*100/tabla[nrow(tabla),3]
+    tabla[nrow(tabla),4] <- sum(tabla[1:((nrow(tabla))-1),4])
+
+    }
     
     pie <- cbind.data.frame(rownames(tabla)[-nrow(tabla)],tabla[1:(nrow(tabla)-1),2])
     names(pie) <- c("Titulo","nominal")
@@ -3572,7 +3578,243 @@ shinyServer(function(input, output) {
     
     
     })
+  
+  #VARES INDIVIDUALES
+  output$grafico_vind <- renderPlotly({ 
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
     
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      #creo estructura de tabla
+      tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 4))
+      names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
+      rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
+      
+      data1 <- as.data.frame(matrix(0,nrow = 1,ncol = ncol(rend)))
+      names(data1) <- names(data())[-c(1,(b+1))]
+      
+      
+      for(i in 1:ncol(data1)){
+        data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      }
+      
+      #relleno desviaciones estandar
+      tabla[,1] <- c(as.numeric(data1),NA)
+      
+      # #relleno valor nominal
+      tabla[,2] <- c(data_pos()[-b,2],sum(data_pos()[-b,2]))
+      
+      # #relleno Vares individuales
+      tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
+      tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+      
+      #relleno VaR en porcentaje
+      tabla[,4] <- tabla[,3]*100/tabla[nrow(tabla),3]
+      tabla[nrow(tabla),4] <- sum(tabla[1:((nrow(tabla))-1),4])
+      
+      #return(tabla)
+      
+    }else{
+    
+    # #creo estructura de tabla
+    tabla <- as.data.frame(matrix(0,nrow = (ncol(data())),ncol = 4))
+    names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
+    rownames(tabla) <- c(names(data())[-1],"Totales")
+    
+    data1 <- as.data.frame(matrix(0,nrow = 1,ncol = (ncol(data())-1)))
+    names(data1) <- names(data())[-1]
+    
+    
+    for(i in 1:ncol(data1)){
+      # if(anyNA(rend[,i])){
+      #   a <- which(is.na(rend[,i])|is.infinite(rend[,i]))
+      #   data1[1,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[2]
+      # }else{
+      #   data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      # }
+      data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      
+    }
+    
+    #relleno desviaciones estandar
+    tabla[,1] <- c(as.numeric(data1),NA)
+    
+    # #relleno valor nominal
+    tabla[,2] <- c(data_pos()[,2],sum(data_pos()[,2]))
+    
+    # #relleno Vares individuales
+    tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
+    tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+    
+    #relleno VaR en porcentaje
+    tabla[,4] <- tabla[,3]*100/tabla[nrow(tabla),3]
+    tabla[nrow(tabla),4] <- sum(tabla[1:((nrow(tabla))-1),4])
+    
+    }
+    
+    
+    pie <- cbind.data.frame(rownames(tabla)[-nrow(tabla)],tabla[1:(nrow(tabla)-1),3])
+    names(pie) <- c("Titulo","ind")
+    
+    p <- plot_ly(pie, labels = ~Titulo, values = ~ind, type = 'pie') %>%
+      layout(title = 'VaRes Individuales',
+             xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+             yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+    
+    
+    p
+    
+    
+  })
+    
+  #COMPARATIVO VAR INDIVIDUAL VS VAR PORTAFOLIO
+  output$grafico_vcomp <- renderPlotly({ 
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      #creo estructura de tabla
+      tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 4))
+      names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
+      rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
+      
+      data1 <- as.data.frame(matrix(0,nrow = 1,ncol = ncol(rend)))
+      names(data1) <- names(data())[-c(1,(b+1))]
+      
+      
+      for(i in 1:ncol(data1)){
+        data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      }
+      
+      #relleno desviaciones estandar
+      tabla[,1] <- c(as.numeric(data1),NA)
+      
+      # #relleno valor nominal
+      tabla[,2] <- c(data_pos()[-b,2],sum(data_pos()[-b,2]))
+      
+      # #relleno Vares individuales
+      tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
+      tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+      
+      #relleno VaR en porcentaje
+      tabla[,4] <- tabla[,3]*100/tabla[nrow(tabla),3]
+      tabla[nrow(tabla),4] <- sum(tabla[1:((nrow(tabla))-1),4])
+      
+      #return(tabla)
+      
+    }else{
+      
+      # #creo estructura de tabla
+      tabla <- as.data.frame(matrix(0,nrow = (ncol(data())),ncol = 4))
+      names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
+      rownames(tabla) <- c(names(data())[-1],"Totales")
+      
+      data1 <- as.data.frame(matrix(0,nrow = 1,ncol = (ncol(data())-1)))
+      names(data1) <- names(data())[-1]
+      
+      
+      for(i in 1:ncol(data1)){
+        # if(anyNA(rend[,i])){
+        #   a <- which(is.na(rend[,i])|is.infinite(rend[,i]))
+        #   data1[1,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[2]
+        # }else{
+        #   data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+        # }
+        data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+        
+      }
+      
+      #relleno desviaciones estandar
+      tabla[,1] <- c(as.numeric(data1),NA)
+      
+      # #relleno valor nominal
+      tabla[,2] <- c(data_pos()[,2],sum(data_pos()[,2]))
+      
+      # #relleno Vares individuales
+      tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",as.numeric(sub(",",".",input$porVarn)))),0,1))
+      tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+      
+      #relleno VaR en porcentaje
+      tabla[,4] <- tabla[,3]*100/tabla[nrow(tabla),3]
+      tabla[nrow(tabla),4] <- sum(tabla[1:((nrow(tabla))-1),4])
+      
+    }
+    
+    #CALCULO VAR
+    #calculo matriz de correlaciones (diagonal de 1's)
+    S<- cor(rend)
+    
+    #VaR
+    var_ind <- tabla[1:(nrow(tabla)-1),3]
+    #var_ind%*%S
+    VaR <- sqrt(var_ind%*%S%*%as.matrix(var_ind))
+    
+    
+    p <- plot_ly(marker = list(color = 'royalblue1',
+                               line = list(color = 'rgb(8,48,107)',
+                                           width = 3))) %>%
+      add_bars(
+        x = c("Individual"),
+        y = c(sum(tabla[,3])),
+        width = 0.3,
+        marker = list(
+          color = 'royalblue1'
+        ),
+        name = 'Suma VaRes individuales'
+      ) %>%
+      add_bars(
+        x = c("Portafolio"),
+        y = c(VaR),
+        width = 0.3,
+        marker = list(
+          color = 'mediumseagreen'
+        ),
+        name = 'VaR Portafolio'
+      )
+    
+    p
+    
+    
+  })
+  
   # Almacenar Variables Reactivas
   RV <- reactiveValues()
 
