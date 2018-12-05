@@ -345,3 +345,44 @@ p <- plot_ly(marker = list(color = 'royalblue1',
   )
 
 p
+
+
+###PRUEBAS VAR POR SIMULACION HISTORICA
+#uso toda la data tif, deberia se 252 o 504 
+#mientras mas info mejor 
+#1) calculo rend
+#hecho usar variable rend_tif
+#2) considerar valor nominal para calcular columna de escenarios
+#si es un instrumento usar Vo(1+R)
+#si es portafolio usar Vo[q1*(1+R1)+...+qn*(1+Rn)]
+#qi son los pesos de cada instrumento segun su valor nominal
+#la suma de los qi es 1
+head(rend_tif)
+dim(rend_tif)
+
+#uso variable a, y calculo pesos qi
+a <- rbind.data.frame(a,c("Totales",sum(a$valor_nominal)))
+a$valor_nominal <- as.numeric(a$valor_nominal)
+a$pesos <- a$valor_nominal/a$valor_nominal[nrow(a)]
+
+#validacion
+sum(a$pesos[1:(nrow(a)-1)])
+
+
+esc <- rep(0,nrow(rend_tif))
+#calculo escenarios
+for(i in 1:nrow(rend_tif)){
+esc[i] <- sum((1+as.numeric(rend_tif[i,]))*a$pesos[1:(nrow(a)-1)])*a$valor_nominal[nrow(a)]
+}
+
+#ordeno data
+esc_orden <- esc[order(esc)]
+
+#calculo ubicacion
+round(length(esc_orden)*5/100)
+
+#valor de corte
+vc <- esc_orden[round(length(esc_orden)*5/100)]
+
+#VaR
+a$valor_nominal[nrow(a)]-vc
