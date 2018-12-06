@@ -3863,21 +3863,66 @@ shinyServer(function(input, output) {
   
   #GRAFICO DE PESOS
   output$grafico_pesos <- renderPlotly({
-    a <- data_pos()
-    b <- sum(a[,2])
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
     
-    a$pesos <- a[,2]/b
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
     
-    pie <- cbind.data.frame(as.character(a[,1]),a[,3])
-    names(pie) <- c("Titulo","Pesos")
+    #veo si hay valores NA o inf en la data
+    a1 <- rep(0,ncol(rend))
     
-    p <- plot_ly(pie, labels = ~Titulo, values = ~Pesos, type = 'pie') %>%
-      layout(title = 'Pesos según valor nominal',
-             xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-             yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a1[i] <- 1
+      }
+    }
+    
+
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b1 <- which(a1==1)
+    if(sum(a1)>=1){
+      a <- data_pos()[-b1,]
+      b <- sum(a[,2])
+      
+      a$pesos <- a[,2]/b
+      
+      pie <- cbind.data.frame(as.character(a[,1]),a[,3])
+      names(pie) <- c("Titulo","Pesos")
+      
+      p <- plot_ly(pie, labels = ~Titulo, values = ~Pesos, type = 'pie') %>%
+        layout(title = 'Pesos según valor nominal',
+               xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+               yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+      
+      
+      p
+      
+      
+    }else{
+      
+      a <- data_pos()
+      b <- sum(a[,2])
+      
+      a$pesos <- a[,2]/b
+      
+      pie <- cbind.data.frame(as.character(a[,1]),a[,3])
+      names(pie) <- c("Titulo","Pesos")
+      
+      p <- plot_ly(pie, labels = ~Titulo, values = ~Pesos, type = 'pie') %>%
+        layout(title = 'Pesos según valor nominal',
+               xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+               yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+      
+      
+      p
+    }
     
     
-    p
     
     
   })
@@ -3951,6 +3996,92 @@ shinyServer(function(input, output) {
       }else{return()}
       
     }
+    
+    
+  })
+  
+  
+  #PORCENTAJE VAR SIMULACION HISTORICA
+  output$porcentaje_varsh <- renderPrint({
+    print(as.numeric(sub(",",".",input$porVarsh)))
+  })
+  
+  
+  #UBICACION
+  output$ubicacion_varsh <- renderPrint({
+    round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))
+  })
+  
+  #VAR SIMULACION HISTORICA
+  output$varsh <- renderPrint({
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #calculo pesos
+    p <- data_pos()
+    p$pesos <- p[,2]/sum(p[,2])
+    
+    
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      
+      #actualizo pesos
+      p <- p[-b,]
+      p[,3] <- p[,2]/sum(p[,2])
+      
+      esc <- cbind.data.frame(rend,'Escenarios'=rep(0,nrow(rend)))
+      if(sum(p[,3])==1){
+        #calculo escenarios
+        for(i in 1:nrow(rend)){
+          esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+        }
+        
+        #Ordeno data
+        esc1 <- esc[,ncol(esc)]
+        esc1 <- esc1[order(esc1)]
+        
+        VaRsh <- sum(data_pos()[,2])-esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        VaRsh
+        }else{return()}
+      
+    }else{
+      esc <- cbind.data.frame(rend,'Escenarios'=rep(0,nrow(rend)))
+      if(sum(p[,3])==1){
+        #calculo escenarios
+        for(i in 1:nrow(rend)){
+          esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+        }
+        #esc[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh)))),ncol(esc)]
+        esc1 <- esc[,ncol(esc)]
+        esc1 <- esc1[order(esc1)]
+        
+        VaRsh <- sum(data_pos()[,2])-esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        VaRsh        
+        
+      }else{return()}
+      
+    }
+    
+    
     
     
   })

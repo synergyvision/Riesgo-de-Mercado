@@ -1191,8 +1191,16 @@ shinyUI(
                                                 h2(" Suma de Pesos"),
                                                 verbatimTextOutput("suma_pesos"),
                                                 h2(" Escenarios"),
-                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('escenarios_varsh'))
-                                                
+                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('escenarios_varsh')),
+                                                h3(" Elegir porcentaje del VaR:"),
+                                                box( width = 12, background = "navy",
+                                                     selectInput( inputId = "porVarsh", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
+                                                ),
+                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('porcentaje_varsh')),
+                                                h3(" Ubicación:"),
+                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('ubicacion_varsh')),
+                                                h3(" VaR:"),
+                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varsh'))
                                                 
                                                 
                                                 
