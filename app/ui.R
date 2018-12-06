@@ -1069,7 +1069,12 @@ shinyUI(
                       ),
                       fluidRow(
                         box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_pos'))
+                      ),
+                      h2(" Aviso"),
+                      fluidRow(
+                        box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('aviso_datos_var'))
                       )
+                      
               ),
               #CALCULO Y BUSCO DISTRIBUCION DE LOS RETORNOS
               tabItem(tabName = "distribucion_var",
@@ -1176,7 +1181,21 @@ shinyUI(
                                                 
                                        ),
                                        tabPanel("Histórico",
-                                                h2(" VaR historico")
+                                                h2(" VaR simulación histórica"),
+                                                h3(" Advertencia"),
+                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('advertencia_varsh')),
+                                                h2(" Pesos"),
+                                                plotlyOutput("grafico_pesos"),
+                                                h2(" Valor Nominal Portafolio"),
+                                                verbatimTextOutput("suma_posvarsh"),
+                                                h2(" Suma de Pesos"),
+                                                verbatimTextOutput("suma_pesos"),
+                                                h2(" Escenarios"),
+                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('escenarios_varsh'))
+                                                
+                                                
+                                                
+                                                
                                        )
                       )#final tabbox
                       )#final fluidrow

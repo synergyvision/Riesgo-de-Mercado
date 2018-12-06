@@ -3815,6 +3815,146 @@ shinyServer(function(input, output) {
     
   })
   
+  #AVISO DATOS VAR
+  output$aviso_datos_var <- renderPrint({
+    if(is.null(data())|is.null(data_pos())){return()}
+    
+    a <- data()
+    b <- data_pos() 
+    
+    if(names(a)[-1]==as.character(b[,1])){
+      print("Coincidencia en nombres")
+    }else{
+      print("Problemas coincidencias nombres, revisar data")
+    }
+    
+    
+  })
+  
+  #ADVERTENCIA VAR SIMULACION HISTORICA
+  output$advertencia_varsh <-renderPrint({
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    if(sum(a)>=1){
+      print("Existen problemas con los rendimientos de los títulos")
+      print(names(rend)[which(a==1)])
+      print("los mismos se excluirán del estudio")
+    }else{
+      print("No hay problemas con los rendimientos")
+    }
+    
+  })
+  
+  
+  #GRAFICO DE PESOS
+  output$grafico_pesos <- renderPlotly({
+    a <- data_pos()
+    b <- sum(a[,2])
+    
+    a$pesos <- a[,2]/b
+    
+    pie <- cbind.data.frame(as.character(a[,1]),a[,3])
+    names(pie) <- c("Titulo","Pesos")
+    
+    p <- plot_ly(pie, labels = ~Titulo, values = ~Pesos, type = 'pie') %>%
+      layout(title = 'Pesos según valor nominal',
+             xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+             yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+    
+    
+    p
+    
+    
+  })
+  
+  #POSICION TOTAL
+  output$suma_posvarsh <- renderPrint({
+    sum(data_pos()[,2])
+  })
+  
+  #SUMA DE PESOS
+  output$suma_pesos <- renderPrint({
+   p <- data_pos()
+   p$pesos <- p[,2]/sum(p[,2])
+   sum(p[,3])
+  })
+  
+  
+  #ESCENARIOS VAR SIMULACION HISTORICA
+  output$escenarios_varsh <- renderDataTable({
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #calculo pesos
+    p <- data_pos()
+    p$pesos <- p[,2]/sum(p[,2])
+    
+
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      
+      #actualizo pesos
+      p <- p[-b,]
+      p[,3] <- p[,2]/sum(p[,2])
+
+      esc <- cbind.data.frame(rend,'Escenarios'=rep(0,nrow(rend)))
+      if(sum(p[,3])==1){
+        #calculo escenarios
+        for(i in 1:nrow(rend)){
+          esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+        }
+        esc
+      }else{return()}
+      
+    }else{
+      esc <- cbind.data.frame(rend,'Escenarios'=rep(0,nrow(rend)))
+      if(sum(p[,3])==1){
+        #calculo escenarios
+        for(i in 1:nrow(rend)){
+          esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+        }
+        esc
+      }else{return()}
+      
+    }
+    
+    
+  })
+  
   # Almacenar Variables Reactivas
   RV <- reactiveValues()
 
