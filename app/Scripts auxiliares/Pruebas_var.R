@@ -361,18 +361,18 @@ head(rend_tif)
 dim(rend_tif)
 
 #uso variable a, y calculo pesos qi
-a <- rbind.data.frame(a,c("Totales",sum(a$valor_nominal)))
-a$valor_nominal <- as.numeric(a$valor_nominal)
-a$pesos <- a$valor_nominal/a$valor_nominal[nrow(a)]
+a1 <- rbind.data.frame(a,c("Totales",sum(a$valor_nominal)))
+a1$valor_nominal <- as.numeric(a1$valor_nominal)
+a1$pesos <- a1$valor_nominal/a1$valor_nominal[nrow(a1)]
 
 #validacion
-sum(a$pesos[1:(nrow(a)-1)])
+sum(a1$pesos[1:(nrow(a1)-1)])
 
 
 esc <- rep(0,nrow(rend_tif))
 #calculo escenarios
 for(i in 1:nrow(rend_tif)){
-esc[i] <- sum((1+as.numeric(rend_tif[i,]))*a$pesos[1:(nrow(a)-1)])*a$valor_nominal[nrow(a)]
+esc[i] <- sum((1+as.numeric(rend_tif[i,]))*a1$pesos[1:(nrow(a1)-1)])*a1$valor_nominal[nrow(a1)]
 }
 
 #ordeno data
@@ -385,4 +385,17 @@ round(length(esc_orden)*5/100)
 vc <- esc_orden[round(length(esc_orden)*5/100)]
 
 #VaR
-a$valor_nominal[nrow(a)]-vc
+a1$valor_nominal[nrow(a1)]-vc
+
+#grafico escenarios
+hist(esc,breaks = 20)
+
+#ejemplo
+p1 <- plot_ly(diamonds, x = ~cut) %>% add_histogram()
+p1
+
+#
+p2 <- plot_ly(cbind.data.frame(seq(1,length(esc)),esc), x = ~esc) %>% add_histogram()
+p2
+
+

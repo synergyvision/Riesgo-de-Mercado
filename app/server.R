@@ -3929,14 +3929,77 @@ shinyServer(function(input, output) {
   
   #POSICION TOTAL
   output$suma_posvarsh <- renderPrint({
-    sum(data_pos()[,2])
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a1 <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a1[i] <- 1
+      }
+    }
+    
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b1 <- which(a1==1)
+    if(sum(a1)>=1){
+      a <- data_pos()[-b1,]
+      sum(a[,2])
+      
+      
+    }else{
+      sum(data_pos()[,2])
+     
+    }
+    
+
+    
   })
   
   #SUMA DE PESOS
   output$suma_pesos <- renderPrint({
-   p <- data_pos()
-   p$pesos <- p[,2]/sum(p[,2])
-   sum(p[,3])
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a1 <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a1[i] <- 1
+      }
+    }
+    
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b1 <- which(a1==1)
+    if(sum(a1)>=1){
+      a <- data_pos()[-b1,]
+      a$pesos <- a[,2]/sum(a[,2])
+      sum(a[,3])
+      
+    }else{
+      a <- data_pos()
+      a$pesos <- a[,2]/sum(a[,2])
+      sum(a[,3])
+      
+    }
+    
+   
   })
   
   
@@ -4036,8 +4099,7 @@ shinyServer(function(input, output) {
     p <- data_pos()
     p$pesos <- p[,2]/sum(p[,2])
     
-    
-    
+
     #cuando hay problemas con rend
     #titulos donde hay problema
     b <- which(a==1)
@@ -4059,7 +4121,7 @@ shinyServer(function(input, output) {
         esc1 <- esc[,ncol(esc)]
         esc1 <- esc1[order(esc1)]
         
-        VaRsh <- sum(data_pos()[,2])-esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        VaRsh <- sum(p[,2])-esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
         VaRsh
         }else{return()}
       
