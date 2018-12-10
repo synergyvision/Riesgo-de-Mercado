@@ -4148,6 +4148,258 @@ shinyServer(function(input, output) {
     
   })
   
+  #HISTOGRAMA VAR SIMULACION HISTORICA
+  output$grafico_hist_sh <- renderPlotly({ 
+    
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #calculo pesos
+    p <- data_pos()
+    p$pesos <- p[,2]/sum(p[,2])
+    
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      
+      #actualizo pesos
+      p <- p[-b,]
+      p[,3] <- p[,2]/sum(p[,2])
+      
+      esc <- cbind.data.frame(rend,'Escenarios'=rep(0,nrow(rend)))
+      if(sum(p[,3])==1){
+        #calculo escenarios
+        for(i in 1:nrow(rend)){
+          esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+        }
+        
+        #Ordeno data
+        esc1 <- esc[,ncol(esc)]
+        esc1 <- esc1[order(esc1)]
+        
+        vc <- esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        
+        p2 <- plot_ly(cbind.data.frame(seq(1,length(esc1)),esc1), x = ~esc1) %>% add_histogram(name="Histograma")  %>%
+          add_segments(x=vc, y=0, xend=vc, yend=10, line=list(color="red", width = 4),name="Valor Corte") %>%
+          layout(title = 'Histograma de Escenarios',
+                 xaxis = list(title=" "))
+        p2
+        
+      }else{return()}
+      
+    }else{
+      esc <- cbind.data.frame(rend,'Escenarios'=rep(0,nrow(rend)))
+      if(sum(p[,3])==1){
+        #calculo escenarios
+        for(i in 1:nrow(rend)){
+          esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+        }
+        #esc[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh)))),ncol(esc)]
+        esc1 <- esc[,ncol(esc)]
+        esc1 <- esc1[order(esc1)]
+        
+        vc <- esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        
+        p2 <- plot_ly(cbind.data.frame(seq(1,length(esc1)),esc1), x = ~esc1) %>% add_histogram(name="Histograma")  %>%
+          add_segments(x=vc, y=0, xend=vc, yend=10, line=list(color="red", width = 4),name="Valor Corte") %>%
+          layout(title = 'Histograma de Escenarios',
+                 xaxis = list(title=" "))
+        p2
+        
+      }else{return()}
+      
+    }
+    
+    
+  })
+  
+  
+  #GRAFICO COMPARACION VAR SH VS VAR NORMAL
+  output$grafico_var_comp <- renderPlotly({ 
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #calculo pesos
+    p <- data_pos()
+    p$pesos <- p[,2]/sum(p[,2])
+    
+    
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      
+      #creo estructura de tabla
+      tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 4))
+      names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
+      rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
+      
+      data1 <- as.data.frame(matrix(0,nrow = 1,ncol = ncol(rend)))
+      names(data1) <- names(data())[-c(1,(b+1))]
+      
+      
+      for(i in 1:ncol(data1)){
+        data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      }
+      
+      #relleno desviaciones estandar
+      tabla[,1] <- c(as.numeric(data1),NA)
+      
+      # #relleno valor nominal
+      tabla[,2] <- c(data_pos()[-b,2],sum(data_pos()[-b,2]))
+      
+      # #relleno Vares individuales
+      tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
+      tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+      
+      
+      #calculo matriz de correlaciones (diagonal de 1's)
+      S<- cor(rend)
+      
+      #CALCULO VAR NORMAL
+      var_ind <- tabla[1:(nrow(tabla)-1),3]
+      #var_ind%*%S
+      VaR_n <- sqrt(var_ind%*%S%*%as.matrix(var_ind))
+
+      
+      #CALCULO VAR SH
+      #actualizo pesos
+      p <- p[-b,]
+      p[,3] <- p[,2]/sum(p[,2])
+      
+      esc <- cbind.data.frame(rend,'Escenarios'=rep(0,nrow(rend)))
+      if(sum(p[,3])==1){
+        #calculo escenarios
+        for(i in 1:nrow(rend)){
+          esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+        }
+        
+        #Ordeno data
+        esc1 <- esc[,ncol(esc)]
+        esc1 <- esc1[order(esc1)]
+        
+        VaRsh <- sum(p[,2])-esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+  
+      }else{return()}#final if suma de pesos
+      
+      p1 <- plot_ly(marker = list(color = 'royalblue1',
+                                 line = list(color = 'rgb(8,48,107)',
+                                             width = 3))) %>%
+        add_bars(
+          x = c("Normal"),
+          y = VaR_n,
+          width = 0.3,
+          marker = list(
+            color = 'royalblue1'
+          ),
+          name = 'VaR Delta-Normal'
+        ) %>%
+        add_bars(
+          x = c("Simulación Histórica"),
+          y = VaRsh,
+          width = 0.3,
+          marker = list(
+            color = 'mediumseagreen'
+          ),
+          name = 'VaR Simulación Histórica'
+        )
+      
+      p1
+      
+      
+    }else{#final if problemas de rend
+    
+    #creo estructura de tabla
+    tabla <- as.data.frame(matrix(0,nrow = (ncol(data())),ncol = 3))
+    names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual")
+    rownames(tabla) <- c(names(data())[-1],"Totales")
+    
+    
+    data1 <- as.data.frame(matrix(0,nrow = 1,ncol = (ncol(data())-1)))
+    names(data1) <- names(data())[-1]
+    
+    
+    for(i in 1:ncol(data1)){
+      data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+    }
+    
+    #relleno desviaciones estandar
+    tabla[,1] <- c(as.numeric(data1),NA)
+    
+    # #relleno valor nominal
+    tabla[,2] <- c(data_pos()[,2],sum(data_pos()[,2]))
+    
+    # #relleno Vares individuales
+    tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
+    tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+    
+    #calculo matriz de correlaciones (diagonal de 1's)
+    S<- cor(rend)
+    
+    #CALCULO VAR NORMAL
+    var_ind <- tabla[1:(nrow(tabla)-1),3]
+    #var_ind%*%S
+    VaR_n <- sqrt(var_ind%*%S%*%as.matrix(var_ind))
+    
+    
+    #CALCULO VAR SH
+    esc <- cbind.data.frame(rend,'Escenarios'=rep(0,nrow(rend)))
+    if(sum(p[,3])==1){
+      #calculo escenarios
+      for(i in 1:nrow(rend)){
+        esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+      }
+      #esc[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh)))),ncol(esc)]
+      esc1 <- esc[,ncol(esc)]
+      esc1 <- esc1[order(esc1)]
+      
+      VaRsh <- sum(data_pos()[,2])-esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+      VaRsh        
+      
+    }else{return()}
+    
+    
+    
+    }
+    
+  })
+  
+  
   # Almacenar Variables Reactivas
   RV <- reactiveValues()
 

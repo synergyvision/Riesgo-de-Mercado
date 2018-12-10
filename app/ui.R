@@ -1249,15 +1249,14 @@ shinyUI(
                                                 tabBox( width = 12, title = "Simulación Histórica", id = "graficos_varsh", height = "50px", 
                                                         
                                                         tabPanel("Escenarios",
-                                                                 plotlyOutput("grafico_vind_sh")
-                                                        ),
-                                                        tabPanel("Comparativo",
-                                                                 plotlyOutput("grafico_vcomp_sh")
+                                                                 plotlyOutput("grafico_hist_sh")
                                                         )
+                                                      
                                                 )#final tabbox
                                                 
                                        ),
-                                       tabPanel("Comparativo"
+                                       tabPanel("Comparativo",
+                                                plotlyOutput("grafico_var_comp")
                                                
                                                 
                                        )

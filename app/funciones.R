@@ -3073,3 +3073,10 @@ comp <- function(veb,v1){
   
 }
 #########################################
+
+
+#Calculo moda de un vector
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
