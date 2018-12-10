@@ -1199,7 +1199,9 @@ shinyUI(
                                                 box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('porcentaje_varsh')),
                                                 h3(" Ubicación:"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('ubicacion_varsh')),
-                                                h3(" VaR:"),
+                                                h3(" VaRes Individuales:"),
+                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('varind_sh')),
+                                                h3(" VaR Portafolio:"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varsh'))
                                                 
                                                 
@@ -1250,12 +1252,18 @@ shinyUI(
                                                         
                                                         tabPanel("Escenarios",
                                                                  plotlyOutput("grafico_hist_sh")
+                                                        ),
+                                                        tabPanel("Vares individuales"
+                                                                 #plotlyOutput("grafico_vind_sh")
+                                                        ),
+                                                        tabPanel("Comparativo"
+                                                                 #plotlyOutput("grafico_hist_sh")
                                                         )
                                                       
                                                 )#final tabbox
                                                 
                                        ),
-                                       tabPanel("Comparativo",
+                                       tabPanel("Comparativo VaRes",
                                                 plotlyOutput("grafico_var_comp")
                                                
                                                 

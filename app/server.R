@@ -4400,6 +4400,127 @@ shinyServer(function(input, output) {
   })
   
   
+  #CALCULO VARES INDIVIDUALES SIMULACION HISTORICA
+  output$varind_sh <- renderDataTable({ 
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #leo posiciones
+    p <- data_pos()
+    #p$pesos <- p[,2]/sum(p[,2])
+    
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      
+      #actualizo posiciones
+      p <- p[-b,]
+      #p[,3] <- p[,2]/sum(p[,2])
+      
+      ma <- as.data.frame(matrix(0,nrow = nrow(rend),ncol = ncol(rend)))
+      names(ma) <- paste(names(rend),"esc",sep = "_")
+  
+ 
+        #calculo escenarios
+        for(i in 1:ncol(ma)){
+          ma[,i] <- (1+as.numeric(rend[,i]))*(p[i,2])
+        }
+      
+         #esc <- cbind.data.frame(rend,ma)
+     
+         #creo estructura para guardar Vares individuales
+         var_ind <- cbind.data.frame("Títulos"=c(as.character(p[,1]),"Totales"),"Valor Nominal"=c(p[,2],sum(p[,2])),"Vares individuales"=rep(0,1+nrow(p)))
+         
+         for(i in 1:ncol(rend)){
+           ma1 <- ma[order(ma[,i]),i]
+           var_ind[i,3] <- (p[i,2])-ma1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        
+         }
+         
+         var_ind[nrow(var_ind),3] <- sum(var_ind[1:(nrow(var_ind)-1),3])
+         var_ind
+        # #Ordeno data
+        # esc1 <- esc[,ncol(esc)]
+        # esc1 <- esc1[order(esc1)]
+        
+        #VaRsh <- sum(p[,2])-esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        #VaRsh
+        
+        
+        
+        
+      #}else{return()}
+      
+    }else{
+      ma <- as.data.frame(matrix(0,nrow = nrow(rend),ncol = ncol(rend)))
+      names(ma) <- paste(names(rend),"esc",sep = "_")
+      
+      
+      
+      #calculo escenarios
+      for(i in 1:ncol(ma)){
+        ma[,i] <- (1+as.numeric(rend[,i]))*(p[i,2])
+      }
+      
+      #esc <- cbind.data.frame(rend,ma)
+      
+      #creo estructura para guardar Vares individuales
+      var_ind <- cbind.data.frame("Títulos"=c(as.character(p[,1]),"Totales"),"Valor Nominal"=c(p[,2],sum(p[,2])),"Vares individuales"=rep(0,1+nrow(p)))
+      
+      for(i in 1:ncol(rend)){
+        ma1 <- ma[order(ma[,i]),i]
+        var_ind[i,3] <- (p[i,2])-ma1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        
+      }
+      
+      var_ind[nrow(var_ind),3] <- sum(var_ind[1:(nrow(var_ind)-1),3])
+      var_ind
+        #if(sum(p[,3])==1){
+        #calculo escenarios
+        # for(i in 1:nrow(rend)){
+        #   esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+        # }
+        # #esc[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh)))),ncol(esc)]
+        # esc1 <- esc[,ncol(esc)]
+        # esc1 <- esc1[order(esc1)]
+        # 
+        # VaRsh <- sum(data_pos()[,2])-esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        # VaRsh        
+        
+     # }else{return()}
+      
+    }
+    
+    
+    
+  })
+  
+  #GRAFICO VAR INDIVIDUALES SIMULACION HISTORICA 
+  output$grafico_vind_sh <- renderPlotly({ 
+    
+    
+    
+  })
+  
+  
   # Almacenar Variables Reactivas
   RV <- reactiveValues()
 
