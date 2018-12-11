@@ -1253,11 +1253,11 @@ shinyUI(
                                                         tabPanel("Escenarios",
                                                                  plotlyOutput("grafico_hist_sh")
                                                         ),
-                                                        tabPanel("Vares individuales"
-                                                                 #plotlyOutput("grafico_vind_sh")
+                                                        tabPanel("Vares individuales",
+                                                                 plotlyOutput("grafico_vind_sh")
                                                         ),
-                                                        tabPanel("Comparativo"
-                                                                 #plotlyOutput("grafico_hist_sh")
+                                                        tabPanel("Comparativo",
+                                                                 plotlyOutput("grafico_comp_sh")
                                                         )
                                                       
                                                 )#final tabbox

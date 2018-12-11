@@ -4389,9 +4389,33 @@ shinyServer(function(input, output) {
       esc1 <- esc1[order(esc1)]
       
       VaRsh <- sum(data_pos()[,2])-esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
-      VaRsh        
+              
       
     }else{return()}
+    
+    p1 <- plot_ly(marker = list(color = 'royalblue1',
+                                line = list(color = 'rgb(8,48,107)',
+                                            width = 3))) %>%
+      add_bars(
+        x = c("Normal"),
+        y = VaR_n,
+        width = 0.3,
+        marker = list(
+          color = 'royalblue1'
+        ),
+        name = 'VaR Delta-Normal'
+      ) %>%
+      add_bars(
+        x = c("Simulación Histórica"),
+        y = VaRsh,
+        width = 0.3,
+        marker = list(
+          color = 'mediumseagreen'
+        ),
+        name = 'VaR Simulación Histórica'
+      )
+    
+    p1
     
     
     
@@ -4515,8 +4539,285 @@ shinyServer(function(input, output) {
   
   #GRAFICO VAR INDIVIDUALES SIMULACION HISTORICA 
   output$grafico_vind_sh <- renderPlotly({ 
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #leo posiciones
+    p <- data_pos()
+    #p$pesos <- p[,2]/sum(p[,2])
     
     
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      
+      #actualizo posiciones
+      p <- p[-b,]
+      #p[,3] <- p[,2]/sum(p[,2])
+      
+      ma <- as.data.frame(matrix(0,nrow = nrow(rend),ncol = ncol(rend)))
+      names(ma) <- paste(names(rend),"esc",sep = "_")
+      
+      
+      #calculo escenarios
+      for(i in 1:ncol(ma)){
+        ma[,i] <- (1+as.numeric(rend[,i]))*(p[i,2])
+      }
+      
+      #esc <- cbind.data.frame(rend,ma)
+      
+      #creo estructura para guardar Vares individuales
+      var_ind <- cbind.data.frame("Títulos"=c(as.character(p[,1]),"Totales"),"Valor Nominal"=c(p[,2],sum(p[,2])),"Vares individuales"=rep(0,1+nrow(p)))
+      
+      for(i in 1:ncol(rend)){
+        ma1 <- ma[order(ma[,i]),i]
+        var_ind[i,3] <- (p[i,2])-ma1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        
+      }
+      
+      var_ind[nrow(var_ind),3] <- sum(var_ind[1:(nrow(var_ind)-1),3])
+      
+      #grafico
+      pie <- cbind.data.frame(var_ind[1:(nrow(var_ind)-1),1],var_ind[1:(nrow(var_ind)-1),3])
+      names(pie) <- c("Titulo","ind")
+      
+      p <- plot_ly(pie, labels = ~Titulo, values = ~ind, type = 'pie') %>%
+        layout(title = 'VaRes Individuales')
+      
+      
+      p
+      
+      
+      
+      
+      #}else{return()}
+      
+    }else{
+      ma <- as.data.frame(matrix(0,nrow = nrow(rend),ncol = ncol(rend)))
+      names(ma) <- paste(names(rend),"esc",sep = "_")
+      
+      
+      
+      #calculo escenarios
+      for(i in 1:ncol(ma)){
+        ma[,i] <- (1+as.numeric(rend[,i]))*(p[i,2])
+      }
+      
+      #esc <- cbind.data.frame(rend,ma)
+      
+      #creo estructura para guardar Vares individuales
+      var_ind <- cbind.data.frame("Títulos"=c(as.character(p[,1]),"Totales"),"Valor Nominal"=c(p[,2],sum(p[,2])),"Vares individuales"=rep(0,1+nrow(p)))
+      
+      for(i in 1:ncol(rend)){
+        ma1 <- ma[order(ma[,i]),i]
+        var_ind[i,3] <- (p[i,2])-ma1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        
+      }
+      
+      var_ind[nrow(var_ind),3] <- sum(var_ind[1:(nrow(var_ind)-1),3])
+      
+      #grafico
+      pie <- cbind.data.frame(var_ind[1:(nrow(var_ind)-1),1],var_ind[1:(nrow(var_ind)-1),3])
+      names(pie) <- c("Titulo","ind")
+      
+      p <- plot_ly(pie, labels = ~Titulo, values = ~ind, type = 'pie') %>%
+        layout(title = 'VaRes Individuales')
+      
+      p
+      
+      
+      
+    }
+    
+  })
+  
+  #GRAFICO COMPARATIVO SUMA VARES INDIVIDUALES VS VAR PORTAFOLIO SH
+  output$grafico_comp_sh <- renderPlotly({ 
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #leo posiciones
+    p <- data_pos()
+    p$pesos <- p[,2]/sum(p[,2])
+    
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      
+      #actualizo posiciones
+      p <- p[-b,]
+      p[,3] <- p[,2]/sum(p[,2])
+      
+      ma <- as.data.frame(matrix(0,nrow = nrow(rend),ncol = ncol(rend)))
+      names(ma) <- paste(names(rend),"esc",sep = "_")
+      
+      
+      #calculo escenarios
+      for(i in 1:ncol(ma)){
+        ma[,i] <- (1+as.numeric(rend[,i]))*(p[i,2])
+      }
+      
+      #esc <- cbind.data.frame(rend,ma)
+      
+      #creo estructura para guardar Vares individuales
+      var_ind <- cbind.data.frame("Títulos"=c(as.character(p[,1]),"Totales"),"Valor Nominal"=c(p[,2],sum(p[,2])),"Vares individuales"=rep(0,1+nrow(p)))
+      
+      for(i in 1:ncol(rend)){
+        ma1 <- ma[order(ma[,i]),i]
+        var_ind[i,3] <- (p[i,2])-ma1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        
+      }
+      
+      var_ind[nrow(var_ind),3] <- sum(var_ind[1:(nrow(var_ind)-1),3])
+      
+      #calculo VaR portafolio
+      esc <- cbind.data.frame(rend,'Escenarios'=rep(0,nrow(rend)))
+      if(sum(p[,3])==1){
+        #calculo escenarios
+        for(i in 1:nrow(rend)){
+          esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+        }
+        
+        #Ordeno data
+        esc1 <- esc[,ncol(esc)]
+        esc1 <- esc1[order(esc1)]
+        
+        VaRsh <- sum(p[,2])-esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        VaRsh
+      
+      #grafico
+      p <- plot_ly(marker = list(color = 'royalblue1',
+                                 line = list(color = 'rgb(8,48,107)',
+                                             width = 3))) %>%
+        add_bars(
+          x = c("Individual"),
+          y = var_ind[nrow(var_ind),3],
+          width = 0.3,
+          marker = list(
+            color = 'royalblue1'
+          ),
+          name = 'Suma VaRes individuales'
+        ) %>%
+        add_bars(
+          x = c("Portafolio"),
+          y = VaRsh,
+          width = 0.3,
+          marker = list(
+            color = 'mediumseagreen'
+          ),
+          name = 'VaR Portafolio'
+        )
+      
+      p
+      
+      
+      
+      
+      }else{return()}
+      
+    }else{
+      ma <- as.data.frame(matrix(0,nrow = nrow(rend),ncol = ncol(rend)))
+      names(ma) <- paste(names(rend),"esc",sep = "_")
+      
+      
+      
+      #calculo escenarios
+      for(i in 1:ncol(ma)){
+        ma[,i] <- (1+as.numeric(rend[,i]))*(p[i,2])
+      }
+      
+      #esc <- cbind.data.frame(rend,ma)
+      
+      #creo estructura para guardar Vares individuales
+      var_ind <- cbind.data.frame("Títulos"=c(as.character(p[,1]),"Totales"),"Valor Nominal"=c(p[,2],sum(p[,2])),"Vares individuales"=rep(0,1+nrow(p)))
+      
+      for(i in 1:ncol(rend)){
+        ma1 <- ma[order(ma[,i]),i]
+        var_ind[i,3] <- (p[i,2])-ma1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        
+      }
+      
+      var_ind[nrow(var_ind),3] <- sum(var_ind[1:(nrow(var_ind)-1),3])
+      
+      #calculo VaR portafolio
+      esc <- cbind.data.frame(rend,'Escenarios'=rep(0,nrow(rend)))
+      if(sum(p[,3])==1){
+        #calculo escenarios
+        for(i in 1:nrow(rend)){
+          esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+        }
+        
+        #Ordeno data
+        esc1 <- esc[,ncol(esc)]
+        esc1 <- esc1[order(esc1)]
+        
+        VaRsh <- sum(p[,2])-esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        VaRsh
+        
+        #grafico
+        p <- plot_ly(marker = list(color = 'royalblue1',
+                                   line = list(color = 'rgb(8,48,107)',
+                                               width = 3))) %>%
+          add_bars(
+            x = c("Individual"),
+            y = var_ind[nrow(var_ind),3],
+            width = 0.3,
+            marker = list(
+              color = 'royalblue1'
+            ),
+            name = 'Suma VaRes individuales'
+          ) %>%
+          add_bars(
+            x = c("Portafolio"),
+            y = VaRsh,
+            width = 0.3,
+            marker = list(
+              color = 'mediumseagreen'
+            ),
+            name = 'VaR Portafolio'
+          )
+        
+        p
+     
+      }else{return()}
+      
+      
+    }
     
   })
   
