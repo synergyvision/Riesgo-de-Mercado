@@ -1206,7 +1206,56 @@ shinyUI(
                                                 
                                                 
                                                 
+                                       ),
+                                       tabPanel("Simulación Monte Carlo",
+                                                fluidRow(tabBox( width = 12, title = "Monte Carlo", id = "var_mc", height = "50px", 
+                                                                 
+                                                                 tabPanel("Distribución Normal",
+                                                                       #fluidRow(      
+                                                                          h2(" VaR asumiendo distribución Normal"),    
+                                                                       h3(" Rendimientos:"),
+                                                                       box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('rend_varmc_n')),
+                                                                       h3(" Advertencias:"),
+                                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('advertencia_varmc_n')),
+                                                                       h3(" Parámetros seleccionados:"),
+                                                                       box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('parametros_varmc_n')),
+                                                                       h3(" Elegir porcentaje del VaR:"),
+                                                                       box( width = 12, background = "navy",
+                                                                            selectInput( inputId = "porVarmc_n", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
+                                                                       ),
+                                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('porcentaje_varmc_n')),
+                                                                       h3(" Vares individuales:"),
+                                                                       box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varmc_n')),
+                                                                       h3(" VaR portafolio:")
+                                                                       #box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_n'))
+                                                                       
+                                                                       
+                                                                       
+                                                                       
+                                                                       
+                                                                       
+                                                                 #)#final fluid row
+                                                                 ),#final tabpanel
+                                                                 tabPanel("Elegir Distribución",
+                                                                          h2(" Favor elegir la mejor distribución:")    
+                                                                          
+                                                                 ),#final tabpanel
+                                                                 tabPanel("Elección Automática",
+                                                                          h2(" Las mejores distribuciones ajustadas son:")    
+                                                                          
+                                                                 )#final tabpanel
+                                               
+                                                                
+                                                                  )#final tabbox
+                                                )#final fluidrow
+                                                
+                                                
+                                                
+                                                
+                                                
                                        )
+                                       
+                                       
                       )#final tabbox
                       )#final fluidrow
                       # h2(" Elegir porcentaje del VaR:"),

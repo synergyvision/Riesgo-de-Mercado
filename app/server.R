@@ -4821,6 +4821,351 @@ shinyServer(function(input, output) {
     
   })
   
+  ##################
+  ##VAR MONTECARLO##
+  ##################
+  #ASUMO NORMALIDAD
+  #RENDIMIENTOS
+  output$rend_varmc_n<-renderDataTable({
+    if(is.null(data())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    data1 <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(data1) <- names(data())[-1]
+    
+    
+    for(i in 1:(ncol(data())-1)){
+      data1[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #datatable(head(data1))
+    datatable(data1)
+  })
+  
+  #ADVERTENCIA
+  output$advertencia_varmc_n <-renderPrint({
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    if(sum(a)>=1){
+      print("Existen problemas con los rendimientos de los títulos")
+      print(names(rend)[which(a==1)])
+      print("los mismos se excluirán del estudio")
+    }else{
+      print("No hay problemas con los rendimientos")
+    }
+    
+  })
+  
+  #PARAMETROS SELECCIONADOS
+  output$parametros_varmc_n<-renderDataTable({
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo problemas con rend
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      #creo data frame para distribuciones
+      data1 <- as.data.frame(matrix(0,nrow = 2,ncol = ncol(rend) ))
+      names(data1) <- names(data())[-c(1,(b+1))]
+      rownames(data1) <- c("Media","Desviación estandar")
+      
+      for(i in 1:ncol(data1)){
+        data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[1]
+        data1[2,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+        
+      }
+      return(data1)
+      
+    }
+    
+    #creo data frame para distribuciones
+    data1 <- as.data.frame(matrix(0,nrow = 2,ncol = (ncol(data())-1)))
+    names(data1) <- names(data())[-1]
+    rownames(data1) <- c("Media","Desviación estandar")
+    
+    for(i in 1:ncol(data1)){
+      data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[1]
+      data1[2,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      
+    }
+    data1
+  })
+  
+  #% VAR
+  output$porcentaje_varmc_n <- renderPrint({
+    print(as.numeric(sub(",",".",input$porVarmc_n)))
+  })
+  
+  #CALCULO VARES INDIVIDUALES MC
+  output$tabla_varmc_n <-renderDataTable({
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #leo posiciones
+    p <- data_pos()
+    
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      
+      #actualizo posiciones
+      p <- p[-b,]
+      
+      #creo vector de vares individuales
+      var_n <- rep(0,ncol(rend))
+      
+      for(i in 1:ncol(rend)){
+        #Calculo numeros aleatorios
+      n_norm <- rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+      
+      #calculo incrementos 
+      pre_inc <- p[i,2]*n_norm
+      
+      #precio
+      pre <- p[i,2]-pre_inc
+      
+      #valor corte
+      #ordeno precios
+      pre1 <- pre[order(pre)]
+      vc <- pre1[length(n_norm)*5/100]
+      
+      #VaR
+      var_n[i] <- p[i,2]-vc
+      
+      }#final for vares individuales
+      
+      #creo estructura de tabla
+      tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 3))
+      names(tabla) <- c("Valor Nominal","VaR Individual","VaR Porcentaje")
+      rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
+      
+      #relleno valor nominal
+      tabla[,1] <- c(p[,2],sum(p[,2]))
+      
+      #relleno Vares individuales
+      tabla[,2] <- c(var_n,sum(var_n))
+      
+      #relleno VaR en porcentaje
+      tabla[,3] <- tabla[,2]*100/tabla[nrow(tabla),2]
+      tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+      
+      return(tabla)
+      
+    }
+    
+    #creo vector de vares individuales
+    var_n <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      #Calculo numeros aleatorios
+      n_norm <- rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+      
+      #calculo incrementos 
+      pre_inc <- p[i,2]*n_norm
+      
+      #precio
+      pre <- p[i,2]-pre_inc
+      
+      #valor corte
+      #ordeno precios
+      pre1 <- pre[order(pre)]
+      vc <- pre1[length(n_norm)*5/100]
+      
+      #VaR
+      var_n[i] <- p[i,2]-vc
+      
+    }#final for vares individuales
+    
+    #creo estructura de tabla
+    tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 3))
+    names(tabla) <- c("Valor Nominal","VaR Individual","VaR Porcentaje")
+    rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
+    
+    #relleno valor nominal
+    tabla[,1] <- c(p[,2],sum(p[,2]))
+    
+    
+    #relleno Vares individuales
+    tabla[,2] <- c(var_n,sum(var_n))
+    
+    #relleno VaR en porcentaje
+    tabla[,3] <- tabla[,2]*100/tabla[nrow(tabla),2]
+    tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+    
+    return(tabla)
+    
+  })
+  
+  #CALCULO VAR PORTAFOLIO MC
+  output$varmc_portafolio_n<-renderDataTable({
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #leo posiciones
+    p <- data_pos()
+    
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      
+      #actualizo posiciones
+      p <- p[-b,]
+      
+      #creo vector de vares individuales
+      var_n <- rep(0,ncol(rend))
+      
+      for(i in 1:ncol(rend)){
+        #Calculo numeros aleatorios
+        n_norm <- rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+        
+        #calculo incrementos 
+        pre_inc <- p[i,2]*n_norm
+        
+        #precio
+        pre <- p[i,2]-pre_inc
+        
+        #valor corte
+        #ordeno precios
+        pre1 <- pre[order(pre)]
+        vc <- pre1[length(n_norm)*5/100]
+        
+        #VaR
+        var_n[i] <- p[i,2]-vc
+        
+      }#final for vares individuales
+      
+      #creo estructura de tabla
+      tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 3))
+      names(tabla) <- c("Valor Nominal","VaR Individual","VaR Porcentaje")
+      rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
+      
+      #relleno valor nominal
+      tabla[,1] <- c(p[,2],sum(p[,2]))
+      
+      #relleno Vares individuales
+      tabla[,2] <- c(var_n,sum(var_n))
+      
+      #relleno VaR en porcentaje
+      tabla[,3] <- tabla[,2]*100/tabla[nrow(tabla),2]
+      tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+      
+      return(tabla)
+      
+    }
+    
+    #creo vector de vares individuales
+    var_n <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      #Calculo numeros aleatorios
+      n_norm <- rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+      
+      #calculo incrementos 
+      pre_inc <- p[i,2]*n_norm
+      
+      #precio
+      pre <- p[i,2]-pre_inc
+      
+      #valor corte
+      #ordeno precios
+      pre1 <- pre[order(pre)]
+      vc <- pre1[length(n_norm)*5/100]
+      
+      #VaR
+      var_n[i] <- p[i,2]-vc
+      
+    }#final for vares individuales
+    
+    #creo estructura de tabla
+    tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 3))
+    names(tabla) <- c("Valor Nominal","VaR Individual","VaR Porcentaje")
+    rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
+    
+    #relleno valor nominal
+    tabla[,1] <- c(p[,2],sum(p[,2]))
+    
+    
+    #relleno Vares individuales
+    tabla[,2] <- c(var_n,sum(var_n))
+    
+    #relleno VaR en porcentaje
+    tabla[,3] <- tabla[,2]*100/tabla[nrow(tabla),2]
+    tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+    
+    return(tabla)
+    
+  })
+  
+  #ELEGIR DISTRIBUCION
+  
+  #ELECCION AUTOMATICA
+  
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()
