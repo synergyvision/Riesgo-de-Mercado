@@ -1226,8 +1226,8 @@ shinyUI(
                                                                        box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('porcentaje_varmc_n')),
                                                                        h3(" Vares individuales:"),
                                                                        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varmc_n')),
-                                                                       h3(" VaR portafolio:")
-                                                                       #box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_n'))
+                                                                       h3(" VaR portafolio:"),
+                                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_n'))
                                                                        
                                                                        
                                                                        

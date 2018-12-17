@@ -4970,7 +4970,7 @@ shinyServer(function(input, output) {
       pre_inc <- p[i,2]*n_norm
       
       #precio
-      pre <- p[i,2]-pre_inc
+      pre <- p[i,2]+pre_inc
       
       #valor corte
       #ordeno precios
@@ -5012,7 +5012,7 @@ shinyServer(function(input, output) {
       pre_inc <- p[i,2]*n_norm
       
       #precio
-      pre <- p[i,2]-pre_inc
+      pre <- p[i,2]+pre_inc
       
       #valor corte
       #ordeno precios
@@ -5045,7 +5045,7 @@ shinyServer(function(input, output) {
   })
   
   #CALCULO VAR PORTAFOLIO MC
-  output$varmc_portafolio_n<-renderDataTable({
+  output$varmc_portafolio_n<-renderPrint({
     #calculo sd
     if(is.null(data())){return()}
     rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
@@ -5066,6 +5066,7 @@ shinyServer(function(input, output) {
     
     #leo posiciones
     p <- data_pos()
+    p$pesos <- p[,2]/sum(p[,2])
     
     
     #cuando hay problemas con rend
@@ -5076,29 +5077,60 @@ shinyServer(function(input, output) {
       
       #actualizo posiciones
       p <- p[-b,]
+      p[,3] <- p[,2]/sum(p[,2])
       
-      #creo vector de vares individuales
-      var_n <- rep(0,ncol(rend))
+      #creo matriz donde guardare simulaciones de cada instrumento
+      mat <- as.data.frame(matrix(0,nrow = 100000,ncol = (ncol(rend)+2)))
+      names(mat) <- c(names(rend),"incremento","escenario")
       
+      #relleno matriz de simulaciones
       for(i in 1:ncol(rend)){
-        #Calculo numeros aleatorios
-        n_norm <- rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
-        
-        #calculo incrementos 
-        pre_inc <- p[i,2]*n_norm
-        
-        #precio
-        pre <- p[i,2]-pre_inc
-        
-        #valor corte
-        #ordeno precios
-        pre1 <- pre[order(pre)]
-        vc <- pre1[length(n_norm)*5/100]
-        
-        #VaR
-        var_n[i] <- p[i,2]-vc
-        
-      }#final for vares individuales
+        mat[,i] <-  rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+      }
+      
+      #calculo columna "incremento precio"
+      for(i in 1:nrow(rend)){
+      mat$incremento[i] <- sum(p[,2])*(as.numeric(p[,3])*as.numeric(mat[i,]))
+      }
+      
+      #calculo columna "escenario"
+      for(i in 1:nrow(mat)){
+        mat$escenario[i] <- sum(p[,2])+mat$incremento[i]
+      }
+      
+      #ordeno columna "escenarios"
+      mat1 <- mat$escenario[order(mat$escenario)]
+      
+      #calculo valor de corte y VaR Monte Carlo
+      var_sm <- sum(p[,2])-as.numeric(mat1[length(mat1)*5/100])
+      
+      return(class(mat1[length(mat1)*5/100]))
+      #return(as.data.frame(mat1))
+      #return(mat1[length(mat1)*5/100])
+      #return(mat[1:100,])
+      
+      # #creo vector de vares individuales
+      # var_n <- rep(0,ncol(rend))
+      # 
+      # for(i in 1:ncol(rend)){
+      #   #Calculo numeros aleatorios
+      #   n_norm <- rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+      #   
+      #   #calculo incrementos 
+      #   pre_inc <- p[i,2]*n_norm
+      #   
+      #   #precio
+      #   pre <- p[i,2]-pre_inc
+      #   
+      #   #valor corte
+      #   #ordeno precios
+      #   pre1 <- pre[order(pre)]
+      #   vc <- pre1[length(n_norm)*5/100]
+      #   
+      #   #VaR
+      #   var_n[i] <- p[i,2]-vc
+      #   
+      # }#final for vares individuales
       
       #creo estructura de tabla
       tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 3))
@@ -5115,32 +5147,32 @@ shinyServer(function(input, output) {
       tabla[,3] <- tabla[,2]*100/tabla[nrow(tabla),2]
       tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
       
-      return(tabla)
+      #return(tabla)
       
     }
     
-    #creo vector de vares individuales
-    var_n <- rep(0,ncol(rend))
-    
-    for(i in 1:ncol(rend)){
-      #Calculo numeros aleatorios
-      n_norm <- rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
-      
-      #calculo incrementos 
-      pre_inc <- p[i,2]*n_norm
-      
-      #precio
-      pre <- p[i,2]-pre_inc
-      
-      #valor corte
-      #ordeno precios
-      pre1 <- pre[order(pre)]
-      vc <- pre1[length(n_norm)*5/100]
-      
-      #VaR
-      var_n[i] <- p[i,2]-vc
-      
-    }#final for vares individuales
+    # #creo vector de vares individuales
+    # var_n <- rep(0,ncol(rend))
+    # 
+    # for(i in 1:ncol(rend)){
+    #   #Calculo numeros aleatorios
+    #   n_norm <- rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+    #   
+    #   #calculo incrementos 
+    #   pre_inc <- p[i,2]*n_norm
+    #   
+    #   #precio
+    #   pre <- p[i,2]-pre_inc
+    #   
+    #   #valor corte
+    #   #ordeno precios
+    #   pre1 <- pre[order(pre)]
+    #   vc <- pre1[length(n_norm)*5/100]
+    #   
+    #   #VaR
+    #   var_n[i] <- p[i,2]-vc
+    #   
+    # }#final for vares individuales
     
     #creo estructura de tabla
     tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 3))
