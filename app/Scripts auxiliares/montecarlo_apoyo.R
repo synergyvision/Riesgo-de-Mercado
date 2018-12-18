@@ -194,6 +194,39 @@ f <- function(x)  exp(-0.5*x^2)/sqrt(2*pi)
   #comparacion normal vs logistica vs uniforme
   c(var_n,var_log,var_u)
     
+  #calculo VaR por simulacion PORTAFOLIO
+  #UNA VEZ OBTENIDOS LOS RENDIMIENTOS (VARIABLE REND_TIF)
+  
+  #CALCULO PESOS
+  a$pesos <- a[,2]/sum(a[,2])
+  
+  #creo matriz donde guardare simulaciones de cada instrumento
+  mat <- as.data.frame(matrix(0,nrow = 100000,ncol = (ncol(rend_tif)+2)))
+  names(mat) <- c(names(rend_tif),"incremento","escenario")
+  
+  #relleno matriz de simulaciones
+  for(i in 1:ncol(rend_tif)){
+    mat[,i] <-  rnorm(n = 100000,mean = as.numeric(fitdistr(rend_tif[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend_tif[,i],"normal")$estimate)[2])
+  }
+  
+  #calculo columna "incremento precio"
+  for(i in 1:nrow(mat)){
+    mat$incremento[i] <- sum(a[,2])*sum(as.numeric(a[,3])*as.numeric(mat[i,1:ncol(rend_tif)]))
+  }
+  
+  #calculo columna "escenario"
+  for(i in 1:nrow(mat)){
+    mat$escenario[i] <- sum(a[,2])+mat$incremento[i]
+  }
+  
+  #ordeno columna "escenarios"
+  mat1 <- mat$escenario
+  mat1 <- mat1[order(mat1)]
+  
+  #calculo valor de corte y VaR Monte Carlo
+  vc <- (mat1[length(mat1)*5/100])
+  var_sm <- sum(a[,2])-vc
+  (var_sm)
   
   
     

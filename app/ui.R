@@ -1279,36 +1279,44 @@ shinyUI(
                                        tabPanel("Valor Nominal",
                                                 
                                                 plotlyOutput("grafico_vnominal")
-                                                
-                                                        
-                                                       
+                                          
                                                         
                                        )
                                        ,
-                                       tabPanel("VaR Paramétrico",
-                                                tabBox( width = 12, title = "Delta-Normal", id = "graficos_varn", height = "50px", 
+                                       tabPanel("VaRes",
+                                                tabBox( width = 12, title = "", id = "graficos_vares_ind", height = "50px", 
                                                         
-                                                        tabPanel("VaR individuales",
-                                                                 plotlyOutput("grafico_vind")
+                                                        tabPanel("VaR Paramétrico",
+                                                                 tabBox( width = 12, title = "Delta-Normal", id = "graficos_varn", height = "50px", 
+                                                                         
+                                                                         tabPanel("VaR individuales",
+                                                                                  plotlyOutput("grafico_vind")
+                                                                         ),
+                                                                         tabPanel("Comparativo",
+                                                                                  plotlyOutput("grafico_vcomp")
+                                                                         )
+                                                                 )#final tabbox
+                                                                 
                                                         ),
-                                                        tabPanel("Comparativo",
-                                                                 plotlyOutput("grafico_vcomp")
+                                                        tabPanel("VaR Simulación Histórica",
+                                                                 tabBox( width = 12, title = "Simulación Histórica", id = "graficos_varsh", height = "50px", 
+                                                                         
+                                                                         tabPanel("Escenarios",
+                                                                                  plotlyOutput("grafico_hist_sh")
+                                                                         ),
+                                                                         tabPanel("Vares individuales",
+                                                                                  plotlyOutput("grafico_vind_sh")
+                                                                         ),
+                                                                         tabPanel("Comparativo",
+                                                                                  plotlyOutput("grafico_comp_sh")
+                                                                         )
+                                                                         
+                                                                 )#final tabbox
+                                                                
+                                                        ),
+                                                        tabPanel("VaR Simulación Monte Carlo"
+                                                                 
                                                         )
-                                                )#final tabbox
-                                       ),
-                                       tabPanel("VaR Simulación Histórica",
-                                                tabBox( width = 12, title = "Simulación Histórica", id = "graficos_varsh", height = "50px", 
-                                                        
-                                                        tabPanel("Escenarios",
-                                                                 plotlyOutput("grafico_hist_sh")
-                                                        ),
-                                                        tabPanel("Vares individuales",
-                                                                 plotlyOutput("grafico_vind_sh")
-                                                        ),
-                                                        tabPanel("Comparativo",
-                                                                 plotlyOutput("grafico_comp_sh")
-                                                        )
-                                                      
                                                 )#final tabbox
                                                 
                                        ),

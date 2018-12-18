@@ -3822,7 +3822,7 @@ shinyServer(function(input, output) {
     a <- data()
     b <- data_pos() 
     
-    if(names(a)[-1]==as.character(b[,1])){
+    if(sum(names(a)[-1]==as.character(b[,1]))==nrow(b)){
       print("Coincidencia en nombres")
     }else{
       print("Problemas coincidencias nombres, revisar data")
@@ -5089,8 +5089,8 @@ shinyServer(function(input, output) {
       }
       
       #calculo columna "incremento precio"
-      for(i in 1:nrow(rend)){
-      mat$incremento[i] <- sum(p[,2])*(as.numeric(p[,3])*as.numeric(mat[i,]))
+      for(i in 1:nrow(mat)){
+      mat$incremento[i] <- sum(p[,2])*sum(as.numeric(p[,3])*as.numeric(mat[i,1:ncol(rend)]))
       }
       
       #calculo columna "escenario"
@@ -5099,98 +5099,46 @@ shinyServer(function(input, output) {
       }
       
       #ordeno columna "escenarios"
-      mat1 <- mat$escenario[order(mat$escenario)]
+      mat1 <- mat$escenario
+      mat1 <- mat1[order(mat1)]
       
       #calculo valor de corte y VaR Monte Carlo
-      var_sm <- sum(p[,2])-as.numeric(mat1[length(mat1)*5/100])
+      vc <- (mat1[length(mat1)*5/100])
+      var_sm <- sum(p[,2])-vc
+      return(var_sm)
       
-      return(class(mat1[length(mat1)*5/100]))
-      #return(as.data.frame(mat1))
-      #return(mat1[length(mat1)*5/100])
-      #return(mat[1:100,])
       
-      # #creo vector de vares individuales
-      # var_n <- rep(0,ncol(rend))
-      # 
-      # for(i in 1:ncol(rend)){
-      #   #Calculo numeros aleatorios
-      #   n_norm <- rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
-      #   
-      #   #calculo incrementos 
-      #   pre_inc <- p[i,2]*n_norm
-      #   
-      #   #precio
-      #   pre <- p[i,2]-pre_inc
-      #   
-      #   #valor corte
-      #   #ordeno precios
-      #   pre1 <- pre[order(pre)]
-      #   vc <- pre1[length(n_norm)*5/100]
-      #   
-      #   #VaR
-      #   var_n[i] <- p[i,2]-vc
-      #   
-      # }#final for vares individuales
       
-      #creo estructura de tabla
-      tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 3))
-      names(tabla) <- c("Valor Nominal","VaR Individual","VaR Porcentaje")
-      rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
-      
-      #relleno valor nominal
-      tabla[,1] <- c(p[,2],sum(p[,2]))
-      
-      #relleno Vares individuales
-      tabla[,2] <- c(var_n,sum(var_n))
-      
-      #relleno VaR en porcentaje
-      tabla[,3] <- tabla[,2]*100/tabla[nrow(tabla),2]
-      tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
-      
-      #return(tabla)
-      
+    }#final if
+    
+    #creo matriz donde guardare simulaciones de cada instrumento
+    mat <- as.data.frame(matrix(0,nrow = 100000,ncol = (ncol(rend)+2)))
+    names(mat) <- c(names(rend),"incremento","escenario")
+    
+    #relleno matriz de simulaciones
+    for(i in 1:ncol(rend)){
+      mat[,i] <-  rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
     }
     
-    # #creo vector de vares individuales
-    # var_n <- rep(0,ncol(rend))
-    # 
-    # for(i in 1:ncol(rend)){
-    #   #Calculo numeros aleatorios
-    #   n_norm <- rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
-    #   
-    #   #calculo incrementos 
-    #   pre_inc <- p[i,2]*n_norm
-    #   
-    #   #precio
-    #   pre <- p[i,2]-pre_inc
-    #   
-    #   #valor corte
-    #   #ordeno precios
-    #   pre1 <- pre[order(pre)]
-    #   vc <- pre1[length(n_norm)*5/100]
-    #   
-    #   #VaR
-    #   var_n[i] <- p[i,2]-vc
-    #   
-    # }#final for vares individuales
+    #calculo columna "incremento precio"
+    for(i in 1:nrow(mat)){
+      mat$incremento[i] <- sum(p[,2])*sum(as.numeric(p[,3])*as.numeric(mat[i,1:ncol(rend)]))
+    }
     
-    #creo estructura de tabla
-    tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 3))
-    names(tabla) <- c("Valor Nominal","VaR Individual","VaR Porcentaje")
-    rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
+    #calculo columna "escenario"
+    for(i in 1:nrow(mat)){
+      mat$escenario[i] <- sum(p[,2])+mat$incremento[i]
+    }
     
-    #relleno valor nominal
-    tabla[,1] <- c(p[,2],sum(p[,2]))
+    #ordeno columna "escenarios"
+    mat1 <- mat$escenario
+    mat1 <- mat1[order(mat1)]
     
+    #calculo valor de corte y VaR Monte Carlo
+    vc <- (mat1[length(mat1)*5/100])
+    var_sm <- sum(p[,2])-vc
+    return(var_sm)
     
-    #relleno Vares individuales
-    tabla[,2] <- c(var_n,sum(var_n))
-    
-    #relleno VaR en porcentaje
-    tabla[,3] <- tabla[,2]*100/tabla[nrow(tabla),2]
-    tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
-    
-    return(tabla)
     
   })
   
