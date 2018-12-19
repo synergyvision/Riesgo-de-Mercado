@@ -1224,6 +1224,10 @@ shinyUI(
                                                                             selectInput( inputId = "porVarmc_n", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
                                                                        ),
                                                                        box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('porcentaje_varmc_n')),
+                                                                       h3(" Elegir cantidad de simulaciones:"),
+                                                                       box( width = 12, background = "navy",
+                                                                       numericInput( inputId = "sim_varmc_n", label="Simulaciones a realizar: ", min = 0, max = 100000,step = 1, value = 100, width = "40%")),
+                                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('simulaciones_varmc_n')),
                                                                        h3(" Vares individuales:"),
                                                                        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varmc_n')),
                                                                        h3(" VaR portafolio:"),
@@ -1239,11 +1243,11 @@ shinyUI(
                                                                  tabPanel("Elegir Distribución",
                                                                           h2(" Favor elegir la mejor distribución:")    
                                                                           
-                                                                 ),#final tabpanel
-                                                                 tabPanel("Elección Automática",
-                                                                          h2(" Las mejores distribuciones ajustadas son:")    
+                                                                 )#,#final tabpanel
+                                                                # tabPanel("Elección Automática",
+                                                                #          h2(" Las mejores distribuciones ajustadas son:")    
                                                                           
-                                                                 )#final tabpanel
+                                                                # )#final tabpanel
                                                
                                                                 
                                                                   )#final tabbox
@@ -1314,8 +1318,19 @@ shinyUI(
                                                                  )#final tabbox
                                                                 
                                                         ),
-                                                        tabPanel("VaR Simulación Monte Carlo"
-                                                                 
+                                                        tabPanel("VaR Simulación Monte Carlo",
+                                                                 tabBox( width = 12, title = "Monte Carlo", id = "graficos_varmc", height = "50px", 
+                                                                         
+                                                                 tabPanel("Escenarios"
+                                                                         # plotlyOutput("grafico_hist_sh")
+                                                                 ),
+                                                                 tabPanel("Vares individuales",
+                                                                       plotlyOutput("grafico_vind_mcn")
+                                                                 ),
+                                                                 tabPanel("Comparativo",
+                                                                       plotlyOutput("grafico_comp_mcn")
+                                                                 )
+                                                                 )#final tabbox
                                                         )
                                                 )#final tabbox
                                                 

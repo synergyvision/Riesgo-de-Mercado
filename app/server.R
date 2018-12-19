@@ -4234,6 +4234,9 @@ shinyServer(function(input, output) {
   
   #GRAFICO COMPARACION VAR SH VS VAR NORMAL
   output$grafico_var_comp <- renderPlotly({ 
+    #calculo Var Monte Carlo
+    varmc <- varmc_por_n()
+    
     #calculo sd
     if(is.null(data())){return()}
     rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
@@ -4317,6 +4320,8 @@ shinyServer(function(input, output) {
   
       }else{return()}#final if suma de pesos
       
+      
+      
       p1 <- plot_ly(marker = list(color = 'royalblue1',
                                  line = list(color = 'rgb(8,48,107)',
                                              width = 3))) %>%
@@ -4337,6 +4342,15 @@ shinyServer(function(input, output) {
             color = 'mediumseagreen'
           ),
           name = 'VaR Simulación Histórica'
+        ) %>%
+        add_bars(
+          x = c("Monte Carlo"),
+          y = varmc,
+          width = 0.3,
+          marker = list(
+            color = 'purple'
+          ),
+          name = 'VaR Simulación Monte Carlo'
         )
       
       p1
@@ -4413,6 +4427,15 @@ shinyServer(function(input, output) {
           color = 'mediumseagreen'
         ),
         name = 'VaR Simulación Histórica'
+      ) %>%
+      add_bars(
+        x = c("Monte Carlo"),
+        y = varmc,
+        width = 0.3,
+        marker = list(
+          color = 'purple'
+        ),
+        name = 'VaR Simulación Monte Carlo'
       )
     
     p1
@@ -4926,8 +4949,8 @@ shinyServer(function(input, output) {
     print(as.numeric(sub(",",".",input$porVarmc_n)))
   })
   
-  #CALCULO VARES INDIVIDUALES MC
-  output$tabla_varmc_n <-renderDataTable({
+  #CREO FUNCION REACTIVA QUE ME CALCULA EL VAR DE PORTAFOLIO MONTE CARLO
+  varmc_ind_n <- reactive({
     #calculo sd
     if(is.null(data())){return()}
     rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
@@ -4964,22 +4987,22 @@ shinyServer(function(input, output) {
       
       for(i in 1:ncol(rend)){
         #Calculo numeros aleatorios
-      n_norm <- rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
-      
-      #calculo incrementos 
-      pre_inc <- p[i,2]*n_norm
-      
-      #precio
-      pre <- p[i,2]+pre_inc
-      
-      #valor corte
-      #ordeno precios
-      pre1 <- pre[order(pre)]
-      vc <- pre1[length(n_norm)*5/100]
-      
-      #VaR
-      var_n[i] <- p[i,2]-vc
-      
+        n_norm <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+        
+        #calculo incrementos 
+        pre_inc <- p[i,2]*n_norm
+        
+        #precio
+        pre <- p[i,2]+pre_inc
+        
+        #valor corte
+        #ordeno precios
+        pre1 <- pre[order(pre)]
+        vc <- pre1[length(n_norm)*(1-as.numeric(sub(",",".",input$porVarmc_n)))]
+        
+        #VaR
+        var_n[i] <- p[i,2]-vc
+        
       }#final for vares individuales
       
       #creo estructura de tabla
@@ -5006,7 +5029,7 @@ shinyServer(function(input, output) {
     
     for(i in 1:ncol(rend)){
       #Calculo numeros aleatorios
-      n_norm <- rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+      n_norm <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
       
       #calculo incrementos 
       pre_inc <- p[i,2]*n_norm
@@ -5017,7 +5040,9 @@ shinyServer(function(input, output) {
       #valor corte
       #ordeno precios
       pre1 <- pre[order(pre)]
-      vc <- pre1[length(n_norm)*5/100]
+      #vc <- pre1[length(n_norm)*5/100]
+      vc <- pre1[length(n_norm)*(1-as.numeric(sub(",",".",input$porVarmc_n)))]
+      
       
       #VaR
       var_n[i] <- p[i,2]-vc
@@ -5044,8 +5069,14 @@ shinyServer(function(input, output) {
     
   })
   
-  #CALCULO VAR PORTAFOLIO MC
-  output$varmc_portafolio_n<-renderPrint({
+  
+  #CALCULO VARES INDIVIDUALES MC
+  output$tabla_varmc_n <-renderDataTable({
+    varmc_ind_n()
+  })
+  
+  #CREO FUNCION REACTIVA QUE ME CALCULA EL VAR DE PORTAFOLIO MONTE CARLO
+  varmc_por_n <- reactive({
     #calculo sd
     if(is.null(data())){return()}
     rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
@@ -5080,30 +5111,38 @@ shinyServer(function(input, output) {
       p[,3] <- p[,2]/sum(p[,2])
       
       #creo matriz donde guardare simulaciones de cada instrumento
-      mat <- as.data.frame(matrix(0,nrow = 100000,ncol = (ncol(rend)+2)))
+      mat <- as.data.frame(matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend)+2)))
       names(mat) <- c(names(rend),"incremento","escenario")
       
       #relleno matriz de simulaciones
+      withProgress(message = 'Calculando números aleatorios', value = 0, {
+        incProgress(1/3, detail = "Realizando iteraciones")
       for(i in 1:ncol(rend)){
-        mat[,i] <-  rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+        mat[,i] <-  rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
       }
+      })
       
       #calculo columna "incremento precio"
+      withProgress(message = 'Calculando variaciones de precio', value = 0, {
+        incProgress(1/2, detail = "Realizando iteraciones")
       for(i in 1:nrow(mat)){
-      mat$incremento[i] <- sum(p[,2])*sum(as.numeric(p[,3])*as.numeric(mat[i,1:ncol(rend)]))
+        mat$incremento[i] <- sum(p[,2])*sum(as.numeric(p[,3])*as.numeric(mat[i,1:ncol(rend)]))
       }
-      
+      })
       #calculo columna "escenario"
+      withProgress(message = 'Calculando simulaciones', value = 0, {
+        incProgress(2/3, detail = "Realizando iteraciones")
       for(i in 1:nrow(mat)){
         mat$escenario[i] <- sum(p[,2])+mat$incremento[i]
       }
-      
+      })
       #ordeno columna "escenarios"
       mat1 <- mat$escenario
       mat1 <- mat1[order(mat1)]
       
       #calculo valor de corte y VaR Monte Carlo
-      vc <- (mat1[length(mat1)*5/100])
+      #vc <- (mat1[length(mat1)*5/100])
+      vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_n)))])
       var_sm <- sum(p[,2])-vc
       return(var_sm)
       
@@ -5112,12 +5151,12 @@ shinyServer(function(input, output) {
     }#final if
     
     #creo matriz donde guardare simulaciones de cada instrumento
-    mat <- as.data.frame(matrix(0,nrow = 100000,ncol = (ncol(rend)+2)))
+    mat <- as.data.frame(matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend)+2)))
     names(mat) <- c(names(rend),"incremento","escenario")
     
     #relleno matriz de simulaciones
     for(i in 1:ncol(rend)){
-      mat[,i] <-  rnorm(n = 100000,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+      mat[,i] <-  rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
     }
     
     #calculo columna "incremento precio"
@@ -5135,16 +5174,77 @@ shinyServer(function(input, output) {
     mat1 <- mat1[order(mat1)]
     
     #calculo valor de corte y VaR Monte Carlo
-    vc <- (mat1[length(mat1)*5/100])
+    #vc <- (mat1[length(mat1)*5/100])
+    vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_n)))])
     var_sm <- sum(p[,2])-vc
     return(var_sm)
     
     
   })
   
+  #CALCULO VAR PORTAFOLIO MC
+  output$varmc_portafolio_n<-renderPrint({
+    varmc_por_n()
+  })
+  
+  
+  #ELEGIR CANTIDAD DE SIMULACIONES
+  output$simulaciones_varmc_n <- renderPrint({
+    input$sim_varmc_n
+  })
+  
   #ELEGIR DISTRIBUCION
   
-  #ELECCION AUTOMATICA
+  #GRAFICO VARES INDIVIDUALES SIMULACION MONTE CARLO
+  output$grafico_vind_mcn <- renderPlotly({ 
+    #obtengo tabla con vares individuales
+    tabla <- varmc_ind_n()
+
+      #grafico
+      pie <- cbind.data.frame(rownames(tabla)[-nrow(tabla)],tabla[1:(nrow(tabla)-1),2])
+      names(pie) <- c("Titulo","ind")
+      
+      p <- plot_ly(pie, labels = ~Titulo, values = ~ind, type = 'pie') %>%
+        layout(title = 'VaRes Individuales')
+
+      p
+  })
+  
+  #GRAFICO COMPARATIVO VARES INDIVIDUALES VS VAR PORTAFOLIO SIMULACION MONTE CARLO
+  output$grafico_comp_mcn <- renderPlotly({ 
+    #obtengo vares individuales 
+     varind <- varmc_ind_n()
+     
+     #obtengo var portafolio
+     varpor <- varmc_por_n()
+    
+    
+        #grafico
+        p <- plot_ly(marker = list(color = 'royalblue1',
+                                   line = list(color = 'rgb(8,48,107)',
+                                               width = 3))) %>%
+          add_bars(
+            x = c("Individual"),
+            y = varind[nrow(varind),2],
+            width = 0.3,
+            marker = list(
+              color = 'royalblue1'
+            ),
+            name = 'Suma VaRes individuales'
+          ) %>%
+          add_bars(
+            x = c("Portafolio"),
+            y = varpor,
+            width = 0.3,
+            marker = list(
+              color = 'mediumseagreen'
+            ),
+            name = 'VaR Portafolio'
+          )
+        
+        p
+   
+  })
   
   
   # Almacenar Variables Reactivas
