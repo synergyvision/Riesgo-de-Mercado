@@ -5322,18 +5322,12 @@ shinyServer(function(input, output) {
   })
   
   #TABLA DISTRIBUCIONES ELEGIR DISTRIBUCION VAR MC
-  output$tabla_varmc_el <- renderDataTable({
+  output$dist_varmc_el <- renderDataTable({
     #leo el historico actualizado
-    #a <- read.delim2(inFile$datapath, header = input$header,
-    #                 sep = input$sep, quote = input$quote)
-    hist <- read.delim2(paste(getwd(),"data","distribuciones.txt",sep = "/"),header = TRUE,
-                        sep=" ")
-    hist
-     #if(is.null(data_pos())){return()}
-    
+   # hist <- read.csv(paste(getwd(),"data","distribuciones.txt",sep = "/"),sep="")
+   #  hist 
+    distribuciones()
   })
-  
-  
   
   
   # % VAR ELEGIR DISTRIBUCION VAR MC
@@ -5347,8 +5341,10 @@ shinyServer(function(input, output) {
   })
   
   #VARES INDIVIDUALES ELEGIR DISTRIBUCION VAR MC
+  #tabla_varmc_el
   
   #VAR PORTAFOLIO ELEGIR DISTRIBUCION VAR MC
+  #varmc_portafolio_el
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()

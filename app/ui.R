@@ -1247,7 +1247,7 @@ shinyUI(
                                                                            h3(" Advertencias:"),
                                                                            box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('advertencia_varmc_el')),
                                                                            h3(" Mejores distribuciones elegidas:"),
-                                                                           #box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varmc_el')),
+                                                                           box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('dist_varmc_el')),
                                                                            h3(" Elegir porcentaje del VaR:"),
                                                                            box( width = 12, background = "navy",
                                                                                selectInput( inputId = "porVarmc_el", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
