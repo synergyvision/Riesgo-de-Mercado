@@ -4198,7 +4198,7 @@ shinyServer(function(input, output) {
         vc <- esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
         
         p2 <- plot_ly(cbind.data.frame(seq(1,length(esc1)),esc1), x = ~esc1) %>% add_histogram(name="Histograma")  %>%
-          add_segments(x=vc, y=0, xend=vc, yend=10, line=list(color="red", width = 4),name="Valor Corte") %>%
+          add_segments(x=vc, y=0, xend=vc, yend=mean(hist(esc1)$counts), line=list(color="red", width = 4),name="Valor Corte") %>%
           layout(title = 'Histograma de Escenarios',
                  xaxis = list(title=" "))
         p2
@@ -4219,7 +4219,7 @@ shinyServer(function(input, output) {
         vc <- esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
         
         p2 <- plot_ly(cbind.data.frame(seq(1,length(esc1)),esc1), x = ~esc1) %>% add_histogram(name="Histograma")  %>%
-          add_segments(x=vc, y=0, xend=vc, yend=10, line=list(color="red", width = 4),name="Valor Corte") %>%
+          add_segments(x=vc, y=0, xend=vc, yend=mean(hist(esc1)$counts), line=list(color="red", width = 4),name="Valor Corte") %>%
           layout(title = 'Histograma de Escenarios',
                  xaxis = list(title=" "))
         p2
@@ -4232,10 +4232,10 @@ shinyServer(function(input, output) {
   })
   
   
-  #GRAFICO COMPARACION VAR SH VS VAR NORMAL
+  #GRAFICO COMPARACION VAR SH VS VAR NORMAL VS MONTE CARLO
   output$grafico_var_comp <- renderPlotly({ 
     #calculo Var Monte Carlo
-    varmc <- varmc_por_n()
+    varmc <- varmc_por_n()[[1]]
     
     #calculo sd
     if(is.null(data())){return()}
@@ -5144,7 +5144,10 @@ shinyServer(function(input, output) {
       #vc <- (mat1[length(mat1)*5/100])
       vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_n)))])
       var_sm <- sum(p[,2])-vc
-      return(var_sm)
+      
+      lista <- list(var_sm,mat1,vc)
+      
+      return(lista)
       
       
       
@@ -5177,14 +5180,16 @@ shinyServer(function(input, output) {
     #vc <- (mat1[length(mat1)*5/100])
     vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_n)))])
     var_sm <- sum(p[,2])-vc
-    return(var_sm)
+    #return(var_sm)
+    lista <- list(var_sm,mat1,vc)
     
+    return(lista)
     
   })
   
   #CALCULO VAR PORTAFOLIO MC
   output$varmc_portafolio_n<-renderPrint({
-    varmc_por_n()
+    varmc_por_n()[[1]]
   })
   
   
@@ -5193,7 +5198,7 @@ shinyServer(function(input, output) {
     input$sim_varmc_n
   })
   
-  #ELEGIR DISTRIBUCION
+ 
   
   #GRAFICO VARES INDIVIDUALES SIMULACION MONTE CARLO
   output$grafico_vind_mcn <- renderPlotly({ 
@@ -5216,7 +5221,7 @@ shinyServer(function(input, output) {
      varind <- varmc_ind_n()
      
      #obtengo var portafolio
-     varpor <- varmc_por_n()
+     varpor <- varmc_por_n()[[1]]
     
     
         #grafico
@@ -5246,6 +5251,104 @@ shinyServer(function(input, output) {
    
   })
   
+  #GRAFICO HISTOGRAMA DE ESCENARIOS VAR SMC
+  output$grafico_hist_smcn <- renderPlotly({ 
+
+    #obtengo data escenarios
+    mat1 <- varmc_por_n()[[2]]
+    
+    #calculo valor de corte y VaR Monte Carlo
+    #vc <- (mat1[length(mat1)*5/100])
+    vc <- varmc_por_n()[[3]]
+    #var_sm <- sum(p[,2])-vc
+    #return(var_sm)
+    
+        
+    p2 <- plot_ly(cbind.data.frame(seq(1,length(mat1)),mat1), x = ~mat1) %>% add_histogram(name="Histograma")  %>%
+      add_segments(x=vc, y=0, xend=vc, yend=mean(hist(mat1)$counts), line=list(color="red", width = 4),name="Valor Corte") %>%
+      layout(title = 'Histograma de Escenarios',
+             xaxis = list(title=" "))
+    
+    p2
+    
+    
+  })
+  
+   #ELEGIR DISTRIBUCION
+  #RENDIMIENTOS ELEGIR DISTRIBUCION VAR MC
+  output$rend_varmc_el<-renderDataTable({
+    if(is.null(data())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    data1 <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(data1) <- names(data())[-1]
+    
+    
+    for(i in 1:(ncol(data())-1)){
+      data1[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #datatable(head(data1))
+    datatable(data1)
+  })
+  
+  
+  #ADVERTENCIAS ELEGIR DISTRIBUCION VAR MC
+  output$advertencia_varmc_el <-renderPrint({
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    if(sum(a)>=1){
+      print("Existen problemas con los rendimientos de los títulos")
+      print(names(rend)[which(a==1)])
+      print("los mismos se excluirán del estudio")
+    }else{
+      print("No hay problemas con los rendimientos")
+    }
+    
+  })
+  
+  #TABLA DISTRIBUCIONES ELEGIR DISTRIBUCION VAR MC
+  output$tabla_varmc_el <- renderDataTable({
+    #leo el historico actualizado
+    #a <- read.delim2(inFile$datapath, header = input$header,
+    #                 sep = input$sep, quote = input$quote)
+    hist <- read.delim2(paste(getwd(),"data","distribuciones.txt",sep = "/"),header = TRUE,
+                        sep=" ")
+    hist
+     #if(is.null(data_pos())){return()}
+    
+  })
+  
+  
+  
+  
+  # % VAR ELEGIR DISTRIBUCION VAR MC
+  output$porcentaje_varmc_el <- renderPrint({
+    print(as.numeric(sub(",",".",input$porVarmc_el)))
+  })
+  
+  #NUMERO DE SIMULACIONES ELEGIR DISTRIBUCION VAR MC
+  output$simulaciones_varmc_el <- renderPrint({
+    input$sim_varmc_el
+  })
+  
+  #VARES INDIVIDUALES ELEGIR DISTRIBUCION VAR MC
+  
+  #VAR PORTAFOLIO ELEGIR DISTRIBUCION VAR MC
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()

@@ -1241,7 +1241,27 @@ shinyUI(
                                                                  #)#final fluid row
                                                                  ),#final tabpanel
                                                                  tabPanel("Elegir Distribución",
-                                                                          h2(" Favor elegir la mejor distribución:")    
+                                                                           h2(" VaR mejor distribución selecionada"),    
+                                                                           h3(" Rendimientos:"),
+                                                                           box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('rend_varmc_el')),
+                                                                           h3(" Advertencias:"),
+                                                                           box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('advertencia_varmc_el')),
+                                                                           h3(" Mejores distribuciones elegidas:"),
+                                                                           #box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varmc_el')),
+                                                                           h3(" Elegir porcentaje del VaR:"),
+                                                                           box( width = 12, background = "navy",
+                                                                               selectInput( inputId = "porVarmc_el", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
+                                                                           ),
+                                                                           box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('porcentaje_varmc_el')),
+                                                                           h3(" Elegir cantidad de simulaciones:"),
+                                                                           box( width = 12, background = "navy",
+                                                                               numericInput( inputId = "sim_varmc_el", label="Simulaciones a realizar: ", min = 0, max = 100000,step = 1, value = 100, width = "40%")),
+                                                                           box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('simulaciones_varmc_el')),
+                                                                           h3(" Vares individuales:"),
+                                                                           box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varmc_el')),
+                                                                           h3(" VaR portafolio:"),
+                                                                           box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_el'))
+
                                                                           
                                                                  )#,#final tabpanel
                                                                 # tabPanel("Elección Automática",
@@ -1321,8 +1341,8 @@ shinyUI(
                                                         tabPanel("VaR Simulación Monte Carlo",
                                                                  tabBox( width = 12, title = "Monte Carlo", id = "graficos_varmc", height = "50px", 
                                                                          
-                                                                 tabPanel("Escenarios"
-                                                                         # plotlyOutput("grafico_hist_sh")
+                                                                 tabPanel("Escenarios",
+                                                                        plotlyOutput("grafico_hist_smcn")
                                                                  ),
                                                                  tabPanel("Vares individuales",
                                                                        plotlyOutput("grafico_vind_mcn")
