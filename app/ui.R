@@ -1108,6 +1108,8 @@ shinyUI(
                                fluidRow(tabBox( width = 12, title = "Distribuciones", id = "eleccion_dist", height = "50px", 
                                                 
                                                 tabPanel("Eleccíon individual",
+                                                         h2(" Advertencias:"),
+                                                         box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('advertencia_dist_varp_el')),
                                                          h2(" Por favor seleccione un instrumento:"),
                                                          htmlOutput("instrumento_varp"),
                                                          h3(" Elección:"),
@@ -1258,7 +1260,7 @@ shinyUI(
                                                                                numericInput( inputId = "sim_varmc_el", label="Simulaciones a realizar: ", min = 0, max = 100000,step = 1, value = 100, width = "40%")),
                                                                            box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('simulaciones_varmc_el')),
                                                                            h3(" Vares individuales:"),
-                                                                           box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varmc_el')),
+                                                                           box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('tabla_varmc_el')),
                                                                            h3(" VaR portafolio:"),
                                                                            box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_el'))
 

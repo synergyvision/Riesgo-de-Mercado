@@ -2871,10 +2871,76 @@ shinyServer(function(input, output) {
   #eleccion
   output$elec <- renderPrint({input$inst})
   
-  #VaR portafolio - eleccion distribucion
-  output$instrumento_varp <- renderUI({ 
-    selectInput("inst_varp", "Seleccionar títulos",choices =  names(data())[-1] )
+  #advertencia titulos con problemas
+  output$advertencia_dist_varp_el <- renderPrint({
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    if(sum(a)>=1){
+      print("Existen problemas con los rendimientos de los títulos")
+      print(names(rend)[which(a==1)])
+      print("los mismos se excluirán del estudio")
+    }else{
+      print("No hay problemas con los rendimientos")
+    }
+    
   })
+  
+  
+  #VaR portafolio - eleccion distribucion
+  #creo variable auxiliar
+  opcion <- reactive({
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #titulos donde hay problema
+    b <- which(a==1)
+    
+    if(sum(a)>=1){
+      # print("Existen problemas con los rendimientos de los títulos")
+      # print(names(rend)[which(a==1)])
+      # print("los mismos se excluirán del estudio")
+        rend <- rend[,-b]
+      return(names(rend))
+    }else{
+      #print("No hay problemas con los rendimientos")
+      return(names(rend))
+    }
+    
+  })
+  
+  output$instrumento_varp <- renderUI({ 
+    #selectInput("inst_varp", "Seleccionar títulos",choices =  names(data())[-1] )
+    selectInput("inst_varp", "Seleccionar títulos",choices =  opcion() )
+    })
   
   #eleccion
   output$elec_varp <- renderPrint({input$inst_varp})
@@ -3132,9 +3198,10 @@ shinyServer(function(input, output) {
   }
   
   distribuciones <- reactive({
-
-    a <- as.data.frame(matrix(NA,nrow = 1,ncol = (ncol(data())-1)))
-    names(a) <- names(data())[-1]
+    #a <- as.data.frame(matrix(NA,nrow = 1,ncol = (ncol(data())-1)))
+    a <- as.data.frame(matrix("NA",nrow = 1,ncol = length(opcion())))
+    
+    names(a) <- opcion()
     rownames(a) <- "Distribuciones"
     a <- varp_dist(data = a ,ind =input$inst_varp  ,dist =input$distsA_varp )
     #write.table(a,paste(getwd(),"data","distribuciones.txt",sep = "/"),row.names = FALSE)
@@ -4949,7 +5016,7 @@ shinyServer(function(input, output) {
     print(as.numeric(sub(",",".",input$porVarmc_n)))
   })
   
-  #CREO FUNCION REACTIVA QUE ME CALCULA EL VAR DE PORTAFOLIO MONTE CARLO
+  #CREO FUNCION REACTIVA QUE ME CALCULA EL VAR INDIVIDUAL MONTE CARLO
   varmc_ind_n <- reactive({
     #calculo sd
     if(is.null(data())){return()}
@@ -5341,10 +5408,207 @@ shinyServer(function(input, output) {
   })
   
   #VARES INDIVIDUALES ELEGIR DISTRIBUCION VAR MC
-  #tabla_varmc_el
+  varmc_ind_el <- reactive({
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #leo posiciones
+    p <- data_pos()
+    
+    #leo tabla de distribuciones
+    dist <- distribuciones()
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      
+      #actualizo posiciones
+      p <- p[-b,]
+      
+      #creo vector de vares individuales
+      var_n <- rep(0,ncol(rend))
+      
+      #return(as.character(dist[,2])=="Normal")
+      
+      
+      for(i in 1:ncol(rend)){
+        #Calculo numeros aleatorios
+        #n_norm <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+        if(as.character(dist[,i])=="Normal"){
+          n_rand <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+        }else if(as.character(dist[,i])=="Exponential"){
+          n_rand <- rexp(n = input$sim_varmc_n,rate = as.numeric(fitdistr(rend[,i],"exponential")$estimate))
+        }else if(as.character(dist[,i])=="Cauchy"){
+          n_rand <- rcauchy(n = input$sim_varmc_n,location = as.numeric(fitdistr(rend[,i],"cauchy")$estimate)[1],scale =as.numeric(fitdistr(rend[,i],"cauchy")$estimate)[2])
+        }else if(as.character(dist[,i])=="Logistic"){
+          n_rand <- rlogis(n = input$sim_varmc_n,location = as.numeric(fitdistr(rend[,i],"logistic")$estimate)[1],scale =as.numeric(fitdistr(rend[,i],"logistic")$estimate)[2])
+        }else if(as.character(dist[,i])=="Beta"){
+          #
+        }else if(as.character(dist[,i])=="Chi-square"){
+          #
+        }else if(as.character(dist[,i])=="Uniform"){
+          #
+        }else if(as.character(dist[,i])=="Gamma"){
+          n_rand <- rgamma(n = input$sim_varmc_n,shape = as.numeric(fitdistr(rend[,i],"Gamma")$estimate)[1],rate = as.numeric(fitdistr(rend[,i],"Gamma")$estimate)[2])
+        }else if(as.character(dist[,i])=="Lognormal"){
+          n_rand <- rlnorm(n = input$sim_varmc_n,meanlog = as.numeric(fitdistr(rend[,i],"Lognormal")$estimate)[1],sdlog = as.numeric(fitdistr(rend[,i],"Lognormal")$estimate)[2])
+        }else if(as.character(dist[,i])=="Weibull"){
+          n_rand <- rweibull(n = input$sim_varmc_n,shape = as.numeric(fitdistr(rend[,i],"Weibull")$estimate)[1],scale = as.numeric(fitdistr(rend[,i],"Weibull")$estimate)[2])
+        }else if(as.character(dist[,i])=="F"){
+          #
+        }else if(as.character(dist[,i])=="Student"){
+          #
+        }else if(as.character(dist[,i])=="Gompertz"){
+          #
+        }else{
+          n_rand <- 0
+        }
+        
+        
+        #calculo incrementos 
+        pre_inc <- p[i,2]*n_rand
+        
+        #precio
+        pre <- p[i,2]+pre_inc
+        
+        #valor corte
+        #ordeno precios
+        pre1 <- pre[order(pre)]
+        #vc <- pre1[length(n_norm)*5/100]
+        vc <- pre1[input$sim_varmc_n*(1-as.numeric(sub(",",".",input$porVarmc_n)))]
+        
+        
+        #VaR
+        var_n[i] <- p[i,2]-vc
+        
+      }#final for vares individuales
+      
+      #creo estructura de tabla
+      tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 3))
+      names(tabla) <- c("Valor Nominal","VaR Individual","VaR Porcentaje")
+      rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
+      
+      #relleno valor nominal
+      tabla[,1] <- c(p[,2],sum(p[,2]))
+      
+      
+      #relleno Vares individuales
+      tabla[,2] <- c(var_n,sum(var_n))
+      
+      #relleno VaR en porcentaje
+      tabla[,3] <- tabla[,2]*100/tabla[nrow(tabla),2]
+      tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+      
+      return(tabla)
+      
+      
+    }
+    
+    #creo vector de vares individuales
+    var_n <- rep(0,ncol(rend))
+    
+    #leo tabla de distribuciones
+    #dist <- distribuciones()
+    
+    #return(as.character(dist[,2])=="Normal")
+    
+    for(i in 1:ncol(rend)){
+      #Calculo numeros aleatorios
+      #n_norm <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+      if(as.character(dist[,i])=="Normal"){
+        n_rand <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+      }else if(as.character(dist[,i])=="Exponential"){
+        n_rand <- rexp(n = input$sim_varmc_n,rate = as.numeric(fitdistr(rend[,i],"exponential")$estimate))
+      }else if(as.character(dist[,i])=="Cauchy"){
+        n_rand <- rcauchy(n = input$sim_varmc_n,location = as.numeric(fitdistr(rend[,i],"cauchy")$estimate)[1],scale =as.numeric(fitdistr(rend[,i],"cauchy")$estimate)[2])
+      }else if(as.character(dist[,i])=="Logistic"){
+        n_rand <- rlogis(n = input$sim_varmc_n,location = as.numeric(fitdistr(rend[,i],"logistic")$estimate)[1],scale =as.numeric(fitdistr(rend[,i],"logistic")$estimate)[2])
+      }else if(as.character(dist[,i])=="Beta"){
+        #
+      }else if(as.character(dist[,i])=="Chi-square"){
+        #
+      }else if(as.character(dist[,i])=="Uniform"){
+        #
+      }else if(as.character(dist[,i])=="Gamma"){
+        n_rand <- rgamma(n = input$sim_varmc_n,shape = as.numeric(fitdistr(rend[,i],"Gamma")$estimate)[1],rate = as.numeric(fitdistr(rend[,i],"Gamma")$estimate)[2])
+      }else if(as.character(dist[,i])=="Lognormal"){
+        n_rand <- rlnorm(n = input$sim_varmc_n,meanlog = as.numeric(fitdistr(rend[,i],"Lognormal")$estimate)[1],sdlog = as.numeric(fitdistr(rend[,i],"Lognormal")$estimate)[2])
+      }else if(as.character(dist[,i])=="Weibull"){
+        n_rand <- rweibull(n = input$sim_varmc_n,shape = as.numeric(fitdistr(rend[,i],"Weibull")$estimate)[1],scale = as.numeric(fitdistr(rend[,i],"Weibull")$estimate)[2])
+      }else if(as.character(dist[,i])=="F"){
+        #
+      }else if(as.character(dist[,i])=="Student"){
+        #
+      }else if(as.character(dist[,i])=="Gompertz"){
+        #
+      }else{
+        n_rand <- 0
+      }
+      
+      
+      #calculo incrementos 
+      pre_inc <- p[i,2]*n_rand
+      
+      #precio
+      pre <- p[i,2]+pre_inc
+      
+      #valor corte
+      #ordeno precios
+      pre1 <- pre[order(pre)]
+      #vc <- pre1[length(n_norm)*5/100]
+      vc <- pre1[input$sim_varmc_n*(1-as.numeric(sub(",",".",input$porVarmc_n)))]
+      
+      
+      #VaR
+      var_n[i] <- p[i,2]-vc
+      
+    }#final for vares individuales
+    
+    #creo estructura de tabla
+    tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 3))
+    names(tabla) <- c("Valor Nominal","VaR Individual","VaR Porcentaje")
+    rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
+    
+    #relleno valor nominal
+    tabla[,1] <- c(p[,2],sum(p[,2]))
+    
+    
+    #relleno Vares individuales
+    tabla[,2] <- c(var_n,sum(var_n))
+    
+    #relleno VaR en porcentaje
+    tabla[,3] <- tabla[,2]*100/tabla[nrow(tabla),2]
+    tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+    
+    return(tabla)
+    
+  })
+  
+  
+  
+  output$tabla_varmc_el <- renderPrint({
+    varmc_ind_el()
+  })
   
   #VAR PORTAFOLIO ELEGIR DISTRIBUCION VAR MC
-  #varmc_portafolio_el
+  #output$varmc_portafolio_el
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()

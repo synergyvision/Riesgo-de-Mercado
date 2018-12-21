@@ -228,5 +228,29 @@ f <- function(x)  exp(-0.5*x^2)/sqrt(2*pi)
   var_sm <- sum(a[,2])-vc
   (var_sm)
   
+  ##############
+  ##############
+  ##############
+  ##############
+  ##############
+  ##############
+  #ALTERNATIVA OTRO PAQUETE
+  #EXISTEN PROBLEMAS AL GENERAR NUMEROS ALEATORIOS CON PAQUETE BASE
+  #PARA SOLVENTAR ESTO USARE PAQUETE LMOMCO
+  #ejemplo error
+  fitdistr(rend_tif[,1],"logistic")
   
-    
+  #uso paquete nuevo
+  #calculo momentos
+  a1=lmom.ub(rend_tif[,1])
+
+  #convierto valor anterior en parametros
+  (b1=lmom2par(a1,type="glo")) #normal generalizada  
+
+  #realizo simulacion
+  c1=rlmomco(10000,b1)  
+  
+  
+  
+  
+  

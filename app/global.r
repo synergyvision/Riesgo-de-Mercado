@@ -24,6 +24,8 @@ library(readxl)
 library(xml2)
 library(rvest)
 library(VaRES)
+library(lmomco)
+
 
 options(OutDec = ",")
 
