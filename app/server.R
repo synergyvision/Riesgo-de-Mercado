@@ -3199,7 +3199,7 @@ shinyServer(function(input, output) {
   
   distribuciones <- reactive({
     #a <- as.data.frame(matrix(NA,nrow = 1,ncol = (ncol(data())-1)))
-    a <- as.data.frame(matrix("NA",nrow = 1,ncol = length(opcion())))
+    a <- as.data.frame(matrix("Nada",nrow = 1,ncol = length(opcion())))
     
     names(a) <- opcion()
     rownames(a) <- "Distribuciones"
@@ -5269,6 +5269,8 @@ shinyServer(function(input, output) {
   
   #GRAFICO VARES INDIVIDUALES SIMULACION MONTE CARLO
   output$grafico_vind_mcn <- renderPlotly({ 
+    if(is.null(data())){return()}
+    
     #obtengo tabla con vares individuales
     tabla <- varmc_ind_n()
 
@@ -5284,6 +5286,8 @@ shinyServer(function(input, output) {
   
   #GRAFICO COMPARATIVO VARES INDIVIDUALES VS VAR PORTAFOLIO SIMULACION MONTE CARLO
   output$grafico_comp_mcn <- renderPlotly({ 
+    if(is.null(data())){return()}
+    
     #obtengo vares individuales 
      varind <- varmc_ind_n()
      
@@ -5321,6 +5325,7 @@ shinyServer(function(input, output) {
   #GRAFICO HISTOGRAMA DE ESCENARIOS VAR SMC
   output$grafico_hist_smcn <- renderPlotly({ 
 
+    if(is.null(data())){return()}
     #obtengo data escenarios
     mat1 <- varmc_por_n()[[2]]
     
@@ -5452,7 +5457,13 @@ shinyServer(function(input, output) {
         #Calculo numeros aleatorios
         #n_norm <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
         if(as.character(dist[,i])=="Normal"){
-          n_rand <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+          #n_rand <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+          #calculo momentos
+          a1 <- lmom.ub(rend[,i])
+          #convierto valor anterior en parametros
+          b1 <- lmom2par(a1,type="nor") #normal   
+          #realizo simulacion
+          n_rand <- rlmomco(input$sim_varmc_n,b1) 
         }else if(as.character(dist[,i])=="Exponential"){
           n_rand <- rexp(n = input$sim_varmc_n,rate = as.numeric(fitdistr(rend[,i],"exponential")$estimate))
         }else if(as.character(dist[,i])=="Cauchy"){
@@ -5533,8 +5544,14 @@ shinyServer(function(input, output) {
       #Calculo numeros aleatorios
       #n_norm <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
       if(as.character(dist[,i])=="Normal"){
-        n_rand <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
-      }else if(as.character(dist[,i])=="Exponential"){
+        #n_rand <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+        #calculo momentos
+        a1 <- lmom.ub(rend[,i])
+        #convierto valor anterior en parametros
+        b1 <- lmom2par(a1,type="nor") #normal   
+        #realizo simulacion
+        n_rand <- rlmomco(input$sim_varmc_n,b1) 
+        }else if(as.character(dist[,i])=="Exponential"){
         n_rand <- rexp(n = input$sim_varmc_n,rate = as.numeric(fitdistr(rend[,i],"exponential")$estimate))
       }else if(as.character(dist[,i])=="Cauchy"){
         n_rand <- rcauchy(n = input$sim_varmc_n,location = as.numeric(fitdistr(rend[,i],"cauchy")$estimate)[1],scale =as.numeric(fitdistr(rend[,i],"cauchy")$estimate)[2])

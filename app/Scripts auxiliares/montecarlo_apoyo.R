@@ -245,11 +245,15 @@ f <- function(x)  exp(-0.5*x^2)/sqrt(2*pi)
   a1=lmom.ub(rend_tif[,1])
 
   #convierto valor anterior en parametros
-  (b1=lmom2par(a1,type="glo")) #normal generalizada  
+  (b1=lmom2par(a1,type="glo")) #logistica generalizada  
 
   #realizo simulacion
   c1=rlmomco(10000,b1)  
   
+  #OJO
+  #USANDO ESTE PAQUETE Y UNA PRUEBA DE BONDAD DE AJUSTE ES POSIBLE 
+  #VERIFICAR SI ALGUNAS DE ESTAS DISTRIBUCIONES SE AJUSTA A LOS DATOS
+  #ESTO SE PUEDE USAR PARA LA PARTE DE SELECCION DE DISTRIBUCION AUTOMATICA
   
   
   
