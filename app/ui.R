@@ -1130,13 +1130,20 @@ shinyUI(
                                                                        choices = c("Si"=1, "No"=0),selected=0), #finalradiobuttons  
                                                          box( width=12, style="overflow-x:scroll",status = "success",
                                                               tableOutput("dist_varp")
+                                                         ),
+                                                         h2(" Desea selecionar archivo de distribuciones:"),
+                                                         radioButtons( inputId = "seleccion_dist",label = "Elija una opción:", 
+                                                                       choices = c("Si"=1, "No"=0),selected=0),
+                                                         box( width=12, style="overflow-x:scroll",status = "success",
+                                                              tableOutput("dist_elegir")
                                                          )
                                                          
-                                                ),
-                                                
-                                                tabPanel("Elección automática",
-                                                         h2(" Las distribuciones asignadas son:")
                                                 )
+                                                #,
+                                                
+                                                #tabPanel("Elección automática",
+                                                #         h2(" Las distribuciones asignadas son:")
+                                                #)
                                                 
                                )#final tabbox
                                )#final fluidrow

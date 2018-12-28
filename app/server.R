@@ -3237,6 +3237,20 @@ shinyServer(function(input, output) {
     
   })
   
+  #ELIJO DISTRIBUCIONES MEDIANTE UN ARCHIVO
+  output$dist_elegir <- renderTable({
+   # if(is.null(data())){return()}
+  #  distribuciones()
+  if(input$seleccion_dist==0){
+    return()
+  }else if(input$seleccion_dist==1){
+    #as.data.frame(rep(1,10))
+    b <- read.csv(paste(getwd(),"data","distribuciones1.txt",sep = "/"),sep="")
+    b
+  }
+    
+  })
+  
   #seccion VaR Parametrico Normal
   output$rend_varn<-renderDataTable({
     if(is.null(data())){return()}
@@ -5436,7 +5450,11 @@ shinyServer(function(input, output) {
     p <- data_pos()
     
     #leo tabla de distribuciones
-    dist <- distribuciones()
+    if(input$seleccion_dist==0){
+      dist <- distribuciones()
+    }else if(input$seleccion_dist==1){
+      dist <- read.csv(paste(getwd(),"data","distribuciones1.txt",sep = "/"),sep="")
+    }
     
     #cuando hay problemas con rend
     #titulos donde hay problema
@@ -5723,7 +5741,11 @@ shinyServer(function(input, output) {
     p$pesos <- p[,2]/sum(p[,2])
     
     #leo distribuciones
-    dist <- distribuciones()
+    if(input$seleccion_dist==0){
+      dist <- distribuciones()
+    }else if(input$seleccion_dist==1){
+      dist <- read.csv(paste(getwd(),"data","distribuciones1.txt",sep = "/"),sep="")
+    }
     
     #cuando hay problemas con rend
     #titulos donde hay problema
