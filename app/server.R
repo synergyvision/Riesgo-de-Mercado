@@ -3245,7 +3245,7 @@ shinyServer(function(input, output) {
     return()
   }else if(input$seleccion_dist==1){
     #as.data.frame(rep(1,10))
-    b <- read.csv(paste(getwd(),"data","distribuciones1.txt",sep = "/"),sep="")
+    b <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
     b
   }
     
@@ -5453,7 +5453,7 @@ shinyServer(function(input, output) {
     if(input$seleccion_dist==0){
       dist <- distribuciones()
     }else if(input$seleccion_dist==1){
-      dist <- read.csv(paste(getwd(),"data","distribuciones1.txt",sep = "/"),sep="")
+      dist <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
     }
     
     #cuando hay problemas con rend
@@ -5744,7 +5744,7 @@ shinyServer(function(input, output) {
     if(input$seleccion_dist==0){
       dist <- distribuciones()
     }else if(input$seleccion_dist==1){
-      dist <- read.csv(paste(getwd(),"data","distribuciones1.txt",sep = "/"),sep="")
+      dist <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
     }
     
     #cuando hay problemas con rend
