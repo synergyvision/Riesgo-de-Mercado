@@ -1250,7 +1250,7 @@ shinyUI(
                                                                  #)#final fluid row
                                                                  ),#final tabpanel
                                                                  tabPanel("Elegir Distribución",
-                                                                           h2(" VaR mejor distribución selecionada"),    
+                                                                           h2(" VaR mejor distribución seleccionada"),    
                                                                            h3(" Rendimientos:"),
                                                                            box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('rend_varmc_el')),
                                                                            h3(" Advertencias:"),
@@ -1348,18 +1348,51 @@ shinyUI(
                                                                 
                                                         ),
                                                         tabPanel("VaR Simulación Monte Carlo",
-                                                                 tabBox( width = 12, title = "Monte Carlo", id = "graficos_varmc", height = "50px", 
-                                                                         
-                                                                 tabPanel("Escenarios",
-                                                                        plotlyOutput("grafico_hist_smcn")
-                                                                 ),
-                                                                 tabPanel("Vares individuales",
-                                                                       plotlyOutput("grafico_vind_mcn")
-                                                                 ),
-                                                                 tabPanel("Comparativo",
-                                                                       plotlyOutput("grafico_comp_mcn")
-                                                                 )
+                                                                 # tabBox( width = 12, title = "Monte Carlo", id = "graficos_varmc", height = "50px", 
+                                                                 #         
+                                                                 # tabPanel("Escenarios",
+                                                                 #        plotlyOutput("grafico_hist_smcn")
+                                                                 # ),
+                                                                 # tabPanel("Vares individuales",
+                                                                 #       plotlyOutput("grafico_vind_mcn")
+                                                                 # ),
+                                                                 # tabPanel("Comparativo",
+                                                                 #       plotlyOutput("grafico_comp_mcn")
+                                                                 # )
+                                                                 # )#final tabbox
+                                                                 tabBox( width = 12, title = "Monte Carlo", id = "graficos_varmc", height = "50px",
+
+                                                                 tabPanel("Distribución Normal",
+                                                                          tabBox( width = 12, title = "", id = "graficos_varmc", height = "50px",
+
+                                                                          tabPanel("Escenarios",
+                                                                                 plotlyOutput("grafico_hist_smcn")
+                                                                          ),
+                                                                          tabPanel("Vares individuales",
+                                                                                plotlyOutput("grafico_vind_mcn")
+                                                                          ),
+                                                                          tabPanel("Comparativo",
+                                                                                plotlyOutput("grafico_comp_mcn")
+                                                                          )
+                                                                          )#final tabbox
+                                                                          ),
+                                                                 tabPanel("Distribución Elegida",
+                                                                          tabBox( width = 12, title = "", id = "graficos_varmc_1", height = "50px",
+                                                                                  
+                                                                                  tabPanel("Escenarios"
+                                                                                           #plotlyOutput("grafico_hist_smcn")
+                                                                                  ),
+                                                                                  tabPanel("Vares individuales"
+                                                                                           #plotlyOutput("grafico_vind_mcn")
+                                                                                  ),
+                                                                                  tabPanel("Comparativo"
+                                                                                           #plotlyOutput("grafico_comp_mcn")
+                                                                                  )
+                                                                          )#final tabbox
+                                                                          )
+                                                                 
                                                                  )#final tabbox
+                                                                 
                                                         )
                                                 )#final tabbox
                                                 
