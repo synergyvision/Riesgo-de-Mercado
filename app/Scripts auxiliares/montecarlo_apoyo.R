@@ -256,5 +256,119 @@ f <- function(x)  exp(-0.5*x^2)/sqrt(2*pi)
   #ESTO SE PUEDE USAR PARA LA PARTE DE SELECCION DE DISTRIBUCION AUTOMATICA
   
   
+  ###########
+  ###########
+  ###########
+  ###########
+  ###########
+  ###########
+  ###########
+  ###########
+  #VAR MONTECARLO COMO EN SCRIPT
+  #USO MATRIZ DE CORRELACION
+  #1) CALCULO RENDIMIENTOS
+  library(corpcor)
+  library(tseries)
+  library(fitdistrplus)
+  library(rriskDistributions)
+  #quito notacion cientifica
+  options(scipen=999) 
+  
+  #cargo la data
+  tif <- read.delim2("~/Downloads/tif.txt")
+  veb <- read.delim2("~/Downloads/vebono.txt")
+  data_montecarlo <- read.delim2("~/Downloads/Data-Montecarlo-Diario.txt")
+  
+  #ordeno la data de fecha mas reciente a fecha mas antigua
+  tif$Fecha <- as.Date(tif$Fecha)
+  veb$Fecha <- as.Date(veb$Fecha)
+  data_montecarlo$Fecha <- as.Date(data_montecarlo$Fecha)
+  
+  #quito tif vencidos
+  tif <- tif[order(tif$Fecha,decreasing = TRUE),-c(2,3)]
+  veb <- veb[order(veb$Fecha,decreasing = TRUE),]
+  data_montecarlo <- data_montecarlo[order(data_montecarlo$Fecha,decreasing = TRUE),]
+  
+  #pruebo con TIF
+  #seleciono 252 obs
+  tif_252 <- tif[1:252,]
+  
+  #valor nominal TIF
+  #tif
+  a <- as.data.frame(matrix(0,nrow = (ncol(tif)-1),ncol=2))
+  names(a) <- c("titulo","valor_nominal")
+  a[,1] <- names(tif)[-1]
+  
+  vt <- c(2000000,10000000,5000000,7000000,1000000,
+          2000000,4000000,3000000,20000000,6000000,8000000,2000000,
+          10000000,30000000,6000000,10000000,5000000,9000000,5000000,
+          5000000,9000000,4000000,70000000,5000000,7000000)
+  
+  a[,2] <- vt
+  
+  #1) leer datos de precio (ver arriba) 
+  #la variable con la que se trabajara es tif_252
+  head(tif_252)
+  
+  #2)calcular rend a los precios 
+  rend_tif <- as.data.frame(matrix(0,nrow = (nrow(tif_252)-1),ncol = (ncol(tif_252)-1)))
+  names(rend_tif) <- names(tif_252)[-1]
+  
+  
+  for(i in 1:(ncol(tif_252)-1)){
+    rend_tif[,i] <- diff(log(tif_252[,(i+1)]))
+  }
+  
+  
+  #2) CALCULO MATRIZ DE CHOLESKY
+  cholesky <- t(chol(cor(rend_tif,use="complete.obs")))
+  
+  #3) CALCULO PARAMETROS DE CADA INSTRUMENTO
+  #creo matriz donde guardare simulaciones de cada instrumento
+  mat <- (matrix(0,nrow = 100000,ncol = (ncol(rend_tif))))
+  names(mat) <- c(names(rend_tif))
+  
+  #4) GENERO NUMEROS ALEATORIOS SEGUN DISTRIBUCION (ESC)
+  #relleno matriz de simulaciones
+  for(i in 1:ncol(rend_tif)){
+    mat[,i] <-  rnorm(n = 100000,mean = as.numeric(fitdistr(rend_tif[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend_tif[,i],"normal")$estimate)[2])
+  }
+  
+  #5) REALIZO PRODUCTO DE ESC*MAT CHOLESKY
+  mrs <- mat%*%t(cholesky)
+  
+  #6) CALCULO PRECIO SIMULADO DE CADA DIA
+  psim <- (matrix(0,nrow = 100000,ncol = (ncol(rend_tif))))
+  names(psim) <- c(names(rend_tif))
+  
+  #relleno matriz de precios simulados
+  for(i in 1:ncol(rend_tif)){
+    psim[,i] <-  tif_252[nrow(tif_252),i+1]*exp(mrs[,i])
+  }
+  
+  #7) CALCULO PRECIO REAL
+  preal <- (matrix(0,nrow = 100000,ncol = (ncol(rend_tif))))
+  names(preal) <- c(names(rend_tif))
+  
+  #relleno matriz de precios simulados
+  for(i in 1:ncol(rend_tif)){
+    preal[,i] <-  vt[i]*psim[,i]/100
+  }
+  
+  #8) CALCULO GANANCIA O PERDIDA
+  gop <- (matrix(0,nrow = 100000,ncol = (ncol(rend_tif))))
+  names(gop) <- c(names(rend_tif))
+  
+  #relleno matriz de precios simulados
+  for(i in 1:ncol(rend_tif)){
+    gop[,i] <-  preal[,i]-(tif_252[nrow(tif_252),i+1]/100*vt[i])
+  }
+  
+  #9) CALCULO GOP DE CADA DIA
+  gop2 <- rowSums(gop)
+  
+  #10) CALCULO CUANTIL, QUE ES EL VAR
+  quantile(gop2,  probs = c(0.05),type = 1)
+  
   
   
