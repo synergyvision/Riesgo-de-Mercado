@@ -1240,7 +1240,10 @@ shinyUI(
                                                                        h3(" Vares individuales:"),
                                                                        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varmc_n')),
                                                                        h3(" VaR portafolio:"),
-                                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_n'))
+                                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_n')),
+                                                                       h3(" VaR portafolio 1:"),
+                                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_n1'))
+                                                                       
                                                                        
                                                                        
                                                                        
@@ -1269,7 +1272,10 @@ shinyUI(
                                                                            h3(" Vares individuales:"),
                                                                            box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varmc_el')),
                                                                            h3(" VaR portafolio:"),
-                                                                           box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_el'))
+                                                                           box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_el')),
+                                                                          h3(" VaR portafolio 1:"),
+                                                                          box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_el1'))
+                                                                          
 
                                                                           
                                                                  )#,#final tabpanel
@@ -1379,14 +1385,14 @@ shinyUI(
                                                                  tabPanel("Distribución Elegida",
                                                                           tabBox( width = 12, title = "", id = "graficos_varmc_1", height = "50px",
                                                                                   
-                                                                                  tabPanel("Escenarios"
-                                                                                           #plotlyOutput("grafico_hist_smcn")
+                                                                                  tabPanel("Escenarios",
+                                                                                           plotlyOutput("grafico_hist_smc_el")
                                                                                   ),
-                                                                                  tabPanel("Vares individuales"
-                                                                                           #plotlyOutput("grafico_vind_mcn")
+                                                                                  tabPanel("Vares individuales",
+                                                                                           plotlyOutput("grafico_vind_mc_el")
                                                                                   ),
-                                                                                  tabPanel("Comparativo"
-                                                                                           #plotlyOutput("grafico_comp_mcn")
+                                                                                  tabPanel("Comparativo",
+                                                                                           plotlyOutput("grafico_comp_mc_el")
                                                                                   )
                                                                           )#final tabbox
                                                                           )

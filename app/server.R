@@ -4315,8 +4315,11 @@ shinyServer(function(input, output) {
   
   #GRAFICO COMPARACION VAR SH VS VAR NORMAL VS MONTE CARLO
   output$grafico_var_comp <- renderPlotly({ 
-    #calculo Var Monte Carlo
+    #calculo Var Monte Carlo Normal
     varmc <- varmc_por_n()[[1]]
+    
+    #calculo Var Monte Carlo Normal
+    varmc_el <- abs(varmc_por_el1()[[3]])
     
     #calculo sd
     if(is.null(data())){return()}
@@ -4425,13 +4428,22 @@ shinyServer(function(input, output) {
           name = 'VaR Simulación Histórica'
         ) %>%
         add_bars(
-          x = c("Monte Carlo"),
+          x = c("SMC Normal"),
           y = varmc,
           width = 0.3,
           marker = list(
             color = 'purple'
           ),
-          name = 'VaR Simulación Monte Carlo'
+          name = 'VaR SMC Normal'
+        ) %>%
+        add_bars(
+          x = c("SMC Mejor Distribución"),
+          y = varmc_el,
+          width = 0.3,
+          marker = list(
+            color = 'orange'
+          ),
+          name = 'VaR SMC Mejor Distribución'
         )
       
       p1
@@ -4510,13 +4522,22 @@ shinyServer(function(input, output) {
         name = 'VaR Simulación Histórica'
       ) %>%
       add_bars(
-        x = c("Monte Carlo"),
+        x = c("SMC Normal"),
         y = varmc,
         width = 0.3,
         marker = list(
           color = 'purple'
         ),
-        name = 'VaR Simulación Monte Carlo'
+        name = 'VaR SMC Normal'
+      ) %>%
+      add_bars(
+        x = c("SMC Mejor Distribución"),
+        y = varmc_el,
+        width = 0.3,
+        marker = list(
+          color = 'orange'
+        ),
+        name = 'VaR SMC Mejor Distribución'
       )
     
     p1
@@ -5336,7 +5357,7 @@ shinyServer(function(input, output) {
    
   })
   
-  #GRAFICO HISTOGRAMA DE ESCENARIOS VAR SMC
+  #GRAFICO HISTOGRAMA DE ESCENARIOS VAR SMC DIST NORMAL
   output$grafico_hist_smcn <- renderPlotly({ 
 
     if(is.null(data())){return()}
@@ -5991,6 +6012,664 @@ shinyServer(function(input, output) {
     varmc_por_el()[[1]]
   })
 
+  ###############
+  #CALCULO VAR MONTECARLO PORTAFOLIO USANDO MATRIZ DE CORRELACION
+  #SECCION ELEGIR DISTRIBUCION
+  #CREO FUNCION AUXILIAR
+  varmc_por_el1 <- reactive({
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #leo posiciones
+    p <- data_pos()
+    #p$pesos <- p[,2]/sum(p[,2])
+    
+    #leo distribuciones
+    if(input$seleccion_dist==0){
+      dist <- distribuciones()
+    }else if(input$seleccion_dist==1){
+      dist <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
+    }
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      
+      #actualizo posiciones
+      p <- p[-b,]
+      #p[,3] <- p[,2]/sum(p[,2])
+      
+      #creo matriz donde guardare simulaciones de cada instrumento
+      #mat <- as.data.frame(matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend)+2)))
+      #names(mat) <- c(names(rend),"incremento","escenario")
+      mat <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
+      names(mat) <- c(names(rend))
+      
+      
+      #relleno matriz de simulaciones
+      withProgress(message = 'Calculando números aleatorios', value = 0, {
+        incProgress(1/3, detail = "Realizando iteraciones")
+        for(i in 1:ncol(rend)){
+          #mat[,i] <-  rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+          if(as.character(dist[,i])=="Normal"){
+            #n_rand <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+            #calculo momentos
+            a1 <- lmom.ub(rend[,i])
+            #convierto valor anterior en parametros
+            b1 <- lmom2par(a1,type="nor") #normal   
+            #realizo simulacion
+            mat[,i] <- rlmomco(input$sim_varmc_el,b1) 
+          }else if(as.character(dist[,i])=="Exponential"){
+            #n_rand <- rexp(n = input$sim_varmc_n,rate = as.numeric(fitdistr(rend[,i],"exponential")$estimate))
+            #calculo momentos
+            a1 <- lmom.ub(rend[,i])
+            #convierto valor anterior en parametros
+            b1 <- lmom2par(a1,type="exp") #normal   
+            #realizo simulacion
+            mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+          }else if(as.character(dist[,i])=="Cauchy"){
+            #n_rand <- rcauchy(n = input$sim_varmc_n,location = as.numeric(fitdistr(rend[,i],"cauchy")$estimate)[1],scale =as.numeric(fitdistr(rend[,i],"cauchy")$estimate)[2])
+            #calculo momentos
+            a1 <- lmom.ub(rend[,i])
+            #convierto valor anterior en parametros
+            b1 <- lmom2par(a1,type="cau") #normal   
+            #realizo simulacion
+            mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+          }else if(as.character(dist[,i])=="Logistic"){
+            #n_rand <- rlogis(n = input$sim_varmc_n,location = as.numeric(fitdistr(rend[,i],"logistic")$estimate)[1],scale =as.numeric(fitdistr(rend[,i],"logistic")$estimate)[2])
+            #calculo momentos
+            a1 <- lmom.ub(rend[,i])
+            #convierto valor anterior en parametros
+            b1 <- lmom2par(a1,type="glo") #normal
+            #realizo simulacion
+            mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+          }else if(as.character(dist[,i])=="Beta"){
+            #
+          }else if(as.character(dist[,i])=="Chi-square"){
+            #
+          }else if(as.character(dist[,i])=="Uniform"){
+            #
+          }else if(as.character(dist[,i])=="Gamma"){
+            #n_rand <- rgamma(n = input$sim_varmc_n,shape = as.numeric(fitdistr(rend[,i],"Gamma")$estimate)[1],rate = as.numeric(fitdistr(rend[,i],"Gamma")$estimate)[2])
+            #calculo momentos
+            a1 <- lmom.ub(rend[,i])
+            #convierto valor anterior en parametros
+            b1 <- lmom2par(a1,type="gam") #normal   
+            #realizo simulacion
+            mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+          }else if(as.character(dist[,i])=="Lognormal"){
+            mat[,i] <- rlnorm(n = input$sim_varmc_el,meanlog = as.numeric(fitdistr(rend[,i],"Lognormal")$estimate)[1],sdlog = as.numeric(fitdistr(rend[,i],"Lognormal")$estimate)[2])
+          }else if(as.character(dist[,i])=="Weibull"){
+            #n_rand <- rweibull(n = input$sim_varmc_n,shape = as.numeric(fitdistr(rend[,i],"Weibull")$estimate)[1],scale = as.numeric(fitdistr(rend[,i],"Weibull")$estimate)[2])
+            #calculo momentos
+            a1 <- lmom.ub(rend[,i])
+            #convierto valor anterior en parametros
+            b1 <- lmom2par(a1,type="wei") #normal   
+            #realizo simulacion
+            mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+          }else if(as.character(dist[,i])=="F"){
+            #
+          }else if(as.character(dist[,i])=="Student"){
+            #
+            #calculo momentos
+            a1 <- lmom.ub(rend[,i])
+            #convierto valor anterior en parametros
+            b1 <- lmom2par(a1,type="st3") #normal   
+            #realizo simulacion
+            mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+          }else if(as.character(dist[,i])=="Gompertz"){
+            #
+          }else{
+            mat[,i] <- rep(0,input$sim_varmc_el)
+          }
+          
+          
+        }
+      })
+      
+      #CALCULO MATRIZ DE CHOLESKY
+      cholesky <- t(chol(cor(rend,use="complete.obs")))
+      
+      #5) REALIZO PRODUCTO DE MATRIZ DE N ALEATORIOS*MAT CHOLESKY
+      mrs <- mat%*%t(cholesky)
+      
+      #6) CALCULO PRECIO SIMULADO DE CADA DIA
+      psim <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
+      names(psim) <- c(names(rend))
+      
+      #relleno matriz de precios simulados
+      for(i in 1:ncol(rend)){
+        psim[,i] <-  data()[nrow(data()),i+1]*exp(mrs[,i])
+      }
+      
+      #7) CALCULO PRECIO REAL
+      preal <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
+      names(preal) <- c(names(rend))
+      
+      #relleno matriz de precios simulados
+      for(i in 1:ncol(rend)){
+        preal[,i] <-  p[i,2]*psim[,i]/100
+      }
+      
+      #8) CALCULO GANANCIA O PERDIDA
+      gop <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
+      names(gop) <- c(names(rend))
+      
+      #relleno matriz de gop
+      for(i in 1:ncol(rend)){
+        gop[,i] <-  preal[,i]-(data()[nrow(data()),i+1]/100* p[i,2])
+      }
+      
+      #9) CALCULO GOP DE CADA DIA
+      gop2 <- rowSums(gop)
+      
+      #10) CALCULO CUANTIL, QUE ES EL VAR
+      #quantile(gop2,  probs = c(0.05),type = 1)
+      #ordeno columna "escenarios"
+      mat1 <- gop2[order(gop2)]
+      
+      
+      # #calculo columna "incremento precio"
+      # withProgress(message = 'Calculando variaciones de precio', value = 0, {
+      #   incProgress(1/2, detail = "Realizando iteraciones")
+      #   for(i in 1:nrow(mat)){
+      #     mat$incremento[i] <- sum(p[,2])*sum(as.numeric(p[,3])*as.numeric(mat[i,1:ncol(rend)]))
+      #   }
+      # })
+      # #calculo columna "escenario"
+      # withProgress(message = 'Calculando simulaciones', value = 0, {
+      #   incProgress(2/3, detail = "Realizando iteraciones")
+      #   for(i in 1:nrow(mat)){
+      #     mat$escenario[i] <- sum(p[,2])+mat$incremento[i]
+      #   }
+      # })
+      # #ordeno columna "escenarios"
+      # mat1 <- mat$escenario
+      # mat1 <- mat1[order(mat1)]
+       
+      #calculo valor de corte y VaR Monte Carlo
+      #vc <- (mat1[length(mat1)*5/100])
+      vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_el)))])
+      var_sm <- sum(p[,2])-vc
+      
+      lista <- list(var_sm,mat1,vc)
+      
+      return(lista)
+      
+      
+      
+    }#final if
+    
+    #creo matriz donde guardare simulaciones de cada instrumento
+    #mat <- as.data.frame(matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend)+2)))
+    #names(mat) <- c(names(rend),"incremento","escenario")
+    mat <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
+    names(mat) <- c(names(rend))
+    
+    
+    #relleno matriz de simulaciones
+    withProgress(message = 'Calculando números aleatorios', value = 0, {
+      incProgress(1/3, detail = "Realizando iteraciones")
+      for(i in 1:ncol(rend)){
+        #mat[,i] <-  rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+        if(as.character(dist[,i])=="Normal"){
+          #n_rand <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+          #calculo momentos
+          a1 <- lmom.ub(rend[,i])
+          #convierto valor anterior en parametros
+          b1 <- lmom2par(a1,type="nor") #normal   
+          #realizo simulacion
+          mat[,i] <- rlmomco(input$sim_varmc_el,b1) 
+        }else if(as.character(dist[,i])=="Exponential"){
+          #n_rand <- rexp(n = input$sim_varmc_n,rate = as.numeric(fitdistr(rend[,i],"exponential")$estimate))
+          #calculo momentos
+          a1 <- lmom.ub(rend[,i])
+          #convierto valor anterior en parametros
+          b1 <- lmom2par(a1,type="exp") #normal   
+          #realizo simulacion
+          mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+        }else if(as.character(dist[,i])=="Cauchy"){
+          #n_rand <- rcauchy(n = input$sim_varmc_n,location = as.numeric(fitdistr(rend[,i],"cauchy")$estimate)[1],scale =as.numeric(fitdistr(rend[,i],"cauchy")$estimate)[2])
+          #calculo momentos
+          a1 <- lmom.ub(rend[,i])
+          #convierto valor anterior en parametros
+          b1 <- lmom2par(a1,type="cau") #normal   
+          #realizo simulacion
+          mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+        }else if(as.character(dist[,i])=="Logistic"){
+          #n_rand <- rlogis(n = input$sim_varmc_n,location = as.numeric(fitdistr(rend[,i],"logistic")$estimate)[1],scale =as.numeric(fitdistr(rend[,i],"logistic")$estimate)[2])
+          #calculo momentos
+          a1 <- lmom.ub(rend[,i])
+          #convierto valor anterior en parametros
+          b1 <- lmom2par(a1,type="glo") #normal
+          #realizo simulacion
+          mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+        }else if(as.character(dist[,i])=="Beta"){
+          #
+        }else if(as.character(dist[,i])=="Chi-square"){
+          #
+        }else if(as.character(dist[,i])=="Uniform"){
+          #
+        }else if(as.character(dist[,i])=="Gamma"){
+          #n_rand <- rgamma(n = input$sim_varmc_n,shape = as.numeric(fitdistr(rend[,i],"Gamma")$estimate)[1],rate = as.numeric(fitdistr(rend[,i],"Gamma")$estimate)[2])
+          #calculo momentos
+          a1 <- lmom.ub(rend[,i])
+          #convierto valor anterior en parametros
+          b1 <- lmom2par(a1,type="gam") #normal   
+          #realizo simulacion
+          mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+        }else if(as.character(dist[,i])=="Lognormal"){
+          mat[,i] <- rlnorm(n = input$sim_varmc_el,meanlog = as.numeric(fitdistr(rend[,i],"Lognormal")$estimate)[1],sdlog = as.numeric(fitdistr(rend[,i],"Lognormal")$estimate)[2])
+        }else if(as.character(dist[,i])=="Weibull"){
+          #n_rand <- rweibull(n = input$sim_varmc_n,shape = as.numeric(fitdistr(rend[,i],"Weibull")$estimate)[1],scale = as.numeric(fitdistr(rend[,i],"Weibull")$estimate)[2])
+          #calculo momentos
+          a1 <- lmom.ub(rend[,i])
+          #convierto valor anterior en parametros
+          b1 <- lmom2par(a1,type="wei") #normal   
+          #realizo simulacion
+          mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+        }else if(as.character(dist[,i])=="F"){
+          #
+        }else if(as.character(dist[,i])=="Student"){
+          #
+          #calculo momentos
+          a1 <- lmom.ub(rend[,i])
+          #convierto valor anterior en parametros
+          b1 <- lmom2par(a1,type="st3") #normal   
+          #realizo simulacion
+          mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+        }else if(as.character(dist[,i])=="Gompertz"){
+          #
+        }else{
+          mat[,i] <- rep(0,input$sim_varmc_el)
+        }
+        
+        
+      }
+    })
+    
+    #CALCULO MATRIZ DE CHOLESKY
+    cholesky <- t(chol(cor(rend,use="complete.obs")))
+    
+    #5) REALIZO PRODUCTO DE MATRIZ DE N ALEATORIOS*MAT CHOLESKY
+    mrs <- mat%*%t(cholesky)
+    
+    #6) CALCULO PRECIO SIMULADO DE CADA DIA
+    psim <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
+    names(psim) <- c(names(rend))
+    
+    #relleno matriz de precios simulados
+    for(i in 1:ncol(rend)){
+      psim[,i] <-  data()[nrow(data()),i+1]*exp(mrs[,i])
+    }
+    
+    #7) CALCULO PRECIO REAL
+    preal <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
+    names(preal) <- c(names(rend))
+    
+    #relleno matriz de precios simulados
+    for(i in 1:ncol(rend)){
+      preal[,i] <-  p[i,2]*psim[,i]/100
+    }
+    
+    #8) CALCULO GANANCIA O PERDIDA
+    gop <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
+    names(gop) <- c(names(rend))
+    
+    #relleno matriz de gop
+    for(i in 1:ncol(rend)){
+      gop[,i] <-  preal[,i]-(data()[nrow(data()),i+1]/100* p[i,2])
+    }
+    
+    #9) CALCULO GOP DE CADA DIA
+    gop2 <- rowSums(gop)
+    
+    #10) CALCULO CUANTIL, QUE ES EL VAR
+    #quantile(gop2,  probs = c(0.05),type = 1)
+    #ordeno columna "escenarios"
+    mat1 <- gop2[order(gop2)]
+    
+    
+    # #calculo columna "incremento precio"
+    # withProgress(message = 'Calculando variaciones de precio', value = 0, {
+    #   incProgress(1/2, detail = "Realizando iteraciones")
+    #   for(i in 1:nrow(mat)){
+    #     mat$incremento[i] <- sum(p[,2])*sum(as.numeric(p[,3])*as.numeric(mat[i,1:ncol(rend)]))
+    #   }
+    # })
+    # #calculo columna "escenario"
+    # withProgress(message = 'Calculando simulaciones', value = 0, {
+    #   incProgress(2/3, detail = "Realizando iteraciones")
+    #   for(i in 1:nrow(mat)){
+    #     mat$escenario[i] <- sum(p[,2])+mat$incremento[i]
+    #   }
+    # })
+    # #ordeno columna "escenarios"
+    # mat1 <- mat$escenario
+    # mat1 <- mat1[order(mat1)]
+    
+    #calculo valor de corte y VaR Monte Carlo
+    #vc <- (mat1[length(mat1)*5/100])
+    vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_el)))])
+    var_sm <- sum(p[,2])-vc
+    
+    lista <- list(var_sm,mat1,vc)
+    
+    return(lista)
+  })
+  
+  #CALCULO VAR PORTAFOLIO MC USANDO MATRIZ DE CORRELACIONES
+  #SECCION ELEGIR DISTRIBUCION
+  output$varmc_portafolio_el1<-renderPrint({
+    abs(varmc_por_el1()[[3]])
+  })
+  
+  ###############
+  #CALCULO VAR MONTECARLO PORTAFOLIO USANDO MATRIZ DE CORRELACION
+  #SECCION  DISTRIBUCION NORMAL
+  #CREO FUNCION AUXILIAR
+  varmc_por_n1 <- reactive({
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #leo posiciones
+    p <- data_pos()
+    #p$pesos <- p[,2]/sum(p[,2])
+    
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      
+      #actualizo posiciones
+      p <- p[-b,]
+      #p[,3] <- p[,2]/sum(p[,2])
+      
+      #creo matriz donde guardare simulaciones de cada instrumento
+      mat <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+      names(mat) <- c(names(rend))
+      
+      #relleno matriz de simulaciones
+      withProgress(message = 'Calculando números aleatorios', value = 0, {
+        incProgress(1/3, detail = "Realizando iteraciones")
+        for(i in 1:ncol(rend)){
+          mat[,i] <-  rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+        }
+      })
+      
+      #2) CALCULO MATRIZ DE CHOLESKY
+      cholesky <- t(chol(cor(rend,use="complete.obs")))
+      
+      #5) REALIZO PRODUCTO DE ESC*MAT CHOLESKY
+      mrs <- mat%*%t(cholesky)
+      
+      #6) CALCULO PRECIO SIMULADO DE CADA DIA
+      psim <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+      names(psim) <- c(names(rend))
+      
+      #relleno matriz de precios simulados
+      for(i in 1:ncol(rend)){
+        psim[,i] <-  data()[nrow(data()),i+1]*exp(mrs[,i])
+      }
+      
+      #7) CALCULO PRECIO REAL
+      preal <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+      names(preal) <- c(names(rend))
+      
+      #relleno matriz de precios simulados
+      for(i in 1:ncol(rend)){
+        preal[,i] <-  p[i,2]*psim[,i]/100
+      }
+      
+      #8) CALCULO GANANCIA O PERDIDA
+      gop <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+      names(gop) <- c(names(rend))
+      
+      #relleno matriz de precios simulados
+      for(i in 1:ncol(rend)){
+        gop[,i] <-  preal[,i]-(data()[nrow(data()),i+1]/100*p[i,2])
+      }
+      
+      #9) CALCULO GOP DE CADA DIA
+      gop2 <- rowSums(gop)
+      
+      #10) CALCULO CUANTIL, QUE ES EL VAR
+      mat1 <- gop2[order(gop2)]
+      
+      
+      # #calculo columna "incremento precio"
+      # withProgress(message = 'Calculando variaciones de precio', value = 0, {
+      #   incProgress(1/2, detail = "Realizando iteraciones")
+      #   for(i in 1:nrow(mat)){
+      #     mat$incremento[i] <- sum(p[,2])*sum(as.numeric(p[,3])*as.numeric(mat[i,1:ncol(rend)]))
+      #   }
+      # })
+      # #calculo columna "escenario"
+      # withProgress(message = 'Calculando simulaciones', value = 0, {
+      #   incProgress(2/3, detail = "Realizando iteraciones")
+      #   for(i in 1:nrow(mat)){
+      #     mat$escenario[i] <- sum(p[,2])+mat$incremento[i]
+      #   }
+      # })
+      # #ordeno columna "escenarios"
+      # mat1 <- mat$escenario
+      # mat1 <- mat1[order(mat1)]
+      
+      #calculo valor de corte y VaR Monte Carlo
+      #vc <- (mat1[length(mat1)*5/100])
+      vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_n)))])
+      var_sm <- sum(p[,2])-vc
+      
+      lista <- list(var_sm,mat1,vc)
+      
+      return(lista)
+      
+      
+      
+    }#final if
+    
+    #creo matriz donde guardare simulaciones de cada instrumento
+    mat <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+    names(mat) <- c(names(rend))
+    
+    #relleno matriz de simulaciones
+    withProgress(message = 'Calculando números aleatorios', value = 0, {
+      incProgress(1/3, detail = "Realizando iteraciones")
+      for(i in 1:ncol(rend)){
+        mat[,i] <-  rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+      }
+    })
+    
+    #2) CALCULO MATRIZ DE CHOLESKY
+    cholesky <- t(chol(cor(rend,use="complete.obs")))
+    
+    #5) REALIZO PRODUCTO DE ESC*MAT CHOLESKY
+    mrs <- mat%*%t(cholesky)
+    
+    #6) CALCULO PRECIO SIMULADO DE CADA DIA
+    psim <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+    names(psim) <- c(names(rend))
+    
+    #relleno matriz de precios simulados
+    for(i in 1:ncol(rend)){
+      psim[,i] <-  data()[nrow(data()),i+1]*exp(mrs[,i])
+    }
+    
+    #7) CALCULO PRECIO REAL
+    preal <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+    names(preal) <- c(names(rend))
+    
+    #relleno matriz de precios simulados
+    for(i in 1:ncol(rend)){
+      preal[,i] <-  p[i,2]*psim[,i]/100
+    }
+    
+    #8) CALCULO GANANCIA O PERDIDA
+    gop <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+    names(gop) <- c(names(rend))
+    
+    #relleno matriz de precios simulados
+    for(i in 1:ncol(rend)){
+      gop[,i] <-  preal[,i]-(data()[nrow(data()),i+1]/100*p[i,2])
+    }
+    
+    #9) CALCULO GOP DE CADA DIA
+    gop2 <- rowSums(gop)
+    
+    #10) CALCULO CUANTIL, QUE ES EL VAR
+    mat1 <- gop2[order(gop2)]
+    
+    
+    # #calculo columna "incremento precio"
+    # withProgress(message = 'Calculando variaciones de precio', value = 0, {
+    #   incProgress(1/2, detail = "Realizando iteraciones")
+    #   for(i in 1:nrow(mat)){
+    #     mat$incremento[i] <- sum(p[,2])*sum(as.numeric(p[,3])*as.numeric(mat[i,1:ncol(rend)]))
+    #   }
+    # })
+    # #calculo columna "escenario"
+    # withProgress(message = 'Calculando simulaciones', value = 0, {
+    #   incProgress(2/3, detail = "Realizando iteraciones")
+    #   for(i in 1:nrow(mat)){
+    #     mat$escenario[i] <- sum(p[,2])+mat$incremento[i]
+    #   }
+    # })
+    # #ordeno columna "escenarios"
+    # mat1 <- mat$escenario
+    # mat1 <- mat1[order(mat1)]
+    
+    #calculo valor de corte y VaR Monte Carlo
+    #vc <- (mat1[length(mat1)*5/100])
+    vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_n)))])
+    var_sm <- sum(p[,2])-vc
+    
+    lista <- list(var_sm,mat1,vc)
+    
+    return(lista)
+  })
+  
+  
+  #CALCULO VAR PORTAFOLIO MC USANDO MATRIZ DE CORRELACIONES
+  #SECCION DISTRIBUCION NORMAL
+  output$varmc_portafolio_n1<-renderPrint({
+    abs(varmc_por_n1()[[3]])
+  })
+  
+  #GRAFICOS SECCION VAR MONTECARLO ELEGIR DISTRIBUCION
+  #GRAFICO HISTOGRAMA DE ESCENARIOS VAR SMC DIST ELEGIDA
+  output$grafico_hist_smc_el <- renderPlotly({ 
+    
+    if(is.null(data())){return()}
+    #obtengo data escenarios
+    mat1 <- (varmc_por_el1()[[2]])
+    
+    #calculo valor de corte y VaR Monte Carlo
+    #vc <- (mat1[length(mat1)*5/100])
+    vc <- (varmc_por_el1()[[3]])
+    #var_sm <- sum(p[,2])-vc
+    #return(var_sm)
+    
+    
+    p2 <- plot_ly(cbind.data.frame(seq(1,length(mat1)),mat1), x = ~mat1) %>% add_histogram(name="Histograma")  %>%
+      add_segments(x=vc, y=0, xend=vc, yend=mean(hist(mat1)$counts), line=list(color="red", width = 4),name="Valor Corte") %>%
+      layout(title = 'Histograma de Escenarios',
+             xaxis = list(title=" "))
+    
+    p2
+    
+    
+  })
+  
+  #GRAFICO VARES INDIVIDUALES SIMULACION MONTE CARLO
+  output$grafico_vind_mc_el <- renderPlotly({ 
+    if(is.null(data())){return()}
+    
+    #obtengo tabla con vares individuales
+    tabla <- varmc_ind_el()
+    
+    #grafico
+    pie <- cbind.data.frame(rownames(tabla)[-nrow(tabla)],tabla[1:(nrow(tabla)-1),2])
+    names(pie) <- c("Titulo","ind")
+    
+    p <- plot_ly(pie, labels = ~Titulo, values = ~ind, type = 'pie') %>%
+      layout(title = 'VaRes Individuales')
+    
+    p
+  })
+  
+  #GRAFICO COMPARATIVO VARES INDIVIDUALES VS VAR PORTAFOLIO SIMULACION MONTE CARLO
+  output$grafico_comp_mc_el <- renderPlotly({ 
+    if(is.null(data())){return()}
+    
+    #obtengo vares individuales 
+    varind <- varmc_ind_el()
+    
+    #obtengo var portafolio
+    varpor <- abs(varmc_por_el1()[[3]])
+    
+    
+    #grafico
+    p <- plot_ly(marker = list(color = 'royalblue1',
+                               line = list(color = 'rgb(8,48,107)',
+                                           width = 3))) %>%
+      add_bars(
+        x = c("Individual"),
+        y = varind[nrow(varind),2],
+        width = 0.3,
+        marker = list(
+          color = 'royalblue1'
+        ),
+        name = 'Suma VaRes individuales'
+      ) %>%
+      add_bars(
+        x = c("Portafolio"),
+        y = varpor,
+        width = 0.3,
+        marker = list(
+          color = 'mediumseagreen'
+        ),
+        name = 'VaR Portafolio'
+      )
+    
+    p
+    
+  })
+  
+  
   # Almacenar Variables Reactivas
   RV <- reactiveValues()
 
