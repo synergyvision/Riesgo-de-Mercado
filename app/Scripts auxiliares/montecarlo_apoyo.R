@@ -371,4 +371,25 @@ f <- function(x)  exp(-0.5*x^2)/sqrt(2*pi)
   quantile(gop2,  probs = c(0.05),type = 1)
   
   
+  ########
+  #PRUEBA PARA UNIR LOS DOS ENFOQUES 
+  #PRIMER ENFOQUE, CALCULO DE ESCENARIOS, CALCULANDO VC
+  #SEGUNDO ENFOQUE PROCESO ANTERIOR CALCULANDO GOP
+  
+  #4) calculo "incremento de precio"
+  mrs1 <- mrs%*%vt
+  
+  #5) calculo "precio" (siempre positivo)
+  mrs2 <- sum(vt)+mrs1
+  
+  #6) calculo vc
+  vc <- quantile(mrs2,  probs = c(0.05),type = 1)
+  
+  #7) VaR
+  sum(vt)-vc
+  
+  #grafica escenarios
+  hist(mrs2)
+  
+  
   

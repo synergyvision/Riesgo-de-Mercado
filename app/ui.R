@@ -1240,9 +1240,9 @@ shinyUI(
                                                                        h3(" Vares individuales:"),
                                                                        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varmc_n')),
                                                                        h3(" VaR portafolio:"),
-                                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_n')),
-                                                                       h3(" VaR portafolio 1:"),
                                                                        box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_n1'))
+                                                                       #h3(" VaR portafolio 1:"),
+                                                                       #box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_n1'))
                                                                        
                                                                        
                                                                        
@@ -1272,9 +1272,9 @@ shinyUI(
                                                                            h3(" Vares individuales:"),
                                                                            box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varmc_el')),
                                                                            h3(" VaR portafolio:"),
-                                                                           box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_el')),
-                                                                          h3(" VaR portafolio 1:"),
-                                                                          box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_el1'))
+                                                                           box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_el1'))
+                                                                          #h3(" VaR portafolio 1:"),
+                                                                          #box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_el1'))
                                                                           
 
                                                                           

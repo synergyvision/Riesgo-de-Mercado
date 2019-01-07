@@ -6150,60 +6150,18 @@ shinyServer(function(input, output) {
       #5) REALIZO PRODUCTO DE MATRIZ DE N ALEATORIOS*MAT CHOLESKY
       mrs <- mat%*%t(cholesky)
       
-      #6) CALCULO PRECIO SIMULADO DE CADA DIA
-      psim <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
-      names(psim) <- c(names(rend))
+      #6) calculo "incremento de precio"
+      mrs1 <- mrs%*%p[,2]
       
-      #relleno matriz de precios simulados
-      for(i in 1:ncol(rend)){
-        psim[,i] <-  data()[nrow(data()),i+1]*exp(mrs[,i])
-      }
+      #7) calculo "precio" (siempre positivo)
+      mrs2 <- sum(p[,2])+mrs1
       
-      #7) CALCULO PRECIO REAL
-      preal <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
-      names(preal) <- c(names(rend))
-      
-      #relleno matriz de precios simulados
-      for(i in 1:ncol(rend)){
-        preal[,i] <-  p[i,2]*psim[,i]/100
-      }
-      
-      #8) CALCULO GANANCIA O PERDIDA
-      gop <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
-      names(gop) <- c(names(rend))
-      
-      #relleno matriz de gop
-      for(i in 1:ncol(rend)){
-        gop[,i] <-  preal[,i]-(data()[nrow(data()),i+1]/100* p[i,2])
-      }
-      
-      #9) CALCULO GOP DE CADA DIA
-      gop2 <- rowSums(gop)
       
       #10) CALCULO CUANTIL, QUE ES EL VAR
       #quantile(gop2,  probs = c(0.05),type = 1)
       #ordeno columna "escenarios"
-      mat1 <- gop2[order(gop2)]
+      mat1 <- mrs2[order(mrs2)]
       
-      
-      # #calculo columna "incremento precio"
-      # withProgress(message = 'Calculando variaciones de precio', value = 0, {
-      #   incProgress(1/2, detail = "Realizando iteraciones")
-      #   for(i in 1:nrow(mat)){
-      #     mat$incremento[i] <- sum(p[,2])*sum(as.numeric(p[,3])*as.numeric(mat[i,1:ncol(rend)]))
-      #   }
-      # })
-      # #calculo columna "escenario"
-      # withProgress(message = 'Calculando simulaciones', value = 0, {
-      #   incProgress(2/3, detail = "Realizando iteraciones")
-      #   for(i in 1:nrow(mat)){
-      #     mat$escenario[i] <- sum(p[,2])+mat$incremento[i]
-      #   }
-      # })
-      # #ordeno columna "escenarios"
-      # mat1 <- mat$escenario
-      # mat1 <- mat1[order(mat1)]
-       
       #calculo valor de corte y VaR Monte Carlo
       #vc <- (mat1[length(mat1)*5/100])
       vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_el)))])
@@ -6311,59 +6269,17 @@ shinyServer(function(input, output) {
     #5) REALIZO PRODUCTO DE MATRIZ DE N ALEATORIOS*MAT CHOLESKY
     mrs <- mat%*%t(cholesky)
     
-    #6) CALCULO PRECIO SIMULADO DE CADA DIA
-    psim <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
-    names(psim) <- c(names(rend))
+    #6) calculo "incremento de precio"
+    mrs1 <- mrs%*%p[,2]
     
-    #relleno matriz de precios simulados
-    for(i in 1:ncol(rend)){
-      psim[,i] <-  data()[nrow(data()),i+1]*exp(mrs[,i])
-    }
+    #7) calculo "precio" (siempre positivo)
+    mrs2 <- sum(p[,2])+mrs1
     
-    #7) CALCULO PRECIO REAL
-    preal <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
-    names(preal) <- c(names(rend))
-    
-    #relleno matriz de precios simulados
-    for(i in 1:ncol(rend)){
-      preal[,i] <-  p[i,2]*psim[,i]/100
-    }
-    
-    #8) CALCULO GANANCIA O PERDIDA
-    gop <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
-    names(gop) <- c(names(rend))
-    
-    #relleno matriz de gop
-    for(i in 1:ncol(rend)){
-      gop[,i] <-  preal[,i]-(data()[nrow(data()),i+1]/100* p[i,2])
-    }
-    
-    #9) CALCULO GOP DE CADA DIA
-    gop2 <- rowSums(gop)
     
     #10) CALCULO CUANTIL, QUE ES EL VAR
     #quantile(gop2,  probs = c(0.05),type = 1)
     #ordeno columna "escenarios"
-    mat1 <- gop2[order(gop2)]
-    
-    
-    # #calculo columna "incremento precio"
-    # withProgress(message = 'Calculando variaciones de precio', value = 0, {
-    #   incProgress(1/2, detail = "Realizando iteraciones")
-    #   for(i in 1:nrow(mat)){
-    #     mat$incremento[i] <- sum(p[,2])*sum(as.numeric(p[,3])*as.numeric(mat[i,1:ncol(rend)]))
-    #   }
-    # })
-    # #calculo columna "escenario"
-    # withProgress(message = 'Calculando simulaciones', value = 0, {
-    #   incProgress(2/3, detail = "Realizando iteraciones")
-    #   for(i in 1:nrow(mat)){
-    #     mat$escenario[i] <- sum(p[,2])+mat$incremento[i]
-    #   }
-    # })
-    # #ordeno columna "escenarios"
-    # mat1 <- mat$escenario
-    # mat1 <- mat1[order(mat1)]
+    mat1 <- mrs2[order(mrs2)]
     
     #calculo valor de corte y VaR Monte Carlo
     #vc <- (mat1[length(mat1)*5/100])
@@ -6378,7 +6294,7 @@ shinyServer(function(input, output) {
   #CALCULO VAR PORTAFOLIO MC USANDO MATRIZ DE CORRELACIONES
   #SECCION ELEGIR DISTRIBUCION
   output$varmc_portafolio_el1<-renderPrint({
-    abs(varmc_por_el1()[[3]])
+    varmc_por_el1()[[1]]
   })
   
   ###############
@@ -6437,60 +6353,48 @@ shinyServer(function(input, output) {
       #5) REALIZO PRODUCTO DE ESC*MAT CHOLESKY
       mrs <- mat%*%t(cholesky)
       
-      #6) CALCULO PRECIO SIMULADO DE CADA DIA
-      psim <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
-      names(psim) <- c(names(rend))
+      # #6) CALCULO PRECIO SIMULADO DE CADA DIA
+      # psim <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+      # names(psim) <- c(names(rend))
+      # 
+      # #relleno matriz de precios simulados
+      # for(i in 1:ncol(rend)){
+      #   psim[,i] <-  data()[nrow(data()),i+1]*exp(mrs[,i])
+      # }
+      # 
+      # #7) CALCULO PRECIO REAL
+      # preal <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+      # names(preal) <- c(names(rend))
+      # 
+      # #relleno matriz de precios simulados
+      # for(i in 1:ncol(rend)){
+      #   preal[,i] <-  p[i,2]*psim[,i]/100
+      # }
+      # 
+      # #8) CALCULO GANANCIA O PERDIDA
+      # gop <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+      # names(gop) <- c(names(rend))
+      # 
+      # #relleno matriz de precios simulados
+      # for(i in 1:ncol(rend)){
+      #   gop[,i] <-  preal[,i]-(data()[nrow(data()),i+1]/100*p[i,2])
+      # }
+      # 
+      # #9) CALCULO GOP DE CADA DIA
+      # gop2 <- rowSums(gop)
+      # 
       
-      #relleno matriz de precios simulados
-      for(i in 1:ncol(rend)){
-        psim[,i] <-  data()[nrow(data()),i+1]*exp(mrs[,i])
-      }
+      #6) calculo "incremento de precio"
+      mrs1 <- mrs%*%(p[,2])
       
-      #7) CALCULO PRECIO REAL
-      preal <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
-      names(preal) <- c(names(rend))
+      #7) calculo "precio" (siempre positivo)
+      mrs2 <- sum(p[,2])+mrs1
       
-      #relleno matriz de precios simulados
-      for(i in 1:ncol(rend)){
-        preal[,i] <-  p[i,2]*psim[,i]/100
-      }
-      
-      #8) CALCULO GANANCIA O PERDIDA
-      gop <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
-      names(gop) <- c(names(rend))
-      
-      #relleno matriz de precios simulados
-      for(i in 1:ncol(rend)){
-        gop[,i] <-  preal[,i]-(data()[nrow(data()),i+1]/100*p[i,2])
-      }
-      
-      #9) CALCULO GOP DE CADA DIA
-      gop2 <- rowSums(gop)
       
       #10) CALCULO CUANTIL, QUE ES EL VAR
-      mat1 <- gop2[order(gop2)]
+      mat1 <- mrs2[order(mrs2)]
       
       
-      # #calculo columna "incremento precio"
-      # withProgress(message = 'Calculando variaciones de precio', value = 0, {
-      #   incProgress(1/2, detail = "Realizando iteraciones")
-      #   for(i in 1:nrow(mat)){
-      #     mat$incremento[i] <- sum(p[,2])*sum(as.numeric(p[,3])*as.numeric(mat[i,1:ncol(rend)]))
-      #   }
-      # })
-      # #calculo columna "escenario"
-      # withProgress(message = 'Calculando simulaciones', value = 0, {
-      #   incProgress(2/3, detail = "Realizando iteraciones")
-      #   for(i in 1:nrow(mat)){
-      #     mat$escenario[i] <- sum(p[,2])+mat$incremento[i]
-      #   }
-      # })
-      # #ordeno columna "escenarios"
-      # mat1 <- mat$escenario
-      # mat1 <- mat1[order(mat1)]
-      
-      #calculo valor de corte y VaR Monte Carlo
-      #vc <- (mat1[length(mat1)*5/100])
       vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_n)))])
       var_sm <- sum(p[,2])-vc
       
@@ -6520,60 +6424,48 @@ shinyServer(function(input, output) {
     #5) REALIZO PRODUCTO DE ESC*MAT CHOLESKY
     mrs <- mat%*%t(cholesky)
     
-    #6) CALCULO PRECIO SIMULADO DE CADA DIA
-    psim <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
-    names(psim) <- c(names(rend))
+    # #6) CALCULO PRECIO SIMULADO DE CADA DIA
+    # psim <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+    # names(psim) <- c(names(rend))
+    # 
+    # #relleno matriz de precios simulados
+    # for(i in 1:ncol(rend)){
+    #   psim[,i] <-  data()[nrow(data()),i+1]*exp(mrs[,i])
+    # }
+    # 
+    # #7) CALCULO PRECIO REAL
+    # preal <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+    # names(preal) <- c(names(rend))
+    # 
+    # #relleno matriz de precios simulados
+    # for(i in 1:ncol(rend)){
+    #   preal[,i] <-  p[i,2]*psim[,i]/100
+    # }
+    # 
+    # #8) CALCULO GANANCIA O PERDIDA
+    # gop <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+    # names(gop) <- c(names(rend))
+    # 
+    # #relleno matriz de precios simulados
+    # for(i in 1:ncol(rend)){
+    #   gop[,i] <-  preal[,i]-(data()[nrow(data()),i+1]/100*p[i,2])
+    # }
+    # 
+    # #9) CALCULO GOP DE CADA DIA
+    # gop2 <- rowSums(gop)
+    # 
     
-    #relleno matriz de precios simulados
-    for(i in 1:ncol(rend)){
-      psim[,i] <-  data()[nrow(data()),i+1]*exp(mrs[,i])
-    }
+    #6) calculo "incremento de precio"
+    mrs1 <- mrs%*%(p[,2])
     
-    #7) CALCULO PRECIO REAL
-    preal <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
-    names(preal) <- c(names(rend))
+    #7) calculo "precio" (siempre positivo)
+    mrs2 <- sum(p[,2])+mrs1
     
-    #relleno matriz de precios simulados
-    for(i in 1:ncol(rend)){
-      preal[,i] <-  p[i,2]*psim[,i]/100
-    }
-    
-    #8) CALCULO GANANCIA O PERDIDA
-    gop <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
-    names(gop) <- c(names(rend))
-    
-    #relleno matriz de precios simulados
-    for(i in 1:ncol(rend)){
-      gop[,i] <-  preal[,i]-(data()[nrow(data()),i+1]/100*p[i,2])
-    }
-    
-    #9) CALCULO GOP DE CADA DIA
-    gop2 <- rowSums(gop)
     
     #10) CALCULO CUANTIL, QUE ES EL VAR
-    mat1 <- gop2[order(gop2)]
+    mat1 <- mrs2[order(mrs2)]
     
     
-    # #calculo columna "incremento precio"
-    # withProgress(message = 'Calculando variaciones de precio', value = 0, {
-    #   incProgress(1/2, detail = "Realizando iteraciones")
-    #   for(i in 1:nrow(mat)){
-    #     mat$incremento[i] <- sum(p[,2])*sum(as.numeric(p[,3])*as.numeric(mat[i,1:ncol(rend)]))
-    #   }
-    # })
-    # #calculo columna "escenario"
-    # withProgress(message = 'Calculando simulaciones', value = 0, {
-    #   incProgress(2/3, detail = "Realizando iteraciones")
-    #   for(i in 1:nrow(mat)){
-    #     mat$escenario[i] <- sum(p[,2])+mat$incremento[i]
-    #   }
-    # })
-    # #ordeno columna "escenarios"
-    # mat1 <- mat$escenario
-    # mat1 <- mat1[order(mat1)]
-    
-    #calculo valor de corte y VaR Monte Carlo
-    #vc <- (mat1[length(mat1)*5/100])
     vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_n)))])
     var_sm <- sum(p[,2])-vc
     
@@ -6586,7 +6478,7 @@ shinyServer(function(input, output) {
   #CALCULO VAR PORTAFOLIO MC USANDO MATRIZ DE CORRELACIONES
   #SECCION DISTRIBUCION NORMAL
   output$varmc_portafolio_n1<-renderPrint({
-    abs(varmc_por_n1()[[3]])
+    varmc_por_n1()[[1]]
   })
   
   #GRAFICOS SECCION VAR MONTECARLO ELEGIR DISTRIBUCION
