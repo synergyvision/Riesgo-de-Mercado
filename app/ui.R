@@ -1073,8 +1073,14 @@ shinyUI(
                       h2(" Aviso"),
                       fluidRow(
                         box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('aviso_datos_var'))
+                      ),
+                      h2(" Fechas Disponibles"),
+                      fluidRow(
+                        htmlOutput("fechas_var")
+                      ,
+                      h2(" Fecha seleccionada"),
+                      box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput("fecha_elegida"))
                       )
-                      
               ),
               #CALCULO Y BUSCO DISTRIBUCION DE LOS RETORNOS
               tabItem(tabName = "distribucion_var",

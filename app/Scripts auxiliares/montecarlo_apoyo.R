@@ -391,5 +391,20 @@ f <- function(x)  exp(-0.5*x^2)/sqrt(2*pi)
   #grafica escenarios
   hist(mrs2)
   
+  #########Z
+  #APOYO FECHAS DISPONIBLES PARA CALCULO VAR
+  obs <- nrow(tif)-252
+  
+  #de la celda 1 a la celda obs es posible calcular VaR con 252 obs
+  #fechas disponibles para calcular VaR
+  fechas <- tif$Fecha[1:obs]
+  
+  #elijo fecha
+  fechas[1]
+  
+  #extraigo data
+  tif_sub <- tif[which(fechas[10]==tif$Fecha):(251+which(fechas[10]==tif$Fecha)),]
+  
+  
   
   

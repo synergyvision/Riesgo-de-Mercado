@@ -2845,6 +2845,31 @@ shinyServer(function(input, output) {
   })
   
   
+  #MUESTRO FECHAS DISPONIBLES PARA CALCULAR VAR
+  #funcion auxiliar
+  fe_var <- reactive({
+    inFile <- input$file_data
+    
+    if (is.null(inFile))
+      return(NULL)
+    A <- read.delim2(inFile$datapath, header = input$header,
+                     sep = input$sep, quote = input$quote)
+    A[,1] <- as.Date(A[,1])
+    A <- A[order(A[,1],decreasing = TRUE),]
+    obs <- nrow(A)-252
+    fechas <- A[1:obs,1]
+    return(fechas)
+  })
+  
+  #output
+  output$fechas_var <- renderUI({ 
+    selectInput("date_var", "Seleccionar fecha", fe_var(),multiple = FALSE)
+  })
+  
+  #fecha elegida
+  output$fecha_elegida <- renderPrint({input$date_var})
+  
+  
    #DISTRIBUCION
   #CALCULO RENDIMIENTOS
   
@@ -4316,10 +4341,10 @@ shinyServer(function(input, output) {
   #GRAFICO COMPARACION VAR SH VS VAR NORMAL VS MONTE CARLO
   output$grafico_var_comp <- renderPlotly({ 
     #calculo Var Monte Carlo Normal
-    varmc <- varmc_por_n()[[1]]
+    varmc <- varmc_por_n1()[[1]]
     
     #calculo Var Monte Carlo Normal
-    varmc_el <- abs(varmc_por_el1()[[3]])
+    varmc_el <- varmc_por_el1()[[1]]
     
     #calculo sd
     if(is.null(data())){return()}
@@ -5327,7 +5352,7 @@ shinyServer(function(input, output) {
      varind <- varmc_ind_n()
      
      #obtengo var portafolio
-     varpor <- varmc_por_n()[[1]]
+     varpor <- varmc_por_n1()[[1]]
     
     
         #grafico
@@ -5362,11 +5387,11 @@ shinyServer(function(input, output) {
 
     if(is.null(data())){return()}
     #obtengo data escenarios
-    mat1 <- varmc_por_n()[[2]]
+    mat1 <- varmc_por_n1()[[2]]
     
     #calculo valor de corte y VaR Monte Carlo
     #vc <- (mat1[length(mat1)*5/100])
-    vc <- varmc_por_n()[[3]]
+    vc <- varmc_por_n1()[[3]]
     #var_sm <- sum(p[,2])-vc
     #return(var_sm)
     
@@ -6531,7 +6556,7 @@ shinyServer(function(input, output) {
     varind <- varmc_ind_el()
     
     #obtengo var portafolio
-    varpor <- abs(varmc_por_el1()[[3]])
+    varpor <- varmc_por_el1()[[1]]
     
     
     #grafico
