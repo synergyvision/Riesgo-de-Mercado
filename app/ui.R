@@ -1076,11 +1076,17 @@ shinyUI(
                       ),
                       h2(" Fechas Disponibles"),
                       fluidRow(
-                        htmlOutput("fechas_var")
+                        box(width=6,htmlOutput("fechas_var"))
                       ,
-                      h2(" Fecha seleccionada"),
-                      box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput("fecha_elegida"))
+                      #h2(" Fecha seleccionada"),
+                      box(width=6,verbatimTextOutput("fecha_elegida"),title = "Fecha Seleccionada")
                       )
+                      #,
+                      #h2(" Nueva Data"),
+                      #box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput("datatable1"))
+                      
+                      
+                      
               ),
               #CALCULO Y BUSCO DISTRIBUCION DE LOS RETORNOS
               tabItem(tabName = "distribucion_var",
@@ -1323,7 +1329,9 @@ shinyUI(
                       fluidRow(tabBox( width = 12, title = " ", id = "graficos_var_normal", height = "50px", 
                                        tabPanel("Valor Nominal",
                                                 
-                                                plotlyOutput("grafico_vnominal")
+                                                plotlyOutput("grafico_vnominal"),
+                                                h2("Reporte"),
+                                                downloadButton("reporte_var", "Descargar")
                                           
                                                         
                                        )

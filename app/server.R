@@ -2771,8 +2771,9 @@ shinyServer(function(input, output) {
   #VALUE AT RISK 
   ##############
   ##############
-  
-  data <- reactive({
+  #funcion que lee los datos iniciales para asi determinar
+  #las posibles fechas para el VaR
+  data1 <- reactive({
     # input$file1 will be NULL initially. After the user selects
     # and uploads a file, it will be a data frame with 'name',
     # 'size', 'type', and 'datapath' columns. The 'datapath'
@@ -2800,6 +2801,38 @@ shinyServer(function(input, output) {
     
   })
   
+  #variable que uso para el calculo
+  #una vez seleccionada la fecha procedo a tomar solo la data
+  #necesaria de la data completa
+  data <- reactive({
+    # input$file1 will be NULL initially. After the user selects
+    # and uploads a file, it will be a data frame with 'name',
+    # 'size', 'type', and 'datapath' columns. The 'datapath'
+    # column will contain the local filenames where the data can
+    # be found.
+    
+    inFile <- input$file_data
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    # read.table(inFile$datapath, header = input$header,
+    #            sep = input$sep, quote = input$quote)
+    a <- read.delim2(inFile$datapath, header = input$header,
+                     sep = input$sep, quote = input$quote)
+    
+    #ordeno la data de fecha mas reciente a fecha mas antigua
+    a[,1] <- as.Date(a[,1])
+    a <- a[order(a[,1],decreasing = TRUE),]
+    
+    #seleciono 252 obs segun fecha seleccionada
+    
+    a <- a[which(input$date_var==a[,1]):(251+which(input$date_var==a[,1])),]
+    
+    return(a)
+    
+  })
+  
   ###############################################################################
   ###############################################################################
   #################################    Datos    #################################
@@ -2811,6 +2844,13 @@ shinyServer(function(input, output) {
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     datatable(data())
     })
+  
+  #data nueva
+  output$datatable1<-renderDataTable({
+    if(is.null(data())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    datatable(data())
+  })
   
  #POSICIONES
   
@@ -6585,6 +6625,38 @@ shinyServer(function(input, output) {
     p
     
   })
+  
+  #REPORTE VAR
+  output$reporte_var <- downloadHandler(
+    filename = "reporte_var.pdf",
+    content = function(file) {
+      tempReport <- file.path(tempdir(), "reporte_var.Rmd")
+      #tempReport <- file.path(getwd(), "reporte1.Rmd")
+      
+      file.copy("reporte_var.Rmd", tempReport, overwrite = TRUE)
+      
+      # Configuración de parámetros pasados a documento Rmd
+      # params <- list(titulos = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),
+      #                pre_prom = tf_comp(),
+      #                par_ns_t = gra_tif_ns_comp_i(),
+      #                par_sven_t= gra_tif_sven_comp_i(),
+      #                par_dl_t=dl_tif(),
+      #                par_sp_t=spline_tif_comp(),
+      #                comp_pre_t=precios_tif()
+      # 
+      # )
+      
+      params <- list(fecha = input$date_var)
+      
+      # Knit the document, passing in the `params` list, and eval it in a
+      # child of the global environment (this isolates the code in the document
+      # from the code in this app).
+      rmarkdown::render(tempReport, output_file = file,
+                        params = params,
+                        envir = new.env(parent = globalenv())
+      )
+    })
+  
   
   
   # Almacenar Variables Reactivas

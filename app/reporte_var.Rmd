@@ -1,0 +1,36 @@
+---
+#title: "reporte1"
+output: 
+  pdf_document:
+    includes:
+      in_header: /Users/freddytapia/Documents/preambulo.tex
+      #C:/Users/Freddy Tapia/Documents/preambulo.tex
+      #/Users/dmorales/Documents/Vision/Riesgo-de-Mercado/app/preambulo.tex
+      #paste(getwd(),"preambulo.tex",sep="/") 
+      #~/Documents/Vision/liquidez/preambulo.tex
+params:
+  fecha: NA
+#   titulos: NA
+#   pre_prom: NA
+#   par_ns_t: NA
+#   par_sven_t: NA
+#   par_dl_t: NA
+#   par_sp_t: NA
+#   comp_pre_t: NA
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## VaR de Mercado
+
+La fecha seleccionada para el cáculo del VaR es `r paste(substr(params$fecha,9,10),substr(params$fecha,6,7),substr(params$fecha,1,4),sep = "/")`
+
+```{r,echo = FALSE}
+library(knitr)
+#kable(paste(substr(params$fecha,9,10),substr(params$fecha,6,7),substr(params$fecha,1,4),sep = "/"),align="c")
+```
+
+
