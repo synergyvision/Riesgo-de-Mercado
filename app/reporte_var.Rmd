@@ -10,7 +10,7 @@ output:
       #~/Documents/Vision/liquidez/preambulo.tex
 params:
   fecha: NA
-#   titulos: NA
+  tabla_nominal: NA
 #   pre_prom: NA
 #   par_ns_t: NA
 #   par_sven_t: NA
@@ -32,5 +32,49 @@ La fecha seleccionada para el cáculo del VaR es `r paste(substr(params$fecha,9,
 library(knitr)
 #kable(paste(substr(params$fecha,9,10),substr(params$fecha,6,7),substr(params$fecha,1,4),sep = "/"),align="c")
 ```
+
+## Valor Nominal
+
+```{r,echo = FALSE}
+#library(kableExtra)
+library(knitr)
+#library(magrittr)
+options(scipen=999)
+kable(data.frame(params$tabla_nominal[,1],prettyNum(params$tabla_nominal[,2], scientific=FALSE, big.mark=".")),col.names=c("Títulos","Valor Nominal"),align=c("c","r")) 
+#%>%
+ # kable_styling(c("striped", "bordered")) 
+
+#grafico
+posicion_tif <- cbind.data.frame(params$tabla_nominal[,1],params$tabla_nominal[,2])
+    names(posicion_tif) <- c("titulo","valor_nominal")
+    
+posicion_tif  %>%
+  arrange(valor_nominal) %>%
+  mutate(Titulo=factor(titulo, titulo)) %>%
+  ggplot( aes(x=Titulo, y=valor_nominal) ) +
+  geom_segment( aes(x=Titulo ,xend=Titulo, y=0, yend=valor_nominal), color="grey") +
+  geom_point(size=3, color="#69b3a2") +
+  coord_flip() +
+  theme(
+    panel.grid.minor.y = element_blank(),
+    panel.grid.major.y = element_blank(),
+    legend.position="none"
+  ) +
+  xlab("")
+    
+
+
+```
+
+
+
+##VaR Paramétrico
+
+##VaR por Simulación Histórica
+
+##VaR por Simulación de Montecarlo
+
+
+
 
 
