@@ -11,7 +11,7 @@ output:
 params:
   fecha: NA
   tabla_nominal: NA
-#   pre_prom: NA
+  var_par_ind: NA
 #   par_ns_t: NA
 #   par_sven_t: NA
 #   par_dl_t: NA
@@ -62,13 +62,65 @@ posicion_tif  %>%
   ) +
   xlab("")
     
+# p <- ggplot(posicion_tif, aes(titulo, valor_nominal, fill = titulo)) + 
+#   geom_bar(position="stack", stat="identity",show.legend = FALSE) + coord_flip() + 
+#   labs(x = "Títulos",y = "Valor Nominal")+
+#   theme(axis.text.y=element_text(angle=0, hjust=1))
+# print(p) 
 
+```
+
+Opción 2
+
+```{r,echo = FALSE}
+#library(kableExtra)
+library(knitr)
+#library(magrittr)
+options(scipen=999)
+
+#grafico
+posicion_tif <- cbind.data.frame(params$tabla_nominal[,1],params$tabla_nominal[,2])
+    names(posicion_tif) <- c("titulo","valor_nominal")
+    
+
+p <- ggplot(posicion_tif, aes(reorder(titulo,valor_nominal), valor_nominal, fill = titulo)) + 
+  geom_bar(position="stack", stat="identity",show.legend = FALSE) + coord_flip() + 
+  labs(x = "Títulos",y = "Valor Nominal")+
+  theme(axis.text.y=element_text(angle=0, hjust=1))
+print(p) 
 
 ```
 
 
-
 ##VaR Paramétrico
+
+Vares individuales
+
+```{r,echo = FALSE}
+library(knitr)
+var <- cbind.data.frame(rownames(params$var_par_ind),params$var_par_ind[,1],prettyNum(params$var_par_ind[,3], scientific=FALSE, big.mark="."),params$var_par_ind[,4])
+names(var) <- c("Título","Desviación Estandar","VaR Individual","Porcentaje VaR")
+kable(var,align="c")
+```
+
+Gráfico
+
+```{r,echo = FALSE}
+library(knitr)
+options(scipen=999)
+
+#grafico
+var <- cbind.data.frame(rownames(params$var_par_ind),params$var_par_ind[,1],params$var_par_ind[,3],params$var_par_ind[,4])
+var <- var[-nrow(var),]
+names(var) <- c("titulo","sd","var_ind","por_var")
+
+p <- ggplot(var, aes(reorder(titulo,var_ind), var_ind, fill = titulo)) + 
+  geom_bar(position="stack", stat="identity",show.legend = FALSE) + coord_flip() + 
+  labs(x = "Títulos",y = "VaRes Individuales")+
+  theme(axis.text.y=element_text(angle=0, hjust=1))
+print(p) 
+
+```
 
 ##VaR por Simulación Histórica
 

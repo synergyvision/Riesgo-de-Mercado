@@ -6627,99 +6627,99 @@ shinyServer(function(input, output) {
   })
   
   #FUNCIONES AUXILIARES REPORTE VAR
-  # output$tabla_varn<-renderDataTable({
-  #   #calculo sd
-  #   if(is.null(data())){return()}
-  #   rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
-  #   names(rend) <- names(data())[-1]
-  #   
-  #   for(i in 1:(ncol(data())-1)){
-  #     rend[,i] <- diff(log(data()[,i+1]))
-  #   }
-  #   
-  #   #veo si hay valores NA o inf en la data
-  #   a <- rep(0,ncol(rend))
-  #   
-  #   for(i in 1:ncol(rend)){
-  #     if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
-  #       a[i] <- 1
-  #     }
-  #   }
-  #   
-  #   #cuando hay problemas con rend
-  #   #titulos donde hay problema
-  #   b <- which(a==1)
-  #   if(sum(a)>=1){
-  #     rend <- rend[,-b]
-  #     #creo estructura de tabla
-  #     tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 4))
-  #     names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
-  #     rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
-  #     
-  #     data1 <- as.data.frame(matrix(0,nrow = 1,ncol = ncol(rend)))
-  #     names(data1) <- names(data())[-c(1,(b+1))]
-  #     
-  #     
-  #     for(i in 1:ncol(data1)){
-  #       data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
-  #     }
-  #     
-  #     #relleno desviaciones estandar
-  #     tabla[,1] <- c(as.numeric(data1),NA)
-  #     
-  #     # #relleno valor nominal
-  #     tabla[,2] <- c(data_pos()[-b,2],sum(data_pos()[-b,2]))
-  #     
-  #     # #relleno Vares individuales
-  #     tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
-  #     tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
-  #     
-  #     #relleno VaR en porcentaje
-  #     tabla[,4] <- tabla[,3]*100/tabla[nrow(tabla),3]
-  #     tabla[nrow(tabla),4] <- sum(tabla[1:((nrow(tabla))-1),4])
-  #     
-  #     return(tabla)
-  #     
-  #   }
-  #   
-  #   #creo estructura de tabla
-  #   tabla <- as.data.frame(matrix(0,nrow = (ncol(data())),ncol = 4))
-  #   names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
-  #   rownames(tabla) <- c(names(data())[-1],"Totales")
-  #   
-  #   data1 <- as.data.frame(matrix(0,nrow = 1,ncol = (ncol(data())-1)))
-  #   names(data1) <- names(data())[-1]
-  #   
-  #   
-  #   for(i in 1:ncol(data1)){
-  #     # if(anyNA(rend[,i])){
-  #     #   a <- which(is.na(rend[,i])|is.infinite(rend[,i]))
-  #     #   data1[1,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[2]
-  #     # }else{
-  #     #   data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
-  #     # }
-  #     data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
-  #     
-  #   }
-  #   
-  #   #relleno desviaciones estandar
-  #   tabla[,1] <- c(as.numeric(data1),NA)
-  #   
-  #   # #relleno valor nominal
-  #   tabla[,2] <- c(data_pos()[,2],sum(data_pos()[,2]))
-  #   
-  #   # #relleno Vares individuales
-  #   tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
-  #   tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
-  #   
-  #   #relleno VaR en porcentaje
-  #   tabla[,4] <- tabla[,3]*100/tabla[nrow(tabla),3]
-  #   tabla[nrow(tabla),4] <- sum(tabla[1:((nrow(tabla))-1),4])
-  #   
-  #   tabla
-  # })
-  # 
-  # 
+  var_normal_ind<-reactive({
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      #creo estructura de tabla
+      tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 4))
+      names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
+      rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
+
+      data1 <- as.data.frame(matrix(0,nrow = 1,ncol = ncol(rend)))
+      names(data1) <- names(data())[-c(1,(b+1))]
+
+
+      for(i in 1:ncol(data1)){
+        data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      }
+
+      #relleno desviaciones estandar
+      tabla[,1] <- c(as.numeric(data1),NA)
+
+      # #relleno valor nominal
+      tabla[,2] <- c(data_pos()[-b,2],sum(data_pos()[-b,2]))
+
+      # #relleno Vares individuales
+      tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
+      tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+
+      #relleno VaR en porcentaje
+      tabla[,4] <- tabla[,3]*100/tabla[nrow(tabla),3]
+      tabla[nrow(tabla),4] <- sum(tabla[1:((nrow(tabla))-1),4])
+
+      return(tabla)
+
+    }
+
+    #creo estructura de tabla
+    tabla <- as.data.frame(matrix(0,nrow = (ncol(data())),ncol = 4))
+    names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
+    rownames(tabla) <- c(names(data())[-1],"Totales")
+
+    data1 <- as.data.frame(matrix(0,nrow = 1,ncol = (ncol(data())-1)))
+    names(data1) <- names(data())[-1]
+
+
+    for(i in 1:ncol(data1)){
+      # if(anyNA(rend[,i])){
+      #   a <- which(is.na(rend[,i])|is.infinite(rend[,i]))
+      #   data1[1,i] <- as.numeric(fitdistr(rend[-a,i],"normal")$estimate)[2]
+      # }else{
+      #   data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      # }
+      data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+
+    }
+
+    #relleno desviaciones estandar
+    tabla[,1] <- c(as.numeric(data1),NA)
+
+    # #relleno valor nominal
+    tabla[,2] <- c(data_pos()[,2],sum(data_pos()[,2]))
+
+    # #relleno Vares individuales
+    tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
+    tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+
+    #relleno VaR en porcentaje
+    tabla[,4] <- tabla[,3]*100/tabla[nrow(tabla),3]
+    tabla[nrow(tabla),4] <- sum(tabla[1:((nrow(tabla))-1),4])
+
+    tabla
+  })
+
+
   
   #REPORTE VAR
   output$reporte_var <- downloadHandler(
@@ -6741,7 +6741,8 @@ shinyServer(function(input, output) {
       # 
       # )
       
-      params <- list(fecha = input$date_var,tabla_nominal = data_pos() )
+      params <- list(fecha = input$date_var,tabla_nominal = data_pos() ,
+                     var_par_ind = var_normal_ind() )
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document
