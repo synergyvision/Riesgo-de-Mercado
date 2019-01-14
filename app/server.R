@@ -6627,6 +6627,8 @@ shinyServer(function(input, output) {
   })
   
   #FUNCIONES AUXILIARES REPORTE VAR
+  #VAR PARAMETRICO
+  #vares normales individuales
   var_normal_ind<-reactive({
     #calculo sd
     if(is.null(data())){return()}
@@ -6719,7 +6721,292 @@ shinyServer(function(input, output) {
     tabla
   })
 
-
+  #var normal Portafolio
+  #calculo VaR normal Portafolio
+  var_normal_por <- reactive({
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      #creo estructura de tabla
+      tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 4))
+      names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
+      rownames(tabla) <- c(names(data())[-c(1,(b+1))],"Totales")
+      
+      data1 <- as.data.frame(matrix(0,nrow = 1,ncol = ncol(rend)))
+      names(data1) <- names(data())[-c(1,(b+1))]
+      
+      
+      for(i in 1:ncol(data1)){
+        data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+      }
+      
+      #relleno desviaciones estandar
+      tabla[,1] <- c(as.numeric(data1),NA)
+      
+      # #relleno valor nominal
+      tabla[,2] <- c(data_pos()[-b,2],sum(data_pos()[-b,2]))
+      
+      # #relleno Vares individuales
+      tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
+      tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+      
+      
+      #calculo matriz de correlaciones (diagonal de 1's)
+      S<- cor(rend)
+      
+      #VaR
+      var_ind <- tabla[1:(nrow(tabla)-1),3]
+      #var_ind%*%S
+      VaR <- sqrt(var_ind%*%S%*%as.matrix(var_ind))
+      return(VaR)
+      
+      
+    }#final if problemas de rend
+    
+    #creo estructura de tabla
+    tabla <- as.data.frame(matrix(0,nrow = (ncol(data())),ncol = 3))
+    names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual")
+    rownames(tabla) <- c(names(data())[-1],"Totales")
+    
+    
+    data1 <- as.data.frame(matrix(0,nrow = 1,ncol = (ncol(data())-1)))
+    names(data1) <- names(data())[-1]
+    
+    
+    for(i in 1:ncol(data1)){
+      data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+    }
+    
+    #relleno desviaciones estandar
+    tabla[,1] <- c(as.numeric(data1),NA)
+    
+    # #relleno valor nominal
+    tabla[,2] <- c(data_pos()[,2],sum(data_pos()[,2]))
+    
+    # #relleno Vares individuales
+    tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
+    tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+    
+    #calculo matriz de correlaciones (diagonal de 1's)
+    S<- cor(rend)
+    
+    #VaR
+    var_ind <- tabla[1:(nrow(tabla)-1),3]
+    #var_ind%*%S
+    VaR <- sqrt(var_ind%*%S%*%as.matrix(var_ind))
+    return(VaR)
+    
+    
+    
+  })
+  
+  #VAR SIMULACION HISTORICA
+  #CALCULO VARES INDIVIDUALES SIMULACION HISTORICA
+  var_historico_ind <- reactive({ 
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #leo posiciones
+    p <- data_pos()
+    #p$pesos <- p[,2]/sum(p[,2])
+    
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      
+      #actualizo posiciones
+      p <- p[-b,]
+      #p[,3] <- p[,2]/sum(p[,2])
+      
+      ma <- as.data.frame(matrix(0,nrow = nrow(rend),ncol = ncol(rend)))
+      names(ma) <- paste(names(rend),"esc",sep = "_")
+      
+      
+      #calculo escenarios
+      for(i in 1:ncol(ma)){
+        ma[,i] <- (1+as.numeric(rend[,i]))*(p[i,2])
+      }
+      
+      #esc <- cbind.data.frame(rend,ma)
+      
+      #creo estructura para guardar Vares individuales
+      var_ind <- cbind.data.frame("Títulos"=c(as.character(p[,1]),"Totales"),"Valor Nominal"=c(p[,2],sum(p[,2])),"Vares individuales"=rep(0,1+nrow(p)))
+      
+      for(i in 1:ncol(rend)){
+        ma1 <- ma[order(ma[,i]),i]
+        var_ind[i,3] <- (p[i,2])-ma1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        
+      }
+      
+      var_ind[nrow(var_ind),3] <- sum(var_ind[1:(nrow(var_ind)-1),3])
+      var_ind
+      # #Ordeno data
+      # esc1 <- esc[,ncol(esc)]
+      # esc1 <- esc1[order(esc1)]
+      
+      #VaRsh <- sum(p[,2])-esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+      #VaRsh
+      
+      
+      
+      
+      #}else{return()}
+      
+    }else{
+      ma <- as.data.frame(matrix(0,nrow = nrow(rend),ncol = ncol(rend)))
+      names(ma) <- paste(names(rend),"esc",sep = "_")
+      
+      
+      
+      #calculo escenarios
+      for(i in 1:ncol(ma)){
+        ma[,i] <- (1+as.numeric(rend[,i]))*(p[i,2])
+      }
+      
+      #esc <- cbind.data.frame(rend,ma)
+      
+      #creo estructura para guardar Vares individuales
+      var_ind <- cbind.data.frame("Títulos"=c(as.character(p[,1]),"Totales"),"Valor Nominal"=c(p[,2],sum(p[,2])),"Vares individuales"=rep(0,1+nrow(p)))
+      
+      for(i in 1:ncol(rend)){
+        ma1 <- ma[order(ma[,i]),i]
+        var_ind[i,3] <- (p[i,2])-ma1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        
+      }
+      
+      var_ind[nrow(var_ind),3] <- sum(var_ind[1:(nrow(var_ind)-1),3])
+      var_ind
+      #if(sum(p[,3])==1){
+      #calculo escenarios
+      # for(i in 1:nrow(rend)){
+      #   esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+      # }
+      # #esc[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh)))),ncol(esc)]
+      # esc1 <- esc[,ncol(esc)]
+      # esc1 <- esc1[order(esc1)]
+      # 
+      # VaRsh <- sum(data_pos()[,2])-esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+      # VaRsh        
+      
+      # }else{return()}
+      
+    }
+    
+    
+    
+  })
+  
+  #VaR historico Portafolio
+  var_historico_por <- reactive({
+    #calculo sd
+    if(is.null(data())){return()}
+    rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
+    names(rend) <- names(data())[-1]
+    
+    for(i in 1:(ncol(data())-1)){
+      rend[,i] <- diff(log(data()[,i+1]))
+    }
+    
+    #veo si hay valores NA o inf en la data
+    a <- rep(0,ncol(rend))
+    
+    for(i in 1:ncol(rend)){
+      if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+        a[i] <- 1
+      }
+    }
+    
+    #calculo pesos
+    p <- data_pos()
+    p$pesos <- p[,2]/sum(p[,2])
+    
+    
+    #cuando hay problemas con rend
+    #titulos donde hay problema
+    b <- which(a==1)
+    if(sum(a)>=1){
+      rend <- rend[,-b]
+      
+      #actualizo pesos
+      p <- p[-b,]
+      p[,3] <- p[,2]/sum(p[,2])
+      
+      esc <- cbind.data.frame(rend,'Escenarios'=rep(0,nrow(rend)))
+      if(sum(p[,3])==1){
+        #calculo escenarios
+        for(i in 1:nrow(rend)){
+          esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+        }
+        
+        #Ordeno data
+        esc1 <- esc[,ncol(esc)]
+        esc1 <- esc1[order(esc1)]
+        
+        VaRsh <- sum(p[,2])-esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        VaRsh
+      }else{return()}
+      
+    }else{
+      esc <- cbind.data.frame(rend,'Escenarios'=rep(0,nrow(rend)))
+      if(sum(p[,3])==1){
+        #calculo escenarios
+        for(i in 1:nrow(rend)){
+          esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+        }
+        #esc[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh)))),ncol(esc)]
+        esc1 <- esc[,ncol(esc)]
+        esc1 <- esc1[order(esc1)]
+        
+        VaRsh <- sum(data_pos()[,2])-esc1[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+        VaRsh        
+        
+      }else{return()}
+      
+    }
+    
+    
+    
+    
+  })
+  
   
   #REPORTE VAR
   output$reporte_var <- downloadHandler(
@@ -6742,7 +7029,8 @@ shinyServer(function(input, output) {
       # )
       
       params <- list(fecha = input$date_var,tabla_nominal = data_pos() ,
-                     var_par_ind = var_normal_ind() )
+                     var_par_ind = var_normal_ind(), var_par_por = var_normal_por(),
+                     var_hist_ind = var_historico_ind(),var_hist_por = var_historico_por())
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document
