@@ -7030,7 +7030,9 @@ shinyServer(function(input, output) {
       
       params <- list(fecha = input$date_var,tabla_nominal = data_pos() ,
                      var_par_ind = var_normal_ind(), var_par_por = var_normal_por(),
-                     var_hist_ind = var_historico_ind(),var_hist_por = var_historico_por())
+                     var_hist_ind = var_historico_ind(),var_hist_por = var_historico_por(),
+                     var_sm_ind_n = varmc_ind_n(), var_sm_por_n = varmc_por_n1()[[1]],
+                     var_sm_ind_el = varmc_ind_el(),var_sm_por_el = varmc_por_el1()[[1]])
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document

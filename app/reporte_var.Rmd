@@ -15,9 +15,10 @@ params:
   var_par_por: NA
   var_hist_ind: NA
   var_hist_por: NA
-#   par_sp_t: NA
-#   comp_pre_t: NA
-
+  var_sm_ind_n: NA
+  var_sm_por_n: NA
+  var_sm_ind_el: NA
+  var_sm_por_el: NA
 ---
 
 ```{r setup, include=FALSE}
@@ -214,16 +215,114 @@ VaR Portafolio vs suma de vares individuales
 
 Vares individuales
 
+```{r,echo = FALSE}
+library(knitr)
+var <- cbind.data.frame(rownames(params$var_sm_ind_n),prettyNum(params$var_sm_ind_n[,2], scientific=FALSE, big.mark="."),params$var_sm_ind_n[,3])
+names(var) <- c("Título","VaR Individual","Porcentaje VaR")
+kable(var,align="c")
+```
+
+Gráfico
+
+```{r,echo = FALSE, fig.align="center"}
+library(knitr)
+options(scipen=999)
+
+#grafico
+var <- cbind.data.frame(rownames(params$var_sm_ind_n),params$var_sm_ind_n[,2],params$var_sm_ind_n[,3])
+var <- var[1:(nrow(var)-1),]
+names(var) <- c("titulo","var_ind","Porcentaje VaR")
+
+p <- ggplot(var, aes(reorder(titulo,var_ind), var_ind, fill = titulo)) + 
+  geom_bar(position="stack", stat="identity",show.legend = FALSE) + coord_flip() + 
+  labs(x = "Títulos",y = "VaRes Individuales")+
+  theme(axis.text.y=element_text(angle=0, hjust=1))
+print(p) 
+
+```
+
 VaR de Portafolio
 
+El VaR de portafolio obtenido es `r prettyNum(params$var_sm_por_n, scientific=FALSE, big.mark=".")`.
+
+
 VaR Portafolio vs suma de vares individuales
+
+```{r,echo = FALSE, fig.align="center"}
+   library(ggplot2)
+
+    #VaR
+    var_ind <- params$var_sm_ind_n[nrow(params$var_sm_ind_n),2]
+
+    #var_ind%*%S
+    VaR <- params$var_sm_por_n
+    
+    
+    #defino data
+    data <- data.frame(c("Suma VaRes Individuales","VaR Portafolio"),c(var_ind,VaR))
+    names(data) <- c("VaRes","Valor")
+
+    #grafico
+    ggplot(data=data, aes(x=VaRes, y=Valor,fill=VaRes)) + 
+    geom_bar(stat="identity", position="stack") 
+
+```
+
+
 
 ##Mejor distribución
 
 Vares individuales
 
+```{r,echo = FALSE}
+library(knitr)
+ var <- cbind.data.frame(rownames(params$var_sm_ind_el  ),prettyNum(params$var_sm_ind_el[,2], scientific=FALSE, big.mark="."),params$var_sm_ind_el[,3])
+names(var) <- c("Título","VaR Individual","Porcentaje VaR")
+kable(var,align="c")
+```
+
+Gráfico
+
+```{r,echo = FALSE, fig.align="center"}
+library(knitr)
+options(scipen=999)
+
+#grafico
+ var <- cbind.data.frame(rownames(params$var_sm_ind_el  ),params$var_sm_ind_el[,2],params$var_sm_ind_el[,3])
+ var <- var[1:(nrow(var)-1),]
+names(var) <- c("titulo","var_ind","Porcentaje VaR")
+
+p <- ggplot(var, aes(reorder(titulo,var_ind), var_ind, fill = titulo)) + 
+  geom_bar(position="stack", stat="identity",show.legend = FALSE) + coord_flip() + 
+  labs(x = "Títulos",y = "VaRes Individuales")+
+  theme(axis.text.y=element_text(angle=0, hjust=1))
+print(p) 
+
+```
+
+
 VaR de Portafolio
+
+El VaR de portafolio obtenido es `r prettyNum(params$var_sm_por_el, scientific=FALSE, big.mark=".")`.
 
 VaR Portafolio vs suma de vares individuales
 
+```{r,echo = FALSE, fig.align="center"}
+   library(ggplot2)
 
+    #VaR
+    var_ind <- params$var_sm_ind_el[nrow(params$var_sm_ind_el),2]
+
+    #var_ind%*%S
+    VaR <- params$var_sm_por_el
+    
+    
+    #defino data
+    data <- data.frame(c("Suma VaRes Individuales","VaR Portafolio"),c(var_ind,VaR))
+    names(data) <- c("VaRes","Valor")
+
+    #grafico
+    ggplot(data=data, aes(x=VaRes, y=Valor,fill=VaRes)) + 
+    geom_bar(stat="identity", position="stack") 
+
+```
