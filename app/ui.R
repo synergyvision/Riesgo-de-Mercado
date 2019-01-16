@@ -60,6 +60,9 @@ shinyUI(
                          menuSubItem("Gráficos", tabName = "graficos", icon = icon("circle-o"))
                          
                 ),#fin menuitem 
+                          menuItem("Backtesting", icon = icon("bar-chart-o"), 
+                                   menuSubItem("Datos", tabName = "datos_back", icon = icon("circle-o"))
+                          ),
                 
                             menuItem("Acerca", icon = icon("exclamation-circle"), tabName = "acerca"))
                   
@@ -1434,7 +1437,10 @@ shinyUI(
                       
                       
                       ),#final tab item graficos
-              
+              #BACKTESTING
+              tabItem(tabName = "datos_back",
+                      h2("Datos")
+              ),#final tabitem Backtesting
               
               
               
