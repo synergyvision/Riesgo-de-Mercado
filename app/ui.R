@@ -57,7 +57,9 @@ shinyUI(
                          
                          menuSubItem("VaR", tabName = "var", icon = icon("circle-o")),
                          
-                         menuSubItem("Gráficos", tabName = "graficos", icon = icon("circle-o"))
+                         menuSubItem("Gráficos", tabName = "graficos", icon = icon("circle-o")),
+                         
+                         menuSubItem("Históricos", tabName = "historicos", icon = icon("circle-o"))
                          
                 ),#fin menuitem 
                           menuItem("Backtesting", icon = icon("bar-chart-o"), 
@@ -1437,6 +1439,93 @@ shinyUI(
                       
                       
                       ),#final tab item graficos
+              #HISTORICOS
+              tabItem(tabName = "historicos",
+                      fluidRow(tabBox( width = 12, title = " ", id = "historico_vares", height = "50px", 
+                                       tabPanel("VaR Paramétrico",
+                                                h2("Rango de fechas disponibles:"),
+                                                verbatimTextOutput("fechas_disponibles_par"),
+                                                
+                                                h2("Favor seleccionar fechas:"),
+                                                
+                                                dateRangeInput('dateRange_par',
+                                                               label = 'Rango de fechas:',
+                                                               start = Sys.Date() - 2, end = Sys.Date() + 2
+                                                ),
+                                                h4("El histórico se calculara para las fechas comprendidas entre:"),
+                                                
+                                                verbatimTextOutput("dateRangeText_par"),
+                                                
+                                                verbatimTextOutput("hola"),
+                                              
+                                                h2("Histórico")
+                                     
+                                       )
+                                       ,
+                                       tabPanel("VaR Histórico",
+                                                h2("Rango de fechas disponibles:"),
+                                                verbatimTextOutput("fechas_disponibles_hist"),
+                                                h2("Favor seleccionar fechas:"),
+                                                
+                                                dateRangeInput('dateRange_hist',
+                                                               label = 'Rango de fechas:',
+                                                               start = Sys.Date() - 2, end = Sys.Date() + 2
+                                                ),
+                                                h4("El histórico se calculara para las fechas comprendidas entre:"),
+                                                
+                                                verbatimTextOutput("dateRangeText_hist"),
+                                                
+                                                h2("Histórico")
+                                                
+                                                
+                                       ),
+                                       tabPanel("VaR SMC Normal",
+                                                h2("Rango de fechas disponibles:"),
+                                                verbatimTextOutput("fechas_disponibles_smc1"),
+                                                h2("Favor seleccionar fechas:"),
+                                                
+                                                dateRangeInput('dateRange_smc1',
+                                                               label = 'Rango de fechas:',
+                                                               start = Sys.Date() - 2, end = Sys.Date() + 2
+                                                ),
+                                                h4("El histórico se calculara para las fechas comprendidas entre:"),
+                                                
+                                                verbatimTextOutput("dateRangeText_smc1"),
+                                               
+                                                h2("Histórico")
+                                                
+                                                
+                                       ),  
+                                       tabPanel("VaR SMC Mejor Distribución",
+                                                h2("Rango de fechas disponibles:"),
+                                                verbatimTextOutput("fechas_disponibles_smc2"),
+                                                h2("Favor seleccionar fechas:"),
+                                                
+                                                dateRangeInput('dateRange_smc2',
+                                                               label = 'Rango de fechas:',
+                                                               start = Sys.Date() - 2, end = Sys.Date() + 2
+                                                ),
+                                                h4("El histórico se calculara para las fechas comprendidas entre:"),
+                                                
+                                                verbatimTextOutput("dateRangeText_smc2"),    
+                                                
+                                                    h2("Histórico")
+                                                    
+                                                    
+                                       )
+                                       
+                                       
+                      )#final tabbox
+                      
+                      
+                      
+                      
+                      )#final fluidrow
+                      
+                      
+                      
+              ),#final tab item Historico
+              
               #BACKTESTING
               tabItem(tabName = "datos_back",
                       h2("Datos")

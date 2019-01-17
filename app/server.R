@@ -7043,7 +7043,100 @@ shinyServer(function(input, output) {
       )
     })
   
+  #HISTORICOS
+  #FECHAS DISPONIBLES
+  output$fechas_disponibles_par <- renderText({
+    paste(as.character(min(fe_var()))," al ",as.character(max(fe_var())))
+  })
   
+  output$fechas_disponibles_hist <- renderText({
+    paste(as.character(min(fe_var()))," al ",as.character(max(fe_var())))
+  })
+  
+  output$fechas_disponibles_smc1 <- renderText({
+    paste(as.character(min(fe_var()))," al ",as.character(max(fe_var())))
+  })
+  
+  output$fechas_disponibles_smc2 <- renderText({
+    paste(as.character(min(fe_var()))," al ",as.character(max(fe_var())))
+  })
+  
+  #VAR PARAMETRICO
+  #MUESTRO FECHAS DISPONIBLES
+  output$dateRangeText_par  <- renderText({
+          paste(as.character(input$dateRange_par), collapse = " y ")
+  })
+  
+  #FUNCION AUXILIAR DATA VAR PARAMETRICO
+  data_var <- reactive({
+    inFile <- input$file_data
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    # read.table(inFile$datapath, header = input$header,
+    #            sep = input$sep, quote = input$quote)
+    a <- read.delim2(inFile$datapath, header = input$header,
+                     sep = input$sep, quote = input$quote)
+    
+    #ordeno la data de fecha mas reciente a fecha mas antigua
+    a[,1] <- as.Date(a[,1])
+    a <- a[order(a[,1],decreasing = TRUE),]
+    
+    #seleciono 252 obs segun fecha seleccionada
+    
+    #a <- a[which(input$dateRange_par==a[,1]):(251+which(input$date_var==a[,1])),]
+    
+    return(a)
+    
+  })
+  
+  #FUNCION AUXILIAR QUE ME CALCULA VARES PARAMETRICOS DIARIOS 
+  var_diario_par <- reactive({
+    #fe <- fe_var()
+    data <- data_var()
+    
+    #creo secuencia de fecha
+    fe <- seq(input$dateRange_par[1],input$dateRange_par[2], "days")
+    fe <- fe[order(fe,decreasing = TRUE)]
+    fe1 <- rep(0,length(fe))
+    
+    
+    for(i in 1:length(fe)){
+      if(length(which(as.character(fe[i])==data[,1]))!=0){
+        fe1[i] <- 1
+      }
+    }
+    
+    #a <- which(fe1==1)
+    #creo estructura del VaR
+    #var <- cbind.data.frame(data[a,1],rep(0,length(data[a,1])))
+    #names(var) <- c("Fechas","VaR")
+    
+    #var[,2] <-fe1 
+    #a <- a[which(input$dateRange_par==a[,1]):(251+which(input$date_var==a[,1])),]
+    return(fe1)
+    
+  })
+  
+  output$hola <- renderPrint({
+    var_diario_par()
+  })
+  
+  #VAR HISTORICO
+  output$dateRangeText_hist  <- renderText({
+    paste(as.character(input$dateRange_hist), collapse = " y ")
+  })
+  
+  #VAR SMC NORMAL
+  output$dateRangeText_smc1  <- renderText({
+    paste(as.character(input$dateRange_smc1), collapse = " y ")
+  })
+  
+  #VAR SMC MEJOR DISTRIBUCION
+  output$dateRangeText_smc2  <- renderText({
+    paste(as.character(input$dateRange_smc2), collapse = " y ")
+  })
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()
