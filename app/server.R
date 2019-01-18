@@ -7091,9 +7091,8 @@ shinyServer(function(input, output) {
     
   })
   
-  #FUNCION AUXILIAR QUE ME CALCULA VARES PARAMETRICOS DIARIOS 
-  var_diario_par <- reactive({
-    #fe <- fe_var()
+  #FUNCION AUXILIAR QUE ME CALCULA FECHAS VARES PARAMETRICOS DIARIOS 
+  fecha_par <- reactive({
     data <- data_var()
     
     #creo secuencia de fecha
@@ -7108,19 +7107,148 @@ shinyServer(function(input, output) {
       }
     }
     
-    #a <- which(fe1==1)
-    #creo estructura del VaR
-    #var <- cbind.data.frame(data[a,1],rep(0,length(data[a,1])))
-    #names(var) <- c("Fechas","VaR")
+    #veo que fechas si estan
+    a <- which(fe1==1)
     
-    #var[,2] <-fe1 
-    #a <- a[which(input$dateRange_par==a[,1]):(251+which(input$date_var==a[,1])),]
-    return(fe1)
+    #creo vector de fechas que si salen
+    fe2 <- fe[a]
+    
+    # #creo estructura del VaR
+    # var <- cbind.data.frame(fe2,rep(0,length(fe2)))
+    # names(var) <- c("Fechas","VaR")
+    # 
+    # #relleno vares
+    # for(i in 1:length(fe2)){
+    #   var[i,2] <- funcion(fe2[i])
+    # }
+    
+    return(fe2)
     
   })
   
+  #FUNCION AUXILIAR QUE CALCULAR VAR PAR PARA UNA FECHA DADA
+  #QUE VARIA SEGUN 
+  var_parametrico <- reactive({
+    #LEO FECHAS A CALCULAR
+    fe <- fecha_par()
+    
+    #CREO ESTRUCTURA PARA GUARDAR LOS VARES
+    var <- cbind.data.frame(fe,rep(0,length(fe)))
+    names(var) <- c("Fechas","VaRes")
+    
+    #CREO FOR PARA CALCULAR TODOS LOS VARES PEDIDOS
+    #ES POSIBLE QUE SE DEMORE UN TIEMPO
+    # for(j in 1:length(fe)){
+    # 
+    # #ACTUALIZO DATA CON LA QUE TRABAJARE
+    # data0 <- data_var()
+    # 
+    # #SELECCIONO 252 OBS SEGUN FECHA SELECCIONADA
+    # data1 <- data0[which(fe[j]==data0[,1]):(251+which(fe[j]==data0[,1])),]
+    # 
+    # #calculo sd
+    # if(is.null(data1)){return()}
+    # rend <- as.data.frame(matrix(0,nrow = (nrow(data1)-1),ncol = (ncol(data1)-1)))
+    # names(rend) <- names(data1)[-1]
+    # 
+    # for(i in 1:(ncol(data1)-1)){
+    #   rend[,i] <- diff(log(data1[,i+1]))
+    # }
+    # 
+    # #veo si hay valores NA o inf en la data
+    # a <- rep(0,ncol(rend))
+    # 
+    # for(i in 1:ncol(rend)){
+    #   if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+    #     a[i] <- 1
+    #   }
+    # }
+    # 
+    # #cuando hay problemas con rend
+    # #titulos donde hay problema
+    # b <- which(a==1)
+    # if(sum(a)>=1){
+    #   rend <- rend[,-b]
+    #   #creo estructura de tabla
+    #   tabla <- as.data.frame(matrix(0,nrow = (ncol(rend)+1),ncol = 4))
+    #   names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual","VaR Porcentaje")
+    #   rownames(tabla) <- c(names(data1)[-c(1,(b+1))],"Totales")
+    # 
+    #   data1 <- as.data.frame(matrix(0,nrow = 1,ncol = ncol(rend)))
+    #   names(data1) <- names(data1)[-c(1,(b+1))]
+    # 
+    # 
+    #   for(i in 1:ncol(data1)){
+    #     data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+    #   }
+    # 
+    #   #relleno desviaciones estandar
+    #   tabla[,1] <- c(as.numeric(data1),NA)
+    # 
+    #   # #relleno valor nominal
+    #   tabla[,2] <- c(data_pos()[-b,2],sum(data_pos()[-b,2]))
+    # 
+    #   # #relleno Vares individuales
+    #   tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
+    #   tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+    # 
+    # 
+    #   #calculo matriz de correlaciones (diagonal de 1's)
+    #   S<- cor(rend)
+    # 
+    #   #VaR
+    #   var_ind <- tabla[1:(nrow(tabla)-1),3]
+    #   #var_ind%*%S
+    #   VaR <- sqrt(var_ind%*%S%*%as.matrix(var_ind))
+    #   var[j,2] <- as.numeric(VaR)
+    #  # return(VaR)
+    # 
+    # 
+    # }#final if problemas de rend
+    # 
+    # #creo estructura de tabla
+    # tabla <- as.data.frame(matrix(0,nrow = (ncol(data1)),ncol = 3))
+    # names(tabla) <- c("Desviación Estandar","Valor Nominal","VaR Individual")
+    # rownames(tabla) <- c(names(data1)[-1],"Totales")
+    # 
+    # 
+    # data1 <- as.data.frame(matrix(0,nrow = 1,ncol = (ncol(data1)-1)))
+    # names(data1) <- names(data1)[-1]
+    # 
+    # 
+    # for(i in 1:ncol(data1)){
+    #   data1[1,i] <- as.numeric(fitdistr(rend[,i],"normal")$estimate)[2]
+    # }
+    # 
+    # #relleno desviaciones estandar
+    # tabla[,1] <- c(as.numeric(data1),NA)
+    # 
+    # # #relleno valor nominal
+    # tabla[,2] <- c(data_pos()[,2],sum(data_pos()[,2]))
+    # 
+    # # #relleno Vares individuales
+    # tabla[,3] <- c(tabla[,1]*tabla[,2]*qnorm(as.numeric(sub(",",".",input$porVarn)),0,1))
+    # tabla[nrow(tabla),3] <- sum(tabla[1:((nrow(tabla))-1),3])
+    # 
+    # #calculo matriz de correlaciones (diagonal de 1's)
+    # S<- cor(rend)
+    # 
+    # #VaR
+    # var_ind <- tabla[1:(nrow(tabla)-1),3]
+    # #var_ind%*%S
+    # VaR <- sqrt(var_ind%*%S%*%as.matrix(var_ind))
+    # #return(VaR)
+    # var[j,2] <- as.numeric(VaR)
+    # }
+
+    return(var)
+    
+  })
+  
+ 
+  
   output$hola <- renderPrint({
-    var_diario_par()
+    var_parametrico()
   })
   
   #VAR HISTORICO
