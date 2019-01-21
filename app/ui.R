@@ -1456,8 +1456,9 @@ shinyUI(
                                                 
                                                 verbatimTextOutput("dateRangeText_par"),
                                                 
-                                                verbatimTextOutput("hola"),
+                                                #verbatimTextOutput("hola"),
                                               
+                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('hola')),
                                                 h2("Histórico")
                                      
                                        )
