@@ -1457,9 +1457,9 @@ shinyUI(
                                                 verbatimTextOutput("dateRangeText_par"),
                                                 
                                                 #verbatimTextOutput("hola"),
-                                              
-                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('hola')),
-                                                h2("Histórico")
+                                                h2("Histórico"),
+                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_par'))
+                                                
                                      
                                        )
                                        ,
@@ -1476,7 +1476,9 @@ shinyUI(
                                                 
                                                 verbatimTextOutput("dateRangeText_hist"),
                                                 
-                                                h2("Histórico")
+                                                h2("Histórico"),
+                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_hist'))
+                                                
                                                 
                                                 
                                        ),
@@ -1493,7 +1495,9 @@ shinyUI(
                                                 
                                                 verbatimTextOutput("dateRangeText_smc1"),
                                                
-                                                h2("Histórico")
+                                                h2("Histórico"),
+                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_smc1'))
+                                                
                                                 
                                                 
                                        ),  
@@ -1510,7 +1514,9 @@ shinyUI(
                                                 
                                                 verbatimTextOutput("dateRangeText_smc2"),    
                                                 
-                                                    h2("Histórico")
+                                                h2("Histórico"),
+                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_smc2'))
+                                                
                                                     
                                                     
                                        )

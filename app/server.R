@@ -7127,7 +7127,7 @@ shinyServer(function(input, output) {
   })
   
   #FUNCION AUXILIAR QUE CALCULAR VAR PAR PARA UNA FECHA DADA
-  #QUE VARIA SEGUN 
+  #QUE VARIA SEGUN FECHAS SELECCIONADAS
   var_parametrico <- reactive({
     #LEO FECHAS A CALCULAR
     #if(is.null(fecha_par())){return()}
@@ -7250,9 +7250,8 @@ shinyServer(function(input, output) {
     
   })
   
- 
-  
-  output$hola <- renderDataTable({
+  #GENERO OUTPUT
+  output$historico_par <- renderDataTable({
     var_parametrico()
   })
   
@@ -7261,14 +7260,368 @@ shinyServer(function(input, output) {
     paste(as.character(input$dateRange_hist), collapse = " y ")
   })
   
+  #FUNCION AUXILIAR QUE ME CALCULA FECHAS VARES HISTORICOS DIARIOS 
+  fecha_hist <- reactive({
+    data <- data_var()
+    
+    #creo secuencia de fecha
+    fe <- seq(input$dateRange_hist[1],input$dateRange_hist[2], "days")
+    fe <- fe[order(fe,decreasing = TRUE)]
+    fe1 <- rep(0,length(fe))
+    
+    
+    for(i in 1:length(fe)){
+      if(length(which(as.character(fe[i])==data[,1]))!=0){
+        fe1[i] <- 1
+      }
+    }
+    
+    #veo que fechas si estan
+    a <- which(fe1==1)
+    
+    #creo vector de fechas que si salen
+    fe2 <- fe[a]
+    
+    return(fe2)
+    
+  })
+  
+  #FUNCION AUXILIAR QUE CALCULAR VAR PAR PARA UNA FECHA DADA
+  #QUE VARIA SEGUN FECHAS SELECCIONADAS
+  var_historico <- reactive({
+    #LEO FECHAS A CALCULAR
+    #if(is.null(fecha_par())){return()}
+    fe <- fecha_hist()
+    
+    #CREO ESTRUCTURA PARA GUARDAR LOS VARES
+    var <- cbind.data.frame(fe,rep(0,length(fe)))
+    names(var) <- c("Fechas","VaRes")
+    
+    #CREO FOR PARA CALCULAR TODOS LOS VARES PEDIDOS
+    #ES POSIBLE QUE SE DEMORE UN TIEMPO
+    for(j in 1:length(fe)){
+      # 
+      #j <- 1
+      # #ACTUALIZO DATA CON LA QUE TRABAJARE
+      data0 <- data_var()
+      
+      # #SELECCIONO 252 OBS SEGUN FECHA SELECCIONADA
+      data <- data0[which(fe[j]==data0[,1]):(251+which(fe[j]==data0[,1])),]
+      
+      #calculo sd
+      if(is.null(data)){return()}
+      rend <- as.data.frame(matrix(0,nrow = (nrow(data)-1),ncol = (ncol(data)-1)))
+      names(rend) <- names(data)[-1]
+      
+      for(i in 1:(ncol(data)-1)){
+        rend[,i] <- diff(log(data[,i+1]))
+      }
+      
+      #veo si hay valores NA o inf en la data
+      a <- rep(0,ncol(rend))
+      
+      for(i in 1:ncol(rend)){
+        if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+          a[i] <- 1
+        }
+      }
+      
+      #calculo pesos
+      p <- data_pos()
+      p$pesos <- p[,2]/sum(p[,2])
+      
+      
+      #cuando hay problemas con rend
+      #titulos donde hay problema
+      b <- which(a==1)
+      if(sum(a)>=1){
+        rend <- rend[,-b]
+        
+        #actualizo pesos
+        p <- p[-b,]
+        p[,3] <- p[,2]/sum(p[,2])
+        
+        esc <- cbind.data.frame(rend,'Escenarios'=rep(0,nrow(rend)))
+        if(sum(p[,3])==1){
+          #calculo escenarios
+          for(i in 1:nrow(rend)){
+            esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+          }
+          
+          #Ordeno data
+          esc1 <- esc[,ncol(esc)]
+          esc1 <- esc1[order(esc1)]
+          
+          VaRsh <- sum(p[,2])-esc1[round((nrow(data)-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+          var[j,2] <- VaRsh
+        }else{return()}
+        
+      }else{
+        esc <- cbind.data.frame(rend,'Escenarios'=rep(0,nrow(rend)))
+        if(sum(p[,3])==1){
+          #calculo escenarios
+          for(i in 1:nrow(rend)){
+            esc[i,ncol(esc)] <- sum((1+as.numeric(rend[i,]))*p[,3])*sum(p[,2])
+          }
+          #esc[round((nrow(data())-1)*(1-as.numeric(sub(",",".",input$porVarsh)))),ncol(esc)]
+          esc1 <- esc[,ncol(esc)]
+          esc1 <- esc1[order(esc1)]
+          
+          VaRsh <- sum(data_pos()[,2])-esc1[round((nrow(data)-1)*(1-as.numeric(sub(",",".",input$porVarsh))))]
+          var[j,2] <- VaRsh       
+          
+        }else{return()}
+        
+      }
+    }#final for Vares
+      
+    return(var)
+    
+  })
+  
+  #GENERO OUTPUT
+  output$historico_hist <- renderDataTable({
+    var_historico()
+  })
+  
   #VAR SMC NORMAL
   output$dateRangeText_smc1  <- renderText({
     paste(as.character(input$dateRange_smc1), collapse = " y ")
   })
   
+  #FUNCION AUXILIAR QUE ME CALCULA FECHAS VARES HISTORICOS DIARIOS 
+  fecha_smc1 <- reactive({
+    data <- data_var()
+    
+    #creo secuencia de fecha
+    fe <- seq(input$dateRange_smc1[1],input$dateRange_smc1[2], "days")
+    fe <- fe[order(fe,decreasing = TRUE)]
+    fe1 <- rep(0,length(fe))
+    
+    
+    for(i in 1:length(fe)){
+      if(length(which(as.character(fe[i])==data[,1]))!=0){
+        fe1[i] <- 1
+      }
+    }
+    
+    #veo que fechas si estan
+    a <- which(fe1==1)
+    
+    #creo vector de fechas que si salen
+    fe2 <- fe[a]
+    
+    return(fe2)
+    
+  })
+  
+  #FUNCION AUXILIAR QUE CALCULAR VAR PAR PARA UNA FECHA DADA
+  #QUE VARIA SEGUN FECHAS SELECCIONADAS
+  var_smc1 <- reactive({
+    #LEO FECHAS A CALCULAR
+    #if(is.null(fecha_par())){return()}
+    fe <- fecha_smc1()
+    
+    #CREO ESTRUCTURA PARA GUARDAR LOS VARES
+    var <- cbind.data.frame(fe,rep(0,length(fe)))
+    names(var) <- c("Fechas","VaRes")
+    
+    #CREO FOR PARA CALCULAR TODOS LOS VARES PEDIDOS
+    #ES POSIBLE QUE SE DEMORE UN TIEMPO
+    for(j in 1:length(fe)){
+      # 
+      #j <- 1
+      # #ACTUALIZO DATA CON LA QUE TRABAJARE
+      data0 <- data_var()
+      
+      # #SELECCIONO 252 OBS SEGUN FECHA SELECCIONADA
+      data <- data0[which(fe[j]==data0[,1]):(251+which(fe[j]==data0[,1])),]
+      
+      #--#
+      #calculo sd
+      if(is.null(data)){return()}
+      rend <- as.data.frame(matrix(0,nrow = (nrow(data)-1),ncol = (ncol(data)-1)))
+      names(rend) <- names(data)[-1]
+      
+      for(i in 1:(ncol(data)-1)){
+        rend[,i] <- diff(log(data[,i+1]))
+      }
+      
+      #veo si hay valores NA o inf en la data
+      a <- rep(0,ncol(rend))
+      
+      for(i in 1:ncol(rend)){
+        if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+          a[i] <- 1
+        }
+      }
+      
+      #leo posiciones
+      p <- data_pos()
+      #p$pesos <- p[,2]/sum(p[,2])
+      
+      
+      #cuando hay problemas con rend
+      #titulos donde hay problema
+      b <- which(a==1)
+      if(sum(a)>=1){
+        rend <- rend[,-b]
+        
+        #actualizo posiciones
+        p <- p[-b,]
+        #p[,3] <- p[,2]/sum(p[,2])
+        
+        #creo matriz donde guardare simulaciones de cada instrumento
+        mat <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+        names(mat) <- c(names(rend))
+        
+        #relleno matriz de simulaciones
+        withProgress(message = 'Calculando números aleatorios', value = 0, {
+          incProgress(1/3, detail = "Realizando iteraciones")
+          for(i in 1:ncol(rend)){
+            mat[,i] <-  rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+          }
+        })
+        
+        #2) CALCULO MATRIZ DE CHOLESKY
+        cholesky <- t(chol(cor(rend,use="complete.obs")))
+        
+        #5) REALIZO PRODUCTO DE ESC*MAT CHOLESKY
+        mrs <- mat%*%t(cholesky)
+        
+        #6) calculo "incremento de precio"
+        mrs1 <- mrs%*%(p[,2])
+        
+        #7) calculo "precio" (siempre positivo)
+        mrs2 <- sum(p[,2])+mrs1
+        
+        
+        #10) CALCULO CUANTIL, QUE ES EL VAR
+        mat1 <- mrs2[order(mrs2)]
+        
+        
+        vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_n)))])
+        var_sm <- sum(p[,2])-vc
+        
+        #lista <- list(var_sm,mat1,vc)
+        
+        #return(lista)
+        var[j,2] <- var_sm
+        
+        
+      }#final if
+      
+      #creo matriz donde guardare simulaciones de cada instrumento
+      mat <- (matrix(0,nrow = input$sim_varmc_n,ncol = (ncol(rend))))
+      names(mat) <- c(names(rend))
+      
+      #relleno matriz de simulaciones
+      withProgress(message = 'Calculando números aleatorios', value = 0, {
+        incProgress(1/3, detail = "Realizando iteraciones")
+        for(i in 1:ncol(rend)){
+          mat[,i] <-  rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+        }
+      })
+      
+      #2) CALCULO MATRIZ DE CHOLESKY
+      cholesky <- t(chol(cor(rend,use="complete.obs")))
+      
+      #5) REALIZO PRODUCTO DE ESC*MAT CHOLESKY
+      mrs <- mat%*%t(cholesky)
+      
+      #6) calculo "incremento de precio"
+      mrs1 <- mrs%*%(p[,2])
+      
+      #7) calculo "precio" (siempre positivo)
+      mrs2 <- sum(p[,2])+mrs1
+      
+      
+      #10) CALCULO CUANTIL, QUE ES EL VAR
+      mat1 <- mrs2[order(mrs2)]
+      
+      
+      vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_n)))])
+      var_sm <- sum(p[,2])-vc
+      
+      #lista <- list(var_sm,mat1,vc)
+      var[j,2] <- var_sm
+      
+      #--#
+      
+    }#final for Vares
+    
+    return(var)
+    
+  })
+  
+  #GENERO OUTPUT
+  output$historico_smc1 <- renderDataTable({
+    var_smc1()
+  })
+  
   #VAR SMC MEJOR DISTRIBUCION
   output$dateRangeText_smc2  <- renderText({
     paste(as.character(input$dateRange_smc2), collapse = " y ")
+  })
+  
+  #FUNCION AUXILIAR QUE ME CALCULA FECHAS VARES HISTORICOS DIARIOS 
+  fecha_smc2 <- reactive({
+    data <- data_var()
+    
+    #creo secuencia de fecha
+    fe <- seq(input$dateRange_smc2[1],input$dateRange_smc2[2], "days")
+    fe <- fe[order(fe,decreasing = TRUE)]
+    fe1 <- rep(0,length(fe))
+    
+    
+    for(i in 1:length(fe)){
+      if(length(which(as.character(fe[i])==data[,1]))!=0){
+        fe1[i] <- 1
+      }
+    }
+    
+    #veo que fechas si estan
+    a <- which(fe1==1)
+    
+    #creo vector de fechas que si salen
+    fe2 <- fe[a]
+    
+    return(fe2)
+    
+  })
+  
+  #FUNCION AUXILIAR QUE CALCULAR VAR PAR PARA UNA FECHA DADA
+  #QUE VARIA SEGUN FECHAS SELECCIONADAS
+  var_smc2 <- reactive({
+    #LEO FECHAS A CALCULAR
+    #if(is.null(fecha_par())){return()}
+    fe <- fecha_smc2()
+    
+    #CREO ESTRUCTURA PARA GUARDAR LOS VARES
+    var <- cbind.data.frame(fe,rep(0,length(fe)))
+    names(var) <- c("Fechas","VaRes")
+    
+    #CREO FOR PARA CALCULAR TODOS LOS VARES PEDIDOS
+    #ES POSIBLE QUE SE DEMORE UN TIEMPO
+    for(j in 1:length(fe)){
+      # 
+      #j <- 1
+      # #ACTUALIZO DATA CON LA QUE TRABAJARE
+      data0 <- data_var()
+      
+      # #SELECCIONO 252 OBS SEGUN FECHA SELECCIONADA
+      data <- data0[which(fe[j]==data0[,1]):(251+which(fe[j]==data0[,1])),]
+      
+      
+    }#final for Vares
+    
+    return(var)
+    
+  })
+  
+  #GENERO OUTPUT
+  output$historico_smc2 <- renderDataTable({
+    var_smc2()
   })
   
   # Almacenar Variables Reactivas
