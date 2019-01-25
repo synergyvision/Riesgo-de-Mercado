@@ -7252,6 +7252,7 @@ shinyServer(function(input, output) {
   
   #GENERO OUTPUT
   output$historico_par <- renderDataTable({
+    write.table(var_parametrico(),paste(getwd(),"data","Historico_var_par.txt",sep = "/"),row.names = FALSE)
     var_parametrico()
   })
   
@@ -7381,6 +7382,7 @@ shinyServer(function(input, output) {
   
   #GENERO OUTPUT
   output$historico_hist <- renderDataTable({
+    write.table(var_historico(),paste(getwd(),"data","Historico_var_sh.txt",sep = "/"),row.names = FALSE)
     var_historico()
   })
   
@@ -7556,6 +7558,7 @@ shinyServer(function(input, output) {
   
   #GENERO OUTPUT
   output$historico_smc1 <- renderDataTable({
+    write.table(var_smc1(),paste(getwd(),"data","Historico_var_smcn.txt",sep = "/"),row.names = FALSE)
     var_smc1()
   })
   
@@ -7606,11 +7609,282 @@ shinyServer(function(input, output) {
     for(j in 1:length(fe)){
       # 
       #j <- 1
-      # #ACTUALIZO DATA CON LA QUE TRABAJARE
+      #ACTUALIZO DATA CON LA QUE TRABAJARE
       data0 <- data_var()
       
-      # #SELECCIONO 252 OBS SEGUN FECHA SELECCIONADA
+      #SELECCIONO 252 OBS SEGUN FECHA SELECCIONADA
       data <- data0[which(fe[j]==data0[,1]):(251+which(fe[j]==data0[,1])),]
+      
+      #calculo sd
+      if(is.null(data())){return()}
+      rend <- as.data.frame(matrix(0,nrow = (nrow(data)-1),ncol = (ncol(data)-1)))
+      names(rend) <- names(data)[-1]
+      
+      for(i in 1:(ncol(data)-1)){
+        rend[,i] <- diff(log(data[,i+1]))
+      }
+      
+      #veo si hay valores NA o inf en la data
+      a <- rep(0,ncol(rend))
+      
+      for(i in 1:ncol(rend)){
+        if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
+          a[i] <- 1
+        }
+      }
+      
+      #leo posiciones
+      p <- data_pos()
+      #p$pesos <- p[,2]/sum(p[,2])
+      
+      #leo distribuciones
+      if(input$seleccion_dist==0){
+        dist <- distribuciones()
+      }else if(input$seleccion_dist==1){
+        dist <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
+      }
+      
+      #cuando hay problemas con rend
+      #titulos donde hay problema
+      b <- which(a==1)
+      if(sum(a)>=1){
+        rend <- rend[,-b]
+        
+        #actualizo posiciones
+        p <- p[-b,]
+        #p[,3] <- p[,2]/sum(p[,2])
+        
+        #creo matriz donde guardare simulaciones de cada instrumento
+        #mat <- as.data.frame(matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend)+2)))
+        #names(mat) <- c(names(rend),"incremento","escenario")
+        mat <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
+        names(mat) <- c(names(rend))
+         
+         
+        #relleno matriz de simulaciones
+        withProgress(message = 'Calculando números aleatorios', value = 0, {
+          incProgress(1/3, detail = "Realizando iteraciones")
+          for(i in 1:ncol(rend)){
+            #mat[,i] <-  rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+            if(as.character(dist[,i])=="Normal"){
+              #n_rand <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+              #calculo momentos
+              a1 <- lmom.ub(rend[,i])
+              #convierto valor anterior en parametros
+              b1 <- lmom2par(a1,type="nor") #normal
+              #realizo simulacion
+              mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+            }else if(as.character(dist[,i])=="Exponential"){
+              #n_rand <- rexp(n = input$sim_varmc_n,rate = as.numeric(fitdistr(rend[,i],"exponential")$estimate))
+              #calculo momentos
+              a1 <- lmom.ub(rend[,i])
+              #convierto valor anterior en parametros
+              b1 <- lmom2par(a1,type="exp") #normal
+              #realizo simulacion
+              mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+            }else if(as.character(dist[,i])=="Cauchy"){
+              #n_rand <- rcauchy(n = input$sim_varmc_n,location = as.numeric(fitdistr(rend[,i],"cauchy")$estimate)[1],scale =as.numeric(fitdistr(rend[,i],"cauchy")$estimate)[2])
+              #calculo momentos
+              a1 <- lmom.ub(rend[,i])
+              #convierto valor anterior en parametros
+              b1 <- lmom2par(a1,type="cau") #normal
+              #realizo simulacion
+              mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+            }else if(as.character(dist[,i])=="Logistic"){
+              #n_rand <- rlogis(n = input$sim_varmc_n,location = as.numeric(fitdistr(rend[,i],"logistic")$estimate)[1],scale =as.numeric(fitdistr(rend[,i],"logistic")$estimate)[2])
+              #calculo momentos
+              a1 <- lmom.ub(rend[,i])
+              #convierto valor anterior en parametros
+              b1 <- lmom2par(a1,type="glo") #normal
+              #realizo simulacion
+              mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+            }else if(as.character(dist[,i])=="Beta"){
+              #
+            }else if(as.character(dist[,i])=="Chi-square"){
+              #
+            }else if(as.character(dist[,i])=="Uniform"){
+              #
+            }else if(as.character(dist[,i])=="Gamma"){
+              #n_rand <- rgamma(n = input$sim_varmc_n,shape = as.numeric(fitdistr(rend[,i],"Gamma")$estimate)[1],rate = as.numeric(fitdistr(rend[,i],"Gamma")$estimate)[2])
+              #calculo momentos
+              a1 <- lmom.ub(rend[,i])
+              #convierto valor anterior en parametros
+              b1 <- lmom2par(a1,type="gam") #normal
+              #realizo simulacion
+              mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+            }else if(as.character(dist[,i])=="Lognormal"){
+              mat[,i] <- rlnorm(n = input$sim_varmc_el,meanlog = as.numeric(fitdistr(rend[,i],"Lognormal")$estimate)[1],sdlog = as.numeric(fitdistr(rend[,i],"Lognormal")$estimate)[2])
+            }else if(as.character(dist[,i])=="Weibull"){
+              #n_rand <- rweibull(n = input$sim_varmc_n,shape = as.numeric(fitdistr(rend[,i],"Weibull")$estimate)[1],scale = as.numeric(fitdistr(rend[,i],"Weibull")$estimate)[2])
+              #calculo momentos
+              a1 <- lmom.ub(rend[,i])
+              #convierto valor anterior en parametros
+              b1 <- lmom2par(a1,type="wei") #normal
+              #realizo simulacion
+              mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+            }else if(as.character(dist[,i])=="F"){
+              #
+            }else if(as.character(dist[,i])=="Student"){
+              #
+              #calculo momentos
+              a1 <- lmom.ub(rend[,i])
+              #convierto valor anterior en parametros
+              b1 <- lmom2par(a1,type="st3") #normal
+              #realizo simulacion
+              mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+            }else if(as.character(dist[,i])=="Gompertz"){
+              #
+            }else{
+              mat[,i] <- rep(0,input$sim_varmc_el)
+            }
+
+
+          }
+        })
+
+        #CALCULO MATRIZ DE CHOLESKY
+        cholesky <- t(chol(cor(rend,use="complete.obs")))
+
+        #5) REALIZO PRODUCTO DE MATRIZ DE N ALEATORIOS*MAT CHOLESKY
+        mrs <- mat%*%t(cholesky)
+
+        #6) calculo "incremento de precio"
+        mrs1 <- mrs%*%p[,2]
+
+        #7) calculo "precio" (siempre positivo)
+        mrs2 <- sum(p[,2])+mrs1
+
+
+        #10) CALCULO CUANTIL, QUE ES EL VAR
+        #quantile(gop2,  probs = c(0.05),type = 1)
+        #ordeno columna "escenarios"
+        mat1 <- mrs2[order(mrs2)]
+
+        #calculo valor de corte y VaR Monte Carlo
+         #vc <- (mat1[length(mat1)*5/100])
+         vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_el)))])
+         var_sm <- sum(p[,2])-vc
+         
+        #var[j,2] <- var_sm
+        
+        return(as.data.frame(var_sm))
+        
+      }else{#final if
+      
+      #creo matriz donde guardare simulaciones de cada instrumento
+      #mat <- as.data.frame(matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend)+2)))
+      #names(mat) <- c(names(rend),"incremento","escenario")
+      mat <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
+      names(mat) <- c(names(rend))
+      
+      
+      #relleno matriz de simulaciones
+      withProgress(message = 'Calculando números aleatorios', value = 0, {
+        incProgress(1/3, detail = "Realizando iteraciones")
+        for(i in 1:ncol(rend)){
+          #mat[,i] <-  rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+          if(as.character(dist[,i])=="Normal"){
+            #n_rand <- rnorm(n = input$sim_varmc_n,mean = as.numeric(fitdistr(rend[,i],"normal")$estimate)[1],sd = as.numeric(fitdistr(rend[,i],"normal")$estimate)[2])
+            #calculo momentos
+            a1 <- lmom.ub(rend[,i])
+            #convierto valor anterior en parametros
+            b1 <- lmom2par(a1,type="nor") #normal   
+            #realizo simulacion
+            mat[,i] <- rlmomco(input$sim_varmc_el,b1) 
+          }else if(as.character(dist[,i])=="Exponential"){
+            #n_rand <- rexp(n = input$sim_varmc_n,rate = as.numeric(fitdistr(rend[,i],"exponential")$estimate))
+            #calculo momentos
+            a1 <- lmom.ub(rend[,i])
+            #convierto valor anterior en parametros
+            b1 <- lmom2par(a1,type="exp") #normal   
+            #realizo simulacion
+            mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+          }else if(as.character(dist[,i])=="Cauchy"){
+            #n_rand <- rcauchy(n = input$sim_varmc_n,location = as.numeric(fitdistr(rend[,i],"cauchy")$estimate)[1],scale =as.numeric(fitdistr(rend[,i],"cauchy")$estimate)[2])
+            #calculo momentos
+            a1 <- lmom.ub(rend[,i])
+            #convierto valor anterior en parametros
+            b1 <- lmom2par(a1,type="cau") #normal   
+            #realizo simulacion
+            mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+          }else if(as.character(dist[,i])=="Logistic"){
+            #n_rand <- rlogis(n = input$sim_varmc_n,location = as.numeric(fitdistr(rend[,i],"logistic")$estimate)[1],scale =as.numeric(fitdistr(rend[,i],"logistic")$estimate)[2])
+            #calculo momentos
+            a1 <- lmom.ub(rend[,i])
+            #convierto valor anterior en parametros
+            b1 <- lmom2par(a1,type="glo") #normal
+            #realizo simulacion
+            mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+          }else if(as.character(dist[,i])=="Beta"){
+            #
+          }else if(as.character(dist[,i])=="Chi-square"){
+            #
+          }else if(as.character(dist[,i])=="Uniform"){
+            #
+          }else if(as.character(dist[,i])=="Gamma"){
+            #n_rand <- rgamma(n = input$sim_varmc_n,shape = as.numeric(fitdistr(rend[,i],"Gamma")$estimate)[1],rate = as.numeric(fitdistr(rend[,i],"Gamma")$estimate)[2])
+            #calculo momentos
+            a1 <- lmom.ub(rend[,i])
+            #convierto valor anterior en parametros
+            b1 <- lmom2par(a1,type="gam") #normal   
+            #realizo simulacion
+            mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+          }else if(as.character(dist[,i])=="Lognormal"){
+            mat[,i] <- rlnorm(n = input$sim_varmc_el,meanlog = as.numeric(fitdistr(rend[,i],"Lognormal")$estimate)[1],sdlog = as.numeric(fitdistr(rend[,i],"Lognormal")$estimate)[2])
+          }else if(as.character(dist[,i])=="Weibull"){
+            #n_rand <- rweibull(n = input$sim_varmc_n,shape = as.numeric(fitdistr(rend[,i],"Weibull")$estimate)[1],scale = as.numeric(fitdistr(rend[,i],"Weibull")$estimate)[2])
+            #calculo momentos
+            a1 <- lmom.ub(rend[,i])
+            #convierto valor anterior en parametros
+            b1 <- lmom2par(a1,type="wei") #normal   
+            #realizo simulacion
+            mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+          }else if(as.character(dist[,i])=="F"){
+            #
+          }else if(as.character(dist[,i])=="Student"){
+            #
+            #calculo momentos
+            a1 <- lmom.ub(rend[,i])
+            #convierto valor anterior en parametros
+            b1 <- lmom2par(a1,type="st3") #normal   
+            #realizo simulacion
+            mat[,i] <- rlmomco(input$sim_varmc_el,b1)
+          }else if(as.character(dist[,i])=="Gompertz"){
+            #
+          }else{
+            mat[,i] <- rep(0,input$sim_varmc_el)
+          }
+          
+          
+        }
+      })
+      
+      #CALCULO MATRIZ DE CHOLESKY
+      cholesky <- t(chol(cor(rend,use="complete.obs")))
+      
+      #5) REALIZO PRODUCTO DE MATRIZ DE N ALEATORIOS*MAT CHOLESKY
+      mrs <- mat%*%t(cholesky)
+      
+      #6) calculo "incremento de precio"
+      mrs1 <- mrs%*%p[,2]
+      
+      #7) calculo "precio" (siempre positivo)
+      mrs2 <- sum(p[,2])+mrs1
+      
+      
+      #10) CALCULO CUANTIL, QUE ES EL VAR
+      #quantile(gop2,  probs = c(0.05),type = 1)
+      #ordeno columna "escenarios"
+      mat1 <- mrs2[order(mrs2)]
+      
+      #calculo valor de corte y VaR Monte Carlo
+      #vc <- (mat1[length(mat1)*5/100])
+      vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_el)))])
+      var_sm <- sum(p[,2])-vc
+      
+      var[j,2] <- var_sm
+      
+      }
       
       
     }#final for Vares
@@ -7621,6 +7895,7 @@ shinyServer(function(input, output) {
   
   #GENERO OUTPUT
   output$historico_smc2 <- renderDataTable({
+    write.table(var_smc2(),paste(getwd(),"data","Historico_var_smcmd.txt",sep = "/"),row.names = FALSE)
     var_smc2()
   })
   
