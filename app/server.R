@@ -7590,7 +7590,6 @@ shinyServer(function(input, output) {
     fe2 <- fe[a]
     
     return(fe2)
-    
   })
   
   #FUNCION AUXILIAR QUE CALCULAR VAR PAR PARA UNA FECHA DADA
@@ -7604,19 +7603,21 @@ shinyServer(function(input, output) {
     var <- cbind.data.frame(fe,rep(0,length(fe)))
     names(var) <- c("Fechas","VaRes")
     
+    
     #CREO FOR PARA CALCULAR TODOS LOS VARES PEDIDOS
     #ES POSIBLE QUE SE DEMORE UN TIEMPO
     for(j in 1:length(fe)){
       # 
       #j <- 1
-      #ACTUALIZO DATA CON LA QUE TRABAJARE
+      # #ACTUALIZO DATA CON LA QUE TRABAJARE
       data0 <- data_var()
       
-      #SELECCIONO 252 OBS SEGUN FECHA SELECCIONADA
+      # #SELECCIONO 252 OBS SEGUN FECHA SELECCIONADA
       data <- data0[which(fe[j]==data0[,1]):(251+which(fe[j]==data0[,1])),]
       
+      #--#
       #calculo sd
-      if(is.null(data())){return()}
+      if(is.null(data)){return()}
       rend <- as.data.frame(matrix(0,nrow = (nrow(data)-1),ncol = (ncol(data)-1)))
       names(rend) <- names(data)[-1]
       
@@ -7641,8 +7642,9 @@ shinyServer(function(input, output) {
       if(input$seleccion_dist==0){
         dist <- distribuciones()
       }else if(input$seleccion_dist==1){
-        dist <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
-      }
+        #dist <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
+        dist <- read.csv(paste(getwd(),"data","distribuciones3.txt",sep = "/"),sep="")
+        }
       
       #cuando hay problemas con rend
       #titulos donde hay problema
@@ -7653,6 +7655,7 @@ shinyServer(function(input, output) {
         #actualizo posiciones
         p <- p[-b,]
         #p[,3] <- p[,2]/sum(p[,2])
+        
         
         #creo matriz donde guardare simulaciones de cada instrumento
         #mat <- as.data.frame(matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend)+2)))
@@ -7765,9 +7768,9 @@ shinyServer(function(input, output) {
          vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_el)))])
          var_sm <- sum(p[,2])-vc
          
-        #var[j,2] <- var_sm
-        
-        return(as.data.frame(var_sm))
+        var[j,2] <- var_sm
+  
+        #return(as.data.frame(var_sm))
         
       }else{#final if
       
