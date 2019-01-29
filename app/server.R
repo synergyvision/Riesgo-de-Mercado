@@ -7656,6 +7656,8 @@ shinyServer(function(input, output) {
         p <- p[-b,]
         #p[,3] <- p[,2]/sum(p[,2])
         
+        #actualizo distribuciones
+        dist <- dist[,-b]
         
         #creo matriz donde guardare simulaciones de cada instrumento
         #mat <- as.data.frame(matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend)+2)))
@@ -7901,6 +7903,42 @@ shinyServer(function(input, output) {
     write.table(var_smc2(),paste(getwd(),"data","Historico_var_smcmd.txt",sep = "/"),row.names = FALSE)
     var_smc2()
   })
+  
+  ###############################################################################
+  ###############################################################################
+  #################################    BACKTESTING    ###########################
+  ###############################################################################
+  ###############################################################################
+  
+  
+  data_back <- reactive({
+    # input$file1 will be NULL initially. After the user selects
+    # and uploads a file, it will be a data frame with 'name',
+    # 'size', 'type', and 'datapath' columns. The 'datapath'
+    # column will contain the local filenames where the data can
+    # be found.
+    
+    inFile <- input$file_data_back
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    # read.table(inFile$datapath, header = input$header,
+    #            sep = input$sep, quote = input$quote)
+    a <- read.delim2(inFile$datapath, header = input$header_back,
+                     sep = input$sep_back, quote = input$quote_back)
+    
+    return(a)
+    
+  })
+  
+  
+  output$datatable_back<-renderDataTable({
+    if(is.null(data_back())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    datatable(data_back())
+  })
+  
   
   # Almacenar Variables Reactivas
   RV <- reactiveValues()

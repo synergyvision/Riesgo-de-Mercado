@@ -63,7 +63,8 @@ shinyUI(
                          
                 ),#fin menuitem 
                           menuItem("Backtesting", icon = icon("bar-chart-o"), 
-                                   menuSubItem("Datos", tabName = "datos_back", icon = icon("circle-o"))
+                                   menuSubItem("Datos", tabName = "datos_back", icon = icon("circle-o")),
+                                   menuSubItem("Resultados", tabName = "resultados_back", icon = icon("circle-o"))
                           ),
                 
                             menuItem("Acerca", icon = icon("exclamation-circle"), tabName = "acerca"))
@@ -1535,7 +1536,32 @@ shinyUI(
               
               #BACKTESTING
               tabItem(tabName = "datos_back",
-                      h2("Datos")
+                      h2(" Seleccionar archivo"),
+                      fluidRow(
+                        box(width = 12, title = h3(UPLOADDATA_TEXT),
+                            box( width=12,background = "navy",
+                                 fileInput('file_data_back', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
+                                           placeholder = FILESELEC_TEXT, buttonLabel = BUTTSELEC_TEXT )
+                            ),
+                            fluidRow(
+                              box(width=4,background="olive",strong(ENCABEZADO_TEXT),
+                                  checkboxInput( width="100%", 'header_back', WITHHEADER_TEXT, TRUE)),
+                              box(width=4,background="olive",
+                                  radioButtons( width="40%", 'sep_back', SEPARATOR_TEXT, UPLOADFILESEP_CONF, ';')),
+                              box(width=4,background="olive",
+                                  radioButtons( width="40%", 'quote_back', COMILLAS_TEXT, UPLOADCOMILLAS_CONF, ''))
+                            )
+                        )
+                      ),
+                      fluidRow(
+                        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_back'))
+                      )
+                      
+                      
+                      
+              ),#final tabitem Backtesting
+              tabItem(tabName = "resultados_back",
+                      h2("Resultados")
               ),#final tabitem Backtesting
               
               
