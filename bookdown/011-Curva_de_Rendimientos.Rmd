@@ -7,3 +7,10 @@ La curva de rendimientos es una herramienta utilizada ampliamente, por quienes t
 Los resultados revelan las bondades en el ajuste de las redes neuronales artificiales (RNA), la curva de Svensson, la curva de Nelson-Siegel y los polinomios locales. No obstante, se recomienda utilizar la curva de Svensson en la estimación de las tasas de interés, debido a la interpretabilidad de sus parámetros y a su superioridad sobre la
 Curva de Nelson-Siegel.
 
+##Metodología Nelson y Siegel
+
+##Metodología Svensson
+
+##Metodología Diebold-Li
+
+##Metodología Splines Cúbicos de Suavizado

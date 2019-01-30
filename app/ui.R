@@ -1547,7 +1547,7 @@ shinyUI(
                               box(width=4,background="olive",strong(ENCABEZADO_TEXT),
                                   checkboxInput( width="100%", 'header_back', WITHHEADER_TEXT, TRUE)),
                               box(width=4,background="olive",
-                                  radioButtons( width="40%", 'sep_back', SEPARATOR_TEXT, UPLOADFILESEP_CONF, ';')),
+                                  radioButtons( width="40%", 'sep_back', SEPARATOR_TEXT, UPLOADFILESEP_CONF_1, ';')),
                               box(width=4,background="olive",
                                   radioButtons( width="40%", 'quote_back', COMILLAS_TEXT, UPLOADCOMILLAS_CONF, ''))
                             )
@@ -1561,7 +1561,12 @@ shinyUI(
                       
               ),#final tabitem Backtesting
               tabItem(tabName = "resultados_back",
-                      h2("Resultados")
+                      h2("Resultados"),
+                      fluidRow(
+                        box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('result_back'))
+                      )
+                      
+                      
               ),#final tabitem Backtesting
               
               

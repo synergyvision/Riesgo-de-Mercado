@@ -212,6 +212,10 @@ UPLOADFILESEP_CONF<-c('Coma'=',',
                       'Punto y coma'=';',
                       'Tab'='\t')
 
+UPLOADFILESEP_CONF_1<-c('Coma'=',',
+                      'Punto y coma'=';',
+                      'Tab'='\t','Espacio'=' ')
+
 UPLOADCOMILLAS_CONF<-c('Ninguna'='',
                        'Comilla doble'='"',
                        'Comilla simple'="'")

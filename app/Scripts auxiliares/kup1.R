@@ -130,7 +130,9 @@ kup1=function(K,p){
   d1=c("  Negativas  ","  Total  ","  Observaciones  ")
   e1=c("  Kupiec  ","  Haas  ","  Mixto  ")
   n1=c("  Valor critico Kupiec  ","  Valor Critico Haas  ","  Valor Critico Mixto  ")
-  Excepciones=c(d[-2],length(a))
+  #Excepciones=c(d[-2],length(a))
+  Excepciones=d
+  
   Est.=e
   VCritico=n
   
@@ -157,8 +159,8 @@ kup1=function(K,p){
 #EJEMPLO
 #K <- read.delim2("T:/Riesgos/Intercambio/Coordinacion de Riesgo de Mercado, Liquidez y Tasas de Interes/RIESGO DE MERCADO/Valoracion Riesgo/Backtesting/Kupiec/k252Mar18.txt", header=FALSE)
 #leo data
-k252Mar18 <- read.delim2("~/Documents/Backtesting/k252Mar18.txt", header=FALSE)
-K <- kup1(k252Mar18,0.05)
+#k252Mar18 <- read.delim2("~/Documents/Backtesting/k252Mar18.txt", header=FALSE)
+#K <- kup1(k252Mar18,0.05)
 
-head(k252Mar18)
+#head(k252Mar18)
 

@@ -200,7 +200,7 @@ Una vez cargados todos los paquetes y funciones necesarias para ejecutar la func
 ```{r}
 #Prueba Julio 2018
 #ejemplo
-source('C:/Users/Freddy Tapia/Desktop/Svensson/funciones.R')
+#source('C:/Users/Freddy Tapia/Desktop/Svensson/funciones.R')
 
 #TIF
 tit=c("TIF082018","TIF042019","TIF082019",
@@ -225,16 +225,16 @@ Luego creo la variable "C", la cual se genera a partir de la información del do
 
 ```{r}
 #Documento de la características
-C <- Carac("C:/Users/Freddy Tapia/Desktop/29-06-18.xls")
+#C <- Carac("C:/Users/Freddy Tapia/Desktop/29-06-18.xls")
 
-head(C)
+#head(C)
 
 ```
 
 Finalmente ejecuto la función,
 
 ```{r}
-Tabla11t=Tabla.sven(fv = "06/07/2018",tit = tit,pr = pr,pa = pa,ind = 0,C = C) 
+#Tabla11t=Tabla.sven(fv = "06/07/2018",tit = tit,pr = pr,pa = pa,ind = 0,C = C) 
 ```
 
 Inicialmente la función muestra una tabla con los valores iniciales, luego de esto se pregunta al usuario si desea optimizar los precios, en caso afirmativo se ofrecen dos métodos uno mediante el paquete nloptr y el otro mediante alabama.
