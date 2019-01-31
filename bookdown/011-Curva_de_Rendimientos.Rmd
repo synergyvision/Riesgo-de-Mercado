@@ -2,15 +2,70 @@
 
 # Curva de Rendimientos
 
-La curva de rendimientos es una herramienta utilizada ampliamente, por quienes toman las decisiones de política monetaria o planifican sus inversiones, de acuerdo con la valoración, negociación o cobertura sobre instrumentos financieros. Se ha comprobado que la geometría de la curva de rendimientos en los mercados desarrollados incorpora información relevante para la predicción de las recesiones económicas. De igual manera, en finanzas la curva de rendimientos se convierte en un vector de precios de referencia importante para la fijación de las tasas de interés a diferentes plazos y por riesgo de crédito para bancos, prestamistas, colocadores de bonos y, en general, para todos los participantes del mercado de dinero.
+<!-- La curva de rendimientos es una herramienta utilizada ampliamente, por quienes toman las decisiones de política monetaria o planifican sus inversiones, de acuerdo con la valoración, negociación o cobertura sobre instrumentos financieros. Se ha comprobado que la geometría de la curva de rendimientos en los mercados desarrollados incorpora información relevante para la predicción de las recesiones económicas. De igual manera, en finanzas la curva de rendimientos se convierte en un vector de precios de referencia importante para la fijación de las tasas de interés a diferentes plazos y por riesgo de crédito para bancos, prestamistas, colocadores de bonos y, en general, para todos los participantes del mercado de dinero. -->
 
-Los resultados revelan las bondades en el ajuste de las redes neuronales artificiales (RNA), la curva de Svensson, la curva de Nelson-Siegel y los polinomios locales. No obstante, se recomienda utilizar la curva de Svensson en la estimación de las tasas de interés, debido a la interpretabilidad de sus parámetros y a su superioridad sobre la
-Curva de Nelson-Siegel.
+<!-- Los resultados revelan las bondades en el ajuste de las redes neuronales artificiales (RNA), la curva de Svensson, la curva de Nelson-Siegel y los polinomios locales. No obstante, se recomienda utilizar la curva de Svensson en la estimación de las tasas de interés, debido a la interpretabilidad de sus parámetros y a su superioridad sobre la -->
+<!-- Curva de Nelson-Siegel. -->
 
-##Metodología Nelson y Siegel
+La curva de rendimientos es una representación grafica que muestra la relación que existe entre los rendimientos de una clase particular de títulos valores y el tiempo que falta para su vencimiento, lo cual es conocido como la estructura temporal de la tasa de interés (ETTI) para instrumentos con riesgo similar pero con diferentes plazos de maduración. La ETTI es un indicador de la evolución futura de los tipos de interés y de inflación, además, la mayoría de los activos financieros se valoran mediante este indicador, por lo cual también se considera básico en el diseño de estrategias de gestión de riesgos y en la toma de decisiones de inversión y financiación. Existen cuatro formas que puede adoptar una curva de rendimientos:
 
-##Metodología Svensson
 
-##Metodología Diebold-Li
++ **Curva ascendente**: generalmente, la curva de rendimientos tiene esta      forma, lo que indica que los inversionistas requieren mayores rendimientos     para vencimientos de más largo plazo, es decir, que los rendimientos         varían directamente con los plazos. 
++ **Curva descendente**: indica que los rendimientos disminuyen a medida que   aumentan los plazos.
++ **Curva horizontal**: indica que independientemente del plazo de vencimient   o, los rendimientos son los mismos; para períodos muy largos, todas las      curvas de rendimientos tienden a aplanarse.
 
-##Metodología Splines Cúbicos de Suavizado
++ **Curva horizontal**: indica que independientemente del plazo de vencimiento, los rendimientos son los mismos; para períodos muy largos, todas las      curvas de rendimientos tienden a aplanarse.
+
++ **Curva creciente y decreciente**: es el reflejo de una situación en la    que los rendimientos de corto y largo plazo son los mismos y los rendimientos  de mediano plazo son los que varían.
+
+<!-- \begin{figure}[h] -->
+<!--   \scalebox{0.80}{\includegraphics{images/tipo_curvas.jpg}} -->
+<!-- \caption{Tipos de curva de rendimiento.} -->
+<!-- \label{tipos_c} -->
+<!-- \end{figure} -->
+
+
+<!-- ![](images/tipo_curvas.jpg "Figura 1: Tipo de Curvas") -->
+
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Tipos de Curvas",label=tipos}
+knitr::include_graphics("images/tipo_curvas.jpg")
+```
+
+Es de esperar que una pendiente negativa de la curva de rendimientos (Ver Figura \@ref(fig:tipos) ) o curva invertida (tasas de largo plazo menores a las de corto plazo) indique expectativas de una recesión futura y, por lo tanto, menores tasas de interés futuras; esto se puede explicar ya que los rendimientos esperados contienen información sobre los planes de consumo de los agentes. 
+
+Entre las teorías que explican la pendiente de la curva de rendimientos, se encuentran:
+
+
++ **La teoría de la preferencia por la liquidez**: consiste en que los inversionistas prefieren manejar títulos a corto plazo, pues éstos tienen una sensibilidad menor a los cambios en las tasas de interés y ofrecen una mayor flexibilidad en las inversiones si se compara con los títulos de largo plazo. Además, los prestatarios prefieren deuda a largo plazo, pues la de corto plazo los expone al riesgo de hacer una refinanciación de la deuda en condiciones adversas. Ambas situaciones, generan entonces, tasas de corto plazo relativamente bajas. En su conjunto, estos dos grupos de preferencias implican que en condiciones normales existe una Prima de Riesgo por Vencimiento (PRV) que aumenta en función de los años de vencimiento, haciendo que la curva de rendimientos posea una pendiente ascendente \cite{DO}.
+
++ **La teoría de la segmentación del mercado**: considera el mercado de renta fija como una serie de distintos mercados, los inversionistas y los emisores están restringidos por el sector específico de maduración. De acuerdo con esta teoría, la curva de rendimientos refleja una serie de condiciones de oferta y demanda que crean una secuencia de precios de equilibrio de mercado (tasas de interés) de los fondos \cite{DO}.
+
++ **La teoría del Hábitat Preferido**: plantea que los inversionistas intentarán liquidar sus inversiones en el menor plazo posible mientras que los prestamistas querrán tomar un plazo más largo; por lo tanto, dado que no se encuentran oferta y demanda de fondos para un mismo plazo, algunos inversionistas o prestatarios se verán motivados a cambiar el plazo de la inversión o el financiamiento pero, para lograrlo, deben ser compensados con un premio por el riesgo cuyo tamano reflejará la extesión de la aversión al riesgo.
+
++ **La Hipótesis de las Expectativas (HE)**: plantea que las tasas de interés de largo plazo deben reflejar por completo la información revelada por las futuras tasas de interés de corto plazo esperadas \cite{YS}, o sea que los tipos de largo plazo no son más que una suma ponderada de los tipos de corto plazo esperados \cite{FR}. Así, se puede afirmar entonces que la HE es una teoría que plantea que las tasas de interés exclusivamente representan las tasas previstas en el futuro.
+
+##Metodologías de estimación de la Curva de Rendimientos.
+
+La curva de rendimientos presenta empíricamente una serie de dificultades, debido a que se construye a través de una serie de precios (tasas) de instrumentos financieros discontinuos en el tiempo que, por lo general, están lejos de ser una curva suave. Para su estimación existen diversas metodologías, las paramétricas y las no paramétricas. Las metodologías paramétricas se basan en modelos asociados a una familia funcional que obedece al comportamiento de alguna distribución de probabilidad, sobre la cual suponemos que las características de la población de interés pueden ser descritas. Es así como, los modelos diseñados en este contexto, basados en regresión, buscan describir el comportamiento de una variable de interés con otras llamadas exógenas, a través de funciones de vínculo lineales o no lineales.
+
+
+##Metodologías Paramétricas.
+
+Estadísticamente, un modelo paramétrico es una familia funcional que
+obedece al comportamiento de alguna distribución de probabilidad, sobre la cual suponemos que las características de la población de interés
+pueden ser descritas. Es así como, los modelos diseñados en este contexto,
+basados en regresión, buscan describir el comportamiento de una
+variable de interés con otras llamadas exógenas, a través de funciones de
+vínculo lineales o no lineales.
+
+
+###Metodología Nelson y Siegel
+
+###Metodología Svensson
+
+###Metodología Diebold-Li
+
+##Metodologías no Paramétricas
+
+###Metodología Splines Cúbicos de Suavizado
