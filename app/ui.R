@@ -220,7 +220,7 @@ shinyUI(
                                                         h2(" Precios estimados optimizados"),
                                                         radioButtons( inputId = "opt_veb_ns",label = "Desea optimizar los precios obtenidos:", 
                                                                       choices = c("Si"=1, "No"=0),
-                                                                      selected=" "),#final radiobuttons
+                                                                      selected=0),#final radiobuttons
                                                         box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_veb_opt_ns")),
                                                         h2(" Parámetros optimizados"),
                                                         verbatimTextOutput("par_veb_ns_op"),
@@ -309,8 +309,7 @@ shinyUI(
                                                                    h2(" Precios estimados optimizados"),
                                                                    radioButtons(inputId = "opt_tif_sven",label = "Desea optimizar los precios obtenidos:", 
                                                                                 choices = c("Si"=1, "No"=0),
-                                                                                selected=" "
-                                                                   )#final radiobuttoms
+                                                                                selected=0)#final radiobuttoms
                                                                    ,box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_tif_opt")),
                                                                    h2(" Parámetros optimizados"),
                                                                    verbatimTextOutput("par_tif_sven_op"),
@@ -381,7 +380,7 @@ shinyUI(
                                                                    h2(" Precios estimados optimizados"),
                                                                    radioButtons(inputId = "opt_veb_sven",label = "Desea optimizar los precios obtenidos:", 
                                                                                 choices = c("Si"=1, "No"=0),
-                                                                                selected=" "),box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_veb_opt"))
+                                                                                selected=0),box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_veb_opt"))
                                                                    ,
                                                                    h2(" Parámetros optimizados"),
                                                                    verbatimTextOutput("par_veb_sven_op"),

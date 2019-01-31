@@ -1,5 +1,35 @@
 rm(list = ls())
 
+# Make sure a package is at least some version (only installs from CRAN)
+ensure_version <- function(pkg, ver = "0.0") {
+  if (system.file(package = pkg)  == "" || packageVersion(pkg) < ver)
+    install.packages(pkg)
+}
+
+ensure_version("shiny", "1.2.0")
+ensure_version("readr", "1.3.1")
+ensure_version("rriskDistributions", "2.1.2")
+ensure_version("fitdistrplus", "1.0-11")
+ensure_version("shinydashboard", "0.7.0")
+ensure_version("dplyr", "0.7.8")
+ensure_version("lubridate", "1.7.4")
+ensure_version("ggplot2", "3.1.0.9000")
+ensure_version("reshape2", "1.4.3")
+ensure_version("jrvFinance", "1.4.0")
+ensure_version("plotly", "4.8.0")
+ensure_version("rbokeh", "0.5.0")
+ensure_version("nloptr", "1.0.4")
+ensure_version("alabama", "2015.3-1")
+ensure_version("DT", "0.4")
+ensure_version("xtable", "1.8-3")
+ensure_version("webshot", "0.5.0")
+ensure_version("readxl", "1.1.0")
+ensure_version("xml2", "1.2.0")
+ensure_version("rvest", "0.3.2")
+ensure_version("VaRES", "1.0")
+ensure_version("lmomco", "2.3.2")
+
+
 #cargo librerias a usar
 library(shiny)
 library(readr)
