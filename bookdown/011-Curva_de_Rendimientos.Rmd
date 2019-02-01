@@ -62,10 +62,170 @@ vínculo lineales o no lineales.
 
 ###Metodología Nelson y Siegel
 
+Nelson y Siegel introducen un modelo paramétrico para el ajuste
+de los rendimientos hasta la madurez de los bonos del tesoro de Estados
+Unidos que se caracteriza por ser parsimonioso y flexible en modelar
+cualquier forma típica asociada con las curvas de rendimientos. La estructura
+paramétrica asociada a este modelo permite analizar el comportamiento
+a corto y a largo plazo de los rendimientos y ajustar -sin
+esfuerzos adicionales-, curvas monótonas, unimodales o del tipo S.
+
+
+Una clase de funciones que genera fácilmente las formas usuales de las
+curvas de rendimientos es la asociada con la solución de ecuaciones en
+diferencia. La teoría de expectativas sobre la estructura de las tasas de
+interés promueve la investigación en este sentido, dado que si las tasas
+spot son producidas por medio de una ecuación diferencial, entonces las
+tasas forward -siendo pronósticos-, serán la solución de las ecuaciones
+diferenciales. La expresión paramétrica propuesta por Nelson y Siegel
+ que describe las tasas forward es exhibida a continuación:
+
+
+$$\displaystyle{f(m) = \beta_{0} + \beta_{1} e^{\frac{-m}{\tau}} +\beta_{2} \left(\frac{-m}{\tau}\right)e^{\frac{-m}{\tau}}}$$
+
+donde $m$ denota la madurez del activo y $\beta_{0}$, $\beta_{1}$, $\beta_{2}$ y $\tau$ los parámetros a ser
+estimados. Puesto que las tasas spot pueden ser obtenidas a través de tasas
+forward por medio de la expresión:
+
+$$\displaystyle{s(m) = \int_{0}^{m}f(x)dx}$$
+
+la ecuación que determina las tasas spot $s(m)$ de activos con madurez m es dada por:
+
+$$\displaystyle{s(m) = \beta_{0}+ \beta_{1}\frac{\left(1-e^\frac{-m}{\tau}\right)}{m/\tau} + \beta_{2} \left(\frac{\left(1-e^\frac{-m}{\tau}\right)}{m/\tau} -  e^\frac{-m}{\tau}\right)}$$
+
+cuya ecuación es lineal si conocemos $\tau$ .
+
+El valor límite del rendimiento es $\beta_{0}$ cuando el plazo al vencimiento $m$ es grande, mientras que, cuando el plazo al vencimiento $m$ es pequeño el
+rendimiento en el límite es $\beta_{0}+\beta_{1}$. Igualmente, los coeficientes del
+modelo de tasas forward pueden ser interpretados como medidas de
+fortaleza al corto, mediano y largo plazo. La contribución al largo plazo
+es determinada por $\beta_{0}$, $\beta_{1}$ lo hace al corto plazo ponderado por la
+función monótona creciente (decreciente) $e^{\frac{-m}{\tau}}$ cuando $\beta_{1}$ es negativo
+(positivo) y $\beta_{2}$ lo hace al mediano plazo ponderado por la función
+monótona creciente (decreciente) $(\frac{-m}{\tau}) e^{\frac{-m}{\tau}}$ cuando $\beta_{2}$ es negativo
+(positivo). Una de las principales utilidades de la curva ha sido para
+propósitos de control de la política monetaria.
+
+Consecuentemente, $s(m)$ será la ecuación utilizada para captar la relación
+subyacente entre los rendimientos y los plazos al vencimiento o madurez,
+sin recurrir a modelos más complejos que involucren un mayor número
+de parámetros. Adicionalmente, dado que la curva de Nelson-Siegel
+proporciona tasas spot compuestas continuas, estas deben transformarse
+en cantidades discretas, a través de la función de descuento.
+
+
+$$\displaystyle{s_{d}(m) = e^{\frac{s(m)}{100}} - 1}$$
+
 ###Metodología Svensson
+
+En la curva de Nelson-Siegel se destaca que cada coeficiente del modelo
+contribuye en el comportamiento de las tasas forward en el corto,
+mediano y largo plazo; no obstante, Svensson \cite{Sv} propone una nueva
+versión de la curva de Nelson-Siegel donde un cuarto término es incluido
+para producir un efecto adicional y semejante al proporcionado por:
+$\beta_{3}(\frac{m}{\tau_{2}})e^{\frac{-m}{\tau_{2}}}$.
+
+En este caso, la función para describir la dinámica de las tasas forward es,
+
+
+$$\displaystyle{f(m) = \beta_{0} + \beta_{1} e^{\frac{-m}{\tau_{1}}} +\beta_{2} \left(\frac{-m}{\tau_{1}}\right)e^{\frac{-m}{\tau_{1}}} + \beta_{3}\left(\frac{-m}{\tau_{2}}\right)e^{\frac{-m}{\tau_{2}}} }$$
+
+
+La curva spot de Svensson puede ser derivada a partir de la curva
+forward en forma semejante a la descrita para el modelo de Nelson-
+Siegel, obteniendo la siguiente expresión:
+
+$$\displaystyle{s(m) = \beta_{0}+ \beta_{1}\frac{\left(1-e^\frac{-m}{\tau_{1}}\right)}{m/\tau_{1}} + \beta_{2} \left(\frac{\left(1-e^\frac{-m}{\tau_{1}}\right)}{m/\tau_{1}} -  e^\frac{-m}{\tau_{1}}\right) + \beta_{3} \left(\frac{\left(1-e^\frac{-m}{\tau_{2}}\right)}{m/\tau_{2}} -  e^\frac{-m}{\tau_{2}}\right)}$$
+
+
+La función de descuento tiene que ser utilizada con el fin de obtener las
+tasas estimadas para cada día de negociación o trading. Svensson \cite{Sv}
+propone estimar los parámetros de la curva cero cupón (curva spot),
+minimizando una medida de ajuste tal como la suma de cuadrados del
+error sobre los precios spot; sin embargo, enfatiza en que los precios
+pueden llegar a ser mal ajustados para los activos de madurez corta. En
+lugar de llevar el análisis por este camino, propone estimar los
+rendimientos fundamentado, principalmente, en que las decisiones de la
+política económica se basan en el comportamiento de las tasas y que
+obteniendo las tasas a través de la curva, los precios pueden ser
+calculados una vez la función de descuento es evaluada. De esta manera,
+los parámetros son escogidos minimizando la suma de cuadrados de la
+diferencia entre los rendimientos observados y estimados por la curva.
+
+La estimación es realizada por medio de máxima verosimilitud, mínimos
+cuadrados no lineales o el método de momentos generalizados. En
+muchos casos, como afirma Svensson \cite{Sv}, el modelo de Nelson-
+Siegel proporciona ajustes satisfactorios, aunque en algunos casos
+cuando la estructura de las tasas de interés es más compleja, el ajuste del
+modelo de Nelson-Siegel es poco satisfactorio y el modelo de Svensson
+logra desempeñarse mejor.
+
+###Polinomios de componentes principales.
+
+Hunt y Terry \cite{HT} propone un ajuste de la curva de rendimientos
+utilizando polinomios. Si frecuentemente la curva es especificada como,
+
+(@ecu1) 
+$$
+y(\tau) = \beta_{0} + \beta_{1}\tau +\beta_{2}\tau^2 +\beta_{3}\tau^3
+$$
+
+La cual puede captar todas la formas que puede asumir la curva, su
+principal problema recae en el ajuste para aquellas tasas con períodos de
+vencimiento bastante largos. Aunque los autores conocen sobre las
+propiedades de parsimonia y de ajuste asociados con la curva de Nelson-
+Siegel, critican los problemas que acarrea la estimación de sus
+parámetros, proponiendo el ajuste de la curva de polinomios, bajo
+algunas modificaciones.
+
+Una transformación sobre el término de plazos ($\tau$) que remueve la
+inestabilidad asociada con las tasas a largo plazo del polinomio de la ecuación @ecu1 es
+sugerida. El modelo recomendado, siguiendo la notación de Hunt y
+Terry (1998) es:
+
+(@ecu2)
+$$
+y(\tau) = \beta_{0} + \sum_{i=1}^{p} \beta_{i} \frac{1}{(1+\tau)^i}
+$$
+
+donde,
+
+$$\displaystyle{y(0) = \sum_{i=0}^{p}\beta_{i},   \text{ con } y(\infty) = \beta_{0}   }$$
+
+
+Investigaciones relacionadas con curvas de rendimientos, han llegado a
+la conclusión que modelos con tres o cuatro parámetros son suficientes
+para obtener un buen ajuste de los datos (Hunt \cite{H}). Por tal motivo,
+Hunt y Terry \cite{HT} proponen restringir $p$ a tres o cuatro. Aunque este
+número de parámetros no necesariamente determina si realmente la
+bondad de ajuste pueda llegar a ser satisfactoria, los autores proponen
+utilizar componentes principales sobre los primeros $p$ términos
+polinomiales $1/(1 + \tau)$, con el fin de seleccionar $k<p$ variables, a ser
+incluidas en la ecuación @ecu2. Utilizar las componentes principales
+proporcionará un menor error de ajuste en comparación con la ecuación @ecu1,
+debido a su capacidad para captar variabilidad. Una descripción
+detallada respecto al cálculo de las componentes principales en el
+esquema polinomial es dada por Hunt y Terry \cite{HT}.
+
+###Polinomios trigonométricos.
+
+Las funciones trigonométricas pueden ser utilizadas para capturar de
+forma satisfactoria las distintas configuraciones que pueden asumir las
+curvas de rendimientos. En este caso, el modelo puede ser descrito como
+$y(\tau) = \beta_{0} + \beta_{1}cos(\gamma_{1}\tau) + \beta_{2}sen(\gamma_{2}\tau)$; donde $\tau$ representa la duración o la
+madurez del papel, en tanto que $\beta_{0}$, $\beta_{1}$, $\beta_{2}$, $\gamma_{1}$ y $\gamma_{2}$ son los parámetros
+objeto de interés. Cualquier metodología de optimización no lineal puede
+ser utilizada para estimar los parámetros del modelo (Nocedal y Wright
+\cite{NW}). Aunque podría asumirse un parámetro de fase en el modelo, este
+no es considerado por motivos de parsimonia.
+
 
 ###Metodología Diebold-Li
 
 ##Metodologías no Paramétricas
+
+
+
+
 
 ###Metodología Splines Cúbicos de Suavizado
