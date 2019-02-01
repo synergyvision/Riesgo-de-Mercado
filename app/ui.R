@@ -426,6 +426,9 @@ shinyUI(
                                                     h2(" Parámetro de suavizamiento"),
                                                     numericInput( inputId = "parametro_tif_dl", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                                     verbatimTextOutput("spar_tif_dl"),
+                                                    h2(" Cantidad de observaciones"),
+                                                    numericInput( inputId = "d_tif_dl", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
+                                                    verbatimTextOutput("dias_tif_dl"),
                                                     h2(" Spline a usar"),
                                                     verbatimTextOutput("spline_tif"),
                                                     h2(" Curva spline Tif"),
@@ -458,6 +461,9 @@ shinyUI(
                                                     h2(" Parámetro de suavizamiento"),
                                                     numericInput( inputId = "parametro_veb_dl", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                                     verbatimTextOutput("spar_veb_dl"),
+                                                    h2(" Cantidad de observaciones"),
+                                                    numericInput( inputId = "d_veb_dl", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
+                                                    verbatimTextOutput("dias_veb_dl"),
                                                     h2(" Spline a usar"),
                                                     verbatimTextOutput("spline_veb"),
                                                     h2(" Curva spline Vebonos"),
@@ -700,7 +706,7 @@ shinyUI(
                                                                          h2(" Precios estimados optimizados"),
                                                                          radioButtons( inputId = "opt_tif_ns_comp",label = "Desea optimizar los precios obtenidos:", 
                                                                                        choices = c("Si"=1, "No"=0),
-                                                                                       selected=" "), #finalradiobuttons
+                                                                                       selected=0), #finalradiobuttons
                                                                          box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_tif_opt_ns_comp")),
                                                                          h2(" Parámetros optimizadoss"),
                                                                          verbatimTextOutput("par_tif_ns_op_comp"),
@@ -752,7 +758,7 @@ shinyUI(
                                                                          h2(" Precios estimados optimizados"),
                                                                          radioButtons(inputId = "opt_tif_sven_comp",label = "Desea optimizar los precios obtenidos:", 
                                                                                       choices = c("Si"=1, "No"=0),
-                                                                                      selected=" "
+                                                                                      selected=0
                                                                          )#final radiobuttoms
                                                                          ,box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_tif_opt_comp")),
                                                                          h2(" Parámetros optimizados"),
@@ -869,7 +875,7 @@ shinyUI(
                                                          h2(" Precios estimados optimizados"),
                                                          radioButtons( inputId = "opt_veb_ns_comp",label = "Desea optimizar los precios obtenidos:", 
                                                                        choices = c("Si"=1, "No"=0),
-                                                                       selected=" "), #finalradiobuttons
+                                                                       selected=0), #finalradiobuttons
                                                          box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_veb_opt_ns_comp")),
                                                          h2(" Parámetros optimizados"),
                                                          verbatimTextOutput("par_veb_ns_op_comp"),
@@ -921,7 +927,7 @@ shinyUI(
                                                          h2(" Precios estimados optimizados"),
                                                          radioButtons(inputId = "opt_veb_sven_comp",label = "Desea optimizar los precios obtenidos:", 
                                                                       choices = c("Si"=1, "No"=0),
-                                                                      selected=" "
+                                                                      selected=0
                                                          )#final radiobuttoms
                                                          ,box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_veb_opt_comp")),
                                                          h2(" Parámetros optimizados"),
