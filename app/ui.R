@@ -776,6 +776,9 @@ shinyUI(
                                                       h2(" Parámetro de suavizamiento"),
                                                       numericInput( inputId = "parametro_tif_dl_comp", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                                       verbatimTextOutput("spar_tif_dl_comp"),
+                                                      h2(" Cantidad de observaciones"),
+                                                      numericInput( inputId = "d_tif_dl_comp", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
+                                                      verbatimTextOutput("dias_tif_dl_comp"),
                                                       h2(" Spline a usar"),
                                                       verbatimTextOutput("spline_tif_comp_out"),
                                                       h2(" Curva spline Tif"),
@@ -944,6 +947,9 @@ shinyUI(
                                       h2(" Parámetro de suavizamiento"),
                                       numericInput( inputId = "parametro_veb_dl_comp", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                       verbatimTextOutput("spar_veb_dl_comp"),
+                                      h2(" Cantidad de observaciones"),
+                                      numericInput( inputId = "d_veb_dl_comp", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
+                                      verbatimTextOutput("dias_veb_dl_comp"),
                                       h2(" Spline a usar"),
                                       verbatimTextOutput("spline_veb_comp_out"),
                                       h2(" Curva spline Tif"),
@@ -1101,33 +1107,36 @@ shinyUI(
               ),
               #CALCULO Y BUSCO DISTRIBUCION DE LOS RETORNOS
               tabItem(tabName = "distribucion_var",
-                      fluidRow(tabBox( width = 12, title = "VaR", id = "vares", height = "50px", 
+                      fluidRow(
+                        
+                      #  tabBox( width = 12, title = "VaR", id = "vares", height = "50px", 
                       
-                        tabPanel("VaR Individual",
-                              h2(" Muestro rendimientos"),
-                               box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('dat_rend')),
-                               h2(" Por favor seleccione un instrumento:"),
-                               htmlOutput("instrumento"),
-                               h3(" Elección:"),
-                               verbatimTextOutput("elec"),
-                               h2(" Resultados ajuste de distribución:"),
-                                 box( width=12, style="overflow-x:scroll",status = "success",
-                                      tableOutput("result")
-                                 ),
-                               h2(" Elegir distribución"),
-                                 box( width=12,background = "navy",
-                                             selectInput( width="100%", inputId = "distsA", label = SELECFUNCTION_TEXT,
-                                                          choices= DISTANALAH_CONF, selected = NULL)
-                               ),
-                               htmlOutput("parametros_dist"),
-                               h2(" Elegir porcentaje del VaR:"),
-                                 box( width = 12, background = "navy",
-                                      selectInput(  width="100%",inputId = "porVar", "Seleccione Porcentaje del VaR", choices = c(0.90, 0.95, 0.99), selected = 0.95)
-                                 ),
-                               h2(" VaR Individual:"),
-                               uiOutput("VaR_inicial")  
-                      ),#final tabpanel
-                      tabPanel("VaR Portafolio",
+                      #   tabPanel("VaR Individual",
+                      #         h2(" Muestro rendimientos"),
+                      #          box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('dat_rend')),
+                      #          h2(" Por favor seleccione un instrumento:"),
+                      #          htmlOutput("instrumento"),
+                      #          h3(" Elección:"),
+                      #          verbatimTextOutput("elec"),
+                      #          h2(" Resultados ajuste de distribución:"),
+                      #            box( width=12, style="overflow-x:scroll",status = "success",
+                      #                 tableOutput("result")
+                      #            ),
+                      #          h2(" Elegir distribución"),
+                      #            box( width=12,background = "navy",
+                      #                        selectInput( width="100%", inputId = "distsA", label = SELECFUNCTION_TEXT,
+                      #                                     choices= DISTANALAH_CONF, selected = NULL)
+                      #          ),
+                      #          htmlOutput("parametros_dist"),
+                      #          h2(" Elegir porcentaje del VaR:"),
+                      #            box( width = 12, background = "navy",
+                      #                 selectInput(  width="100%",inputId = "porVar", "Seleccione Porcentaje del VaR", choices = c(0.90, 0.95, 0.99), selected = 0.95)
+                      #            ),
+                      #          h2(" VaR Individual:"),
+                      #          uiOutput("VaR_inicial")  
+                      # ),#final tabpanel
+                      #tabPanel("VaR Portafolio",
+                        h2(" VaR Portafolio"),
                                fluidRow(tabBox( width = 12, title = "Distribuciones", id = "eleccion_dist", height = "50px", 
                                                 
                                                 tabPanel("Eleccíon individual",
@@ -1175,8 +1184,8 @@ shinyUI(
                                
                                
 
-                      )#final tabpanel
-              )#final tabbox
+                     # )#final tabpanel
+              #)#final tabbox
                       )#final fluid row        
                       
               ),
