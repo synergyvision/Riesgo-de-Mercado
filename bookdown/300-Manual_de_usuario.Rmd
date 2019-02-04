@@ -4,6 +4,8 @@
 
 ##Curva de Rendimientos
 
+$e_{0}$
+
 ###Curva de rendimientos individual
 
 ###Curva de rendimientos comparativo

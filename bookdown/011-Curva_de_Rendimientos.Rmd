@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 \mainmatter
 
 # Curva de Rendimientos
@@ -224,8 +229,106 @@ no es considerado por motivos de parsimonia.
 
 ##Metodologías no Paramétricas
 
+La regresi\'on no param\'etrica se ha convertido en los \'ultimos a\~nos en un
+\'area de excesivo estudio, debido a sus ventajas relativas respecto a los
+modelos de regresi\'on basado en funciones. Entre las caracter\'isticas m\'as
+importantes de estos modelos tenemos, la flexibilidad en los supuestos y
+el ajuste dirigido espec\'ificamente a trav\'es de los datos.
 
 
+Dentro de un marco estad\'istico supondremos que tenemos un conjunto
+de n observaciones $(x_{i}, y_{i})$, $i= 1, 2,., n$, independientes, donde se intenta
+establecer las relaciones existentes entre una respuesta y un conjunto de
+variables explicativas de forma semejante a los modelos de regresi\'on
+cl\'asica.
 
+
+El modelo que relaciona este conjunto de variables es dado por:
+
+$$\displaystyle{y_{i} = m(x_{i}) + \epsilon_{i}}$$
+
+
+donde la funci\'on $m(.)$ no espec\'ifica una relaci\'on param\'etrica, sino
+permitir que los datos determinen la relaci\'on funcional apropiada. Bajo
+estas condiciones la idea es que la media m(.) sea suave, suavidad que
+puede controlarse acotando la segunda derivada, $|m''(x)| \leq M$, para todo
+$x$ y $M$ una constante.
+
+###Regresi\'on Kernel
+
+El m\'etodo m\'as simple de suavizamiento es el suavizador Kernel. Un
+punto x se fija en el soporte de la funci\'on $m(.)$ y una ventana de
+suavizamiento es definida alrededor de x. Frecuentemente, la ventana de
+suavizamiento es simplemente un intervalo de la forma $(x - h, x + h)$,
+donde h es un par\'ametro conocido como bandwidth.
+
+La estimaci\'on Kernel es un promedio ponderado de las observaciones
+dentro de la ventana de suavizamiento,
+
+(@ecu3)
+$$
+\hat{m}(x) = \frac{\sum_{i=1}^{n} K(\frac{x_{i}-x}{h}) y_{i}}{\sum_{i=1}^{n} K(\frac{x_{i}-x}{h})}
+$$
+
+donde $K(.)$ es la funci\'on Kernel de ponderaci\'on. La funci\'on Kernel es escogida
+de tal forma que las observaciones m\'as pr\'oximas a x reciben mayor peso. Una
+funci\'on frecuentemente utilizada es la bicuadr\'atica:
+
+OJO FUNCION CON LLAVES
+<!-- $$ K(x) = \left\{ % para la llave grandota -->
+<!--         \begin{tabular}{cc} -->
+<!--         	(1-x^2)^2 & si -1 \leq x  \leq 1 \\ -->
+<!--         	0 & si x \ge 1, \hspace*{0.2 cm} x<-1 \\ -->
+<!--         \end{tabular} -->
+<!-- \right. $$ -->
+
+Sin embargo, otro tipo de funciones de peso son utilizadas, tal como la
+gaussiana, $K(x) = (2 \sqrt{\pi})^{-1} e^{\frac{-x^2}{2}}$ y la familia beta sim\'etrica $K(x) = \frac{(1-x^2)_{+}^{\gamma}}{Beta(0.5,\gamma+1)}, \hspace*{0.2 cm}\gamma = 0,1,...$
+
+Note que cuando escogemos $\gamma = 0, 1, 2$ y $3$ obtenemos las funciones Kernel uniforme (Box), de Epanechnikov, la bipeso y la tripeso, respectivamente.
+
+El suavizador Kernel puede ser representado como,
+
+
+(@ecu4)
+$$
+\hat{m}(x) = \sum_{i=1}^{n} l_{i}(x) y_{i} 
+$$
+
+donde,
+
+$$\displaystyle{l_{i} = \frac{K(\frac{x_{i}-x}{h})}{\sum_{j=1}^{n} K(\frac{x_{j}-x}{h})} }$$
+
+
+ La estimaci\'on Kernel en la ecuaci\'on @ecu3 es llamada la estimaci\'on de Nadaray- Watson, en honor a sus creadores. Su simplicidad lo hace de f\'acil comprensi\'on e implementaci\'on; no obstante, se sabe que los ajustes en los extremos son sesgados. Una referencia ideal para un desarrollo m\'as completo sobre este tema puede encontrarse en Fan y Gijbels \cite{FG}.
+
+###Polinomios locales
+
+
+Conocida tambi\'en como regresi\'on local, la idea es aproximar la funci\'on suave m(.) por medio de un polinomio de bajo orden en una vecindad entorno de un punto x. Por ejemplo, una aproximaci\'on lineal local es $m(x_{i}) \approx a_{0} + a_{1}(x_{i}-x)$ para $x - h \leq x_{i} \leq x+h$. Una aproximaci\'on local cuadr\'atica es:
+
+$$\displaystyle{m(x_{i}) \approx  a_{0} + a_{1}(x_{i}-x) + \frac{a_{2}}{2}(x_{i}-x)^2}$$
+
+
+La aproximaci\'on local puede ser ajustada a trav\'es de m\'inimos cuadrados ponderados localmente. Una funci\'on Kernel y un bandwidth son definidos como en la regresi\'on Kernel. Los coeficientes $\hat{a}_{0}$ y $\hat{a}_{1}$, son escogidos de tal forma que se pueda minimizar la expresi\'on,
+
+
+(@ecu5)
+$$
+ \sum_{i=1}^{n} K(\frac{x_{i}-x}{h}) (y_{i}-a_{0}-a_{1}(x_{i}-x))^2 
+$$
+
+Reescribiendo la ecuaci\'on @ecu5 en t\'erminos matriciales obtenemos, $X^{T}W(\tilde{Y}-X \tilde{a})$. Donde X es la matriz dise\~no para cada regresi\'on lineal, $\tilde{a}$ el vector de
+par\'ametros, W la matriz diagonal de pesos $K(\frac{x_{i}-x}{h})$ y $\tilde{Y}$ el vector de observaciones de orden n.
+
+El vector de par\'ametros estimado est\'a dado por $ \hat{\tilde{a}} = (X^{T}WX)X^{T}W \tilde{Y} $
+y en forma semejante con la ecuaci\'on @ecu4, tenemos que: $l(x)_{nx1} = e_{1}^{T} (X^{T}WX)X^{T} \tilde{Y}$ donde $e_{1}^{T}$
+es un vector de ceros de tama\~no n, exceptuando la primera entrada cuyo valor es 1.
+
+Finalmente, la selecci\'on del h est\'a basado en procedimientos de bondad de ajuste que permite obtener el mejor modelo. Entre los m\'as utilizados sobresalen los m\'etodos de validaci\'on cruzada generalizada y plug-in, los cuales son descritos detalladamente en Fan y Gijbels \cite{FG}.
+
+###Splines suavizados
+
+###Splines de polinomios
 
 ###Metodología Splines Cúbicos de Suavizado
