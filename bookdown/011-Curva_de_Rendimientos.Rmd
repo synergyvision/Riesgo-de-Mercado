@@ -456,3 +456,265 @@ Una descripción más detallada sobre las diferentes arquitecturas de red existe
 
 
 ###Metodología Splines Cúbicos de Suavizado
+
+####Teoría de interpolación
+
+En el subcampo matem\'atico del an\'alisis num\'erico, se denomina interpolaci\'on a la obtenci\'on de nuevos puntos partiendo del conocimiento de un conjunto discreto de puntos. En ciertos casos el usuario conoce el valor de una funci\'on $f(x)$ en una serie de puntos $x_{1}, x_{2},..., x_{N}$, pero no se conoce una 
+expresi\'on anal\'itica de $f(x)$ que permita calcular el valor de la funci\'on para un punto arbitrario. 
+
+Un ejemplo claro son las mediciones de laboratorio, donde se mide cada minuto un valor, pero se requiere el valor en otro punto que no ha sido medido. Otro ejemplo son mediciones de temperatura en la superficie
+de la Tierra, que se realizan en equipos o estaciones meteorol\'ogicas y se necesita calcular la temperatura en un punto cercano, pero distinto al punto de medida.
+
+La idea de la interpolaci\'on es poder estimar $f(x)$ para un valor de x arbitrario, a partir de la construcci\'on de una curva o superficie que une los puntos donde se han realizado las mediciones y cuyo valor si se conoce. Se asume que el punto arbitrario x se encuentra dentro de los l\'imites de los puntos de medici\'on, en caso contrario se llamar\'ia extrapolaci\'on. Un proceso de interpolaci\'on se realiza en dos etapas:
+
+
++ Hacer un ajuste de los datos disponibles con una funci\'on interpolante.
++ Evaluar la funci\'on interpolante en el punto de inter\'es x.
+
+
+Este proceso en dos etapas no es necesariamente el m\'as 
+eficiente. La mayor\'ia de algoritmos comienzan con un punto cercano $f(x_{i})$, y poco a poco van aplicando correcciones m\'as pequenas a medida que la informaci\'on de valores $f(x_{i})$ m\'as distantes son incorporadas. El procedimiento toma aproximadamente $O(N^{2})$ operaciones. Si la funci\'on tiene un comportamiento suave, la \'ultima correci\'on ser\'a la m\'as peque\~na y puede ser utilizada para estimar un l\'imite a rango de error.
+
+Dentro de las intepolaciones m\'as usadas podemos destacar,
+
+
++ Interpolaci\'on lineal.
++ Interpolaci\'on de Hermite.
++ Interpolaci\'on polin\'omica.
++ Interpolaci\'on de Splines.
+
+
+####Interpolaci\'on lineal
+
+La interpolaci\'on lineal es un procedimiento muy utilizado para estimar los valores que toma una funci\'on en un intervalo del cual conocemos sus valores en los extremos $(x_{1}, f(x_{1}))$ y $(x_{2},f(x_{2}))$. Para estimar este valor utilizamos la aproximaci\'on a la funci\'on $f(x)$ por medio de una recta $r(x)$ (de ah\'i el nombre de interpolaci\'on lineal, ya que tambi\'en existe la interpolaci\'on cuadr\'atica). 
+
+
+La expresi\'on de la interpolaci\'on lineal se obtiene del polinomio interpolador de Newton de grado uno. Aunque s\'olo existe un \'unico polinomio que interpola una serie de puntos, existen diferentes formas de calcularlo. Este m\'etodo es \'util para situaciones que requieran un n\'umero bajo de puntos para interpolar, ya que a medida que crece el n\'umero de puntos, tambi\'en lo hace el grado del polinomio.
+
+Existen ciertas ventajas en el uso de este polinomio respecto al polinomio interpolador de Lagrange. Por ejemplo, si fuese necesario a\~nadir alg\'un nuevo punto o nodo a la funci\'on, tan s\'olo habr\'ia que calcular este \'ultimo punto, dada la relaci\'on de recurrencia existente y demostrada anteriormente. El primer paso para hallar la f\'ormula de la interpolaci\'on es definir la pendiente de orden $n$ de manera recursiva, as\'i,
+
+
++ $f_{0}(x_{i})$ es el t\'ermino i-\'esimo de la secuencia. 
++ $\displaystyle{f_{1}(x_{0},x_{1}) = \frac{f_{0}(x_{1})-f_{0}(x_{0})}{x_{1}-x_{0}}}$
+  \item $\displaystyle{f_{2}(x_{0},x_{1},x_{2}) = \frac{f_{1}(x_{1},x_{2})-f_{1}(x_{0},x_{1})}{x_{2}-x_{0}}}$
+
+En general,
+
+$$\displaystyle{f_{i}(x_{0},x_{1},...,x_{i-1},x_{i}) = \frac{f_{i-1}(x_{1},...,x_{i-1},x_{i})-f_{i-1}(x_{0},x_{1},...,x_{i-1} )}{x_{i}-x_{0}}}$$
+
+donde  $\displaystyle{x_{i}-x_{j}}$ representa la distancia entre dos elementos.
+
+Puede apreciarse c\'omo en la definici\'on general se usa la pendiente del paso anterior, $f_{i-1}(x_{1},...,x_{i-1},x_{i})$, a la cual se le resta la pendiente previa de mismo orden, es decir, el sub\'indice de los t\'erminos se decrementa en 1, como si se desplazara, para obtener $f_{i-1}(x_{0},x_{1},...,x_{i-1})$.
+
+N\'otese tambi\'en que aunque el t\'ermino inicial siempre es $x_{0}$ este puede ser en realidad cualquier otro, por ejemplo, se puede definir $f_{1}(x_{i-1},x_{i})$ de manera an\'aloga al caso mostrado arriba. Una vez conocemos la pendiente, ya es posible definir el polinomio de grado $n$ de manera tambi\'en recursiva, as\'i,
+
+
++ $p_{0}(x) = f_{0} (x_{0}) =x_{0}$.  Se define as\'i ya que este valor es el \'unico que se ajusta a la secuencia original para el primer t\'ermino. 
++ $\displaystyle{p_{1}(x) = p_{0}(x) +  f_{1} (x_{0},x_{1}) (x-x_{0})}$.
++ $\displaystyle{p_{2}(x) = p_{1}(x) +  f_{2} (x_{0},x_{1},x_{2}) (x-x_{0})(x-x_{1})}$.
+
+En general,
+
+$$\displaystyle{p_{i}(x) = p_{i-1}(x) +  f_{i} (x_{0},x_{1},...,x_{i-1},x_{i}) \prod_{j=0}^{i-1}(x-x_{j})}$$
+
+####Interpolaci\'on de Lagrange
+
+Empezamos con un conjunto de $n+1$ puntos en el plano (que tengan diferentes coordenadas x), $(x_{0}, y_{0}), (x_{1}, y_{1}), (x_{2}, y_{2}),...,(x_{n}, y_{n})$. As\'i, queremos encontrar una funci\'on polin\'omica que pase por esos $n+1$ puntos y que tengan el menor grado posible. Un polinomio que pase por varios puntos determinados se llama un polinomio de interpolaci\'on.
+
+Una posible soluci\'on viene dada por el  polinomio de interpolaci\'on de Lagrange. Lagrange public\'o su f\'ormula en 1795 pero ya hab\'ia sido publicada en 1779 por Waring y redescubierta por Euler en 1783.
+
+Dado un conjunto de $k + 1$ puntos $(x_{0}.x_{1}),...,(x_{k}.x_{k+1})$, donde todos los $x_{j}$ se asumen distintos, el polinomio interpolador en la forma de Lagrange es la combinaci\'on lineal,
+
+$$\displaystyle{L(x) = \sum_{j=0}^{k} y_{j} l_{j}(x)}$$
+donde $ l_{j}(x)$ son las bases polin\'omicas de Lagrange,
+
+
+$$\displaystyle{l_{j}(x) = \prod_{i=0,i \neq j}^{k} \frac{x-x_{i}}{x_{j}-x_{i}}  }$$
+
+La funci\'on que estamos buscando es una funci\'on polin\'omica $L(x)$ de grado $k$ con el problema de interpolaci\'on puede tener tan solo una soluci\'on, pues la diferencia entre dos tales soluciones, ser\'ia otro polinomio de grado $k$ a lo sumo, con $k+1$ ceros. Por lo tanto, $L(x)$ es el \'unico polinomio interpolador.
+
+
+Si se aumenta el n\'umero de puntos a interpolar (o nodos) con la intenci\'on de mejorar la aproximaci\'on a una funci\'on, tambi\'en lo hace el grado del polinomio interpolador as\'i obtenido, por norma general. De este modo, aumenta la dificultad en el c\'alculo, haci\'endolo poco operativo manualmente a partir del grado 4, dado que no existen m\'etodos directos de resoluci\'on de ecuaciones de grado 4, salvo que se puedan tratar como ecuaciones bicuadradas, situaci\'on extremadamente rara.
+
+La tecnolog\'ia actual permite manejar polinomios de grados superiores sin grandes problemas, a costa de un elevado consumo de tiempo de computaci\'on. Pero, a medida que crece el grado, mayores son las oscilaciones entre puntos consecutivos o nodos. Se podr\'ia decir que a partir del grado 6 las oscilaciones son tal que el m\'etodo deja de ser v\'alido, aunque no para todos los casos.
+
+Sin embargo, pocos estudios requieren la interpolaci\'on de tan s\'olo 6 puntos. Se suelen contar por decenas e incluso centenas. En estos casos, el grado de este polimonio ser\'ia tan alto que resultar\'ia inoperable. Por lo tanto, en estos casos, se recurre a otra t\'ecnica de interpolaci\'on, como por ejemplo a la Interpolaci\'on polin\'omica de Hermite o a los splines c\'ubicos. Otra gran desventaja, respecto a otros m\'etodos de interpolaci\'on, es la necesidad de recalcular todo el polinomio si se var\'ia el n\'umero de nodos.
+
+Aunque el polinomio interpolador de Lagrange se emplea mayormente para interpolar funciones e implementar esto f\'acilmente en una computadora, tambi\'en tiene otras aplicaciones en el campo del \'algebra exacta, lo que ha hecho m\'as c\'elebre a este polinomio, por ejemplo en el campo de los proyectores ortogonales.
+
+####Interpolaci\'on de Hermite
+
+El objetivo de esta interpolaci\'on Hermite es minimizar el error producido en la interpolaci\'on de Lagrange de la funci\'on $f(x)$ sobre el intervalo $[a, b]$ sin aumentar el grado del polinomio interpolador.
+
+
+Dados un entero no negativo N y  N + 1 puntos $(x_{0},..., x_{N})$ de la recta distintos dos a dos y los valores $f^{(j)} (x_{i})$, donde $0<i<N$ y $0<j<k_{i-1}$ de una funci\'on f y de sus derivadas, encontrar un polinomio de grado $m = (k_{0} +k_{1} +...+k_{n-1},)$ tal que,
+
+$$\displaystyle{P^{(j)} (x_{i}) = f^{(j)} (x_{i}), para \hspace{0.2cm} 0<i<N \hspace{0.2cm}y \hspace{0.2cm} 0<j<k_{i-1}}$$
+El problema de interpolaci\'on de Hermite tiene soluci\'on \'unica, que se llama polinomio interpolador de Hermite. En lugar de interpolar sobre un soporte de puntos (de Tchebycheff) donde en general se desconoce el valor de la funci\'on, de hace de otra manera, imponiendo unas condiciones al polinomio,
+
++ Igualar el valor de la funci\'on en en los puntos del soporte, $P (x_{i}) = f^{(j)}$.
++ Igualar el valor de algunas derivadas de la funci\'on tambi\'en en los puntos del soporte, $P^{(j)} (x_{i}) = f^{(j)} (x_{i})$.
+
+
+Por lo que podemos dejar el polinomio de Hermite de grado (n-1) expresado de la siguiente manera,
+
+$$\displaystyle{L(x) = \sum_{j=0}^{k} y_{j} l_{j} (x) }$$
+donde $l_{j}(x)$ son los polinomios de la base de Lagrange.
+
+####Interpolaci\'on Polin\'omica
+
+Asumamos que se tiene una tabla con $n$ puntos, $(x_{1},y_{1})...,(x_{n},y_{n})$, donde los valores $x_{i}$, para $i=1,...,n$ est\'an ordenados de forma creciente y todos ellos son distintos. Supongamos que dichos puntos se representan en un plano cartesiano y se quiere determinar una curva suave que interpole dichos valores. As\'i, se desea determinar una curva que est\'e definida para todos los $x$ y tome los valores correspondientes de $y$, esto es, que interpole todos los datos de la tabla. Cabe destacar que los puntos considerados se les conoce como nodos.
+
+
+La primera idea natural es usar una funci\'on polinomial que represente esta curva, la cual se puede representar como sigue,
+
+
+$$\displaystyle{P_{n} = \sum_{i=0}^{n-1} a_{i}x^{i}}$$
+tal curva se le conoce como funci\'on polinomial interpoladora de grado n. N\'otese que en cada nodo se satisface que $P_{n}(x_{k})=y_{k}$, donde $k=1,...,n$.
+
+
+As\'i, se tiene que si la tabla es representada mediante una funci\'on subyacente $f(x)$ tal que $f(x_{k})=y_{k}$, para todo $k$, entonces esta funci\'on puede ser aproximada mediante $P_{n}$, en los puntos intermedios.
+
+
+
+No ser\'ia err\'oneo pensar que a medida que los nodos se incrementan, la aproximaci\'on ser\'ia cada vez mejor, lamentablemente esto no siempre es cierto, debido a que en el caso de tener una data con mucho ruido la interpolaci\'on no tendr\'ia mucho sentido ya que la varianza de los valores interpolados ser\'ia muy grande. En este caso, los polinomios interpoladores resultantes ser\'ian una mala representaci\'on de la funci\'on subyacente.
+
+Para evitar este fen\'omeno, puede ser de utilidad relajar la condici\'on de que $f(x)$ deber\'ia ser una funci\'on que interpole todos los valores dados y en su lugar usar un trozo de un polinomio local de interpolaci\'on. La funci\'on mediante la cual se logra esta interpolaci\'on se le conoce como spline.
+
+####Splines
+
+Una funci\'on spline $S(x)$ es una funci\'on que consta de trozos de polinomios unidos por ciertas condiciones de suavizado. Un ejemplo simple, es una funci\'on poligonal (spline de primer grado), la cual se forma por polinomios lineales unidos, los cuales se definen entre cada par de nodos. Entre los nodos $x_{j}$ y $x_{j+1}$ se define un spline de primer grado como sigue, 
+
+$$\displaystyle{S(x) = a_{j}x + b_{j} = S_{j}(x)}$$
+
+este spline es lineal. Usualmente $S(x)$ se define como $S_{1}(x)$ para $x<x_{1}$ y como $S_{n-1}(x)$ para $x>x_{n}$, donde $x_{1}$ y $x_{n}$ son nodos frontera (Ver Figura \@ref(fig:spline1)).
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Spline Lineal",label=spline1}
+knitr::include_graphics("images/spline_lineal.png")
+```
+
+Un spline de segundo grado es una uni\'on de polinomios cuadr\'aticos tal que $S(x)$ y su derivada $S^{(1)}(x)$ son continuas (Ver Figura \@ref(fig:spline2)). Los polinomios $P(x)$ a trav\'es de los que construimos el Spline tienen grado 2. Esto quiere decir, que va a tener la forma $P(x) = ax^2 + bx + c$.
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Spline Cuadrático",label=spline2}
+knitr::include_graphics("images/spline_cuadratico.png")
+```
+
+
+Como en la interpolaci\'on segmentaria lineal, vamos a tener $N-1$ ecuaciones (donde N son los puntos sobre los que se define la funci\'on). La interpolaci\'on cuadr\'atica nos va a asegurar que la funci\'on que nosotros generemos a trozos con los distintos $P(x)$ va a ser continua, ya que para sacar las condiciones que ajusten el polinomio, vamos a determinar como condiciones,
+
++ Que las partes de la funci\'on a trozos P(x) pasen por ese punto. Es decir, que las dos Pn(x) que rodean al f(x) que queremos aproximar, sean igual a f(x) en cada uno de estos puntos.
++ Que la derivada en un punto siempre coincida para ambos "lados" de la funci\'on definida a trozos que pasa por tal punto com\'un.
++ Esto sin embargo no es suficiente, y necesitamos una condici\'on m\'as, la cual se obtiene a partir de una condici\'on de borde.
+
+Por su parte un spline c\'ubico, se representa mediante la uni\'on de polinomios c\'ubicos con primera y segunda derivada continuas (Ver Figura \@ref(fig:spline3)). Este spline debido a su flexibilidad es el m\'as usado en las aplicaciones.
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Spline Cúbico",label=spline3}
+knitr::include_graphics("images/spline_cubico.png")
+```
+
+Formalmente un spline c\'ubico con nodos $x_{1},...x_{n}$ se define a partir de un conjunto de polinomios de la forma,\\
+
+
+$$\displaystyle{S_{j}(x) = a_{j} + b_{j}x +c_{j}x^2 +d_{j}x^3}$$
+con $x_{j}<x<x_{j+1}$, sujeto a las siguientes condiciones,
+
+
+$$
+\begin{array}{cc}
+ \displaystyle{a_{j-1} + b_{j-1}x_{j} +c_{j-1}x_{j}^2 +d_{j-1}x_{j}^3 = a_{j} + b_{j}x_{j} +c_{j}x_{j}^2 +d_{j}x_{j}^3} \\
+\displaystyle{ b_{j-1} +2c_{j-1}x_{j} +3d_{j-1}x_{j}^2 = b_{j} +2c_{j}x_{j} +3d_{j}x_{j}^2} \\
+\displaystyle{ 2c_{j-1} +6d_{j-1}x_{j} = 2c_{j} +6d_{j}x_{j}}\\
+\displaystyle{ c_{0} = d_{0} = c_{n} =d_{n}}
+\end{array}
+$$
+
+As\'i para n nodos, existen $4(n-1)$ variables y $4(n-1)-2$ restricciones. Las mismas se deben a la necesidad de que el spline c\'ubico sea igual en los valores dados en cada nodo. Las primeras tres restricciones aseguran que la funci\'on resultante en su primera y segunda derivada sean continuas en los nodos. La restricci\'on final significa que el spline c\'ubico es lineal en el punto inicial y final de la muestra. Sin embargo, es importante resaltar que el spline c\'ubico tiene tercera derivada discontinua en los nodos.
+
+Debido a que hacen falta dos restricciones de borde, estas se deben a\~nadir. As\'i  $S^{(2)}(x_{1}) = S^{(2)}(x_{n}) = 0$ son las restricciones faltantes, estan hacen referencia a que el spline sea un spline c\'ubico natural. Como se mencion\'o al inicio si se considera una interpolaci\'on polinomial global de un conjunto de datos con mucho ruido pueden surgir aproximaciones no deseables e inestables. En constrate, un spline c\'ubico de interpolaci\'on encaja perfectamente con la suavidad de la funci\'on subyacente.
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Comparativo Splines",label=spline4}
+knitr::include_graphics("images/Comparativo_splines.png")
+```
+
+
+Otra caracter\'istica de los splines es que con la adici\'on de un par\'ametro s\'olo se aumenta la dimensionalidad del espacio de par\'ametros en una unidad, ya que tres de los cuatro par\'ametros est\'an restringidos. De igual forma, al incrementar el n\'umero de nodos los splines toman formas funcionales m\'as flexibles, lo cual muestra la relaci\'on entre el grado aproximaci\'on que se logra con el spline y el n\'umero de nodos que lo definen. Un comparativo para la interpolaci\'on lineal usando splines de primer, segundo y tercer grado, se muestra en la Figura \@ref(fig:spline4).
+
+
+Mientras que las funciones spline son una herramienta interesante para interpolar funciones suaves, encontrarlas num\'ericamente no es tarea f\'acil. Una manera eficiente y muy estable para generar los splines necesarios para aproximar la funci\'on subyacente $f(x)$, es usando las bases de los B-splines c\'ubicos.
+
+####Bases de splines
+
+En el subcampo matem\'atico de an\'alisis num\'erico, una B-spline o Basis spline (o traducido una l\'inea polin\'omica suave b\'asica), es una funci\'on spline que tiene el m\'inimo soporte con respecto a un determinado grado, suavidad y partici\'on del dominio. Un teorema fundamental establece que cada funci\'on spline de un determinado grado, suavidad y partici\'on del dominio, se puede representar como una combinaci\'on lineal de B-splines del mismo grado y suavidad, y sobre la misma partici\'on. El t\'ermino B-spline fue propuesto por Isaac Jacob Schoenberg y es la abreviatura de spline b\'asica. Las B-splines pueden ser evaluadas de una manera num\'ericamente estable por el algoritmo de Boor. De un modo simplificado, se han creado variantes potencialmente m\'as r\'apidas que el algoritmo de Boor, pero adolecen comparativamente de una menor estabilidad.
+
+
+Una B-spline es simplemente una generalizaci\'on de una curva de B\'ezier, que puede evitar el fen\'omeno Runge sin necesidad de aumentar el grado de la B-spline. Este fen\'omeno, se presenta al realizar interpolaci\'on lineal usando nodos equidistantes, b\'asicamente es un problema que se presenta con el error de aproximaci\'n en los extremos del intervalo que se este considerando, as\'i a medida que crece el n\'umero de nodos el error de aproximaci\'on se incrementa. 
+
+
+Supongamos que tenemos un conjunto infinito de nodos $...<x_{-2}<x_{-1}<x_{0}<x_{1}<x_{2}<...$, entonces el j-\'esimo B-spline de grado cero es igual a $B^{0}_{j}(x)=1$, si $x_{j} \leq x \leq x_{j+1}$ y $B^{0}_{j}(x)=0$ en otro caso. Con la funci\'on $B^{0}_{j}(x)$ como punto de partida se puede generar B-splines de grados mayores mediante la siguiente f\'ormula recursiva,\\
+
+
+$$\displaystyle{B^{k}_{j}(x) = \frac{(x-x_{j})B^{k-1}_{j}(x)}{x_{j+k}-x_{j}} + \frac{(x_{j+k+1}-x)B^{k-1}_{j+1}(x)}{x_{j+k+1}-x_{j+1}}}$$
+para $k\geq 1$. As\'i un B-spline de grado $k$ se define como,\\
+
+
+$$\displaystyle{S^{k}(x) = \sum_{j=-\infty}^{\infty} \theta^{k}_{j} B^{k}_{j-k}(x)}$$
+Los coeficientes $\theta^{k}_{j}$ se llaman puntos de control o puntos de Boor. Hay $m-(n+1)$ puntos de control que forman una envoltura convexa. Note que los B-splines de grado positivo no son ortogonales y por ende no poseen una expresi\'on simple para sus coeficientes.
+
+Sin embargo, los c\'alculos empleados para los B-splines interpoladores de grado cero y uno, son bastante sencillos,\\
+
+
+$$\displaystyle{S^{0}(x) = \sum_{j=-\infty}^{\infty} y_{j} B^{0}_{j}(x),\hspace{0.4cm} S^{1}(x) = \sum_{j=-\infty}^{\infty} y_{j} B^{1}_{j-1}(x) }$$
+Cuando los nodos son equidistantes, la B-spline se dice que es uniforme, de otro modo ser\'a no uniforme. Si dos nodos tj son id\'enticos, cualquiera de las posibles formas indeterminadas 0/0 se consideran 0.
+
+
+####B-spline uniforme
+
+Cuando la B-spline es uniforme, las B-splines b\'asicas para un determinado grado n son s\'olo copias cambiadas de una a otra. Una alternativa no recursiva de la definici\'on de la B-splines $m-n+1$ b\'asica es,
+
+
+$$\displaystyle{B_{j}^{n}(t)= B_{n}(t-t_{j}), \hspace{0.2cm}para \hspace{0.2cm}j=0,...,m-n-1 }$$
+con,
+
+$$\displaystyle{B_{n}(t):= \frac{n+1}{n} \sum_{i=0}^{n+1}w_{i}^{n}(t - t_{i})_{+}^{n}   }$$
+donde,
+
+$$\displaystyle{w_{i}^{n} := \prod_{j=0, j\neq i}^{n+1} \frac{1}{t_{j}- t_{i}}}$$
+n\'otese que $(t - t_{i})_{+}^{n}$ es la funci\'on potencia truncada definida como,
+
+
+$$
+(t - t_{i})_{+}^{n} :=  \left\{
+\begin{array}{ll}
+0 &  \text{ si }  t < t_{i} \\
+(t - t_{i})^{n}   & \text{ si }  t \ge t_{i}
+\end{array}
+\right.
+$$
+
+####B-spline cardinal
+
+Si se define $B_{0}$ como la funci\'on caracter\'istica de ${\displaystyle [-{\tfrac {1}{2}},{\tfrac {1}{2}}]}$, y $B_{k}$ recursivamente como el producto convoluci\'on,
+
+
+$$\displaystyle{B_{k} := B_{k-1}*B_{0}, \hspace{0.2cm} k=1,2,... }$$
+
+entonces $B_{k}$ se llaman B-splines cardinales (centradas). Esta definici\'on se remonta a Schoenberg. $B_{k}$ tiene soporte compacto ${\displaystyle [-{\tfrac {k+1}{2}},{\tfrac {k+1}{2}}]}$ y es una funci\'on impar. Como ${\displaystyle k\rightarrow \infty }$ las B-splines cardinales normalizadas tienden a la funci\'on de Gauss.
+
+Cuando el n\'umero de puntos de control de Boor es el mismo que el grado, la B-Spline degenera en una curva de B\'ezier. La forma de las funciones base es determinada por la posici\'on de los nodos. Escalar o trasladar el vector de nodo no altera las funciones de base.
+
+El spline est\'a contenido en el casco convexo de sus puntos de control. Una B-spline b\'asica de grado n $B_{i}^{n}(t)$ es distinta de cero s\'olo en el intervalo $[t_{i}, t_{i+n+1}]$ esto es,
+
+
+$$
+B_{i}^{n}(t)  = \left\{
+\begin{array}{ll}
+> 0 &  \text{ si }  t_{i}  \leq  t < t_{i+n+1} \\
+0   & \text{ si }  resto
+\end{array}
+\right.
+$$
+
+En otras palabras si manipulamos un punto de control cambiamos s\'olo el comportamiento local de la curva y no el comportamiento global como con las curvas de B\'ezier. La funci\'on base se pueda obtener del polinomio de Bernstein. Algunos ejemplos de las bases B-splines se muestran a continuaci\'on,
+
+
+
