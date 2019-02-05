@@ -27,6 +27,8 @@ shinyUI(
                           
                 menuItem("Curva de Rendimiento", icon = icon("bar-chart-o"),
                          
+                            menuSubItem("Datos", tabName = "datos_curvas", icon = icon("circle-o")),
+                         
                             menuSubItem("Nelson y Siegel", tabName = "subitem1", icon = icon("circle-o")),
                             
                             menuSubItem("Svensson", tabName = "subitem2", icon = icon("circle-o")),
@@ -66,6 +68,11 @@ shinyUI(
                                    menuSubItem("Datos", tabName = "datos_back", icon = icon("circle-o")),
                                    menuSubItem("Resultados", tabName = "resultados_back", icon = icon("circle-o"))
                           ),
+                 menuItem("Valoración", icon = icon("bar-chart-o"), 
+                         menuSubItem("Datos", tabName = "datos_val", icon = icon("circle-o")),
+                         menuSubItem("Resultados", tabName = "resultados_val", icon = icon("circle-o")),
+                         menuSubItem("Resultados Prueba de Estrés", tabName = "resultados_val_estres", icon = icon("circle-o"))
+                  ),
                 
                             menuItem("Acerca", icon = icon("exclamation-circle"), tabName = "acerca"))
                   

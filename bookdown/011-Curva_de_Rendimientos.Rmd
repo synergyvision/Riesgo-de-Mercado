@@ -229,18 +229,18 @@ no es considerado por motivos de parsimonia.
 
 ##Metodologías no Paramétricas
 
-La regresi\'on no param\'etrica se ha convertido en los \'ultimos a\~nos en un
-\'area de excesivo estudio, debido a sus ventajas relativas respecto a los
-modelos de regresi\'on basado en funciones. Entre las caracter\'isticas m\'as
+La regresión no paramétrica se ha convertido en los últimos años en un
+área de excesivo estudio, debido a sus ventajas relativas respecto a los
+modelos de regresión basado en funciones. Entre las características más
 importantes de estos modelos tenemos, la flexibilidad en los supuestos y
-el ajuste dirigido espec\'ificamente a trav\'es de los datos.
+el ajuste dirigido específicamente a través de los datos.
 
 
-Dentro de un marco estad\'istico supondremos que tenemos un conjunto
+Dentro de un marco estadístico supondremos que tenemos un conjunto
 de n observaciones $(x_{i}, y_{i})$, $i= 1, 2,., n$, independientes, donde se intenta
 establecer las relaciones existentes entre una respuesta y un conjunto de
-variables explicativas de forma semejante a los modelos de regresi\'on
-cl\'asica.
+variables explicativas de forma semejante a los modelos de regresión
+clásica.
 
 
 El modelo que relaciona este conjunto de variables es dado por:
@@ -248,21 +248,21 @@ El modelo que relaciona este conjunto de variables es dado por:
 $$\displaystyle{y_{i} = m(x_{i}) + \epsilon_{i}}$$
 
 
-donde la funci\'on $m(.)$ no espec\'ifica una relaci\'on param\'etrica, sino
-permitir que los datos determinen la relaci\'on funcional apropiada. Bajo
+donde la función $m(.)$ no específica una relación paramétrica, sino
+permitir que los datos determinen la relación funcional apropiada. Bajo
 estas condiciones la idea es que la media m(.) sea suave, suavidad que
 puede controlarse acotando la segunda derivada, $|m''(x)| \leq M$, para todo
 $x$ y $M$ una constante.
 
-###Regresi\'on Kernel
+###Regresión Kernel
 
-El m\'etodo m\'as simple de suavizamiento es el suavizador Kernel. Un
-punto x se fija en el soporte de la funci\'on $m(.)$ y una ventana de
+El método más simple de suavizamiento es el suavizador Kernel. Un
+punto x se fija en el soporte de la función $m(.)$ y una ventana de
 suavizamiento es definida alrededor de x. Frecuentemente, la ventana de
 suavizamiento es simplemente un intervalo de la forma $(x - h, x + h)$,
-donde h es un par\'ametro conocido como bandwidth.
+donde h es un parámetro conocido como bandwidth.
 
-La estimaci\'on Kernel es un promedio ponderado de las observaciones
+La estimación Kernel es un promedio ponderado de las observaciones
 dentro de la ventana de suavizamiento,
 
 (@ecu3)
@@ -270,20 +270,22 @@ $$
 \hat{m}(x) = \frac{\sum_{i=1}^{n} K(\frac{x_{i}-x}{h}) y_{i}}{\sum_{i=1}^{n} K(\frac{x_{i}-x}{h})}
 $$
 
-donde $K(.)$ es la funci\'on Kernel de ponderaci\'on. La funci\'on Kernel es escogida
-de tal forma que las observaciones m\'as pr\'oximas a x reciben mayor peso. Una
-funci\'on frecuentemente utilizada es la bicuadr\'atica:
+donde $K(.)$ es la función Kernel de ponderación. La función Kernel es escogida
+de tal forma que las observaciones más próximas a x reciben mayor peso. Una
+función frecuentemente utilizada es la bicuadrática:
 
-OJO FUNCION CON LLAVES
-<!-- $$ K(x) = \left\{ % para la llave grandota -->
-<!--         \begin{tabular}{cc} -->
-<!--         	(1-x^2)^2 & si -1 \leq x  \leq 1 \\ -->
-<!--         	0 & si x \ge 1, \hspace*{0.2 cm} x<-1 \\ -->
-<!--         \end{tabular} -->
-<!-- \right. $$ -->
+
+$$
+K(x) = \left\{
+\begin{array}{ll}
+(1-x^2)^2 &  \text{ si }  -1 \leq x  \leq 1 \\
+0   & \text{ si }  x \ge 1,  x<-1
+\end{array}
+\right.
+$$
 
 Sin embargo, otro tipo de funciones de peso son utilizadas, tal como la
-gaussiana, $K(x) = (2 \sqrt{\pi})^{-1} e^{\frac{-x^2}{2}}$ y la familia beta sim\'etrica $K(x) = \frac{(1-x^2)_{+}^{\gamma}}{Beta(0.5,\gamma+1)}, \hspace*{0.2 cm}\gamma = 0,1,...$
+gaussiana, $K(x) = (2 \sqrt{\pi})^{-1} e^{\frac{-x^2}{2}}$ y la familia beta simétrica $K(x) = \frac{(1-x^2)_{+}^{\gamma}}{Beta(0.5,\gamma+1)}, \text{ con } \gamma = 0,1,...$
 
 Note que cuando escogemos $\gamma = 0, 1, 2$ y $3$ obtenemos las funciones Kernel uniforme (Box), de Epanechnikov, la bipeso y la tripeso, respectivamente.
 
@@ -300,17 +302,17 @@ donde,
 $$\displaystyle{l_{i} = \frac{K(\frac{x_{i}-x}{h})}{\sum_{j=1}^{n} K(\frac{x_{j}-x}{h})} }$$
 
 
- La estimaci\'on Kernel en la ecuaci\'on @ecu3 es llamada la estimaci\'on de Nadaray- Watson, en honor a sus creadores. Su simplicidad lo hace de f\'acil comprensi\'on e implementaci\'on; no obstante, se sabe que los ajustes en los extremos son sesgados. Una referencia ideal para un desarrollo m\'as completo sobre este tema puede encontrarse en Fan y Gijbels \cite{FG}.
+La estimación Kernel en la ecuación @ecu3 es llamada la estimación de Nadaray- Watson, en honor a sus creadores. Su simplicidad lo hace de fácil comprensión e implementación; no obstante, se sabe que los ajustes en los extremos son sesgados. Una referencia ideal para un desarrollo más completo sobre este tema puede encontrarse en Fan y Gijbels \cite{FG}.
 
 ###Polinomios locales
 
 
-Conocida tambi\'en como regresi\'on local, la idea es aproximar la funci\'on suave m(.) por medio de un polinomio de bajo orden en una vecindad entorno de un punto x. Por ejemplo, una aproximaci\'on lineal local es $m(x_{i}) \approx a_{0} + a_{1}(x_{i}-x)$ para $x - h \leq x_{i} \leq x+h$. Una aproximaci\'on local cuadr\'atica es:
+Conocida también como regresión local, la idea es aproximar la función suave m(.) por medio de un polinomio de bajo orden en una vecindad entorno de un punto x. Por ejemplo, una aproximación lineal local es $m(x_{i}) \approx a_{0} + a_{1}(x_{i}-x)$ para $x - h \leq x_{i} \leq x+h$. Una aproximación local cuadrática es:
 
 $$\displaystyle{m(x_{i}) \approx  a_{0} + a_{1}(x_{i}-x) + \frac{a_{2}}{2}(x_{i}-x)^2}$$
 
 
-La aproximaci\'on local puede ser ajustada a trav\'es de m\'inimos cuadrados ponderados localmente. Una funci\'on Kernel y un bandwidth son definidos como en la regresi\'on Kernel. Los coeficientes $\hat{a}_{0}$ y $\hat{a}_{1}$, son escogidos de tal forma que se pueda minimizar la expresi\'on,
+La aproximación local puede ser ajustada a través de mínimos cuadrados ponderados localmente. Una función Kernel y un bandwidth son definidos como en la regresión Kernel. Los coeficientes $\hat{a}_{0}$ y $\hat{a}_{1}$, son escogidos de tal forma que se pueda minimizar la expresión,
 
 
 (@ecu5)
@@ -318,17 +320,139 @@ $$
  \sum_{i=1}^{n} K(\frac{x_{i}-x}{h}) (y_{i}-a_{0}-a_{1}(x_{i}-x))^2 
 $$
 
-Reescribiendo la ecuaci\'on @ecu5 en t\'erminos matriciales obtenemos, $X^{T}W(\tilde{Y}-X \tilde{a})$. Donde X es la matriz dise\~no para cada regresi\'on lineal, $\tilde{a}$ el vector de
-par\'ametros, W la matriz diagonal de pesos $K(\frac{x_{i}-x}{h})$ y $\tilde{Y}$ el vector de observaciones de orden n.
+Reescribiendo la ecuación @ecu5 en términos matriciales obtenemos, $X^{T}W(\tilde{Y}-X \tilde{a})$. Donde X es la matriz diseño para cada regresión lineal, $\tilde{a}$ el vector de
+parámetros, W la matriz diagonal de pesos $K(\frac{x_{i}-x}{h})$ y $\tilde{Y}$ el vector de observaciones de orden n.
 
-El vector de par\'ametros estimado est\'a dado por $ \hat{\tilde{a}} = (X^{T}WX)X^{T}W \tilde{Y} $
-y en forma semejante con la ecuaci\'on @ecu4, tenemos que: $l(x)_{nx1} = e_{1}^{T} (X^{T}WX)X^{T} \tilde{Y}$ donde $e_{1}^{T}$
-es un vector de ceros de tama\~no n, exceptuando la primera entrada cuyo valor es 1.
+El vector de parámetros estimado está dado por $ \hat{\tilde{a}} = (X^{T}WX)X^{T}W \tilde{Y} $
+y en forma semejante con la ecuación @ecu4, tenemos que: $l(x)_{nx1} = e_{1}^{T} (X^{T}WX)X^{T} \tilde{Y}$ donde $e_{1}^{T}$
+es un vector de ceros de tamaño n, exceptuando la primera entrada cuyo valor es 1.
 
-Finalmente, la selecci\'on del h est\'a basado en procedimientos de bondad de ajuste que permite obtener el mejor modelo. Entre los m\'as utilizados sobresalen los m\'etodos de validaci\'on cruzada generalizada y plug-in, los cuales son descritos detalladamente en Fan y Gijbels \cite{FG}.
+Finalmente, la selección del h está basado en procedimientos de bondad de ajuste que permite obtener el mejor modelo. Entre los más utilizados sobresalen los métodos de validación cruzada generalizada y plug-in, los cuales son descritos detalladamente en Fan y Gijbels \cite{FG}.
 
 ###Splines suavizados
 
+Las funciones polinomiales se caracterizan por tener todas las derivadas en cualquier punto de su soporte; no obstante, cuando ciertas funciones no poseen un alto grado de suavidad en determinados puntos, el ajuste debido a estas funciones de polinomios no siempre será satisfactoria en estos tramos.
+
+Para sobrellevar esta desventaja, el ajuste de polinomios de bajo orden localmente, con discontinuidades en ciertos puntos (knots), resulta en el conocido método de splines.
+
+
 ###Splines de polinomios
+
+Suponga que queremos aproximar la función $m(.)$ por una función spline. Frecuentemente, el spline cúbico es utilizado para esta aproximación, sin embargo, otro tipo de splines pueden ser definidos.
+
+
+Siguiendo la notación de Fan y Gijbels \cite{FG}, sea $t_{1}, t_{2}, t_{3},...,t_{J}$ el conjunto de nodos o knots en orden creciente, tal que en cada intervalo  ($-\infty$, $t_{1}$], $[t_{1}, t_{2}],..., [t_{J-1}, t_{J}]$, [$t_{J}, \infty$), funciones cúbicas continuas diferenciables son ajustadas. En este caso el espacio parámetrico es (J+4)-dimensional.
+
+Un conjunto de splines cúbicos son ampliamente utilizados en la obtención de la función de splines, estas son las bases de potencias. Las mismas se definen como sigue, $(x- t_{j})_{+}^{3}, j= 1,2,...,J,1,x,x^2,x^3$ donde $x_{+}$ es la parte positiva de x. Así por ejemplo, la función de suavizamiento puede ser expresada como,
+
+(@ecu6)
+$$
+m(x) = \sum_{j=1}^{J+4} \theta_{j}B_{j}(x) 
+$$
+
+siendo $B_{j}(x), j = 1, 2,... , J+4$, la base polinomial descrita anteriormente.
+
+Los regresores definidos de esta forma pueden ocasionar problemas de estimación (multicolinealidad), motivo por el cual, los $B_{j}(x)$ son
+redefinidos como,
+
+
+$$\displaystyle{ B_{j}(x) = \frac{x-x_{j}}{x_{j+k-1}-x_{j}} B_{j,k-1}(x) + \frac{x_{j+k}-x}{x_{j+k}-x_{j}} B_{j+1,k-1}(x) }$$
+suponiendo que $B_{j,1}=1$ para $x_{j} \leq x \leq x_{j+1}$ y cero en caso contrario. El proceso de estimación de la ecuación @ecu6 es realizado a través de mínimos cuadrados penalizados.
+
+Adicionalmente, una desventaja del método, es su sensibilidad al número y ubicación de los nodos, motivo por el cual han sido propuestos diferentes procedimientos para su selección.
+
+###Splines suavizados
+
+El proceso de suavizamiento a través de este método está basado en la minimización de la funcíon,
+
+$$\displaystyle{ \sum_{i=1}^{n} (y_{i}-m(x_{i})^2 + \lambda \int m''(x)^2dx  }$$
+donde $\lambda$ es una constante especificada de suavizamiento. El mecanismo de optimización intenta crear un balance entre el sesgo de estimación y la suavidad de la curva ajustada. El parámetro $\lambda$ puede asumirse variable (Abramovich y Steinberg \cite{AS}) y estimado a través de validación cruzada generalizada.
+
+###Supersuavizador de Friedmann
+
+
+Las metodologías usuales de suavizamiento asumen que el parámetro suavizador es constante, factor que sumado a la forma de la curva subyacente puede hacer que surjan problemas, tal como el aumento en la varianza de la componente del error y/o a variaciones incontrolables de la segunda derivada de la función subyacente sobre el conjunto predictor. El suavizador propuesto por Friedman \cite{F} intenta corregir estos problemas, asumiendo que el bandwidth es variable sobre el conjunto de predictores.
+
+
+Formalmente, se puede estimar un bandwidth para cada $x$, al igual que el correspondiente valor óptimo de suavizamiento, minimizando la expresión $e^{2}(m,h) = E(Y - m(X|h(X)))^2$ con respecto a las funciones $m(x)$ y $h(x)$. La expresión anterior puede reescribirse como,
+
+(@ecu7)
+$$
+e^{2}(m,h) = E(E(Y - m(X|h(X)))^2|X)
+$$
+
+de tal forma que podemos minimizar el error con respecto a $m$ y $h$ para cada valor de $x$.
+
+Como en el caso del bandwidth constante, se comienza aplicando un suavizador lineal local muchas veces sobre diferentes valores discretos de $h$, $0 < h < n$. Friedman \cite{F} propone utilizar tres conjuntos de valores, $h=0,05n$, $h=0,2n$ y $h=0,5n$, los cuales llama suavizadores ``tweeter", ``midrange" y ``woofer", respectivamente.
+
+Para estimar la ecuación @ecu7 se utiliza el residual de la validación cruzada de la ecuación @ecu8 cuya descripción completa puede encontrarse en Friedman \cite{F},
+
+
+(@ecu8)
+$$
+ r_{i}(h)= \frac{|y_{i}-m(x_{i}|h)|}{\left(1-\frac{1}{h}-\frac{(x_{i}-\bar{x}_{h})^2}{V_{h}}\right)}  
+$$
+
+siendo $\bar{x}_{h}$ y $V_{h}$, la media y varianza de los $x$, bajo un $h$ preeestablecido. Igualmente, Friedman \cite{F} aconseja suavizar $|r_{i}(h)|$ contra $x_{i}$, utilizando los $\hat{e}(m, h|x_{i})$, en procura de seleccionar la mejor amplitud de intervalo o bandwith, $\hat{e}(m, h_{vc}(x_{i})|x_{i})=min_{h} \hat{e}(m, h|x_{i})$, donde $h_{vc} (x_{i})$ es el mejor bandwidth bajo la validación cruzada respecto a cada $x_{i}$ , mientras que $h$ toma los valores de los suavizadores antes definidos.
+
+De esta manera, el mejor valor suavizado dado $x_{i}$, siguiendo la notación de Friedman \cite{F}, $s^{*}(x_{i})$, estará asociado con el bandwidth: "tweeter", "midrange"  o "woofer" que minimice el error bajo la validación cruzada. Es posible a través de esta metodología obtener para cada vecindad en torno a $x_{i}$ diferentes bandwith y suavizados que proporcionan resultados óptimos, por tal razón, Friedman \cite{F} propone seleccionar la mejor amplitud de intervalo, suavizando los $h_{vc} (x_{i})$ contra $x_{i}$ utilizando el suavizador ``midrange", mientras que la curva estimada es obtenida interpolando entre los dos suavizadores con los bandwith estimados más parecidos.
+
+
+Una suposición general establece que la curva subyacente que describe el comportamiento de los datos es suave, así que sería posible modificar el bandwidth en procura de un mayor suavizamiento, sacrificando exactitud numérica. Con este fin, Friedman \cite{F} propone un método de cálculo del bandwidth,
+
+$$\displaystyle{h(x_{i}) = h_{vc}(x_{i}) + (h_{w} - h_{vc}(x_{i}))R_{i}^{10-\alpha}}$$
+
+ con, 
+
+
+$$\displaystyle{R_{i} = \left[\frac{\hat{e}(h_{vc}(x_{i})|x_{i})}{\hat{e}(h_{w}(x_{i})|x_{i})} \right] }$$
+
+
+donde $0 < \alpha < 10$, $h_{w}$ es la amplitud calculada utilizando 
+el suavizador "woofer" y $h_{vc}(.)$ la amplitud obtenida bajo la validación cruzada para cada observación. Sin importar el $\alpha$, cuando la contribución relativa de cada una de estas amplitudes no difiere significativamente, la amplitud de intervalo o bandwidth seleccionada es la determinada por el suavizador "woofer"; no obstante, si la eficiencia relativa está asociada con la amplitud bajo la validación cruzada, entonces, la ecuación en proporcionará esta amplitud. En otros casos, dependiendo del desempeño relativo y el parámetro $\alpha$ definido por el usuario, la ecuación proporcionará una amplitud, resultado de la combinación lineal entre el suavizador ``woofer" \hspace*{0.01 cm} y el obtenido bajo validación cruzada.
+
+Una vez el bandwidth de suavización variable ha sido obtenido, los siguientes pasos son realizados sobre el conjunto de observaciones,
+
+
++ Suavice los datos con los bandwidth "tweeter", "midrange" y "woofer".
++ Suavice los residuales absolutos (12) obtenidos bajo cada bandwidth en el paso anterior, utilizando una amplitud de intervalo "midrange".
++ Seleccione el mejor bandwidth para cada observación, minimizando el error sobre la salida del paso (2).
++ Suavice los mejores bandwidth estimados en el paso (3) utilizando amplitud de intervalo "midrange".
++ Utilice los bandwidth suavizados para interpolar entre los valores suavizados obtenidos en el paso 1.
+
+
+
+Las principales deficiencias atribuidas a esta técnica están asociadas con la pérdida de independencia entre los residuales $\epsilon_{i}$ relativo al orden de los predictores $x_{i}$, subestimando (sobre-estimando) cuando la correlación es positiva-alta (negativa-alta).
+
+###Redes neuronales artificiales
+
+Los recientes desarrollos investigativos han mostrado la capacidad de las redes neuronales para la detección de patrones, clasificación y predicción a través del aprendizaje por medio de la experiencia. Su importancia actual, sin lugar a dudas, es consecuencia del desarrollo computacional, punto de partida para su divulgación, desenvolvimiento teórico y práctico en diversos campos del conocimiento.
+
+Una de las mayores áreas de aplicación de las redes neuronales es la predicción (Sharda \cite{SH}). Dentro de este contexto, las redes resultan ser una herramienta atractiva para los investigadores, comparada con las metodologías tradicionales basada en modelos de funciones.
+
+Las redes neuronales artificiales intentan emular el comportamiento biológico del cerebro humano. Como sabemos, el cerebro humano es un conjunto complejo de interconexiones de elementos simples llamados nodos o neuronas. Cada nodo recibe una señal de entrada proveniente de otros nodos o a través de estímulos externos; localmente el nodo procesa la información recibida por medio de una función de transferencia o activación y produce una señal de salida transformada, que irá hacia otros nodos o como una respuesta, consecuencia de un estímulo. Aunque cada nodo individualmente no proporciona información realmente valiosa, en conjunto, pueden realizar un sorprendente número de tareas de forma eficiente. Esta característica hace de las redes neuronales un mecanismo poderoso computacionalmente para aprender a partir de ejemplos y después generalizar para casos nunca antes considerados.
+
+
+Aunque diferentes arquitecturas de redes neuronales han sido propuestas (Haykin \cite{Ha}), la más utilizada es la red multilayer Perceptron (MLP). Una red MLP está compuesta de varias capas y nodos o neuronas. Los nodos de la primera capa son los encargados de recibir la información del exterior, mientras que la última capa es encargada de proporcionar la respuesta asociada a esta información. Entre estas dos capas puede haber innumerables capas y nodos. Adicionalmente, los nodos de capas adyacentes están completamente conectados.
+
+Para un problema de pronóstico con redes neuronales, las entradas a la red son asociadas con variables independientes o explicativas. En este caso la relación funcional estimada establecida por la red neuronal será de la forma $y_{t}=f(x_{1}, x_{2},..., x_{p})$; donde $x_{1}, x_{2},..., x_{p}$ son p variables exógenas y y una variable endógena. En este sentido la red es equivalente a un modelo de regresión no lineal. Igualmente, en el contexto del pronóstico de series temporales, las entradas de la red son series rezagadas de la original y la salida representa su valor futuro. En este caso la red haría un mapeo de la siguiente forma $y_{t}= f (y{t-1}, y{t-2}, ..., y{t-p})$, donde $y_{t}$ es la observación en el tiempo t. Bajo estas características la red asemeja un modelo autorregresivo en el pronóstico de series temporales. Una discusión respecto a la relación existente entre las redes neuronales y la metodología de Box-Jenkins es dada por Suykens, Vandewalle y Moor \cite{SVM}.
+
+Antes de que la red sea utilizada para realizar alguna tarea específica, debe ser entrenada. Básicamente, entrenar es el proceso de determinar los pesos (eje central de la red neuronal). El conocimiento aprendido por la red es almacenado en cada una de los arcos que representan las conexiones entre los nodos. Es a través de estas conexiones que las redes pueden realizar complejos mapeos no lineales desde los nodos de entrada hasta los nodos de salida. El entrenamiento de la MLP es supervisado, caso en el cual la respuesta deseada o valor objetivo para cada patrón de entrada o ejemplo está siempre disponible.
+
+Los datos de entrenamiento son ingresados a la red en forma de vectores de variables o como patrones de entrada. Cada elemento en el vector de entrada es asociado con un nodo de la capa de entrada; de esta forma, el número de entradas a la red es igual a la dimensión del vector de entrada. Para el pronóstico de series temporales el número de variables de entrada es difícil de establecer, no obstante, una ventana de rezagos fija es constituida a lo largo de la serie. El total de datos disponible es usualmente dividido en un conjunto de entrenamiento y otro de prueba. El primero es utilizado para estimar los pesos de la red, mientras que el segundo es empleado para evaluar la capacidad de generalización de la red.
+
+
+Para el proceso de entrenamiento, patrones de entrada son ingresados a la red. Los valores de activación de los nodos de entrada son multiplicados por su peso respectivo y acumulados en cada nodo sobre la primera capa. El total es evaluado en una función de activación y asumido como la salida del respectivo nodo. A esta salida algunos investigadores la identifican como la activación del nodo y es la entrada de otros nodos en capas siguientes de la red hasta que los valores de activación de la salida sean encontrados. El algoritmo de entrenamiento es utilizado para encontrar los pesos que minimicen una medida global de error tal como la suma de cuadrados del error (SSE).
+
+
+En el pronóstico con series temporales, un patrón de entrenamiento consiste de un conjunto de valores fijos de variables en rezago de la serie. Suponga que tenemos N observaciones $y_{1}, y_{2}, ..., y_{N}$ para el proceso de entrenamiento y se requiere pronosticar un paso al frente, entonces con una red neuronal de n nodos de entrada, tenemos $N-n$ patrones de entrenamiento. El primer patrón de entrenamiento estará conformado por $y_{1}, y_{2}, ..., y_{n}$ como las entradas y $y_{n+1}$ como el valor objetivo. El segundo patrón de entrenamiento será $y_{2}$, $y_{3}$, ..., $y_{n+1}$ y el valor de salida deseado $y_{n+2}$. Finalmente, el último patrón de entrada será $y_{N-n}, y_{N-n+1}, ..., y_{N-1}$ y $y_{N}$ el valor objetivo. Frecuentemente, una función objetivo basada en la SSE es minimizada durante el proceso de entrenamiento,
+
+
+$$\displaystyle{E = \frac{1}{2} \sum_{i=n+1}^{N}(y{i}-a{i})^2 }$$
+
+donde $a_{i}$ es la salida actual de la red.
+
+Una descripción más detallada sobre las diferentes arquitecturas de red existentes, el número óptimo de capas ocultas y neuronas, las funciones de activación más utilizadas, los algoritmos de entrenamiento, la normalización de los datos, como también de otros temas relacionados con sus ventajas y deficiencias (Haykin \cite{Ha}, Kaastra y Boyd \cite{KB}, Zhang, Patuwo y Hu \cite{ZPH}, Isasi y Galván \cite{IG}), entre otros.
+
 
 ###Metodología Splines Cúbicos de Suavizado
