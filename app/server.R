@@ -8301,15 +8301,90 @@ shinyServer(function(input, output) {
     }else{}
   })
   
-  # Almacenar Variables Reactivas
-  RV <- reactiveValues()
-
-  set.seed(122)
-  histdata <- rnorm(500)
+  ###############################################################################
+  ###############################################################################
+  #################################    BACKTESTING    ###########################
+  ###############################################################################
+  ###############################################################################
   
-  output$plot1 <- renderPlot({
-    data <- histdata[seq_len(input$slider)]
-    hist(data)
+  
+  data_back <- reactive({
+    # input$file1 will be NULL initially. After the user selects
+    # and uploads a file, it will be a data frame with 'name',
+    # 'size', 'type', and 'datapath' columns. The 'datapath'
+    # column will contain the local filenames where the data can
+    # be found.
+    
+    inFile <- input$file_data_back
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    # read.table(inFile$datapath, header = input$header,
+    #            sep = input$sep, quote = input$quote)
+    a <- read.delim2(inFile$datapath, header = input$header_back,
+                     sep = input$sep_back, quote = input$quote_back)
+    
+    return(a)
+    
   })
+  
+  
+  output$datatable_back<-renderDataTable({
+    if(is.null(data_back())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    datatable(data_back())
+  })
+  
+  ###############################################################################
+  ###############################################################################
+  #################################    VALORACION    ############################
+  ###############################################################################
+  ###############################################################################
+  
+  
+  data_val <- reactive({
+    # input$file1 will be NULL initially. After the user selects
+    # and uploads a file, it will be a data frame with 'name',
+    # 'size', 'type', and 'datapath' columns. The 'datapath'
+    # column will contain the local filenames where the data can
+    # be found.
+    
+    inFile <- input$file_data_val
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    # read.table(inFile$datapath, header = input$header,
+    #            sep = input$sep, quote = input$quote)
+    a <- read.delim2(inFile$datapath, header = input$header_val,
+                     sep = input$sep_val, quote = input$quote_val)
+    
+    return(a)
+    
+  })
+  
+  
+  output$datatable_val<-renderDataTable({
+    if(is.null(data_val())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    datatable(data_val())
+  })
+  
+  
+  
+  
+  
+  
+  # Almacenar Variables Reactivas
+  # RV <- reactiveValues()
+  # 
+  # set.seed(122)
+  # histdata <- rnorm(500)
+  # 
+  # output$plot1 <- renderPlot({
+  #   data <- histdata[seq_len(input$slider)]
+  #   hist(data)
+  # })
  
 })

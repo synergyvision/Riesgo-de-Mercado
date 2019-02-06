@@ -25,11 +25,11 @@ shinyUI(
               
                 sidebarMenu(id = "tabs",
                           
-                menuItem("Curva de Rendimiento", icon = icon("bar-chart-o"),
+                menuItem("Curva de Rendimiento", icon = icon("chart-area"),
                          
-                            menuSubItem("Datos", tabName = "datos_curvas", icon = icon("circle-o")),
+                            menuSubItem("Datos", tabName = "datos_curvas", icon = icon("folder-open")),
                          
-                            menuSubItem("Nelson y Siegel", tabName = "subitem1", icon = icon("circle-o")),
+                            menuSubItem("Nelson y Siegel", tabName = "subitem1", icon = icon("bullseye")),
                             
                             menuSubItem("Svensson", tabName = "subitem2", icon = icon("circle-o")),
                             
@@ -40,9 +40,9 @@ shinyUI(
                           ),#fin menuitem 
                 
                             #menuItem("Comparativo", icon = icon("circle-o"), tabName = "comparativo"),
-                menuItem("Comparativo", icon = icon("bar-chart-o"), 
+                menuItem("Comparativo", icon = icon("th-list"), 
                          
-                            menuSubItem("Datos", tabName = "datos", icon = icon("circle-o")),
+                            #menuSubItem("Datos", tabName = "datos", icon = icon("circle-o")),
                          
                             menuSubItem("Metodologías", tabName = "metodologias", icon = icon("circle-o")),
                          
@@ -51,25 +51,25 @@ shinyUI(
                             menuSubItem("Curvas", tabName = "curvas", icon = icon("circle-o"))
                          
                           ),#fin menuitem 
-                menuItem("Valor en Riesgo", icon = icon("bar-chart-o"), 
+                menuItem("Valor en Riesgo", icon = icon("coins"), 
                          
-                         menuSubItem("Datos", tabName = "datos_var", icon = icon("circle-o")),
+                         menuSubItem("Datos", tabName = "datos_var", icon = icon("folder-open")),
                          
                          menuSubItem("Distribución", tabName = "distribucion_var", icon = icon("circle-o")),
                          
                          menuSubItem("VaR", tabName = "var", icon = icon("circle-o")),
                          
-                         menuSubItem("Gráficos", tabName = "graficos", icon = icon("circle-o")),
+                         menuSubItem("Gráficos", tabName = "graficos", icon = icon("chart-pie")),
                          
                          menuSubItem("Históricos", tabName = "historicos", icon = icon("circle-o"))
                          
                 ),#fin menuitem 
-                          menuItem("Backtesting", icon = icon("bar-chart-o"), 
-                                   menuSubItem("Datos", tabName = "datos_back", icon = icon("circle-o")),
+                          menuItem("Backtesting", icon = icon("angle-double-left"), 
+                                   menuSubItem("Datos", tabName = "datos_back", icon = icon("folder-open")),
                                    menuSubItem("Resultados", tabName = "resultados_back", icon = icon("circle-o"))
                           ),
                  menuItem("Valoración", icon = icon("bar-chart-o"), 
-                         menuSubItem("Datos", tabName = "datos_val", icon = icon("circle-o")),
+                         menuSubItem("Datos", tabName = "datos_val", icon = icon("folder-open")),
                          menuSubItem("Resultados", tabName = "resultados_val", icon = icon("circle-o")),
                          menuSubItem("Resultados Prueba de Estrés", tabName = "resultados_val_estres", icon = icon("circle-o"))
                   ),
@@ -80,6 +80,46 @@ shinyUI(
     #Body
     dashboardBody(VisionHeader(),
             tabItems(
+              tabItem(tabName = "datos_curvas",
+                      h2(" Descarga de archivos"),
+                      # Input: Choose dataset ----
+                      selectInput("dataset", "Elegir un Archivo:",
+                                  choices = c("0-22", "Caracteristicas"
+                                  )),
+                      
+                      # Button
+                      downloadButton("downloadData", "Descargar"),
+                      h5(" Usted seleccionó"),
+                      verbatimTextOutput("desc"),
+                      h5(" Vista previa"),
+                      tabsetPanel(type="pills",
+                                  tabPanel("Características",
+                                           h5("Documento Características"),
+                                           box(style="overflow-x:scroll",width = 12,
+                                               dataTableOutput("Ca_leida"))),
+                                  tabPanel("Operaciones BCV 022",
+                                           h5("Documento 0-22"),
+                                           box(style="overflow-x:scroll",width = 12,
+                                               dataTableOutput("docbcv"))
+                                  )
+                      ),
+                      h2("Calculo precio promedio"),
+                      #tabBox(width = 12, title = "Títulos", height = "50px",
+                      #mainPanel(
+                      tabsetPanel(type="pills",
+                                  tabPanel("TIF",
+                                           verbatimTextOutput("pre_prom_tif")),
+                                  tabPanel("VEBONOS",
+                                           verbatimTextOutput("pre_prom_veb"))
+                      )
+                      #)
+                      #)
+                      
+                      
+              ),
+              
+              
+              
               #NELSON Y SIEGEL
               
                tabItem(tabName = "subitem1",
@@ -612,44 +652,44 @@ shinyUI(
               
               #COMPARATIVO
              
-              tabItem(tabName = "datos",
-                      h2(" Descarga de archivos"),
-                      # Input: Choose dataset ----
-                      selectInput("dataset", "Elegir un Archivo:",
-                                  choices = c("0-22", "Caracteristicas"
-                                             )),
-                      
-                      # Button
-                      downloadButton("downloadData", "Descargar"),
-                      h5(" Usted seleccionó"),
-                      verbatimTextOutput("desc"),
-                      h5(" Vista previa"),
-                      tabsetPanel(type="pills",
-                          tabPanel("Características",
-                              h5("Documento Características"),
-                              box(style="overflow-x:scroll",width = 12,
-                              dataTableOutput("Ca_leida"))),
-                          tabPanel("Operaciones BCV 022",
-                              h5("Documento 0-22"),
-                              box(style="overflow-x:scroll",width = 12,
-                              dataTableOutput("docbcv"))
-                                )
-                                ),
-                      h2("Calculo precio promedio"),
-                      #tabBox(width = 12, title = "Títulos", height = "50px",
-                      #mainPanel(
-                        tabsetPanel(type="pills",
-                      tabPanel("TIF",
-                      verbatimTextOutput("pre_prom_tif")),
-                      tabPanel("VEBONOS",
-                               verbatimTextOutput("pre_prom_veb"))
-                        )
-                      #)
-                      #)
-                      
-                      
-                      ),
-              
+              # tabItem(tabName = "datos",
+              #         h2(" Descarga de archivos"),
+              #         # Input: Choose dataset ----
+              #         selectInput("dataset", "Elegir un Archivo:",
+              #                     choices = c("0-22", "Caracteristicas"
+              #                                )),
+              #         
+              #         # Button
+              #         downloadButton("downloadData", "Descargar"),
+              #         h5(" Usted seleccionó"),
+              #         verbatimTextOutput("desc"),
+              #         h5(" Vista previa"),
+              #         tabsetPanel(type="pills",
+              #             tabPanel("Características",
+              #                 h5("Documento Características"),
+              #                 box(style="overflow-x:scroll",width = 12,
+              #                 dataTableOutput("Ca_leida"))),
+              #             tabPanel("Operaciones BCV 022",
+              #                 h5("Documento 0-22"),
+              #                 box(style="overflow-x:scroll",width = 12,
+              #                 dataTableOutput("docbcv"))
+              #                   )
+              #                   ),
+              #         h2("Calculo precio promedio"),
+              #         #tabBox(width = 12, title = "Títulos", height = "50px",
+              #         #mainPanel(
+              #           tabsetPanel(type="pills",
+              #         tabPanel("TIF",
+              #         verbatimTextOutput("pre_prom_tif")),
+              #         tabPanel("VEBONOS",
+              #                  verbatimTextOutput("pre_prom_veb"))
+              #           )
+              #         #)
+              #         #)
+              #         
+              #         
+              #         ),
+              # 
               
                 tabItem(tabName = "metodologias",
                       fluidRow(
@@ -1590,7 +1630,44 @@ shinyUI(
                       
               ),#final tabitem Backtesting
               
-              
+            #VALORACION
+            tabItem(tabName = "datos_val",
+                    h2(" Seleccionar archivo"),
+                    fluidRow(
+                      box(width = 12, title = h3(UPLOADDATA_TEXT),
+                          box( width=12,background = "navy",
+                               fileInput('file_data_val', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
+                                         placeholder = FILESELEC_TEXT, buttonLabel = BUTTSELEC_TEXT )
+                          ),
+                          fluidRow(
+                            box(width=4,background="olive",strong(ENCABEZADO_TEXT),
+                                checkboxInput( width="100%", 'header_val', WITHHEADER_TEXT, TRUE)),
+                            box(width=4,background="olive",
+                                radioButtons( width="40%", 'sep_val', SEPARATOR_TEXT, UPLOADFILESEP_CONF_1, ';')),
+                            box(width=4,background="olive",
+                                radioButtons( width="40%", 'quote_val', COMILLAS_TEXT, UPLOADCOMILLAS_CONF, ''))
+                          )
+                      )
+                    ),
+                    fluidRow(
+                      box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_val'))
+                    )
+                    
+                    
+                    
+            ),#final tabitem Valoracion
+            tabItem(tabName = "resultados_val",
+                    h2("Resultados"),
+                    fluidRow(
+                      box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('result_val'))
+                    )
+            ),#final tabitem Valoracion
+            tabItem(tabName = "resultados_val_estres",
+                    h2("Resultados Prueba de Estrés"),
+                    fluidRow(
+                      box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('result_val_estres'))
+                    )
+            ),#final tabitem Valoracion   
               
               #ACERCA
                        tabItem(tabName = "acerca",
