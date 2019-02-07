@@ -4,7 +4,134 @@
 
 ##Curva de Rendimientos
 
-$e_{0}$
+###Elaboracion Base de datos Splines
+
+La fuente principal de informaci\'on para calcular la curva de rendimientos para los t\'itulos de la deuda p\'ublica nacional es el Banco Central de Venezuela (BCV), el cual diariamente publica las operaciones realizadas con estos instrumentos y los publica en el documento "resumersec" (Ver Figura \@ref(fig:bcv). Es importante destacar, que en este documento se encuentran por d\'ia dos pesta\~nas, la $``0-22"$ y la $``0-23"$, en la primera pesta\~na se encuentran las operaciones interbancarias, por su parte la segunda pesta\~na muestra informaci\'on sobre las operaciones realizadas por entes privados, en este caso el precio pautado en la operaci\'on no est\'a disponible, raz\'on por la cual esta pesta\~na no se toma en consideraci\'on. La informaci\'on disponible en la pesta\~na $``0-22"$ es la siguiente,
+
++ C\'odigo del instrumento: c\'odigo \'unico que se asocia a cada instrumento.
++ Fecha de vencimiento: fecha de maduraci\'on de cada instrumento.
++ Plazo: cantidad de d\'ias que faltan para que el instrumento venza.
++ Cantidad de Operaciones: n\'umero de operaciones realizadas con cada instrumento.
++ Monto en Bol\'ivares: monto total involucrado en la operaci\'on.
++ Precio m\'inimo: precio m\'as bajo pautado en la operaci\'on.
++ Precio m\'aximo: precio m\'as alto pautado en la operaci\'on.
++ Precio promedio: precio promedio pautado en la la operaci\'on. Cabe destacar que si existe una s\'ola operaci\'on, los precios m\'inimo, m\'aximo y promedio ser\'an iguales.
++ Cup\'on: tasa de inter\'es pagadera por cada instrumento.
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Pestaña 0-22",label=bcv}
+knitr::include_graphics("images/Imagen022.png")
+```
+
+Es importante recordar que dentro de los t\'itulos de la Deuda P\'ublica Nacional se encuentran los t\'itulos de inter\'es fijo (TIF) y los t\'itulos de tasa variable (VEBONO), los primeros se caracterizan por poseer una tasa de cup\'on que no varia, por su parte los VEBONO poseen una tasa de inter\'es variable.
+
+Esta informaci\'on tambi\'en es suministrada por el BCV, en su documento de las "Caracter\'isticas de la Deuda P\'ublica Nacional" (Ver Figura \@ref(fig:carac) ), por lo cual el mismo se debe revisar con cierta frecuencia, con el fin de actualizar la tasa de cup\'on de los VEBONO. En este documento se muestra informaci\'on que caracteriza a cada instrumento, el mismo posee varias pesta\~nas, en este trabajo s\'olo se considerar\'a la pesta\~na $``DPN"$ en donde se encuentra informaci\'on sobre los instrumentos emitidos en moneda nacional. La informaci\'on disponible en este documento se muestra a continuaci\'on,
+
++ N\'umero-Emisi\'on-Decreto: informaci\'on sobre emisi\'on de cada instrumento.
++ C\'odigo: c\'odigo \'unico que se asocia a cada instrumento.
++ Fecha de emisi\'on: fecha cuando se emiti\'o cada instrumento.
++ Fecha de vencimiento: fecha de maduraci\'on de cada instrumento.
++ Monto en Circulaci\'on: monto total de cada instrumento en circulaci\'on.
++ Porcentaje de referecia: indica si el instrumento es de tasa fija o tasa variable.
++ Fecha de inicio: indica cada cuanto tiempo el instrumento paga cup\'on.
++ Per\'iodo vigente: indica el per\'iodo (fecha inicio y fecha fin) cuando cada instrumento paga cup\'on.
++ Tasa: cup\'on asociado a cada instrumento.
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Características",label=carac}
+knitr::include_graphics("images/Imagencarac.png")
+```
+
+A partir de la pesta\~na "0-22" y del documento de las caracter\'isticas, se cre\'o la base de datos con la cual se va a trabajar, la misma contiene no s\'olo la informaci\'on suministrada por la pesta\~na "0-22", sino alguna informaci\'on adicional tomada del documento de las caracter\'isticas. En dicha base de datos se contar\'a con la siguiente informaci\'on,
+
++ Tipo Instrumento: Indica el tipo de instrumento.
++ Nombre: Proporciona el nombre corto del t\'itulo, usualmente este nombre se conforma por el tipo de t\'itulo m\'as su mes y a\~no de vencimiento, por ejemplo, el t\'itulo TIF032028, representa al t\'itulo TIF con vencimiento en marzo del 2028.
++ Fecha de operaci\'on: Indica la fecha en que se efectu\'o dicha operaci\'on.
++ Fuente: Indica la fuente de donde se tom\'o la informaci\'on, esta se puede tomar de dos fuentes, la primera mediante la pesta\~na 0-22 (mercado secundario) y  la otra mediante el documento de las subastas (mercado primario, informaci\'on suministrada por el BCV).
++ Sicet: Proporciona el c\'odigo asociado a cada t\'itulo.
++ Fecha de vencimiento: Indica la fecha de maduraci\'on (vencimiento) del instrumento.
++ Plazo: Indica la cantidad de d\'ias que falta para que el instrumento se venza.
++ Cantidad de operaciones: Proporciona la cantidad de operaciones efectuadas con un insrumento en espec\'ifico.
++ Monto: Indica el monto en Bol\'ivares, por el cual se efectu\'o la operaci\'on u operaciones.
++ Precio m\'inimo: Indica el precio m\'inimo, por el cual se trans\'o la operaci\'on.
++ Precio m\'aximo: Indica el precio m\'aximo, por el cual se trans\'o la operaci\'on.
++ Precio promedio: Indica el precio promedio, por el cual se trans\'o la operaci\'on, cabe destacar que en dado caso de existir una sola operaci\'on el valor del precio m\'inimo, m\'aximo y promedio van a coincidir.
++ Cup\'on: Proporciona la tasa de cup\'on asociado a cada instrumento.
++ Frecuencia: Indica con que frecuencia el instrumento paga cup\'on, para los TIF y VEBONO, esta es 4, pues los mismos pagan cu\'pon trimestralmente, as\'i se obtiene este valor pues existen 4 trimestres en el a\~no.
+
+Una vez obtenida la base de datos esta seg\'un sea el caso puede ser depurada mediante ciertos criterios, el primero es que aquellas operaciones con un monto menor a los 10 milllones no se consideran. El segundo es considerar la operaci\'on mas reciente, es decir, si en la base de datos se tiene que para un mismo instrumento existen diferentes operaciones en diferentes d\'ias, s\'olo se considerar\'a la operaci\'on m\'as reciente.
+
+
+Para efectuar la depuraci\'on, a la base de datos anterior se le a\~nadir\'an dos columnas nuevas una que indica el rendimiento al vencimiento de cada instrumento y la otra que indica la decisi\'on que se tom\'o en base a los criterios descritos anteriormente (Ver Figura \@ref(fig:base)). Esta \'ultima ser\'a una variable dicot\'omica, es decir solo con dos valores (0 \'o 1), en donde "0" me indica que no selecciono el t\'itulo y "1" me indica que si lo tomo en cuenta para el estudio a realizar.
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Base de datos",label=base}
+knitr::include_graphics("images/Imagenbase.png")
+```
+
+Una vez calculados los precios estimados asociados a cada instrumento, se proceder\'a a comparar los mismo con aquellos obtenidos por una metodolog\'ia distinta. La metodolog\'ia con la cual se va a comparar es la de Svensson, la cual es una metodolog\'ia param\'etrica.
+
+
+Los instrumentos a considerar ser\'an aquellos pertencientes al portafolio de inversiones de una instituci\'on financiera, de tal manera que para un d\'ia especifico sea posible conocer cuanta es la ganancia o p\'erdida que generan estos instrumentos. y por ende saber si es viable la venta o compra de determinado instrumento.
+
+A partir de la data obtenida (Ver Figura \@ref(fig:base)), se proceder\'a a a\~nadir unas columnas nuevas con el fin de clasificar las observaciones para los distintos instrumentos en diferentes per\'iodos de vencimiento. Los per\'iodos de vencimiento son,
+
+
++ Corto plazo: se refiere al vencimiento m\'as cercano, los instrumentos que se encuentran aqu\'i son aquellos que poseen un vencimiento menor a un a\~no.
++ Mediano plazo: en esta clasificaci\'on se encuentran los instrumentos cuyo vencimiento este entre uno y diez a\~nos.
++ Largo plazo: hace referencia a aquellos instrumentos que tengan un vencimiento mayor a diez a\~nos.
+
+
+Luego de separar la data por tipo de instrumento, la nueva data con la que se trabajar\'a es la siguiente,
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Base de datos TIF",label=baset}
+knitr::include_graphics("images/data_nueva.png")
+```
+
+Con el fin de contar con la data m\'as reciente a partir de la fecha de valoraci\'on, se cre\'o la funci\'on "extrae" la cual selecciona de la data de la Figura (\@ref(fig:baset)) una determinada cantidad de observaciones, la cual es especificada por el usuario, esta funci\'on cuenta con los siguientes argumentos,
+
++ fv: indica la fecha de valoraci\'on para la cual se est\'a realizando el estudio.
++ dias: indica la cantidad de d\'ias que el usuario desea, a partir de este valor se va a obtener la data con la que se va a trabajar.
++ data: hace referencia a la data completa para cada tipo de instrumento, a partir de la misma se procedera a extraer parte de ella a partir del n\'umero de dias seleccionado.
+
+
+Luego de selecionar la data, la misma se procede a depurar, es decir, se van a eliminar las observaciones duplicadas considerando s\'olo aquellas que sean m\'as recientes. 
+
+
+As\'i a partir de esta data s\'olo se consideraran las columnas plazo y rendimiento con el fin de tener una nube de puntos a partir de la cual se haga el ajuste de la funci\'on spline, y as\'i obtener la curva de rendimientos.
+
+
+La data obtenida a partir de la depuraci\'on anterior es,
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Data depurada TIF",label=datadep}
+knitr::include_graphics("images/cand.png")
+```
+
+
+Una vez obtenida la data para los Tif y Vebono se utiliz\'o la funci\'on "smooth.spline" del programa estad\'istico R, para ajustar un spline c\'ubico a la data ingresada. Los argumentos requeridos por esta funci\'on son los siguientes,
+
++ X: representa el vector de la variable predictiva.
++ Y: representa el vector de la variable repuesta.
++ cv: (TRUE/FALSE) variable del tipo l\'ogico que representa si se va a utilizar la validaci\'on cruzada generalizada al momento de calcular el par\'ametro de suavizamiento.
++ Spar: representa el par\'ametro de suavizamiento, t\'ipicamente (aunque no necesariamente) ubicado entre 0 y 1. Es el coeficiente lambda que acompa\~na a la integral del cuadrado de la segunda derivada de la funci\'on f.
+
+De esta manera el siguiente comando ajusta un spline cubico a la data ingresada,
+
+
+spline1=smooth.spline(X=datT1\$Plazo,Y=datT1\$Rendimiento,cv=TRUE, spar=1.35)
+
+y lo guarda en la variable ``spline1".
+
+Es importante se\~nalar lo crucial de la escogencia del par\'ametro "spar", pues de \'el depende que tan suave sea la curva, la Figura (\@ref(fig:compspar) muestra como var\'ia la curva cuando se cambia  el valor del ``spar", para esta comparaci\'on se us\'o tres valores, el primero fue 0.51 con el cual se obtiene una curva con ciertos picos la cual no es suave en lo absoluto. 
+
+Usando el valor de 0.71 se obtiene la curva roja la cual presenta una mayor suavidad. Mientras que usando el valor de 0.81 se obtiene un mejor resultado aunque similar al anterior. De esta manera, se puede observar la importancia de la elecci\'on correcta de este par\'ametro, mientras este valor se aproxime a 1 se obtendr\'a una curva con mayor suvidad.
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Curva de rendimiento Vebono para diferentes valores de suavizado",label=compspar}
+knitr::include_graphics("images/curvavbv2.jpg")
+```
+
+
+
+
+
+
 
 ###Curva de rendimientos individual
 
