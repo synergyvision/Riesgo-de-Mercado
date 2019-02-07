@@ -8372,9 +8372,41 @@ shinyServer(function(input, output) {
   })
   
   
+  #resultados valoracion
+  output$result_val <- renderPrint({
+    if(is.null(data_val())){return()}
+    a <- data_val()
+    a[,2] <- as.numeric(as.character(a[,2]))
+    a[,5] <- as.numeric(as.character(a[,5]))
+    a[,3] <- as.numeric(as.character(a[,3]))
+    a[,4] <- as.numeric(as.character(a[,4]))
+    a$mtm <- a[,2]*a[,5]/100
+    a$ut_per <- a$mtm-(a[,3]*a[,5]/100)
+    a
+  })
   
-  
-  
+  #resultados valoracion estresada
+  output$result_val_estres <- renderPrint({
+    if(is.null(data_val())){return()}
+    a <- data_val()
+    a[,2] <- as.numeric(as.character(a[,2]))
+    a[,5] <- as.numeric(as.character(a[,5]))
+    a[,3] <- as.numeric(as.character(a[,3]))
+    a[,4] <- as.numeric(as.character(a[,4]))
+    
+    #calculo desviacion estandar de historico de tit
+    data <- read.delim2(paste(getwd(),"data","tif.txt",sep = "/"))
+    a$sd <-rep(0,nrow(a))
+    
+    for(i in 1:nrow(a)){
+      a$sd[i] <- sd(data[,i+1],na.rm = TRUE)
+    }
+    
+    a$precio_estres <- a[,5]-a$sd
+    a$mtm <- a[,2]*a$precio_estres/100
+    a$ut_per <- a$mtm-(a[,3]*a$precio_estres/100)
+    a
+  })
   
   # Almacenar Variables Reactivas
   # RV <- reactiveValues()
