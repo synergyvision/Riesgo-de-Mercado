@@ -4,6 +4,23 @@
 
 ##Curva de Rendimientos
 
+En esta sección el usuario puede calcular los precios teóricos de los instrumentos de la Deuda Pública Nacional (TIF ó VEBONOS) para una fecha específica y para una metodología en específico. Las metodologías disponibles son Nelson y Siegel, Svensson, Diebold-Li y Splines cúbicos de suavizado.
+
+###Metodología Nelson y Siegel
+
+Para el cálculo de esta metodología es importante contar con los precios promedios de los instrumentos a considerar puesto que a partir de los mismos se realizará un proceso de optimización el cual busca encontrar los parámetros más adecuados de esta metodología de manera que los precios teóricos obtenidos se asemejen a los precios promedio.
+
+Esta sección cuenta con una pestaña denominada Datos, mediante la cual se obtendrán de manera automática los archivos necesarios para el cálculo de los precios teóricos de los instrumentos a considerar. Los archivos necesarios son obtenidos de la página del Banco Central de Venezuela, ellos son,
+
++ Documento de operaciones del mercado secundario (resumersec)
++ Documento de las características de los instrumentos de la Deuda Pública Nacional 
+
+
+
+
+
+
+
 ###Elaboracion Base de datos Splines
 
 La fuente principal de información para calcular la curva de rendimientos para los títulos de la deuda pública nacional es el Banco Central de Venezuela (BCV), el cual diariamente publica las operaciones realizadas con estos instrumentos y los publica en el documento "resumersec" (Ver Figura \@ref(fig:bcv). Es importante destacar, que en este documento se encuentran por día dos pestañas, la $``0-22"$ y la $``0-23"$, en la primera pestaña se encuentran las operaciones interbancarias, por su parte la segunda pestaña muestra información sobre las operaciones realizadas por entes privados, en este caso el precio pautado en la operación no está disponible, razón por la cual esta pestaña no se toma en consideración. La información disponible en la pestaña $``0-22"$ es la siguiente,

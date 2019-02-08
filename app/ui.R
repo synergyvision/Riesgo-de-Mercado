@@ -21,7 +21,7 @@ shinyUI(
     #Sidebar
     dashboardSidebar(
       
-                sidebarSearchForm(label = "Ingrese un Número", "searchText", "searchButton"),
+                #sidebarSearchForm(label = "Ingrese un Número", "searchText", "searchButton"),
               
                 sidebarMenu(id = "tabs",
                           
@@ -29,7 +29,7 @@ shinyUI(
                          
                             menuSubItem("Datos", tabName = "datos_curvas", icon = icon("folder-open")),
                          
-                            menuSubItem("Nelson y Siegel", tabName = "subitem1", icon = icon("bullseye")),
+                            menuSubItem("Nelson y Siegel", tabName = "subitem1", icon = icon("circle-o")),
                             
                             menuSubItem("Svensson", tabName = "subitem2", icon = icon("circle-o")),
                             
