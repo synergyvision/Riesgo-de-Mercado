@@ -134,6 +134,50 @@ shinyUI(
                           h2("  Títulos"), h5("  Favor seleccionar los títulos a considerar: "),
                           fluidRow(tabBox( width = 12, title = "Títulos", id = "tab1", height = "50px", 
                                      tabPanel("TIF",
+                                              h2("  Títulos nuevos"),
+                                              #htmlOutput("tit_new_ns_tif"),
+                                              #verbatimTextOutput("t_ns_tif"),
+                                              
+                                              #tabBox( width = 12, title = "Instrumentos", id = "tab_inst_tif", height = "50px", 
+                                                  
+                                              #tabPanel(" Títulos disponibles ",
+                                              tabsetPanel(type="pills",
+                                                          tabPanel("Títulos disponibles",
+                                              wellPanel(
+                                              checkboxGroupInput( inputId = "fred", label = NULL,inline = TRUE,width = '100%',
+                                                                  choices = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[which(substr(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[,2],1,3)=="TIF"),2]),
+                                              verbatimTextOutput("fred1")
+                                              )
+                                              ),
+                                              tabPanel("Elegir Instrumentos",
+                                              h2("Seleccione"),
+                                              fluidRow(
+                                                box(width = 12, title = h3(UPLOADDATA_TEXT),
+                                                    box( width=12,background = "navy",
+                                                         fileInput('data_tit_tif', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
+                                                                   placeholder = FILESELEC_TEXT, buttonLabel = BUTTSELEC_TEXT )
+                                                    ),
+                                                    fluidRow(
+                                                      box(width=4,background="olive",strong(ENCABEZADO_TEXT),
+                                                          checkboxInput( width="100%", 'header_tit_tif', WITHHEADER_TEXT, TRUE)),
+                                                      box(width=4,background="olive",
+                                                          radioButtons( width="40%", 'sep_tit_tif', SEPARATOR_TEXT, UPLOADFILESEP_CONF, ';')),
+                                                      box(width=4,background="olive",
+                                                          radioButtons( width="40%", 'quote_tit_tif', COMILLAS_TEXT, UPLOADCOMILLAS_CONF, ''))
+                                                    )
+                                                )
+                                              ),
+                                              fluidRow(
+                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_tit_tif'))
+                                              )
+                                                       )#final tabpanel selecionar titulos
+                                              ),
+                                              #),
+                                              #tabPanel(" Elegir archivo ",
+                                              #         h2("Selecione")
+                                              #)
+                                              #),
+                                     
                                               fluidRow(column(width = 3,checkboxGroupInput( inputId = "t1_ns", label = " ",
                                                               choices=tit[1:7])#final checkboxgroupimput
                                                               ),#final column
@@ -147,7 +191,8 @@ shinyUI(
                                                               choices=tit[20:25])#final checkboxgroupimput
                                                               ) #final column
                                                        ),#final fluidrow
-                                                        verbatimTextOutput("q1_ns"),h2(" Precios Promedios"),verbatimTextOutput("pre1_ns"),
+                                                        verbatimTextOutput("q1_ns"),
+                                              h2(" Precios Promedios"),verbatimTextOutput("pre1_ns"),
                                                         
                                               #withMathJax(),
                                               #helpText('\\(\\beta_{0}\\) \\(\\beta_{1}\\) \\(\\beta_{2}\\) \\(\\tau_{1}\\) '),

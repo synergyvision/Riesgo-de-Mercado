@@ -27,6 +27,60 @@ shinyServer(function(input, output) {
   output$q2_sp<-renderPrint({c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp)})
   output$q2_comp<-renderPrint({c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp)})
   
+  #titulos nuevos
+  #funcion auxiliar - lee caracteristicas y me da los nombres
+  nombres_ns_tif <- reactive({
+    ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
+    if(class(ca)=="try-error"){
+      v <- print("El archivo no se encuentra, descargar y recargar página!")
+      return(as.data.frame(v))
+    }else{
+      nombres <- as.character(ca[,2])
+      a <- which(substr(nombres,1,3)=="TIF")
+      return(nombres[a])
+    }    
+  })
+  
+  output$tit_new_ns_tif <- renderUI({ 
+    selectInput("tit_ns_tif", "Seleccionar títulos", nombres_ns_tif(),multiple = TRUE)
+  })
+  
+  output$t_ns_tif <- renderPrint(input$tit_ns_tif)
+  output$fred1 <- renderPrint(input$fred)
+  
+  #titulos
+  data_tit_tif <- reactive({
+    # input$file1 will be NULL initially. After the user selects
+    # and uploads a file, it will be a data frame with 'name',
+    # 'size', 'type', and 'datapath' columns. The 'datapath'
+    # column will contain the local filenames where the data can
+    # be found.
+    
+    inFile <- input$data_tit_tif
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    read.table(inFile$datapath, header = input$header_tit_tif,
+               sep = input$sep_tit_tif, quote = input$quote_tit_tif)
+    
+  })
+  
+  ###############################################################################
+  ###############################################################################
+  #################################    Datos    #################################
+  ###############################################################################
+  ###############################################################################
+  
+  output$datatable_tit_tif<-renderDataTable({
+    if(is.null(data_tit_tif())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    #datatable(data_pos())
+    data_tit_tif()
+  })
+  
+  
+  
   #precios
   #tf <- reactive({pos(c(input$t1,input$t2,input$t3,input$t4),0)})
   tf <- reactive({pos1(c(input$t1,input$t2,input$t3,input$t4),0)})
