@@ -102,6 +102,44 @@ Existen distintos enfoques para el c·lculo del VaR: i) el modelo lineal, ii) el
 2. mÈtodo de simulaciÛn histÛrica, que utiliza un gran cantidad de datos histÛricos para estimar el VaR pero hace el mÌnimo de supuestos acerca de la distribuciÛn de probabilidad seguida por las rentabilidades de los factores. Supone que todas las variaciones futuras posibles en los precios de los activos ya se han observado en el pasado. Esto impone restricciones no muy realistas en los datos.
 3. mÈtodo VaR Monte Carlo, que hace supuestos similares a los del modelo lineal Normal. Se puede aplicar a carteras no lineales, activos con pagos path-dependent, etc.. Pero es computacionalmente intensivo y los errores de simulaciÛn pueden ser considerables, por lo que conviene utilizar mÈto- dos numÈricos de cierto nivel de soÖsticaciÛn.
 
+##Otra fuente
+
+El VaR es una teoría creada para la administración de los riesgos financieros de una empresa. Los riesgos financieros son aquellos que provienen de posibles pérdidas en el mercado financiero, por ejemplo variaciones en los tipos de cambio, cambios en las tasas de interés, entre otros. Todos esos riesgos, que son los que trata de administrar la teoría del VaR pueden subdividirse en:
++ Riesgo de mercado: movimientos en los niveles o volatilidad en los precios de mercado.
++ Riesgo de crédito: posibilidad de que la contraparte se niegue o no pueda cumplir con los compromisos de pagos que adquirió en el pasado.
++ Riesgo de liquidez: este riesgo puede dividirse en dos, por una parte que sea difícil liquidar los activo al precio correspondiente (puede ser debido al tamaño de la posición por ejemplo), por lo que haya que disminuir su precio para deshacerse del activo. Por otro lado el hecho de tener que liquidar tempranamente una posición para así poder cumplir con las obligaciones de pago.
++ Riesgo operacional: viene dado por posibles errores técnicos o humanos.  
++ Riesgo Legal: eventualidad de que un contrato no se pueda hacer cumplir legalmente.
+
+Antes de introducirnos de lleno en lo que se refiere a la teoría del valor extremo, y las aplicaciones que éste tiene para el cálculo del VaR, vamos a comparar brevemente las ventajas y desventajas de las tres metodologías clásicas para la estimación del VaR:
+1. Método analítico de la matriz de varianzas-covarianzas: Este método se basa en la hipótesis de la distribución conjunta normal de los rendimientos de la cartera, y en la hipótesis de la relación lineal (a lo más cuadrática) entre los factores de riesgo del mercado y el valor de la empresa.
+Ventajas: La estimación de VaR a través de éste método es simple y rápida, lo que lo hace atractivo cuando se trabaja en tiempo real.
+
+Desventajas: Sobreestima el VaR para niveles bajos de confianza, y lo subestima para niveles altos de confianza (inconveniente derivado de la suposición de normalidad en los retornos de la cartera y no capturar el fenómeno de las colas gruesas). Otra desventaja es que la hipótesis de linealidad condiciona a este método a ser aplicable a carteras lineales, en un mundo donde los activos no lineales toman cada día mas fuerza. Por último, incluso ampliando la aproximación del valor de la cartera a una cuadrática, no se logra una buena precisión en la estimación del VaR de carteras no lineales. Teniendo en cuenta que la aplicación complica el cálculo de VaR, disminuyendo de esa forma una de las ventajas más claras que tiene el método.
+
+2. Método de simulación Histórica: Es un método aplicable tanto a carteras lineales como no lineales, debido a que es un método no paramétrico, que no depende de ninguna de las hipótesis sobre distribuciones de probabilidad subyacente y, por lo tanto, permite capturar el fenómeno de las colas gruesas al mismo tiempo que elimina la necesidad de estimar y trabajar con volatilidades y correlaciones, evitando en gran medida el riesgo de modelización.
+Ventajas: Las ventajas fueron mencionadas en su definición, y hace que este método sea preferible al de matriz varianza-covarianza, especialmente cuando se trata del cálculo del VaR para carteras de instrumentos no lineales.
+
+Desventajas: La principal desventaja del método de simulación histórica viene dada por las características de los datos utilizados, que supone que ningún evento que no haya ocurrido en el pasado podrá ocurrir en el futuro.
+3. Método de simulación de Monte Carlo: Es un método de valoración global, tanto paramétrico como no paramétrico. Eliminando la necesidad de establecer aproximaciones que introducen imprecisión en los cálculos. Este método es aplicable tanto a posiciones lineales como no lineales. En el caso del modelo no paramétrico, al no estar sujeto a ninguna distribución de probabilidad subyacente, evita mayormente el riesgo de modelización y permite capturar el fenómeno de las colas gruesas, eliminando al mismo tiempo, la necesidad de trabajar con volatilidades y correlaciones.
+La simulación de Monte Carlo ofrece una descripción más realista del riesgo ya que la distribución de las variaciones en los precios refleja un abanico completo de todas las realizaciones y sus posibilidades.
+Ventajas: Las ventajas fueron mencionadas anteriormente, y ubican a este método de simulación por sobre los otros dos métodos analizados anteriormente.
+Desventajas: La mayor desventaja de este método es su lentitud, pero este inconveniente se va solucionando rápidamente a través del tiempo debido al desarrollo informático que se esta teniendo.
+
+Limitaciones del Value at Risk:
+Principalmente las limitaciones del VaR vienen dadas por:
+1. Asumir normalidad y homocedasticidad en los mercados: La suposición de normalidad es inadecuada para la medición de riesgo en las colas de la distribución. En un mercado heterocedástico, la varianza no es un múltiplo del horizonte temporal y, por ejemplo, la varianza semanal no tiene relación con la varianza diaria.
+2. Riesgo de liquidez: El VaR no tiene en cuenta que el riego de liquidez puede ser el mayor riesgo en algunos mercados. En algunos instrumentos que son nuevos o ilíquidos, y que no están muy anidados al mercado los costes liquidez son casi indistinguibles de los riesgos de mercado, por lo que la venta de un paquete grande de éstos activos, sobre todo si es una venta forzada, podría alterar fuertemente los precios de mercado de éstos.
+3. Cambio de parámetros en momentos de tensión: Tanto la diversificación, como la correlación entre activos falla en los momentos de tensión. La evidencia empírica lo muestra en épocas de crisis, como son por ejemplo la crisis de la bolsa en 1987, la de tipos de cambio en 1992, bonos en 1994, entre otras, en donde las correlaciones desaparecen y la diversificación se ve afectada por éste hecho.
+4. Problema sobre el cálculo de la volatilidad: La volatilidad no es observable, por lo que siempre se hace necesario estimarla. Para esta estimación no existe un acuerdo sobre que método es mejor, e incluso si es mejor o no utilizar estimaciones
+implícitas.
+5. Instrumentos no lineales: Los derivados presentan una no linealidad que dificulta
+el cálculo del VaR. No existe ningún tipo de convención que establezca de que forma se debe calcular el VaR en carteras con estas posiciones.
+
+
+Métodos de simulación histórica. En éstos, la variación máxima que puede experimentar el valor de una cartera como consecuencia de la exposición frente al riesgo de mercado se cal-
+cula como la máxima variación que hubiera experimentado dicha cartera (o los factores de riesgo considerados), a lo largo de un período histórico determinado, dentro de un percentil prefijado. Este percentil, precisamente, ofrece el nivel de fiabilidad estadística del importe calculado. El punto clave de estos métodos, en los que no se realizan hipótesis estadísticas sobre el comportamiento de los rendimientos, lo constituye la elección del período histórico a considerar. Propuestas y aplicaciones de métodos de simulación histórica aparecen recogi- das, entre otros, en los trabajos de González Mosquera (1994) y de Hendricks (1996).
+- Métodos de simulación de Montecarlo. En ellos se parte de la generación de series de n ŭme- ros aleatorios, que no tiene otra finalidad sino la de fijar una distribución de probabilidad pa- ra la posible evolución futura, bien del factor o factores de riesgo considerados, o bien de la propia cartera. Es habitual la utilización de n ŭmeros aleatorios normalmente distribuidos, en los que los parámetros de la distribución (media y desviación típica) han sido obtenidos en base a datos históricos. Aplicaciones concretas del método de Montecarlo para el cálculo del VaR se pueden encontrar, entre otros, en los trabajos de Beder (1995) y Singh (1997). Métodos de varianzas-covarianzas. En éstos se asume que el Valor en Riesgo es proporcio- nal a la desviación típica del rendimiento de la cartera, calculada en base a información his- tórica. 
 
 ## Ventajas del VaR
 
@@ -125,7 +163,68 @@ Tras el estallido de la crisis en 2008, el VaR cobra especial importancia, sobre
 
 ##VaR Paramétrico
 
+El VaR paramétrico es un método para estimar el VaR (Valor en Riesgo) utilizando datos de rentabilidad estimados y asumiendo una distribución normal de la rentabilidad. También se conoce como método varianza-covarianza o método analítico.
+
+Cuando tenemos los datos de rentabilidad esperados y el riesgo histórico (medido por la desviación típica) utilizamos la siguiente fórmula:
+
+VaR = |R – z·δ|· V
+
+Siendo R, la rentabilidad esperada, z, el valor correspondiente para un nivel de significancia (por ejemplo 1,645 para 5%), δ, la desviación típica de la rentabilidad y V, el valor de la inversión.
+
+El método del VaR paramétrico es el método más fácil de calcular, ya que el VaR histórico aunque puede ser más fácil de entender es bastante más laborioso de calcular y aunque es menos preciso que el VaR por Montecarlo es más sencillo de aplicar.
+
+
+
 ##VaR Simulación Histórica
+
+El VaR histórico o VaR por simulación histórica es un método para estimar el VaR (Valor en Riesgo) que utiliza datos históricos.
+
+Una de las maneras de calcular el VaR por el método histórico es acumulando las rentabilidades pasadas y ordenarlas desde la más alta hasta la más baja. Después, identificamos el 5% de datos con rentabilidades más bajas y el mayor de ese 5% de rentabilidades más bajas será el VaR.
+
+Los datos para calcular el VaR histórico son los precios históricos de los títulos. Por tanto, una serie histórica más grande (por ejemplo 5 o 10 años) dará resultado a mayores resultados simulados y por tanto será más precisa que una serie histórica de 3 meses.
+
+La principal desventaja del modelo histórico para calcular el VaR es que se asume que las rentabilidades obtenidas en el pasado se van a repetir en el futuro.
+
+El VAR por simulación histórica es una de las formas del cálculo del VaR, siempre un poco más laboriosa que el VaR paramétrico y menos precisa que el VaR por simulación de montecarlo. Se trata de aplicar a la cartera de activos financieros, variaciones históricas del precio de los títulos para generar escenarios contrastables con la posición inicial (conocida como spot en inglés), generando diferentes posibles resultados simulados a partir de los cuales se obtendrá el VAR.
+
 
 ##VaR Simulación MonteCarlo
 
+El VaR por Monte Carlo es un método para estimar el VaR (Valor en Riesgo) que utiliza un software informático para generar cientos o miles de posibles resultados según unos datos iniciales introducidos por el usuario.
+
+Los resultados obtenidos se ordenan desde la rentabilidad más alta a la más pequeña como en el cálculo del VaR por el método histórico. Después, identificamos el 5% de datos con rentabilidades más bajas y el mayor de ese 5% de rentabilidades más bajas será el VaR. Los datos se suelen presentar de forma gráfica para tener una mejor visualización de los resultados y su frecuencia.
+
+La principal ventaja de estimar el VaR por el método de Monte Carlo es a su vez su principal desventaja, ya que dependiendo de los datos iniciales introducidos se generarán una serie de presunciones que guiarán los resultados (path dependency o dependiente del camino escogido). Dada la complejidad de Monte Carlo, se puede tener una falsa sensación de fiabilidad, pero si los datos introducidos (inputs) no son correctos la información no será fiable. A pesar de ello suele ser más preciso que el método del VaR paramétrico.
+
+##otra fuente
+
+El método de Montecarlo1 es un método no determinista o estadístico numérico, usado para aproximar expresiones matemáticas complejas y costosas de evaluar con exactitud. El método se llamó así en referencia al Casino de Montecarlo (Mónaco) por ser “la capital del juego de azar”, al ser la ruleta un generador simple de números aleatorios. El nombre y el desarrollo sistemático de los métodos de Montecarlo datan aproximadamente de 1944 y se mejoraron enormemente con el desarrollo de la computadora.
+
+El uso de los métodos de Montecarlo como herramienta de investigación, proviene del trabajo realizado en el desarrollo de la bomba atómica durante la Segunda Guerra Mundial en el Laboratorio Nacional de Los Álamos en EE. UU. Este trabajo conllevaba la simulación de problemas probabilísticos de hidrodinámica concernientes a la difusión de neutrones en el material de fisión. Esta difusión posee un comportamiento eminentemente aleatorio. En la actualidad es parte fundamental de los algoritmos de raytracing para la generación de imágenes 3D.
+
+En la primera etapa de estas investigaciones, John von Neumann y Stanislaw Ulam refinaron esta ruleta y los métodos "de división" de tareas. Sin embargo, el desarrollo sistemático de estas ideas tuvo que esperar al trabajo de Harris y Herman Kahn en 1948. Aproximadamente en el mismo año, Enrico Fermi, Nicholas Metropolis y Ulam obtuvieron estimadores para los valores característicos de la ecuación de Schrödinger para la captura de neutrones a nivel nuclear usando este método.
+
+El método de Montecarlo proporciona soluciones aproximadas a una gran variedad de problemas matemáticos posibilitando la realización de experimentos con muestreos de números pseudoaleatorios en una computadora. El método es aplicable a cualquier tipo de problema, ya sea estocástico o determinista. A diferencia de los métodos numéricos que se basan en evaluaciones en N puntos en un espacio M-dimensional para producir una solución aproximada, el método de Montecarlo tiene un error absoluto de la estimación que decrece como 
+${\displaystyle {\frac {1}{\sqrt {N}}}}$ en virtud del teorema del límite central.
+
+##origenes
+
+La invención del método de Monte Carlo se asigna a Stanislaw Ulam y a John von Neumann. Ulam ha explicado cómo se le ocurrió la idea mientras jugaba un solitario durante una enfermedad en 1946. Advirtió que resulta mucho más simple tener una idea del resultado general del solitario haciendo pruebas múltiples con las cartas y contando las proporciones de los resultados que computar todas las posibilidades de combinación formalmente. Se le ocurrió que esta misma observación debía aplicarse a su trabajo de Los Álamos sobre difusión de neutrones, para la cual resulta prácticamente imposible solucionar las ecuaciones íntegro-diferenciales que gobiernan la dispersión, la absorción y la fisión. “La idea consistía en probar con experimentos mentales las miles de posibilidades, y en cada etapa, determinar por casualidad, por un número aleatorio distribuido según las probabilidades, qué sucedería y totalizar todas las posibilidades y tener una idea de la conducta del proceso físico”.
+
+Podían utilizarse máquinas de computación, que comenzaban a estar disponibles, para efectuar las pruebas numéricas y en efecto reemplazar el aparato experimental del físico. Durante una de las visitas de von Neumann a Los Álamos en 1946, Ulam le mencionó el método. Después de cierto escepticismo inicial, von Neumann se entusiasmó con la idea y pronto comenzó a desarrollar sus posibilidades en un procedimiento sistemático. Ulam expresó que Monte Carlo “comenzó a tener forma concreta y empezó a desarrollarse con todas sus fallas de teoría rudimentaria después de que se lo propuse a Johnny”.
+
+A principios de 1947 Von Neumann envió una carta a Richtmyer a Los Álamos en la que expuso de modo influyente tal vez el primer informe por escrito del método de Monte Carlo. Su carta fue encuadernada junto con la respuesta de Richtmyer como un informe de Los Álamos y distribuida entre los miembros del laboratorio. Von Neumann sugería aplicar el método para rastrear la generación isótropa de neutrones desde una composición variable de material activo a lo largo del radio de una esfera. Sostenía que el problema era adecuado para el ENIAC y estimaba que llevaría 5 horas calcular la acción de 100 neutrones a través de un curso de 100 colisiones cada uno.
+
+Ulam estaba particularmente interesado en el método Monte Carlo para evaluar integrales múltiples. Una de las primeras aplicaciones de este método a un problema determinista fue llevada a cabo en 1948 por Enrico Fermi, Ulam y von Neumann cuando consideraron los valores singulares de la ecuación de Schrödinger.
+
+##ejemplo
+
+Los programas de diseño asistido por ordenador (CAD) pueden determinar rápidamente el volumen de modelos muy complejos. Estos modelos, en general, no tienen una expresión analítica para determinar su volumen (por ejemplo, para un prisma, área de la base multiplicada por la altura), y la única solución es dividir el modelo en un conjunto de pequeños submodelos (teselación) cuyo volumen pueda determinarse (por ejemplo, dividir el modelo en miles de tetraedros). Sin embargo, esto consume muchos recursos, tanto para la teselación como para el cálculo del volumen de cada uno de los elementos. Por ello utilizan métodos de Montecarlo, más robustos y eficientes.
+
+Como el software sí que conoce la expresión analítica de la geometría del modelo (posición de los nodos, aristas y superficies) puede determinar si un punto está dentro del modelo o está fuera con un coste mucho menor que el de determinar un volumen.
+
++ En primer lugar el software coloca el modelo dentro de un volumen conocido (por ejemplo, dentro de un cubo de 1 m3 de volumen).
++ A continuación, genera un punto aleatorio del interior del volumen conocido, y registra si el punto "ha caído" dentro o fuera del modelo. Esto se repite un gran número de veces (miles o millones), consiguiendo un registro muy grande de cuántos puntos han quedado dentro y cuántos fuera.
+
++ Como la probabilidad de que caiga dentro es proporcional al volumen del modelo, la proporción de puntos que han caído dentro con respecto al total de puntos generados es la misma proporción de volumen que ocupa el modelo dentro del cubo de 1 m3.
+Si el 50% de los puntos han caído dentro, el modelo ocupa el 50% el volumen total, es decir, 0.5 m3. Evidentemente, cuantos más puntos genere el software, menor será el error de la estimación del volumen.
