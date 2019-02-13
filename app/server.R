@@ -53,10 +53,31 @@ shinyServer(function(input, output) {
   ns1 <- reactive({
     if(is.null(data_tit_tif_ns())){
       input$t1_ns1
+      #c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns)
     }else{
       a <- data_tit_tif_ns() 
       as.character(a[,1])
     }
+  })
+  
+  #prueba
+  #funcion auxiliar nombres tif
+  carac_tif <- function(tit){
+    data <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    
+    if(tit=="TIF"){
+      a <- which(substr(data[,2],1,3)=="TIF")
+      return(as.character(data[a,2]))
+      
+    }else if(tit=="VEBONO"){
+      a1 <- which(substr(data[,2],1,3)=="VEB")
+      return(as.character(data[a1,2]))
+    }
+    
+  }
+  
+  output$freddy <- renderUI({ 
+    selectInput("t1_ns1", "Seleccionar títulos", choices = carac_tif("TIF") ,multiple = TRUE)
   })
   
   #veb
