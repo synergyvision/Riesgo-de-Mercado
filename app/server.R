@@ -51,10 +51,10 @@ shinyServer(function(input, output) {
   #variable auxiliar muy util
   #tif
   ns1 <- reactive({
-    if(is.null(data_tit_tif())){
+    if(is.null(data_tit_tif_ns())){
       input$t1_ns1
     }else{
-      a <- data_tit_tif() 
+      a <- data_tit_tif_ns() 
       as.character(a[,1])
     }
   })
@@ -81,7 +81,7 @@ shinyServer(function(input, output) {
   )
   
   #titulos
-  data_tit_tif <- reactive({
+  data_tit_tif_ns <- reactive({
     # input$file1 will be NULL initially. After the user selects
     # and uploads a file, it will be a data frame with 'name',
     # 'size', 'type', and 'datapath' columns. The 'datapath'
@@ -124,10 +124,10 @@ shinyServer(function(input, output) {
   ###############################################################################
   #tif
   output$datatable_tit_tif<-renderDataTable({
-    if(is.null(data_tit_tif())){return()}
+    if(is.null(data_tit_tif_ns())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     #datatable(data_pos())
-    data_tit_tif()
+    data_tit_tif_ns()
   })
   
   #veb
@@ -142,7 +142,7 @@ shinyServer(function(input, output) {
   #SVENSSON
   #SVENSSON
   #data
-  data_tit_tif_sv <- reactive({
+  data_tif_sv <- reactive({
     
     inFile <- input$data_tit_tif_sv
     
@@ -156,19 +156,19 @@ shinyServer(function(input, output) {
   
   #muestro data
   output$datatable_tit_tif_sv<-renderDataTable({
-    if(is.null(data_tit_tif_sv())){return()}
+    if(is.null(data_tif_sv())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     #datatable(data_pos())
-    data_tit_tif_sv()
+    data_tif_sv()
   })
   
   
   #funcion auxiliar
   sv1 <- reactive({
-    if(is.null(data_tit_tif_sv())){
+    if(is.null(data_tif_sv())){
       input$t_sv1
     }else{
-      a <- data_tit_tif_sv() 
+      a <- data_tif_sv() 
       as.character(a[,1])
     }
   })
@@ -473,7 +473,7 @@ shinyServer(function(input, output) {
   output$p_est_tif_ns <- renderDataTable({
     #if(length(c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns))!=0){
     if(length(ns1())!=0){
-    Tabla.ns(fv = input$n2 ,tit = ns1(),pr =tf_ns() ,pa = pa_ns,ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,fe2=0,fe3=0)[[1]] 
+    Tabla.ns(fv = input$n2 ,tit = ns1(),pr =pos1(ns1(),0) ,pa = pa_ns,ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,fe2=0,fe3=0)[[1]] 
     }else{}
     })
   #output$p_est_tif_ns_el <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif),ind = 0,C = C,fe2=0,fe3=0)[[1]] })

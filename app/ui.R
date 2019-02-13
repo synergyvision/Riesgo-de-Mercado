@@ -143,7 +143,7 @@ shinyUI(
                                               tabsetPanel(type="pills",
                                                           tabPanel("Títulos disponibles",
                                               wellPanel(
-                                              checkboxGroupInput( inputId = "t1_ns1", label = NULL,inline = TRUE,width = '100%',
+                                              checkboxGroupInput(inputId = "t1_ns1", label = NULL,inline = TRUE,width = '100%',
                                                                   choices = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[which(substr(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[,2],1,3)=="TIF"),2])
                                               #verbatimTextOutput("q1_ns1")
                                               )
