@@ -145,23 +145,23 @@ shinyUI(
                                               wellPanel(
                                               # checkboxGroupInput(inputId = "t1_ns1", label = NULL,inline = TRUE,width = '100%',
                                               #                     choices = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[which(substr(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[,2],1,3)=="TIF"),2])
-                                               htmlOutput("freddy")
+                                               #htmlOutput("freddy")
                                                 #
-                                                # fluidRow(column(width = 3,checkboxGroupInput( inputId = "t1_ns", label = " ",
-                                                #                 choices=Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[which(substr(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[,2],1,3)=="TIF")[1:7],2])#final checkboxgroupimput
-                                                #                 ),#final column
-                                                #          column(width = 3,checkboxGroupInput( inputId = "t2_ns", label = " ",
-                                                #                 choices=tit[8:13])#final checkboxgroupimput
-                                                #                 ),#final column
-                                                #          column(width = 3,checkboxGroupInput( inputId = "t3_ns", label = " ",
-                                                #                 choices=tit[14:19])#final checkboxgroupimput
-                                                #                 ),#final column
-                                                #          column(width = 3,checkboxGroupInput( inputId = "t4_ns", label = " ",
-                                                #                 choices=tit[20:25])#final checkboxgroupimput
-                                                #                 ) #final column
-                                                #          )#final fluidrow
-                                                # 
-                                              
+                                                fluidRow(column(width = 3,checkboxGroupInput( inputId = "t1_ns", label = " ",
+                                                                choices=tit[1:9])#final checkboxgroupimput
+                                                                ),#final column
+                                                         column(width = 3,checkboxGroupInput( inputId = "t2_ns", label = " ",
+                                                                choices=tit[10:17])#final checkboxgroupimput
+                                                                ),#final column
+                                                         column(width = 3,checkboxGroupInput( inputId = "t3_ns", label = " ",
+                                                                choices=tit[18:25])#final checkboxgroupimput
+                                                                ),#final column
+                                                         column(width = 3,checkboxGroupInput( inputId = "t4_ns", label = " ",
+                                                                choices=tit[26:33])#final checkboxgroupimput
+                                                                ) #final column
+                                                         )#final fluidrow
+
+
                                               )
                                               ),
                                               tabPanel("Elegir Instrumentos",
@@ -279,9 +279,26 @@ shinyUI(
                                                     tabsetPanel(type="pills",
                                                                 tabPanel("Títulos disponibles",
                                                                          wellPanel(
-                                                                           checkboxGroupInput( inputId = "t1_ns2", label = NULL,inline = TRUE,width = '100%',
-                                                                                               choices = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[which(substr(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[,2],1,3)=="VEB"),2])
-                                                                         )
+                                                                            #checkboxGroupInput( inputId = "t1_ns2", label = NULL,inline = TRUE,width = '100%',
+                                                                            #                    choices = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[which(substr(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[,2],1,3)=="VEB"),2]),
+                                                                           fluidRow(
+                                                                             column(width = 3,checkboxGroupInput(inputId = "v1_ns", label = " ",
+                                                                                       choices=tit1[1:11])#final checkboxgroupimput
+                                                                                    ),#final column
+                                                                             column(width = 3,checkboxGroupInput( inputId = "v2_ns", label = " ",
+                                                                                       choices=tit1[12:21])#final checkboxgroupimput
+                                                                                    ),#final column
+                                                                             column(width = 3,checkboxGroupInput( inputId = "v3_ns",label = " ",
+                                                                                       choices=tit1[22:31])#final checkboxgroupimput
+                                                                                    ),#final column
+                                                                             column(width = 3,checkboxGroupInput( inputId = "v4_ns", label = " ",
+                                                                                       choices=tit1[32:41])#final checkboxgroupimput
+                                                                                    )#final column
+                                                                                       )#final fluidrow
+                                                                           
+                                                                           
+                                                                           
+                                                                           )
                                                                 ),
                                                                 tabPanel("Elegir Instrumentos",
                                                                          h2("Seleccione"),
