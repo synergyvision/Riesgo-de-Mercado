@@ -2,4 +2,78 @@
 
 # Backtesting
 
+El Valor en Riesgo (VaR) se ha convertido en un modelo ampliamente empleado por las instituciones financieras y administradores de portafolios para medir el riesgo de mercado. Sin embargo, los modelos de VaR son útiles sólo si se predicen con exactitud los riesgos futuros. Con la finalidad de evaluar la calidad de las estimaciones de los modelos de Valor en Riesgo, se debe emplear el Backtesting que es un procedimiento estadístico donde las ganancias y las pérdidas reales se comparan sistemáticamente con el modelo de medición de riesgos.
+
+El Valor en Riesgo es un modelo estadístico que permite estimar la pérdida potencial que puede tener el portafolio de inversión en un horizonte de tiempo determinado y con un nivel de confianza dado. Para verificar que el modelo esté midiendo el riesgo adecuadamente se recomienda realizar pruebas de Backtesting con el fin de verificar si el modelo es adecuado y, en caso de no ser, realizar ajustes y calibrar el modelo.
+
+El rol que juega el VaR en la actualidad como una medida de riesgo incrementa la necesidad de evaluar la calidad de sus estimaciones. El Backtesting es un proceso donde los beneficios o pérdidas actuales son comparados con la estimación del modelo de Valor en Riesgo, los métodos de Backtesting pueden ser incondicionales o condicionales.
+
+Los métodos incondicionales cuentan el número de excepciones y las comparan con el nivel de confianza, si las excepciones están dentro de los límites estadísticos definidos el modelo es aceptado, y en caso contrario rechazado. Por el contrario, los métodos condicionales evalúan la independencia de las excepciones. En el presente trabajo se abordan ambos métodos, para ello se han empleado el Test de kupiec y el semáforo propuesto por Basilea para evaluar los métodos incondicionales, mientras que para los métodos condicionales se aplicó el Test de Haas y la Prueba Mixta de Kupiec.
+
+
+El concepto de Backtesting es esencial en el proceso de evaluar y calibrar los modelos de medición de riesgos. Para realizar un backtesting es necesario comparar el valor en riesgo observado con las pérdidas y ganancias reales. En esta prueba lo que se mide es la eficiencia en el modelo, contando las observaciones de pérdidas y ganancias que fueron mayor al VaR.
+
+Los pasos a seguir para la realización de un backtesting son los siguientes:
+Las pérdidas y ganancias se calculan con cambios en la valoración o mark-to-mark
+Se debe comparar periódicamente el valor en riesgo observado ajustado a un día con las pérdidas y ganancias diarias (se recomienda 250 observaciones, es decir, una ventana de un año).
+Los errores o excepciones detectados se calculan contando el número de veces que las pérdidas y ganancias exceden el valor en riesgo.
+El nivel de eficiencia del modelo será número de excepciones/número de observaciones.
+
+Con el objetivo de medir la eficiencia del modelo de Valor en Riesgo del BNC se utilizó los métodos condicionales, específicamente se han empleado el Test propuesto por Kupiec (1995) y el Test propuesto por Basilea (Semáforo) y para los métodos condicionales se usó el Test Propuesto por Haas (2001) y la Prueba Mixta de Kupiec.
+
+
 ##Prueba de Kupiec
+
+
+Consiste en contar las veces que las pérdidas y ganancias exceden el VaR durante un período (porcentaje de excepciones). Se asume que T es el número de observaciones que exceden la pérdida o ganancia, y para un nivel de confianza dado (1-P), se prueba si la N observada es estadísticamente diferente a la probabilidad de error p que se considera para el cálculo del VaR.
+
+La probabilidad de observar N excesos durante un período de T observaciones en total, se explica con una distribución binomial dada por:
+
+$f(x) = \left(\frac{T}{x}\right) p^{x}(1-p)^{T-x}$
+
+Kupiec desarrolló unas regiones de confianza con base en una distribución chi-cuadrado con un grado de libertad, considerando la hipótesis nula de que p es estadísticamente igual a la probabilidad utilizada para el VaR, contra la hipótesis alternativa de que p sea diferente a dicha probabilidad.
+
+Las regiones fueron determinadas de los extremos de máxima verosimilitud dada por la siguiente ecuación: 
+
+$Lrpof = -2* Ln(\frac{(1-p)^{T-x}p^{x}}{\left[1-\left(\frac{T}{x}\right)\right]^{T-x}\left(\frac{T}{x}\right)^{x}})$
+
+La máxima probabilidad del resultado observado bajo la hipótesis nula se define en el numerador y la máxima probabilidad del resultado observado bajo la hipótesis alternativa se define en el denominador. La decisión se basará en el valor del ratio. Mientras más pequeño es el ratio, mayor será el estadístico L, si el valor del estadístico es mayor que el valor crítico de la distribución chi-cuadrado, la hipótesis nula será rechazada.
+
+A continuación se muestra la tabla de región de no rechazo para el número de observaciones fuera de VaR definida por Kupiec.
+
+HACER TABLA 1
+
+A partir de la tabla anterior se puede observar que la región de no rechazo definida por el Test de Kupiec dependerá del número de excepciones y el nivel de confianza definido para la realización del Backtesting. En el caso del BNC se ha empleado el nivel de confianza (95%) y el número de observaciones (252 días) definidos para el cálculo del VaR.
+Con un nivel de confianza del 95% y un número de observaciones de 252 días, el modelo de Valor en Riesgo del BNC debe contar un número de excepciones que van desde un mínimo de 6 hasta un máximo de 21 para lograr superar el Test propuesto por Kupiec.
+
+
+Semáforo
+El método de Backtesting propuesto por Basilea consiste en clasificar el resultado en tres zonas de colores (verde, amarilla y roja) con un 99% de confianza y empleando un horizonte temporal de 250 días, bajo este enfoque se espera que el VaR sea excedido 2,5 días en promedio. En este enfoque, la zona verde significa que el modelo no tiene problemas de calidad y no se requiere modificación alguna. La zona amarilla indica que no se puede concluir algo acerca del modelo, por lo cual podría o no calibrarse. Por último, la zona roja indica que es necesario calibrar el modelo ya que presenta problemas de calidad y precisión.
+
+A continuación se muestra una tabla con las zonas definidas por Basilea, el número de excepciones para cada zona y el nivel de confianza empleado en el Backtesting:
+
+HACER TABLA 2
+
+Cómo se puede observar de la tabla anterior, dependiendo del nivel de confianza empleado en la realización del Backtesting, el número de excepciones variará para situarse en cualquieras de las zonas definidas. Al igual que para la realización del Test de Kupiec, hemos empleado el mismo nivel de confianza utilizado para el cálculo del VaR (95%) y el mismo horizonte temporal de 252 días.
+
+
+El área de aceptación (Zona Verde) del modelo de Valor en Riesgo estará definida por un número de excepciones que van desde un mínimo de 0 hasta un máximo de 17, mientras que el área de duda (Zona Amarilla) se encuentra establecida por un rango de excepciones mínimo de 18 y máximo de 26, finalmente el área de rechazo (Zona Roja) está determinada por 27 excepciones o más. Con un nivel de confianza empleado del 95% se espera que el modelo de Valor en Riesgo del BNC sea excedido 12,5 días en promedio.
+
+Para evaluar la independencia de las excepciones se aplicó el Test propuesto por Haas (2001) y adicionalmente se empleó el Test Mixed de Kupiec para evaluar si el modelo de Valor en Riesgo del BNC supera con éxito la prueba conjunta de cobertura incondicional e independencia.
+
+##Test de Prueba Mixta de Kupiec (Haas)
+
+El Test de Haas plantea como hipótesis nula que las excepciones son independientes y por ende también lo son sus estadísticos, al ser los estadísticos independientes los mismos pueden sumarse, en vista de que el Test de Haas establece que el estadístico se comporta como una distribución chi cuadrado con n grados de libertad igual al número de las excepciones, la distribución chi cuadrado también será aditiva de esta manera podemos sumar los valores críticos, como resultado se tiene un Test de Independencia donde se plantea como Hipotesis Nula $H_0$: que las Excepciones son Independientes, al tener n excepciones, el correspondiente estadístico es
+
+$L_{ind} = \sum_{i=2}^{n} \left[- 2Ln\left( \frac{p(1-p)^{v_i-1}}{\left(\frac{1}{v_i}\right) \left( 1- \frac{1}{v_i}\right)^{v_i-1}}\right)\right] - 2Ln\left( \frac{p(1-p)^{v-1}}{\left(\frac{1}{v}\right) \left( 1- \frac{1}{v}\right)^{v-1}}\right)$
+
+Donde el valor $v_i$ ubicado en el primer término de la ecuación corresponde al tiempo entre la excepción $i$ y la excepción  $i-1$ y el segundo término corresponde al Test de Kupiec: (Tiempo Hasta la Primera Excepción), por su parte $v$ es el tiempo donde ocurre la primera excepción. Una vez calculado del Test de Haas podemos realizar la prueba conjunta de condicionalidad e independencia, la cual consiste en sumar el Test de Kupiec ($L_{rpof}$) y el Test de Haas ($L_{ind}$).
+
+$ L_{mix} = L_{rpof}+L_{rind} $
+
+El valor crítico será obtenido de una distribución chi cuadrado con n+1 grados de libertad, donde n es el número de excepciones del período en estudio.
+
+
+
+
+
