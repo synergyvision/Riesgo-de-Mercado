@@ -1,4 +1,114 @@
 \mainmatter
 
 # Pruebas de Estrés
+Las Pruebas de Estrés aplicables al Sistema Financiero son una medida de la exposición al riesgo de un grupo de instituciones financieras a un escenario macroeconómico o microfinanciero particular, ya sea histórico o hipotético, por lo que constituyen una herramienta útil para analizar la vulnerabilidad actual y futura de las entidades de intermediación financiera ante choques adversos.
+Desde el punto de vista regulador, los ejercicios de estrés resultan relevantes para monitorear los distintos riesgos a que está expuesto el sistema, en la medida en que proporcionan alertas sobre potenciales resultados adversos e informan sobre el capital necesario para enfrentar las pérdidas que pudieran materializarse. De hecho, las pruebas de tensión son un requisito presente en los estándares internacionales de buenas prácticas de gestión de riesgos tales como Basilea II, donde se requiere el uso de pruebas de tensión en el cálculo directo del capital mínimo regulatorio por riesgo de crédito y mercado (Pilar I), así como en la evaluación interna de la suficiencia de capital de cada entidad de intermediación financiera.
+Mediante la realización de Pruebas de Estrés es posible identificar las áreas de vulnerabilidad y/o el grado de exposición al riesgo del Sistema Financiero ante variaciones en las variables macroeconómicas y variables especificas de las entidades. Asimismo, es posible analizar el impacto de cambios en aspectos regulatorios, además de determinar el requerimiento de capital adicional necesario para mantener la estabilidad financiera ante choques de índole macroeconómica o microprudencial.
+La realización de Pruebas de Estrés involucra un conjunto de técnicas estadísticas, econométricas y de análisis, y su uso está ampliamente arraigado en las Superintendencias de Bancos, Bancos Centrales, Organismos Multilaterales, así como en Entidades de Intermediación Financiera, en razón de su evidente utilidad para el análisis de estabilidad financiera, el cual requiere una vigilancia sistemática de todas las fuentes y vulnerabilidades de riesgo, considerando también la medida en que las perturbaciones pueden ser absorbidas por el sistema financiero.
+
+
+## Definición de Pruebas de Estrés
+Las pruebas de estrés son una medida de la exposición al riesgo de un grupo de instituciones financieras a un escenario macroeconómico o micro financiero particular, ya sea histórico o hipotético. En este sentido, constituyen un instrumento de evaluación del perfil de riesgo financiero, que se utiliza para cuantificar el impacto potencial en el sistema de un evento específico o de cambios simultáneos en variables macroeconómicas y financieras.
+Las pruebas de estrés son una herramienta útil para determinar el requerimiento de capital adicional necesario para mantener la estabilidad del sistema ante un shock severo, ya sea de índole macro o micro prudencial.
+
+##Otra fuente
+
+Las pruebas de estrés son una técnica de gestión de riesgos que se utiliza para evaluar la situación financiera de una institución. En ellas se hacen análisis sobre el efecto que tendrían eventos excepcionales pero plausibles sobre los balances de dicha institución. En las pruebas se incluyen análisis de escenarios y pruebas de sensibilidad.
+
+Las pruebas de estrés son realmente necesarias después de largos períodos donde las condiciones económicas y financieras han sido favorables, debido a que la buena marcha de la economía durante tanto tiempo puede conducir a la complacencia y a la infravaloración del riesgo.
+
+También se emplea como una herramienta clave en la gestión de riesgos durante los períodos de expansión, cuando la innovación conduce a nuevos productos con alta demanda, de los cuales no se tiene ninguna experiencia histórica.
+
+En definitiva, lo que tratan de medir y analizar las pruebas de estrés es la solvencia financiera de una institución ante escenarios extremadamente adversos y muy volátiles.
+
+Estas pruebas deben ser realizadas por las empresas para mejorar en su toma de decisiones, estableciendo límites de exposición al riesgo, y que sirven para la evaluación de las opciones estratégicas en la planificación empresarial a largo plazo.
+
+¿Para qué sirven los tests de estrés?
+
+Las pruebas de estrés deberían servir para los siguientes fines:
+
+Identificación del riesgo
+
+Los tests de estrés deben estar incluidos en las actividades de gestión de riesgos de las instituciones en los distintos niveles. En particular, se debe utilizar para abordar e identificar los riesgos en toda la institución.
+
+Complemento a otras herramientas de gestión de riesgos
+
+Las pruebas de estrés deben complementar a otras metodologías de cuantificación del riesgo que se basan en complejos modelos cuantitativos que analizan datos históricos y realizan proyecciones a futuro para tratar de conocer cuáles serán los escenarios a los que se van a enfrentar.
+
+En particular, los resultados de las pruebas de estrés para una cartera pueden proporcionar información acerca de la validez de los modelos estadísticos, por ejemplo los que se utilizan para determinar el VaR (Value at Risk).
+
+Apoyo a la gestión del capital
+
+Estas pruebas también deben formar parte de la gestión del capital interno de las entidades, donde con visión de futuro, tratarán de identificar problemas graves, incluyendo una serie de eventos de capitalización o cambios en las condiciones de mercado que podrían afectar negativamente  a la institución.
+
+Mejora en la gestión de la liquidez
+
+Los tests de estrés deben ser la herramienta central en la identificación, medición y control de los riesgos de liquidez de financiación. En particular debe servir para identificar el perfil de liquidez de la institución y la adecuación de sus reservas en caso de que tanto la institución como el mercado estén en riesgo.
+
+¿Qué riesgos tienen que cubrir los tests de estrés?
+
+Las pruebas de estrés tienen que cubrir una serie de riesgos y áreas de negocio, así como a nivel de toda la institución. Una empresa debe ser capaz de integrar de manera efectiva y significativa, en toda la gama de sus actividades, las pruebas de estrés para proporcionar una imagen completa de los riesgos en toda la institución.
+
+Antes de cualquier prueba de estrés debe definirse el nivel de granularidad adecuado para el propósito de las pruebas, así como qué efectos se van a evaluar a través de todos los factores de riesgo que se agreguen al test. Además también será necesario tener en cuenta las interrelaciones entre todos los factores.
+
+Los riesgos típicos que se suelen tener en cuenta en estas pruebas son los siguientes:
+
++ Riesgo de crédito, incluyendo la contraparte y el riesgo de reaseguro.
++ Riesgo de mercado
++ Riesgo de seguro
++ Riesgo de liquidez
++ Riesgo operacional y legal
++ Riesgo de concentración
++ Riesgo de contagio
++ Riesgo de reputación
++ Riesgo regulatorio
++ Riesgo de inflación
+
+Las pruebas de estrés deben llevarse a cabo con flexibilidad e imaginación, con el fin de mejorar la probabilidad de identificar las vulnerabilidades ocultas de la institución. La omisión de factores de riesgo puede dar lugar a una subestimación de la severidad de los efectos que puedan producir eventos extremos.
+
+Estos tests deben ofrecer una amplia gama de niveles de gravedad, incluyendo eventos capaces de generar el mayor daño a la institución, ya sea daño financiero o cualquier otro daño que provoque una gran caída de la reputación de la empresa frente a terceros.
+
+#Otra fuente
+
+
+Los test de estrés son pruebas que se realizan a las entidades para valorar su situación financiera y comprobar la estabilidad del sistema financiero ante posibles escenarios de riesgo de contagio o sistémico. El test de estrés es un caso de escenario extremo en el análisis de escenarios.
+
+Para realizar estas pruebas, los componentes de activo y de pasivo de un Banco o empresa se someten a diferentes situaciones tanto en escenarios que van con la tendencia positiva de la economía y la macroeconomía, como en escenarios más complicados. Este tipo de prácticas son simulaciones que pretenden contener y anticipar momentos de pánico bancario o bank run en inglés.
+
+En el mundo de la inversión se utiliza a menudo como complemento del análisis VAR, porque refleja resultados que no aparecen en el VAR. El test de estrés
+
+Los países de la Unión Europea pretenden demostrar a los inversores después de las ayudas públicas otorgadas- 4,6 billones de euros entre avales que las entidades tienen que pagar por las garantías ofrecidas, recapitalizaciones y fusiones- que se están tomando medidas para evitar situaciones adversas por el deterioro en el volumen de negocio y la aparición de pérdidas en la cartera de crédito, así como en el deterioro en la valoración de determinados activos, especialmente los inmobiliarios.
+
+Las primeras pruebas de resistencia bancaria se llevaron a cabo por el Comité de Supervisores Bancarios desde 2009 y se realizan cada año, contando con la colaboración del Banco Central Europeo (BCE) y la Comisión Europea (CE).
+
+Método de cálculo del test de estrés
+
+Con el objetivo de poder enfrentarse a crisis financieras dónde se cumplen determinadas condiciones como el aumento del nivel de desempleo, impago de créditos concedidos por parte de los Bancos y pérdida de valor de inversiones, los test de stress siguen la siguiente metodología general de cálculo.
+
+Se miden a partir del indicador Tier 1 o Nivel 1. Este coeficiente mide la solvencia de los bancos. En este caso, las pruebas analizan lo que cada banco tiene en capital más reservas, beneficios no distribuidos y participaciones preferentes perpetuas (o cuotas participativas en el caso de las cajas) para hacer frente a los activos, créditos concedidos, acciones y otras inversiones de riesgo. Esto es, el dinero que tienen garantizado o recursos propios, en relación con aquel que tienen comprometido en alguna inversión no del todo segura. Como norma general, los supervisores han fijado un mínimo de Tier 1 del 6%. Cuanto mayor es este porcentaje, mayor es la solvencia.
+
+En los acuerdos de Basilea se puede ver la evolución en las directrices marcadas en este aspecto, con la finalidad de corregir problemas adicionales como la liquidez, riesgo de incumplimiento o el apalancamiento financiero.
+
+Escenarios posibles de la prueba de estrés
+
+Se establecen los siguientes escenarios para el cálculo de estas pruebas de rendimiento:
+
++ Escenario normal: Este es el más estable en el plano macroeconómico. Se estudian las cuentas de los Bancos y se concilian para ver si cumplen con la situación actual del mercado.
++ Escenario complicado: Deterioro de la situación macroeconómica, se analiza los efectos de una caída del PIB del 3%, nivel a partir del cuál se deja de crear empleo de forma sostenible, se analizan los activos de los bancos ponderados por su nivel de riesgo, por ejemplo, un préstamo concedido sin garantías pondera al 100%, sin embargo, un bono del estado alemán como el Bund pondera al 0%, las pérdidas de valor de activos financieros y el capital final que se obtiene después de contabilizar las ayuda públicas recibidas.
++ Crisis de deuda de un país: Es el escenario más complicado. Pretende establecer una solvencia en caso de que la deuda de un país tenga cifras arrolladoras como el caso de Grecia en un 25%, Portugal con un 15% o España con un 12%.
+
+ Aquellos bancos o entidades que no pasen los test de estrés tienen mecanismos para salir de esta situación, y son los siguientes:
+
+Acudir al sector privado y al mercado para poder financiarse.
+Fondo de emergencia de la UE para la defensa del euro.
+Fondo de reestructuración ordenada bancaria (FROB) en el caso de España.
+
+Ejemplo test de estrés
+
+Ante caídas del PIB desde los inicios de la crisis hasta ahora cercanas al 4,5%, un ejemplo de transparencia en las pruebas lo ha sido España.
+
+Al publicar los datos de más del 95% de su sistema financiero, incluso entrando en más aspectos que el del resto de Europa, como por ejemplo, en las carteras de inmuebles de sus bancos. En el año 2014, de los 15 bancos españoles a los que se realizaron las pruebas, solamente uno, Liberbank, fue suspendido en una de las fases de la prueba con un déficit de capital de 35 millones de euros (dato relativamente bajo comparado con la media). Además, después de analizar la calidad de sus activos, el dato fue de 1,6 en comparación con la media de UE, que fue un 3,5%.
+
+
+
 

@@ -323,6 +323,85 @@ shinyServer(function(input, output) {
   )
   
   
+  #SPLINES
+  #SPLINES
+  #SPLINES
+  #data tif
+  data_tif_sp <- reactive({
+    
+    inFile <- input$data_tit_tif_sp
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    read.table(inFile$datapath, header = input$header_tit_tif_sp,
+               sep = input$sep_tit_tif_sp, quote = input$quote_tit_tif_sp)
+    
+  })
+  
+  #muestro data
+  output$datatable_tit_tif_sp<-renderDataTable({
+    if(is.null(data_tif_sp())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    #datatable(data_pos())
+    data_tif_sp()
+  })
+  
+  
+  #funcion auxiliar
+  sp1 <- reactive({
+    if(is.null(data_tif_sp())){
+      #input$t_sv1
+      c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp)
+    }else{
+      a <- data_tif_sp() 
+      as.character(a[,1])
+    }
+  })
+  
+  output$q1_sp <- renderPrint(
+    sp1()
+  )
+  
+  #data veb
+  data_veb_sp <- reactive({
+    
+    inFile <- input$data_tit_veb_sp
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    read.table(inFile$datapath, header = input$header_tit_veb_sp,
+               sep = input$sep_tit_veb_sp, quote = input$quote_tit_veb_sp)
+    
+  })
+  
+  #muestro data
+  output$datatable_tit_veb_sp<-renderDataTable({
+    if(is.null(data_veb_sp())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    #datatable(data_pos())
+    data_veb_sp()
+  })
+  
+  
+  #funcion auxiliar
+  sp2 <- reactive({
+    if(is.null(data_veb_sp())){
+      #input$t_sv1
+      c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp)
+    }else{
+      a <- data_veb_sp() 
+      as.character(a[,1])
+    }
+  })
+  
+  output$q2_sp <- renderPrint(
+    sp2()
+  )
+  
+  
+  
   #precios
   #tf <- reactive({pos1(c(input$t1,input$t2,input$t3,input$t4),0)})
   tf <- reactive({pos1(sv1(),0)})
@@ -336,7 +415,7 @@ shinyServer(function(input, output) {
   tf_dl <- reactive({pos1(dl1(),0)})
   
   #tf_sp <- reactive({pos(c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),0)})
-  tf_sp <- reactive({pos1(c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),0)})
+  tf_sp <- reactive({pos1(sp1(),0)})
   
   #tv <- reactive({pos(c(input$v1,input$v2,input$v3,input$v4),1)})
   tv <- reactive({pos1(sv2(),1)})
@@ -349,7 +428,7 @@ shinyServer(function(input, output) {
   tv_dl <- reactive({pos1(dl2(),1)})
   
   #tv_sp <- reactive({pos(c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),1)})
-  tv_sp <- reactive({pos1(c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),1)})
+  tv_sp <- reactive({pos1(sp2(),1)})
   
   output$pre1 <-renderPrint({tf()})
   output$pre1_ns <-renderPrint({tf_ns()})
@@ -1960,7 +2039,7 @@ shinyServer(function(input, output) {
     dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     dat[,3] <- as.Date(as.character(dat[,3]))
     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+    a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=sp1(),car,pr=tf_sp())
     return(a)
   })
   
@@ -1969,7 +2048,7 @@ shinyServer(function(input, output) {
     dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     dat[,3] <- as.Date(as.character(dat[,3]))
     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    a <- Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),car,pr=tv_sp())
+    a <- Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=sp2(),car,pr=tv_sp())
     return(a)
   })
   
@@ -2990,9 +3069,9 @@ shinyServer(function(input, output) {
       spline <- smooth.spline(a[,4],a[,7],spar = input$parametro_tif)
       
       #calculo precios
-      pre <- precio(tit = c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),spline1 = spline,fv =input$n4 ,C = car)
+      pre <- precio(tit = sp1(),spline1 = spline,fv =input$n4 ,C = car)
       
-      pre1 <- cbind.data.frame("Títulos"=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),"Precios"=pre)
+      pre1 <- cbind.data.frame("Títulos"=sp1(),"Precios"=pre)
       
       return(pre1)
     }
@@ -3087,9 +3166,9 @@ shinyServer(function(input, output) {
       spline <- smooth.spline(a[,4],a[,7],spar = input$parametro_veb)
       
       #calculo precios
-      pre <- precio(tit = c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),spline1 = spline,fv =input$n4 ,C = car)
+      pre <- precio(tit = sp2(),spline1 = spline,fv =input$n4 ,C = car)
       
-      pre1 <- cbind.data.frame("Títulos"=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),"Precios"=pre)
+      pre1 <- cbind.data.frame("Títulos"=sp2(),"Precios"=pre)
       
       return(pre1)
     }

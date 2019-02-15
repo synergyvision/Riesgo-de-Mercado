@@ -4,11 +4,15 @@
 
 ##Curva de Rendimientos
 
+###Curva de rendimientos individual
+
 En esta sección el usuario puede calcular los precios teóricos de los instrumentos de la Deuda Pública Nacional (TIF ó VEBONOS) para una fecha considerada y para una metodología en específico. Las metodologías disponibles son Nelson y Siegel, Svensson, Diebold-Li y Splines cúbicos de suavizado.
 
 Para el cálculo de las metodología de Nelson y Siegel, así como la de Svensson y Diebold-Li es importante contar con los precios promedios de los instrumentos a considerar puesto que a partir de los mismos se realizará un proceso de optimización el cual busca encontrar los parámetros más adecuados de esta metodología de manera que los precios teóricos obtenidos se asemejen a los precios promedio.
 
-Esta sección cuenta con una pestaña denominada Datos, mediante la cual se obtendrán de manera automática los archivos necesarios para el cálculo de los precios teóricos de los instrumentos a considerar. Los archivos necesarios son obtenidos de la página del Banco Central de Venezuela, ellos son,
+###Datos
+
+Esta sección nos permite obtener de manera automática los archivos necesarios para el cálculo de los precios teóricos de los instrumentos a considerar. Los archivos necesarios son obtenidos de la página del Banco Central de Venezuela, ellos son,
 
 + Documento de operaciones del mercado secundario (resumersec)
 + Documento de las características de los instrumentos de la Deuda Pública Nacional 
@@ -68,6 +72,69 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
         + Precios teóricos de los instrumentos seleccionados.
         + Curva de rendimientos obtenida en base a los parámetros seleccionados.
     + Parámetros optimizados: en esta sección los parámetros a utilizar serán los obtenidos luego de realizar un proceso de optimización sobre los mismos. Posteriormente se mostrarán los precios teóricos y curva de rendimientos obtenida para estos parámetros.
+    
+    ###Proceso de Optimización de Nelson y Siegel y Svensson
+
+
+Para aplicar este proceso es necesario tener una función objetivo, sobre la cual se realizará el proceso de optimización, ya sea para maximizar ó minimizar dicha función. Dependiendo de la forma de dicha función el proceso de optimización será lineal o no lineal. En nuestro caso particular se llevará a cabo un proceso de optimización no lineal donde se buscará minimizar la función objetivo.
+
+
+En el cálculo de nuestra función objetivo inteviene el concepto de la duración de un bono ó título, la cuál es una medida del vencimiento medio ponderado de todos los flujos que paga un bono. La misma viene dada mediante la siguiente expresión, 
+
+
+
+$$\displaystyle{Duracion = \frac{1+r}{r} - \frac{n(c-r)+(1+r)}{c(1+r)^{n}-(c-r)}}$$
+
+donde
+
++ r es el rendimiento al vencimiento del bono durante el período considerado.
++ n es el número de períodos que restan hasta la fecha de vencimiento del bono.
++ c es el cupón del bono.
+
+Así nuestra función objetivo viene dada mediante la siguiente expresión,
+
+
+$$
+  f(x) = \sum_{i=1}^{n} (w_{i}\epsilon(x)_{i} )^2
+$$
+
+
+donde $w_{i}$ representan las ponderaciones, y se calculan mediante la siguiente expresión,
+
+
+$$\displaystyle{w_{i} = \frac{\frac{1}{D_{i}}}{\sum_{j=1}^{N}\frac{1}{D_{j}}}}$$
+
+ por su parte, $\epsilon_{i}(x)= \hat{Pr}_{i}(x)-Pr_{i}$, donde $Pr_{i}$ representan los precios promedios de los títulos a considerar, de entrada este es un parámetro ó valor con el que se cuenta. Por otra parte $\hat{Pr}_{i}(x)$ representa los precios estimados donde $x$ es el parámetro que va a variar y es el valor que se quiere optimizar.
+
+
+Mediante la función objetivo descrita anteriormente se busca minimizar la diferencia que existe entre los precios promedios y los precios estimados, calculando un valor óptimo del parámetro $x$ mediante el proceso de optimización no lineal.
+
+
+El proceso de optimización se realizó mediante el software estadístico R, mediante el paquete "nloptr". En este paquete, se encuentra el comando "aulag" el cual minimiza un función objetivo y devuelve entre otros valores el parámetro más óptimo, que hace que la función sea mínima. Un ejemplo del uso de este comando se presenta acontinuación,
+
+
+$$ala2=auglag(1.22, fn=mifuncion, hin=res)$$
+donde el primer argumento debe ser el valor inicial del parámetro a optimizar, el segundo argumento "fn" se refiere a la función que se desea optimizar, finalmente en el tercer parámetro "hin" se indican las restricciones sobre el parámetro a optimizar, en este caso la restricción establecida es que el parámetro sea mayor a cero.
+
+
+Recordemos que la tasa cero cupón que se obtiene mediante la metodología de Svensson está dada por la siguiente expresión,
+
+
+$$\displaystyle{s(m) = \beta_{0}+ \beta_{1}\frac{\left(1-e^\frac{-m}{\tau_{1}}\right)}{m/\tau_{1}} + \beta_{2} \left(\frac{\left(1-e^\frac{-m}{\tau_{1}}\right)}{m/\tau_{1}} -  e^\frac{-m}{\tau_{1}}\right) + \beta_{3} \left(\frac{\left(1-e^\frac{-m}{\tau_{2}}\right)}{m/\tau_{2}} -  e^\frac{-m}{\tau_{2}}\right)}$$
+
+esta expresión está sujeta a las siguientes restricciones,
+
++ $\beta_{0} > 0$
++ $\beta_{0}+\beta_{1} > 0$
++ $\tau_{1} > 0$
++ $\tau_{2} > 0$
+
+cada parámetro controla una sección de la curva. La fórmula anterior es de suma importancia ya que ella interviene en el cálculo del precio teórico de cada instrumento. El proceso de optimización actúa directamente sobre esta fórmula, ya que el mismo se centra en variar los parámetros de tal manera que la función objetivo sea minimizada.
+
+Como se observó en las secciones anteriores el parámetro de suavizamiento fué elegido mediante el método de ensayo y error el cual no es para nada óptimo pues a priori este método no nos garantiza que el valor seleccionado sea el mejor, ya que se contarían con una gran cantidad de posibles valores a seleccionar, con el fin  de encontrar dicho parámetro el procedimiento anteriormente explicado puede ser implementado. 
+
+Sin embargo, al realizar este proceso, se obtienen curvas que no son para nada suaves y en ocasiones no poseen ningunas de las formas usuales de la curva de rendimientos. Esto es debido a que en este caso este proceso, varía el parámetro de suavizamiento de tal manera que la diferencia entre el precio promedio y el precio teórico sea lo mas pequeña posible y en este proceso no existe un parámetro que controle la forma de la curva obtenida. Por lo tanto, su aplicación presenta algunos inconvenientes.  
+
 
 ###Elaboracion Base de datos para la metodología Splines y Diebold-Li
 
@@ -327,81 +394,31 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
 <!-- Como se dijo anteriormente, los resultados de los precios obtenidos mediante el uso de la metodología de splines de suavizado serán comparados con los precios obtenidos a través de la metodología de Svensson. En dicha metodología existe un proceso de optimización el cual permite encontrar los parámetros idóneos, de tal manera que la diferencia entre los precios promedio de cada instrumento y su precio teórico sea lo más pequeña posible. El proceso de esta optimización se muestra a continuación. -->
 
 
-###Proceso de Optimización de Svensson
-
-
-Para aplicar este proceso es necesario tener una función objetivo, sobre la cual se realizará el proceso de optimización, ya sea para maximizar ó minimizar dicha función. Dependiendo de la forma de dicha función el proceso de optimización será lineal o no lineal. En nuestro caso particular se llevará a cabo un proceso de optimización no lineal donde se buscará minimizar la función objetivo.
-
-
-En el cálculo de nuestra función objetivo inteviene el concepto de la duración de un bono ó título, la cuál es una medida del vencimiento medio ponderado de todos los flujos que paga un bono. La misma viene dada mediante la siguiente expresión, 
-
-
-
-$$\displaystyle{Duracion = \frac{1+r}{r} - \frac{n(c-r)+(1+r)}{c(1+r)^{n}-(c-r)}}$$
-
-donde
-
-+ r es el rendimiento al vencimiento del bono durante el período considerado.
-+ n es el número de períodos que restan hasta la fecha de vencimiento del bono.
-+ c es el cupón del bono.
-
-Así nuestra función objetivo viene dada mediante la siguiente expresión,
-
-
-$$
-  f(x) = \sum_{i=1}^{n} (w_{i}\epsilon(x)_{i} )^2
-$$
-
-
-donde $w_{i}$ representan las ponderaciones, y se calculan mediante la siguiente expresión,
-
-
-$$\displaystyle{w_{i} = \frac{\frac{1}{D_{i}}}{\sum_{j=1}^{N}\frac{1}{D_{j}}}}$$
-
- por su parte, $\epsilon_{i}(x)= \hat{Pr}_{i}(x)-Pr_{i}$, donde $Pr_{i}$ representan los precios promedios de los títulos a considerar, de entrada este es un parámetro ó valor con el que se cuenta. Por otra parte $\hat{Pr}_{i}(x)$ representa los precios estimados donde $x$ es el parámetro que va a variar y es el valor que se quiere optimizar.
-
-
-Mediante la función objetivo descrita anteriormente se busca minimizar la diferencia que existe entre los precios promedios y los precios estimados, calculando un valor óptimo del parámetro $x$ mediante el proceso de optimización no lineal.
-
-
-El proceso de optimización se realizó mediante el software estadístico R, mediante el paquete "nloptr". En este paquete, se encuentra el comando "aulag" el cual minimiza un función objetivo y devuelve entre otros valores el parámetro más óptimo, que hace que la función sea mínima. Un ejemplo del uso de este comando se presenta acontinuación,
-
-
-$$ala2=auglag(1.22, fn=mifuncion, hin=res)$$
-donde el primer argumento debe ser el valor inicial del parámetro a optimizar, el segundo argumento "fn" se refiere a la función que se desea optimizar, finalmente en el tercer parámetro "hin" se indican las restricciones sobre el parámetro a optimizar, en este caso la restricción establecida es que el parámetro sea mayor a cero.
-
-
-Recordemos que la tasa cero cupón que se obtiene mediante la metodología de Svensson está dada por la siguiente expresión,
-
-
-$$\displaystyle{s(m) = \beta_{0}+ \beta_{1}\frac{\left(1-e^\frac{-m}{\tau_{1}}\right)}{m/\tau_{1}} + \beta_{2} \left(\frac{\left(1-e^\frac{-m}{\tau_{1}}\right)}{m/\tau_{1}} -  e^\frac{-m}{\tau_{1}}\right) + \beta_{3} \left(\frac{\left(1-e^\frac{-m}{\tau_{2}}\right)}{m/\tau_{2}} -  e^\frac{-m}{\tau_{2}}\right)}$$
-
-esta expresión está sujeta a las siguientes restricciones,
-
-+ $\beta_{0} > 0$
-+ $\beta_{0}+\beta_{1} > 0$
-+ $\tau_{1} > 0$
-+ $\tau_{2} > 0$
-
-cada parámetro controla una sección de la curva. La fórmula anterior es de suma importancia ya que ella interviene en el cálculo del precio teórico de cada instrumento. El proceso de optimización actúa directamente sobre esta fórmula, ya que el mismo se centra en variar los parámetros de tal manera que la función objetivo sea minimizada.
-
-Como se observó en las secciones anteriores el parámetro de suavizamiento fué elegido mediante el método de ensayo y error el cual no es para nada óptimo pues a priori este método no nos garantiza que el valor seleccionado sea el mejor, ya que se contarían con una gran cantidad de posibles valores a seleccionar, con el fin  de encontrar dicho parámetro el procedimiento anteriormente explicado puede ser implementado. 
-
-Sin embargo, al realizar este proceso, se obtienen curvas que no son para nada suaves y en ocasiones no poseen ningunas de las formas usuales de la curva de rendimientos. Esto es debido a que en este caso este proceso, varía el parámetro de suavizamiento de tal manera que la diferencia entre el precio promedio y el precio teórico sea lo mas pequeña posible y en este proceso no existe un parámetro que controle la forma de la curva obtenida. Por lo tanto, su aplicación presenta algunos inconvenientes.  
-
-
-
-###Curva de rendimientos individual
-
 ###Curva de rendimientos comparativo
 
-###Datos
+En esta sección permite obtener un comparativo de los precios teóricos obtenidos mediante las diferentes metodologías disponibles, las cuales son Nelson y Siegel, Svensson, Diebold-Li y Splines cúbicos de suavizado.
 
 ###Metodologías
 
+Con el fin de proceder a realizar los cálculos en esta sección el usuario deberá seguir los siguientes pasos,
+
+1. Seleccionar una fecha para la cual se calcularán los precios estimados.
+2. Selecionar los instrumentos a considerar ya sean TIF ó VEBONO, para este fin el usuario podrá elegir los mismos selecionando su nombre corto o ingresando una archivo plano. Cabe destacar que este archivo debera tener las siguientes características,
+    + Debe ser un archivo plano (txt).
+    + Debe contener dos columnas.
+    + En la primera columna debe contener el ISIN ó coódigo del instrumento.
+    + En la segunda columna debe contener el nombre corto del instrumento.
+    + Ejemplo estructura fila: Para el TIF de ISIN "DPBS04686-0040", cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "DPBS04686-0040" "TIF082019".
+    + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
+3. Luego de esto, se deberá rellenar la información correspondiente a cada metodología como ya se explico en la sección anterior, esto con el fin de obtener todos los parámetros necesarios para calcular los precios teóricos según cada metodología. 
+
 ###Precios Estimados
 
+Una vez completados todos los parámetros necesarios, los precios obtenidos se presentan en esta sección.
+
 ###Curvas
+
+En esta sección se presenta un grafico comparativo donde se grafican las curvas obtenidas mediante las diferentes metodologías. El usuario podrá descargar un reporte en PDF, con los resultados de los precios teóricos obtenidos en cada metodología.
 
 ##Valor en Riesgo
 
