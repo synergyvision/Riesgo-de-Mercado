@@ -18,14 +18,14 @@ shinyServer(function(input, output) {
   #output$q1_ns<-renderPrint({c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns)})
   #output$q1_ns<-renderPrint({input$fred})
   
-  output$q1_dl <- renderPrint({c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl)})
+  output$q1_dl <- renderPrint({dl1()})
   output$q1_sp <- renderPrint({c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp)})
   output$q1_comp <- renderPrint({c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp)})
   
   #vebonos
-  output$q2<-renderPrint({c(input$v1,input$v2,input$v3,input$v4)})
+
   output$q2_ns<-renderPrint({c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns)})
-  output$q2_dl<-renderPrint({c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl)})
+  output$q2_dl<-renderPrint({dl2()})
   output$q2_sp<-renderPrint({c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp)})
   output$q2_comp<-renderPrint({c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp)})
   
@@ -85,12 +85,12 @@ shinyServer(function(input, output) {
   
   #veb
   ns2 <- reactive({
-    if(is.null(data_tit_veb())){
+    if(is.null(data_tit_veb_ns())){
       #input$t1_ns2
       c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns)
       
     }else{
-      a <- data_tit_veb() 
+      a <- data_tit_veb_ns() 
       as.character(a[,1])
     }
   })
@@ -125,7 +125,7 @@ shinyServer(function(input, output) {
   })
   
   #veb
-  data_tit_veb <- reactive({
+  data_tit_veb_ns <- reactive({
     # input$file1 will be NULL initially. After the user selects
     # and uploads a file, it will be a data frame with 'name',
     # 'size', 'type', and 'datapath' columns. The 'datapath'
@@ -158,16 +158,16 @@ shinyServer(function(input, output) {
   
   #veb
   output$datatable_tit_veb<-renderDataTable({
-    if(is.null(data_tit_veb())){return()}
+    if(is.null(data_tit_veb_ns())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     #datatable(data_pos())
-    data_tit_veb()
+    data_tit_veb_ns()
   })
   
   #SVENSSON
   #SVENSSON
   #SVENSSON
-  #data
+  #data tif
   data_tif_sv <- reactive({
     
     inFile <- input$data_tit_tif_sv
@@ -192,7 +192,8 @@ shinyServer(function(input, output) {
   #funcion auxiliar
   sv1 <- reactive({
     if(is.null(data_tif_sv())){
-      input$t_sv1
+      #input$t_sv1
+      c(input$t1,input$t2,input$t3,input$t4)
     }else{
       a <- data_tif_sv() 
       as.character(a[,1])
@@ -202,6 +203,125 @@ shinyServer(function(input, output) {
   output$q_sv1 <- renderPrint(
     sv1()
   )
+  
+  #data veb
+  data_veb_sv <- reactive({
+    
+    inFile <- input$data_tit_veb_sv
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    read.table(inFile$datapath, header = input$header_tit_veb_sv,
+               sep = input$sep_tit_veb_sv, quote = input$quote_tit_veb_sv)
+    
+  })
+  
+  #muestro data
+  output$datatable_tit_veb_sv<-renderDataTable({
+    if(is.null(data_veb_sv())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    #datatable(data_pos())
+    data_veb_sv()
+  })
+  
+  
+  
+  
+  #veb
+  sv2 <- reactive({
+    if(is.null(data_veb_sv())){
+      #input$t_sv1
+      c(input$v1,input$v2,input$v3,input$v4)
+    }else{
+      a <- data_veb_sv() 
+      as.character(a[,1])
+    }
+  })
+  
+  output$q2<-renderPrint({  
+    sv2()
+  })
+  
+  
+  #DIEBOLD-LI
+  #DIEBOLD-LI
+  #DIEBOLD-LI
+  #data tif
+  data_tif_dl <- reactive({
+    
+    inFile <- input$data_tit_tif_dl
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    read.table(inFile$datapath, header = input$header_tit_tif_dl,
+               sep = input$sep_tit_tif_dl, quote = input$quote_tit_tif_dl)
+    
+  })
+  
+  #muestro data
+  output$datatable_tit_tif_dl<-renderDataTable({
+    if(is.null(data_tif_dl())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    #datatable(data_pos())
+    data_tif_dl()
+  })
+  
+  
+  #funcion auxiliar
+  dl1 <- reactive({
+    if(is.null(data_tif_dl())){
+      #input$t_sv1
+      c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl)
+    }else{
+      a <- data_tif_dl() 
+      as.character(a[,1])
+    }
+  })
+  
+  output$q1_dl <- renderPrint(
+    dl1()
+  )
+  
+  
+  #data veb
+  data_veb_dl <- reactive({
+    
+    inFile <- input$data_tit_veb_dl
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    read.table(inFile$datapath, header = input$header_tit_veb_dl,
+               sep = input$sep_tit_veb_dl, quote = input$quote_tit_veb_dl)
+    
+  })
+  
+  #muestro data
+  output$datatable_tit_veb_dl<-renderDataTable({
+    if(is.null(data_veb_dl())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    #datatable(data_pos())
+    data_veb_dl()
+  })
+  
+  
+  #funcion auxiliar
+  dl2 <- reactive({
+    if(is.null(data_veb_dl())){
+      #input$t_sv1
+      c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl)
+    }else{
+      a <- data_veb_dl() 
+      as.character(a[,1])
+    }
+  })
+  
+  output$q2_dl <- renderPrint(
+    dl2()
+  )
+  
   
   #precios
   #tf <- reactive({pos1(c(input$t1,input$t2,input$t3,input$t4),0)})
@@ -213,20 +333,20 @@ shinyServer(function(input, output) {
   
   
   #tf_dl <- reactive({pos(c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),0)})
-  tf_dl <- reactive({pos1(c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),0)})
+  tf_dl <- reactive({pos1(dl1(),0)})
   
   #tf_sp <- reactive({pos(c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),0)})
   tf_sp <- reactive({pos1(c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),0)})
   
   #tv <- reactive({pos(c(input$v1,input$v2,input$v3,input$v4),1)})
-  tv <- reactive({pos1(c(input$v1,input$v2,input$v3,input$v4),1)})
+  tv <- reactive({pos1(sv2(),1)})
   
   #tv_ns <- reactive({pos1(c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns),1)})
   tv_ns <- reactive({pos1(ns2(),1)})
   
   
   #tv_dl <- reactive({pos(c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),1)})
-  tv_dl <- reactive({pos1(c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),1)})
+  tv_dl <- reactive({pos1(dl2(),1)})
   
   #tv_sp <- reactive({pos(c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),1)})
   tv_sp <- reactive({pos1(c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),1)})
@@ -520,8 +640,8 @@ shinyServer(function(input, output) {
   
   
   output$p_est_veb <- renderDataTable({
-    if(length(c(input$v1,input$v2,input$v3,input$v4))!=0){
-    Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = pa1_sven,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] 
+    if((length(sv2()))!=0){
+    Tabla.sven(fv = input$n1 ,tit = sv2(),pr =tv() ,pa = pa1_sven,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] 
     }else{}
     })
   
@@ -553,7 +673,7 @@ shinyServer(function(input, output) {
     if(input$opt_tif_sven==1){
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
-    Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven,fe3=0)[[1]] 
+    Tabla.sven(fv = input$n1 ,tit = sv1(),pr =tf() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven,fe3=0)[[1]] 
     })
     }else{
       Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
@@ -576,8 +696,8 @@ shinyServer(function(input, output) {
     })
   
   output$p_est_tif_opt_sven_el <- renderDataTable({
-    if(length(c(input$t1,input$t2,input$t3,input$t4))!=0){
-    Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] 
+    if(length(sv1())!=0){
+    Tabla.sven(fv = input$n1 ,tit = sv1(),pr =tf() ,pa = c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] 
     }else{}
     })
   
@@ -622,7 +742,7 @@ shinyServer(function(input, output) {
     if(input$opt_veb_sven==1){
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
-    Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven,fe3=0)[[1]]
+    Tabla.sven(fv = input$n1 ,tit = sv2(),pr =tv() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven,fe3=0)[[1]]
     })
     }else{
       Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
@@ -643,8 +763,8 @@ shinyServer(function(input, output) {
     })
   
   output$p_est_veb_opt_sven_el <- renderDataTable({
-    if(length(c(input$v1,input$v2,input$v3,input$v4))!=0){
-    Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]]
+    if(length(sv2())!=0){
+    Tabla.sven(fv = input$n1 ,tit = sv2(),pr =tv() ,pa = c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]]
     }else{}
     })
   
@@ -702,7 +822,7 @@ shinyServer(function(input, output) {
     dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     dat[,3] <- as.Date(as.character(dat[,3]))
     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num =input$d_tif_dl,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),car,pr=tf_dl())
+    Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num =input$d_tif_dl,par = input$parametro_tif_dl,tit=dl1(),car,pr=tf_dl())
     })
   
   dl_spline_tif <- reactive({
@@ -726,7 +846,7 @@ shinyServer(function(input, output) {
     if(class(a)!="try-error"){
       a
     }else{
-      b <- 
+      #b <- 
       return("Poca cantidad de observaciones, favor seleccionar una cantidad mayor")
     }
     })
@@ -735,7 +855,7 @@ shinyServer(function(input, output) {
     withProgress(message = 'Calculando precios teóricos', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
       car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    a <- try(precio.dl(tit = c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),fv = input$n3 ,C = car,pa = c(1,1,1,1),spline1 = dl_spline_tif(),pr=tf_dl())[[1]])
+    a <- try(precio.dl(tit = dl1(),fv = input$n3 ,C = car,pa = c(1,1,1,1),spline1 = dl_spline_tif(),pr=tf_dl())[[1]])
     if(class(a)!="try-error"){
       a
     }else{}
@@ -800,7 +920,7 @@ shinyServer(function(input, output) {
     dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     dat[,3] <- as.Date(as.character(dat[,3]))
     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n3,num =input$d_veb_dl,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),car,pr=tv_dl())
+    Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n3,num =input$d_veb_dl,par = input$parametro_veb_dl,tit=dl2(),car,pr=tv_dl())
   })
   
   
@@ -817,7 +937,7 @@ shinyServer(function(input, output) {
   output$spline_veb <- renderPrint({
     a <- try(dl_spline_veb())
     if(class(a)!="try-error"){
-      a
+      return(a)
     }else{
       return("Poca cantidad de observaciones, favor seleccionar una cantidad mayor")
     }
@@ -828,7 +948,7 @@ shinyServer(function(input, output) {
     withProgress(message = 'Calculando precios teóricos...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
       car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    a <- try(precio.dl(tit = c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),fv = input$n3 ,C = car ,pa = c(1,1,1,1),spline1 = dl_spline_veb(),pr=tv_dl())[[1]])
+    a <- try(precio.dl(tit = dl2(),fv = input$n3 ,C = car ,pa = c(1,1,1,1),spline1 = dl_spline_veb(),pr=tv_dl())[[1]])
     if(class(a)!="try-error"){
       a
     }else{}
@@ -1519,8 +1639,8 @@ shinyServer(function(input, output) {
   }else{}})
   
   #caso Svensson
-  gra_tif_sven <- reactive({Tabla.sven(fv = input$n1 ,tit = c(input$t1,input$t2,input$t3,input$t4),pr =tf() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven,fe3=0)[[2]] })
-  gra_veb_sven <- reactive({Tabla.sven(fv = input$n1 ,tit = c(input$v1,input$v2,input$v3,input$v4),pr =tv() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven,fe3=0)[[2]] })
+  gra_tif_sven <- reactive({Tabla.sven(fv = input$n1 ,tit = sv1(),pr =tf() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven,fe3=0)[[2]] })
+  gra_veb_sven <- reactive({Tabla.sven(fv = input$n1 ,tit = sv2(),pr =tv() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven,fe3=0)[[2]] })
   
   #tif
   output$par_tif_sven_op<-renderPrint({if(input$opt_tif_sven==1){gra_tif_sven()
