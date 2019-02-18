@@ -1103,20 +1103,66 @@ shinyUI(
                       ),#final fluidrow
                       h2("  Títulos"), h5("  Favor seleccionar los títulos a considerar: "),
                       fluidRow(
-                        tabBox(width = 12, title = "Títulos", id = "tab5", height = "50px", 
-                                      tabPanel("TIF",fluidRow(column(width = 3,checkboxGroupInput( inputId = "t1_comp", label = " ",
-                                                                                                   choices=tit[1:7])#final checkboximput
-                                      ),#final column
-                                      column(width = 3,checkboxGroupInput( inputId = "t2_comp", label = " ",
-                                                                           choices=tit[8:13])#final checkboximput
-                                      ),#final column
-                                      column(width = 3,checkboxGroupInput( inputId = "t3_comp",label = " ", 
-                                                                           choices=tit[14:19])#final checkboximput
-                                      ),#final column
-                                      column(width = 3,checkboxGroupInput( inputId = "t4_comp", label = " ",
-                                                                           choices=tit[20:25])#final checkboximput
-                                      )#final column
-                                      ),#final fluidrow 
+                        tabBox(width = 12, title = "Títulos", id = "tab5", height = "50px",
+                               
+                               tabPanel("TIF",
+                               tabsetPanel(type="pills",
+                                           tabPanel("Títulos disponibles",
+                                                    wellPanel(
+                                                      fluidRow(column(width = 3,checkboxGroupInput( inputId = "t1_comp", label = " ",
+                                                                                                    choices=tit[1:9])#final checkboximput
+                                                      ),#final column
+                                                      column(width = 3,checkboxGroupInput( inputId = "t2_comp", label = " ",
+                                                                                           choices=tit[10:17])#final checkboximput
+                                                      ),#final column
+                                                      column(width = 3,checkboxGroupInput( inputId = "t3_comp",label = " ",
+                                                                                           choices=tit[18:25])#final checkboximput
+                                                      ),#final column
+                                                      column(width = 3,checkboxGroupInput( inputId = "t4_comp", label = " ",
+                                                                                           choices=tit[26:33])#final checkboximput
+                                                      )#final column
+                                                      )#final fluidrow
+                                                      
+                                                    )
+                                           ),
+                                           tabPanel("Elegir Instrumentos",
+                                                    h2("Seleccione"),
+                                                    fluidRow(
+                                                      box(width = 12, title = h3(UPLOADDATA_TEXT),
+                                                          box( width=12,background = "navy",
+                                                               fileInput('data_tit_tif_comp', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
+                                                                         placeholder = FILESELEC_TEXT, buttonLabel = BUTTSELEC_TEXT )
+                                                          ),
+                                                          fluidRow(
+                                                            box(width=4,background="olive",strong(ENCABEZADO_TEXT),
+                                                                checkboxInput( width="100%", 'header_tit_tif_comp', WITHHEADER_TEXT, TRUE)),
+                                                            box(width=4,background="olive",
+                                                                radioButtons( width="40%", 'sep_tit_tif_comp', SEPARATOR_TEXT, UPLOADFILESEP_CONF, ';')),
+                                                            box(width=4,background="olive",
+                                                                radioButtons( width="40%", 'quote_tit_tif_comp', COMILLAS_TEXT, UPLOADCOMILLAS_CONF, ''))
+                                                          )
+                                                      )
+                                                    ),
+                                                    fluidRow(
+                                                      box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_tit_tif_comp'))
+                                                    )
+                                           )#final tabpanel selecionar titulos
+                               ),
+                               
+                                       
+                                                #fluidRow(column(width = 3,checkboxGroupInput( inputId = "t1_comp", label = " ",
+                                      #                                                              choices=tit[1:7])#final checkboximput
+                                      # ),#final column
+                                      # column(width = 3,checkboxGroupInput( inputId = "t2_comp", label = " ",
+                                      #                                      choices=tit[8:13])#final checkboximput
+                                      # ),#final column
+                                      # column(width = 3,checkboxGroupInput( inputId = "t3_comp",label = " ", 
+                                      #                                      choices=tit[14:19])#final checkboximput
+                                      # ),#final column
+                                      # column(width = 3,checkboxGroupInput( inputId = "t4_comp", label = " ",
+                                      #                                      choices=tit[20:25])#final checkboximput
+                                      # )#final column
+                                      # ),#final fluidrow 
                                       verbatimTextOutput("q1_comp"),
                                       h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca_comp")),
                                       h2(" Metodologías"),
@@ -1274,20 +1320,68 @@ shinyUI(
                                       )#final fluidrow
                                       ),#final tabpanel tif
                       
-                      tabPanel("VEBONO",fluidRow(
-                        column(width = 3,checkboxGroupInput(inputId = "v1_comp", label = " ",
-                                                            choices=tit1[1:8])#final checkboxgroupimput
-                        ),#final column
-                        column(width = 3,checkboxGroupInput( inputId = "v2_comp", label = " ",
-                                                             choices=tit1[9:16])#final checkboxgroupimput
-                        ),#final column
-                        column(width = 3,checkboxGroupInput( inputId = "v3_comp",label = " ",
-                                                             choices=tit1[17:24])#final checkboxgroupimput
-                        ),#final column
-                        column(width = 3,checkboxGroupInput( inputId = "v4_comp", label = " ",
-                                                             choices=tit1[25:29])#final checkboxgroupimput
-                        )#final column
-                      ),#final fluidrow
+                      tabPanel("VEBONO",
+                               tabsetPanel(type="pills",
+                                           tabPanel("Títulos disponibles",
+                                                    wellPanel(
+                                                      #checkboxGroupInput( inputId = "t1_ns2", label = NULL,inline = TRUE,width = '100%',
+                                                      #                    choices = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[which(substr(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[,2],1,3)=="VEB"),2]),
+                                                      fluidRow(
+                                                        column(width = 3,checkboxGroupInput(inputId = "v1_comp", label = " ",
+                                                                                            choices=tit1[1:11])#final checkboxgroupimput
+                                                        ),#final column
+                                                        column(width = 3,checkboxGroupInput( inputId = "v2_comp", label = " ",
+                                                                                             choices=tit1[12:21])#final checkboxgroupimput
+                                                        ),#final column
+                                                        column(width = 3,checkboxGroupInput( inputId = "v3_comp",label = " ",
+                                                                                             choices=tit1[22:31])#final checkboxgroupimput
+                                                        ),#final column
+                                                        column(width = 3,checkboxGroupInput( inputId = "v4_comp", label = " ",
+                                                                                             choices=tit1[32:40])#final checkboxgroupimput
+                                                        )#final column
+                                                      )#final fluidrow
+                                                      
+                                                      
+                                                      
+                                                    )
+                                           ),
+                                           tabPanel("Elegir Instrumentos",
+                                                    h2("Seleccione"),
+                                                    fluidRow(
+                                                      box(width = 12, title = h3(UPLOADDATA_TEXT),
+                                                          box( width=12,background = "navy",
+                                                               fileInput('data_tit_veb_comp', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
+                                                                         placeholder = FILESELEC_TEXT, buttonLabel = BUTTSELEC_TEXT )
+                                                          ),
+                                                          fluidRow(
+                                                            box(width=4,background="olive",strong(ENCABEZADO_TEXT),
+                                                                checkboxInput( width="100%", 'header_tit_veb_comp', WITHHEADER_TEXT, TRUE)),
+                                                            box(width=4,background="olive",
+                                                                radioButtons( width="40%", 'sep_tit_veb_comp', SEPARATOR_TEXT, UPLOADFILESEP_CONF, ';')),
+                                                            box(width=4,background="olive",
+                                                                radioButtons( width="40%", 'quote_tit_veb_comp', COMILLAS_TEXT, UPLOADCOMILLAS_CONF, ''))
+                                                          )
+                                                      )
+                                                    ),
+                                                    fluidRow(
+                                                      box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_tit_veb_comp'))
+                                                    )
+                                           )#final tabpanel selecionar titulos
+                               ),
+                      #          fluidRow(
+                      #   column(width = 3,checkboxGroupInput(inputId = "v1_comp", label = " ",
+                      #                                       choices=tit1[1:8])#final checkboxgroupimput
+                      #   ),#final column
+                      #   column(width = 3,checkboxGroupInput( inputId = "v2_comp", label = " ",
+                      #                                        choices=tit1[9:16])#final checkboxgroupimput
+                      #   ),#final column
+                      #   column(width = 3,checkboxGroupInput( inputId = "v3_comp",label = " ",
+                      #                                        choices=tit1[17:24])#final checkboxgroupimput
+                      #   ),#final column
+                      #   column(width = 3,checkboxGroupInput( inputId = "v4_comp", label = " ",
+                      #                                        choices=tit1[25:29])#final checkboxgroupimput
+                      #   )#final column
+                      # ),#final fluidrow
                       verbatimTextOutput("q2_comp"),
                       h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca1_comp")),
                       h2(" Metodologías"),
