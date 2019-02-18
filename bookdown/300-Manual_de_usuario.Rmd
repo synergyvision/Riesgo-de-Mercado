@@ -422,9 +422,35 @@ En esta sección se presenta un grafico comparativo donde se grafican las curvas
 
 ##Valor en Riesgo
 
+En esta sección el usuario podrá calcular el Valor en Riesgo de los instrumentos financieros que considere, el mismo será calculado mediante tres maneras diferentes las cuales se basan en tres distintas metodologías. El primer VaR a calcular es el VaR paramétrico el cuál se basa en asumir una distribucuión normal de los instrumentos sconsiderados. El segundo VaR es el calculado por simulación histórica. El tercer y último VaR es el calculado mediante la simulación de MonteCarlo, este VaR se subdividirá en dos casos, el primero es asumiendo una distribución Normal para todos los instrumentos, mientras que el segundo es elegiendo una distribución en específico.
+
+
 ###Datos
 
+En esta sección el usuario debe ingresar el histórico de precios, así como la posición de cada uno de los instrumentos a considerar, dichos documentos deben poseer las siguientes características:
+
+Para el archivo de precios:
+
+ + El formato del archivo debe ser txt. 
+ + El archivo debe contener al menos 252 observaciones por cada instrumento. El archivo debe contener tantas columnas como instrumentos se consideren.
+ + La primera columna del archivo deberá contener las fechas de las observaciones (precios), dichas observaciones deben estar ordenadas en forma decreciente. El formatod de la fecha debe ser: Año-Mes_Día (ej: 2019-06-07).
+ + El resto de las columnas deben representar información para cada instrumento, es decir, cada columna debe contener las observaciones de cada título.
+
+Para el archivo de posiciones:
+
+ + El formato del archivo debe ser txt. 
+ + El archivo debe tener dos columnas, la primera debe contener el nombre corto del instrumentos. Por su parte la segunda columna deberá contener la posición del instrumento. En caso de existir decimales usar "." como separación.
+
+Es importante que la información sobre los instrumentos considerada en el archivo de precios y el archivo de posiciones sea la misma, es decir, los títulos que aparecen en el archivo de precios deben ser los mismos que aparecen en el archivo de posiciones. Una ventana ubicada en esta sección (Aviso) realizará esta validación, en caso de eistir una discrepancia no se realizará ningún cálculo.
+ 
+
 ###Distribución
+
+En está sección el usuario debe seleccionar las distribuciones asociadas a los rendimientos cada instrumento, con el fin de proceder y realizaf los cáculos del VaR de simulación de MonteCarlo. Para esto existen dos opciones:
+
+1. Elegir Distribución:
+
+2. Seleccionar un archivo que contenga las distribuciones:
 
 ###VaR
 
