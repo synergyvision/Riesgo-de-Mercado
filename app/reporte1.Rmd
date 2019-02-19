@@ -9,6 +9,7 @@ output:
       #paste(getwd(),"preambulo.tex",sep="/") 
       #~/Documents/Vision/liquidez/preambulo.tex
 params:
+  fecha: NA
   titulos: NA
   pre_prom: NA
   par_ns_t: NA
@@ -25,14 +26,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Precios teóricos obtenidos mediante las diferentes metodologías
 
-Los títulos seleccionados fueron
+Los cálculos realizados fueron para la fecha: `r paste(substr(params$fecha,9,10),substr(params$fecha,6,7),substr(params$fecha,1,4),sep = "/")`. Los títulos seleccionados fueron:
 
 ```{r,echo = FALSE}
 library(knitr)
 kable(params$titulos,col.names=c("Instrumentos"),align="c")
 ```
 
-Su precio promedio es el siguiente,
+Su precio promedio es el siguiente, 
 
 
 ```{r,echo = FALSE}

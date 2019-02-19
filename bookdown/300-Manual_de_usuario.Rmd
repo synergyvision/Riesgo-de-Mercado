@@ -448,12 +448,32 @@ Es importante que la información sobre los instrumentos considerada en el archi
 
 En está sección el usuario debe seleccionar las distribuciones asociadas a los rendimientos cada instrumento, con el fin de proceder y realizaf los cáculos del VaR de simulación de MonteCarlo. Para esto existen dos opciones:
 
-1. Elegir Distribución:
+1. Elegir Distribución: En esta subsección al inicio se muestra una advertencia referente a si existe problemas con los precios ingresados, usualmente estos problemas surgen cuando existen dos precios iguales y ellos están seguidos. En caso de existir este problema, el instrumento ó instrumentos involucrados serán excluidos del estudio. Posteriormente el usuario debe:
+ +  Seleccionar el instrumento, para el cual se realizará la prueba de bondad de ajuste. Una vez seleccionado el instrumento se desplegará una ventana que mostrará las distribuciones que más se asemejan a los rendimientos de los precios del instrumento en estudio.
+ + Una vez generado las posibles opciones el usuario debe seleccionar una distribución, luego de esto se mostrarán los parámetros obtenidos a partir de dicho ajuste.
+ + Se debe seleccionar "Si", en el recuadro que pregunta si desea guardar su distribución. Luego de esto la distribución de cada instrumento se guardará para su posterior uso. Esta serie de pasos debe repetirse por cada instrumento considerado.
 
-2. Seleccionar un archivo que contenga las distribuciones:
+2. Seleccionar un archivo que contenga las distribuciones: En caso de elegir esta opción el usuario debe cargar un archivo con las siguientes características:
+ + Debe ser un archivo de texto txt.
+ + El archivo constará de dos filas, la primera fila debe contener el nombre corto del instrumento a considerar. La segunda fila debe contener el nombre de la distribución que mejor se ajuste, la misma debe ser alguna de las siguientes y debe ser expresada como sigue:
+     + Normal = Distribución Normal.  
+     + Logistic = Distribución Logística.
+     + Exponential = Distribución Exponencial.
+     + Cauchy = Distribución Cauchy.
+     + Gamma = Distribución Gamma.
+     + Lognormal = Distribución Lognormal.
+     + Weibull = Distribución Weibull.
+     + Student = Distribución t-student.
 
 ###VaR
 
+En esta sección se realizan todos los cálculos referentes al VaR, el mismo se calculará por tres metodologías, la primera es la metodología del VaR paramétrico, la segunda es la metodología del VaR por simulación histórica y la tercera es la metodología de VaR por simulación de MonteCarlo. En esta sección se muestran tres pestañas en donde se cálculan las metodologías explicadas anteriormente.
+
+ * Pestaña Paramétrico: 
+ * Pestaña Histórico:
+ * Pestaña Simulación MonteCarlo:
+ 
+ 
 ###Gráficos
 
 ###Históricos

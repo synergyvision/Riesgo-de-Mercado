@@ -123,7 +123,7 @@ shinyUI(
               #NELSON Y SIEGEL
               
                tabItem(tabName = "subitem1",
-                 fluidRow(    h2("Nelson y Siegel"),
+                   h2("Nelson y Siegel"),
                          fluidRow(column(width = 6,box( width = 12, background = "navy",
                                                           dateInput(inputId="n2", label="Por favor, seleccionar una fecha", language= "es",
                                                                     width = "100%")#final dateimput 
@@ -132,8 +132,10 @@ shinyUI(
                                   box( width = 6,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p2')) #final box
                                   ),#final fluidrow
                           h2("  Títulos"), h5("  Favor seleccionar los títulos a considerar: "),
-                          fluidRow(tabBox( width = 12, title = "Títulos", id = "tab1", height = "50px", 
-                                     tabPanel("TIF",
+                          wellPanel(
+                            #tabBox( width = 12, title = "Títulos", id = "tab1", height = "50px", 
+                            tabsetPanel(type="tabs", 
+                                    tabPanel("TIF",
                                               #htmlOutput("tit_new_ns_tif"),
                                               #verbatimTextOutput("t_ns_tif"),
                                               
@@ -217,15 +219,16 @@ shinyUI(
                                               
                                                         h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca_ns")),
                                                         h2(" Parámetros"), 
-                                              fluidRow(
-                                                        tabBox( width = 12, title = "Parámetros", id = "tab1_ns_tif", height = "50px", 
-                                                       
+                                              wellPanel(
+                                                        #tabBox( width = 12, title = "Parámetros", id = "tab1_ns_tif", height = "50px", 
+                                                       tabsetPanel( type="tabs",
                                                         tabPanel(" Parámetros Iniciales ",
+                                                                 
                                                         verbatimTextOutput("pa_tif_ns"),
                                                         h2(" Precios estimados iniciales"),box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_tif_ns")),
                                                         h2(" Curva de rendimientos inicial TIF"),
                                                         plotOutput("c_tif_ns")
-                                                        
+                                                                 
                                                         ),# final tabpanel pa iniciales 
                                                         
                                                         tabPanel(" Elegir Parámetros",
@@ -345,9 +348,11 @@ shinyUI(
                                                     h2(" Precios Promedios"),verbatimTextOutput("pre2_ns"),
                                                        
                                                         h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca1_ns")),
-                                                    fluidRow(
-                                                    tabBox( width = 12, title = "Parámetros", id = "tab1_ns_veb", height = "50px", 
-                                                            tabPanel(" Parámetros Iniciales ",
+                                                    h2(" Parámetros"),
+                                                    wellPanel(
+                                                    #tabBox( width = 12, title = "Parámetros", id = "tab1_ns_veb", height = "50px", 
+                                                     tabsetPanel(type="tabs",
+                                                             tabPanel(" Parámetros Iniciales ",
                                                         h2(" Parámetros iniciales"),verbatimTextOutput("pa_veb_ns") ,
                                                         h2(" Precios estimados iniciales"),box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_veb_ns")),
                                                         h2(" Curva de rendimientos inicial"),
@@ -396,11 +401,10 @@ shinyUI(
                                               
                                         )#final tabbox
                                   )#final fluidrow
-                      )#final fluidrow 
               ),#final tabitem
                #SVENSSON
                tabItem(tabName = "subitem2",
-                       fluidRow(h2("  Svensson"),
+                       h2("  Svensson"),
                                 fluidRow(column(width = 6,box( width = 12, background = "navy",
                                                                dateInput(inputId="n1", label="Por favor, seleccionar una fecha", language= "es",
                                                                          width = "100%")#final dateimput 
@@ -412,8 +416,10 @@ shinyUI(
                                 ),#final fluidrow
                                 h2("  Títulos"), h5("  Favor seleccionar los títulos a considerar: "),
                       
-                                fluidRow(tabBox(width = 12, title = "Títulos", id = "tab1", height = "50px", 
-                                                tabPanel("TIF",
+                                wellPanel(
+                                  #tabBox(width = 12, title = "Títulos", id = "tab1", height = "50px", 
+                                  tabsetPanel(type="tabs", 
+                                               tabPanel("TIF",
                                                          tabsetPanel(type="pills",
                                                                      tabPanel("Títulos disponibles",
                                                                               wellPanel(
@@ -478,9 +484,10 @@ shinyUI(
                                                 
                                                 h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca")),
                                                 h2(" Parámetros"),
-                                                fluidRow(
-                                                  tabBox( width = 12, title = "Parámetros", id = "tab1_sven_tif", height = "50px", 
-                                                          tabPanel(" Parámetros Iniciales ",verbatimTextOutput("pa_tif"),#withMathJax(uiOutput("formula")),
+                                                wellPanel(
+                                                  #tabBox( width = 12, title = "Parámetros", id = "tab1_sven_tif", height = "50px", 
+                                                  tabsetPanel(type="tabs",        
+                                                  tabPanel(" Parámetros Iniciales ",verbatimTextOutput("pa_tif"),#withMathJax(uiOutput("formula")),
                                                                    h2(" Precios estimados iniciales"),box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_tif")),
                                                                    h2(" Curva de rendimientos inicial"),
                                                                    plotOutput("c_tif_sven")
@@ -599,9 +606,10 @@ shinyUI(
                                                  
                                                 h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca1")),
                                                 h2(" Parámetros"),
-                                                fluidRow(
-                                                  tabBox( width = 12, title = "Parámetros", id = "tab1_sven_veb", height = "50px", 
-                                                          tabPanel(" Parámetros Iniciales ",verbatimTextOutput("pa_veb"),#withMathJax(uiOutput("formula")),
+                                                wellPanel(
+                                                  #tabBox( width = 12, title = "Parámetros", id = "tab1_sven_veb", height = "50px", 
+                                                  tabsetPanel(type="tabs",       
+                                                   tabPanel(" Parámetros Iniciales ",verbatimTextOutput("pa_veb"),#withMathJax(uiOutput("formula")),
                                                                    h2(" Precios estimados iniciales"),box(style="overflow-x:scroll",width = 12,dataTableOutput("p_est_veb")),
                                                                    h2(" Curva de rendimientos inicial"),
                                                                    plotOutput("c_veb_sven")
@@ -654,7 +662,6 @@ shinyUI(
                                   )#final tabitem vebono
                                 )#final tabbox
                                 )#finalfluidrow
-                       )#finalfluidrow
                ),#final tabitem
                #DIEBOLD-LI
                tabItem(tabName = "subitem3",
@@ -667,8 +674,10 @@ shinyUI(
                                    box( width = 6,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p3')) #finalbox
                                    ),#final fluidrow
                                     h2("  Títulos"), h5("  Favor seleccionar los títulos a considerar: "),
-                                    fluidRow(tabBox(width = 12, title = "Títulos", id = "tab3", height = "50px", 
-                                                    tabPanel("TIF",
+                                    wellPanel(
+                                      #tabBox(width = 12, title = "Títulos", id = "tab3", height = "50px", 
+                                      tabsetPanel(type="tabs", 
+                                                   tabPanel("TIF",
                                                              tabsetPanel(type="pills",
                                                                          tabPanel("Títulos disponibles",
                                                                                   wellPanel(
@@ -842,8 +851,10 @@ shinyUI(
                                            ),#final column
                                    box( width = 6,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p4'))),
                     h2("  Títulos"), h5("  Favor seleccionar los títulos a considerar: "),
-                    fluidRow(tabBox(width = 12, title = "Títulos", id = "tab3", height = "50px", 
-                                    tabPanel("TIF",
+                    wellPanel(
+                      #tabBox(width = 12, title = "Títulos", id = "tab3", height = "50px", 
+                      tabsetPanel(type="tabs", 
+                                   tabPanel("TIF",
                                              tabsetPanel(type="pills",
                                                          tabPanel("Títulos disponibles",
                                                                   wellPanel(
@@ -1092,7 +1103,6 @@ shinyUI(
               # 
               
                 tabItem(tabName = "metodologias",
-                      fluidRow(
                        h2(" Comparativo"),
                       fluidRow(column(width = 6,box( width = 12, background = "navy",
                                                      dateInput(inputId="n5", label="Por favor, seleccionar una fecha", language= "es",
@@ -1102,9 +1112,9 @@ shinyUI(
                       box( width = 6,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p5')) #final box
                       ),#final fluidrow
                       h2("  Títulos"), h5("  Favor seleccionar los títulos a considerar: "),
-                      fluidRow(
-                        tabBox(width = 12, title = "Títulos", id = "tab5", height = "50px",
-                               
+                      wellPanel(
+                        #tabBox(width = 12, title = "Títulos", id = "tab5", height = "50px",
+                         tabsetPanel(type="tabs",      
                                tabPanel("TIF",
                                tabsetPanel(type="pills",
                                            tabPanel("Títulos disponibles",
@@ -1166,12 +1176,13 @@ shinyUI(
                                       verbatimTextOutput("q1_comp"),
                                       h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca_comp")),
                                       h2(" Metodologías"),
-                                      fluidRow(tabBox(width = 12, title = " ", id = "tab5", height = "50px", 
-                                             tabPanel("Nelson y siegel",
+                                      wellPanel(
+                                        #tabBox(width = 12, title = " ", id = "tab5", height = "50px", 
+                                        tabsetPanel(type="tabs", 
+                                            tabPanel("Nelson y siegel",
                                                       h2(" Precios Promedios"),verbatimTextOutput("pre_comp_tif_ns"),
-                                                      fluidRow(
-                                                        tabBox( width = 12, title = "Parámetros", id = "tab1_ns_tif_comp", height = "50px", 
-                                                                
+                                                        #tabBox( width = 12, title = "Parámetros", id = "tab1_ns_tif_comp", height = "50px", 
+                                                         tabsetPanel(type="pills",       
                                                                 tabPanel(" Elegir parámetros ",
                                                                          h4(" Por favor, insertar parámetros"),
                                                                          box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
@@ -1209,16 +1220,15 @@ shinyUI(
                                                                 )#final tabpabel pa optimizados
                                                                 
                                                                 )#final tabbox
-                                                      )#final fluid row
-                                                        
+
                                                       
                                              ),#final tabpanel Nelson y siegel
                                              
                                              tabPanel("Svensson",
                                                       h2(" Precios Promedios"),verbatimTextOutput("pre_comp_tif_sven"),
-                                                      fluidRow(
-                                                        tabBox( width = 12, title = "Parámetros", id = "tab1_sven_tif_comp", height = "50px", 
-                                                                
+                                                        #tabBox( width = 12, title = "Parámetros", id = "tab1_sven_tif_comp", height = "50px", 
+                                                      tabsetPanel(type="pills",   
+                                                             
                                                                 tabPanel(" Elegir parámetros ",
                                                                          h4(" Por favor, insertar parámetros"),
                                                                          box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
@@ -1262,8 +1272,7 @@ shinyUI(
                                                                 )#final tabpabel pa optimizados
                                                                 
                                                         )#final tabbox
-                                                      )#final fluid row
-                                                      
+
                                              ),#final tabpanel Svensson 
                                              tabPanel("Diebold Li",
                                                       h2(" Parámetro de suavizamiento"),
@@ -1385,12 +1394,14 @@ shinyUI(
                       verbatimTextOutput("q2_comp"),
                       h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca1_comp")),
                       h2(" Metodologías"),
-                      fluidRow(tabBox(width = 12, title = " ", id = "tab5", height = "50px", 
-                             tabPanel("Nelson y siegel",
+                      wellPanel(
+                        #tabBox(width = 12, title = " ", id = "tab5", height = "50px", 
+                        tabsetPanel(type="tabs", 
+                            tabPanel("Nelson y siegel",
                                       h2(" Precios Promedios"),verbatimTextOutput("pre_comp_veb_ns"),
-                                      fluidRow(
-                                        tabBox( width = 12, title = "Parámetros", id = "tab1_ns_veb_comp", height = "50px", 
-                                                
+                                        #tabBox( width = 12, title = "Parámetros", id = "tab1_ns_veb_comp", height = "50px", 
+                                     tabsetPanel(type="pills",   
+                                            
                                                 tabPanel(" Elegir parámetros ",
                                                          h4(" Por favor, insertar parámetros"),
                                                          box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
@@ -1429,15 +1440,14 @@ shinyUI(
                                                 )#final tabpabel pa optimizados
                                                 
                                         )#final tabbox
-                                      )#final fluid row
-                                      
+
                                       
                              ),#final tabpanel veb
                              tabPanel("Svensson",
                                       h2(" Precios Promedios"),verbatimTextOutput("pre_comp_veb_sven"),
-                                      fluidRow(
-                                        tabBox( width = 12, title = "Parámetros", id = "tab1_sven_veb_comp", height = "50px", 
-                                                
+                                        #tabBox( width = 12, title = "Parámetros", id = "tab1_sven_veb_comp", height = "50px", 
+                                      tabsetPanel(type="pills",   
+                                             
                                                 tabPanel(" Elegir parámetros ",
                                                          h4(" Por favor, insertar parámetros"),
                                                          box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
@@ -1482,7 +1492,6 @@ shinyUI(
                                                 )#final tabpabel pa optimizados
                                                 
                                         )#final tabbox
-                                      )#final fluid row
                              ),#final tabpanel Svensson 
                              tabPanel("Diebold Li",
                                       h2(" Parámetro de suavizamiento"),
@@ -1541,7 +1550,6 @@ shinyUI(
                   # verbatimTextOutput("datos"),
                   #  h2(" Curva de rendimientos comparativa")
                       
-              )#final fluid row  
               ),#final tabitem
               
               tabItem(tabName = "precios",

@@ -2577,7 +2577,8 @@ shinyServer(function(input, output) {
       file.copy("reporte1.Rmd", tempReport, overwrite = TRUE)
       
       # Configuración de parámetros pasados a documento Rmd
-      params <- list(titulos = c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),
+      params <- list(fecha = input$n5,
+                    titulos = comp1(),
                     pre_prom = tf_comp(),
                     par_ns_t = gra_tif_ns_comp_i(),
                     par_sven_t= gra_tif_sven_comp_i(),
@@ -2615,7 +2616,8 @@ shinyServer(function(input, output) {
       file.copy("reporte2.Rmd", tempReport, overwrite = TRUE)
       
       # Configuración de parámetros pasados a documento Rmd
-      params <- list(titulos = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),
+      params <- list(fecha = input$n5,
+                     titulos = comp2(),
                      pre_prom = tv_comp(),
                      par_ns_v = gra_veb_ns_comp_i(),
                      par_sven_v= gra_veb_sven_comp_i(),
@@ -3295,9 +3297,9 @@ shinyServer(function(input, output) {
       spline <- smooth.spline(a[,4],a[,7],spar = input$parametro_veb_comp)
       
       #calculo precios
-      pre <- precio(tit = c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),spline1 = spline,fv =input$n5 ,C = car)
+      pre <- precio(tit = comp2(),spline1 = spline,fv =input$n5 ,C = car)
       
-      pre1 <- cbind.data.frame("Títulos"=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),"Precios"=pre)
+      pre1 <- cbind.data.frame("Títulos"=comp2(),"Precios"=pre)
       
       return(pre1)
     }
