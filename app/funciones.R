@@ -705,9 +705,13 @@ precio.ns=function(tit,fv,C,pa){
   #creo variable vacia
   Pr=c()
   
+  #uso traductor
+  tit <- traductor(tit,C)
+  
   for(j in 1:length(tit)){
     #verifico en que posicion de la variable c se encuentra el i-esimo titulo
-    (n=which(C$Nombre==tit[j]))
+    #(n=which(C$Nombre==tit[j]))
+    (n=which(C$Sicet==tit[j]))
     #Extraigo la proxima fecha de pago de cupon (pago cupon 1, fecha inicial
     #cuando el  titulo debe pagar cupon)
     (n1=as.Date(C$`Pago cupon 1`[n],format="%d/%m/%Y"))
@@ -869,10 +873,14 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
                     "Ponderación","Precio Modelo Nelson y Siegel Ajustado",
                     "Residuos al cuadrado")
   
+  #USO TRADUCTOR
+  tit1 <- traductor(tit,C)
+  
   #relleno ISIN
-  for(i in 1:ncol(Tabla)){
-    Tabla[1,i]=as.character(C$Sicet[which(names(Tabla)[i]==C$Nombre)])
-  }
+  #for(i in 1:ncol(Tabla)){
+  #Tabla[1,i]=as.character(C$Sicet[which(names(Tabla)[i]==C$Nombre)])
+  Tabla[1,]=as.character(tit1)
+  #}
   
   #relleno fecha Liquidación
   for(i in 1:ncol(Tabla)){
@@ -881,27 +889,27 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
   
   #relleno fecha Emision
   for(i in 1:ncol(Tabla)){
-    Tabla[3,i]=as.character(C$F.Emision[which(names(Tabla)[i]==C$Nombre)])
+    Tabla[3,i]=as.character(C$F.Emision[which(tit1[i]==C$Sicet)])
   }
   
   #relleno fecha Vencimiento
   for(i in 1:ncol(Tabla)){
-    Tabla[4,i]=as.character(C$F.Vencimiento[which(names(Tabla)[i]==C$Nombre)])
+    Tabla[4,i]=as.character(C$F.Vencimiento[which(tit1[i]==C$Sicet)])
   }
   
   #relleno cupón
   for(i in 1:ncol(Tabla)){
-    Tabla[5,i]=C$Cupon[which(names(Tabla)[i]==C$Nombre)]/100
+    Tabla[5,i]=C$Cupon[which(tit1[i]==C$Sicet)]/100
   }
   
   #relleno fecha ultimo pago
   for(i in 1:ncol(Tabla)){
-    Tabla[7,i]=as.character(C$`Pago cupon 1`[which(names(Tabla)[i]==C$Nombre)])
+    Tabla[7,i]=as.character(C$`Pago cupon 1`[which(tit1[i]==C$Sicet)])
   }
   
   #relleno proximo pago
   for(i in 1:ncol(Tabla)){
-    Tabla[8,i]=as.character(C$`Pago cupon 2`[which(names(Tabla)[i]==C$Nombre)])
+    Tabla[8,i]=as.character(C$`Pago cupon 2`[which(tit1[i]==C$Sicet)])
   }
   
   #añado precios promedios
@@ -3079,4 +3087,34 @@ comp <- function(veb,v1){
 Mode <- function(x) {
   ux <- unique(x)
   ux[which.max(tabulate(match(x, ux)))]
+}
+
+
+#TRADUCTOR
+#FUNCION TRADUCTOR
+traductor <- function(tit,Ca){
+  #busco isin instrumento a partir del nombre corto
+  a <- c()
+  for(i in 1:length(tit)){
+    #
+    if(length(which(tit[i]==Ca[,2]))==1){
+      a[i] <- which(tit[i]==Ca[,2])
+    }else if(length(which(tit[i]==Ca[,2]))==0){
+      return("No existe título")
+    }else{
+      #debe existir dos casos 
+      #antes de esto ya se debe saber que existen tit duplicados
+      #y en caso de existir un duplicado colocar mismo nombre uno con a 
+      #y otro con b, ejem: VEBONO032034a , y VEBONO032034b
+      #esto con el fin de trabajar con imput nombre corto
+      #pero internamente buscar pos ISIN!
+      print("Existe título duplicado")
+      b <- which(tit[i]==Ca[,2])
+      
+      return(Ca[b,3])
+    }
+  }
+  return(Ca[a,3])
+  
+  
 }
