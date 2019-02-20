@@ -2894,6 +2894,18 @@ Carac=function(ruta){
     #En caso que no lea bien un numero
     C3$Cupon=as.numeric(sub(",",".",C3$Cupon))
     
+    #VERIFICO SI HAY DUPLICADOS Y AGREGO NOMBRES DIFERENTES
+    if(anyDuplicated(C3$Nombre)){
+      #print("título duplicado")
+      #print(as.character(C3$Nombre[anyDuplicated(C3$Nombre)]))
+      aa <- which(as.character(C3$Nombre[anyDuplicated(C3$Nombre)])==C3$Nombre)
+      C3$Nombre <- as.character(C3$Nombre)
+      C3$Nombre[aa[1]] <- paste0(C3$Nombre[aa[1]],"a")
+      C3$Nombre[aa[2]] <- paste0(C3$Nombre[aa[2]],"b")
+      C3$Nombre <- as.factor(C3$Nombre)
+      
+    }
+    
     return(C3)}#final if pesta?as
   
 }#final funcion Caracteristicas

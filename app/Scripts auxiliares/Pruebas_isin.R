@@ -747,6 +747,266 @@ as.character(Ca[anyDuplicated(Ca[,2]),2])
 #SOLO EXISTE EL VEBONO034034 DUPLICADO
 
 
+#FUNCION CARACTERISTICA
+Carac=function(ruta){
+  c=read_excel(ruta, sheet = "DPN",range = "A7:O90",col_names = TRUE)
+  c1=c[,c(3,5,6,8,10,11,13,15)]
+  c2=c1[-which(is.na(c1[,1])),]
+  c3=cbind(as.character(rep("TIF",1,length(c2[,1]))),c2)
+  c3[,1]=as.character(c3[,1])
+  c3[which(c3[,5]!="Tasa Fija"),1]="VEBONO"
+  names(c3)=c("Tipo Instrumento","Sicet","F.Emision","F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1","Pago cupon 2","Cupon")
+  
+  #tranformo formato fecha
+  c3[,3]=format(c3[,3],"%d/%m/%Y")
+  c3[,4]=format(c3[,4],"%d/%m/%Y")
+  c3[,7]=format(c3[,7],"%d/%m/%Y")
+  c3[,8]=format(c3[,8],"%d/%m/%Y")
+  
+  #agrego columna Nombre TIf o Vebono + fecha venc
+  c4=c3[,1]
+  
+  Nombre=c()
+  for(i in 1:length(c4)){
+    Nombre[i]=paste(c4[i],paste(substr(c3[i,4],4,5),substr(c3[i,4],7,10),sep = ""),sep = "")
+  }
+  
+  c3=cbind(c3[,1],Nombre,c3[,2:ncol(c3)])
+  names(c3)[1]="Tipo Instrumento"
+  
+  
+  #pestaña DPN-TICC
+  #d=read.xlsx(ruta, sheetName = "DPN - TICC",startRow = 7,colIndex = 1:14,header = TRUE)
+  d <- try(read_excel(ruta,sheet = "DPN - TICC",range = "A7:N13",col_names = TRUE),silent = TRUE)
+  #Añado nuevo titulo VF
+  #v=try(read.xlsx(ruta, sheetName = "VF",startRow = 7,colIndex = 1:14,header = TRUE),silent = TRUE)
+  v=try(read_excel(ruta, sheet = "VF",range = "A7:N30" ,col_names = TRUE),silent = TRUE)
+  #
+  #vb=try(read.xlsx(ruta, sheetName = "VB",startRow = 7,colIndex = 1:15,header = TRUE),silent = TRUE)
+  vb=try(read_excel(ruta, sheet = "VB",range = "A7:O50",col_names = TRUE),silent = TRUE)
+  #
+  #cf=try(read.xlsx(ruta, sheetName = "CF",startRow = 7,colIndex = 1:14,header = TRUE),silent = TRUE)
+  cf=try(read_excel(ruta, sheet = "CF",range = "A7:N30",col_names = TRUE),silent = TRUE)
+  #
+  #cb=try(read.xlsx(ruta, sheetName = "CB",startRow = 7,colIndex = 1:14,header = TRUE),silent = TRUE)
+  cb=try(read_excel(ruta, sheet = "CB",range = "A7:N20",col_names = TRUE),silent = TRUE)
+  
+  
+  #if pestaña dpn - ticc
+  if(class(d)[1]=="try-error"){
+    d3=c()
+  }else{
+    d=d[-which(is.na(d[,2])),c(3,4,5,7,9,10,12,14)]
+    d <- as.data.frame(d)
+    #cambio formato fechas
+    d[,2]=format(d[,2],"%d/%m/%Y")
+    d[,3]=format(d[,3],"%d/%m/%Y")
+    d[,6]=format(d[,6],"%d/%m/%Y")
+    d[,7]=format(d[,7],"%d/%m/%Y")
+    
+    d1=rep("TICC",1,nrow(d))
+    
+    d2=c()
+    for(i in 1:length(d1)){
+      d2[i]=paste(d1[i],paste(substr(d[i,3],4,5),substr(d[i,3],7,10),sep = ""),sep = "")
+    }
+    
+    d3=cbind(d1,d2,d)
+    names(d3)=names(c3) 
+    
+  }
+  
+  
+  #if peta?a VF
+  if(class(v)[1]=="try-error"){
+    print("No hay pesta?a VF")
+    w3=c()
+  }else{
+    #leo VF
+    v=v[-which(is.na(v[,2])),c(3,4,5,7,9,10,12,14)]
+    v<-as.data.frame(v)
+    #cambio formato fechas
+    v[,2]=format(v[,2],"%d/%m/%Y")
+    v[,3]=format(v[,3],"%d/%m/%Y")
+    v[,6]=format(v[,6],"%d/%m/%Y")
+    v[,7]=format(v[,7],"%d/%m/%Y")
+    
+    w1=rep("Valores Fin.",1,nrow(v))
+    
+    w2=c()
+    for(i in 1:length(w1)){
+      w2[i]=paste(w1[i],paste(substr(v[i,3],4,5),substr(v[i,3],7,10),sep = ""),sep = "")
+    }
+    
+    w3=cbind(w1,w2,v)
+    names(w3)=names(c3)
+    
+  }#final if VF
+  
+  #if Pesta?a VB
+  if(class(vb)[1]=="try-error"){
+    print("No hay pesta?a VB")
+    #CARACTERISTICAS DEFINITIVA
+    #C3=rbind(c3,d3) 
+    
+    #En caso que no lea bien un numero
+    #C3$Cupon=as.numeric(sub(",",".",C3$Cupon))
+    
+    #return(C3)  
+    v3=c()
+  }else{
+    #leo Vb   
+    vb=vb[,-4]
+    vb=vb[-which(is.na(vb[,2])),c(3,4,5,7,9,10,12,14)]
+    vb <- as.data.frame(vb)
+    #cambio formato fechas
+    vb[,2]=format(vb[,2],"%d/%m/%Y")
+    vb[,3]=format(vb[,3],"%d/%m/%Y")
+    vb[,6]=format(vb[,6],"%d/%m/%Y")
+    vb[,7]=format(vb[,7],"%d/%m/%Y")
+    
+    v1=rep("Valores Bol.",1,nrow(vb))
+    
+    v2=c()
+    for(i in 1:length(v1)){
+      v2[i]=paste(v1[i],paste(substr(vb[i,3],4,5),substr(vb[i,3],7,10),sep = ""),sep = "")
+    }
+    
+    v3=cbind(v1,v2,vb)
+    names(v3)=names(c3) 
+    
+  }#final if VB
+  
+  
+  if(class(cf)[1]=="try-error"){
+    print("No hay pesta?a CF")
+    #CARACTERISTICAS DEFINITIVA
+    #C3=rbind(c3,d3) 
+    
+    #En caso que no lea bien un numero
+    #C3$Cupon=as.numeric(sub(",",".",C3$Cupon))
+    
+    #return(C3)  
+    x3=c()
+  }else{
+    #leo cf
+    cf=cf[-which(is.na(cf[,2])),c(3,4,5,7,9,10,12,14)]
+    cf <- as.data.frame(cf)
+    #cambio formato fechas
+    cf[,2]=format(cf[,2],"%d/%m/%Y")
+    cf[,3]=format(cf[,3],"%d/%m/%Y")
+    cf[,6]=format(cf[,6],"%d/%m/%Y")
+    cf[,7]=format(cf[,7],"%d/%m/%Y")
+    
+    x1=rep("Certificado Part. Simon Bolivar",1,nrow(cf))
+    
+    x2=c()
+    for(i in 1:length(x1)){
+      x2[i]=paste(x1[i],paste(substr(cf[i,3],4,5),substr(cf[i,3],7,10),sep = ""),sep = "")
+    }
+    
+    x3=cbind(x1,x2,cf)
+    names(x3)=names(c3) 
+    
+  }#final if CF
+  
+  
+  if(class(cb)[1]=="try-error"){
+    print("No hay pesta?a CB")
+    #CARACTERISTICAS DEFINITIVA
+    #C3=rbind(c3,d3) 
+    
+    #En caso que no lea bien un numero
+    #C3$Cupon=as.numeric(sub(",",".",C3$Cupon))
+    
+    #return(C3)  
+    y3=c()
+  }else{
+    
+    #leo cb
+    cb=cb[-which(is.na(cb[,2])),c(3,4,5,7,9,10,12,14)]
+    cb <- as.data.frame(cb)
+    #cambio formato fechas
+    cb[,2]=format(cb[,2],"%d/%m/%Y")
+    cb[,3]=format(cb[,3],"%d/%m/%Y")
+    cb[,6]=format(cb[,6],"%d/%m/%Y")
+    cb[,7]=format(cb[,7],"%d/%m/%Y")
+    
+    y1=rep("Certificado Part. Bandes",1,nrow(cb))
+    
+    y2=c()
+    for(i in 1:length(y1)){
+      y2[i]=paste(y1[i],paste(substr(cb[i,3],4,5),substr(cb[i,3],7,10),sep = ""),sep = "")
+    }
+    
+    y3=cbind(y1,y2,cb)
+    names(y3)=names(c3) 
+  }#final if CB
+  
+  #CARACTERISTICAS DEFINITIVA
+  #if de pesta?as
+  if(length(c3)==1|length(d3)==1|length(v3)==1|length(w3)==1|length(x3)==1|length(y3)==1){
+    print("No hay una pesta?a!") 
+    ve=c(length(c3),length(d3),length(v3),length(w3),length(x3),length(y3))
+    #h1=which(ve==1)
+    
+    if(ve[2]==1){
+      print("Falta pesta?a DPN-TICC")
+      C3=rbind(c3,v3,w3,x3,y3)
+      return(C3)
+    }
+    if(ve[3]==1){
+      print("Falta pesta?a VB")
+      C3=rbind(c3,d3,w3,x3,y3)
+      return(C3)
+    }
+    if(ve[4]==1){
+      print("Falta pesta?a VF")
+      C3=rbind(c3,d3,v3,x3,y3)
+      return(C3)
+    }
+    if(ve[5]==1){
+      print("Falta pesta?a CF")
+      C3=rbind(c3,d3,v3,w3,y3)
+      return(C3)
+    }
+    if(ve[6]==1){
+      print("Falta pesta?a CB")
+      C3=rbind(c3,d3,v3,w3,x3)
+      return(C3)
+    }
+    
+  }else{
+    print("Existen todas las pesta?as!")   
+    C3=rbind(c3,d3,v3,w3,x3,y3) 
+    #En caso que no lea bien un numero
+    C3$Cupon=as.numeric(sub(",",".",C3$Cupon))
+    
+    #VERIFICO SI HAY DUPLICADOS Y AGREGO NOMBRES DIFERENTES
+    if(anyDuplicated(C3$Nombre)){
+      print("título duplicado")
+      print(as.character(C3$Nombre[anyDuplicated(C3$Nombre)]))
+      aa <- which(as.character(C3$Nombre[anyDuplicated(C3$Nombre)])==C3$Nombre)
+      C3$Nombre <- as.character(C3$Nombre)
+      C3$Nombre[aa[1]] <- paste0(C3$Nombre[aa[1]],"a")
+      C3$Nombre[aa[2]] <- paste0(C3$Nombre[aa[2]],"b")
+      C3$Nombre <- as.factor(C3$Nombre)
+      
+      }
+    
+    return(C3)}#final if pesta?as
+  
+}#final funcion Caracteristicas
+
+#PRUEBO
+Ca <- Carac(paste(getwd(),"app","data","Caracteristicas.xls",sep = "/"))
+
+#pruebo busqueda vebonos con problemas
+traductor("VEBONO032034",Ca)
+traductor("VEBONO032034a",Ca)
+traductor("VEBONO032034b",Ca)
+
+
 #SVENSSON
 
 

@@ -469,10 +469,27 @@ En está sección el usuario debe seleccionar las distribuciones asociadas a los
 
 En esta sección se realizan todos los cálculos referentes al VaR, el mismo se calculará por tres metodologías, la primera es la metodología del VaR paramétrico, la segunda es la metodología del VaR por simulación histórica y la tercera es la metodología de VaR por simulación de MonteCarlo. En esta sección se muestran tres pestañas en donde se cálculan las metodologías explicadas anteriormente.
 
- * Pestaña Paramétrico: 
- * Pestaña Histórico:
- * Pestaña Simulación MonteCarlo:
- 
+ * Pestaña Paramétrico: en esta pestaña se muestra la siguiente información,
+    * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia.
+    * Parámetros seleccionados para cada instrumento suponiendo una distribución Normal.
+    * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99%.
+    * Luego se seleccionar este valor, se mostrará una tabla con los vares individuales, desviación estándar y el porcentaje que representa cada VaR individual sobre el portafolio.
+    * Finalmente se muestra el valor del VaR de portafolio.
+ * Pestaña Histórico: en esta pestaña se muestra la siguiente información,
+    * Una advertencia en caso de existir algún problema con algún instrumento.
+    * Pesos de cada instrumento, calculado a partir de su proporción de valor nominal con respecto al total de instrumentos.
+    * Valor nominal del portafolio.
+    * Suma de pesos.
+    * Escenarios, se refiere a las variaciones que ha sufrido el valor de portafolio de manera diaria esto debido a la variación de los precios de los instrumentos.
+    * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99%.
+    * Ubicación de la observación a ser considerada para el cálculo del VaR por simulación Histórica.
+    * Resultados de los vares individuales, donde se mostrará el valor nominal y el VaR para cada instrumento.
+    * VaR del portafolio.
+ * Pestaña Simulación MonteCarlo: esta pestaña se subdivide en dos secciones:
+    * VaR Simulación MonteCarlo asumiendo normalidad: en esta sección se muestra la siguiente información,
+        * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia.
+    * VaR Simulación MonteCarlo considerando mejor distribución:en esta sección se muestra la siguiente información,
+        * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia.
  
 ###Gráficos
 
