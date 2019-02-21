@@ -2161,8 +2161,14 @@ shinyUI(
             tabItem(tabName = "resultados_val",
                     h2("Resultados"),
                     fluidRow(
-                      box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('result_val'))
+                      box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('result_val'))
+                    ),
+                    h2("Resúmen portafolio"),
+                    fluidRow(
+                      box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('result_val_port'))
                     )
+                    
+                    
             ),#final tabitem Valoracion
             tabItem(tabName = "resultados_val_estres",
                     h2("Resultados Prueba de Estrés"),

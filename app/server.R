@@ -8832,16 +8832,54 @@ shinyServer(function(input, output) {
   
   
   #resultados valoracion
-  output$result_val <- renderPrint({
+  output$result_val <- renderDataTable({
     if(is.null(data_val())){return()}
     a <- data_val()
+    #convierto en numero diferentes columnas
+    #valor nominal
     a[,2] <- as.numeric(as.character(a[,2]))
-    a[,5] <- as.numeric(as.character(a[,5]))
+    #precio hoy
     a[,3] <- as.numeric(as.character(a[,3]))
+    #precio mercado
     a[,4] <- as.numeric(as.character(a[,4]))
-    a$mtm <- a[,2]*a[,5]/100
-    a$ut_per <- a$mtm-(a[,3]*a[,5]/100)
+    #calculo mtm
+    a$mtm <- a[,2]*a[,4]/100
+    #calculo utilidad o perdida
+    a$ut_per <- a$mtm*((a[,4]-a[,3])/100)
     a
+  })
+  
+  #resultados portafolio
+  output$result_val_port <- renderDataTable({
+    if(is.null(data_val())){return()}
+    a <- data_val()
+    #valor nominal
+    a[,2] <- as.numeric(as.character(a[,2]))
+    #precio hoy
+    a[,3] <- as.numeric(as.character(a[,3]))
+    #precio mercado
+    a[,4] <- as.numeric(as.character(a[,4]))
+    #calculo mtm
+    a$mtm <- a[,2]*a[,4]/100
+    #calculo utilidad o perdida
+    a$ut_per <- a$mtm*((a[,4]-a[,3])/100)
+    
+    #resumen
+    b <- as.data.frame(t(rep(0,3)))
+    names(b) <- c("Valor Nominal","Promedio Precio Mercado","UTD/PER")
+    #extraigo tipos de titulos
+    #supongo que solo hay un solo tipo de instrumento
+    d <- substr(as.character(a[1,1]),1,3)
+    row.names(b) <- d
+    
+    #length(levels(data_valoracion_1$tit))
+    #suma valor nominal
+    b[1,1] <- sum(a[,2])
+    #precio promedio ponderado
+    b[1,2] <- sum((a[,2])*(a[,4]))/sum(a[,2])
+    #utilidad o perdida
+    b[1,3] <- sum(a$ut_per)
+    b
   })
   
   #resultados valoracion estresada

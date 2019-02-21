@@ -488,8 +488,18 @@ En esta sección se realizan todos los cálculos referentes al VaR, el mismo se 
  * Pestaña Simulación MonteCarlo: esta pestaña se subdivide en dos secciones:
     * VaR Simulación MonteCarlo asumiendo normalidad: en esta sección se muestra la siguiente información,
         * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia.
+        * Parámetros seleccionados para cada instrumento suponiendo una distribución Normal.
+        * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99%.
+        * Lista de selección, donde el usuario debe elegir la cantidad de simulaciones que desea realizar.
+        * Resultados de los vares individuales obtenidos mediante esta metodología. Donde se muestra el nombre del instrumento, el valor nominal, el var individual y el porcentaje de cada VaR con respecto al portafolio.
+        * Resultado del VaR de portafolio.
     * VaR Simulación MonteCarlo considerando mejor distribución:en esta sección se muestra la siguiente información,
         * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia.
+        * Distribuciones seleccionadas para cada instrumento, ya sea seleccionadas mediante la aplicación o mediante un archivo ingresado por el usuario.
+        * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99%.
+        * Lista de selección, donde el usuario debe elegir la cantidad de simulaciones que desea realizar.
+        * Resultados del VaR individual.
+        * Resultado del VaR de portafolio.
  
 ###Gráficos
 
