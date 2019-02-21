@@ -1656,7 +1656,7 @@ shinyUI(
               ),
               #CALCULO Y BUSCO DISTRIBUCION DE LOS RETORNOS
               tabItem(tabName = "distribucion_var",
-                      fluidRow(
+                      #fluidRow(
                         
                       #  tabBox( width = 12, title = "VaR", id = "vares", height = "50px", 
                       
@@ -1735,13 +1735,14 @@ shinyUI(
 
                      # )#final tabpanel
               #)#final tabbox
-                      )#final fluid row        
+                      #)#final fluid row        
                       
               ),
               #CALCULO VAR PARA UN HORIZONTE TEMPORAL DADO
               tabItem(tabName = "var",
-                      fluidRow(tabBox( width = 12, title = "VaR", id = "vares", height = "50px", 
-                                       
+                      wellPanel(
+                        #tabBox( width = 12, title = "VaR", id = "vares", height = "50px", 
+                               tabsetPanel(type="tabs",        
                                        tabPanel("Paramétrico",
                                                 h2(" VaR normal"),
                                                 h3(" Rendimientos:"),
@@ -1758,11 +1759,11 @@ shinyUI(
                                                 h3(" Vares individuales:"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varn')),
                                                 h3(" VaR portafolio:"),
-                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varn_portafolio'))
+                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varn_portafolio')),
                                                 #h3(" Graficos:"),
                                                 #plotlyOutput("grafico_vnominal")
-                                                
-                                                
+                                                h3("----------------------------------------------------------------------------------------")
+
                                                 
                                                 
                                                 
@@ -1792,16 +1793,18 @@ shinyUI(
                                                 h3(" VaRes Individuales:"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('varind_sh')),
                                                 h3(" VaR Portafolio:"),
-                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varsh'))
+                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varsh')),
+                                                h3("----------------------------------------------------------------------------------------")
                                                 
                                                 
                                                 
                                        ),
                                        tabPanel("Simulación Monte Carlo",
-                                                fluidRow(tabBox( width = 12, title = "Monte Carlo", id = "var_mc", height = "50px", 
-                                                                 
+                                                wellPanel(
+                                                  #tabBox( width = 12, title = "Monte Carlo", id = "var_mc", height = "50px", 
+                                                        tabsetPanel(type="pills",         
                                                                  tabPanel("Distribución Normal",
-                                                                       #fluidRow(      
+                                                                      #fluidRow(      
                                                                           h2(" VaR asumiendo distribución Normal"),    
                                                                        h3(" Rendimientos:"),
                                                                        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('rend_varmc_n')),
@@ -1821,16 +1824,10 @@ shinyUI(
                                                                        h3(" Vares individuales:"),
                                                                        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varmc_n')),
                                                                        h3(" VaR portafolio:"),
-                                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_n1'))
-                                                                       #h3(" VaR portafolio 1:"),
+                                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_n1')),
+                                                                      h3("-----------------------------------------------------------------------------------")
+                                                                      
                                                                        #box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_n1'))
-                                                                       
-                                                                       
-                                                                       
-                                                                       
-                                                                       
-                                                                       
-                                                                       
                                                                  #)#final fluid row
                                                                  ),#final tabpanel
                                                                  tabPanel("Elegir Distribución",
@@ -1853,9 +1850,10 @@ shinyUI(
                                                                            h3(" Vares individuales:"),
                                                                            box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varmc_el')),
                                                                            h3(" VaR portafolio:"),
-                                                                           box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_el1'))
+                                                                           box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_el1')),
                                                                           #h3(" VaR portafolio 1:"),
                                                                           #box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_el1'))
+                                                                          h3("-----------------------------------------------------------------------------------")
                                                                           
 
                                                                           
@@ -1906,11 +1904,13 @@ shinyUI(
                                        )
                                        ,
                                        tabPanel("VaRes",
-                                                tabBox( width = 12, title = "", id = "graficos_vares_ind", height = "50px", 
-                                                        
+                                                #tabBox( width = 12, title = "", id = "graficos_vares_ind", height = "50px", 
+                                                  wellPanel(
+                                                tabsetPanel(type="pills",      
                                                         tabPanel("VaR Paramétrico",
-                                                                 tabBox( width = 12, title = "Delta-Normal", id = "graficos_varn", height = "50px", 
-                                                                         
+                                                                 #tabBox( width = 12, title = "Delta-Normal", id = "graficos_varn", height = "50px", 
+                                                               # wellPanel(
+                                                                  tabsetPanel(type="tabs",   
                                                                          tabPanel("VaR individuales",
                                                                                   plotlyOutput("grafico_vind")
                                                                          ),
@@ -1918,11 +1918,11 @@ shinyUI(
                                                                                   plotlyOutput("grafico_vcomp")
                                                                          )
                                                                  )#final tabbox
-                                                                 
+                                                        #)#final well Panel   
                                                         ),
                                                         tabPanel("VaR Simulación Histórica",
-                                                                 tabBox( width = 12, title = "Simulación Histórica", id = "graficos_varsh", height = "50px", 
-                                                                         
+                                                                 #tabBox( width = 12, title = "Simulación Histórica", id = "graficos_varsh", height = "50px", 
+                                                                 tabsetPanel(type="tabs",    
                                                                          tabPanel("Escenarios",
                                                                                   plotlyOutput("grafico_hist_sh")
                                                                          ),
@@ -1949,11 +1949,11 @@ shinyUI(
                                                                  #       plotlyOutput("grafico_comp_mcn")
                                                                  # )
                                                                  # )#final tabbox
-                                                                 tabBox( width = 12, title = "Monte Carlo", id = "graficos_varmc", height = "50px",
-
+                                                                 #tabBox( width = 12, title = "Monte Carlo", id = "graficos_varmc", height = "50px",
+                                                                 tabsetPanel(type="tabs",
                                                                  tabPanel("Distribución Normal",
-                                                                          tabBox( width = 12, title = "", id = "graficos_varmc", height = "50px",
-
+                                                                          #tabBox( width = 12, title = "", id = "graficos_varmc", height = "50px",
+                                                                          tabsetPanel(type="pills",
                                                                           tabPanel("Escenarios",
                                                                                  plotlyOutput("grafico_hist_smcn")
                                                                           ),
@@ -1966,8 +1966,8 @@ shinyUI(
                                                                           )#final tabbox
                                                                           ),
                                                                  tabPanel("Distribución Elegida",
-                                                                          tabBox( width = 12, title = "", id = "graficos_varmc_1", height = "50px",
-                                                                                  
+                                                                          #tabBox( width = 12, title = "", id = "graficos_varmc_1", height = "50px",
+                                                                          tabsetPanel(type="pills",   
                                                                                   tabPanel("Escenarios",
                                                                                            plotlyOutput("grafico_hist_smc_el")
                                                                                   ),
@@ -1984,7 +1984,7 @@ shinyUI(
                                                                  
                                                         )
                                                 )#final tabbox
-                                                
+                                       )#final well panel
                                        ),
                                        tabPanel("Comparativo VaRes",
                                                 plotlyOutput("grafico_var_comp")
