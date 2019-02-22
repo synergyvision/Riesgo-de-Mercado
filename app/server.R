@@ -8865,29 +8865,43 @@ shinyServer(function(input, output) {
     a$ut_per <- a$mtm*((a[,4]-a[,3])/100)
     
     #resumen
-    b <- as.data.frame(t(rep(0,3)))
+    #b <- as.data.frame(t(rep(0,3)))
+    #determino cuantos tipos de instrumentos hay
+    a$tit <- substr(a[,1],1,3)
+    a$tit <- as.factor(a$tit)
+    
+    cant <- length(levels(a$tit))
+    le <- as.character(levels(a$tit))
+    
+    b <- as.data.frame(matrix(0,nrow = cant,ncol = 3))
     names(b) <- c("Valor Nominal","Promedio Precio Mercado","UTD/PER")
     #extraigo tipos de titulos
     #supongo que solo hay un solo tipo de instrumento
-    d <- substr(as.character(a[1,1]),1,3)
-    row.names(b) <- d
+    #d <- substr(as.character(a[1,1]),1,3)
+    row.names(b) <- as.character(levels(a$tit))
     
     #length(levels(data_valoracion_1$tit))
+    for(i in 1:cant){
     #suma valor nominal
-    b[1,1] <- sum(a[,2])
+    b[i,1] <- sum(a[which(le[i]==a$tit),2])
     #precio promedio ponderado
-    b[1,2] <- sum((a[,2])*(a[,4]))/sum(a[,2])
+    b[i,2] <- sum((a[which(le[i]==a$tit),2])*(a[which(le[i]==a$tit),4]))/sum(a[which(le[i]==a$tit),2])
     #utilidad o perdida
-    b[1,3] <- sum(a$ut_per)
-    b
+    b[i,3] <- sum(a$ut_per[which(le[i]==a$tit)])
+    }
+    #
+    b1 <- rbind.data.frame(b,c(sum(b[,1]),(sum(b[,1]*b[,2])/sum(b[,1])),sum(b[,3])))
+    row.names(b1)[nrow(b1)] <- "TOTALES" 
+    b1
+    #return(a)
   })
   
   #resultados valoracion estresada
-  output$result_val_estres <- renderPrint({
+  output$result_val_estres <- renderDataTable({
     if(is.null(data_val())){return()}
     a <- data_val()
     a[,2] <- as.numeric(as.character(a[,2]))
-    a[,5] <- as.numeric(as.character(a[,5]))
+    #a[,5] <- as.numeric(as.character(a[,5]))
     a[,3] <- as.numeric(as.character(a[,3]))
     a[,4] <- as.numeric(as.character(a[,4]))
     
@@ -8899,11 +8913,42 @@ shinyServer(function(input, output) {
       a$sd[i] <- sd(data[,i+1],na.rm = TRUE)
     }
     
-    a$precio_estres <- a[,5]-a$sd
+    a$precio_estres <- a[,4]-a$sd
     a$mtm <- a[,2]*a$precio_estres/100
-    a$ut_per <- a$mtm-(a[,3]*a$precio_estres/100)
+    #a$ut_per <- a$mtm-(a[,3]*a$precio_estres/100)
+    a$ut_per1 <- a$mtm*((a[,4]-a[,3])/100)
+    a$ut_per2 <- a$mtm*((a$precio_estres-a[,4])/100)
     a
   })
+  
+  #resultados prueba estres portafolio
+  output$result_val_estres_port <- renderDataTable({
+    if(is.null(data_val())){return()}
+    a <- data_val()
+    a[,2] <- as.numeric(as.character(a[,2]))
+    #a[,5] <- as.numeric(as.character(a[,5]))
+    a[,3] <- as.numeric(as.character(a[,3]))
+    a[,4] <- as.numeric(as.character(a[,4]))
+    
+    #calculo desviacion estandar de historico de tit
+    data <- read.delim2(paste(getwd(),"data","tif.txt",sep = "/"))
+    a$sd <-rep(0,nrow(a))
+    
+    for(i in 1:nrow(a)){
+      a$sd[i] <- sd(data[,i+1],na.rm = TRUE)
+    }
+    
+    a$precio_estres <- a[,4]-a$sd
+    a$mtm <- a[,2]*a$precio_estres/100
+    #a$ut_per <- a$mtm-(a[,3]*a$precio_estres/100)
+    a$ut_per1 <- a$mtm*((a[,4]-a[,3])/100)
+    a$ut_per2 <- a$mtm*((a$precio_estres-a[,4])/100)
+    a
+    
+    #a partir de aqui hacer resumen
+    
+  })
+  
   
   # Almacenar Variables Reactivas
   # RV <- reactiveValues()
