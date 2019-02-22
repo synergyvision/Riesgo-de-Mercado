@@ -2171,7 +2171,30 @@ shinyUI(
                     
             ),#final tabitem Valoracion
             tabItem(tabName = "resultados_val_estres",
-                    h2("Resultados Prueba de Estrés"),
+                    h2("Precios históricos"),
+                    fluidRow(
+                      box(width = 12, title = h3(UPLOADDATA_TEXT),
+                          box( width=12,background = "navy",
+                               fileInput('file_data_val_estres', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
+                                         placeholder = FILESELEC_TEXT, buttonLabel = BUTTSELEC_TEXT )
+                          ),
+                          fluidRow(
+                            box(width=4,background="olive",strong(ENCABEZADO_TEXT),
+                                checkboxInput( width="100%", 'header_val_estres', WITHHEADER_TEXT, TRUE)),
+                            box(width=4,background="olive",
+                                radioButtons( width="40%", 'sep_val_estres', SEPARATOR_TEXT, UPLOADFILESEP_CONF_1, ';')),
+                            box(width=4,background="olive",
+                                radioButtons( width="40%", 'quote_val_estres', COMILLAS_TEXT, UPLOADCOMILLAS_CONF, ''))
+                          )
+                      )
+                    ),
+                    fluidRow(
+                      box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_val_estres'))
+                    ),
+                    h2("Advertencia"),
+                    box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('datatable_val_estres_ad')),
+                    
+                    h2("Resultados prueba de estrés"),
                     fluidRow(
                       box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('result_val_estres'))
                     ),

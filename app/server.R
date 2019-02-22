@@ -8830,6 +8830,53 @@ shinyServer(function(input, output) {
     datatable(data_val())
   })
   
+  #DATA PRECIOS PARA VALORACION ESTRESADA
+  data_val_estres <- reactive({
+    # input$file1 will be NULL initially. After the user selects
+    # and uploads a file, it will be a data frame with 'name',
+    # 'size', 'type', and 'datapath' columns. The 'datapath'
+    # column will contain the local filenames where the data can
+    # be found.
+    
+    inFile <- input$file_data_val_estres
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    # read.table(inFile$datapath, header = input$header,
+    #            sep = input$sep, quote = input$quote)
+    a <- read.delim2(inFile$datapath, header = input$header_val_estres,
+                     sep = input$sep_val_estres, quote = input$quote_val_estres)
+    
+    return(a)
+    
+  })
+  
+  
+  output$datatable_val_estres<-renderDataTable({
+    if(is.null(data_val_estres())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    datatable(data_val_estres())
+  })
+  
+  #advertencia
+  output$datatable_val_estres_ad <- renderPrint({
+    if(is.null(data_val()) | is.null(data_val_estres()) ){return()}
+    #cargo historico
+    a <- data_val_estres()
+    #data val
+    b <- data_val()
+    
+    d <- names(a)[-1]==as.character(b[,1])
+    
+    if(sum(d)==nrow(b)){
+      print("Coincidencia en instrumentos")
+    }else{
+      print("No existe coincidencia en instrumentos")
+    }
+    
+    
+  })
   
   #resultados valoracion
   output$result_val <- renderDataTable({
@@ -8898,7 +8945,7 @@ shinyServer(function(input, output) {
   
   #resultados valoracion estresada
   output$result_val_estres <- renderDataTable({
-    if(is.null(data_val())){return()}
+    if(is.null(data_val()) | is.null(data_val_estres()) ){return()}
     a <- data_val()
     a[,2] <- as.numeric(as.character(a[,2]))
     #a[,5] <- as.numeric(as.character(a[,5]))
@@ -8906,7 +8953,8 @@ shinyServer(function(input, output) {
     a[,4] <- as.numeric(as.character(a[,4]))
     
     #calculo desviacion estandar de historico de tit
-    data <- read.delim2(paste(getwd(),"data","tif.txt",sep = "/"))
+    #data <- read.delim2(paste(getwd(),"data","tif.txt",sep = "/"))
+    data <- data_val_estres()
     a$sd <-rep(0,nrow(a))
     
     for(i in 1:nrow(a)){
@@ -8923,7 +8971,7 @@ shinyServer(function(input, output) {
   
   #resultados prueba estres portafolio
   output$result_val_estres_port <- renderDataTable({
-    if(is.null(data_val())){return()}
+    if(is.null(data_val()) | is.null(data_val_estres()) ){return()}
     a <- data_val()
     a[,2] <- as.numeric(as.character(a[,2]))
     #a[,5] <- as.numeric(as.character(a[,5]))
@@ -8931,7 +8979,8 @@ shinyServer(function(input, output) {
     a[,4] <- as.numeric(as.character(a[,4]))
     
     #calculo desviacion estandar de historico de tit
-    data <- read.delim2(paste(getwd(),"data","tif.txt",sep = "/"))
+    #data <- read.delim2(paste(getwd(),"data","tif.txt",sep = "/"))
+    data <- data_val_estres()
     a$sd <-rep(0,nrow(a))
     
     for(i in 1:nrow(a)){
@@ -8946,7 +8995,36 @@ shinyServer(function(input, output) {
     a
     
     #a partir de aqui hacer resumen
+    #determino cuantos tipos de instrumentos hay
+    a$tit <- substr(a[,1],1,3)
+    a$tit <- as.factor(a$tit)
     
+    cant <- length(levels(a$tit))
+    le <- as.character(levels(a$tit))
+    
+    b <- as.data.frame(matrix(0,nrow = cant,ncol = 4))
+    names(b) <- c("Valor Nominal","Promedio Precio Mercado","UTD/PER","UTD/PER-ESTRÉS")
+    #extraigo tipos de titulos
+    #supongo que solo hay un solo tipo de instrumento
+    #d <- substr(as.character(a[1,1]),1,3)
+    row.names(b) <- as.character(levels(a$tit))
+    
+    #length(levels(data_valoracion_1$tit))
+    for(i in 1:cant){
+      #suma valor nominal
+      b[i,1] <- sum(a[which(le[i]==a$tit),2])
+      #precio promedio ponderado
+      b[i,2] <- sum((a[which(le[i]==a$tit),2])*(a[which(le[i]==a$tit),4]))/sum(a[which(le[i]==a$tit),2])
+      #utilidad o perdida
+      b[i,3] <- sum(a$ut_per1[which(le[i]==a$tit)])
+      #utilidad o perdida estres
+      b[i,4] <- sum(a$ut_per2[which(le[i]==a$tit)])
+
+    }
+    #
+    b1 <- rbind.data.frame(b,c(sum(b[,1]),(sum(b[,1]*b[,2])/sum(b[,1])),sum(b[,3]),sum(b[,4])))
+    row.names(b1)[nrow(b1)] <- "TOTALES" 
+    b1
   })
   
   

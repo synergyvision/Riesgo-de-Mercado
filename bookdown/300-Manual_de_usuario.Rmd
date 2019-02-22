@@ -503,7 +503,44 @@ En esta sección se realizan todos los cálculos referentes al VaR, el mismo se 
  
 ###Gráficos
 
+En esta sección se subdivide en:
+
+ * Pestaña Valor nominal: en esta subsección se muestra un gráfico de torta donde se muestra el valor nominal de cada instrumento.
+ 
+ * VaRes: esta subsección presenta los resultados de los VaRes obtenidos mediante las diferentes metodologías, la misma se divide en:
+    * VaR Paramétrico:
+        + VaRes individuales:
+        + Comparativo:
+    * VaR Simulación Histórica:
+        + Escenarios:
+        + VaRes individuales:
+        + Comparativo:
+    * VaR Simulación MonteCarlo:
+        + Distribución Normal:
+            * Escenarios:
+            * VaRes individuales:
+            * Comparativo:
+        + Distribución Elegida:
+        * Escenarios:
+            * VaRes individuales:
+            * Comparativo:
+ 
+ * Comparativo Vares: en esta subsección se muestra un gráfico comparativo del VaR de portafolio obtenido para cada metodología.
+
+
 ###Históricos
+
+Esta sección permite calcular el VaR para una rango de fechas en específico, siempre y cuando las mismas se encuentren disponibles en la data histórica considerada. La misma cuenta con las siguientes secciones:
+
+  * VaR Paramétrico:
+  
+  * VaR Histórico:
+  
+  * VaR SMC Normal:
+  
+  * VaR SMC Mejor Distribución:
+
+
 
 ##Backtesting
 
