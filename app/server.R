@@ -509,6 +509,84 @@ shinyServer(function(input, output) {
   
   output$pre1 <-renderPrint({tf()})
   output$pre1_ns <-renderPrint({tf_ns()})
+  
+  #advertencia
+  output$ad_pns_tif <- renderPrint({
+    if(length(tf_ns())==1 & tf_ns()==0){ return("No hay instrumentos seleccionados")}else{
+    
+    p <- tf_ns()
+    
+    if(length(which(p==0))!=0){
+      return("Existen precios promedios nulos")
+    }else{
+      return("Precios promedio diferentes de cero")
+    }
+    
+    }# final if inicial
+  })
+  
+  #funcion auxiliar
+  ad_ns_t1 <- reactive({
+    p <- tf_ns()
+    a <- which(p==0)
+    
+    if(length(a)!=0){
+    return(names(p)[a])
+    }else{
+      return(NULL)
+    }
+    
+    
+  })
+  
+  #instrumentos a seleccionar
+  #TIF
+  output$ad_ns_tif <- renderUI({ 
+    selectInput("ad_ns1", "Seleccionar títulos para modificar su precio promedio", ad_ns_t1(),multiple = TRUE)
+  })
+  
+  #ingreso nuevo precio promedio
+  output$Pp_ns1 <- renderPrint({input$pp_ns1})
+  
+  #variable nueva creada a partir de precios nulos
+  output$np_ns1 <- renderPrint({
+    if(is.null(ad_ns_t1())){ return("Seleccionar instrumento")}
+    #obtengo nombres de los instrumentos con precio 0
+    a <- ad_ns_t1()
+    
+    b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+    names(b) <- c("Títulos","Precio promedio")
+    b[,1] <-  a
+
+    #genero txt en carpeta data para luego tener archivo de donde leer
+    write.table(b,paste(getwd(),"data","pp_ns1.txt",sep = "/"),row.names = FALSE)
+    
+    #precio a modificar
+    #c <- which(input$ad_ns1==b[,1])
+    #b[c,2] <- input$pp_ns1
+
+    if(input$seleccion_pns1==1){
+      # #write.table(a,paste(getwd(),"data","distribuciones.txt",sep = "/"),row.names = FALSE)
+      # b <- read.csv(paste(getwd(),"data","distribuciones.txt",sep = "/"),sep="")
+      # c <- varp_dist(data = b ,ind =input$inst_varp ,dist =input$distsA_varp )
+      # #c
+      # 
+      # #actualizo
+      # write.table(c,paste(getwd(),"data","distribuciones.txt",sep = "/"),row.names = FALSE)
+      # c
+      return("Guardo resultados")
+    }else{
+      # write.table(a,paste(getwd(),"data","distribuciones.txt",sep = "/"),row.names = FALSE)
+      # a
+      return("No hago nada")
+    }
+    
+    
+    
+    b
+    
+  })
+  
   output$pre2 <-renderPrint({tv()})
   output$pre2_ns <-renderPrint({tv_ns()})
   
