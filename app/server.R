@@ -485,7 +485,15 @@ shinyServer(function(input, output) {
   
   
   #tf_ns <- reactive({pos1(c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),0)})
-  tf_ns <- reactive({pos1(ns1(),0)})
+  tf_ns <- reactive({
+    # a <- pos1(ns1(),0)
+    # if(length(which(a==0))==0){
+    #   return(a)
+    # }else{
+    #   return("existen precios nulos")
+    # }
+    pos1(ns1(),0)
+    })
   
   
   #tf_dl <- reactive({pos(c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),0)})
@@ -557,33 +565,105 @@ shinyServer(function(input, output) {
     b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
     names(b) <- c("Títulos","Precio promedio")
     b[,1] <-  a
-
-    #genero txt en carpeta data para luego tener archivo de donde leer
+    
+    
+    c <- as.numeric(unlist(strsplit(input$vec1,",")))
+    if(length(c)>nrow(b)){
+      return("Existen más precios de lo necesario, revisar precios ingresados")
+    }else{
+    
+    b[,2] <- c
+    
     write.table(b,paste(getwd(),"data","pp_ns1.txt",sep = "/"),row.names = FALSE)
     
-    #precio a modificar
-    #c <- which(input$ad_ns1==b[,1])
-    #b[c,2] <- input$pp_ns1
+    b
+    }
 
-    if(input$seleccion_pns1==1){
-      # #write.table(a,paste(getwd(),"data","distribuciones.txt",sep = "/"),row.names = FALSE)
-      # b <- read.csv(paste(getwd(),"data","distribuciones.txt",sep = "/"),sep="")
-      # c <- varp_dist(data = b ,ind =input$inst_varp ,dist =input$distsA_varp )
-      # #c
-      # 
-      # #actualizo
-      # write.table(c,paste(getwd(),"data","distribuciones.txt",sep = "/"),row.names = FALSE)
-      # c
-      return("Guardo resultados")
+    
+    
+    
+  })
+  
+  #Salida
+  output$salida <-renderPrint({
+    x <- as.numeric(unlist(strsplit(input$vec1,",")))
+   print(x)
+  })
+  
+  #variable auxiliar
+  dat <- reactive({
+    if(is.null(ad_ns_t1())){ return("Seleccionar instrumento")}
+    #obtengo nombres de los instrumentos con precio 0
+    a <- ad_ns_t1()
+    
+    b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+    names(b) <- c("Títulos","Precio promedio")
+    b[,1] <-  a
+    
+    
+    c <- as.numeric(unlist(strsplit(input$vec1,",")))
+    if(length(c)>nrow(b)){
+      return("Existen más precios de lo necesario, revisar precios ingresados")
     }else{
-      # write.table(a,paste(getwd(),"data","distribuciones.txt",sep = "/"),row.names = FALSE)
-      # a
-      return("No hago nada")
+      
+      b[,2] <- c
+    }
+      b
+  })
+  
+  #sal
+  output$sal <-renderPrint({
+    # a <- tf_ns()
+    # b <-dat()
+    # #return(b)
+    # #nombres de variables con precios nulos
+    # if(is.null(ad_ns_t1())){ return("Seleccionar instrumento")}
+    # 
+    # n <- ad_ns_t1()
+    # 
+    # ind <- c()
+    # for(i in 1:length(n)){
+    #   ind[i] <- which(n[i]==names(a))
+    # }
+    # 
+    # #asigno nuevos precios
+    # # for(i in 1:length(ind)){
+    # # a[ind[i]] <- b[i,2]
+    # # }
+    # a[ind] <- b[,2]
+    # a
+    tf_ns1()
+    
+  })
+  
+  #variable que utilizare para buscar precios promedio
+  tf_ns1 <- reactive({
+    a <- tf_ns()
+    
+    if(length(which(a==0))!=0){
+      return(a)
+    }else{
+      #a <- tf_ns()
+      b <-dat()
+      #return(b)
+      #nombres de variables con precios nulos
+      if(is.null(ad_ns_t1())){ return("Seleccionar instrumento")}
+      
+      n <- ad_ns_t1()
+      
+      ind <- c()
+      for(i in 1:length(n)){
+        ind[i] <- which(n[i]==names(a))
+      }
+      
+      #asigno nuevos precios
+      # for(i in 1:length(ind)){
+      # a[ind[i]] <- b[i,2]
+      # }
+      a[ind] <- b[,2]
+      return(a)
     }
     
-    
-    
-    b
     
   })
   

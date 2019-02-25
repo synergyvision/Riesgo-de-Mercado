@@ -213,16 +213,20 @@ shinyUI(
                                               #           verbatimTextOutput("q1_ns11"),
                                               h2(" Precios Promedios"),verbatimTextOutput("pre1_ns"),
                                                  h5("Advertencia"),verbatimTextOutput("ad_pns_tif"),
-                                                  htmlOutput("ad_ns_tif"),
-                                             numericInput( inputId = "pp_ns1", label="Ingresar precio promedio ", min = 0, max = 150,step = 0.1, value = 100, width = "40%"),
-                                             verbatimTextOutput("Pp_ns1"),
-                                             radioButtons( inputId = "seleccion_pns1",label = "Desea guardar elección:", 
-                                                           choices = c("Si"=1, "No"=0),selected=0), #finalradiobuttons  
-                                             # box( width=12, style="overflow-x:scroll",status = "success",
+                                                  #htmlOutput("ad_ns_tif"),
+                                             textInput('vec1', 'Ingrese un precio o vector de precios (separados por coma)'),
+                                             verbatimTextOutput("salida"),
+                                             
+                                             # numericInput( inputId = "pp_ns1", label="Ingresar precio promedio ", min = 0, max = 150,step = 0.1, value = 100, width = "40%"),
+                                             # verbatimTextOutput("Pp_ns1"),
+                                             # radioButtons( inputId = "seleccion_pns1",label = "Desea guardar elección:", 
+                                             #               choices = c("Si"=1, "No"=0),selected=0), #finalradiobuttons  
+                                             # # box( width=12, style="overflow-x:scroll",status = "success",
                                              #      tableOutput("dist_varp")
                                              # ),
                                              h5("Nuevos precios"),
                                              verbatimTextOutput("np_ns1"),
+                                             h5("Nuevos precios promedio"), verbatimTextOutput("sal"),
                                               #withMathJax(),
                                               #helpText('\\(\\beta_{0}\\) \\(\\beta_{1}\\) \\(\\beta_{2}\\) \\(\\tau_{1}\\) '),
                                               #uiOutput('ex1')
