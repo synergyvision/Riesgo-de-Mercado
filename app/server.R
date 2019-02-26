@@ -492,6 +492,7 @@ shinyServer(function(input, output) {
     # }else{
     #   return("existen precios nulos")
     # }
+    
     pos1(ns1(),0)
     })
   
@@ -520,17 +521,18 @@ shinyServer(function(input, output) {
   
   #advertencia
   output$ad_pns_tif <- renderPrint({
-    if(length(tf_ns())==1 & tf_ns()==0){ return("No hay instrumentos seleccionados")}else{
-    
+    if(length(tf_ns())==1 & sum(tf_ns()==0)>=1){ return("No hay instrumentos seleccionados")}else{
+
     p <- tf_ns()
-    
+
     if(length(which(p==0))!=0){
       return("Existen precios promedios nulos")
     }else{
       return("Precios promedio diferentes de cero")
     }
-    
+
     }# final if inicial
+
   })
   
   #funcion auxiliar
@@ -574,7 +576,7 @@ shinyServer(function(input, output) {
     
     b[,2] <- c
     
-    write.table(b,paste(getwd(),"data","pp_ns1.txt",sep = "/"),row.names = FALSE)
+    #write.table(b,paste(getwd(),"data","pp_ns1.txt",sep = "/"),row.names = FALSE)
     
     b
     }
@@ -632,15 +634,16 @@ shinyServer(function(input, output) {
     # # }
     # a[ind] <- b[,2]
     # a
-    tf_ns1()
     
+    #tf_ns1()
+    TF_NS()
   })
   
   #variable que utilizare para buscar precios promedio
   tf_ns1 <- reactive({
     a <- tf_ns()
     
-    if(length(which(a==0))!=0){
+    if(length(which(a==0))==0){
       return(a)
     }else{
       #a <- tf_ns()
@@ -661,6 +664,21 @@ shinyServer(function(input, output) {
       # a[ind[i]] <- b[i,2]
       # }
       a[ind] <- b[,2]
+      return(a)
+    }
+    
+    
+  })
+  
+  #NUEVA VARIABLE
+  TF_NS <- reactive({
+    a <- tf_ns()
+    
+    if(length(which(a==0))!=0){
+      #return("Existen precios prom nulos")
+      return(tf_ns1())
+    }else{
+      #return("precios bien")
       return(a)
     }
     
@@ -933,7 +951,9 @@ shinyServer(function(input, output) {
   output$p_est_tif_ns <- renderDataTable({
     #if(length(c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns))!=0){
     if(length(ns1())!=0){
-    Tabla.ns(fv = input$n2 ,tit = ns1(),pr =pos1(ns1(),0) ,pa = pa_ns,ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,fe2=0,fe3=0)[[1]] 
+    a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = pa_ns,ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,fe2=0,fe3=0)[[1]] )
+    if(class(a)!="try-error"){a}else{}
+    
     }else{}
     })
   #output$p_est_tif_ns_el <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif),ind = 0,C = C,fe2=0,fe3=0)[[1]] })
