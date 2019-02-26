@@ -213,20 +213,11 @@ shinyUI(
                                               #           verbatimTextOutput("q1_ns11"),
                                               h2(" Precios Promedios"),verbatimTextOutput("pre1_ns"),
                                                  h5("Advertencia"),verbatimTextOutput("ad_pns_tif"),
-                                                  #htmlOutput("ad_ns_tif"),
-                                             textInput('vec1', 'Ingrese un precio o vector de precios (separados por coma)'),
-                                             verbatimTextOutput("salida"),
-                                             
-                                             # numericInput( inputId = "pp_ns1", label="Ingresar precio promedio ", min = 0, max = 150,step = 0.1, value = 100, width = "40%"),
-                                             # verbatimTextOutput("Pp_ns1"),
-                                             # radioButtons( inputId = "seleccion_pns1",label = "Desea guardar elección:", 
-                                             #               choices = c("Si"=1, "No"=0),selected=0), #finalradiobuttons  
-                                             # # box( width=12, style="overflow-x:scroll",status = "success",
-                                             #      tableOutput("dist_varp")
-                                             # ),
+                                             textInput('vec1_ns', 'Ingrese un precio o vector de precios (separados por coma)'),
+                                             #verbatimTextOutput("salida"),
                                              h5("Nuevos precios"),
                                              verbatimTextOutput("np_ns1"),
-                                             h5("Nuevos precios promedio"), verbatimTextOutput("sal"),
+                                             h5("Nuevos precios promedio"), verbatimTextOutput("sal1_ns"),
                                               #withMathJax(),
                                               #helpText('\\(\\beta_{0}\\) \\(\\beta_{1}\\) \\(\\beta_{2}\\) \\(\\tau_{1}\\) '),
                                               #uiOutput('ex1')
@@ -360,7 +351,14 @@ shinyUI(
                                                     #     verbatimTextOutput("q2_ns"),
                                                     
                                                     h2(" Precios Promedios"),verbatimTextOutput("pre2_ns"),
-                                                       
+                                                    h5("Advertencia"),verbatimTextOutput("ad_pns_veb"),
+                                                    textInput('vec2_ns', 'Ingrese un precio o vector de precios (separados por coma)'),
+                                                    #verbatimTextOutput("salida"),
+                                                    h5("Nuevos precios"),
+                                                    verbatimTextOutput("np_ns2"),
+                                                    h5("Nuevos precios promedio"), verbatimTextOutput("sal2_ns"),
+                                                    
+                                                    
                                                         h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca1_ns")),
                                                     h2(" Parámetros"),
                                                     wellPanel(

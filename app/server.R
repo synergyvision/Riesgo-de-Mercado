@@ -519,7 +519,7 @@ shinyServer(function(input, output) {
   output$pre1 <-renderPrint({tf()})
   output$pre1_ns <-renderPrint({tf_ns()})
   
-  #advertencia
+  #advertencia TIF
   output$ad_pns_tif <- renderPrint({
     if(length(tf_ns())==1 & sum(tf_ns()==0)>=1){ return("No hay instrumentos seleccionados")}else{
 
@@ -535,7 +535,24 @@ shinyServer(function(input, output) {
 
   })
   
+  #ad - VEB
+  output$ad_pns_veb <- renderPrint({
+    if(length(tv_ns())==1 & sum(tv_ns()==0)>=1){ return("No hay instrumentos seleccionados")}else{
+      
+      p <- tv_ns()
+      
+      if(length(which(p==0))!=0){
+        return("Existen precios promedios nulos")
+      }else{
+        return("Precios promedio diferentes de cero")
+      }
+      
+    }# final if inicial
+    
+  })
+  
   #funcion auxiliar
+  #tif
   ad_ns_t1 <- reactive({
     p <- tf_ns()
     a <- which(p==0)
@@ -546,9 +563,20 @@ shinyServer(function(input, output) {
       return(NULL)
     }
     
-    
   })
   
+  #veb
+  ad_ns_t2 <- reactive({
+    p <- tv_ns()
+    a <- which(p==0)
+    
+    if(length(a)!=0){
+      return(names(p)[a])
+    }else{
+      return(NULL)
+    }
+    
+  })
   #instrumentos a seleccionar
   #TIF
   output$ad_ns_tif <- renderUI({ 
@@ -559,6 +587,7 @@ shinyServer(function(input, output) {
   output$Pp_ns1 <- renderPrint({input$pp_ns1})
   
   #variable nueva creada a partir de precios nulos
+  #tif
   output$np_ns1 <- renderPrint({
     if(is.null(ad_ns_t1())){ return("Seleccionar instrumento")}
     #obtengo nombres de los instrumentos con precio 0
@@ -569,7 +598,7 @@ shinyServer(function(input, output) {
     b[,1] <-  a
     
     
-    c <- as.numeric(unlist(strsplit(input$vec1,",")))
+    c <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
     if(length(c)>nrow(b)){
       return("Existen más precios de lo necesario, revisar precios ingresados")
     }else{
@@ -581,18 +610,42 @@ shinyServer(function(input, output) {
     b
     }
 
+  })
+  
+  #variable nueva creada a partir de precios nulos
+  #VEB
+  output$np_ns2 <- renderPrint({
+    if(is.null(ad_ns_t2())){ return("Seleccionar instrumento")}
+    #obtengo nombres de los instrumentos con precio 0
+    a <- ad_ns_t2()
+    
+    b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+    names(b) <- c("Títulos","Precio promedio")
+    b[,1] <-  a
     
     
+    c <- as.numeric(unlist(strsplit(input$vec2_ns,",")))
+    if(length(c)>nrow(b)){
+      return("Existen más precios de lo necesario, revisar precios ingresados")
+    }else{
+      
+      b[,2] <- c
+      
+      #write.table(b,paste(getwd(),"data","pp_ns1.txt",sep = "/"),row.names = FALSE)
+      
+      b
+    }
     
   })
   
   #Salida
   output$salida <-renderPrint({
-    x <- as.numeric(unlist(strsplit(input$vec1,",")))
+    x <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
    print(x)
   })
   
   #variable auxiliar
+  #tif
   dat <- reactive({
     if(is.null(ad_ns_t1())){ return("Seleccionar instrumento")}
     #obtengo nombres de los instrumentos con precio 0
@@ -603,7 +656,7 @@ shinyServer(function(input, output) {
     b[,1] <-  a
     
     
-    c <- as.numeric(unlist(strsplit(input$vec1,",")))
+    c <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
     if(length(c)>nrow(b)){
       return("Existen más precios de lo necesario, revisar precios ingresados")
     }else{
@@ -613,33 +666,41 @@ shinyServer(function(input, output) {
       b
   })
   
-  #sal
-  output$sal <-renderPrint({
-    # a <- tf_ns()
-    # b <-dat()
-    # #return(b)
-    # #nombres de variables con precios nulos
-    # if(is.null(ad_ns_t1())){ return("Seleccionar instrumento")}
-    # 
-    # n <- ad_ns_t1()
-    # 
-    # ind <- c()
-    # for(i in 1:length(n)){
-    #   ind[i] <- which(n[i]==names(a))
-    # }
-    # 
-    # #asigno nuevos precios
-    # # for(i in 1:length(ind)){
-    # # a[ind[i]] <- b[i,2]
-    # # }
-    # a[ind] <- b[,2]
-    # a
+  #veb
+  dat1 <- reactive({
+    if(is.null(ad_ns_t2())){ return("Seleccionar instrumento")}
+    #obtengo nombres de los instrumentos con precio 0
+    a <- ad_ns_t2()
     
-    #tf_ns1()
+    b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+    names(b) <- c("Títulos","Precio promedio")
+    b[,1] <-  a
+    
+    
+    c <- as.numeric(unlist(strsplit(input$vec2_ns,",")))
+    if(length(c)>nrow(b)){
+      return("Existen más precios de lo necesario, revisar precios ingresados")
+    }else{
+      
+      b[,2] <- c
+    }
+    b
+  })
+  
+  
+  #sal
+  #tif
+  output$sal1_ns <-renderPrint({
     TF_NS()
   })
   
+  #veb
+  output$sal2_ns <-renderPrint({
+    TV_NS()
+  })
+  
   #variable que utilizare para buscar precios promedio
+  #tif
   tf_ns1 <- reactive({
     a <- tf_ns()
     
@@ -670,13 +731,60 @@ shinyServer(function(input, output) {
     
   })
   
+  #tif
+  tv_ns1 <- reactive({
+    a <- tv_ns()
+    
+    if(length(which(a==0))==0){
+      return(a)
+    }else{
+      #a <- tf_ns()
+      b <-dat1()
+      #return(b)
+      #nombres de variables con precios nulos
+      if(is.null(ad_ns_t2())){ return("Seleccionar instrumento")}
+      
+      n <- ad_ns_t2()
+      
+      ind <- c()
+      for(i in 1:length(n)){
+        ind[i] <- which(n[i]==names(a))
+      }
+      
+      #asigno nuevos precios
+      # for(i in 1:length(ind)){
+      # a[ind[i]] <- b[i,2]
+      # }
+      a[ind] <- b[,2]
+      return(a)
+    }
+    
+    
+  })
+  
   #NUEVA VARIABLE
+  #TIF
   TF_NS <- reactive({
     a <- tf_ns()
     
     if(length(which(a==0))!=0){
       #return("Existen precios prom nulos")
       return(tf_ns1())
+    }else{
+      #return("precios bien")
+      return(a)
+    }
+    
+    
+  })
+  
+  #VEB
+  TV_NS <- reactive({
+    a <- tv_ns()
+    
+    if(length(which(a==0))!=0){
+      #return("Existen precios prom nulos")
+      return(tv_ns1())
     }else{
       #return("precios bien")
       return(a)
@@ -959,7 +1067,8 @@ shinyServer(function(input, output) {
   #output$p_est_tif_ns_el <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif),ind = 0,C = C,fe2=0,fe3=0)[[1]] })
   output$p_est_tif_ns_el <- renderDataTable({
     if(length(ns1())!=0){
-    Tabla.ns(fv = input$n2 ,tit = ns1(),pr =tf_ns() ,pa = c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] 
+    a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
+    if(class(a)!="try-error"){return(a)}else{}
     }else{}
       })
   
@@ -981,12 +1090,14 @@ shinyServer(function(input, output) {
   
   output$p_est_veb_ns <- renderDataTable({
     if(length(ns2())!=0){
-    Tabla.ns(fv = input$n2 ,tit = ns2(),pr =tv_ns() ,pa = pa1_ns,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] 
+    a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa = pa1_ns,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
+    if(class(a)!="try-error"){return(a)}else{}
     }else{}
     })
   output$p_est_veb_ns_el <- renderDataTable({
     if(length(ns2())!=0){
-    Tabla.ns(fv = input$n2 ,tit = ns2(),pr =tv_ns() ,pa =c(input$ns_b0_veb,input$ns_b1_veb,input$ns_b2_veb,input$ns_t_veb) ,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] 
+    a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa =c(input$ns_b0_veb,input$ns_b1_veb,input$ns_b2_veb,input$ns_t_veb) ,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
+    if(class(a)!="try-error"){return(a)}else{}
     }else{}
       })
   
@@ -1020,7 +1131,8 @@ shinyServer(function(input, output) {
     withProgress(message = 'Calculando precios teóricos...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
     #Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[1]] 
-    Tabla.ns(fv = input$n2 ,tit = ns1(),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,fe2=input$opt_tif_ns,fe3=0)[[1]] 
+    a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,fe2=input$opt_tif_ns,fe3=0)[[1]] )
+    if(class(a)!="try-error"){return(a)}else{}
     
     })
     }else{
@@ -1088,7 +1200,8 @@ shinyServer(function(input, output) {
     if(input$opt_veb_ns==1){
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
-    Tabla.ns(fv = input$n2 ,tit = ns2(),pr =tv_ns() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns,fe3=0)[[1]] 
+    a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns,fe3=0)[[1]] )
+    if(class(a)!="try-error"){return(a)}else{}
     })
     }else{
       Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
@@ -1907,9 +2020,15 @@ shinyServer(function(input, output) {
   
   #caso Nelson y Siegel
   #gra_tif_ns <- reactive({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[2]] })
-  gra_tif_ns <- reactive({Tabla.ns(fv = input$n2 ,tit = ns1(),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_ns,fe3=0)[[2]] })
+  gra_tif_ns <- reactive({
+    a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_ns,fe3=0)[[2]])
+    if(class(a)!="try-error"){return(a)}else{}
+    })
   
-  gra_veb_ns <- reactive({Tabla.ns(fv = input$n2 ,tit = ns2(),pr =tv_ns() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns,fe3=0)[[2]] })
+  gra_veb_ns <- reactive({
+    a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns,fe3=0)[[2]])
+    if(class(a)!="try-error"){return(a)}else{}
+    })
   
 
   output$par_tif_ns_op<-renderPrint({if(input$opt_tif_ns==1){gra_tif_ns()
