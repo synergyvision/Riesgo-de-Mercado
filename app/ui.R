@@ -493,6 +493,13 @@ shinyUI(
                                                 # verbatimTextOutput("q1"),
                                                 
                                                 h2(" Precios Promedios"),verbatimTextOutput("pre1"),
+                                                h5("Advertencia"),verbatimTextOutput("ad_psv_tif"),
+                                                textInput('vec1_sv', 'Ingrese un precio o vector de precios (separados por coma)'),
+                                                #verbatimTextOutput("salida"),
+                                                h5("Nuevos precios"),
+                                                verbatimTextOutput("np_sv1"),
+                                                h5("Nuevos precios promedio"), verbatimTextOutput("sal1_sv"),
+                                                
                                                 
                                                 h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca")),
                                                 h2(" Parámetros"),
@@ -615,6 +622,13 @@ shinyUI(
                                                 # )#final column
                                                 # ),#final fluidrow 
                                                 verbatimTextOutput("q2"), h2(" Precios Promedios"),verbatimTextOutput("pre2"),
+                                                h5("Advertencia"),verbatimTextOutput("ad_psv_veb"),
+                                                textInput('vec2_sv', 'Ingrese un precio o vector de precios (separados por coma)'),
+                                                #verbatimTextOutput("salida"),
+                                                h5("Nuevos precios"),
+                                                verbatimTextOutput("np_sv2"),
+                                                h5("Nuevos precios promedio"), verbatimTextOutput("sal2_sv"),
+                                                
                                                  
                                                 h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca1")),
                                                 h2(" Parámetros"),
@@ -1193,6 +1207,14 @@ shinyUI(
                                         tabsetPanel(type="tabs", 
                                             tabPanel("Nelson y siegel",
                                                       h2(" Precios Promedios"),verbatimTextOutput("pre_comp_tif_ns"),
+                                                     
+                                                     h5("Advertencia"),verbatimTextOutput("ad_pnsc_tif"),
+                                                     textInput('vec1_nsc', 'Ingrese un precio o vector de precios (separados por coma)'),
+                                                     #verbatimTextOutput("salida"),
+                                                     h5("Nuevos precios"),
+                                                     verbatimTextOutput("np_nsc1"),
+                                                     h5("Nuevos precios promedio"), verbatimTextOutput("sal1_nsc"),
+                                                     
                                                         #tabBox( width = 12, title = "Parámetros", id = "tab1_ns_tif_comp", height = "50px", 
                                                          tabsetPanel(type="pills",       
                                                                 tabPanel(" Elegir parámetros ",
