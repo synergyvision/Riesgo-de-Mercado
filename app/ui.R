@@ -1260,6 +1260,14 @@ shinyUI(
                                              
                                              tabPanel("Svensson",
                                                       h2(" Precios Promedios"),verbatimTextOutput("pre_comp_tif_sven"),
+                                                      h5("Advertencia"),verbatimTextOutput("ad_psvc_tif"),
+                                                      textInput('vec1_svc', 'Ingrese un precio o vector de precios (separados por coma)'),
+                                                      #verbatimTextOutput("salida"),
+                                                      h5("Nuevos precios"),
+                                                      verbatimTextOutput("np_svc1"),
+                                                      h5("Nuevos precios promedio"), verbatimTextOutput("sal1_svc"),
+                                                      
+                                                      
                                                         #tabBox( width = 12, title = "Parámetros", id = "tab1_sven_tif_comp", height = "50px", 
                                                       tabsetPanel(type="pills",   
                                                              
@@ -1433,6 +1441,12 @@ shinyUI(
                         tabsetPanel(type="tabs", 
                             tabPanel("Nelson y siegel",
                                       h2(" Precios Promedios"),verbatimTextOutput("pre_comp_veb_ns"),
+                                     h5("Advertencia"),verbatimTextOutput("ad_pnsc_veb"),
+                                     textInput('vec2_nsc', 'Ingrese un precio o vector de precios (separados por coma)'),
+                                     #verbatimTextOutput("salida"),
+                                     h5("Nuevos precios"),
+                                     verbatimTextOutput("np_nsc2"),
+                                     h5("Nuevos precios promedio"), verbatimTextOutput("sal2_nsc"),
                                         #tabBox( width = 12, title = "Parámetros", id = "tab1_ns_veb_comp", height = "50px", 
                                      tabsetPanel(type="pills",   
                                             
@@ -1479,6 +1493,14 @@ shinyUI(
                              ),#final tabpanel veb
                              tabPanel("Svensson",
                                       h2(" Precios Promedios"),verbatimTextOutput("pre_comp_veb_sven"),
+                                      h5("Advertencia"),verbatimTextOutput("ad_psvc_veb"),
+                                      textInput('vec2_svc', 'Ingrese un precio o vector de precios (separados por coma)'),
+                                      #verbatimTextOutput("salida"),
+                                      h5("Nuevos precios"),
+                                      verbatimTextOutput("np_svc2"),
+                                      h5("Nuevos precios promedio"), verbatimTextOutput("sal2_svc"),
+                                      
+                                      
                                         #tabBox( width = 12, title = "Parámetros", id = "tab1_sven_veb_comp", height = "50px", 
                                       tabsetPanel(type="pills",   
                                              

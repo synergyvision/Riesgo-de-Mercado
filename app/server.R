@@ -1169,6 +1169,369 @@ shinyServer(function(input, output) {
     b
   })
   
+  #VEBONOS
+  #VEBONOS
+  #VEBONOS
+  #ad - VEB
+  output$ad_pnsc_veb <- renderPrint({
+    if(length(tv_comp())==1 & sum(tv_comp()==0)>=1){ return("No hay instrumentos seleccionados")}else{
+      
+      p <- tv_comp()
+      
+      if(length(which(p==0))!=0){
+        return("Existen precios promedios nulos")
+      }else{
+        return("Precios promedio diferentes de cero")
+      }
+      
+    }# final if inicial
+    
+  })
+  
+  #VEB
+  output$np_nsc2 <- renderPrint({
+    if(is.null(ad_nsc_t2())){ return("No hay precios promedios nulos")}
+    #obtengo nombres de los instrumentos con precio 0
+    a <- ad_nsc_t2()
+    
+    b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+    names(b) <- c("Títulos","Precio promedio")
+    b[,1] <-  a
+    
+    
+    c <- as.numeric(unlist(strsplit(input$vec2_nsc,",")))
+    if(length(c)>nrow(b)){
+      return("Existen más precios de lo necesario, revisar precios ingresados")
+    }else{
+      
+      b[,2] <- c
+      
+      b
+    }
+    
+  })
+  
+  #veb
+  ad_nsc_t2 <- reactive({
+    p <- tv_comp()
+    a <- which(p==0)
+    
+    if(length(a)!=0){
+      return(names(p)[a])
+    }else{
+      return(NULL)
+    }
+    
+  })
+  
+  #
+  output$sal2_nsc <-renderPrint({
+    TV_NSC()
+  })
+  
+  #VEB
+  TV_NSC <- reactive({
+    a <- tv_comp()
+    
+    if(length(which(a==0))!=0){
+      #return("Existen precios prom nulos")
+      return(tv_nsc1())
+    }else{
+      #return("precios bien")
+      return(a)
+    }
+    
+    
+  })
+ 
+  #veb
+  tv_nsc1 <- reactive({
+    a <- tv_comp()
+    
+    if(length(which(a==0))==0){
+      return(a)
+    }else{
+      #a <- tf_ns()
+      b <-dat_nsc2()
+      #return(b)
+      #nombres de variables con precios nulos
+      if(is.null(ad_nsc_t2())){ return("Seleccionar instrumento")}
+      
+      n <- ad_nsc_t2()
+      
+      ind <- c()
+      for(i in 1:length(n)){
+        ind[i] <- which(n[i]==names(a))
+      }
+    
+      a[ind] <- b[,2]
+      return(a)
+    }
+    
+    
+  })
+  
+  
+  #veb
+  dat_nsc2 <- reactive({
+    if(is.null(ad_nsc_t2())){ return("Seleccionar instrumento")}
+    #obtengo nombres de los instrumentos con precio 0
+    a <- ad_nsc_t2()
+    
+    b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+    names(b) <- c("Títulos","Precio promedio")
+    b[,1] <-  a
+    
+    
+    c <- as.numeric(unlist(strsplit(input$vec2_nsc,",")))
+    if(length(c)>nrow(b)){
+      return("Existen más precios de lo necesario, revisar precios ingresados")
+    }else{
+      
+      b[,2] <- c
+    }
+    b
+  })
+  
+  #SVENSSON SVENSSON 
+  #SVENSSON SVENSSON 
+  #SVENSSON SVENSSON 
+  #advertencia TIF
+  output$ad_psvc_tif <- renderPrint({
+    if(length(tf_comp())==1 & sum(tf_comp()==0)>=1){ return("No hay instrumentos seleccionados")}else{
+      
+      p <- tf_comp()
+      
+      if(length(which(p==0))!=0){
+        return("Existen precios promedios nulos")
+      }else{
+        return("Precios promedio diferentes de cero")
+      }
+      
+    }# final if inicial
+    
+  })
+  
+  #tif
+  output$np_svc1 <- renderPrint({
+    if(is.null(ad_svc_t1())){ return("No hay precios promedios nulos")}
+    #obtengo nombres de los instrumentos con precio 0
+    a <- ad_svc_t1()
+    
+    b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+    names(b) <- c("Títulos","Precio promedio")
+    b[,1] <-  a
+    
+    
+    c <- as.numeric(unlist(strsplit(input$vec1_svc,",")))
+    if(length(c)>nrow(b)){
+      return("Existen más precios de lo necesario, revisar precios ingresados")
+    }else{
+      
+      b[,2] <- c
+      
+      b
+    }
+    
+  })
+  
+  #tif
+  ad_svc_t1 <- reactive({
+    p <- tf_comp()
+    a <- which(p==0)
+    
+    if(length(a)!=0){
+      return(names(p)[a])
+    }else{
+      return(NULL)
+    }
+    
+  })
+  
+  #tif
+  output$sal1_svc <-renderPrint({
+    TF_SV()
+  })
+  
+  #TIF
+  TF_SV <- reactive({
+    a <- tf_comp()
+    
+    if(length(which(a==0))!=0){
+      #return("Existen precios prom nulos")
+      return(tf_c1())
+    }else{
+      #return("precios bien")
+      return(a)
+    }
+    
+  })
+  
+  #tif
+  tf_c1 <- reactive({
+    a <- tf_comp()
+    
+    if(length(which(a==0))==0){
+      return(a)
+    }else{
+      b <-dat1_svc()
+      #nombres de variables con precios nulos
+      if(is.null(ad_svc_t1())){ return("Seleccionar instrumento")}
+      
+      n <- ad_svc_t1()
+      
+      ind <- c()
+      for(i in 1:length(n)){
+        ind[i] <- which(n[i]==names(a))
+      }
+      
+      a[ind] <- b[,2]
+      return(a)
+    }
+    
+    
+  })
+  
+  #tif
+  dat1_svc <- reactive({
+    if(is.null(ad_svc_t1())){ return("Seleccionar instrumento")}
+    #obtengo nombres de los instrumentos con precio 0
+    a <- ad_svc_t1()
+    
+    b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+    names(b) <- c("Títulos","Precio promedio")
+    b[,1] <-  a
+    
+    
+    c <- as.numeric(unlist(strsplit(input$vec1_svc,",")))
+    if(length(c)>nrow(b)){
+      return("Existen más precios de lo necesario, revisar precios ingresados")
+    }else{
+      
+      b[,2] <- c
+    }
+    b
+  })
+  
+  #ad - VEB
+  output$ad_psvc_veb <- renderPrint({
+    if(length(tv_comp())==1 & sum(tv_comp()==0)>=1){ return("No hay instrumentos seleccionados")}else{
+      
+      p <- tv_comp()
+      
+      if(length(which(p==0))!=0){
+        return("Existen precios promedios nulos")
+      }else{
+        return("Precios promedio diferentes de cero")
+      }
+      
+    }# final if inicial
+    
+  })
+  
+  #VEB
+  output$np_svc2 <- renderPrint({
+    if(is.null(ad_svc_t2())){ return("No hay precios promedios nulos")}
+    #obtengo nombres de los instrumentos con precio 0
+    a <- ad_svc_t2()
+    
+    b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+    names(b) <- c("Títulos","Precio promedio")
+    b[,1] <-  a
+    
+    
+    c <- as.numeric(unlist(strsplit(input$vec2_svc,",")))
+    if(length(c)>nrow(b)){
+      return("Existen más precios de lo necesario, revisar precios ingresados")
+    }else{
+      
+      b[,2] <- c
+      b
+    }
+    
+  })
+  
+  #veb
+  ad_svc_t2 <- reactive({
+    p <- tv_comp()
+    a <- which(p==0)
+    
+    if(length(a)!=0){
+      return(names(p)[a])
+    }else{
+      return(NULL)
+    }
+    
+  })
+  
+  #veb
+  output$sal2_svc <-renderPrint({
+    TV_SV()
+  })
+  
+  #VEB
+  TV_SV <- reactive({
+    a <- tv_comp()
+    
+    if(length(which(a==0))!=0){
+      #return("Existen precios prom nulos")
+      return(tv_c1())
+    }else{
+      #return("precios bien")
+      return(a)
+    }
+    
+    
+  })
+  
+  #veb
+  tv_c1 <- reactive({
+    a <- tv_comp()
+    
+    if(length(which(a==0))==0){
+      return(a)
+    }else{
+      #a <- tf_ns()
+      b <-dat2_svc()
+      #return(b)
+      #nombres de variables con precios nulos
+      if(is.null(ad_svc_t2())){ return("Seleccionar instrumento")}
+      
+      n <- ad_svc_t2()
+      
+      ind <- c()
+      for(i in 1:length(n)){
+        ind[i] <- which(n[i]==names(a))
+      }
+      
+      a[ind] <- b[,2]
+      return(a)
+    }
+    
+    
+  })
+  
+  #veb
+  dat2_svc <- reactive({
+    if(is.null(ad_svc_t2())){ return("Seleccionar instrumento")}
+    #obtengo nombres de los instrumentos con precio 0
+    a <- ad_svc_t2()
+    
+    b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+    names(b) <- c("Títulos","Precio promedio")
+    b[,1] <-  a
+    
+    
+    c <- as.numeric(unlist(strsplit(input$vec2_svc,",")))
+    if(length(c)>nrow(b)){
+      return("Existen más precios de lo necesario, revisar precios ingresados")
+    }else{
+      
+      b[,2] <- c
+    }
+    b
+  })
+  
   
   ##
   output$pre2 <-renderPrint({tv()})
@@ -1485,7 +1848,7 @@ shinyServer(function(input, output) {
   
   #comparativo
   output$p_est_veb_ns_el_comp <- renderDataTable({
-    a <- try(Tabla.ns(fv = input$n5 ,tit = comp2(),pr =tv_comp() ,pa =c(input$ns_b0_veb_comp,input$ns_b1_veb_comp,input$ns_b2_veb_comp,input$ns_t_veb_comp) ,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
+    a <- try(Tabla.ns(fv = input$n5 ,tit = comp2(),pr =TV_NSC() ,pa =c(input$ns_b0_veb_comp,input$ns_b1_veb_comp,input$ns_b2_veb_comp,input$ns_t_veb_comp) ,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
     
     if(class(a)!="try-error"){
       a
@@ -1538,7 +1901,9 @@ shinyServer(function(input, output) {
     if(input$opt_tif_sven_comp==1){
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
-    Tabla.sven(fv = input$n5 ,tit = comp1(),pr =tf_comp() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven_comp,fe3=0)[[1]]
+    a <- try(Tabla.sven(fv = input$n5 ,tit = comp1(),pr =TF_SV() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven_comp,fe3=0)[[1]])
+    if(class(a)!="try-error"){return(a)}else{}
+    
     #incProgress(1/2, detail = "Fin")
      })
     }else{
@@ -1565,7 +1930,7 @@ shinyServer(function(input, output) {
  
     })
   output$p_est_tif_opt_sven_el_comp <- renderDataTable({
-    a <- try(Tabla.sven(fv = input$n5 ,tit = comp1(),pr =tf_comp() ,pa = c(input$sven_b0_tif_comp,input$sven_b1_tif_comp,input$sven_b2_tif_comp,input$sven_b3_tif_comp,input$sven_t1_tif_comp,input$sven_t2_tif_comp),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]]) 
+    a <- try(Tabla.sven(fv = input$n5 ,tit = comp1(),pr =TF_SV() ,pa = c(input$sven_b0_tif_comp,input$sven_b1_tif_comp,input$sven_b2_tif_comp,input$sven_b3_tif_comp,input$sven_t1_tif_comp,input$sven_t2_tif_comp),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]]) 
     if(class(a)!="try-error"){
       a
     }else{}
@@ -1612,7 +1977,9 @@ shinyServer(function(input, output) {
     if(input$opt_veb_sven_comp==1){
     withProgress(message = 'Calculando precios teóricos...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
-      Tabla.sven(fv = input$n5 ,tit = comp2(),pr =tv_comp() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven_comp,fe3=0)[[1]]
+      a <- try(Tabla.sven(fv = input$n5 ,tit = comp2(),pr =TV_SV() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven_comp,fe3=0)[[1]])
+      if(class(a)!="try-error"){return(a)}else{}
+      
     })
     }else{
       Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
@@ -1621,7 +1988,7 @@ shinyServer(function(input, output) {
     })
   
   output$p_est_veb_opt_sven_el_comp <- renderDataTable({
-    a <- try(Tabla.sven(fv = input$n5 ,tit = comp2(),pr =tv_comp() ,pa = c(input$sven_b0_veb_comp,input$sven_b1_veb_comp,input$sven_b2_veb_comp,input$sven_b3_veb_comp,input$sven_t1_veb_comp,input$sven_t2_veb_comp),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
+    a <- try(Tabla.sven(fv = input$n5 ,tit = comp2(),pr =TV_SV() ,pa = c(input$sven_b0_veb_comp,input$sven_b1_veb_comp,input$sven_b2_veb_comp,input$sven_b3_veb_comp,input$sven_t1_veb_comp,input$sven_t2_veb_comp),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
     if(class(a)!="try-error"){
       a
     }else{}
@@ -1632,7 +1999,8 @@ shinyServer(function(input, output) {
     if(input$opt_veb_ns_comp==1){
     withProgress(message = 'Calculando precios...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
-      Tabla.ns(fv = input$n5 ,tit = comp2(),pr =tv_comp() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns_comp,fe3=0)[[1]] 
+      a <- try(Tabla.ns(fv = input$n5 ,tit = comp2(),pr =TV_NSC() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns_comp,fe3=0)[[1]] )
+      if(class(a)!="try-error"){return(a)}else{}
       #incProgress(1/2, detail = "Fin")
       })
     }else{
@@ -2472,7 +2840,11 @@ shinyServer(function(input, output) {
   }else{}})
     
   #comparativo
-  gra_veb_ns_comp <- reactive({Tabla.ns(fv = input$n5 ,tit = comp2(),pr =tv_comp() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns_comp,fe3=0)[[2]] })
+  gra_veb_ns_comp <- reactive({
+    a <- try(Tabla.ns(fv = input$n5 ,tit = comp2(),pr =TV_NSC() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns_comp,fe3=0)[[2]] )
+    if(class(a)!="try-error"){return(a)}else{}
+    
+    })
   
   
   output$par_veb_ns_op_comp<-renderPrint({if(input$opt_veb_ns_comp==1){gra_veb_ns_comp()
@@ -2514,8 +2886,16 @@ shinyServer(function(input, output) {
   }else{}})
   
   #comparativo
-  gra_tif_sven_comp <- reactive({Tabla.sven(fv = input$n5 ,tit = comp1(),pr =tf_comp() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven_comp,fe3=0)[[2]] })
-  gra_veb_sven_comp <- reactive({Tabla.sven(fv = input$n5 ,tit = comp2(),pr =tv_comp() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven_comp,fe3=0)[[2]] })
+  gra_tif_sven_comp <- reactive({
+    a <- try(Tabla.sven(fv = input$n5 ,tit = comp1(),pr =TF_SV() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven_comp,fe3=0)[[2]])
+    if(class(a)!="try-error"){return(a)}else{}
+    
+    })
+  gra_veb_sven_comp <- reactive({
+    a <- try(Tabla.sven(fv = input$n5 ,tit = comp2(),pr =TV_SV() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven_comp,fe3=0)[[2]])
+    if(class(a)!="try-error"){return(a)}else{}
+    
+    })
   
   #tif
   output$par_tif_sven_op_comp<-renderPrint({if(input$opt_tif_sven_comp==1){gra_tif_sven_comp()
