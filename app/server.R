@@ -662,6 +662,7 @@ shinyServer(function(input, output) {
     }else{
       
       b[,2] <- c
+      
     }
       b
   })
@@ -691,12 +692,16 @@ shinyServer(function(input, output) {
   #sal
   #tif
   output$sal1_ns <-renderPrint({
-    TF_NS()
+    a <- try(TF_NS())
+    if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+    
   })
   
   #veb
   output$sal2_ns <-renderPrint({
-    TV_NS()
+    a <- try(TV_NS())
+    if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+    
   })
   
   #variable que utilizare para buscar precios promedio
@@ -709,6 +714,8 @@ shinyServer(function(input, output) {
     }else{
       #a <- tf_ns()
       b <-dat()
+      
+  
       #return(b)
       #nombres de variables con precios nulos
       if(is.null(ad_ns_t1())){ return("Seleccionar instrumento")}
@@ -726,9 +733,10 @@ shinyServer(function(input, output) {
       # }
       a[ind] <- b[,2]
       return(a)
+    
+      
+      
     }
-    
-    
   })
   
   #veb
@@ -855,7 +863,9 @@ shinyServer(function(input, output) {
   #sal
   #tif
   output$sal1_sv <-renderPrint({
-    TF()
+    a <- try(TF())
+    if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+    
   })
   
   #NUEVA VARIABLE
@@ -974,7 +984,9 @@ shinyServer(function(input, output) {
   
   #veb
   output$sal2_sv <-renderPrint({
-    TV()
+    a <- try(TV())
+    if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+    
   })
   
   #VEB
@@ -1099,7 +1111,9 @@ shinyServer(function(input, output) {
   
   #tif
   output$sal1_nsc <-renderPrint({
-    TF_NSC()
+    a <- try(TF_NSC())
+    if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+    
   })
   
   #TIF
@@ -1226,7 +1240,9 @@ shinyServer(function(input, output) {
   
   #
   output$sal2_nsc <-renderPrint({
-    TV_NSC()
+    a <- try(TV_NSC())
+    if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+    
   })
   
   #VEB
@@ -1350,7 +1366,9 @@ shinyServer(function(input, output) {
   
   #tif
   output$sal1_svc <-renderPrint({
-    TF_SV()
+    a <- try(TF_SV())
+    if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+    
   })
   
   #TIF
@@ -1466,7 +1484,9 @@ shinyServer(function(input, output) {
   
   #veb
   output$sal2_svc <-renderPrint({
-    TV_SV()
+    a <- try(TV_SV())
+    if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+    
   })
   
   #VEB
