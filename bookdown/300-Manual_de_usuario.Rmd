@@ -530,22 +530,83 @@ En esta sección se subdivide en:
 
 ###Históricos
 
-Esta sección permite calcular el VaR para una rango de fechas en específico, siempre y cuando las mismas se encuentren disponibles en la data histórica considerada. La misma cuenta con las siguientes secciones:
+Esta sección permite calcular el VaR para un rango de fechas en específico, siempre y cuando las mismas se encuentren disponibles en la data histórica considerada. La misma cuenta con las siguientes secciones:
 
-  * VaR Paramétrico:
+  * VaR Paramétrico: esta subsección permite calcular el histórico de los VaRes mediante el uso de la metodología del VaR paramétrico, la cual se basa en asumir una distribución normal para cada instrumento. Dentro de esta subsección se encuentra:
+    * Rango de fechas disponibles, el cual es obtenido a partir de la data cargada en la sección Datos.
+    * Opción para seleccionar el rango de fechas deseado, es importante acotar que la fecha inicial debe ser siempre menor que la fecha final, y las mismas no se pueden salir del rango establecido en el punto anterior.
+    * Elección realizada por el usuario.
+    * Histórico generado por la metodología del Var paramétrico, consta de dos columnas la primera indica la fecha, mientras que la segunda indica el valor del VaR para ese día en específico.
   
-  * VaR Histórico:
+  * VaR Histórico: esta subsección permite calcular el histórico de los Vares mediante el uso de la metodología del VaR por simulación histórica, la cual se caracteriza por no asignar ninguna distribución conocida, sino que trabaja con la distribución empírica de los datos. Dentro de esta subsección se encuentra:
+    * Rango de fechas disponibles, el cual es obtenido a partir de la data cargada en la sección Datos.
+    * Opción para seleccionar el rango de fechas deseado, es importante acotar que la fecha inicial debe ser siempre menor que la fecha final, y las mismas no se pueden salir del rango establecido en el punto anterior.
+    * Elección realizada por el usuario.
+    * Histórico generado por la metodología del Var por simulación histórica, consta de dos columnas la primera indica la fecha, mientras que la segunda indica el valor del VaR para ese día en específico.
   
-  * VaR SMC Normal:
+  * VaR SMC Normal: esta subsección permite calcular el histórico de los Vares mediante el uso de la metodología del VaR por simulación de MonteCarlo asumiendo una distribicón normal para cada instrumento, esta metodología se caracteriza por el empleo de simulaciones y el cálculo de diferentes escenarios con el fin de calcular el valor del VaR. Dentro de esta subsección se encuentra:
+    * Rango de fechas disponibles, el cual es obtenido a partir de la data cargada en la sección Datos.
+    * Opción para seleccionar el rango de fechas deseado, es importante acotar que la fecha inicial debe ser siempre menor que la fecha final, y las mismas no se pueden salir del rango establecido en el punto anterior.
+    * Elección realizada por el usuario.
+    * Histórico generado por la metodología del Var por simulación de MonteCarlo asumiendo una distribución normal, consta de dos columnas la primera indica la fecha, mientras que la segunda indica el valor del VaR para ese día en específico.
   
-  * VaR SMC Mejor Distribución:
-
-
+  * VaR SMC Mejor Distribución: esta subsección permite calcular el histórico de los Vares mediante el uso de la metodología del VaR por simulación de MonteCarlo considerando la mejor distribución para cada instrumento, las distribuciones consideradas serán las elegidas por el usuario en la sección Distribución. Dentro de esta subsección se encuentra:
+    * Rango de fechas disponibles, el cual es obtenido a partir de la data cargada en la sección Datos.
+    * Opción para seleccionar el rango de fechas deseado, es importante acotar que la fecha inicial debe ser siempre menor que la fecha final, y las mismas no se pueden salir del rango establecido en el punto anterior.
+    * Elección realizada por el usuario.
+    * Histórico generado por la metodología del Var por simulación de MonteCarlo considerando la mejor distribución, consta de dos columnas la primera indica la fecha, mientras que la segunda indica el valor del VaR para ese día en específico.
+  
 
 ##Backtesting
 
+Esta sección permite realizar diversas pruebas al Valor en Riesgo y así poder calibrar y analizar su comportamiento, entre estas pruebas se encuentran el test de Kupiec y  el test de Haas.
+
 ###Datos
+
+En esta subsección el usuario debe ingresar los datos con los cuales se va a trabajar. Este archivo debe contar con las siguientes características:
+
+  * Debe ser un archivo de texto txt.
+  * Debe contar con tres columnas, la primera debe proporcionar información sobre la fecha (ej: 27/03/2018), la segunda columna debe contener información sobre el VaR para ese día. Finalmente, la tercera columna debe indicar información sobre el valor nominal del portafolio para el día considerado. Es importante mencionar que el archivo debe contener 252 observaciones.
+
 
 ###Resultados
 
-##Pruebas de Estrés
+En esta subsección se muestran los resultados obtenidos para las diferentes pruebas. El usuario debe seleccionar el nivel de confianza para realizar la prueba. Una vez seleccionado este valor, los resultados se muestran con la siguiente estructura:
+
+* Número de excepciones negativas, número de excepciones dentro del rango VaR y número total de excepciones.
+* Tiempo entre excepciones.
+* Resultados de los estadísticos para las pruebas de Kupiec, Haas y prueba mixta.
+* Valor crítico asociado a cada prueba.
+* Resultado de cada prueba, obtenido al realizar una comparación entre el valor crítico y el valor del estadístico de cada prueba.
+
+
+##Valoración
+
+Esta sección permite realizar los cáculos de valoración de un portafolio, a partir de sus precios y valor nominal para un día determinado en términos de utilidad y pérdida. De igual manera, esta sección permite realizar una prueba de estrés y saber como se comportará la utilidad o périda del portafolio en caso de una posible caida de los precios.
+
+###Datos
+
+En esta subsección el usuario debe ingresar la data con la cual se va a trabajar, la misma debe tener la siguiente estructura:
+
+* Deber ser un archivo plano txt.
+* Debe contener cinco columnas, cada una se explica a continuación,
+    * La primera columna, debe indicar el nombre corto del instrumento en consideración.
+    * La segunda columna, debe indicar el tipo de instrumento que se está considerando.
+    * La tercera columna, debe indicar el valor nominal asociado a cada instrumento.
+    * La cuarta columna debe indicar el precio al día de hoy de cada instrumento.
+    * La quinta columna debe indicar el precio de mercado (precio obtenido por alguna metodología de estimación de precios teóricos).
+  
+* El archivo debe contener tantas filas como instrumentos se desee considerar.
+
+###Resultados
+
+En esta subsección se muestra los resultados de la valoración, la información está distribuida en dos tablas,
+
+* La primera tabla muestra información acerca del monto invertido en cada instrumento y su valor actual, considerando el precio teórico elegido. También se muestra la ganancia ó perdida que se tiene actualmente con un instrumento. En esta tabla se presenta la información para cada instrumento por separado.
+
+* La segunda tabla, muestra un resumen para todo el portafolio, se presenta la suma del valor nominal por tipo de instrumento, el precio promedio ponderado por el valor nominal dpara cada isntrumento, y la ganancia ó pérdida obtenida para cada tipo de instrumento considerado.
+
+
+###Resultados prueba de estrés
+
+
