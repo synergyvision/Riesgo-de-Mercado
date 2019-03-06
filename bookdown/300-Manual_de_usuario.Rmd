@@ -6,9 +6,13 @@
 
 ###Curva de rendimientos individual
 
-En esta sección el usuario puede calcular los precios teóricos de los instrumentos de la Deuda Pública Nacional (TIF ó VEBONOS) para una fecha considerada y para una metodología en específico. Las metodologías disponibles son Nelson y Siegel, Svensson, Diebold-Li y Splines cúbicos de suavizado.
+En esta sección el usuario puede calcular los precios teóricos de los instrumentos de la Deuda Pública Nacional (TIF ó VEBONOS) para una fecha considerada y para una metodología en específico. Las metodologías disponibles son Nelson y Siegel, Svensson, Diebold-Li y Splines cúbicos de suavizado (Ver Figura \@ref(fig:img1)). 
 
 Para el cálculo de las metodología de Nelson y Siegel, así como la de Svensson y Diebold-Li es importante contar con los precios promedios de los instrumentos a considerar puesto que a partir de los mismos se realizará un proceso de optimización el cual busca encontrar los parámetros más adecuados de esta metodología de manera que los precios teóricos obtenidos se asemejen a los precios promedio.
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Sección individual curva de rendimientos",label=img1,out.height=200,out.width=200}
+knitr::include_graphics("images/curva_rend_ind.png")
+```
 
 ###Datos
 
@@ -17,11 +21,29 @@ Esta sección nos permite obtener de manera automática los archivos necesarios 
 + Documento de operaciones del mercado secundario (resumersec)
 + Documento de las características de los instrumentos de la Deuda Pública Nacional 
 
+```{r , echo=FALSE, fig.align='center',fig.cap="Sección Datos",label=img2}
+knitr::include_graphics("images/datos_cr_1.png")
+```
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Precios promedio",label=img3}
+knitr::include_graphics("images/datos_cr_2.png")
+```
+
+
 ###Metodología Nelson y Siegel
 
 Con el fin de proceder a realizar los cálculos mediante esta metodología el usuario deberá seguir los siguientes pasos,
 
 1. Seleccionar una fecha para la cual se calcularán los precios estimados
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Sección Nelson y Siegel individual",label=img4}
+knitr::include_graphics("images/ns1.png")
+``` 
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Selecionar instrumentos",label=img5}
+knitr::include_graphics("images/ns2.png")
+``` 
+
 2. Selecionar los instrumentos a considerar ya sean TIF ó VEBONO, para este fin el usuario podrá elegir los mismos selecionando su nombre corto o ingresando un archivo plano. Cabe destacar que este archivo debera tener las siguientes características,
     + Debe ser un archivo plano (txt).
     + Debe contener dos columnas.
@@ -29,8 +51,17 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
     + En la segunda columna debe contener el nombre corto del instrumento.
     + Ejemplo estructura fila: Para el TIF de ISIN "DPBS04686-0040", cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "DPBS04686-0040" "TIF082019".
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
+    
+    ```{r , echo=FALSE, fig.align='center',fig.cap="Selecionar instrumentos desde un archivo plano",label=img6}
+knitr::include_graphics("images/ns1.1.png")
+``` 
+
+
 3. El usuario debera seleccionar un método para calcular los precios teóricos, los cuales se ubican es estas secciones,
     + Parámetros iniciales: en esta sección los parámetros a considerar serán tomados por defecto y los cálculos del los precios y curva de rendimientos se realizarán con los mismos.
+```{r , echo=FALSE, fig.align='center',fig.cap="Opción parámetros iniciales",label=img7}
+knitr::include_graphics("images/ns3.png")
+``` 
     + Elegir parámetros: en esta sección el usuario podrá elegir los parámetros de está metodología siempre y cuando los mismos cumplan con ciertas restricciones. El usuario deberá seleccionar un valor para las siguientes variables 
         + $\beta_{0}$.
         + $\beta_{1}$.
@@ -41,15 +72,23 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
         + Verificación de que los parámetros cuamplan con las restricciones necesarias.
         + Precios teóricos de los instrumentos seleccionados.
         + Curva de rendimientos obtenida en base a los parámetros seleccionados.
+```{r , echo=FALSE, fig.align='center',fig.cap="Opción elegir parámetros",label=img8}
+knitr::include_graphics("images/ns4.png")
+``` 
     + Parámetros optimizados: en esta sección los parámetros a utilizar serán los obtenidos luego de realizar un proceso de optimización sobre los mismos. Posteriormente se mostrarán los precios teóricos y curva de rendimientos obtenida para estos parámetros.
+```{r , echo=FALSE, fig.align='center',fig.cap="Opción optimizar parámetros",label=img9}
+knitr::include_graphics("images/ns5.png")
+``` 
 
 ###Metodología Svensson
-
-
 
 Con el fin de proceder a realizar los cálculos mediante esta metodología el usuario deberá seguir los siguientes pasos,
 
 1. Seleccionar una fecha para la cual se calcularán los precios estimados.
+```{r , echo=FALSE, fig.align='center',fig.cap="Sección Svensson individual",label=img10}
+knitr::include_graphics("images/sv1.png")
+``` 
+
 2. Selecionar los instrumentos a considerar ya sean TIF ó VEBONO, para este fin el usuario podrá elegir los mismos selecionando su nombre corto o ingresando una archivo plano. Cabe destacar que este archivo debera tener las siguientes características,
     + Debe ser un archivo plano (txt).
     + Debe contener dos columnas.
@@ -59,6 +98,9 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
 3. El usuario debera seleccionar un método para calcular los precios teóricos, los cuales se ubican es estas secciones,
     + Parámetros iniciales: en esta sección los parámetros a considerar serán tomados por defecto y los cálculos del los precios y curva de rendimientos se realizarán con los mismos.
+```{r , echo=FALSE, fig.align='center',fig.cap="Parámetros iniciales",label=img11}
+knitr::include_graphics("images/sv2.png")
+``` 
     + Elegir parámetros: en esta sección el usuario podrá elegir los parámetros de está metodología siempre y cuando los mismos cumplan con ciertas restricciones. El usuario deberá seleccionar un valor para las siguientes variables 
         + $\beta_{0}$.
         + $\beta_{1}$.
@@ -71,9 +113,15 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
         + Verificación de que los parámetros cuamplan con las restricciones necesarias.
         + Precios teóricos de los instrumentos seleccionados.
         + Curva de rendimientos obtenida en base a los parámetros seleccionados.
+```{r , echo=FALSE, fig.align='center',fig.cap="Elegir parámetros",label=img12}
+knitr::include_graphics("images/sv3.png")
+``` 
     + Parámetros optimizados: en esta sección los parámetros a utilizar serán los obtenidos luego de realizar un proceso de optimización sobre los mismos. Posteriormente se mostrarán los precios teóricos y curva de rendimientos obtenida para estos parámetros.
+```{r , echo=FALSE, fig.align='center',fig.cap="Parámetros optimizados",label=img13}
+knitr::include_graphics("images/sv4.png")
+``` 
     
-    ###Proceso de Optimización de Nelson y Siegel y Svensson
+###Proceso de Optimización de Nelson y Siegel y Svensson
 
 
 Para aplicar este proceso es necesario tener una función objetivo, sobre la cual se realizará el proceso de optimización, ya sea para maximizar ó minimizar dicha función. Dependiendo de la forma de dicha función el proceso de optimización será lineal o no lineal. En nuestro caso particular se llevará a cabo un proceso de optimización no lineal donde se buscará minimizar la función objetivo.
@@ -609,4 +657,18 @@ En esta subsección se muestra los resultados de la valoración, la información
 
 ###Resultados prueba de estrés
 
+En esta subsección se muestra los resultados de la valoración luego de estresar en forma negativa los precios de mercado de los instrumentos financieros considerados. Con el fin de estresar los precios de mercado es necesario incluir una data de precios históricos, dicha data debe poseer la siguiente estructura,
+
+* Debe ser un archivo plano txt.
+* La primera columna debe señalar la fecha del precio en cuestión.
+* Cada columna debe representar la historia para cada instrumento.
+* El archivo debe contener la misma cantidad de instrumentos considerados en la data anterior.
+
+
+La información está distribuida en dos tablas,
+
+* La primera tabla muestra información acerca del monto invertido en cada instrumento, su valor actual, el precio teórico elegido, la desviación estandar de cada instrumento, el precio estresado, el Mark to Market (MTM), y la ganancia o pérdida considerando los precios teóricos iniciales y los precios teóricos estresados. 
+
+
+* La segunda tabla, muestra un resumen para todo el portafolio, se presenta la suma del valor nominal por tipo de instrumento, el precio promedio ponderado por el valor nominal para cada instrumento, y la ganancia ó pérdida obtenida para cada tipo de instrumento considerado los precios de mercado y los precios estresados.
 
