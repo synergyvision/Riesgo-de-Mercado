@@ -3788,6 +3788,12 @@ shinyServer(function(input, output) {
       v <- print("El archivo no se encuentra, descargar y recargar página!")
       return(as.data.frame(v))
     }else{
+      #condicional cuando no hay obs
+      if(is.null(dim(ca))){
+        v <- "No existen operaciones para el mes actual"
+        return(as.data.frame(v))
+      }else{
+      
       ca2 <- formatop(ca1,ca)
       #convierto fecha de op y venc en fechas
       ca2$`Fecha op` <- as.Date(as.character(ca2$`Fecha op`),format="%d/%m/%Y")
@@ -3812,6 +3818,7 @@ shinyServer(function(input, output) {
       write.table(hist_act,paste(getwd(),"data","Historico_act.txt",sep = "/"),row.names = FALSE)
 
       return(ca3)
+      }#final condicional no hay operaciones
     }
   })
   
@@ -3823,6 +3830,7 @@ shinyServer(function(input, output) {
             #como primer enfoque busco todos los tif y veb
             #luego se puede buscar solamente los tit seleccionados
             #no seria muy dificil este cambio
+            hist_19 <- pre_prom(hist,"2019")
             hist_18 <- pre_prom(hist,"2018")
             hist_17 <- pre_prom(hist,"2017")
             hist_16 <- pre_prom(hist,"2016")
@@ -3830,7 +3838,16 @@ shinyServer(function(input, output) {
             #para buscar tif uso hist_18 u otro año y uso el segundo 
             #elemento de la lista
             #busco tif de mi cartera en historico 2018
-            tif_18 <- comp(tit,hist_18[[2]])
+            tif_19 <- comp(tit,hist_19[[2]])
+            
+            #los tif que no encuentro en 2018 los busco en 2017
+            if(length(tif_19[[2]])!=0){
+              tif_18 <- comp(tif_19[[2]],hist_18[[2]])
+            }else{
+              print("Todos los instrumentos estan")
+            }
+            
+            ##tif_18 <- comp(tit,hist_18[[2]])
             
             #los tif que no encuentro en 2018 los busco en 2017
             if(length(tif_18[[2]])!=0){
@@ -3847,7 +3864,9 @@ shinyServer(function(input, output) {
             }
             
             #precios promedio que salen
-            TIF <- rbind.data.frame(tif_18[[1]],tif_17[[1]],tif_16[[1]])
+            #TIF <- rbind.data.frame(tif_18[[1]],tif_17[[1]],tif_16[[1]])
+            TIF <- rbind.data.frame(tif_19[[1]],tif_18[[1]],tif_17[[1]],tif_16[[1]])
+            
             names(TIF) <- c("Títulos","Precio Promedio","Año")
             write.table(TIF,paste(getwd(),"data","Precio_prom_tif.txt",sep = "/"),row.names = FALSE)
             
@@ -3877,6 +3896,7 @@ shinyServer(function(input, output) {
     #como primer enfoque busco todos los tif y veb
     #luego se puede buscar solamente los tit seleccionados
     #no seria muy dificil este cambio
+    hist_19 <- pre_prom(hist,"2019")
     hist_18 <- pre_prom(hist,"2018")
     hist_17 <- pre_prom(hist,"2017")
     hist_16 <- pre_prom(hist,"2016")
@@ -3884,7 +3904,15 @@ shinyServer(function(input, output) {
     #para buscar tif uso hist_18 u otro año y uso el tercer 
     #elemento de la lista
     #busco veb de mi cartera en historico 2018
-    veb_18 <- comp(tit1,hist_18[[3]])
+    veb_19 <- comp(tit1,hist_19[[3]])
+    #veb_18 <- comp(tit1,hist_18[[3]])
+    
+    #los tif que no encuentro en 2019 los busco en 2018
+    if(length(veb_19[[2]])!=0){
+      veb_18 <- comp(veb_19[[2]],hist_18[[3]])
+    }else{
+      print("Todos los instrumentos estan")
+    }
     
     #los tif que no encuentro en 2018 los busco en 2017
     if(length(veb_18[[2]])!=0){
@@ -3901,7 +3929,9 @@ shinyServer(function(input, output) {
     }
     
     #precios promedio que salen
-    VEB <- rbind.data.frame(veb_18[[1]],veb_17[[1]],veb_16[[1]])
+    #VEB <- rbind.data.frame(veb_18[[1]],veb_17[[1]],veb_16[[1]])
+    VEB <- rbind.data.frame(veb_19[[1]],veb_18[[1]],veb_17[[1]],veb_16[[1]])
+    
     names(VEB) <- c("Títulos","Precio Promedio","Año")
     write.table(VEB,paste(getwd(),"data","Precio_prom_veb.txt",sep = "/"),row.names = FALSE)
     
