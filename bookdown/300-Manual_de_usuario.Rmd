@@ -62,6 +62,9 @@ knitr::include_graphics("images/ns1.1.png")
 ```{r , echo=FALSE, fig.align='center',fig.cap="Opción parámetros iniciales",label=img7}
 knitr::include_graphics("images/ns3.png")
 ``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Curva de rendimientos inicial",label=img8}
+knitr::include_graphics("images/ns4.png")
+``` 
     + Elegir parámetros: en esta sección el usuario podrá elegir los parámetros de está metodología siempre y cuando los mismos cumplan con ciertas restricciones. El usuario deberá seleccionar un valor para las siguientes variables 
         + $\beta_{0}$.
         + $\beta_{1}$.
@@ -72,20 +75,25 @@ knitr::include_graphics("images/ns3.png")
         + Verificación de que los parámetros cuamplan con las restricciones necesarias.
         + Precios teóricos de los instrumentos seleccionados.
         + Curva de rendimientos obtenida en base a los parámetros seleccionados.
-```{r , echo=FALSE, fig.align='center',fig.cap="Opción elegir parámetros",label=img8}
-knitr::include_graphics("images/ns4.png")
-``` 
-    + Parámetros optimizados: en esta sección los parámetros a utilizar serán los obtenidos luego de realizar un proceso de optimización sobre los mismos. Posteriormente se mostrarán los precios teóricos y curva de rendimientos obtenida para estos parámetros.
-```{r , echo=FALSE, fig.align='center',fig.cap="Opción optimizar parámetros",label=img9}
+```{r , echo=FALSE, fig.align='center',fig.cap="Opción elegir parámetros",label=img9}
 knitr::include_graphics("images/ns5.png")
 ``` 
-
+    + Parámetros optimizados: en esta sección los parámetros a utilizar serán los obtenidos luego de realizar un proceso de optimización sobre los mismos. Posteriormente se mostrarán los precios teóricos y curva de rendimientos obtenida para estos parámetros.
+```{r , echo=FALSE, fig.align='center',fig.cap="Opción optimizar parámetros",label=img10}
+knitr::include_graphics("images/ns6.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Precios optimizados",label=img11}
+knitr::include_graphics("images/ns7.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Parámetros optimizados",label=img12}
+knitr::include_graphics("images/ns8.png")
+``` 
 ###Metodología Svensson
 
 Con el fin de proceder a realizar los cálculos mediante esta metodología el usuario deberá seguir los siguientes pasos,
 
 1. Seleccionar una fecha para la cual se calcularán los precios estimados.
-```{r , echo=FALSE, fig.align='center',fig.cap="Sección Svensson individual",label=img10}
+```{r , echo=FALSE, fig.align='center',fig.cap="Sección Svensson individual",label=img13}
 knitr::include_graphics("images/sv1.png")
 ``` 
 
@@ -98,8 +106,11 @@ knitr::include_graphics("images/sv1.png")
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
 3. El usuario debera seleccionar un método para calcular los precios teóricos, los cuales se ubican es estas secciones,
     + Parámetros iniciales: en esta sección los parámetros a considerar serán tomados por defecto y los cálculos del los precios y curva de rendimientos se realizarán con los mismos.
-```{r , echo=FALSE, fig.align='center',fig.cap="Parámetros iniciales",label=img11}
-knitr::include_graphics("images/sv2.png")
+```{r , echo=FALSE, fig.align='center',fig.cap="Parámetros iniciales",label=img14}
+knitr::include_graphics("images/sv3.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Curva de rendimientos parámetros iniciales",label=img15}
+knitr::include_graphics("images/sv4.png")
 ``` 
     + Elegir parámetros: en esta sección el usuario podrá elegir los parámetros de está metodología siempre y cuando los mismos cumplan con ciertas restricciones. El usuario deberá seleccionar un valor para las siguientes variables 
         + $\beta_{0}$.
@@ -113,14 +124,16 @@ knitr::include_graphics("images/sv2.png")
         + Verificación de que los parámetros cuamplan con las restricciones necesarias.
         + Precios teóricos de los instrumentos seleccionados.
         + Curva de rendimientos obtenida en base a los parámetros seleccionados.
-```{r , echo=FALSE, fig.align='center',fig.cap="Elegir parámetros",label=img12}
-knitr::include_graphics("images/sv3.png")
+```{r , echo=FALSE, fig.align='center',fig.cap="Elegir parámetros",label=img16}
+knitr::include_graphics("images/sv5.png")
 ``` 
     + Parámetros optimizados: en esta sección los parámetros a utilizar serán los obtenidos luego de realizar un proceso de optimización sobre los mismos. Posteriormente se mostrarán los precios teóricos y curva de rendimientos obtenida para estos parámetros.
-```{r , echo=FALSE, fig.align='center',fig.cap="Parámetros optimizados",label=img13}
-knitr::include_graphics("images/sv4.png")
+```{r , echo=FALSE, fig.align='center',fig.cap="Precios optimizados",label=img17}
+knitr::include_graphics("images/sv7.png")
 ``` 
-    
+```{r , echo=FALSE, fig.align='center',fig.cap="Parámetros optimizados",label=img18}
+knitr::include_graphics("images/sv8.png")
+```     
 ###Proceso de Optimización de Nelson y Siegel y Svensson
 
 

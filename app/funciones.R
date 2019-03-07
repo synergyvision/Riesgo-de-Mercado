@@ -2731,7 +2731,7 @@ Carac=function(ruta){
   
   #if peta?a VF
   if(class(v)[1]=="try-error"){
-    print("No hay pesta?a VF")
+    #print("No hay pesta?a VF")
     w3=c()
   }else{
     #leo VF
@@ -2757,7 +2757,7 @@ Carac=function(ruta){
   
   #if Pesta?a VB
   if(class(vb)[1]=="try-error"){
-    print("No hay pesta?a VB")
+    #print("No hay pesta?a VB")
     #CARACTERISTICAS DEFINITIVA
     #C3=rbind(c3,d3) 
     
@@ -2791,7 +2791,7 @@ Carac=function(ruta){
   
   
   if(class(cf)[1]=="try-error"){
-    print("No hay pesta?a CF")
+    #print("No hay pesta?a CF")
     #CARACTERISTICAS DEFINITIVA
     #C3=rbind(c3,d3) 
     
@@ -2824,7 +2824,7 @@ Carac=function(ruta){
   
   
   if(class(cb)[1]=="try-error"){
-    print("No hay pesta?a CB")
+    #print("No hay pesta?a CB")
     #CARACTERISTICAS DEFINITIVA
     #C3=rbind(c3,d3) 
     
@@ -2858,38 +2858,38 @@ Carac=function(ruta){
   #CARACTERISTICAS DEFINITIVA
   #if de pesta?as
   if(length(c3)==1|length(d3)==1|length(v3)==1|length(w3)==1|length(x3)==1|length(y3)==1){
-    print("No hay una pesta?a!") 
+    #print("No hay una pesta?a!") 
     ve=c(length(c3),length(d3),length(v3),length(w3),length(x3),length(y3))
     #h1=which(ve==1)
     
     if(ve[2]==1){
-      print("Falta pesta?a DPN-TICC")
+     # print("Falta pesta?a DPN-TICC")
       C3=rbind(c3,v3,w3,x3,y3)
       return(C3)
     }
     if(ve[3]==1){
-      print("Falta pesta?a VB")
+      #print("Falta pesta?a VB")
       C3=rbind(c3,d3,w3,x3,y3)
       return(C3)
     }
     if(ve[4]==1){
-      print("Falta pesta?a VF")
+      #print("Falta pesta?a VF")
       C3=rbind(c3,d3,v3,x3,y3)
       return(C3)
     }
     if(ve[5]==1){
-      print("Falta pesta?a CF")
+     # print("Falta pesta?a CF")
       C3=rbind(c3,d3,v3,w3,y3)
       return(C3)
     }
     if(ve[6]==1){
-      print("Falta pesta?a CB")
+      #print("Falta pesta?a CB")
       C3=rbind(c3,d3,v3,w3,x3)
       return(C3)
     }
     
   }else{
-    print("Existen todas las pesta?as!")   
+   # print("Existen todas las pesta?as!")   
     C3=rbind(c3,d3,v3,w3,x3,y3) 
     #En caso que no lea bien un numero
     C3$Cupon=as.numeric(sub(",",".",C3$Cupon))

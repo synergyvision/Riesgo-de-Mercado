@@ -61,7 +61,13 @@ data <- rbind.data.frame(oct18,nov18,dic18,ene19,feb19)
 data$`Fecha op` <- as.character(data$`Fecha op`)
 data$F.Vencimiento <- as.character(data$F.Vencimiento)
 
+
+Historico_act1 <- Historico_act[-c(2848:2861),]
+names(data) <- names(Historico_act)  
 H <- rbind.data.frame(Historico_act1,data)
+
+#EXPORTAR H!
+write.table(H,paste(getwd(),"app","data","Historico_act.txt",sep = "/"),row.names = FALSE)
 
 
 #prueba marzo
