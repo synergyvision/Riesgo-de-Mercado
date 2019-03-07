@@ -412,9 +412,24 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
     + En la segunda columna debe contener el nombre corto del instrumento.
     + Ejemplo estructura fila: Para el TIF de ISIN "DPBS04686-0040", cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "DPBS04686-0040" "TIF082019".
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
+```{r , echo=FALSE, fig.align='center',fig.cap="Sección Diebold-Li",label=img19}
+knitr::include_graphics("images/dl1.png")
+```   
 3. Posteriormente, el usuario en caso de no observar ninguna curva graficada deberá seleccionar una mayor cantidad de observaciones, esto se debe a que no se están considerando la suficiente cantidad de operaciones para graficar la curva de rendimientos a partir de la cual se obtendrán los rendimientos teóricos, los cuales son necesarios para el cálculo de los precios teóricos según esta metodología.
+```{r , echo=FALSE, fig.align='center',fig.cap="Poca cantidad de observaciones",label=img20}
+knitr::include_graphics("images/dl2.png")
+``` 
 4. Una vez visualizada la curva ajustada mediante el spline, es necesario calibrar el parámetro de suavizamiento, el mismo controla la suavidad de la curva mostrada.
+```{r , echo=FALSE, fig.align='center',fig.cap="Curva spline",label=img21}
+knitr::include_graphics("images/dl3.png")
+``` 
 5. Luego de seleccionar este valor, se mostrará el spline a utilizar en el cálculo de los precios teóricos. Posteriormente se mostrarán los precios estimados y la curva de rendimientos obtenida, la cual en este caso es una superficie. Esto debido a considerar los parámetros de Diebold-Li dinámicos con respecto al tiempo.
+```{r , echo=FALSE, fig.align='center',fig.cap="Precios estimados",label=img22}
+knitr::include_graphics("images/dl4.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Curva de rendimiento Diebold-Li",label=img23}
+knitr::include_graphics("images/dl5.png")
+``` 
 
 
 ###Metodología Splines
@@ -429,10 +444,37 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
     + En la segunda columna debe contener el nombre corto del instrumento.
     + Ejemplo estructura fila: Para el TIF de ISIN "DPBS04686-0040", cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "DPBS04686-0040" "TIF082019".
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
+```{r , echo=FALSE, fig.align='center',fig.cap="Sección splines",label=img24}
+knitr::include_graphics("images/sp1.png")
+``` 
 3. Posteriormente, el usuario en caso de no observar ninguna curva graficada deberá seleccionar una mayor cantidad de observaciones, esto se debe a que no se están considerando la suficiente cantidad de operaciones para graficar la curva de rendimientos a partir de la cual se obtendrán los rendimientos teóricos, los cuales son necesarios para el cálculo de los precios teóricos según esta metodología.
+```{r , echo=FALSE, fig.align='center',fig.cap="Pocas observaciones",label=img25}
+knitr::include_graphics("images/sp2.png")
+``` 
 4.  Una vez visualizada la curva ajustada mediante el spline, es necesario calibrar el parámetro de suavizamiento, el mismo controla la suavidad de la curva mostrada.
+```{r , echo=FALSE, fig.align='center',fig.cap="Parámetro de suavizamiento",label=img26}
+knitr::include_graphics("images/sp4.png")
+``` 
 5. A continuación se mostraran los títulos candidatos a partir de los cuales la curva de rendimientos será trazada. Posteriormente se mostrarán los precios estimados y la curva de rendimientos obtenida. 
+```{r , echo=FALSE, fig.align='center',fig.cap="Títulos candidatos",label=img27}
+knitr::include_graphics("images/sp3.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Precios spline",label=img28}
+knitr::include_graphics("images/sp5.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Curva de rendimientos spline",label=img29}
+knitr::include_graphics("images/sp6.png")
+``` 
 6. Luego en caso de que el usuario desee eliminar alguna observación en específico, la misma debe ser elegida a partir de la lista desplegable que se muestra. Al seleccionar una observación, se mostrará la nueva data con la que se trabajará (títulos candidatos) así como los nuevos precios teóricos calculados y nueva curva de rendimientos obtenida.
+```{r , echo=FALSE, fig.align='center',fig.cap="Opción eliminar observaciones",label=img30}
+knitr::include_graphics("images/sp7.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Nuevos títulos candidatos",label=img31}
+knitr::include_graphics("images/sp8.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Nuevos precios y curva de rendimientos",label=img32}
+knitr::include_graphics("images/sp9.png")
+``` 
 
 <!-- ###Estimación de parámetros y curva de rendimiento -->
 
@@ -459,6 +501,10 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
 
 En esta sección permite obtener un comparativo de los precios teóricos obtenidos mediante las diferentes metodologías disponibles, las cuales son Nelson y Siegel, Svensson, Diebold-Li y Splines cúbicos de suavizado.
 
+```{r , echo=FALSE, fig.align='center',fig.cap="Sección comparativo",label=img33,out.height=120,out.width=200}
+knitr::include_graphics("images/sc.png")
+``` 
+
 ###Metodologías
 
 Con el fin de proceder a realizar los cálculos en esta sección el usuario deberá seguir los siguientes pasos,
@@ -471,8 +517,26 @@ Con el fin de proceder a realizar los cálculos en esta sección el usuario debe
     + En la segunda columna debe contener el nombre corto del instrumento.
     + Ejemplo estructura fila: Para el TIF de ISIN "DPBS04686-0040", cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "DPBS04686-0040" "TIF082019".
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
+```{r , echo=FALSE, fig.align='center',fig.cap="Selección de instrumentos",label=img34}
+knitr::include_graphics("images/sc1.png")
+``` 
 3. Luego de esto, se deberá rellenar la información correspondiente a cada metodología como ya se explico en la sección anterior, esto con el fin de obtener todos los parámetros necesarios para calcular los precios teóricos según cada metodología. 
 
+```{r , echo=FALSE, fig.align='center',fig.cap="Metodologías",label=img35}
+knitr::include_graphics("images/sc2.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Metodología Nelson y Siegel",label=img36}
+knitr::include_graphics("images/sc3.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Metodología Svensson",label=img37}
+knitr::include_graphics("images/sc4.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Metodología Diebold-Li",label=img38}
+knitr::include_graphics("images/sc5.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Metodología splines",label=img39}
+knitr::include_graphics("images/sc6.png")
+``` 
 ###Precios Estimados
 
 Una vez completados todos los parámetros necesarios, los precios obtenidos se presentan en esta sección.
