@@ -541,14 +541,25 @@ knitr::include_graphics("images/sc6.png")
 
 Una vez completados todos los parámetros necesarios, los precios obtenidos se presentan en esta sección.
 
+```{r , echo=FALSE, fig.align='center',fig.cap="Comparativo de precios",label=img40}
+knitr::include_graphics("images/preciosc.png")
+``` 
+
 ###Curvas
 
 En esta sección se presenta un grafico comparativo donde se grafican las curvas obtenidas mediante las diferentes metodologías. El usuario podrá descargar un reporte en PDF, con los resultados de los precios teóricos obtenidos en cada metodología.
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Comparativo de curvas",label=img41}
+knitr::include_graphics("images/curvasc.png")
+``` 
 
 ##Valor en Riesgo
 
 En esta sección el usuario podrá calcular el Valor en Riesgo de los instrumentos financieros que considere, el mismo será calculado mediante tres maneras diferentes las cuales se basan en tres distintas metodologías. El primer VaR a calcular es el VaR paramétrico el cuál se basa en asumir una distribucuión normal de los instrumentos sconsiderados. El segundo VaR es el calculado por simulación histórica. El tercer y último VaR es el calculado mediante la simulación de MonteCarlo, este VaR se subdividirá en dos casos, el primero es asumiendo una distribución Normal para todos los instrumentos, mientras que el segundo es elegiendo una distribución en específico.
 
+```{r , echo=FALSE, fig.align='center',fig.cap="Sección valor en riesgo",label=img42,out.height=200,out.width=200}
+knitr::include_graphics("images/vr.png")
+``` 
 
 ###Datos
 
@@ -560,14 +571,26 @@ Para el archivo de precios:
  + El archivo debe contener al menos 252 observaciones por cada instrumento. El archivo debe contener tantas columnas como instrumentos se consideren.
  + La primera columna del archivo deberá contener las fechas de las observaciones (precios), dichas observaciones deben estar ordenadas en forma decreciente. El formatod de la fecha debe ser: Año-Mes_Día (ej: 2019-06-07).
  + El resto de las columnas deben representar información para cada instrumento, es decir, cada columna debe contener las observaciones de cada título.
+ 
+```{r , echo=FALSE, fig.align='center',fig.cap="Data precios",label=img43}
+knitr::include_graphics("images/vr1.png")
+``` 
 
 Para el archivo de posiciones:
 
  + El formato del archivo debe ser txt. 
  + El archivo debe tener dos columnas, la primera debe contener el nombre corto del instrumentos. Por su parte la segunda columna deberá contener la posición del instrumento. En caso de existir decimales usar "." como separación.
+ 
+```{r , echo=FALSE, fig.align='center',fig.cap="Data posiciones",label=img44}
+knitr::include_graphics("images/vr2.png")
+```
+
 
 Es importante que la información sobre los instrumentos considerada en el archivo de precios y el archivo de posiciones sea la misma, es decir, los títulos que aparecen en el archivo de precios deben ser los mismos que aparecen en el archivo de posiciones. Una ventana ubicada en esta sección (Aviso) realizará esta validación, en caso de eistir una discrepancia no se realizará ningún cálculo.
  
+```{r , echo=FALSE, fig.align='center',fig.cap="Aviso data",label=img45}
+knitr::include_graphics("images/vr3.png")
+``` 
 
 ###Distribución
 
@@ -575,8 +598,17 @@ En está sección el usuario debe seleccionar las distribuciones asociadas a los
 
 1. Elegir Distribución: En esta subsección al inicio se muestra una advertencia referente a si existe problemas con los precios ingresados, usualmente estos problemas surgen cuando existen dos precios iguales y ellos están seguidos. En caso de existir este problema, el instrumento ó instrumentos involucrados serán excluidos del estudio. Posteriormente el usuario debe:
  +  Seleccionar el instrumento, para el cual se realizará la prueba de bondad de ajuste. Una vez seleccionado el instrumento se desplegará una ventana que mostrará las distribuciones que más se asemejan a los rendimientos de los precios del instrumento en estudio.
+```{r , echo=FALSE, fig.align='center',fig.cap="Elección instrumento",label=img46}
+knitr::include_graphics("images/vr4.png")
+``` 
  + Una vez generado las posibles opciones el usuario debe seleccionar una distribución, luego de esto se mostrarán los parámetros obtenidos a partir de dicho ajuste.
+```{r , echo=FALSE, fig.align='center',fig.cap="Ajuste de distribución",label=img47}
+knitr::include_graphics("images/vr5.png")
+``` 
  + Se debe seleccionar "Si", en el recuadro que pregunta si desea guardar su distribución. Luego de esto la distribución de cada instrumento se guardará para su posterior uso. Esta serie de pasos debe repetirse por cada instrumento considerado.
+```{r , echo=FALSE, fig.align='center',fig.cap="Distribuciones",label=img48}
+knitr::include_graphics("images/vr6.png")
+``` 
 
 2. Seleccionar un archivo que contenga las distribuciones: En caso de elegir esta opción el usuario debe cargar un archivo con las siguientes características:
  + Debe ser un archivo de texto txt.
@@ -593,6 +625,10 @@ En está sección el usuario debe seleccionar las distribuciones asociadas a los
 ###VaR
 
 En esta sección se realizan todos los cálculos referentes al VaR, el mismo se calculará por tres metodologías, la primera es la metodología del VaR paramétrico, la segunda es la metodología del VaR por simulación histórica y la tercera es la metodología de VaR por simulación de MonteCarlo. En esta sección se muestran tres pestañas en donde se cálculan las metodologías explicadas anteriormente.
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas sección VaR",label=img49}
+knitr::include_graphics("images/vr7.png")
+``` 
 
  * Pestaña Paramétrico: en esta pestaña se muestra la siguiente información,
     * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia.
