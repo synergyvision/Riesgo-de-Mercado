@@ -2183,7 +2183,9 @@ shinyUI(
                       h2("Resultados"),
                       fluidRow(
                         box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('result_back'))
-                      )
+                      ),
+                      h2("Reporte"),
+                      downloadButton("report_back", "Descargar")
                       
                       
               ),#final tabitem Backtesting
@@ -2222,7 +2224,9 @@ shinyUI(
                     h2("Resúmen portafolio"),
                     fluidRow(
                       box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('result_val_port'))
-                    )
+                    ),
+                    h2("Reporte"),
+                    downloadButton("report_val1", "Descargar")
                     
                     
             ),#final tabitem Valoracion
@@ -2257,7 +2261,9 @@ shinyUI(
                     h2("Resúmen portafolio"),
                     fluidRow(
                       box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('result_val_estres_port'))
-                    )
+                    ),
+                    h2("Reporte"),
+                    downloadButton("report_val2", "Descargar")
             ),#final tabitem Valoracion   
               
               #ACERCA

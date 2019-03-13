@@ -1,0 +1,29 @@
+---
+#title: "reporte1"
+output: 
+  pdf_document:
+    includes:
+      in_header: /Users/freddytapia/Documents/preambulo.tex
+      #C:/Users/Freddy Tapia/Documents/preambulo.tex
+      #/Users/dmorales/Documents/Vision/Riesgo-de-Mercado/app/preambulo.tex
+      #paste(getwd(),"preambulo.tex",sep="/") 
+      #~/Documents/Vision/liquidez/preambulo.tex
+params:
+  resultados: NA
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Resultados Backtesting
+
+
+
+```{r,echo = FALSE}
+#library(knitr)
+#kable(params$titulos,col.names=c("Instrumentos"),align="c")
+params$resultados
+```
+

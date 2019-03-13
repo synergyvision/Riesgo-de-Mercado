@@ -878,6 +878,11 @@ knitr::include_graphics("images/b4.png")
 
 Esta sección permite realizar los cáculos de valoración de un portafolio, a partir de sus precios y valor nominal para un día determinado en términos de utilidad y pérdida. De igual manera, esta sección permite realizar una prueba de estrés y saber como se comportará la utilidad o périda del portafolio en caso de una posible caida de los precios.
 
+```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas sección Valoración",label=img94,out.height=120,out.width=200}
+knitr::include_graphics("images/val1.png")
+``` 
+
+
 ###Datos
 
 En esta subsección el usuario debe ingresar la data con la cual se va a trabajar, la misma debe tener la siguiente estructura:
@@ -892,14 +897,24 @@ En esta subsección el usuario debe ingresar la data con la cual se va a trabaja
   
 * El archivo debe contener tantas filas como instrumentos se desee considerar.
 
+```{r , echo=FALSE, fig.align='center',fig.cap="Datos",label=img95}
+knitr::include_graphics("images/val2.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Datos de prueba",label=img96}
+knitr::include_graphics("images/val3.png")
+``` 
 ###Resultados
 
 En esta subsección se muestra los resultados de la valoración, la información está distribuida en dos tablas,
 
 * La primera tabla muestra información acerca del monto invertido en cada instrumento y su valor actual, considerando el precio teórico elegido. También se muestra la ganancia ó perdida que se tiene actualmente con un instrumento. En esta tabla se presenta la información para cada instrumento por separado.
-
+```{r , echo=FALSE, fig.align='center',fig.cap="Resultados individuales",label=img97}
+knitr::include_graphics("images/val4.png")
+``` 
 * La segunda tabla, muestra un resumen para todo el portafolio, se presenta la suma del valor nominal por tipo de instrumento, el precio promedio ponderado por el valor nominal dpara cada isntrumento, y la ganancia ó pérdida obtenida para cada tipo de instrumento considerado.
-
+```{r , echo=FALSE, fig.align='center',fig.cap="Resultados portafolio",label=img98}
+knitr::include_graphics("images/val5.png")
+``` 
 
 ###Resultados prueba de estrés
 
@@ -910,11 +925,24 @@ En esta subsección se muestra los resultados de la valoración luego de estresa
 * Cada columna debe representar la historia para cada instrumento.
 * El archivo debe contener la misma cantidad de instrumentos considerados en la data anterior.
 
-
+```{r , echo=FALSE, fig.align='center',fig.cap="Datos",label=img99}
+knitr::include_graphics("images/val6.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Datos de prueba",label=img100}
+knitr::include_graphics("images/val7.png")
+```
+```{r , echo=FALSE, fig.align='center',fig.cap="Advertencia",label=img101}
+knitr::include_graphics("images/val7.1.png")
+```
 La información está distribuida en dos tablas,
 
 * La primera tabla muestra información acerca del monto invertido en cada instrumento, su valor actual, el precio teórico elegido, la desviación estandar de cada instrumento, el precio estresado, el Mark to Market (MTM), y la ganancia o pérdida considerando los precios teóricos iniciales y los precios teóricos estresados. 
-
+```{r , echo=FALSE, fig.align='center',fig.cap="Resultados individuales estresados",label=img102}
+knitr::include_graphics("images/val8.png")
+```
 
 * La segunda tabla, muestra un resumen para todo el portafolio, se presenta la suma del valor nominal por tipo de instrumento, el precio promedio ponderado por el valor nominal para cada instrumento, y la ganancia ó pérdida obtenida para cada tipo de instrumento considerado los precios de mercado y los precios estresados.
 
+```{r , echo=FALSE, fig.align='center',fig.cap="Resultados portafolio estresados",label=img103}
+knitr::include_graphics("images/val9.png")
+```

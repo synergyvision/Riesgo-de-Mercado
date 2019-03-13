@@ -9891,6 +9891,47 @@ shinyServer(function(input, output) {
     }else{}
   })
   
+  #funcion auxiliar para reporte
+  back <- reactive({
+    data <- data_back()
+    
+    if(length(data[,1])!=0){
+      
+      #convierto a fecha
+      data[,1] <- as.Date(as.character(data[,1]),format="%d/%m/%Y")
+      #convierto en numero
+      data[,2] <- as.numeric(as.character(data[,2]))
+      data[,3] <- as.numeric(as.character(data[,3]))
+      
+      #diseño data frame para usarlo en kup1
+      #numero de observaciones
+      data$obs <- seq(1,nrow(data))
+      
+      #VaR -
+      data$var_menos <- rep(0,nrow(data))
+      for(i in 1:(nrow(data)-1)){
+        data$var_menos[i] <- data[i+1,3]-data[i+1,2]
+      }
+      
+      
+      #VaR +
+      data$var_mas <- rep(0,nrow(data))
+      for(i in 1:(nrow(data)-1)){
+        data$var_mas[i] <- data[i+1,3]+data[i+1,2]
+      }
+      
+      #ordeno data
+      data <- data[,c(4,1,2,5,3,6)]
+      #names(data) <- c("obs","fecha","var","var_menos","posicion","var_mas")
+      names(data) <- c("V1","V2","V3","V4","V5","V6")
+      
+      
+      #uso funcion kup1
+      kup1(data,0.05)
+      
+    }else{}
+  
+  })
   ###############################################################################
   ###############################################################################
   #################################    BACKTESTING    ###########################
@@ -9925,6 +9966,40 @@ shinyServer(function(input, output) {
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     datatable(data_back())
   })
+  
+  # REPORTE BACKTESTING 
+  
+  output$report_back <- downloadHandler(
+    filename = "reporte_back.pdf",
+    content = function(file) {
+      tempReport <- file.path(tempdir(), "reporte_back.Rmd")
+      #tempReport <- file.path(getwd(), "reporte1.Rmd")
+      
+      file.copy("reporte_back.Rmd", tempReport, overwrite = TRUE)
+      
+      # Configuración de parámetros pasados a documento Rmd
+      params <- list(resultados = back()
+                     
+                     
+                     # data2 = data()$corriente,
+                     # data3 = data()$corriente.rem,
+                     # dist1 = input$distVarA,
+                     # dist2 = input$distVarC,
+                     # dist3 = input$distVarCR,
+                     # pconf = input$porVar,
+                     # reali = input$reali,
+                     # revi = input$revi
+      )
+      
+      # Knit the document, passing in the `params` list, and eval it in a
+      # child of the global environment (this isolates the code in the document
+      # from the code in this app).
+      rmarkdown::render(tempReport, output_file = file,
+                        params = params,
+                        envir = new.env(parent = globalenv())
+      )
+    })
+  
   
   ###############################################################################
   ###############################################################################
@@ -10160,6 +10235,58 @@ shinyServer(function(input, output) {
     row.names(b1)[nrow(b1)] <- "TOTALES" 
     b1
   })
+  
+  #VARIABLES AUXILIAR
+  #resultados valoracion
+  val1 <- reactive({
+    if(is.null(data_val())){return()}
+    a <- data_val()
+    #convierto en numero diferentes columnas
+    #valor nominal
+    a[,3] <- as.numeric(as.character(a[,3]))
+    #precio hoy
+    a[,4] <- as.numeric(as.character(a[,4]))
+    #precio mercado
+    a[,5] <- as.numeric(as.character(a[,5]))
+    #calculo mtm
+    a$mtm <- a[,3]*a[,5]/100
+    #calculo utilidad o perdida
+    a$ut_per <- a$mtm*((a[,5]-a[,4])/100)
+    a
+  })
+  
+  # REPORTE VALORACION 1
+  output$report_val1 <- downloadHandler(
+    filename = "reporte_val1.pdf",
+    content = function(file) {
+      tempReport <- file.path(tempdir(), "reporte_val1.Rmd")
+      #tempReport <- file.path(getwd(), "reporte1.Rmd")
+      
+      file.copy("reporte_val1.Rmd", tempReport, overwrite = TRUE)
+      
+      # Configuración de parámetros pasados a documento Rmd
+      params <- list(valind = val1()
+                     
+                     
+                     # data2 = data()$corriente,
+                     # data3 = data()$corriente.rem,
+                     # dist1 = input$distVarA,
+                     # dist2 = input$distVarC,
+                     # dist3 = input$distVarCR,
+                     # pconf = input$porVar,
+                     # reali = input$reali,
+                     # revi = input$revi
+      )
+      
+      # Knit the document, passing in the `params` list, and eval it in a
+      # child of the global environment (this isolates the code in the document
+      # from the code in this app).
+      rmarkdown::render(tempReport, output_file = file,
+                        params = params,
+                        envir = new.env(parent = globalenv())
+      )
+    })
+  
   
   
   # Almacenar Variables Reactivas
