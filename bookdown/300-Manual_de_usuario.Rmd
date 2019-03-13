@@ -632,73 +632,193 @@ knitr::include_graphics("images/vr7.png")
 
  * Pestaña Paramétrico: en esta pestaña se muestra la siguiente información,
     * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia.
+```{r , echo=FALSE, fig.align='center',fig.cap="Rendimientos",label=img50}
+knitr::include_graphics("images/vr8.png")
+``` 
     * Parámetros seleccionados para cada instrumento suponiendo una distribución Normal.
+```{r , echo=FALSE, fig.align='center',fig.cap="Advertencias y parámetros",label=img51}
+knitr::include_graphics("images/vr9.png")
+``` 
     * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99%.
+```{r , echo=FALSE, fig.align='center',fig.cap="Nivel de confianza",label=img52}
+knitr::include_graphics("images/vr10.png")
+``` 
     * Luego se seleccionar este valor, se mostrará una tabla con los vares individuales, desviación estándar y el porcentaje que representa cada VaR individual sobre el portafolio.
     * Finalmente se muestra el valor del VaR de portafolio.
+```{r , echo=FALSE, fig.align='center',fig.cap="VaRes",label=img53}
+knitr::include_graphics("images/vr11.png")
+``` 
  * Pestaña Histórico: en esta pestaña se muestra la siguiente información,
     * Una advertencia en caso de existir algún problema con algún instrumento.
     * Pesos de cada instrumento, calculado a partir de su proporción de valor nominal con respecto al total de instrumentos.
+```{r , echo=FALSE, fig.align='center',fig.cap="Pesos",label=img54}
+knitr::include_graphics("images/vr12.png")
+``` 
     * Valor nominal del portafolio.
     * Suma de pesos.
+```{r , echo=FALSE, fig.align='center',fig.cap="Valor nominal y suma de pesos",label=img55}
+knitr::include_graphics("images/vr13.png")
+``` 
     * Escenarios, se refiere a las variaciones que ha sufrido el valor de portafolio de manera diaria esto debido a la variación de los precios de los instrumentos.
+```{r , echo=FALSE, fig.align='center',fig.cap="Escenarios",label=img56}
+knitr::include_graphics("images/vr14.png")
+``` 
     * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99%.
     * Ubicación de la observación a ser considerada para el cálculo del VaR por simulación Histórica.
+```{r , echo=FALSE, fig.align='center',fig.cap="Nivel de confianza y ubicación",label=img57}
+knitr::include_graphics("images/vr15.png")
+``` 
     * Resultados de los vares individuales, donde se mostrará el valor nominal y el VaR para cada instrumento.
     * VaR del portafolio.
+```{r , echo=FALSE, fig.align='center',fig.cap="VaRes",label=img58}
+knitr::include_graphics("images/vr16.png")
+``` 
  * Pestaña Simulación MonteCarlo: esta pestaña se subdivide en dos secciones:
+```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas simulación MonteCarlo",label=img59}
+knitr::include_graphics("images/vr17.png")
+```  
     * VaR Simulación MonteCarlo asumiendo normalidad: en esta sección se muestra la siguiente información,
         * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia.
+```{r , echo=FALSE, fig.align='center',fig.cap="Rendimientos",label=img60}
+knitr::include_graphics("images/vr18.png")
+``` 
         * Parámetros seleccionados para cada instrumento suponiendo una distribución Normal.
         * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99%.
+```{r , echo=FALSE, fig.align='center',fig.cap="Parámetros y nivel de confianza",label=img61}
+knitr::include_graphics("images/vr19.png")
+``` 
         * Lista de selección, donde el usuario debe elegir la cantidad de simulaciones que desea realizar.
+```{r , echo=FALSE, fig.align='center',fig.cap="Cantidad de simulaciones",label=img62}
+knitr::include_graphics("images/vr20.png")
+``` 
         * Resultados de los vares individuales obtenidos mediante esta metodología. Donde se muestra el nombre del instrumento, el valor nominal, el var individual y el porcentaje de cada VaR con respecto al portafolio.
         * Resultado del VaR de portafolio.
-    * VaR Simulación MonteCarlo considerando mejor distribución:en esta sección se muestra la siguiente información,
+```{r , echo=FALSE, fig.align='center',fig.cap="VaRes",label=img63}
+knitr::include_graphics("images/vr21.png")
+``` 
+    * VaR Simulación MonteCarlo considerando mejor distribución: en esta sección se muestra la siguiente información,
         * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia.
+```{r , echo=FALSE, fig.align='center',fig.cap="Rendimientos",label=img64}
+knitr::include_graphics("images/vr22.png")
+``` 
         * Distribuciones seleccionadas para cada instrumento, ya sea seleccionadas mediante la aplicación o mediante un archivo ingresado por el usuario.
         * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99%.
+```{r , echo=FALSE, fig.align='center',fig.cap="Distribuciones y nivel de confianza",label=img65}
+knitr::include_graphics("images/vr23.png")
+``` 
         * Lista de selección, donde el usuario debe elegir la cantidad de simulaciones que desea realizar.
+```{r , echo=FALSE, fig.align='center',fig.cap="Cantidad de simulaciones",label=img66}
+knitr::include_graphics("images/vr24.png")
+``` 
         * Resultados del VaR individual.
         * Resultado del VaR de portafolio.
+```{r , echo=FALSE, fig.align='center',fig.cap="VaRes",label=img67}
+knitr::include_graphics("images/vr25.png")
+``` 
  
 ###Gráficos
 
 En esta sección se subdivide en:
 
+```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas sección Gráficos",label=img68}
+knitr::include_graphics("images/vr26.png")
+``` 
+
  * Pestaña Valor nominal: en esta subsección se muestra un gráfico de torta donde se muestra el valor nominal de cada instrumento.
  
- * VaRes: esta subsección presenta los resultados de los VaRes obtenidos mediante las diferentes metodologías, la misma se divide en:
-    * VaR Paramétrico:
-        + VaRes individuales:
-        + Comparativo:
-    * VaR Simulación Histórica:
-        + Escenarios:
-        + VaRes individuales:
-        + Comparativo:
-    * VaR Simulación MonteCarlo:
-        + Distribución Normal:
-            * Escenarios:
-            * VaRes individuales:
-            * Comparativo:
-        + Distribución Elegida:
-        * Escenarios:
-            * VaRes individuales:
-            * Comparativo:
+```{r , echo=FALSE, fig.align='center',fig.cap="Gráfico valor nominal",label=img69}
+knitr::include_graphics("images/vr27.png")
+``` 
  
+ * VaRes: esta subsección presenta los resultados de los VaRes obtenidos mediante las diferentes metodologías, la misma se divide en:
+```{r , echo=FALSE, fig.align='center',fig.cap="Pestañs VaRes",label=img70}
+knitr::include_graphics("images/vr28.png")
+``` 
+    * VaR Paramétrico: en esta subsección se muestran los gráficos correspondientes a esta metodología. La misma se subdivide en,
+```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas VaR paramétrico",label=img71}
+knitr::include_graphics("images/vr29.png")
+``` 
+        + VaRes individuales: se muestra un gráfico de torta donde se muestra información sobre los VaRes individuales obtenidos.
+```{r , echo=FALSE, fig.align='center',fig.cap="VaRes individuales",label=img72}
+knitr::include_graphics("images/vr30.png")
+```        
+        + Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales.
+```{r , echo=FALSE, fig.align='center',fig.cap="Comparativo",label=img73}
+knitr::include_graphics("images/vr31.png")
+``` 
+    * VaR Simulación Histórica: esta subsección muestra los siguientes gráficos,
+```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas VaR simulación por histórica",label=img74}
+knitr::include_graphics("images/vr32.png")
+``` 
+        + Escenarios: muestra un histograma mediante el cual se muestran los diferentes escenarios obtenidos.
+```{r , echo=FALSE, fig.align='center',fig.cap="Histograma escenarios",label=img75}
+knitr::include_graphics("images/vr33.png")
+``` 
+        + VaRes individuales: muestra un gráfico de torta donde se muestra información sobre los Vares individuales obtenidos.
+```{r , echo=FALSE, fig.align='center',fig.cap="VaRes individuales",label=img76}
+knitr::include_graphics("images/vr34.png")
+``` 
+        + Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales.
+```{r , echo=FALSE, fig.align='center',fig.cap="Comparativo",label=img77}
+knitr::include_graphics("images/vr35.png")
+``` 
+    * VaR Simulación MonteCarlo: esta subsección se divide en dos,
+```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas VaR simulación MonteCarlo",label=img78}
+knitr::include_graphics("images/vr36.png")
+```     
+        + Distribución Normal: se muestra los resultados, asumiendo una distribución normal,
+```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas VaR simulación MonteCarlo normal",label=img79}
+knitr::include_graphics("images/vr37.png")
+```     
+            * Escenarios: muestra un histograma mediante el cual se muestran los diferentes escenarios obtenidos.
+```{r , echo=FALSE, fig.align='center',fig.cap="Histograma escenarios",label=img80}
+knitr::include_graphics("images/vr38.png")
+```
+            * VaRes individuales: muestra un gráfico de torta donde se muestra información sobre los Vares individuales obtenidos.
+```{r , echo=FALSE, fig.align='center',fig.cap="VaRes individuales",label=img81}
+knitr::include_graphics("images/vr39.png")
+```
+            * Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales.
+```{r , echo=FALSE, fig.align='center',fig.cap="Comparativo",label=img82}
+knitr::include_graphics("images/vr40.png")
+```            
+        + Distribución Elegida: se muestran los resultados, asumiendo la mejor distribución,
+```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas VaR simulación MonteCarlo mejor distribución",label=img83}
+knitr::include_graphics("images/vr41.png")
+```
+            * Escenarios: muestra un histograma mediante el cual se muestran los diferentes escenarios obtenidos.
+```{r , echo=FALSE, fig.align='center',fig.cap="Histograma escenarios",label=img84}
+knitr::include_graphics("images/vr42.png")
+```           
+            * VaRes individuales: muestra un gráfico de torta donde se muestra información sobre los Vares individuales obtenidos.
+```{r , echo=FALSE, fig.align='center',fig.cap="VaRes individuales",label=img85}
+knitr::include_graphics("images/vr43.png")
+```
+            * Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales.
+```{r , echo=FALSE, fig.align='center',fig.cap="Comparativo",label=img86}
+knitr::include_graphics("images/vr44.png")
+``` 
  * Comparativo Vares: en esta subsección se muestra un gráfico comparativo del VaR de portafolio obtenido para cada metodología.
-
+```{r , echo=FALSE, fig.align='center',fig.cap="Comparativo VaRes",label=img87}
+knitr::include_graphics("images/vr45.png")
+``` 
 
 ###Históricos
 
 Esta sección permite calcular el VaR para un rango de fechas en específico, siempre y cuando las mismas se encuentren disponibles en la data histórica considerada. La misma cuenta con las siguientes secciones:
+
+```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas sección Históricos",label=img88}
+knitr::include_graphics("images/vr46.png")
+``` 
 
   * VaR Paramétrico: esta subsección permite calcular el histórico de los VaRes mediante el uso de la metodología del VaR paramétrico, la cual se basa en asumir una distribución normal para cada instrumento. Dentro de esta subsección se encuentra:
     * Rango de fechas disponibles, el cual es obtenido a partir de la data cargada en la sección Datos.
     * Opción para seleccionar el rango de fechas deseado, es importante acotar que la fecha inicial debe ser siempre menor que la fecha final, y las mismas no se pueden salir del rango establecido en el punto anterior.
     * Elección realizada por el usuario.
     * Histórico generado por la metodología del Var paramétrico, consta de dos columnas la primera indica la fecha, mientras que la segunda indica el valor del VaR para ese día en específico.
-  
+```{r , echo=FALSE, fig.align='center',fig.cap="Sección Históricos",label=img89}
+knitr::include_graphics("images/vr47.png")
+``` 
   * VaR Histórico: esta subsección permite calcular el histórico de los Vares mediante el uso de la metodología del VaR por simulación histórica, la cual se caracteriza por no asignar ninguna distribución conocida, sino que trabaja con la distribución empírica de los datos. Dentro de esta subsección se encuentra:
     * Rango de fechas disponibles, el cual es obtenido a partir de la data cargada en la sección Datos.
     * Opción para seleccionar el rango de fechas deseado, es importante acotar que la fecha inicial debe ser siempre menor que la fecha final, y las mismas no se pueden salir del rango establecido en el punto anterior.
@@ -720,6 +840,10 @@ Esta sección permite calcular el VaR para un rango de fechas en específico, si
 
 ##Backtesting
 
+```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas sección Backtesting",label=img90,out.height=100,out.width=200}
+knitr::include_graphics("images/b1.png")
+``` 
+
 Esta sección permite realizar diversas pruebas al Valor en Riesgo y así poder calibrar y analizar su comportamiento, entre estas pruebas se encuentran el test de Kupiec y  el test de Haas.
 
 ###Datos
@@ -729,6 +853,12 @@ En esta subsección el usuario debe ingresar los datos con los cuales se va a tr
   * Debe ser un archivo de texto txt.
   * Debe contar con tres columnas, la primera debe proporcionar información sobre la fecha (ej: 27/03/2018), la segunda columna debe contener información sobre el VaR para ese día. Finalmente, la tercera columna debe indicar información sobre el valor nominal del portafolio para el día considerado. Es importante mencionar que el archivo debe contener 252 observaciones.
 
+```{r , echo=FALSE, fig.align='center',fig.cap="Datos",label=img91}
+knitr::include_graphics("images/b2.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Data de prueba",label=img92}
+knitr::include_graphics("images/b3.png")
+``` 
 
 ###Resultados
 
@@ -740,6 +870,9 @@ En esta subsección se muestran los resultados obtenidos para las diferentes pru
 * Valor crítico asociado a cada prueba.
 * Resultado de cada prueba, obtenido al realizar una comparación entre el valor crítico y el valor del estadístico de cada prueba.
 
+```{r , echo=FALSE, fig.align='center',fig.cap="Resultados",label=img93}
+knitr::include_graphics("images/b4.png")
+``` 
 
 ##Valoración
 
