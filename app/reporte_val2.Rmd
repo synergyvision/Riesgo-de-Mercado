@@ -17,31 +17,31 @@ params:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Resultados valoración
+## Resultados valoración estresada
 
 ```{r,echo = FALSE}
 library(knitr)
 a <- params$valinde
-a
-# kable(data.frame(c(as.character(a[,1]),"TOTALES"),prettyNum(c(a[,3],sum(a[,3])), scientific=FALSE, big.mark="."),c(a[,4],sum(a[,4]*a[,3])/sum(a[,3])),c(a[,5],sum(a[,5]*a[,3])/sum(a[,3])),prettyNum(c(a[,6],sum(a[,6])), scientific=FALSE, big.mark="."),prettyNum(c(a[,7],sum(a[,7])), scientific=FALSE, big.mark=".")),col.names=c("Títulos","Valor Nominal", "Precio hoy","Precio mercado","MTM","UTD/PER"),align="c")
+
+kable(data.frame(c(as.character(a[,1]),"TOTALES"),prettyNum(c(a[,3],sum(a[,3])), scientific=FALSE, big.mark="."),c(a[,5],sum(a[,5]*a[,3])/sum(a[,3])),c(a[,6],sum(a[,6]*a[,3])/sum(a[,3])),prettyNum(c(a[,7],sum(a[,7])), scientific=FALSE, big.mark="."),prettyNum(c(a[,8],sum(a[,8])), scientific=FALSE, big.mark="."),prettyNum(c(a[,10],sum(a[,10])), scientific=FALSE, big.mark=".")),col.names=c("Títulos","Valor Nominal", "Precio mercado","Desviación","Precio estrés","MTM","UTD/PER"),align="c")
 ```
 
 ## Utilidad ó perdida
 
 ```{r,echo = FALSE}
-#  library(knitr)
-#  a <- params$valind
-#  a[,1] <- as.character(a[,1])
-#  #grafico
-#  b <- cbind.data.frame(a[,1],a[,7])
-#  names(b) <- c("titulo","valor_nominal")
-#       
-# 
-# p <- ggplot(b, aes(reorder(titulo,valor_nominal), valor_nominal, fill = titulo)) +
-#   geom_bar(position="stack", stat="identity",show.legend = FALSE) + coord_flip() +
-#   labs(x = "Títulos",y = "Valor Nominal")+
-#   theme(axis.text.y=element_text(angle=0, hjust=1,size = 6))
-# print(p)
+  library(knitr)
+  a <- params$valinde
+  a[,1] <- as.character(a[,1])
+  #grafico
+  b <- cbind.data.frame(a[,1],a[,10])
+  names(b) <- c("titulo","valor_nominal")
+       
+ 
+ p <- ggplot(b, aes(reorder(titulo,valor_nominal), valor_nominal, fill = titulo)) +
+   geom_bar(position="stack", stat="identity",show.legend = FALSE) + coord_flip() +
+   labs(x = "Títulos",y = "Valor Nominal")+
+   theme(axis.text.y=element_text(angle=0, hjust=1,size = 6))
+ print(p)
 
 ```
 
@@ -50,9 +50,7 @@ a
 ## Resumen valoración
 
 ```{r,echo = FALSE}
-a1 <- params$valpore
-a1
-# library(knitr)
-# a <- params$valpor
-# kable(data.frame(rownames(a),prettyNum(a[,1], scientific=FALSE, big.mark="."),prettyNum(a[,2], scientific=FALSE, big.mark="."),prettyNum(a[,3], scientific=FALSE, big.mark=".")),col.names=c("Títulos","Valor Nominal","Precio promedio mercado","UTD/PER"),align="c")
+ library(knitr)
+ a <- params$valpore
+ kable(data.frame(rownames(a),prettyNum(a[,1], scientific=FALSE, big.mark="."),prettyNum(a[,2], scientific=FALSE, big.mark="."),prettyNum(a[,3], scientific=FALSE, big.mark="."),prettyNum(a[,4], scientific=FALSE, big.mark=".")),col.names=c("Títulos","Valor Nominal","Precio promedio mercado","UTD/PER","UTD/PER estrés" ),align="c")
 ```

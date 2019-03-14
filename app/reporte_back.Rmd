@@ -19,11 +19,31 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Resultados Backtesting
 
-
-
+###Número de observaciones
 ```{r,echo = FALSE}
-#library(knitr)
+library(knitr)
 #kable(params$titulos,col.names=c("Instrumentos"),align="c")
-params$resultados
+a <- params$resultados
+kable(a[[1]],align="c")
 ```
+
+###Estadísticos
+```{r,echo = FALSE}
+library(knitr)
+#kable(params$titulos,col.names=c("Instrumentos"),align="c")
+a <- params$resultados
+kable(a[[2]],align="c")
+```
+
+###Interpretación
+```{r,echo = FALSE}
+library(knitr)
+#kable(params$titulos,col.names=c("Instrumentos"),align="c")
+a <- params$resultados
+kable(a[[3]],col.names=c("Resultados"),align="l")
+```
+
+
+
+
 
