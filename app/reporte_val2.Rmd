@@ -1,0 +1,58 @@
+---
+#title: "reporte1"
+output: 
+  pdf_document:
+    includes:
+      in_header: /Users/freddytapia/Documents/preambulo.tex
+      #C:/Users/Freddy Tapia/Documents/preambulo.tex
+      #/Users/dmorales/Documents/Vision/Riesgo-de-Mercado/app/preambulo.tex
+      #paste(getwd(),"preambulo.tex",sep="/") 
+      #~/Documents/Vision/liquidez/preambulo.tex
+params:
+  valinde: NA
+  valpore: NA
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Resultados valoración
+
+```{r,echo = FALSE}
+library(knitr)
+a <- params$valinde
+a
+# kable(data.frame(c(as.character(a[,1]),"TOTALES"),prettyNum(c(a[,3],sum(a[,3])), scientific=FALSE, big.mark="."),c(a[,4],sum(a[,4]*a[,3])/sum(a[,3])),c(a[,5],sum(a[,5]*a[,3])/sum(a[,3])),prettyNum(c(a[,6],sum(a[,6])), scientific=FALSE, big.mark="."),prettyNum(c(a[,7],sum(a[,7])), scientific=FALSE, big.mark=".")),col.names=c("Títulos","Valor Nominal", "Precio hoy","Precio mercado","MTM","UTD/PER"),align="c")
+```
+
+## Utilidad ó perdida
+
+```{r,echo = FALSE}
+#  library(knitr)
+#  a <- params$valind
+#  a[,1] <- as.character(a[,1])
+#  #grafico
+#  b <- cbind.data.frame(a[,1],a[,7])
+#  names(b) <- c("titulo","valor_nominal")
+#       
+# 
+# p <- ggplot(b, aes(reorder(titulo,valor_nominal), valor_nominal, fill = titulo)) +
+#   geom_bar(position="stack", stat="identity",show.legend = FALSE) + coord_flip() +
+#   labs(x = "Títulos",y = "Valor Nominal")+
+#   theme(axis.text.y=element_text(angle=0, hjust=1,size = 6))
+# print(p)
+
+```
+
+\newpage 
+
+## Resumen valoración
+
+```{r,echo = FALSE}
+a1 <- params$valpore
+a1
+# library(knitr)
+# a <- params$valpor
+# kable(data.frame(rownames(a),prettyNum(a[,1], scientific=FALSE, big.mark="."),prettyNum(a[,2], scientific=FALSE, big.mark="."),prettyNum(a[,3], scientific=FALSE, big.mark=".")),col.names=c("Títulos","Valor Nominal","Precio promedio mercado","UTD/PER"),align="c")
+```

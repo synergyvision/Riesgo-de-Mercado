@@ -10255,6 +10255,54 @@ shinyServer(function(input, output) {
     a
   })
   
+  #
+  val2 <- reactive({
+    if(is.null(data_val())){return()}
+    a <- data_val()
+    #valor nominal
+    a[,3] <- as.numeric(as.character(a[,3]))
+    #precio hoy
+    a[,4] <- as.numeric(as.character(a[,4]))
+    #precio mercado
+    a[,5] <- as.numeric(as.character(a[,5]))
+    #calculo mtm
+    a$mtm <- a[,3]*a[,5]/100
+    #calculo utilidad o perdida
+    a$ut_per <- a$mtm*((a[,5]-a[,4])/100)
+    
+    #resumen
+    #determino cuantos tipos de instrumentos hay
+    #a$tit <- substr(a[,1],1,3)
+    #a$tit <- as.factor(a$tit)
+    a[,2] <- as.factor(a[,2])
+    
+    #cant <- length(levels(a$tit))
+    cant <- length(levels(a[,2]))
+    le <- as.character(levels(a[,2]))
+    
+    b <- as.data.frame(matrix(0,nrow = cant,ncol = 3))
+    names(b) <- c("Valor Nominal","Promedio Precio Mercado","UTD/PER")
+    #extraigo tipos de titulos
+    #supongo que solo hay un solo tipo de instrumento
+    #d <- substr(as.character(a[1,1]),1,3)
+    row.names(b) <- as.character(levels(a[,2]))
+    
+    #length(levels(data_valoracion_1$tit))
+    for(i in 1:cant){
+      #suma valor nominal
+      b[i,1] <- sum(a[which(le[i]==a[,2]),3])
+      #precio promedio ponderado
+      b[i,2] <- sum((a[which(le[i]==a[,2]),3])*(a[which(le[i]==a[,2]),5]))/sum(a[which(le[i]==a[,2]),3])
+      #utilidad o perdida
+      b[i,3] <- sum(a$ut_per[which(le[i]==a[,2])])
+    }
+    #
+    b1 <- rbind.data.frame(b,c(sum(b[,1]),(sum(b[,1]*b[,2])/sum(b[,1])),sum(b[,3])))
+    row.names(b1)[nrow(b1)] <- "TOTALES" 
+    b1
+    
+  })
+  
   # REPORTE VALORACION 1
   output$report_val1 <- downloadHandler(
     filename = "reporte_val1.pdf",
@@ -10265,7 +10313,7 @@ shinyServer(function(input, output) {
       file.copy("reporte_val1.Rmd", tempReport, overwrite = TRUE)
       
       # Configuración de parámetros pasados a documento Rmd
-      params <- list(valind = val1()
+      params <- list(valind = val1(),valpor = val2()
                      
                      
                      # data2 = data()$corriente,
@@ -10287,7 +10335,126 @@ shinyServer(function(input, output) {
       )
     })
   
+  #VARIABLES AUXILIARES VALORACION ESTRES
+  val1_e <- reactive({
+    if(is.null(data_val()) | is.null(data_val_estres()) ){return()}
+    a <- data_val()
+    a[,3] <- as.numeric(as.character(a[,3]))
+    #a[,5] <- as.numeric(as.character(a[,5]))
+    a[,4] <- as.numeric(as.character(a[,4]))
+    a[,5] <- as.numeric(as.character(a[,5]))
+    
+    #calculo desviacion estandar de historico de tit
+    #data <- read.delim2(paste(getwd(),"data","tif.txt",sep = "/"))
+    data <- data_val_estres()
+    a$sd <-rep(0,nrow(a))
+    
+    for(i in 1:nrow(a)){
+      a$sd[i] <- sd(data[,i+1],na.rm = TRUE)
+    }
+    
+    a$precio_estres <- a[,5]-a$sd
+    a$mtm <- a[,3]*a$precio_estres/100
+    #a$ut_per <- a$mtm-(a[,3]*a$precio_estres/100)
+    a$ut_per1 <- a$mtm*((a[,5]-a[,4])/100)
+    a$ut_per2 <- a$mtm*((a$precio_estres-a[,5])/100)
+    a
+    
+  })
   
+  #
+  val2_e <- reactive({
+    if(is.null(data_val()) | is.null(data_val_estres()) ){return()}
+    a <- data_val()
+    a[,3] <- as.numeric(as.character(a[,3]))
+    #a[,5] <- as.numeric(as.character(a[,5]))
+    a[,4] <- as.numeric(as.character(a[,4]))
+    a[,5] <- as.numeric(as.character(a[,5]))
+    
+    #calculo desviacion estandar de historico de tit
+    #data <- read.delim2(paste(getwd(),"data","tif.txt",sep = "/"))
+    data <- data_val_estres()
+    a$sd <-rep(0,nrow(a))
+    
+    for(i in 1:nrow(a)){
+      a$sd[i] <- sd(data[,i+1],na.rm = TRUE)
+    }
+    
+    a$precio_estres <- a[,5]-a$sd
+    a$mtm <- a[,3]*a$precio_estres/100
+    #a$ut_per <- a$mtm-(a[,3]*a$precio_estres/100)
+    a$ut_per1 <- a$mtm*((a[,5]-a[,4])/100)
+    a$ut_per2 <- a$mtm*((a$precio_estres-a[,5])/100)
+    a
+    
+    #a partir de aqui hacer resumen
+    #determino cuantos tipos de instrumentos hay
+    #a$tit <- substr(a[,1],1,3)
+    #a$tit <- as.factor(a$tit)
+    a[,2] <- as.factor(a[,2])
+    
+    #cant <- length(levels(a$tit))
+    cant <- length(levels(a[,2]))
+    le <- as.character(levels(a[,2]))
+    
+    b <- as.data.frame(matrix(0,nrow = cant,ncol = 4))
+    names(b) <- c("Valor Nominal","Promedio Precio Mercado","UTD/PER","UTD/PER-ESTRÉS")
+    #extraigo tipos de titulos
+    #supongo que solo hay un solo tipo de instrumento
+    #d <- substr(as.character(a[1,1]),1,3)
+    row.names(b) <- as.character(levels(a[,2]))
+    
+    #length(levels(data_valoracion_1$tit))
+    for(i in 1:cant){
+      #suma valor nominal
+      b[i,1] <- sum(a[which(le[i]==a[,2]),3])
+      #precio promedio ponderado
+      b[i,2] <- sum((a[which(le[i]==a[,2]),3])*(a[which(le[i]==a[,2]),5]))/sum(a[which(le[i]==a[,2]),3])
+      #utilidad o perdida
+      b[i,3] <- sum(a$ut_per1[which(le[i]==a[,2])])
+      #utilidad o perdida estres
+      b[i,4] <- sum(a$ut_per2[which(le[i]==a[,2])])
+      
+    }
+    #
+    b1 <- rbind.data.frame(b,c(sum(b[,1]),(sum(b[,1]*b[,2])/sum(b[,1])),sum(b[,3]),sum(b[,4])))
+    row.names(b1)[nrow(b1)] <- "TOTALES" 
+    b1
+    
+  })
+  
+  
+  # REPORTE VALORACION 2
+  output$report_val2 <- downloadHandler(
+    filename = "reporte_val2.pdf",
+    content = function(file) {
+      tempReport <- file.path(tempdir(), "reporte_val2.Rmd")
+      #tempReport <- file.path(getwd(), "reporte1.Rmd")
+      
+      file.copy("reporte_val2.Rmd", tempReport, overwrite = TRUE)
+      
+      # Configuración de parámetros pasados a documento Rmd
+      params <- list(valinde = val1_e(),valpore = val2_e()
+                     
+                     
+                     # data2 = data()$corriente,
+                     # data3 = data()$corriente.rem,
+                     # dist1 = input$distVarA,
+                     # dist2 = input$distVarC,
+                     # dist3 = input$distVarCR,
+                     # pconf = input$porVar,
+                     # reali = input$reali,
+                     # revi = input$revi
+      )
+      
+      # Knit the document, passing in the `params` list, and eval it in a
+      # child of the global environment (this isolates the code in the document
+      # from the code in this app).
+      rmarkdown::render(tempReport, output_file = file,
+                        params = params,
+                        envir = new.env(parent = globalenv())
+      )
+    })
   
   # Almacenar Variables Reactivas
   # RV <- reactiveValues()
