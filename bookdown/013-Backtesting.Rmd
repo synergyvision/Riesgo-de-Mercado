@@ -4,26 +4,84 @@
 
 El Valor en Riesgo (VaR) se ha convertido en un modelo ampliamente empleado por las instituciones financieras y administradores de portafolios para medir el riesgo de mercado. Sin embargo, los modelos de VaR son útiles sólo si se predicen con exactitud los riesgos futuros. Con la finalidad de evaluar la calidad de las estimaciones de los modelos de Valor en Riesgo, se debe emplear el Backtesting que es un procedimiento estadístico donde las ganancias y las pérdidas reales se comparan sistemáticamente con el modelo de medición de riesgos.
 
-El Valor en Riesgo es un modelo estadístico que permite estimar la pérdida potencial que puede tener el portafolio de inversión en un horizonte de tiempo determinado y con un nivel de confianza dado. Para verificar que el modelo esté midiendo el riesgo adecuadamente se recomienda realizar pruebas de Backtesting con el fin de verificar si el modelo es adecuado y, en caso de no ser, realizar ajustes y calibrar el modelo.
+<!-- El Valor en Riesgo es un modelo estadístico que permite estimar la pérdida potencial que puede tener el portafolio de inversión en un horizonte de tiempo determinado y con un nivel de confianza dado. Para verificar que el modelo esté midiendo el riesgo adecuadamente se recomienda realizar pruebas de Backtesting con el fin de verificar si el modelo es adecuado y, en caso de no ser, realizar ajustes y calibrar el modelo. -->
 
 El rol que juega el VaR en la actualidad como una medida de riesgo incrementa la necesidad de evaluar la calidad de sus estimaciones. El Backtesting es un proceso donde los beneficios o pérdidas actuales son comparados con la estimación del modelo de Valor en Riesgo, los métodos de Backtesting pueden ser incondicionales o condicionales.
 
-Los métodos incondicionales cuentan el número de excepciones y las comparan con el nivel de confianza, si las excepciones están dentro de los límites estadísticos definidos el modelo es aceptado, y en caso contrario rechazado. Por el contrario, los métodos condicionales evalúan la independencia de las excepciones. En el presente trabajo se abordan ambos métodos, para ello se han empleado el Test de kupiec y el semáforo propuesto por Basilea para evaluar los métodos incondicionales, mientras que para los métodos condicionales se aplicó el Test de Haas y la Prueba Mixta de Kupiec.
+Los métodos incondicionales cuentan el número de excepciones y las comparan con el nivel de confianza, si las excepciones están dentro de los límites estadísticos definidos el modelo es aceptado, y en caso contrario rechazado. Por el contrario, los métodos condicionales evalúan la independencia de las excepciones. Dentro de los métodos incondicionales se encuentran el Test de kupiec y el semáforo propuesto por Basilea, por su parte el Test de Haas y la Prueba Mixta de Kupiec son ejemplos de los métodos condicionales.
 
 
 El concepto de Backtesting es esencial en el proceso de evaluar y calibrar los modelos de medición de riesgos. Para realizar un backtesting es necesario comparar el valor en riesgo observado con las pérdidas y ganancias reales. En esta prueba lo que se mide es la eficiencia en el modelo, contando las observaciones de pérdidas y ganancias que fueron mayor al VaR.
 
-Los pasos a seguir para la realización de un backtesting son los siguientes:
-Las pérdidas y ganancias se calculan con cambios en la valoración o mark-to-mark
-Se debe comparar periódicamente el valor en riesgo observado ajustado a un día con las pérdidas y ganancias diarias (se recomienda 250 observaciones, es decir, una ventana de un año).
-Los errores o excepciones detectados se calculan contando el número de veces que las pérdidas y ganancias exceden el valor en riesgo.
-El nivel de eficiencia del modelo será número de excepciones/número de observaciones.
+<!-- Los pasos a seguir para la realización de un backtesting son los siguientes: -->
+<!-- Las pérdidas y ganancias se calculan con cambios en la valoración o mark-to-mark -->
+<!-- Se debe comparar periódicamente el valor en riesgo observado ajustado a un día con las pérdidas y ganancias diarias (se recomienda 250 observaciones, es decir, una ventana de un año). -->
+<!-- Los errores o excepciones detectados se calculan contando el número de veces que las pérdidas y ganancias exceden el valor en riesgo. -->
+<!-- El nivel de eficiencia del modelo será número de excepciones/número de observaciones. -->
 
-Con el objetivo de medir la eficiencia del modelo de Valor en Riesgo del BNC se utilizó los métodos condicionales, específicamente se han empleado el Test propuesto por Kupiec (1995) y el Test propuesto por Basilea (Semáforo) y para los métodos condicionales se usó el Test Propuesto por Haas (2001) y la Prueba Mixta de Kupiec.
+<!-- Con el objetivo de medir la eficiencia del modelo de Valor en Riesgo del BNC se utilizó los métodos condicionales, específicamente se han empleado el Test propuesto por Kupiec (1995) y el Test propuesto por Basilea (Semáforo) y para los métodos condicionales se usó el Test Propuesto por Haas (2001) y la Prueba Mixta de Kupiec. -->
 
 
 ##Prueba de Kupiec
 
+Uno de los principales métodos desarrollados para calibrar y validar los modelos de riesgo es el test de Kupiec. El planteamiento propuesto por Paul H. Kupiec en 1995, permite determinar si la proporción de excepciones observadas de un modelo es consistente con la proporción de excepciones esperada, si se tiene en cuenta tanto el modelo VaR elegido como el nivel de confianza del mismo.
+
+La prueba consiste en realizar el conteo de las pérdidas y/o ganancias que exceden el VaR (excepciones) durante un periodo determinado, de forma que pueda concluirse si estadísticamente las proporciones son iguales o no, lo que determina la calidad del modelo evaluado.
+
+Asumiendo n como el total de observaciones, x como el número de excepciones y (1-α) como el nivel de confianza al cual se encuentra calculado el modelo VaR, se contrasta la hipótesis de que la proporción observada de excepciones (x/n) es estadísticamente igual a la probabilidad de error considerada para el VaR (α).
+
+Kupiec planteó un estadístico de prueba, que sigue una distribución t-student cuya expresión se describe a continuación:
+
+
+### Marco de referencia Comité de Basilea (1996).
+
+
+El comité de Basilea de Supervisión Bancaria elaboró un marco para la incorporación de backtesting en los modelos de valoración de riesgo, con el objetivo de diferenciar claramente modelos precisos de modelos imprecisos, ya que en la actualidad se siguen desarrollando nuevos enfoques que permiten perfeccionar los diferentes métodos. El objetivo del marco de referencia es promover enfoques más rigurosos en el desarrollo del backtesting y en la interpretación de los resultados (Basel Committee on Banking Supervision 1996).
+
+
+El marco abarca la comparación periódica del valor en riesgo diario con la pérdida y/o ganancia diaria real, y permite comparar si el porcentaje real de los resultados cubiertos por la medida de riesgo es consistente con un nivel de 99% de confianza; adicionalmente, se encuentra propuesto para el uso de medidas de riesgo calibradas para un período de tenencia de un día.
+
+El Comité de Basilea prevé que el requisito mínimo de capital (RMC) para cubrir el riesgo de mercado, sea calculado como el máximo valor entre el VaR del día anterior y el producto entre el promedio de los últimos 60 VaR diarios y un factor multiplicativo, calculado como la suma entre 3 y un factor aditivo !! que se encuentra relacionado con la calidad del modelo y que se fija dependiendo del número de pérdidas que exceden al VaR (excepciones). La expresión para hallar el RMC se encuentra a continuación:
+
+$$
+RMC_{t+1} = max[VaR_t , (3+s_t)*\frac{1}{60}\sum_{i=1}^{60} VaR_{t-1} ]+SR_t
+$$
+
+
+Para evaluar la precisión del modelo VaR, se emplea el backtesting interpretando los resultados de acuerdo a la clasificación en tres zonas que se distinguen por colores y que jerarquizan los resultados. Las zonas, que se clasifican en verde, amarilla y roja, se encuentran determinadas de forma que se equilibren los tipos de errores estadísticos en los que es posible caer: (error tipo I) clasificar un modelo preciso siendo impreciso y (error tipo II) clasificar un modelo impreciso como un modelo preciso.
+
+
++  Zona verde
+
+Los resultados que se encuentran en este rango requieren de poca información adicional. En esta región el modelo no necesita ser calibrado, ya que no presenta problemas de calidad. Para una muestra de 250 observaciones y con un método calculado con el 99% de confianza, se espera que un máximo de cuatro excepciones.
+La expresión que permite calcular el umbral de esta zona, para una muestra de $n$ observaciones, se describe a continuación:
+
+$$
+\binom{x}{n} * 0,01*(1-0.01)^{n-x} < 0.95
+$$
+
+al despejar $x$ de la desigualdad resulta el valor máximo de la zona verde, lo que quiere decir que esta zona está comprendida entre 0 y $x$ excepeciones.
+
+
++ Zona amarilla
+
+En esta zona, la interpretación de resultados es válida tanto para modelos precisos como para modelos imprecisos; sin embargo, para este rango la probabilidad de concluir que el modelo es inexacto cuando realmente no lo es, aumenta con el aumento del número de excepciones. Para un modelo de 250 observaciones, con el 99% de confianza, el umbral de la zona amarilla corresponde a nueve excepciones. La expresión que permite calcular el umbral de esta zona, para una muestra de ! observaciones, se describe a continuación:
+
+$$
+\binom{y}{n} * 0,01*(1-0.01)^{n-y} < 0.99
+$$  
+
+al despejar $y$ de esta desigualdad, se obtiene el límite superior de la zona amarilla, lo que quiere decir que esta zona está comprendida entre $x+1$  y $y$ excepeciones.
+
++ Zona roja
+
+Los resultados que se encuentran en la zona roja indican automáticamente un problema en calidad del modelo y en la confiabilidad del mismo, debido a que no se considera la posibilidad de que un modelo exacto genere tantas excepciones independientes. Con esta conclusión, se pone en evidencia la necesidad de modificar la estimación. Para un modelo de 250 observaciones la zona roja corresponde a mínimo 10 excepciones.
+La construcción de este marco incentiva la utilización de modelos precisos, de forma que premian con un factor multiplicativo más pequeño los modelos bien calibrados, y penalizan un factor multiplicativo mayor a aquellos modelos que tengan excepciones que caigan en el límite de la zona amarilla y en la zona roja.
+
+##
+
+
+Dado que la realización del VaR no es observable, se tienen que realizar varias consideraciones para evaluar las diferentes aproximaciones para estimar el VaR. La manera más intuitiva para comprobar la bondad del modelo propuesto será comprobar cuál es la proporción de períodos de la muestra en que se observa una pérdida superior a la predicción del modelo (es decir, superior al VaR). Dicha proporción debería ser en promedio igual al nivel de significancia. En otras palabras, el modelo debe proveer la cobertura no condicionada esperada por el diseño.
 
 Consiste en contar las veces que las pérdidas y ganancias exceden el VaR durante un período (porcentaje de excepciones). Se asume que T es el número de observaciones que exceden la pérdida o ganancia, y para un nivel de confianza dado (1-P), se prueba si la N observada es estadísticamente diferente a la probabilidad de error p que se considera para el cálculo del VaR.
 
