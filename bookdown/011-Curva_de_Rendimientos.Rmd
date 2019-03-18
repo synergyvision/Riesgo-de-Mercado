@@ -227,6 +227,33 @@ no es considerado por motivos de parsimonia.
 
 ###Metodología Diebold-Li
 
+####Modelos de factores de la curva de rendimientos
+
+Estos modelos son conocidos porque utilizan factores latentes asociados directamente a los componentes de la curva; generalmente el nivel, la pendiente y la curvatura de la misma.
+
+El modelo más simple y conocido es el de Nelson y Siegel, pues genera aproximaciones muy acertadas en cuanto a la simulación de la curva, además de representar de manera adecuada sus características: como lo mencionan en (Christensen, Diebold, & Rudebusch, 2009) se pueden encontrar las diferentes formas de la curvatura, es más volátil la parte corta en comparación con el mediano y largo plazo y está acotado con límites superiores e inferiores para las tasas.
+
+$$\displaystyle{s(m) = \beta_{0}+ \beta_{1}\frac{\left(1-e^\frac{-m}{\tau}\right)}{m/\tau} + \beta_{2} \left(\frac{\left(1-e^\frac{-m}{\tau}\right)}{m/\tau} -  e^\frac{-m}{\tau}\right)}$$
+
+La ecuación anterior corresponde al modelo de Nelson – Siegel, donde $s(m)$ es el rendimiento de los títulos con vencimiento $m$. Este modelo propone interpretar los parámetros $\beta_0$ como el factor de largo plazo o nivel, $\beta_2-\beta_1$ como el factor de corto plazo o pendiente y $\beta_2$ como el factor de mediano plazo o curvatura. Siendo el anterior modelo la base para muchos desarrollos, se han encontrado diferentes estudios que buscan utilizar las características favorables de éste y un mejor ajuste a través de modificaciones, tal y como lo hacen en (Christensen et al., 2009) con el modelo sin arbitraje de Nelson y Siegel el cual es una generalización a través de cinco factores.
+
+$$\displaystyle{s(m) = L_t + S_{t}^{1}(\frac{1-e^{-\lambda_1 m}}{\lambda_1 m})+S_{t}^{2}(\frac{1-e^{-\lambda_2 m}}{\lambda_2 m})+C_{t}^{1}(\frac{1-e^{-\lambda_1 m}}{\lambda_1 m}-e^{-\lambda_1 m})+C_{t}^{2}(\frac{1-e^{-\lambda_2 m}}{\lambda_2 m}-e^{-\lambda_2 m})}$$
+
+Donde,
+
+* $L_t$ corresponde al nivel.
+* $S_{t}^{1}$ y $S_{t}^{2}$ corresponden a dos factores de pendiente.
+* $C_{t}^{1}$ y  $C_{t2}^{2}$ hacen referencia a dos factores asociados a la curvatura.
+
+Dentro de sus conclusiones, los autores resaltan de este modelo que además de ser libre de arbitraje, tiene un aumento en la cantidad de factores y un muy buen desempeño en el ajuste de la curva.
+
+Dentro del pool de autores que se ha dedicado a encontrar las mejores aproximaciones para el modelado de la estructura a plazo se encuentre Diebold, quien en compañía de Li y Francis, en su artículo (Francis Diebold & Li, 2005) proponen un ajuste a través de un modelo con variaciones del modelo de Nelson y Siegel para modelar la curva, periodo a periodo, con factores. Básicamente realizan una reinterpretación de la curva de Nelson y Siegel con un modelo dinámico en el tiempo que utiliza tres factores (nivel, pendiente y curvatura) teniendo muy buenos resultados para plazos superiores a un año, y aunque no es libre de arbitraje, resaltan su buen desempeño por su sencillez y parsimonia.
+
+$$\displaystyle{s_t(m) = \beta_{0t}+ \beta_{1t}\frac{\left(1-e^\frac{-m}{\tau_t}\right)}{m/\tau_t} + \beta_{2t} \left(\frac{\left(1-e^\frac{-m}{\tau_t}\right)}{m/\tau_t} -  e^\frac{-m}{\tau_t}\right)}$$
+
+Donde $\beta_{0t}$, $\beta_{1t}$ y $\beta_{2t}$ son interpretados como los factores latentes. De manera que $\beta_{0t}$, al igual que en el modelo de Nelson y Siegel corresponde al factor de largo plazo nivel, $\beta_{1t}$ es el factor negativo asociado a la pendiente de la curva o factor de corto plazo y $\beta_{2t}$ se asocia a la curvatura. Con respecto al modelo de Nelson y Siegel, la interpretación es más sencilla pues los factores tienen una interpretación directa.
+
+
 ##Metodologías no Paramétricas
 
 La regresión no paramétrica se ha convertido en los últimos años en un
