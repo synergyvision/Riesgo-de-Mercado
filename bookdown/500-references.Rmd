@@ -6,3 +6,91 @@ knitr::write_bib(c(
 ), 'packages.bib')
 ```
 
+<!-- \begin{thebibliography}{99} -->
+
+<!-- \bibitem{AS}  Abramovich, F. y Steinberg, D.},  Improved Inference in Nonparametric Regression using Lk Smoothing Splines}. Journal of Statistical Planning, 49: 327-341, 1996. -->
+
+<!-- \bibitem{Mm}  Maita B. Miriam A.},  Estimación de una curva de rendimientos para los bonos de la deuda pública interna en Venezuela}, (trabajo de grado Maestría en Administración de Empresas mención Finanzas).  Universidad Católica Andrés Bello, Caracas, Venezuela, 2010. -->
+
+<!-- \bibitem{NS}  Nelson, C. y Siegel, A.}  Parsimonius Modeling of Yield Curves}. Journal of -->
+<!-- Business, $60$: $473$-$489$, 1987. -->
+
+<!-- \bibitem{DO}  Douglas, L.G.}  Yield Curve Analysis}. New York Institute of Finance, 1988. -->
+
+
+<!-- \bibitem{Sv}  Svensson, L.}  Estimating and Interpreting Forward Interest Rates: Sweden 1992-1994}, NBER Working Papers, 4871. Estocolmo: National Bureau of Economic Research, 1994. -->
+
+<!-- \bibitem{HT}  Hunt, B. y Terry, C.}  Zero-Coupon Yield Curve Estimation: A Principal Component-Polynomial Approach}, Technical report 81. Sydney: University of Technology Sydney - School of Finance and Economics, 1998. -->
+
+<!-- \bibitem{H}  Hunt, B.}  Modelling the Yields on Australian Coupon Paying Bonds}, Technical report 9. Sydney: University of Technology Sydney - School of Finance and Economics, 1995. -->
+
+<!-- \bibitem{Ha}  Haykin, S.}  Neural Networks}. New York: McMillan College Publishing Company, 1994. -->
+
+<!-- \bibitem{IG}  Isasi, P. y Galván, I.}  Redes neuronales artificiales: un enfoque práctico.}. Madrid: Pearson-Prentice Hall, 2004. -->
+
+<!-- \bibitem{KB}  Kaastra, I. y Boyd, M.}  Design a Neural Network for Forecasting Financial and Economic Time Series}. Neurocomputing 10: 215-236, 1996. -->
+
+<!-- \bibitem{NW}  Nocedal, J. y Wright, S.}  Numerical Optimization}. New York: Springer-Verlag, 1999. -->
+
+
+<!-- \bibitem{FG}  Fan, J. y Gijbels, I.}  Local Polynomial Modelling and Its Applications}. New York: Chapman and Hall, 1996. -->
+
+<!-- \bibitem{BW}  B.W. Silverman.}  Some Aspects of the Spline Smoothing Approach to Non-Parametric Regression Curve Fitting}. Journal of the Royal Statistical Society. Series B (Methodological), Vol. 47, No. 1, 1(1985), pp. 1-52, 1984. -->
+
+
+<!-- \bibitem{F}  Friedman, J. H.}  A Variable Span Smoother}, Technical report 5. Standford: -->
+<!-- Standford University - Departament of Statistics, 1984. -->
+
+
+<!-- \bibitem{SH}  Sharda, R.}  Neural networks for the MS/OR analyst: An application bibliography}. Interfaces, 24(2): 116-130, 1994. -->
+
+<!-- \bibitem{SVM}  Suykens, J.; Vandewalle, J. y Moor, B. D.}  Artificial Neural Networks for Modelling and Control of Nonlinear Systems.}. Boston: Kluwer Academic Publishers, 1996. -->
+
+<!-- \bibitem{FR}  Fernández J.L., Robles, M.D.}   Teoría de las Expectativas y Cambio Estructural: nueva evidencia en los tipos a corto plazo españoles.} Tribuna de Economía No. 827. ICE, 2005. -->
+
+<!-- \bibitem{YS}  Yung-Shi Liau, Jack J.W. Yang.}  The Expectations Hypothesis of Term Structure of Interest Rates in Taiwan's Money Market.} International Research Journal of Finance and Economics, 2009. -->
+
+<!-- \bibitem{ZPH}  Zhang, G.; Patuwo, B. y Hu, Y.}  Forecasting with Artificial Neural Networks: The State of Art.} International Journal of Forecasting, 14: 35-62, 1998. -->
+
+<!-- \end{thebibliography} -->
+
++  Abramovich, F. y Steinberg, D.,  Improved Inference in Nonparametric Regression using Lk Smoothing Splines. Journal of Statistical Planning, 49: 327-341, 1996.
+
++  Maita B. Miriam A.,  Estimación de una curva de rendimientos para los bonos de la deuda pública interna en Venezuela, (trabajo de grado Maestría en Administración de Empresas mención Finanzas).  Universidad Católica Andrés Bello, Caracas, Venezuela, 2010.
+
++  Nelson, C. y Siegel, A.  Parsimonius Modeling of Yield Curves. Journal of
+Business, $60$: $473$-$489$, 1987.
+
++  Douglas, L.G.  Yield Curve Analysis. New York Institute of Finance, 1988.
+
+
++  Svensson, L.  Estimating and Interpreting Forward Interest Rates: Sweden 1992-1994, NBER Working Papers, 4871. Estocolmo: National Bureau of Economic Research, 1994.
+
++  Hunt, B. y Terry, C.  Zero-Coupon Yield Curve Estimation: A Principal Component-Polynomial Approach, Technical report 81. Sydney: University of Technology Sydney - School of Finance and Economics, 1998.
+
++  Hunt, B.  Modelling the Yields on Australian Coupon Paying Bonds, Technical report 9. Sydney: University of Technology Sydney - School of Finance and Economics, 1995.
+
++  Haykin, S.  Neural Networks. New York: McMillan College Publishing Company, 1994.
+
++  Isasi, P. y Galván, I.  Redes neuronales artificiales: un enfoque práctico.. Madrid: Pearson-Prentice Hall, 2004.
+
++  Kaastra, I. y Boyd, M.  Design a Neural Network for Forecasting Financial and Economic Time Series. Neurocomputing 10: 215-236, 1996.
+
++  Nocedal, J. y Wright, S.  Numerical Optimization. New York: Springer-Verlag, 1999.
+
++  Fan, J. y Gijbels, I.  Local Polynomial Modelling and Its Applications. New York: Chapman and Hall, 1996.
+
++  B.W. Silverman.  Some Aspects of the Spline Smoothing Approach to Non-Parametric Regression Curve Fitting. Journal of the Royal Statistical Society. Series B (Methodological), Vol. 47, No. 1, 1(1985), pp. 1-52, 1984.
+
++  Friedman, J. H.  A Variable Span Smoother, Technical report 5. Standford:
+Standford University - Departament of Statistics, 1984.
+
++  Sharda, R.  Neural networks for the MS/OR analyst: An application bibliography. Interfaces, 24(2): 116-130, 1994.
+
++  Suykens, J.; Vandewalle, J. y Moor, B. D.  Artificial Neural Networks for Modelling and Control of Nonlinear Systems.. Boston: Kluwer Academic Publishers, 1996.
+
++  Fernández J.L., Robles, M.D.   Teoría de las Expectativas y Cambio Estructural: nueva evidencia en los tipos a corto plazo españoles. Tribuna de Economía No. 827. ICE, 2005.
+
++  Yung-Shi Liau, Jack J.W. Yang.  The Expectations Hypothesis of Term Structure of Interest Rates in Taiwan's Money Market. International Research Journal of Finance and Economics, 2009.
+
++  Zhang, G.; Patuwo, B. y Hu, Y.  Forecasting with Artificial Neural Networks: The State of Art. International Journal of Forecasting, 14: 35-62, 1998.
