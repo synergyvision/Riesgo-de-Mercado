@@ -2180,6 +2180,11 @@ shinyUI(
                       
               ),#final tabitem Backtesting
               tabItem(tabName = "resultados_back",
+                      h3(" Elegir porcentaje del VaR:"),
+                      box(width = 12, background = "navy",
+                           selectInput( inputId = "porback", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
+                      ),
+                      verbatimTextOutput("back_porcentaje"),
                       h2("Resultados"),
                       fluidRow(
                         box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('result_back'))

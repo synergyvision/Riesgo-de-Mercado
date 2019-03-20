@@ -88,11 +88,11 @@ kup1=function(K,p){
   
   #valores criticos para cada test
   #test Kupiec
-  n1=qchisq(0.95,1)
+  n1=qchisq((1-p),1)
   #test Haas
-  n2=qchisq(0.95,cn)
+  n2=qchisq((1-p),cn)
   #test Mixto
-  n3=qchisq(0.95,(cn)+1)
+  n3=qchisq((1-p),(cn)+1)
   
   print("valores criticos, Estadistico Kupiec, Estadistico Haas y Estadistico prueba mixta")
   n=c(n1,n2,n3)

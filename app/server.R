@@ -9846,6 +9846,9 @@ shinyServer(function(input, output) {
     datatable(data_back())
   })
   
+  #PORCENTAJE DEL VAR
+  output$back_porcentaje <- renderPrint({as.numeric(sub(",",".",input$porback))})
+  
   
   #funcion auxiliar Backtesting
   source(paste(getwd(),"Scripts auxiliares","kup1.R",sep = "/"))
@@ -9886,8 +9889,9 @@ shinyServer(function(input, output) {
     
     
     #uso funcion kup1
-    kup1(data,0.05)
-    
+    #a <- kup1(data,0.05)
+    a <- kup1(data,(1-as.numeric(sub(",",".",input$porback))))
+    #return(a)
     }else{}
   })
   
@@ -9927,7 +9931,8 @@ shinyServer(function(input, output) {
       
       
       #uso funcion kup1
-      kup1(data,0.05)
+      #kup1(data,0.05)
+      kup1(data,(1-as.numeric(sub(",",".",input$porback))))
       
     }else{}
   
@@ -10354,7 +10359,9 @@ shinyServer(function(input, output) {
     a$sd <-rep(0,nrow(a))
     
     for(i in 1:nrow(a)){
-      a$sd[i] <- sd(data[,i+1],na.rm = TRUE)
+      #a$sd[i] <- sd(data[,i+1],na.rm = TRUE)
+      a$sd[i] <- sd(as.numeric(sub(",",".",as.character(data[((nrow(data)-40):nrow(data)),i+1]))),na.rm = TRUE)
+      
     }
     
     a$precio_estres <- a[,5]-a$sd
@@ -10381,7 +10388,9 @@ shinyServer(function(input, output) {
     a$sd <-rep(0,nrow(a))
     
     for(i in 1:nrow(a)){
-      a$sd[i] <- sd(data[,i+1],na.rm = TRUE)
+      #a$sd[i] <- sd(data[,i+1],na.rm = TRUE)
+      a$sd[i] <- sd(as.numeric(sub(",",".",as.character(data[((nrow(data)-40):nrow(data)),i+1]))),na.rm = TRUE)
+      
     }
     
     a$precio_estres <- a[,5]-a$sd
