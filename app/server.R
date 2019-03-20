@@ -10165,7 +10165,9 @@ shinyServer(function(input, output) {
     a$sd <-rep(0,nrow(a))
     
     for(i in 1:nrow(a)){
-      a$sd[i] <- sd(data[,i+1],na.rm = TRUE)
+      #a$sd[i] <- sd(data[,i+1],na.rm = TRUE)
+      a$sd[i] <- sd(as.numeric(sub(",",".",as.character(data[((nrow(data)-40):nrow(data)),i+1]))),na.rm = TRUE)
+      #a$sd[i] <- as.numeric(sub(",",".",as.character(data[nrow(data),i+1])))
     }
     
     a$precio_estres <- a[,5]-a$sd
@@ -10191,7 +10193,9 @@ shinyServer(function(input, output) {
     a$sd <-rep(0,nrow(a))
     
     for(i in 1:nrow(a)){
-      a$sd[i] <- sd(data[,i+1],na.rm = TRUE)
+      #a$sd[i] <- sd(data[,i+1],na.rm = TRUE)
+      a$sd[i] <- sd(as.numeric(sub(",",".",as.character(data[((nrow(data)-40):nrow(data)),i+1]))),na.rm = TRUE)
+      
     }
     
     a$precio_estres <- a[,5]-a$sd
