@@ -95,8 +95,13 @@ shinyUI(
                       tabsetPanel(type="pills",
                                   tabPanel("Características",
                                            h5("Documento Características"),
+                                           # box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("Ca_leida"),
+                                           #      style="height:500px;overflow-y: scroll;overflow-x: scroll"
+                                           #     ))
                                            box(style="overflow-x:scroll",width = 12,
-                                               dataTableOutput("Ca_leida"))),
+                                               dataTableOutput("Ca_leida"))
+                                           )
+                                  ,
                                   tabPanel("Operaciones BCV 022",
                                            h5("Documento 0-22"),
                                            box(style="overflow-x:scroll",width = 12,

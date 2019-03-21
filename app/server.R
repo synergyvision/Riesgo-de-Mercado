@@ -3772,10 +3772,12 @@ shinyServer(function(input, output) {
   output$Ca_leida <- renderDataTable({
     ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
     if(class(ca)=="try-error"){
-      v <- print("El archivo no se encuentra, descargar y recargar página!")
-      return(as.data.frame(v))
+      Aviso <- print("El archivo no se encuentra, descargar y recargar página!")
+      #return(datatable(Aviso, options = list(paging = FALSE)))
+      return(as.data.frame(Aviso))
     }else{
-    return(ca)
+    #return(datatable(ca, options = list(paging = FALSE)))
+      return(ca)
     }
     })
   
@@ -3785,13 +3787,13 @@ shinyServer(function(input, output) {
     ca1 <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
     
     if(class(ca)=="try-error" | class(ca1)=="try-error" ){
-      v <- print("El archivo no se encuentra, descargar y recargar página!")
-      return(as.data.frame(v))
+      Aviso <- print("El archivo no se encuentra, descargar y recargar página!")
+      return(as.data.frame(Aviso))
     }else{
       #condicional cuando no hay obs
       if(is.null(dim(ca))){
-        v <- "No existen operaciones para el mes actual"
-        return(as.data.frame(v))
+        Aviso <- "No existen operaciones para el mes actual"
+        return(as.data.frame(Aviso))
       }else{
       
       ca2 <- formatop(ca1,ca)
