@@ -1814,7 +1814,7 @@ shinyServer(function(input, output) {
   output$p_est_tif <- renderDataTable({
     if(length(sv1())!=0){
     a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = pa_sven,ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
-    if(class(a)!="try-error"){return(a)}else{}
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
     
     }else{}
     })
@@ -1823,7 +1823,7 @@ shinyServer(function(input, output) {
     #if(length(c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns))!=0){
     if(length(ns1())!=0){
     a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = pa_ns,ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,fe2=0,fe3=0)[[1]] )
-    if(class(a)!="try-error"){a}else{}
+    if(class(a)!="try-error"){datatable(a, options = list(paging = FALSE))}else{}
     
     }else{}
     })
@@ -1831,7 +1831,7 @@ shinyServer(function(input, output) {
   output$p_est_tif_ns_el <- renderDataTable({
     if(length(ns1())!=0){
     a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
-    if(class(a)!="try-error"){return(a)}else{}
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
     }else{}
       })
   
@@ -1848,7 +1848,7 @@ shinyServer(function(input, output) {
   output$p_est_veb <- renderDataTable({
     if((length(sv2()))!=0){
     a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = pa1_sven,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
-    if(class(a)!="try-error"){return(a)}else{}
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
     
     }else{}
     })
@@ -1856,13 +1856,13 @@ shinyServer(function(input, output) {
   output$p_est_veb_ns <- renderDataTable({
     if(length(ns2())!=0){
     a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa = pa1_ns,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
-    if(class(a)!="try-error"){return(a)}else{}
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
     }else{}
     })
   output$p_est_veb_ns_el <- renderDataTable({
     if(length(ns2())!=0){
     a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa =c(input$ns_b0_veb,input$ns_b1_veb,input$ns_b2_veb,input$ns_t_veb) ,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
-    if(class(a)!="try-error"){return(a)}else{}
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
     }else{}
       })
   
@@ -1884,7 +1884,7 @@ shinyServer(function(input, output) {
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
     a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven,fe3=0)[[1]] )
-    if(class(a)!="try-error"){return(a)}else{}
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
     
     })
     }else{
@@ -1899,7 +1899,7 @@ shinyServer(function(input, output) {
       incProgress(1/2, detail = "Realizando iteraciones")
     #Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[1]] 
     a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,fe2=input$opt_tif_ns,fe3=0)[[1]] )
-    if(class(a)!="try-error"){return(a)}else{}
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
     
     })
     }else{
@@ -1911,7 +1911,7 @@ shinyServer(function(input, output) {
   output$p_est_tif_opt_sven_el <- renderDataTable({
     if(length(sv1())!=0){
     a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
-    if(class(a)!="try-error"){return(a)}else{}
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
     
     }else{}
     })
@@ -1962,7 +1962,7 @@ shinyServer(function(input, output) {
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
     a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven,fe3=0)[[1]])
-    if(class(a)!="try-error"){return(a)}else{}
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
     
     })
     }else{
@@ -1976,7 +1976,7 @@ shinyServer(function(input, output) {
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
     a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns,fe3=0)[[1]] )
-    if(class(a)!="try-error"){return(a)}else{}
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
     })
     }else{
       Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
@@ -1987,7 +1987,7 @@ shinyServer(function(input, output) {
   output$p_est_veb_opt_sven_el <- renderDataTable({
     if(length(sv2())!=0){
     a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
-    if(class(a)!="try-error"){return(a)}else{}
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
     
     }else{}
     })
@@ -2084,7 +2084,7 @@ shinyServer(function(input, output) {
       car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     a <- try(precio.dl(tit = dl1(),fv = input$n3 ,C = car,pa = c(1,1,1,1),spline1 = dl_spline_tif(),pr=tf_dl())[[1]])
     if(class(a)!="try-error"){
-      a
+      datatable(a, options = list(paging = FALSE))
     }else{}
     
     })
@@ -2177,7 +2177,7 @@ shinyServer(function(input, output) {
       car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     a <- try(precio.dl(tit = dl2(),fv = input$n3 ,C = car ,pa = c(1,1,1,1),spline1 = dl_spline_veb(),pr=tv_dl())[[1]])
     if(class(a)!="try-error"){
-      a
+      datatable(a, options = list(paging = FALSE))
     }else{}
     })
     })
@@ -2989,7 +2989,7 @@ shinyServer(function(input, output) {
      #Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[5]]
     a <- try(tabla_sp_tif())
     if(class(a)!="try-error"){
-    a[[5]]
+      datatable(a[[5]], options = list(paging = FALSE))
     }else{}
      # 
     
@@ -3007,9 +3007,7 @@ shinyServer(function(input, output) {
     a <- try(tabla_sp_veb())
     
     if(class(a)!="try-error"){
-      
-    a[[5]]
-      
+      datatable(a[[5]], options = list(paging = FALSE))
     }else{}
       
     })
@@ -4285,7 +4283,7 @@ shinyServer(function(input, output) {
       
       pre1 <- cbind.data.frame("Títulos"=sp1(),"Precios"=pre)
       
-      return(pre1)
+      return(datatable(pre1, options = list(paging = FALSE)))
     }
     
     }else{}
@@ -4382,7 +4380,7 @@ shinyServer(function(input, output) {
       
       pre1 <- cbind.data.frame("Títulos"=sp2(),"Precios"=pre)
       
-      return(pre1)
+      return(datatable(pre1, options = list(paging = FALSE)))
     }
     
     }else{}
