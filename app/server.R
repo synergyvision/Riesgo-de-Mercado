@@ -3753,7 +3753,7 @@ shinyServer(function(input, output) {
   
   output$desc <- renderPrint({ input$dataset })
   
-  # Downloadable csv of selected dataset ----
+    # Downloadable csv of selected dataset ----
   output$downloadData <- downloadHandler(
     filename = function() {
       paste(input$dataset, ".xls", sep = "")
