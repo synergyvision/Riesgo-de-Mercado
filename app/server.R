@@ -1840,7 +1840,7 @@ shinyServer(function(input, output) {
   output$p_est_tif_ns_el_comp <- renderDataTable({
     a <- try(Tabla.ns(fv = input$n5 ,tit = comp1(),pr =TF_NSC() ,pa = c(input$ns_b0_tif_comp,input$ns_b1_tif_comp,input$ns_b2_tif_comp,input$ns_t_tif_comp),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
     if(class(a)!="try-error"){
-      a
+      datatable(a, options = list(paging = FALSE))
     }else{}
     })
   
@@ -1871,7 +1871,7 @@ shinyServer(function(input, output) {
     a <- try(Tabla.ns(fv = input$n5 ,tit = comp2(),pr =TV_NSC() ,pa =c(input$ns_b0_veb_comp,input$ns_b1_veb_comp,input$ns_b2_veb_comp,input$ns_t_veb_comp) ,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
     
     if(class(a)!="try-error"){
-      a
+      datatable(a, options = list(paging = FALSE))
     }else{}
     
     })
@@ -1922,7 +1922,7 @@ shinyServer(function(input, output) {
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
     a <- try(Tabla.sven(fv = input$n5 ,tit = comp1(),pr =TF_SV() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven_comp,fe3=0)[[1]])
-    if(class(a)!="try-error"){return(a)}else{}
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
     
     #incProgress(1/2, detail = "Fin")
      })
@@ -1938,7 +1938,7 @@ shinyServer(function(input, output) {
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
     a <- try(Tabla.ns(fv = input$n5 ,tit = comp1(),pr =TF_NSC() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_ns_comp,fe3=0)[[1]] )
-    if(class(a)!="try-error"){return(a)}else{}
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
     
     #incProgress(1/2, detail = "Fin")
     })
@@ -1946,13 +1946,13 @@ shinyServer(function(input, output) {
       Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
       return(as.data.frame(Aviso))
     }
-  
- 
     })
+  
+  #
   output$p_est_tif_opt_sven_el_comp <- renderDataTable({
     a <- try(Tabla.sven(fv = input$n5 ,tit = comp1(),pr =TF_SV() ,pa = c(input$sven_b0_tif_comp,input$sven_b1_tif_comp,input$sven_b2_tif_comp,input$sven_b3_tif_comp,input$sven_t1_tif_comp,input$sven_t2_tif_comp),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]]) 
     if(class(a)!="try-error"){
-      a
+      datatable(a, options = list(paging = FALSE))
     }else{}
     })
   
@@ -1998,7 +1998,7 @@ shinyServer(function(input, output) {
     withProgress(message = 'Calculando precios teóricos...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
       a <- try(Tabla.sven(fv = input$n5 ,tit = comp2(),pr =TV_SV() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven_comp,fe3=0)[[1]])
-      if(class(a)!="try-error"){return(a)}else{}
+      if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
       
     })
     }else{
@@ -2010,7 +2010,7 @@ shinyServer(function(input, output) {
   output$p_est_veb_opt_sven_el_comp <- renderDataTable({
     a <- try(Tabla.sven(fv = input$n5 ,tit = comp2(),pr =TV_SV() ,pa = c(input$sven_b0_veb_comp,input$sven_b1_veb_comp,input$sven_b2_veb_comp,input$sven_b3_veb_comp,input$sven_t1_veb_comp,input$sven_t2_veb_comp),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
     if(class(a)!="try-error"){
-      a
+      datatable(a, options = list(paging = FALSE))
     }else{}
     })
   
@@ -2020,7 +2020,7 @@ shinyServer(function(input, output) {
     withProgress(message = 'Calculando precios...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
       a <- try(Tabla.ns(fv = input$n5 ,tit = comp2(),pr =TV_NSC() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns_comp,fe3=0)[[1]] )
-      if(class(a)!="try-error"){return(a)}else{}
+      if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
       #incProgress(1/2, detail = "Fin")
       })
     }else{
@@ -2131,7 +2131,7 @@ shinyServer(function(input, output) {
       incProgress(1/2, detail = "Realizando iteraciones")
       a <- try(precio.dl(tit = comp1(),fv = input$n5 ,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,pa = c(1,1,1,1),spline1 = dl_spline_tif_comp(),pr=tf_comp())[[1]])
       if(class(a)!="try-error"){
-        a
+        datatable(a, options = list(paging = FALSE))
       }else{}
       
       })
@@ -2226,7 +2226,7 @@ shinyServer(function(input, output) {
       incProgress(1/2, detail = "Realizando iteraciones")
       a <- try(precio.dl(tit = comp2(),fv = input$n5 ,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,pa = c(1,1,1,1),spline1 = dl_spline_veb_comp(),pr=tv_comp())[[1]])
       if(class(a)!="try-error"){
-        a
+        datatable(a, options = list(paging = FALSE))
         }else{}
       
       })
@@ -3021,7 +3021,7 @@ shinyServer(function(input, output) {
     # Tabla.splines(data = dat,tipo = "TIF",fe=input$n5,num = input$d_tif_comp,par = input$parametro_tif_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),car,pr=tf_comp())[[5]] 
     a <- try(tabla_sp_tif_comp()[[5]])
     if(class(a)!="try-error"){
-    a
+      datatable(a, options = list(paging = FALSE))
       }else{}
       
     })
@@ -3034,7 +3034,7 @@ shinyServer(function(input, output) {
     # Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())[[5]] 
     a <- try(tabla_sp_veb_comp()[[5]])
     if(class(a)!="try-error"){
-    a
+      datatable(a, options = list(paging = FALSE))
       }else{}
     
     })
@@ -4335,7 +4335,7 @@ shinyServer(function(input, output) {
       
       pre1 <- cbind.data.frame("Títulos"=comp1(),"Precios"=pre)
       
-      return(pre1)
+      return(datatable(pre1, options = list(paging = FALSE)))
     }
     
     }else{}
@@ -4432,7 +4432,7 @@ shinyServer(function(input, output) {
       
       pre1 <- cbind.data.frame("Títulos"=comp2(),"Precios"=pre)
       
-      return(pre1)
+      return(datatable(pre1, options = list(paging = FALSE)))
     }
     
     }else{}
@@ -5341,7 +5341,7 @@ shinyServer(function(input, output) {
       tabla[,4] <- tabla[,3]*100/tabla[nrow(tabla),3]
       tabla[nrow(tabla),4] <- sum(tabla[1:((nrow(tabla))-1),4])
       
-      return(tabla)
+      return(datatable(tabla, options = list(paging = FALSE)))
       
     }
     
@@ -5379,7 +5379,7 @@ shinyServer(function(input, output) {
      tabla[,4] <- tabla[,3]*100/tabla[nrow(tabla),3]
      tabla[nrow(tabla),4] <- sum(tabla[1:((nrow(tabla))-1),4])
      
-     tabla
+     datatable(tabla, options = list(paging = FALSE))
   })
   
   #calculo VaR normal Portafolio
@@ -6561,7 +6561,8 @@ shinyServer(function(input, output) {
          }
          
          var_ind[nrow(var_ind),3] <- sum(var_ind[1:(nrow(var_ind)-1),3])
-         var_ind
+         
+         datatable(var_ind, options = list(paging = FALSE))
         # #Ordeno data
         # esc1 <- esc[,ncol(esc)]
         # esc1 <- esc1[order(esc1)]
@@ -6597,7 +6598,7 @@ shinyServer(function(input, output) {
       }
       
       var_ind[nrow(var_ind),3] <- sum(var_ind[1:(nrow(var_ind)-1),3])
-      var_ind
+      datatable(var_ind, options = list(paging = FALSE))
         #if(sum(p[,3])==1){
         #calculo escenarios
         # for(i in 1:nrow(rend)){
@@ -7130,7 +7131,7 @@ shinyServer(function(input, output) {
   
   #CALCULO VARES INDIVIDUALES MC
   output$tabla_varmc_n <-renderDataTable({
-    varmc_ind_n()
+    datatable(varmc_ind_n(), options = list(paging = FALSE))
   })
   
   #CREO FUNCION REACTIVA QUE ME CALCULA EL VAR DE PORTAFOLIO MONTE CARLO
@@ -7696,7 +7697,7 @@ shinyServer(function(input, output) {
   
   
   output$tabla_varmc_el <- renderDataTable({
-    varmc_ind_el()
+    datatable(varmc_ind_el(), options = list(paging = FALSE))
   })
   
   #VAR PORTAFOLIO ELEGIR DISTRIBUCION VAR MC
@@ -10104,7 +10105,8 @@ shinyServer(function(input, output) {
     a$mtm <- a[,3]*a[,5]/100
     #calculo utilidad o perdida
     a$ut_per <- a$mtm*((a[,5]-a[,4])/100)
-    a
+    
+    datatable(a, options = list(paging = FALSE))
   })
   
   #resultados portafolio
@@ -10180,7 +10182,7 @@ shinyServer(function(input, output) {
     #a$ut_per <- a$mtm-(a[,3]*a$precio_estres/100)
     a$ut_per1 <- a$mtm*((a[,5]-a[,4])/100)
     a$ut_per2 <- a$mtm*((a$precio_estres-a[,5])/100)
-    a
+    datatable(a, options = list(paging = FALSE))
   })
   
   #resultados prueba estres portafolio
