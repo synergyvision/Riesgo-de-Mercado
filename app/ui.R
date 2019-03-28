@@ -2176,7 +2176,10 @@ shinyUI(
                                                 
                                                 #verbatimTextOutput("hola"),
                                                 h2("Histórico"),
-                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_par'))
+                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_par')),
+                                                h2("Descargar"),
+                                                downloadButton("data_var_par", "Descargar")
+                                                
                                                 
                                      
                                        )
@@ -2195,7 +2198,9 @@ shinyUI(
                                                 verbatimTextOutput("dateRangeText_hist"),
                                                 
                                                 h2("Histórico"),
-                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_hist'))
+                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_hist')),
+                                                h2("Descargar"),
+                                                downloadButton("data_var_hist", "Descargar")
                                                 
                                                 
                                                 
@@ -2214,7 +2219,9 @@ shinyUI(
                                                 verbatimTextOutput("dateRangeText_smc1"),
                                                
                                                 h2("Histórico"),
-                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_smc1'))
+                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_smc1')),
+                                                h2("Descargar"),
+                                                downloadButton("data_var_smc1", "Descargar")
                                                 
                                                 
                                                 
@@ -2233,7 +2240,9 @@ shinyUI(
                                                 verbatimTextOutput("dateRangeText_smc2"),    
                                                 
                                                 h2("Histórico"),
-                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_smc2'))
+                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_smc2')),
+                                                h2("Descargar"),
+                                                downloadButton("data_var_smc2", "Descargar")
                                                 
                                                     
                                                     

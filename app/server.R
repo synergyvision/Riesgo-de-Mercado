@@ -3762,6 +3762,7 @@ shinyServer(function(input, output) {
       file<-paste(getwd(),"data",paste(input$dataset, ".xls", sep = ""),sep="/")
       #antes en method estaba libcurl
       download.file(url=datasetInput(),destfile=file,method = "internal",mode="wb")
+      #GET(datasetInput(), write_disk(file, overwrite=TRUE))
       #write.xlsx(datasetInput(), file, row.names = FALSE)
     }
   )
@@ -9152,6 +9153,16 @@ shinyServer(function(input, output) {
     }else{}
   })
   
+  #EXPORTO DATA
+  output$data_var_par <-  downloadHandler(
+    filename = function() {
+      paste("Var_parametrico", ".txt", sep = "")
+    },
+    content = function(file) {
+      write.table(var_parametrico(), file, row.names = FALSE)
+    }
+  )
+  
   #VAR HISTORICO
   output$dateRangeText_hist  <- renderText({
     paste(as.character(input$dateRange_hist), collapse = " y ")
@@ -9285,6 +9296,16 @@ shinyServer(function(input, output) {
     a
     }else{}
   })
+  
+  #DESCARGAR DATA
+  output$data_var_hist <-  downloadHandler(
+    filename = function() {
+      paste("Var_historico", ".txt", sep = "")
+    },
+    content = function(file) {
+      write.table(var_historico(), file, row.names = FALSE)
+    }
+  )
   
   #VAR SMC NORMAL
   output$dateRangeText_smc1  <- renderText({
@@ -9465,6 +9486,16 @@ shinyServer(function(input, output) {
     a
     }else{}
   })
+  
+  #DESCARGO DATA
+  output$data_var_smc1 <- downloadHandler(
+    filename = function() {
+      paste("Var_smc_normal", ".txt", sep = "")
+    },
+    content = function(file) {
+      write.table(var_smc1(), file, row.names = FALSE)
+    }
+  )
   
   #VAR SMC MEJOR DISTRIBUCION
   output$dateRangeText_smc2  <- renderText({
@@ -9811,6 +9842,16 @@ shinyServer(function(input, output) {
     a
     }else{}
   })
+  
+  #DESCARGO DATA
+  output$data_var_smc2 <- downloadHandler(
+    filename = function() {
+      paste("Var_smc_md", ".txt", sep = "")
+    },
+    content = function(file) {
+      write.table(var_smc2(), file, row.names = FALSE)
+    }
+  )
   
   ###############################################################################
   ###############################################################################
