@@ -10150,6 +10150,36 @@ shinyServer(function(input, output) {
     datatable(a, options = list(paging = FALSE))
   })
   
+  #GRAFICO
+  output$grafico_val1 <- renderPlotly({
+    if(is.null(data_val())){return()}
+    a <- data_val()
+    #convierto en numero diferentes columnas
+    #valor nominal
+    a[,3] <- as.numeric(as.character(a[,3]))
+    #precio hoy
+    a[,4] <- as.numeric(as.character(a[,4]))
+    #precio mercado
+    a[,5] <- as.numeric(as.character(a[,5]))
+    #calculo mtm
+    a$mtm <- a[,3]*a[,5]/100
+    #calculo utilidad o perdida
+    a$ut_per <- a$mtm*((a[,5]-a[,4])/100)
+    
+    #grafico
+    b <- cbind.data.frame(as.character(a[,1]),a$ut_per)
+    names(b) <- c("titulo","ut_per")
+    
+    
+    p <- ggplot(b, aes(reorder(titulo,ut_per), ut_per, fill = titulo)) +
+      geom_bar(position="stack", stat="identity",show.legend = FALSE) + coord_flip() +
+      labs(x = "Títulos",y = "Utilidad o pérdida")+
+      theme(axis.text.y=element_text(angle=0, hjust=1,size = 6))
+    
+    #plot_ly(p)
+    p
+  })
+  
   #resultados portafolio
   output$result_val_port <- renderDataTable({
     if(is.null(data_val())){return()}
@@ -10225,6 +10255,48 @@ shinyServer(function(input, output) {
     a$ut_per2 <- a$mtm*((a$precio_estres-a[,5])/100)
     datatable(a, options = list(paging = FALSE))
   })
+  
+  #grafico estres
+  output$grafico_val2 <- renderPlotly({
+    if(is.null(data_val()) | is.null(data_val_estres()) ){return()}
+    a <- data_val()
+    a[,3] <- as.numeric(as.character(a[,3]))
+    #a[,5] <- as.numeric(as.character(a[,5]))
+    a[,4] <- as.numeric(as.character(a[,4]))
+    a[,5] <- as.numeric(as.character(a[,5]))
+    
+    #calculo desviacion estandar de historico de tit
+    #data <- read.delim2(paste(getwd(),"data","tif.txt",sep = "/"))
+    data <- data_val_estres()
+    a$sd <-rep(0,nrow(a))
+    
+    for(i in 1:nrow(a)){
+      #a$sd[i] <- sd(data[,i+1],na.rm = TRUE)
+      a$sd[i] <- sd(as.numeric(sub(",",".",as.character(data[((nrow(data)-40):nrow(data)),i+1]))),na.rm = TRUE)
+      #a$sd[i] <- as.numeric(sub(",",".",as.character(data[nrow(data),i+1])))
+    }
+    
+    a$precio_estres <- a[,5]-a$sd
+    a$mtm <- a[,3]*a$precio_estres/100
+    #a$ut_per <- a$mtm-(a[,3]*a$precio_estres/100)
+    a$ut_per1 <- a$mtm*((a[,5]-a[,4])/100)
+    a$ut_per2 <- a$mtm*((a$precio_estres-a[,5])/100)
+    
+    #grafico
+    b <- cbind.data.frame(as.character(a[,1]),a$ut_per2)
+    names(b) <- c("titulo","ut_per")
+    
+    
+    p <- ggplot(b, aes(reorder(titulo,ut_per), ut_per, fill = titulo)) +
+      geom_bar(position="stack", stat="identity",show.legend = FALSE) + coord_flip() +
+      labs(x = "Títulos",y = "Utilidad o pérdida")+
+      theme(axis.text.y=element_text(angle=0, hjust=1,size = 6))
+    
+    #plot_ly(p)
+    p
+  })
+  
+  
   
   #resultados prueba estres portafolio
   output$result_val_estres_port <- renderDataTable({

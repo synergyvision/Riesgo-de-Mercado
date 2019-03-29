@@ -44,34 +44,34 @@ shinyUI(
                          
                             #menuSubItem("Datos", tabName = "datos", icon = icon("circle-o")),
                          
-                            menuSubItem("Metodologías", tabName = "metodologias", icon = icon("circle-o")),
+                            menuSubItem("Metodologías", tabName = "metodologias", icon = icon("clipboard-list")),
                          
-                            menuSubItem("Precios estimados", tabName = "precios", icon = icon("circle-o")),
+                            menuSubItem("Precios estimados", tabName = "precios", icon = icon("coins")),
                          
-                            menuSubItem("Curvas", tabName = "curvas", icon = icon("circle-o"))
+                            menuSubItem("Curvas", tabName = "curvas", icon = icon("chart-line"))
                          
                           ),#fin menuitem 
                 menuItem("Valor en Riesgo", icon = icon("coins"), 
                          
                          menuSubItem("Datos", tabName = "datos_var", icon = icon("folder-open")),
                          
-                         menuSubItem("Distribución", tabName = "distribucion_var", icon = icon("circle-o")),
+                         menuSubItem("Distribución", tabName = "distribucion_var", icon = icon("project-diagram")),
                          
-                         menuSubItem("VaR", tabName = "var", icon = icon("circle-o")),
+                         menuSubItem("VaR", tabName = "var", icon = icon("file-invoice-dollar")),
                          
                          menuSubItem("Gráficos", tabName = "graficos", icon = icon("chart-pie")),
                          
-                         menuSubItem("Históricos", tabName = "historicos", icon = icon("circle-o"))
+                         menuSubItem("Históricos", tabName = "historicos", icon = icon("calendar-alt"))
                          
                 ),#fin menuitem 
                           menuItem("Backtesting", icon = icon("angle-double-left"), 
                                    menuSubItem("Datos", tabName = "datos_back", icon = icon("folder-open")),
-                                   menuSubItem("Resultados", tabName = "resultados_back", icon = icon("circle-o"))
+                                   menuSubItem("Resultados", tabName = "resultados_back", icon = icon("file-alt"))
                           ),
                  menuItem("Valoración", icon = icon("bar-chart-o"), 
                          menuSubItem("Datos", tabName = "datos_val", icon = icon("folder-open")),
-                         menuSubItem("Resultados", tabName = "resultados_val", icon = icon("circle-o")),
-                         menuSubItem("Resultados Prueba de Estrés", tabName = "resultados_val_estres", icon = icon("circle-o"))
+                         menuSubItem("Resultados", tabName = "resultados_val", icon = icon("file-alt")),
+                         menuSubItem("Resultados Prueba de Estrés", tabName = "resultados_val_estres", icon = icon("file-contract"))
                   ),
                 
                             menuItem("Acerca", icon = icon("exclamation-circle"), tabName = "acerca"))
@@ -2336,6 +2336,9 @@ shinyUI(
                       
                       #box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('result_val'))
                     ),
+                    h2("Utilidad o pérdida"),
+                    plotlyOutput("grafico_val1"),
+                    
                     h2("Resúmen portafolio"),
                     fluidRow(
                       box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('result_val_port'))
@@ -2376,6 +2379,8 @@ shinyUI(
                       
                       #box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('result_val_estres'))
                     ),
+                    h2("Utilidad o pérdida"),
+                    plotlyOutput("grafico_val2"),
                     h2("Resúmen portafolio"),
                     fluidRow(
                       box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('result_val_estres_port'))
