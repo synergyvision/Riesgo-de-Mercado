@@ -9937,6 +9937,62 @@ shinyServer(function(input, output) {
     }else{}
   })
   
+  #GRAFICO BACKTESTING
+  output$grafico_back <- renderPlotly({
+    if(is.null(data_back())){return()}
+    data <- data_back()
+    
+    if(length(data[,1])!=0){
+      
+      #convierto a fecha
+      data[,1] <- as.Date(as.character(data[,1]),format="%d/%m/%Y")
+      #convierto en numero
+      data[,2] <- as.numeric(as.character(data[,2]))
+      data[,3] <- as.numeric(as.character(data[,3]))
+      
+      #diseño data frame para usarlo en kup1
+      #numero de observaciones
+      data$obs <- seq(1,nrow(data))
+      
+      #VaR -
+      data$var_menos <- rep(0,nrow(data))
+      for(i in 1:(nrow(data)-1)){
+        data$var_menos[i] <- data[i+1,3]-data[i+1,2]
+      }
+      
+      
+      #VaR +
+      data$var_mas <- rep(0,nrow(data))
+      for(i in 1:(nrow(data)-1)){
+        data$var_mas[i] <- data[i+1,3]+data[i+1,2]
+      }
+      
+      #ordeno data
+      data <- data[,c(4,1,2,5,3,6)]
+      #names(data) <- c("obs","fecha","var","var_menos","posicion","var_mas")
+      names(data) <- c("V1","V2","V3","V4","V5","V6")
+      
+      
+      #uso funcion kup1
+      #a <- kup1(data,0.05)
+      a <- kup1(data,(1-as.numeric(sub(",",".",input$porback))))
+      #return(a)
+    }else{}
+    
+    par <- a[[2]]
+    #df2 <- data.frame(supp=rep(c("VC", "OJ"), each=3),
+    #                                     dose=rep(c("D0.5", "D1", "D2"),2),
+    #                                     len=c(6.8, 15, 33, 4.2, 10, 29.5))
+    df2 <- data.frame(Valores=rep(c("Estadísticos", "Valores críticos"), each=3),
+                                         Test=rep(c("Test Kupiec", "Test de Haas", "Test mixto"),2),
+                                         Valor=c(as.numeric(par[1,]),as.numeric(par[2,])))
+    
+    p <- ggplot(data=df2, aes(x=Test, y=Valor, fill=Valores)) +
+           geom_bar(stat="identity")+scale_fill_brewer(palette="Paired")
+    
+    p
+  })
+  
   #funcion auxiliar para reporte
   back <- reactive({
     data <- data_back()

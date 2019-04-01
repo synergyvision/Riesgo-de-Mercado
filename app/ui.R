@@ -2282,8 +2282,7 @@ shinyUI(
                       fluidRow(
                         box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_back'))
                       )
-                      
-                      
+
                       
               ),#final tabitem Backtesting
               tabItem(tabName = "resultados_back",
@@ -2296,6 +2295,8 @@ shinyUI(
                       fluidRow(
                         box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('result_back'))
                       ),
+                      h2(" Valores críticos"),
+                      plotlyOutput("grafico_back"),
                       h2("Reporte"),
                       downloadButton("report_back", "Descargar")
                       
