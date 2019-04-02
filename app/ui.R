@@ -1884,66 +1884,65 @@ shinyUI(
               tabItem(tabName = "var",
                       wellPanel(
                         #tabBox( width = 12, title = "VaR", id = "vares", height = "50px", 
-                               tabsetPanel(type="tabs",        
+                               tabsetPanel(type="tabs", 
                                        tabPanel("Paramétrico",
-                                                h2(" VaR normal"),
-                                                h3(" Rendimientos:"),
+                                                fluidRow(
+                                                tags$h2(style="padding-left:15px;","VaR normal"),
+                                                tags$h3(style="padding-left:15px;","Rendimientos:"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('rend_varn')),
-                                                h3(" Advertencias:"),
+                                                tags$h3(style="padding-left:15px;","Advertencias:"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('advertencia_varn')),
-                                                h3(" Parámetros seleccionados:"),
+                                                tags$h3(style="padding-left:15px;","Parámetros seleccionados:"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('parametros_varn')),
-                                                h3(" Elegir porcentaje del VaR:"),
+                                                tags$h3(style="padding-left:15px;","Elegir porcentaje del VaR:"),
                                                 box( width = 12, background = "navy",
                                                         selectInput( inputId = "porVarn", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
                                                        ),
                                                 box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('porcentaje_varn')),
-                                                h3(" Vares individuales:"),
+                                                tags$h3(style="padding-left:15px;","Vares individuales:"),
                                                 box(height ="595",width = "12",status = "success",column(width = 12,DT::dataTableOutput("tabla_varn"),
                                                                                       style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                                 
                                                 #box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varn')),
-                                                h3(" VaR portafolio:"),
-                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varn_portafolio')),
+                                                tags$h3(style="padding-left:15px;","VaR portafolio:"),
+                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varn_portafolio'))
                                                 #h3(" Graficos:"),
                                                 #plotlyOutput("grafico_vnominal")
-                                                h3("----------------------------------------------------------------------------------------")
+                                                #box(width=12,background = "blue")
+                                                #h3("----------------------------------------------------------------------------------------")
 
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
+                                
+                                                )#final fluidRow      
                                        ),
                                        tabPanel("Histórico",
-                                                h2(" VaR simulación histórica"),
-                                                h3(" Advertencia"),
+                                                fluidRow(
+                                                tags$h2(style="padding-left:15px;","VaR simulación histórica"),
+                                                tags$h3(style="padding-left:15px;"," Advertencia"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('advertencia_varsh')),
-                                                h2(" Pesos"),
+                                                tags$h2(style="padding-left:15px;"," Pesos"),
                                                 plotlyOutput("grafico_pesos"),
-                                                h2(" Valor Nominal Portafolio"),
+                                                tags$h2(style="padding-left:15px;"," Valor Nominal Portafolio"),
                                                 verbatimTextOutput("suma_posvarsh"),
-                                                h2(" Suma de Pesos"),
+                                                tags$h2(style="padding-left:15px;"," Suma de Pesos"),
                                                 verbatimTextOutput("suma_pesos"),
-                                                h2(" Escenarios"),
+                                                tags$h2(style="padding-left:15px;"," Escenarios"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('escenarios_varsh')),
-                                                h3(" Elegir porcentaje del VaR:"),
+                                                tags$h3(style="padding-left:15px;","Elegir porcentaje del VaR:"),
                                                 box( width = 12, background = "navy",
                                                      selectInput( inputId = "porVarsh", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
                                                 ),
                                                 box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('porcentaje_varsh')),
-                                                h3(" Ubicación:"),
+                                                tags$h3(style="padding-left:15px;","Ubicación:"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('ubicacion_varsh')),
-                                                h3(" VaRes Individuales:"),
+                                                tags$h3(style="padding-left:15px;","VaR Individuales:"),
                                                 box(height ="595",width = "12",status = "success",column(width = 12,DT::dataTableOutput("varind_sh"),
                                                                                                          style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                                 
                                                 #box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('varind_sh')),
-                                                h3(" VaR Portafolio:"),
-                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varsh')),
-                                                h3("----------------------------------------------------------------------------------------")
-                                                
+                                                tags$h3(style="padding-left:15px;","VaR Portafolio:"),
+                                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varsh'))
+                                                #h3("----------------------------------------------------------------------------------------")
+                                                )#final FluidRow
                                                 
                                                 
                                        ),
@@ -1952,63 +1951,64 @@ shinyUI(
                                                   #tabBox( width = 12, title = "Monte Carlo", id = "var_mc", height = "50px", 
                                                         tabsetPanel(type="pills",         
                                                                  tabPanel("Distribución Normal",
-                                                                      #fluidRow(      
-                                                                          h2(" VaR asumiendo distribución Normal"),    
-                                                                       h3(" Rendimientos:"),
+                                                                      fluidRow(  
+                                                                       tags$h2(style="padding-left:15px;","  VaR asumiendo distribución Normal"),
+                                                                       tags$h3(style="padding-left:15px;"," Rendimientos:"),
                                                                        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('rend_varmc_n')),
-                                                                       h3(" Advertencias:"),
+                                                                       tags$h3(style="padding-left:15px;"," Advertencias:"),
                                                                        box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('advertencia_varmc_n')),
-                                                                       h3(" Parámetros seleccionados:"),
+                                                                       tags$h3(style="padding-left:15px;"," Parámetros seleccionados:"),
                                                                        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('parametros_varmc_n')),
-                                                                       h3(" Elegir porcentaje del VaR:"),
+                                                                       tags$h3(style="padding-left:15px;"," Elegir porcentaje del VaR:"),
                                                                        box( width = 12, background = "navy",
                                                                             selectInput( inputId = "porVarmc_n", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
                                                                        ),
                                                                        box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('porcentaje_varmc_n')),
-                                                                       h3(" Elegir cantidad de simulaciones:"),
+                                                                       tags$h3(style="padding-left:15px;"," Elegir cantidad de simulaciones:"),
                                                                        box( width = 12, background = "navy",
                                                                        numericInput( inputId = "sim_varmc_n", label="Simulaciones a realizar: ", min = 0, max = 100000,step = 1, value = 100, width = "40%")),
                                                                        box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('simulaciones_varmc_n')),
-                                                                       h3(" Vares individuales:"),
+                                                                       tags$h3(style="padding-left:15px;"," Vares individuales:"),
                                                                       box(height ="595",width = "12",status = "success",column(width = 12,DT::dataTableOutput("tabla_varmc_n"),
                                                                                                                                style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                                                       
                                                                        #box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varmc_n')),
-                                                                       h3(" VaR portafolio:"),
-                                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_n1')),
-                                                                      h3("-----------------------------------------------------------------------------------")
+                                                                      tags$h3(style="padding-left:15px;"," VaR portafolio:"),
+                                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_n1'))
+                                                                      #h3("-----------------------------------------------------------------------------------")
                                                                       
                                                                        #box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_n1'))
-                                                                 #)#final fluid row
+                                                                 )#final fluid row
                                                                  ),#final tabpanel
                                                                  tabPanel("Elegir Distribución",
-                                                                           h2(" VaR mejor distribución seleccionada"),    
-                                                                           h3(" Rendimientos:"),
+                                                                           fluidRow(
+                                                                           tags$h2(style="padding-left:15px;"," VaR mejor distribución seleccionada"),
+                                                                           tags$h3(style="padding-left:15px;"," Rendimientos:"),
                                                                            box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('rend_varmc_el')),
-                                                                           h3(" Advertencias:"),
+                                                                           tags$h3(style="padding-left:15px;"," Advertencias:"),
                                                                            box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('advertencia_varmc_el')),
-                                                                           h3(" Mejores distribuciones elegidas:"),
+                                                                           tags$h3(style="padding-left:15px;"," Mejores distribuciones elegidas:"),
                                                                            box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('dist_varmc_el')),
-                                                                           h3(" Elegir porcentaje del VaR:"),
+                                                                           tags$h3(style="padding-left:15px;"," Elegir porcentaje del VaR:"),
                                                                            box( width = 12, background = "navy",
                                                                                selectInput( inputId = "porVarmc_el", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
                                                                            ),
                                                                            box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('porcentaje_varmc_el')),
-                                                                           h3(" Elegir cantidad de simulaciones:"),
+                                                                           tags$h3(style="padding-left:15px;"," Elegir cantidad de simulaciones"),
                                                                            box( width = 12, background = "navy",
                                                                                numericInput( inputId = "sim_varmc_el", label="Simulaciones a realizar: ", min = 0, max = 100000,step = 1, value = 100, width = "40%")),
                                                                            box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('simulaciones_varmc_el')),
-                                                                           h3(" Vares individuales:"),
+                                                                           tags$h3(style="padding-left:15px;"," Vares individuales:"),
                                                                           box(height ="595",width = "12",status = "success",column(width = 12,DT::dataTableOutput("tabla_varmc_el"),
                                                                                                                                    style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                                                           
                                                                            #box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('tabla_varmc_el')),
-                                                                           h3(" VaR portafolio:"),
-                                                                           box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_el1')),
+                                                                          tags$h3(style="padding-left:15px;"," VaR portafolio:"),
+                                                                           box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_el1'))
                                                                           #h3(" VaR portafolio 1:"),
                                                                           #box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('varmc_portafolio_el1'))
-                                                                          h3("-----------------------------------------------------------------------------------")
-                                                                          
+                                                                          #h3("-----------------------------------------------------------------------------------")
+                                                                           )#final fluidRow
 
                                                                           
                                                                  )#,#final tabpanel
@@ -2026,10 +2026,10 @@ shinyUI(
                                                 
                                                 
                                        )
-                                       
-                                       
+                                         
                       )#final tabbox
-                      )#final fluidrow
+                               
+                      )#final wellPanel
                       # h2(" Elegir porcentaje del VaR:"),
                       # fluidRow(
                       #   box( width = 6, background = "navy",
