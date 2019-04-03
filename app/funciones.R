@@ -2439,7 +2439,8 @@ ruta_bcv <- function(file){
       return(as.character(df[33,1]))
     }
     if(file=="caracteristicas"){
-      return(as.character(df[37,1]))
+      #return(as.character(df[37,1]))
+      return(as.character(df[40,1]))
     }
     
     
