@@ -2424,23 +2424,36 @@ ruta_bcv <- function(file){
   else if(file=="caracteristicas" | file=="tasas"){
     webpage <- read_html("http://www.bcv.org.ve/estadisticas/tasas-de-interes")
     # Extract records info
-    results <- webpage %>% html_nodes(".file")
+    #results <- webpage %>% html_nodes(".file")
+    
     
     # Building the dataset
-    records <- vector("list", length = length(results))
+    #records <- vector("list", length = length(results))
     
-    for (i in seq_along(results)) {
-      url <- results[i] %>% html_nodes("a") %>% html_attr("href")
-      records[[i]] <- data_frame(url = url)
-    }
+    #for (i in seq_along(results)) {
+    #  url <- results[i] %>% html_nodes("a") %>% html_attr("href")
+    #  records[[i]] <- data_frame(url = url)
+    #}
     
-    df <- bind_rows(records)
+    #df <- bind_rows(records)
     if(file=="tasas"){
-      return(as.character(df[33,1]))
+      #return(as.character(df[33,1]))
+      results1 <- webpage %>% html_nodes(".odd")
+      text1 <- xml_text(results1)
+      a <- "Operaciones Interbancarias Overnight"
+      b <- as.numeric(gregexpr(a,text1))
+      c <- results1[which(b>0)] %>% html_nodes("a") %>% html_attr("href")
+      return(c)
     }
     if(file=="caracteristicas"){
       #return(as.character(df[37,1]))
-      return(as.character(df[40,1]))
+      #return(as.character(df[40,1]))
+      results <- webpage %>% html_nodes(".even")
+      text <- xml_text(results)
+      a1 <- "Características de las emisiones de títulos valores"
+      b1 <- as.numeric(gregexpr(a1,text))
+      c1 <- results[which(b1>0)] %>% html_nodes("a") %>% html_attr("href")
+      return(c1)
     }
     
     
