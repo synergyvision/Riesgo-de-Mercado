@@ -583,17 +583,366 @@ output$par_tif_ns_op<-renderPrint({if(input$opt_tif_ns==1){gra_tif_ns()
 #+++++++++++++++++++++++++++++++#
 
 output$c_tif_ns_op <- renderPlot({if(input$opt_tif_ns==1){
-  #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
-  ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=nelson_siegel(t=seq(0.1,20,0.1),pa=gra_tif_ns())*100),aes(x=x,y=y))+
-    geom_line(color="green")+xlab("Maduración (años)")+
-    ylab("Rendimiento (%)")+theme_gray()+
-    ggtitle("Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")+
-    theme(plot.title = element_text(hjust = 0.5))
+  a <- try(cbind.data.frame(x=seq(0.1,20,0.1),y=nelson_siegel(t=seq(0.1,20,0.1),pa=gra_tif_ns())*100))
+  if(class(a)!="try-error"){
+    #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
+    ggplot(a,aes(x=x,y=y))+
+      geom_line(color="green")+xlab("Maduración (años)")+
+      ylab("Rendimiento (%)")+theme_gray()+
+      ggtitle("Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")+
+      theme(plot.title = element_text(hjust = 0.5))
+  }else{}
 }else{}})
 
 #/////////////////#
 #/# CASO VEBONO #/#
 #/////////////////#
+
+#+++++++++++++++++++++#
+# Fecha de valoración #
+#+++++++++++++++++++++#
+
+# Misma variable p2 que en TIF
+
+#+++++++++++++++++++++++++++++++++++++++++++++#
+# Selección de instrumentos por archivo plano #
+#+++++++++++++++++++++++++++++++++++++++++++++#
+
+output$datatable_tit_veb<-renderDataTable({
+  if(is.null(data_tit_veb_ns())){return()}
+  #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+  #datatable(data_pos())
+  data_tit_veb_ns()
+})
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar lectura instrumentos por archivo plano #
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+data_tit_veb_ns <- reactive({
+  # input$file1 will be NULL initially. After the user selects
+  # and uploads a file, it will be a data frame with 'name',
+  # 'size', 'type', and 'datapath' columns. The 'datapath'
+  # column will contain the local filenames where the data can
+  # be found.
+  
+  inFile <- input$data_tit_veb
+  
+  if (is.null(inFile))
+    return(NULL)
+  
+  read.table(inFile$datapath, header = input$header_tit_veb,
+             sep = input$sep_tit_veb, quote = input$quote_tit_veb)
+  
+})
+
+
+#+++++++++++++++++++++++++++++++++++#
+# Muestro selección de los tituulos #
+#+++++++++++++++++++++++++++++++++++#
+
+output$q1_ns2 <- renderPrint(
+  ns2()
+)
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar que muestra selección de títulos #
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+ns2 <- reactive({
+  if(is.null(data_tit_veb_ns())){
+    #input$t1_ns2
+    c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns)
+    
+  }else{
+    a <- data_tit_veb_ns() 
+    as.character(a[,1])
+  }
+})
+
+#++++++++++++++++++++++++++#
+# Muestro precios promedio #
+#++++++++++++++++++++++++++#
+
+output$pre2_ns <-renderPrint({tv_ns()})
+
+#+++++++++++++++++++++++++++++++++++#
+# Funcion auxiliar precios promedio #
+#+++++++++++++++++++++++++++++++++++#
+
+tv_ns <- reactive({pos1(ns2(),1)})
+
+#+++++++++++++#
+# Advertencia #
+#+++++++++++++#
+
+output$ad_pns_veb <- renderPrint({
+  if(length(tv_ns())==1 & sum(tv_ns()==0)>=1){ return("No hay instrumentos seleccionados")}else{
+    
+    p <- tv_ns()
+    
+    if(length(which(p==0))!=0){
+      return("Existen precios promedios nulos")
+    }else{
+      return("Precios promedio diferentes de cero")
+    }
+    
+  }# final if inicial
+  
+})
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++#
+# Muestro nombre titulos con precio promedio nulo #
+#+++++++++++++++++++++++++++++++++++++++++++++++++#
+
+output$np_ns2 <- renderPrint({
+  if(is.null(ad_ns_t2())){ return("No hay precios promedios nulos")}
+  #obtengo nombres de los instrumentos con precio 0
+  a <- ad_ns_t2()
+  
+  b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+  names(b) <- c("Títulos","Precio promedio")
+  b[,1] <-  a
+  
+  
+  c <- as.numeric(unlist(strsplit(input$vec2_ns,",")))
+  if(length(c)>nrow(b)){
+    return("Existen más precios de lo necesario, revisar precios ingresados")
+  }else{
+    
+    b[,2] <- c
+    
+    #write.table(b,paste(getwd(),"data","pp_ns1.txt",sep = "/"),row.names = FALSE)
+    
+    b
+  }
+  
+})
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar nombre titulos con precio promedio nulo #
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+ad_ns_t2 <- reactive({
+  p <- tv_ns()
+  a <- which(p==0)
+  
+  if(length(a)!=0){
+    return(names(p)[a])
+  }else{
+    return(NULL)
+  }
+  
+})
+
+#++++++++++++++++++++++++++++++++++++++++++#
+# Muestro nuevos precios promedio no nulos #
+#++++++++++++++++++++++++++++++++++++++++++#
+
+output$sal2_ns <-renderPrint({
+  a <- try(TV_NS())
+  if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+  
+})
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar nuevos precios promedio no nulos #
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+TV_NS <- reactive({
+  a <- tv_ns()
+  
+  if(length(which(a==0))!=0){
+    #return("Existen precios prom nulos")
+    return(tv_ns1())
+  }else{
+    #return("precios bien")
+    return(a)
+  }
+  
+  
+})
+
+#+++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar que busca precios promedio #
+#+++++++++++++++++++++++++++++++++++++++++++++#
+
+tv_ns1 <- reactive({
+  a <- tv_ns()
+  
+  if(length(which(a==0))==0){
+    return(a)
+  }else{
+    #a <- tf_ns()
+    b <-dat1()
+    #return(b)
+    #nombres de variables con precios nulos
+    if(is.null(ad_ns_t2())){ return("Seleccionar instrumento")}
+    
+    n <- ad_ns_t2()
+    
+    ind <- c()
+    for(i in 1:length(n)){
+      ind[i] <- which(n[i]==names(a))
+    }
+    
+    #asigno nuevos precios
+    # for(i in 1:length(ind)){
+    # a[ind[i]] <- b[i,2]
+    # }
+    a[ind] <- b[,2]
+    return(a)
+  }
+  
+  
+})
+
+#++++++++++++++++++++++++++++#
+# Variable auxiliar de datos #
+#++++++++++++++++++++++++++++#
+
+dat1 <- reactive({
+  if(is.null(ad_ns_t2())){ return("Seleccionar instrumento")}
+  #obtengo nombres de los instrumentos con precio 0
+  a <- ad_ns_t2()
+  
+  b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+  names(b) <- c("Títulos","Precio promedio")
+  b[,1] <-  a
+  
+  
+  c <- as.numeric(unlist(strsplit(input$vec2_ns,",")))
+  if(length(c)>nrow(b)){
+    return("Existen más precios de lo necesario, revisar precios ingresados")
+  }else{
+    
+    b[,2] <- c
+  }
+  b
+})
+
+#+++++++++++++++++++++++++++++++++++++#
+# Muestro documento "Caracteristicas" #
+#+++++++++++++++++++++++++++++++++++++#
+
+output$Ca1_ns <- renderDataTable({
+  ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
+  if(class(ca)=="try-error"){
+    v <- print("El archivo no se encuentra, descargar y recargar página!")
+    return(as.data.frame(v))
+  }else{
+    return(ca)
+  }
+})
+
+#++++++++++++++++++++++++++++++#
+# Muestro parametros iniciales #
+#++++++++++++++++++++++++++++++#
+
+#pa1_ns esta en el global
+output$pa_veb_ns <- renderPrint({pa1_ns})
+
+#+++++++++++++++++++++++++++++++++++++#
+# Muestro precios estimados iniciales #
+#+++++++++++++++++++++++++++++++++++++#
+
+output$p_est_veb_ns <- renderDataTable({
+  if(length(ns2())!=0){
+    a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa = pa1_ns,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+  }else{}
+})
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Muestro curva de rendimiento - parametros iniciales  #
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+output$c_veb_ns <- renderPlot({
+  ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=nelson_siegel(t=seq(0.1,20,0.1),pa=pa1_ns)*100),aes(x=x,y=y))+
+    geom_line(color="blue")+xlab("Maduración (años)")+
+    ylab("Rendimiento (%)")+theme_gray()+
+    ggtitle("Curva de rendimiento Nelson y Siegel Parámetros Iniciales VEBONOS")+
+    theme(plot.title = element_text(hjust = 0.5))
+  
+})
+
+#+++++++++++++++++++++++++++++#
+# Muestro parametros elegidos #
+#+++++++++++++++++++++++++++++#
+
+output$new_ns_veb <- renderPrint({(data.frame('B0'=input$ns_b0_veb,'B1'=input$ns_b1_veb,'B2'=input$ns_b2_veb,'T'=input$ns_t_veb,row.names = " " ))})
+
+
+#++++++++++++++#
+# Verificacion #
+#++++++++++++++#
+
+output$ver_ns_veb <- renderPrint({data.frame('Condición_1'=input$ns_b0_veb>0,'Condición_2'=input$ns_b0_veb+input$ns_b1_veb>0,'Condición_3'=input$ns_t_veb>0,row.names = " " )})
+
+#++++++++++++++++++++++++++++++++++++++++++#
+# Muestro precios con parámetros escogidos #
+#++++++++++++++++++++++++++++++++++++++++++#
+
+output$p_est_veb_ns_el <- renderDataTable({
+  if(length(ns2())!=0){
+    a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa =c(input$ns_b0_veb,input$ns_b1_veb,input$ns_b2_veb,input$ns_t_veb) ,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+  }else{}
+})
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Muestro curva de rendimientos con parámetros escogidos #
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+output$c_veb_ns1_new <- renderPlot({
+  ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=nelson_siegel(t=seq(0.1,20,0.1),pa=c(input$ns_b0_veb,input$ns_b1_veb,input$ns_b2_veb,input$ns_t_veb))*100),aes(x=x,y=y))+
+    geom_line(color="brown")+xlab("Maduración (años)")+
+    ylab("Rendimiento (%)")+theme_gray()+
+    ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos VEBONO")+
+    theme(plot.title = element_text(hjust = 0.5))
+})
+
+#+++++++++++++++++++++++++++++#
+# Muestro precios optimizados #
+#+++++++++++++++++++++++++++++#
+
+output$p_est_veb_opt_ns <- renderDataTable({
+  if(input$opt_veb_ns==1){
+    withProgress(message = 'Calculando parámetros optimizados', value = 0, {
+      incProgress(1/2, detail = "Realizando iteraciones")
+      a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns,fe3=0)[[1]] )
+      if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+    })
+  }else{
+    Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
+    return(as.data.frame(Aviso))
+  }
+})
+
+#++++++++++++++++++++++++++++++++#
+# Muestro parametros optimizados #
+#++++++++++++++++++++++++++++++++#
+
+output$par_veb_ns_op<-renderPrint({if(input$opt_veb_ns==1){gra_veb_ns()
+}else{}})
+
+#+++++++++++++++++++++++++++++++#
+# Muestro curva de rendimientos #
+#+++++++++++++++++++++++++++++++#
+
+output$c_veb_ns_op <- renderPlot({if(input$opt_veb_ns==1){
+  #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
+  a <- try(cbind.data.frame(x=seq(0.1,20,0.1),y=nelson_siegel(t=seq(0.1,20,0.1),pa=gra_veb_ns())*100))
+  if(class(a)!="try-error"){
+  ggplot(a,aes(x=x,y=y))+
+    geom_line(color="green")+xlab("Maduración (años)")+
+    ylab("Rendimiento (%)")+theme_gray()+
+    ggtitle("Curva de redimientos Nelson y Siegel Parametros Optimizados VEBONOS")+
+    theme(plot.title = element_text(hjust = 0.5))
+  }else{}
+}else{}})
+
 
 #/////////////////////////#
 #/# SUBSECCION SVENSSON #/#
