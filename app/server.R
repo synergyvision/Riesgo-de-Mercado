@@ -4,7 +4,7 @@ shinyServer(function(input, output) {
  
   #fechas
   #Svensson
-  output$p1<-renderPrint({paste(substr(input$n1,9,10),substr(input$n1,6,7),substr(input$n1,1,4),sep = "/")})
+  #output$p1<-renderPrint({paste(substr(input$n1,9,10),substr(input$n1,6,7),substr(input$n1,1,4),sep = "/")})
   #Nelson y Siegel
   #output$p2<-renderPrint({paste(substr(input$n2,9,10),substr(input$n2,6,7),substr(input$n2,1,4),sep = "/")})
   #Diebold-Li
@@ -26,7 +26,7 @@ shinyServer(function(input, output) {
   
   #vebonos
 
-  output$q2_ns<-renderPrint({c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns)})
+  #output$q2_ns<-renderPrint({c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns)})
   output$q2_dl<-renderPrint({dl2()})
   output$q2_sp<-renderPrint({c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp)})
   output$q2_comp<-renderPrint({c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp)})
@@ -170,76 +170,76 @@ shinyServer(function(input, output) {
   #SVENSSON
   #SVENSSON
   #data tif
-  data_tif_sv <- reactive({
-    
-    inFile <- input$data_tit_tif_sv
-    
-    if (is.null(inFile))
-      return(NULL)
-    
-    read.table(inFile$datapath, header = input$header_tit_tif_sv,
-               sep = input$sep_tit_tif_sv, quote = input$quote_tit_tif_sv)
-    
-  })
+  # data_tif_sv <- reactive({
+  #   
+  #   inFile <- input$data_tit_tif_sv
+  #   
+  #   if (is.null(inFile))
+  #     return(NULL)
+  #   
+  #   read.table(inFile$datapath, header = input$header_tit_tif_sv,
+  #              sep = input$sep_tit_tif_sv, quote = input$quote_tit_tif_sv)
+  #   
+  # })
   
   #muestro data
-  output$datatable_tit_tif_sv<-renderDataTable({
-    if(is.null(data_tif_sv())){return()}
-    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
-    #datatable(data_pos())
-    data_tif_sv()
-  })
-  
+  # output$datatable_tit_tif_sv<-renderDataTable({
+  #   if(is.null(data_tif_sv())){return()}
+  #   #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+  #   #datatable(data_pos())
+  #   data_tif_sv()
+  # })
+  # 
   
   #funcion auxiliar
-  sv1 <- reactive({
-    if(is.null(data_tif_sv())){
-      #input$t_sv1
-      c(input$t1,input$t2,input$t3,input$t4)
-    }else{
-      a <- data_tif_sv() 
-      as.character(a[,1])
-    }
-  })
+  # sv1 <- reactive({
+  #   if(is.null(data_tif_sv())){
+  #     #input$t_sv1
+  #     c(input$t1,input$t2,input$t3,input$t4)
+  #   }else{
+  #     a <- data_tif_sv() 
+  #     as.character(a[,1])
+  #   }
+  # })
   
-  output$q_sv1 <- renderPrint(
-    sv1()
-  )
+  # output$q_sv1 <- renderPrint(
+  #   sv1()
+  # )
   
   #data veb
-  data_veb_sv <- reactive({
-    
-    inFile <- input$data_tit_veb_sv
-    
-    if (is.null(inFile))
-      return(NULL)
-    
-    read.table(inFile$datapath, header = input$header_tit_veb_sv,
-               sep = input$sep_tit_veb_sv, quote = input$quote_tit_veb_sv)
-    
-  })
+  # data_veb_sv <- reactive({
+  #   
+  #   inFile <- input$data_tit_veb_sv
+  #   
+  #   if (is.null(inFile))
+  #     return(NULL)
+  #   
+  #   read.table(inFile$datapath, header = input$header_tit_veb_sv,
+  #              sep = input$sep_tit_veb_sv, quote = input$quote_tit_veb_sv)
+  #   
+  # })
   
   #muestro data
-  output$datatable_tit_veb_sv<-renderDataTable({
-    if(is.null(data_veb_sv())){return()}
-    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
-    #datatable(data_pos())
-    data_veb_sv()
-  })
+  # output$datatable_tit_veb_sv<-renderDataTable({
+  #   if(is.null(data_veb_sv())){return()}
+  #   #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+  #   #datatable(data_pos())
+  #   data_veb_sv()
+  # })
   
   
   
   
   #veb
-  sv2 <- reactive({
-    if(is.null(data_veb_sv())){
-      #input$t_sv1
-      c(input$v1,input$v2,input$v3,input$v4)
-    }else{
-      a <- data_veb_sv() 
-      as.character(a[,1])
-    }
-  })
+  # sv2 <- reactive({
+  #   if(is.null(data_veb_sv())){
+  #     #input$t_sv1
+  #     c(input$v1,input$v2,input$v3,input$v4)
+  #   }else{
+  #     a <- data_veb_sv() 
+  #     as.character(a[,1])
+  #   }
+  # })
   
   output$q2<-renderPrint({  
     sv2()
@@ -483,7 +483,7 @@ shinyServer(function(input, output) {
   
   #precios
   #tf <- reactive({pos1(c(input$t1,input$t2,input$t3,input$t4),0)})
-  tf <- reactive({pos1(sv1(),0)})
+  #tf <- reactive({pos1(sv1(),0)})
   
   
   #tf_ns <- reactive({pos1(c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),0)})
@@ -506,7 +506,7 @@ shinyServer(function(input, output) {
   tf_sp <- reactive({pos1(sp1(),0)})
   
   #tv <- reactive({pos(c(input$v1,input$v2,input$v3,input$v4),1)})
-  tv <- reactive({pos1(sv2(),1)})
+  #tv <- reactive({pos1(sv2(),1)})
   
   #tv_ns <- reactive({pos1(c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns),1)})
   #tv_ns <- reactive({pos1(ns2(),1)})
@@ -518,7 +518,7 @@ shinyServer(function(input, output) {
   #tv_sp <- reactive({pos(c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),1)})
   tv_sp <- reactive({pos1(sp2(),1)})
   
-  output$pre1 <-renderPrint({tf()})
+  #output$pre1 <-renderPrint({tf()})
   #output$pre1_ns <-renderPrint({tf_ns()})
   
   #advertencia TIF
@@ -808,251 +808,251 @@ shinyServer(function(input, output) {
   #SVENSSON #SVENSSON
   #SVENSSON #SVENSSON
   #advertencia TIF
-  output$ad_psv_tif <- renderPrint({
-    if(length(tf())==1 & sum(tf()==0)>=1){ return("No hay instrumentos seleccionados")}else{
-      
-      p <- tf()
-      
-      if(length(which(p==0))!=0){
-        return("Existen precios promedios nulos")
-      }else{
-        return("Precios promedio diferentes de cero")
-      }
-      
-    }# final if inicial
-    
-  })
+  # output$ad_psv_tif <- renderPrint({
+  #   if(length(tf())==1 & sum(tf()==0)>=1){ return("No hay instrumentos seleccionados")}else{
+  #     
+  #     p <- tf()
+  #     
+  #     if(length(which(p==0))!=0){
+  #       return("Existen precios promedios nulos")
+  #     }else{
+  #       return("Precios promedio diferentes de cero")
+  #     }
+  #     
+  #   }# final if inicial
+  #   
+  # })
   
   #variable auxiliar
   #tif
-  ad_sv_t1 <- reactive({
-    p <- tf()
-    a <- which(p==0)
-    
-    if(length(a)!=0){
-      return(names(p)[a])
-    }else{
-      return(NULL)
-    }
-    
-  })
+  # ad_sv_t1 <- reactive({
+  #   p <- tf()
+  #   a <- which(p==0)
+  #   
+  #   if(length(a)!=0){
+  #     return(names(p)[a])
+  #   }else{
+  #     return(NULL)
+  #   }
+  #   
+  # })
   
   
   #variable nueva creada a partir de precios nulos
   #tif
-  output$np_sv1 <- renderPrint({
-    if(is.null(ad_sv_t1())){ return("No hay precios promedios nulos")}
-    #obtengo nombres de los instrumentos con precio 0
-    a <- ad_sv_t1()
-    
-    b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
-    names(b) <- c("Títulos","Precio promedio")
-    b[,1] <-  a
-    
-    
-    c <- as.numeric(unlist(strsplit(input$vec1_sv,",")))
-    if(length(c)>nrow(b)){
-      return("Existen más precios de lo necesario, revisar precios ingresados")
-    }else{
-      
-      b[,2] <- c
-
-      b
-    }
-    
-  })
+  # output$np_sv1 <- renderPrint({
+  #   if(is.null(ad_sv_t1())){ return("No hay precios promedios nulos")}
+  #   #obtengo nombres de los instrumentos con precio 0
+  #   a <- ad_sv_t1()
+  #   
+  #   b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+  #   names(b) <- c("Títulos","Precio promedio")
+  #   b[,1] <-  a
+  #   
+  #   
+  #   c <- as.numeric(unlist(strsplit(input$vec1_sv,",")))
+  #   if(length(c)>nrow(b)){
+  #     return("Existen más precios de lo necesario, revisar precios ingresados")
+  #   }else{
+  #     
+  #     b[,2] <- c
+  # 
+  #     b
+  #   }
+  #   
+  # })
   
   #sal
   #tif
-  output$sal1_sv <-renderPrint({
-    a <- try(TF())
-    if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
-    
-  })
+  # output$sal1_sv <-renderPrint({
+  #   a <- try(TF())
+  #   if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+  #   
+  # })
   
   #NUEVA VARIABLE
   #TIF
-  TF <- reactive({
-    a <- tf()
-    
-    if(length(which(a==0))!=0){
-      #return("Existen precios prom nulos")
-      return(tf_1())
-    }else{
-      #return("precios bien")
-      return(a)
-    }
-    
-  })
+  # TF <- reactive({
+  #   a <- tf()
+  #   
+  #   if(length(which(a==0))!=0){
+  #     #return("Existen precios prom nulos")
+  #     return(tf_1())
+  #   }else{
+  #     #return("precios bien")
+  #     return(a)
+  #   }
+  #   
+  # })
   
   #variable que utilizare para buscar precios promedio
   #tif
-  tf_1 <- reactive({
-    a <- tf()
-    
-    if(length(which(a==0))==0){
-      return(a)
-    }else{
-      b <-dat1_sv()
-      #nombres de variables con precios nulos
-      if(is.null(ad_sv_t1())){ return("Seleccionar instrumento")}
-      
-      n <- ad_sv_t1()
-      
-      ind <- c()
-      for(i in 1:length(n)){
-        ind[i] <- which(n[i]==names(a))
-      }
-      
-      a[ind] <- b[,2]
-      return(a)
-    }
-    
-    
-  })
+  # tf_1 <- reactive({
+  #   a <- tf()
+  #   
+  #   if(length(which(a==0))==0){
+  #     return(a)
+  #   }else{
+  #     b <-dat1_sv()
+  #     #nombres de variables con precios nulos
+  #     if(is.null(ad_sv_t1())){ return("Seleccionar instrumento")}
+  #     
+  #     n <- ad_sv_t1()
+  #     
+  #     ind <- c()
+  #     for(i in 1:length(n)){
+  #       ind[i] <- which(n[i]==names(a))
+  #     }
+  #     
+  #     a[ind] <- b[,2]
+  #     return(a)
+  #   }
+  #   
+  #   
+  # })
   
   #tif
-  dat1_sv <- reactive({
-    if(is.null(ad_sv_t1())){ return("Seleccionar instrumento")}
-    #obtengo nombres de los instrumentos con precio 0
-    a <- ad_sv_t1()
-    
-    b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
-    names(b) <- c("Títulos","Precio promedio")
-    b[,1] <-  a
-    
-    
-    c <- as.numeric(unlist(strsplit(input$vec1_sv,",")))
-    if(length(c)>nrow(b)){
-      return("Existen más precios de lo necesario, revisar precios ingresados")
-    }else{
-      
-      b[,2] <- c
-    }
-    b
-  })
+  # dat1_sv <- reactive({
+  #   if(is.null(ad_sv_t1())){ return("Seleccionar instrumento")}
+  #   #obtengo nombres de los instrumentos con precio 0
+  #   a <- ad_sv_t1()
+  #   
+  #   b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+  #   names(b) <- c("Títulos","Precio promedio")
+  #   b[,1] <-  a
+  #   
+  #   
+  #   c <- as.numeric(unlist(strsplit(input$vec1_sv,",")))
+  #   if(length(c)>nrow(b)){
+  #     return("Existen más precios de lo necesario, revisar precios ingresados")
+  #   }else{
+  #     
+  #     b[,2] <- c
+  #   }
+  #   b
+  # })
   
   #VEBONOS
   #ad - VEB
-  output$ad_psv_veb <- renderPrint({
-    if(length(tv())==1 & sum(tv()==0)>=1){ return("No hay instrumentos seleccionados")}else{
-      
-      p <- tv()
-      
-      if(length(which(p==0))!=0){
-        return("Existen precios promedios nulos")
-      }else{
-        return("Precios promedio diferentes de cero")
-      }
-      
-    }# final if inicial
-    
-  })
+  # output$ad_psv_veb <- renderPrint({
+  #   if(length(tv())==1 & sum(tv()==0)>=1){ return("No hay instrumentos seleccionados")}else{
+  #     
+  #     p <- tv()
+  #     
+  #     if(length(which(p==0))!=0){
+  #       return("Existen precios promedios nulos")
+  #     }else{
+  #       return("Precios promedio diferentes de cero")
+  #     }
+  #     
+  #   }# final if inicial
+  #   
+  # })
   
   #VEB
-  output$np_sv2 <- renderPrint({
-    if(is.null(ad_sv_t2())){ return("No hay precios promedios nulos")}
-    #obtengo nombres de los instrumentos con precio 0
-    a <- ad_sv_t2()
-    
-    b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
-    names(b) <- c("Títulos","Precio promedio")
-    b[,1] <-  a
-    
-    
-    c <- as.numeric(unlist(strsplit(input$vec2_sv,",")))
-    if(length(c)>nrow(b)){
-      return("Existen más precios de lo necesario, revisar precios ingresados")
-    }else{
-      
-      b[,2] <- c
-      b
-    }
-    
-  })
+  # output$np_sv2 <- renderPrint({
+  #   if(is.null(ad_sv_t2())){ return("No hay precios promedios nulos")}
+  #   #obtengo nombres de los instrumentos con precio 0
+  #   a <- ad_sv_t2()
+  #   
+  #   b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+  #   names(b) <- c("Títulos","Precio promedio")
+  #   b[,1] <-  a
+  #   
+  #   
+  #   c <- as.numeric(unlist(strsplit(input$vec2_sv,",")))
+  #   if(length(c)>nrow(b)){
+  #     return("Existen más precios de lo necesario, revisar precios ingresados")
+  #   }else{
+  #     
+  #     b[,2] <- c
+  #     b
+  #   }
+  #   
+  # })
   
   #veb
-  ad_sv_t2 <- reactive({
-    p <- tv()
-    a <- which(p==0)
-    
-    if(length(a)!=0){
-      return(names(p)[a])
-    }else{
-      return(NULL)
-    }
-    
-  })
+  # ad_sv_t2 <- reactive({
+  #   p <- tv()
+  #   a <- which(p==0)
+  #   
+  #   if(length(a)!=0){
+  #     return(names(p)[a])
+  #   }else{
+  #     return(NULL)
+  #   }
+  #   
+  # })
   
   #veb
-  output$sal2_sv <-renderPrint({
-    a <- try(TV())
-    if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
-    
-  })
+  # output$sal2_sv <-renderPrint({
+  #   a <- try(TV())
+  #   if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+  #   
+  # })
   
   #VEB
-  TV <- reactive({
-    a <- tv()
-    
-    if(length(which(a==0))!=0){
-      #return("Existen precios prom nulos")
-      return(tv_1())
-    }else{
-      #return("precios bien")
-      return(a)
-    }
-    
-    
-  })
+  # TV <- reactive({
+  #   a <- tv()
+  #   
+  #   if(length(which(a==0))!=0){
+  #     #return("Existen precios prom nulos")
+  #     return(tv_1())
+  #   }else{
+  #     #return("precios bien")
+  #     return(a)
+  #   }
+  #   
+  #   
+  # })
   
   #veb
-  tv_1 <- reactive({
-    a <- tv()
-    
-    if(length(which(a==0))==0){
-      return(a)
-    }else{
-      #a <- tf_ns()
-      b <-dat2_sv()
-      #return(b)
-      #nombres de variables con precios nulos
-      if(is.null(ad_sv_t2())){ return("Seleccionar instrumento")}
-      
-      n <- ad_sv_t2()
-      
-      ind <- c()
-      for(i in 1:length(n)){
-        ind[i] <- which(n[i]==names(a))
-      }
-      
-      a[ind] <- b[,2]
-      return(a)
-    }
-    
-    
-  })
+  # tv_1 <- reactive({
+  #   a <- tv()
+  #   
+  #   if(length(which(a==0))==0){
+  #     return(a)
+  #   }else{
+  #     #a <- tf_ns()
+  #     b <-dat2_sv()
+  #     #return(b)
+  #     #nombres de variables con precios nulos
+  #     if(is.null(ad_sv_t2())){ return("Seleccionar instrumento")}
+  #     
+  #     n <- ad_sv_t2()
+  #     
+  #     ind <- c()
+  #     for(i in 1:length(n)){
+  #       ind[i] <- which(n[i]==names(a))
+  #     }
+  #     
+  #     a[ind] <- b[,2]
+  #     return(a)
+  #   }
+  #   
+  #   
+  # })
   
   #veb
-  dat2_sv <- reactive({
-    if(is.null(ad_sv_t2())){ return("Seleccionar instrumento")}
-    #obtengo nombres de los instrumentos con precio 0
-    a <- ad_sv_t2()
-    
-    b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
-    names(b) <- c("Títulos","Precio promedio")
-    b[,1] <-  a
-    
-    
-    c <- as.numeric(unlist(strsplit(input$vec2_sv,",")))
-    if(length(c)>nrow(b)){
-      return("Existen más precios de lo necesario, revisar precios ingresados")
-    }else{
-      
-      b[,2] <- c
-    }
-    b
-  })
+  # dat2_sv <- reactive({
+  #   if(is.null(ad_sv_t2())){ return("Seleccionar instrumento")}
+  #   #obtengo nombres de los instrumentos con precio 0
+  #   a <- ad_sv_t2()
+  #   
+  #   b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+  #   names(b) <- c("Títulos","Precio promedio")
+  #   b[,1] <-  a
+  #   
+  #   
+  #   c <- as.numeric(unlist(strsplit(input$vec2_sv,",")))
+  #   if(length(c)>nrow(b)){
+  #     return("Existen más precios de lo necesario, revisar precios ingresados")
+  #   }else{
+  #     
+  #     b[,2] <- c
+  #   }
+  #   b
+  # })
   
   
   #COMPARATIVO #COMPARATIVO
@@ -1556,7 +1556,7 @@ shinyServer(function(input, output) {
   
   
   ##
-  output$pre2 <-renderPrint({tv()})
+  #output$pre2 <-renderPrint({tv()})
   #output$pre2_ns <-renderPrint({tv_ns()})
   
   output$pre1_dl <-renderPrint({tf_dl()})
@@ -1588,7 +1588,7 @@ shinyServer(function(input, output) {
   
   #parametros
   #output$pa_tif <- renderPrint({print(paste0("$$\\beta_{0}$$"))})
-  output$pa_tif <- renderPrint({pa_sven})
+  #output$pa_tif <- renderPrint({pa_sven})
   # output$formula <- renderPrint({
   #   return(paste0("Use this formula: $$\beta_{0}", 1,"$$"))
   # })
@@ -1598,7 +1598,7 @@ shinyServer(function(input, output) {
   #   })
   #output$pa_tif_ns <- renderPrint({(pa_ns)})
   output$pa_tif_ns_el <- renderPrint({(pa_ns)})
-  output$pa_veb <- renderPrint({pa1_sven})
+  #output$pa_veb <- renderPrint({pa1_sven})
   #output$pa_veb_ns <- renderPrint({pa1_ns})
   
   #parametros elegir
@@ -1666,10 +1666,10 @@ shinyServer(function(input, output) {
   output$num_sven_t2_tif<-renderPrint({input$sven_t2_tif})
   
   #conjunto
-  output$new_sven_tif <- renderPrint({(data.frame('B0'=input$sven_b0_tif,'B1'=input$sven_b1_tif,'B2'=input$sven_b2_tif,'B3'=input$sven_b3_tif,'T1'=input$sven_t1_tif,'T2'=input$sven_t2_tif,row.names = " " ))})
+  #output$new_sven_tif <- renderPrint({(data.frame('B0'=input$sven_b0_tif,'B1'=input$sven_b1_tif,'B2'=input$sven_b2_tif,'B3'=input$sven_b3_tif,'T1'=input$sven_t1_tif,'T2'=input$sven_t2_tif,row.names = " " ))})
   
   #verificacion
-  output$ver_sven_tif <- renderPrint({data.frame('Condición_1'=input$sven_b0_tif>0,'Condición_2'=input$sven_b0_tif+input$sven_b1_tif>0,'Condición_3'=input$sven_t1_tif>0,'Condición_4'=input$sven_t2_tif>0,row.names = " " )})
+  #output$ver_sven_tif <- renderPrint({data.frame('Condición_1'=input$sven_b0_tif>0,'Condición_2'=input$sven_b0_tif+input$sven_b1_tif>0,'Condición_3'=input$sven_t1_tif>0,'Condición_4'=input$sven_t2_tif>0,row.names = " " )})
   
   #comparativo
   output$num_sven_b0_tif_comp<-renderPrint({input$sven_b0_tif_comp})
@@ -1697,10 +1697,10 @@ shinyServer(function(input, output) {
   output$num_sven_t2_veb<-renderPrint({input$sven_t2_veb})
   
   #conjunto
-  output$new_sven_veb <- renderPrint({(data.frame('B0'=input$sven_b0_veb,'B1'=input$sven_b1_veb,'B2'=input$sven_b2_veb,'B3'=input$sven_b3_veb,'T1'=input$sven_t1_veb,'T2'=input$sven_t2_veb,row.names = " " ))})
+  #output$new_sven_veb <- renderPrint({(data.frame('B0'=input$sven_b0_veb,'B1'=input$sven_b1_veb,'B2'=input$sven_b2_veb,'B3'=input$sven_b3_veb,'T1'=input$sven_t1_veb,'T2'=input$sven_t2_veb,row.names = " " ))})
   
   #verificacion
-  output$ver_sven_veb <- renderPrint({data.frame('Condición_1'=input$sven_b0_veb>0,'Condición_2'=input$sven_b0_veb+input$sven_b1_veb>0,'Condición_3'=input$sven_t1_veb>0,'Condición_4'=input$sven_t2_veb>0,row.names = " " )})
+  #output$ver_sven_veb <- renderPrint({data.frame('Condición_1'=input$sven_b0_veb>0,'Condición_2'=input$sven_b0_veb+input$sven_b1_veb>0,'Condición_3'=input$sven_t1_veb>0,'Condición_4'=input$sven_t2_veb>0,row.names = " " )})
   
   #comparativo
   output$num_sven_b0_veb_comp<-renderPrint({input$sven_b0_veb_comp})
@@ -1719,15 +1719,15 @@ shinyServer(function(input, output) {
   
   #muestro caracteristicas
   #output$Ca <- renderDataTable({C})
-  output$Ca <- renderDataTable({
-    ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
-    if(class(ca)=="try-error"){
-      v <- print("El archivo no se encuentra, descargar y recargar página!")
-      return(as.data.frame(v))
-    }else{
-      return(ca)
-    }
-  })
+  # output$Ca <- renderDataTable({
+  #   ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
+  #   if(class(ca)=="try-error"){
+  #     v <- print("El archivo no se encuentra, descargar y recargar página!")
+  #     return(as.data.frame(v))
+  #   }else{
+  #     return(ca)
+  #   }
+  # })
   
   #output$Ca_ns <- renderDataTable({C})
   # output$Ca_ns <- renderDataTable({
@@ -1753,15 +1753,15 @@ shinyServer(function(input, output) {
     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     })
   
-  output$Ca1 <- renderDataTable({
-    ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
-    if(class(ca)=="try-error"){
-      v <- print("El archivo no se encuentra, descargar y recargar página!")
-      return(as.data.frame(v))
-    }else{
-      return(ca)
-    }
-  })
+  # output$Ca1 <- renderDataTable({
+  #   ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
+  #   if(class(ca)=="try-error"){
+  #     v <- print("El archivo no se encuentra, descargar y recargar página!")
+  #     return(as.data.frame(v))
+  #   }else{
+  #     return(ca)
+  #   }
+  # })
   
   
   # output$Ca1_ns <- renderDataTable({
@@ -1813,13 +1813,13 @@ shinyServer(function(input, output) {
 
   
   #precios estimados iniciales
-  output$p_est_tif <- renderDataTable({
-    if(length(sv1())!=0){
-    a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = pa_sven,ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
-    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
-    
-    }else{}
-    })
+  # output$p_est_tif <- renderDataTable({
+  #   if(length(sv1())!=0){
+  #   a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = pa_sven,ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
+  #   if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+  #   
+  #   }else{}
+  #   })
   #output$p_est_tif_ns <- renderDataTable({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = pa_ns,ind = 0,C = C,fe2=0,fe3=0)[[1]] })
   # output$p_est_tif_ns <- renderDataTable({
   #   #if(length(c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns))!=0){
@@ -1847,13 +1847,13 @@ shinyServer(function(input, output) {
     })
   
   
-  output$p_est_veb <- renderDataTable({
-    if((length(sv2()))!=0){
-    a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = pa1_sven,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
-    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
-    
-    }else{}
-    })
+  # output$p_est_veb <- renderDataTable({
+  #   if((length(sv2()))!=0){
+  #   a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = pa1_sven,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
+  #   if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+  #   
+  #   }else{}
+  #   })
   
   # output$p_est_veb_ns <- renderDataTable({
   #   if(length(ns2())!=0){
@@ -1881,19 +1881,19 @@ shinyServer(function(input, output) {
   
   #precios estimados optimizados
   #paquete alabama
-  output$p_est_tif_opt <- renderDataTable({
-    if(input$opt_tif_sven==1){
-    withProgress(message = 'Calculando parámetros optimizados', value = 0, {
-      incProgress(1/2, detail = "Realizando iteraciones")
-    a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven,fe3=0)[[1]] )
-    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
-    
-    })
-    }else{
-      Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
-      return(as.data.frame(Aviso))
-    }
-    })
+  # output$p_est_tif_opt <- renderDataTable({
+  #   if(input$opt_tif_sven==1){
+  #   withProgress(message = 'Calculando parámetros optimizados', value = 0, {
+  #     incProgress(1/2, detail = "Realizando iteraciones")
+  #   a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven,fe3=0)[[1]] )
+  #   if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+  #   
+  #   })
+  #   }else{
+  #     Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
+  #     return(as.data.frame(Aviso))
+  #   }
+  #   })
   
   # output$p_est_tif_opt_ns <- renderDataTable({
   #   if(input$opt_tif_ns==1){
@@ -1910,13 +1910,13 @@ shinyServer(function(input, output) {
   #   }
   #   })
   
-  output$p_est_tif_opt_sven_el <- renderDataTable({
-    if(length(sv1())!=0){
-    a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
-    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
-    
-    }else{}
-    })
+  # output$p_est_tif_opt_sven_el <- renderDataTable({
+  #   if(length(sv1())!=0){
+  #   a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
+  #   if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+  #   
+  #   }else{}
+  #   })
   
   #comparacion
   output$p_est_tif_opt_comp <- renderDataTable({
@@ -1959,19 +1959,19 @@ shinyServer(function(input, output) {
     })
   
   
-  output$p_est_veb_opt <- renderDataTable({
-    if(input$opt_veb_sven==1){
-    withProgress(message = 'Calculando parámetros optimizados', value = 0, {
-      incProgress(1/2, detail = "Realizando iteraciones")
-    a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven,fe3=0)[[1]])
-    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
-    
-    })
-    }else{
-      Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
-      return(as.data.frame(Aviso))
-      }
-    })
+  # output$p_est_veb_opt <- renderDataTable({
+  #   if(input$opt_veb_sven==1){
+  #   withProgress(message = 'Calculando parámetros optimizados', value = 0, {
+  #     incProgress(1/2, detail = "Realizando iteraciones")
+  #   a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven,fe3=0)[[1]])
+  #   if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+  #   
+  #   })
+  #   }else{
+  #     Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
+  #     return(as.data.frame(Aviso))
+  #     }
+  #   })
   
   # output$p_est_veb_opt_ns <- renderDataTable({
   #   if(input$opt_veb_ns==1){
@@ -1986,13 +1986,13 @@ shinyServer(function(input, output) {
   #   }
   #   })
   
-  output$p_est_veb_opt_sven_el <- renderDataTable({
-    if(length(sv2())!=0){
-    a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
-    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
-    
-    }else{}
-    })
+  # output$p_est_veb_opt_sven_el <- renderDataTable({
+  #   if(length(sv2())!=0){
+  #   a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
+  #   if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+  #   
+  #   }else{}
+  #   })
   
   #comparacion
   output$p_est_veb_opt_comp <- renderDataTable({
@@ -2746,32 +2746,32 @@ shinyServer(function(input, output) {
   # })
   
   #SVENSSON
-  output$c_tif_sven <- renderPlot({
-    ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=pa_sven)*100),aes(x=x,y=y))+
-      geom_line(color="blue")+xlab("Maduración (años)")+
-      ylab("Rendimiento (%)")+theme_gray()+
-      ggtitle("Curva de rendimiento Svensson Parámetros Iniciales TIF")+
-      theme(plot.title = element_text(hjust = 0.5))
-    
-  })
+  # output$c_tif_sven <- renderPlot({
+  #   ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=pa_sven)*100),aes(x=x,y=y))+
+  #     geom_line(color="blue")+xlab("Maduración (años)")+
+  #     ylab("Rendimiento (%)")+theme_gray()+
+  #     ggtitle("Curva de rendimiento Svensson Parámetros Iniciales TIF")+
+  #     theme(plot.title = element_text(hjust = 0.5))
+  #   
+  # })
   #
-  output$c_veb_sven <- renderPlot({
-    ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=pa1_sven)*100),aes(x=x,y=y))+
-      geom_line(color="blue")+xlab("Maduración (años)")+
-      ylab("Rendimiento (%)")+theme_gray()+
-      ggtitle("Curva de rendimiento Svensson Parámetros Iniciales VEBONOS")+
-      theme(plot.title = element_text(hjust = 0.5))
-    
-  })
+  # output$c_veb_sven <- renderPlot({
+  #   ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=pa1_sven)*100),aes(x=x,y=y))+
+  #     geom_line(color="blue")+xlab("Maduración (años)")+
+  #     ylab("Rendimiento (%)")+theme_gray()+
+  #     ggtitle("Curva de rendimiento Svensson Parámetros Iniciales VEBONOS")+
+  #     theme(plot.title = element_text(hjust = 0.5))
+  #   
+  # })
   
   #
-  output$c_tif_sven_new <- renderPlot({
-    ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif))*100),aes(x=x,y=y))+
-      geom_line(color="brown")+xlab("Maduración (años)")+
-      ylab("Rendimiento (%)")+theme_gray()+
-      ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos TIF")+
-      theme(plot.title = element_text(hjust = 0.5))
-  })
+  # output$c_tif_sven_new <- renderPlot({
+  #   ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif))*100),aes(x=x,y=y))+
+  #     geom_line(color="brown")+xlab("Maduración (años)")+
+  #     ylab("Rendimiento (%)")+theme_gray()+
+  #     ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos TIF")+
+  #     theme(plot.title = element_text(hjust = 0.5))
+  # })
   
   #comparativo
   output$c_tif_sven_new_comp <- renderPlot({
@@ -2783,13 +2783,13 @@ shinyServer(function(input, output) {
   })
   
   #
-  output$c_veb_sven_new <- renderPlot({
-    ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb))*100),aes(x=x,y=y))+
-      geom_line(color="brown")+xlab("Maduración (años)")+
-      ylab("Rendimiento (%)")+theme_gray()+
-      ggtitle("Curva de rendimiento Svensson Parámetros elegidos VEBONOS")+
-      theme(plot.title = element_text(hjust = 0.5))
-  })
+  # output$c_veb_sven_new <- renderPlot({
+  #   ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb))*100),aes(x=x,y=y))+
+  #     geom_line(color="brown")+xlab("Maduración (años)")+
+  #     ylab("Rendimiento (%)")+theme_gray()+
+  #     ggtitle("Curva de rendimiento Svensson Parámetros elegidos VEBONOS")+
+  #     theme(plot.title = element_text(hjust = 0.5))
+  # })
   
   #comparativo
   output$c_veb_sven_new_comp <- renderPlot({
@@ -2802,15 +2802,15 @@ shinyServer(function(input, output) {
   
   #caso Nelson y Siegel
   #gra_tif_ns <- reactive({Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[2]] })
-  gra_tif_ns <- reactive({
-    a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_ns,fe3=0)[[2]])
-    if(class(a)!="try-error"){return(a)}else{}
-    })
+  # gra_tif_ns <- reactive({
+  #   a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_ns,fe3=0)[[2]])
+  #   if(class(a)!="try-error"){return(a)}else{}
+  #   })
   
-  gra_veb_ns <- reactive({
-    a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns,fe3=0)[[2]])
-    if(class(a)!="try-error"){return(a)}else{}
-    })
+  # gra_veb_ns <- reactive({
+  #   a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns,fe3=0)[[2]])
+  #   if(class(a)!="try-error"){return(a)}else{}
+  #   })
   
 
   # output$par_tif_ns_op<-renderPrint({if(input$opt_tif_ns==1){gra_tif_ns()
@@ -2896,30 +2896,34 @@ shinyServer(function(input, output) {
   }else{}})
   
   #caso Svensson
-  gra_tif_sven <- reactive({
-    a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven,fe3=0)[[2]])
-    if(class(a)!="try-error"){return(a)}else{}
-    
-    })
-  gra_veb_sven <- reactive({
-    a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven,fe3=0)[[2]])
-    if(class(a)!="try-error"){return(a)}else{}
-    
-    })
+  # gra_tif_sven <- reactive({
+  #   a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven,fe3=0)[[2]])
+  #   if(class(a)!="try-error"){return(a)}else{}
+  #   
+  #   })
+  # gra_veb_sven <- reactive({
+  #   a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven,fe3=0)[[2]])
+  #   if(class(a)!="try-error"){return(a)}else{}
+  #   
+  #   })
   
   #tif
-  output$par_tif_sven_op<-renderPrint({if(input$opt_tif_sven==1){gra_tif_sven()
-  }else{}})
+  # output$par_tif_sven_op<-renderPrint({if(input$opt_tif_sven==1){gra_tif_sven()
+  # }else{}})
   
   #
-  output$c_tif_sven_op <- renderPlot({if(input$opt_tif_sven==1){
-    #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
-    ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=gra_tif_sven())*100),aes(x=x,y=y))+
-      geom_line(color="green")+xlab("Maduración (años)")+
-      ylab("Rendimiento (%)")+theme_gray()+
-      ggtitle("Curva de redimientos Svensson Parametros Optimizados TIF")+
-      theme(plot.title = element_text(hjust = 0.5))
-  }else{}})
+  # output$c_tif_sven_op <- renderPlot({if(input$opt_tif_sven==1){
+  #   #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
+  #   a <- try(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=gra_tif_sven())*100))
+  #   
+  #   if(class(a)!="try-error"){
+  #   ggplot(a,aes(x=x,y=y))+
+  #     geom_line(color="green")+xlab("Maduración (años)")+
+  #     ylab("Rendimiento (%)")+theme_gray()+
+  #     ggtitle("Curva de redimientos Svensson Parametros Optimizados TIF")+
+  #     theme(plot.title = element_text(hjust = 0.5))
+  #   }else{}
+  # }else{}})
   
   #comparativo
   gra_tif_sven_comp <- reactive({
@@ -2948,18 +2952,22 @@ shinyServer(function(input, output) {
   }else{}})
   
   #veb
-  output$par_veb_sven_op<-renderPrint({if(input$opt_veb_sven==1){gra_veb_sven()
-  }else{}})
+  # output$par_veb_sven_op<-renderPrint({if(input$opt_veb_sven==1){gra_veb_sven()
+  # }else{}})
   
   #
-  output$c_veb_sven_op <- renderPlot({if(input$opt_veb_sven==1){
-    #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
-    ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=gra_veb_sven())*100),aes(x=x,y=y))+
-      geom_line(color="green")+xlab("Maduración (años)")+
-      ylab("Rendimiento (%)")+theme_gray()+
-      ggtitle("Curva de redimientos Svensson Parametros Optimizados VEBONOS")+
-      theme(plot.title = element_text(hjust = 0.5))
-  }else{}})
+  # output$c_veb_sven_op <- renderPlot({if(input$opt_veb_sven==1){
+  #   #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
+  #   a <- try(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=gra_veb_sven())*100))
+  #   
+  #   if(class(a)!="try-error"){
+  #   ggplot(a,aes(x=x,y=y))+
+  #     geom_line(color="green")+xlab("Maduración (años)")+
+  #     ylab("Rendimiento (%)")+theme_gray()+
+  #     ggtitle("Curva de redimientos Svensson Parametros Optimizados VEBONOS")+
+  #     theme(plot.title = element_text(hjust = 0.5))
+  #   }else{}
+  # }else{}})
   
   #comparativo
   output$par_veb_sven_op_comp<-renderPrint({if(input$opt_veb_sven_comp==1){gra_veb_sven_comp()

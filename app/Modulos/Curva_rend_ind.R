@@ -578,6 +578,15 @@ output$p_est_tif_opt_ns <- renderDataTable({
 output$par_tif_ns_op<-renderPrint({if(input$opt_tif_ns==1){gra_tif_ns()
 }else{}})
 
+#+++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar parametros optimizados #
+#+++++++++++++++++++++++++++++++++++++++++#
+
+gra_tif_ns <- reactive({
+  a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_ns,fe3=0)[[2]])
+  if(class(a)!="try-error"){return(a)}else{}
+})
+
 #+++++++++++++++++++++++++++++++#
 # Muestro curva de rendimientos #
 #+++++++++++++++++++++++++++++++#
@@ -927,6 +936,15 @@ output$p_est_veb_opt_ns <- renderDataTable({
 output$par_veb_ns_op<-renderPrint({if(input$opt_veb_ns==1){gra_veb_ns()
 }else{}})
 
+#+++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar parametros optimizados #
+#+++++++++++++++++++++++++++++++++++++++++#
+
+gra_veb_ns <- reactive({
+  a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns,fe3=0)[[2]])
+  if(class(a)!="try-error"){return(a)}else{}
+})
+
 #+++++++++++++++++++++++++++++++#
 # Muestro curva de rendimientos #
 #+++++++++++++++++++++++++++++++#
@@ -952,10 +970,694 @@ output$c_veb_ns_op <- renderPlot({if(input$opt_veb_ns==1){
 #/# CASO TIF #/#
 #//////////////#
 
+#+++++++++++++++++++++#
+# Fecha de valoración #
+#+++++++++++++++++++++#
+
+output$p1<-renderPrint({paste(substr(input$n1,9,10),substr(input$n1,6,7),substr(input$n1,1,4),sep = "/")})
+
+#+++++++++++++++++++++++++++++++++++++++++++++#
+# Selección de instrumentos por archivo plano #
+#+++++++++++++++++++++++++++++++++++++++++++++#
+
+output$datatable_tit_tif_sv<-renderDataTable({
+  if(is.null(data_tif_sv())){return()}
+  #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+  #datatable(data_pos())
+  data_tif_sv()
+})
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar lectura instrumentos por archivo plano #
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+data_tif_sv <- reactive({
+  
+  inFile <- input$data_tit_tif_sv
+  
+  if (is.null(inFile))
+    return(NULL)
+  
+  read.table(inFile$datapath, header = input$header_tit_tif_sv,
+             sep = input$sep_tit_tif_sv, quote = input$quote_tit_tif_sv)
+  
+})
+
+#+++++++++++++++++++++++++++++++++++#
+# Muestro selección de los tituulos #
+#+++++++++++++++++++++++++++++++++++#
+
+output$q_sv1 <- renderPrint(
+  sv1()
+)
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar que muestra selección de títulos #
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+sv1 <- reactive({
+  if(is.null(data_tif_sv())){
+    #input$t_sv1
+    c(input$t1,input$t2,input$t3,input$t4)
+  }else{
+    a <- data_tif_sv() 
+    as.character(a[,1])
+  }
+})
+
+
+#++++++++++++++++++++++++++#
+# Muestro precios promedio #
+#++++++++++++++++++++++++++#
+
+output$pre1 <-renderPrint({tf()})
+
+#+++++++++++++++++++++++++++++++++++#
+# Funcion auxiliar precios promedio #
+#+++++++++++++++++++++++++++++++++++#
+
+tf <- reactive({pos1(sv1(),0)})
+
+#+++++++++++++#
+# Advertencia #
+#+++++++++++++#
+
+output$ad_psv_tif <- renderPrint({
+  if(length(tf())==1 & sum(tf()==0)>=1){ return("No hay instrumentos seleccionados")}else{
+    
+    p <- tf()
+    
+    if(length(which(p==0))!=0){
+      return("Existen precios promedios nulos")
+    }else{
+      return("Precios promedio diferentes de cero")
+    }
+    
+  }# final if inicial
+  
+})
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++#
+# Muestro nombre titulos con precio promedio nulo #
+#+++++++++++++++++++++++++++++++++++++++++++++++++#
+
+output$np_sv1 <- renderPrint({
+  if(is.null(ad_sv_t1())){ return("No hay precios promedios nulos")}
+  #obtengo nombres de los instrumentos con precio 0
+  a <- ad_sv_t1()
+  
+  b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+  names(b) <- c("Títulos","Precio promedio")
+  b[,1] <-  a
+  
+  
+  c <- as.numeric(unlist(strsplit(input$vec1_sv,",")))
+  if(length(c)>nrow(b)){
+    return("Existen más precios de lo necesario, revisar precios ingresados")
+  }else{
+    
+    b[,2] <- c
+    
+    b
+  }
+  
+})
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar nombre titulos con precio promedio nulo #
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+ad_sv_t1 <- reactive({
+  p <- tf()
+  a <- which(p==0)
+  
+  if(length(a)!=0){
+    return(names(p)[a])
+  }else{
+    return(NULL)
+  }
+  
+})
+
+#++++++++++++++++++++++++++++++++++++++++++#
+# Muestro nuevos precios promedio no nulos #
+#++++++++++++++++++++++++++++++++++++++++++#
+
+output$sal1_sv <-renderPrint({
+  a <- try(TF())
+  if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+  
+})
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar nuevos precios promedio no nulos #
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+TF <- reactive({
+  a <- tf()
+  
+  if(length(which(a==0))!=0){
+    #return("Existen precios prom nulos")
+    return(tf_1())
+  }else{
+    #return("precios bien")
+    return(a)
+  }
+  
+})
+
+#+++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar que busca precios promedio #
+#+++++++++++++++++++++++++++++++++++++++++++++#
+
+tf_1 <- reactive({
+  a <- tf()
+  
+  if(length(which(a==0))==0){
+    return(a)
+  }else{
+    b <-dat1_sv()
+    #nombres de variables con precios nulos
+    if(is.null(ad_sv_t1())){ return("Seleccionar instrumento")}
+    
+    n <- ad_sv_t1()
+    
+    ind <- c()
+    for(i in 1:length(n)){
+      ind[i] <- which(n[i]==names(a))
+    }
+    
+    a[ind] <- b[,2]
+    return(a)
+  }
+  
+  
+})
+
+#++++++++++++++++++++++++++++#
+# Variable auxiliar de datos #
+#++++++++++++++++++++++++++++#
+
+dat1_sv <- reactive({
+  if(is.null(ad_sv_t1())){ return("Seleccionar instrumento")}
+  #obtengo nombres de los instrumentos con precio 0
+  a <- ad_sv_t1()
+  
+  b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+  names(b) <- c("Títulos","Precio promedio")
+  b[,1] <-  a
+  
+  
+  c <- as.numeric(unlist(strsplit(input$vec1_sv,",")))
+  if(length(c)>nrow(b)){
+    return("Existen más precios de lo necesario, revisar precios ingresados")
+  }else{
+    
+    b[,2] <- c
+  }
+  b
+})
+
+#+++++++++++++++++++++++++++++++++++++#
+# Muestro documento "Caracteristicas" #
+#+++++++++++++++++++++++++++++++++++++#
+
+output$Ca <- renderDataTable({
+  ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
+  if(class(ca)=="try-error"){
+    v <- print("El archivo no se encuentra, descargar y recargar página!")
+    return(as.data.frame(v))
+  }else{
+    return(ca)
+  }
+})
+
+#++++++++++++++++++++++++++++++#
+# Muestro parametros iniciales #
+#++++++++++++++++++++++++++++++#
+
+#pa_sven esta en el global
+output$pa_tif <- renderPrint({pa_sven})
+
+#+++++++++++++++++++++++++++++++++++++#
+# Muestro precios estimados iniciales #
+#+++++++++++++++++++++++++++++++++++++#
+
+output$p_est_tif <- renderDataTable({
+  if(length(sv1())!=0){
+    a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = pa_sven,ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+    
+  }else{}
+})
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Muestro curva de rendimiento - parametros iniciales  #
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+output$c_tif_sven <- renderPlot({
+  ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=pa_sven)*100),aes(x=x,y=y))+
+    geom_line(color="blue")+xlab("Maduración (años)")+
+    ylab("Rendimiento (%)")+theme_gray()+
+    ggtitle("Curva de rendimiento Svensson Parámetros Iniciales TIF")+
+    theme(plot.title = element_text(hjust = 0.5))
+  
+})
+
+#+++++++++++++++++++++++++++++#
+# Muestro parametros elegidos #
+#+++++++++++++++++++++++++++++#
+
+output$new_sven_tif <- renderPrint({(data.frame('B0'=input$sven_b0_tif,'B1'=input$sven_b1_tif,'B2'=input$sven_b2_tif,'B3'=input$sven_b3_tif,'T1'=input$sven_t1_tif,'T2'=input$sven_t2_tif,row.names = " " ))})
+
+#++++++++++++++#
+# Verificacion #
+#++++++++++++++#
+
+output$ver_sven_tif <- renderPrint({data.frame('Condición_1'=input$sven_b0_tif>0,'Condición_2'=input$sven_b0_tif+input$sven_b1_tif>0,'Condición_3'=input$sven_t1_tif>0,'Condición_4'=input$sven_t2_tif>0,row.names = " " )})
+
+#++++++++++++++++++++++++++++++++++++++++++#
+# Muestro precios con parámetros escogidos #
+#++++++++++++++++++++++++++++++++++++++++++#
+
+output$p_est_tif_opt_sven_el <- renderDataTable({
+  if(length(sv1())!=0){
+    a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+    
+  }else{}
+})
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Muestro curva de rendimientos con parámetros escogidos #
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+output$c_tif_sven_new <- renderPlot({
+  ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif))*100),aes(x=x,y=y))+
+    geom_line(color="brown")+xlab("Maduración (años)")+
+    ylab("Rendimiento (%)")+theme_gray()+
+    ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos TIF")+
+    theme(plot.title = element_text(hjust = 0.5))
+})
+
+#+++++++++++++++++++++++++++++#
+# Muestro precios optimizados #
+#+++++++++++++++++++++++++++++#
+
+output$p_est_tif_opt <- renderDataTable({
+  if(input$opt_tif_sven==1){
+    withProgress(message = 'Calculando parámetros optimizados', value = 0, {
+      incProgress(1/2, detail = "Realizando iteraciones")
+      a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven,fe3=0)[[1]] )
+      if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+      
+    })
+  }else{
+    Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
+    return(as.data.frame(Aviso))
+  }
+})
+
+#++++++++++++++++++++++++++++++++#
+# Muestro parametros optimizados #
+#++++++++++++++++++++++++++++++++#
+
+output$par_tif_sven_op<-renderPrint({if(input$opt_tif_sven==1){gra_tif_sven()
+}else{}})
+
+#+++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar parametros optimizados #
+#+++++++++++++++++++++++++++++++++++++++++#
+
+gra_tif_sven <- reactive({
+  a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven,fe3=0)[[2]])
+  if(class(a)!="try-error"){return(a)}else{}
+  
+})
+
+#+++++++++++++++++++++++++++++++#
+# Muestro curva de rendimientos #
+#+++++++++++++++++++++++++++++++#
+
+output$c_tif_sven_op <- renderPlot({if(input$opt_tif_sven==1){
+  #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
+  a <- try(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=gra_tif_sven())*100))
+  
+  if(class(a)!="try-error"){
+    ggplot(a,aes(x=x,y=y))+
+      geom_line(color="green")+xlab("Maduración (años)")+
+      ylab("Rendimiento (%)")+theme_gray()+
+      ggtitle("Curva de redimientos Svensson Parametros Optimizados TIF")+
+      theme(plot.title = element_text(hjust = 0.5))
+  }else{}
+}else{}})
+
 #/////////////////#
 #/# CASO VEBONO #/#
 #/////////////////#
 
+#+++++++++++++++++++++#
+# Fecha de valoración #
+#+++++++++++++++++++++#
+
+#misma variable p1 que TIF
+
+#+++++++++++++++++++++++++++++++++++++++++++++#
+# Selección de instrumentos por archivo plano #
+#+++++++++++++++++++++++++++++++++++++++++++++#
+
+output$datatable_tit_veb_sv<-renderDataTable({
+  if(is.null(data_veb_sv())){return()}
+  #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+  #datatable(data_pos())
+  data_veb_sv()
+})
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar lectura instrumentos por archivo plano #
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+data_veb_sv <- reactive({
+  
+  inFile <- input$data_tit_veb_sv
+  
+  if (is.null(inFile))
+    return(NULL)
+  
+  read.table(inFile$datapath, header = input$header_tit_veb_sv,
+             sep = input$sep_tit_veb_sv, quote = input$quote_tit_veb_sv)
+  
+})
+
+#++++++++++++++++++++++++++++++++++#
+# Muestro selección de los titulos #
+#++++++++++++++++++++++++++++++++++#
+
+output$q2<-renderPrint({  
+  sv2()
+})
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar que muestra selección de títulos #
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+sv2 <- reactive({
+  if(is.null(data_veb_sv())){
+    #input$t_sv1
+    c(input$v1,input$v2,input$v3,input$v4)
+  }else{
+    a <- data_veb_sv() 
+    as.character(a[,1])
+  }
+})
+
+#++++++++++++++++++++++++++#
+# Muestro precios promedio #
+#++++++++++++++++++++++++++#
+
+output$pre2 <-renderPrint({tv()})
+
+#+++++++++++++++++++++++++++++++++++#
+# Funcion auxiliar precios promedio #
+#+++++++++++++++++++++++++++++++++++#
+
+tv <- reactive({pos1(sv2(),1)})
+
+#+++++++++++++#
+# Advertencia #
+#+++++++++++++#
+
+output$ad_psv_veb <- renderPrint({
+  if(length(tv())==1 & sum(tv()==0)>=1){ return("No hay instrumentos seleccionados")}else{
+    
+    p <- tv()
+    
+    if(length(which(p==0))!=0){
+      return("Existen precios promedios nulos")
+    }else{
+      return("Precios promedio diferentes de cero")
+    }
+    
+  }# final if inicial
+  
+})
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++#
+# Muestro nombre titulos con precio promedio nulo #
+#+++++++++++++++++++++++++++++++++++++++++++++++++#
+
+output$np_sv2 <- renderPrint({
+  if(is.null(ad_sv_t2())){ return("No hay precios promedios nulos")}
+  #obtengo nombres de los instrumentos con precio 0
+  a <- ad_sv_t2()
+  
+  b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+  names(b) <- c("Títulos","Precio promedio")
+  b[,1] <-  a
+  
+  
+  c <- as.numeric(unlist(strsplit(input$vec2_sv,",")))
+  if(length(c)>nrow(b)){
+    return("Existen más precios de lo necesario, revisar precios ingresados")
+  }else{
+    
+    b[,2] <- c
+    b
+  }
+  
+})
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar nombre titulos con precio promedio nulo #
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+ad_sv_t2 <- reactive({
+  p <- tv()
+  a <- which(p==0)
+  
+  if(length(a)!=0){
+    return(names(p)[a])
+  }else{
+    return(NULL)
+  }
+  
+})
+
+#++++++++++++++++++++++++++++++++++++++++++#
+# Muestro nuevos precios promedio no nulos #
+#++++++++++++++++++++++++++++++++++++++++++#
+
+output$sal2_sv <-renderPrint({
+  a <- try(TV())
+  if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+  
+})
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar nuevos precios promedio no nulos #
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+TV <- reactive({
+  a <- tv()
+  
+  if(length(which(a==0))!=0){
+    #return("Existen precios prom nulos")
+    return(tv_1())
+  }else{
+    #return("precios bien")
+    return(a)
+  }
+  
+  
+})
+
+#+++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar que busca precios promedio #
+#+++++++++++++++++++++++++++++++++++++++++++++#
+
+tv_1 <- reactive({
+  a <- tv()
+  
+  if(length(which(a==0))==0){
+    return(a)
+  }else{
+    #a <- tf_ns()
+    b <-dat2_sv()
+    #return(b)
+    #nombres de variables con precios nulos
+    if(is.null(ad_sv_t2())){ return("Seleccionar instrumento")}
+    
+    n <- ad_sv_t2()
+    
+    ind <- c()
+    for(i in 1:length(n)){
+      ind[i] <- which(n[i]==names(a))
+    }
+    
+    a[ind] <- b[,2]
+    return(a)
+  }
+  
+  
+})
+
+#++++++++++++++++++++++++++++#
+# Variable auxiliar de datos #
+#++++++++++++++++++++++++++++#
+
+dat2_sv <- reactive({
+  if(is.null(ad_sv_t2())){ return("Seleccionar instrumento")}
+  #obtengo nombres de los instrumentos con precio 0
+  a <- ad_sv_t2()
+  
+  b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+  names(b) <- c("Títulos","Precio promedio")
+  b[,1] <-  a
+  
+  
+  c <- as.numeric(unlist(strsplit(input$vec2_sv,",")))
+  if(length(c)>nrow(b)){
+    return("Existen más precios de lo necesario, revisar precios ingresados")
+  }else{
+    
+    b[,2] <- c
+  }
+  b
+})
+
+#+++++++++++++++++++++++++++++++++++++#
+# Muestro documento "Caracteristicas" #
+#+++++++++++++++++++++++++++++++++++++#
+
+output$Ca1 <- renderDataTable({
+  ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
+  if(class(ca)=="try-error"){
+    v <- print("El archivo no se encuentra, descargar y recargar página!")
+    return(as.data.frame(v))
+  }else{
+    return(ca)
+  }
+})
+
+#++++++++++++++++++++++++++++++#
+# Muestro parametros iniciales #
+#++++++++++++++++++++++++++++++#
+
+#pa1_sven esta en el global
+output$pa_veb <- renderPrint({pa1_sven})
+
+#+++++++++++++++++++++++++++++++++++++#
+# Muestro precios estimados iniciales #
+#+++++++++++++++++++++++++++++++++++++#
+
+output$p_est_veb <- renderDataTable({
+  if((length(sv2()))!=0){
+    a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = pa1_sven,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+    
+  }else{}
+})
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Muestro curva de rendimiento - parametros iniciales  #
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+output$c_veb_sven <- renderPlot({
+  ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=pa1_sven)*100),aes(x=x,y=y))+
+    geom_line(color="blue")+xlab("Maduración (años)")+
+    ylab("Rendimiento (%)")+theme_gray()+
+    ggtitle("Curva de rendimiento Svensson Parámetros Iniciales VEBONOS")+
+    theme(plot.title = element_text(hjust = 0.5))
+  
+})
+
+#+++++++++++++++++++++++++++++#
+# Muestro parametros elegidos #
+#+++++++++++++++++++++++++++++#
+
+output$new_sven_veb <- renderPrint({(data.frame('B0'=input$sven_b0_veb,'B1'=input$sven_b1_veb,'B2'=input$sven_b2_veb,'B3'=input$sven_b3_veb,'T1'=input$sven_t1_veb,'T2'=input$sven_t2_veb,row.names = " " ))})
+
+#++++++++++++++#
+# Verificacion #
+#++++++++++++++#
+
+output$ver_sven_veb <- renderPrint({data.frame('Condición_1'=input$sven_b0_veb>0,'Condición_2'=input$sven_b0_veb+input$sven_b1_veb>0,'Condición_3'=input$sven_t1_veb>0,'Condición_4'=input$sven_t2_veb>0,row.names = " " )})
+
+#++++++++++++++++++++++++++++++++++++++++++#
+# Muestro precios con parámetros escogidos #
+#++++++++++++++++++++++++++++++++++++++++++#
+
+output$p_est_veb_opt_sven_el <- renderDataTable({
+  if(length(sv2())!=0){
+    a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
+    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+    
+  }else{}
+})
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Muestro curva de rendimientos con parámetros escogidos #
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+output$c_veb_sven_new <- renderPlot({
+  ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb))*100),aes(x=x,y=y))+
+    geom_line(color="brown")+xlab("Maduración (años)")+
+    ylab("Rendimiento (%)")+theme_gray()+
+    ggtitle("Curva de rendimiento Svensson Parámetros elegidos VEBONOS")+
+    theme(plot.title = element_text(hjust = 0.5))
+})
+
+#+++++++++++++++++++++++++++++#
+# Muestro precios optimizados #
+#+++++++++++++++++++++++++++++#
+
+output$p_est_veb_opt <- renderDataTable({
+  if(input$opt_veb_sven==1){
+    withProgress(message = 'Calculando parámetros optimizados', value = 0, {
+      incProgress(1/2, detail = "Realizando iteraciones")
+      a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven,fe3=0)[[1]])
+      if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+      
+    })
+  }else{
+    Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
+    return(as.data.frame(Aviso))
+  }
+})
+
+#++++++++++++++++++++++++++++++++#
+# Muestro parametros optimizados #
+#++++++++++++++++++++++++++++++++#
+
+output$par_veb_sven_op<-renderPrint({if(input$opt_veb_sven==1){gra_veb_sven()
+}else{}})
+
+#+++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar parametros optimizados #
+#+++++++++++++++++++++++++++++++++++++++++#
+
+gra_veb_sven <- reactive({
+  a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven,fe3=0)[[2]])
+  if(class(a)!="try-error"){return(a)}else{}
+  
+})
+
+#+++++++++++++++++++++++++++++++#
+# Muestro curva de rendimientos #
+#+++++++++++++++++++++++++++++++#
+
+output$c_veb_sven_op <- renderPlot({if(input$opt_veb_sven==1){
+  #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
+  a <- try(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=gra_veb_sven())*100))
+  
+  if(class(a)!="try-error"){
+    ggplot(a,aes(x=x,y=y))+
+      geom_line(color="green")+xlab("Maduración (años)")+
+      ylab("Rendimiento (%)")+theme_gray()+
+      ggtitle("Curva de redimientos Svensson Parametros Optimizados VEBONOS")+
+      theme(plot.title = element_text(hjust = 0.5))
+  }else{}
+}else{}})
 
 #///////////////////////////#
 #/# SUBSECCION DIEBOLD-LI #/#
@@ -965,9 +1667,368 @@ output$c_veb_ns_op <- renderPlot({if(input$opt_veb_ns==1){
 #/# CASO TIF #/#
 #//////////////#
 
+#+++++++++++++++++++++#
+# Fecha de valoración #
+#+++++++++++++++++++++#
+
+output$p3<-renderPrint({paste(substr(input$n3,9,10),substr(input$n3,6,7),substr(input$n3,1,4),sep = "/")})
+
+#+++++++++++++++++++++++++++++++++++++++++++++#
+# Selección de instrumentos por archivo plano #
+#+++++++++++++++++++++++++++++++++++++++++++++#
+
+output$datatable_tit_tif_dl<-renderDataTable({
+  if(is.null(data_tif_dl())){return()}
+  #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+  #datatable(data_pos())
+  data_tif_dl()
+})
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar lectura instrumentos por archivo plano #
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+data_tif_dl <- reactive({
+  
+  inFile <- input$data_tit_tif_dl
+  
+  if (is.null(inFile))
+    return(NULL)
+  
+  read.table(inFile$datapath, header = input$header_tit_tif_dl,
+             sep = input$sep_tit_tif_dl, quote = input$quote_tit_tif_dl)
+  
+})
+
+#++++++++++++++++++++++++++++++++++#
+# Muestro selección de los titulos #
+#++++++++++++++++++++++++++++++++++#
+
+output$q1_dl <- renderPrint({dl1()})
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar que muestra selección de títulos #
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+dl1 <- reactive({
+  if(is.null(data_tif_dl())){
+    #input$t_sv1
+    c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl)
+  }else{
+    a <- data_tif_dl() 
+    as.character(a[,1])
+  }
+})
+
+#++++++++++++++++++++++++++#
+# Muestro precios promedio #
+#++++++++++++++++++++++++++#
+
+output$pre1_dl <-renderPrint({tf_dl()})
+
+#+++++++++++++++++++++++++++++++++++#
+# Funcion auxiliar precios promedio #
+#+++++++++++++++++++++++++++++++++++#
+
+tf_dl <- reactive({pos1(dl1(),0)})
+
+#+++++++++++++++++++++++++++++++++++++#
+# Muestro documento "Caracteristicas" #
+#+++++++++++++++++++++++++++++++++++++#
+
+output$Ca_dl <- renderDataTable({
+  ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
+  if(class(ca)=="try-error"){
+    v <- print("El archivo no se encuentra, descargar y recargar página!")
+    return(as.data.frame(v))
+  }else{
+    return(ca)
+  }
+})
+
+#+++++++++++++++++++++++++++++++++++#
+# Muestro cantidad de observaciones #
+#+++++++++++++++++++++++++++++++++++#
+
+output$dias_tif_dl <- renderPrint({input$d_tif_dl})
+
+#+++++++++++++++++++++++++++#
+# Muestro Spline a utilizar #
+#+++++++++++++++++++++++++++#
+
+output$spline_tif <- renderPrint({
+  a <- try(dl_spline_tif())
+  if(class(a)!="try-error"){
+    a
+  }else{
+    #b <- 
+    return("Poca cantidad de observaciones, favor seleccionar una cantidad mayor")
+  }
+})
+
+#++++++++++++++++++++++++++++++++++++++#
+# Funcion auxiliar calculo de spline 1 #
+#++++++++++++++++++++++++++++++++++++++#
+
+dl_spline_tif <- reactive({
+  withProgress(message = 'Calculando spline a utilizar', value = 0, {
+    # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    # dat[,3] <- as.Date(as.character(dat[,3]))
+    # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    tabla_sp_dl_tif()[[4]]
+    # a <- try(tabla_sp_dl_tif()[[4]],silent = TRUE)
+    # if(class(a)!="try-error"){
+    #   a
+    # }else{
+    #   return("Poca cantidad de observaciones, favor seleccionar una cantidad mayor")
+    # }
+    
+  })
+})
+
+#++++++++++++++++++++++++++++++++++++++#
+# Funcion auxiliar calculo de spline 2 #
+#++++++++++++++++++++++++++++++++++++++#
+
+tabla_sp_dl_tif <- reactive({
+  dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+  dat[,3] <- as.Date(as.character(dat[,3]))
+  car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+  Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num =input$d_tif_dl,par = input$parametro_tif_dl,tit=dl1(),car,pr=tf_dl())
+})
+
+#++++++++++++++++++++++++++++++++++++#
+# Muestro parámetro de suavizamiento #
+#++++++++++++++++++++++++++++++++++++#
+
+output$spar_tif_dl <- renderPrint({input$parametro_tif_dl})
+
+#++++++++++++++++++++++#
+# Muestro curva spline #
+#++++++++++++++++++++++#
+
+output$c_tif_splines_dl <- renderRbokeh({
+  withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
+    incProgress(1/2, detail = "Calculando alturas")
+    # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+    # dat[,3] <- as.Date(as.character(dat[,3]))
+    # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    #y <-predict(Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),car,pr=tf_dl())[[4]],seq(0.1,20,0.1)*365)$y
+    y <-try(predict(tabla_sp_dl_tif()[[4]],seq(0.1,20,0.1)*365)$y)
+    
+    if(class(y)!="try-error"){
+      
+      incProgress(1/2, detail = "Ajustando spline")
+      
+      figure(width = 1000,height = 400) %>%
+        ly_points(pto_sp_tif_dl()[,4],pto_sp_tif_dl()[,7],pto_sp_tif_dl(),hover=list("Nombre"=pto_sp_tif_dl()[,1],"Fecha de operación"=pto_sp_tif_dl()[,2])) %>%
+        ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="green",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
+        # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
+        x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
+      
+    }else{}
+    
+    
+  })
+})
+
+#+++++++++++++++++++++++++++++++#
+# Funcion auxiliar curva spline #
+#+++++++++++++++++++++++++++++++#
+
+pto_sp_tif_dl <- reactive({
+  # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
+  # dat[,3] <- as.Date(as.character(dat[,3]))
+  # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+  #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),car,pr=tf_dl())[[2]]
+  a <- tabla_sp_dl_tif()[[2]]
+  
+  # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
+  # names(a1) <- c("Plazo","Rendimiento")
+  return(a)
+})
+
+#+++++++++++++++++++++++++++#
+# Muestro precios estimados #
+#+++++++++++++++++++++++++++#
+
+output$p_est_dl_tif <- renderDataTable({
+  withProgress(message = 'Calculando precios teóricos', value = 0, {
+    incProgress(1/2, detail = "Realizando iteraciones")
+    car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
+    a <- try(precio.dl(tit = dl1(),fv = input$n3 ,C = car,pa = c(1,1,1,1),spline1 = dl_spline_tif(),pr=tf_dl())[[1]])
+    if(class(a)!="try-error"){
+      datatable(a, options = list(paging = FALSE))
+    }else{}
+    
+  })
+})
+
+#+++++++++++++++++++++++++++++++++#
+# Muestro curva de rendimiento DL #
+#+++++++++++++++++++++++++++++++++#
+
+output$curva_tif_dl <- renderPlotly({ 
+  #defino eje maduracion
+  X1 <- seq(1,20,0.1)
+  
+  #defino tiempos
+  Y1 <- seq(1,50,1)
+  
+  #
+  var_par <- as.data.frame(matrix(0,length(Y1),4))
+  
+  #defino variable spline
+  a <- try(dl_spline_tif())
+  
+  if(class(a)!="try-error"){
+    #guardo parametros segun cada tiempo
+    for(i in 1:length(Y1)){
+      #var_par[i,] <- par_dl(t[i],spline1,pa=c(1,1,1,1))
+      var_par[i,] <- par_dl(Y1,a,pa=c(1,1,1,1))
+      
+    }
+    
+    #calculo nuevos rendimientos a partir de los nuevos parametros
+    new_rend <- as.data.frame(matrix(0,length(X1),length(Y1)))
+    
+    
+    for(i in 1:length(Y1)){
+      
+      new_rend[,i] <- diebold_li(as.numeric(var_par[i,]),X1)
+      #new_rend[,i] <- nelson_siegel(as.numeric(var_par[i,]),X)
+    }
+    
+    Z1 <- as.matrix(new_rend*100)
+    row.names(Z1) <- X1
+    colnames(Z1) <- Y1
+    
+    #defino configuracion de los ejes
+    # Create lists for axis properties
+    # f1 <- list(
+    #   family = "Arial, sans-serif",
+    #   size = 18,
+    #   color = "blue")
+    # 
+    # f2 <- list(
+    #   family = "Old Standard TT, serif",
+    #   size = 14,
+    #   color = "green")
+    # 
+    # axis <- list(
+    #   titlefont = f1,
+    #   tickfont = f2
+    #   #showgrid = F
+    # )
+    
+    scene = list(
+      xaxis = list(domain = c(0, 50),
+                   title = "Tiempo"),
+      yaxis = list(domain = c(0, 200),
+                   title = "Maduración (años)"),
+      zaxis = list(domain = c(0, 0.12),
+                   title = "Rendimiento (%)"),
+      camera = list(eye = list(x = -1.25, y = 1.25, z = 1.25))
+    )
+    
+    
+    plot_ly(z = Z1,  type = "surface") %>%
+      layout(title = "Curva de Rendimientos metodología Diebold-Li",scene = scene)
+    
+    
+  }else{}
+})
+
 #/////////////////#
 #/# CASO VEBONO #/#
 #/////////////////#
+
+#+++++++++++++++++++++#
+# Fecha de valoración #
+#+++++++++++++++++++++#
+
+#Misma variable p3 
+
+#+++++++++++++++++++++++++++++++++++++++++++++#
+# Selección de instrumentos por archivo plano #
+#+++++++++++++++++++++++++++++++++++++++++++++#
+
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar lectura instrumentos por archivo plano #
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+
+#++++++++++++++++++++++++++++++++++#
+# Muestro selección de los titulos #
+#++++++++++++++++++++++++++++++++++#
+
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+# Función auxiliar que muestra selección de títulos #
+#+++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+
+#++++++++++++++++++++++++++#
+# Muestro precios promedio #
+#++++++++++++++++++++++++++#
+
+
+#+++++++++++++++++++++++++++++++++++#
+# Funcion auxiliar precios promedio #
+#+++++++++++++++++++++++++++++++++++#
+
+
+#+++++++++++++++++++++++++++++++++++++#
+# Muestro documento "Caracteristicas" #
+#+++++++++++++++++++++++++++++++++++++#
+
+
+#+++++++++++++++++++++++++++++++++++#
+# Muestro cantidad de observaciones #
+#+++++++++++++++++++++++++++++++++++#
+
+
+#+++++++++++++++++++++++++++#
+# Muestro Spline a utilizar #
+#+++++++++++++++++++++++++++#
+
+
+#++++++++++++++++++++++++++++++++++++++#
+# Funcion auxiliar calculo de spline 1 #
+#++++++++++++++++++++++++++++++++++++++#
+
+
+#++++++++++++++++++++++++++++++++++++++#
+# Funcion auxiliar calculo de spline 2 #
+#++++++++++++++++++++++++++++++++++++++#
+
+
+#++++++++++++++++++++++++++++++++++++#
+# Muestro parámetro de suavizamiento #
+#++++++++++++++++++++++++++++++++++++#
+
+
+#++++++++++++++++++++++#
+# Muestro curva spline #
+#++++++++++++++++++++++#
+
+
+#+++++++++++++++++++++++++++++++#
+# Funcion auxiliar curva spline #
+#+++++++++++++++++++++++++++++++#
+
+
+#+++++++++++++++++++++++++++#
+# Muestro precios estimados #
+#+++++++++++++++++++++++++++#
+
+
+#+++++++++++++++++++++++++++++++++#
+# Muestro curva de rendimiento DL #
+#+++++++++++++++++++++++++++++++++#
+
+
 
 #////////////////////////#
 #/# SUBSECCION SPLINES #/#
