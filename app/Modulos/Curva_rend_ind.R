@@ -357,9 +357,9 @@ output$np_ns1 <- renderPrint({
   if(length(c)>nrow(b)){
     return("Existen más precios de lo necesario, revisar precios ingresados")
   }else{
-    
+
     b[,2] <- c
-    b
+    return(b)
   }
   
 })
@@ -384,92 +384,155 @@ ad_ns_t1 <- reactive({
 # Muestro nuevos precios promedio no nulos #
 #++++++++++++++++++++++++++++++++++++++++++#
 
+  # output$sal1_ns <-renderPrint({
+  #   a <- try(TF_NS())
+  #   if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+  # 
+  # })
+
 output$sal1_ns <-renderPrint({
-  a <- try(TF_NS())
-  if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
-  
+  #a <- try(TF_NS())
+  a <- try(tf_ns())
+   #if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+   if(class(a)!="try-error"){
+
+     #return(names(a))
+     b <- as.character(ad_ns_t1())
+
+     if(length(as.numeric(unlist(strsplit(input$vec1_ns,","))))!=0){
+       a[b] <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
+     }
+
+     # ind <- c()
+     # for(i in 1:length(b)){
+     #   ind[i] <- which(b[i]==names(a)[i])
+     # }
+     #
+     # return(ind)
+     return(a)
+
+     }else{"Existen más precios de lo necesario, revisar precios ingresados"}
+
+
 })
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++#
 # Función auxiliar nuevos precios promedio no nulos #
 #+++++++++++++++++++++++++++++++++++++++++++++++++++#
 
-TF_NS <- reactive({
-  a <- tf_ns()
-  
-  if(length(which(a==0))!=0){
-    #return("Existen precios prom nulos")
-    return(tf_ns1())
-  }else{
-    #return("precios bien")
-    return(a)
-  }
-  
-  
-})
+  # TF_NS <- reactive({
+  #   a <- tf_ns()
+  # 
+  #   if(length(which(a==0))!=0){
+  #     #return("Existen precios prom nulos")
+  #     return(tf_ns1())
+  #   }else{
+  #     #return("precios bien")
+  #     return(a)
+  #   }
+  # 
+  # 
+  # })
+
+# TF_NS <- reactive({
+#   a <- tf_ns()
+# 
+#   if(length(which(a==0))!=0){
+#     #return(tf_ns1())
+#     b <- as.character(ad_ns_t1())
+#     
+#     if(length(as.numeric(unlist(strsplit(input$vec1_ns,","))))!=0){
+#       a[b] <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
+#     }
+#  
+#     return(as.numeric(a))
+#     
+#   }else{
+#     #return("precios bien")
+#     return(as.numeric(a))
+#   }
+# 
+# 
+#  })
 
 #+++++++++++++++++++++++++++++++++++++++++++++#
 # Función auxiliar que busca precios promedio #
 #+++++++++++++++++++++++++++++++++++++++++++++#
 
-tf_ns1 <- reactive({
-  a <- tf_ns()
-  
-  if(length(which(a==0))==0){
-    return(a)
-  }else{
-    #a <- tf_ns()
-    b <-dat()
-    
-    
-    #return(b)
-    #nombres de variables con precios nulos
-    if(is.null(ad_ns_t1())){ return("Seleccionar instrumento")}
-    
-    n <- ad_ns_t1()
-    
-    ind <- c()
-    for(i in 1:length(n)){
-      ind[i] <- which(n[i]==names(a))
+  tf_ns1 <- reactive({
+    a <- tf_ns()
+
+    if(length(which(a==0))==0){
+      return(a)
+    }else{
+      #a <- tf_ns()
+      b <-dat()
+
+
+      #return(b)
+      #nombres de variables con precios nulos
+      if(is.null(ad_ns_t1())){ return("Seleccionar instrumento")}
+
+      n <- ad_ns_t1()
+
+      ind <- c()
+      for(i in 1:length(n)){
+        ind[i] <- which(n[i]==names(a))
+      }
+
+      #asigno nuevos precios
+      # for(i in 1:length(ind)){
+      # a[ind[i]] <- b[i,2]
+      # }
+      a[ind] <- b[,2]
+      return(a)
+
+
+
     }
-    
-    #asigno nuevos precios
-    # for(i in 1:length(ind)){
-    # a[ind[i]] <- b[i,2]
-    # }
-    a[ind] <- b[,2]
-    return(a)
-    
-    
-    
-  }
-})
+  })
+  
+ # tf_ns1 <- reactive({
+ #   a <- tf_ns()
+ # 
+ #     #return(names(a))
+ #     b <- as.character(ad_ns_t1())
+ # 
+ #     if(length(as.numeric(unlist(strsplit(input$vec1_ns,","))))!=0){
+ #       a[b] <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
+ #     }
+ # 
+ # 
+ #     return(as.numeric(a))
+ # 
+ # 
+ # })
 
 #+++++++++++++++++++#
 # Variable auxiliar #
 #+++++++++++++++++++#
 
-dat <- reactive({
-  if(is.null(ad_ns_t1())){ return("Seleccionar instrumento")}
-  #obtengo nombres de los instrumentos con precio 0
-  a <- ad_ns_t1()
-  
-  b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
-  names(b) <- c("Títulos","Precio promedio")
-  b[,1] <-  a
-  
-  
-  c <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
-  if(length(c)>nrow(b)){
-    return("Existen más precios de lo necesario, revisar precios ingresados")
-  }else{
-    
-    b[,2] <- c
-    
-  }
-  b
-})
+  dat <- reactive({
+    if(is.null(ad_ns_t1())){ return("Seleccionar instrumento")}
+    #obtengo nombres de los instrumentos con precio 0
+    a <- ad_ns_t1()
 
+    b <- as.data.frame(matrix(0,nrow = length(a),ncol = 2))
+    names(b) <- c("Títulos","Precio promedio")
+    b[,1] <-  a
+
+
+    c <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
+    if(length(c)>nrow(b)){
+      return("Existen más precios de lo necesario, revisar precios ingresados")
+    }else{
+
+      b[,2] <- c
+
+    }
+      b
+  })
+  
 #+++++++++++++++++++++++++++++++++++++#
 # Muestro documento "Caracteristicas" #
 #+++++++++++++++++++++++++++++++++++++#

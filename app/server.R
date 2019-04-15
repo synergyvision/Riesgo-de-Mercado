@@ -641,10 +641,10 @@ shinyServer(function(input, output) {
   # })
   
   #Salida
-  output$salida <-renderPrint({
-    x <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
-   print(x)
-  })
+  # output$salida <-renderPrint({
+  #   x <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
+  #  print(x)
+  # })
   
   #variable auxiliar
   #tif
