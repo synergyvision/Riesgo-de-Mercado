@@ -223,6 +223,7 @@ shinyUI(
                                              h5("Nuevos precios"),
                                              verbatimTextOutput("np_ns1"),
                                              h5("Nuevos precios promedio"), verbatimTextOutput("sal1_ns"),
+                                             h5("prueba"),verbatimTextOutput("freddy"),
                                               #withMathJax(),
                                               #helpText('\\(\\beta_{0}\\) \\(\\beta_{1}\\) \\(\\beta_{2}\\) \\(\\tau_{1}\\) '),
                                               #uiOutput('ex1')

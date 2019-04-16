@@ -297,10 +297,10 @@ output$q1_ns1 <- renderPrint(
 ns1 <- reactive({
   if(is.null(data_tit_tif_ns())){
     #input$t1_ns1
-    c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns)
+    return(c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns))
   }else{
     a <- data_tit_tif_ns() 
-    as.character(a[,1])
+    return(as.character(a[,1]))
   }
 })
 
@@ -384,55 +384,87 @@ ad_ns_t1 <- reactive({
 # Muestro nuevos precios promedio no nulos #
 #++++++++++++++++++++++++++++++++++++++++++#
 
-  # output$sal1_ns <-renderPrint({
-  #   a <- try(TF_NS())
-  #   if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
-  # 
-  # })
+  output$sal1_ns <-renderPrint({
+    a <- try(TF_NS())
+    if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
 
-output$sal1_ns <-renderPrint({
-  #a <- try(TF_NS())
+  })
+
+# output$sal1_ns <-renderPrint({
+#   #a <- try(TF_NS())
+#   # a <- try(tf_ns())
+#   #  #if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+#   #  if(class(a)!="try-error"){
+#   # 
+#   #    #return(names(a))
+#   #    b <- as.character(ad_ns_t1())
+#   # 
+#   #    if(length(as.numeric(unlist(strsplit(input$vec1_ns,","))))!=0){
+#   #      a[b] <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
+#   #    }
+#   # 
+#   #    # ind <- c()
+#   #    # for(i in 1:length(b)){
+#   #    #   ind[i] <- which(b[i]==names(a)[i])
+#   #    # }
+#   #    #
+#   #    # return(ind)
+#   #    return(a)
+#   # 
+#   #    }else{"Existen más precios de lo necesario, revisar precios ingresados"}
+# return(fred())
+# 
+# })
+
+#prueba
+output$freddy <- renderPrint({
+  return(list(class(fred()),fred()))
+})
+
+#func aux
+fred <- reactive({
   a <- try(tf_ns())
-   #if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
-   if(class(a)!="try-error"){
-
-     #return(names(a))
-     b <- as.character(ad_ns_t1())
-
-     if(length(as.numeric(unlist(strsplit(input$vec1_ns,","))))!=0){
-       a[b] <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
-     }
-
-     # ind <- c()
-     # for(i in 1:length(b)){
-     #   ind[i] <- which(b[i]==names(a)[i])
-     # }
-     #
-     # return(ind)
-     return(a)
-
-     }else{"Existen más precios de lo necesario, revisar precios ingresados"}
-
-
+  #if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
+  if(class(a)!="try-error"){
+    
+    #return(names(a))
+    b <- as.character(ad_ns_t1())
+    
+    if(length(as.numeric(unlist(strsplit(input$vec1_ns,","))))!=0){
+      a[b] <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
+    }
+    
+    # ind <- c()
+    # for(i in 1:length(b)){
+    #   ind[i] <- which(b[i]==names(a)[i])
+    # }
+    #
+    # return(ind)
+    return(as.numeric(a))
+    
+  }else{"Existen más precios de lo necesario, revisar precios ingresados"}
+  
+  
+  
 })
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++#
 # Función auxiliar nuevos precios promedio no nulos #
 #+++++++++++++++++++++++++++++++++++++++++++++++++++#
 
-  # TF_NS <- reactive({
-  #   a <- tf_ns()
-  # 
-  #   if(length(which(a==0))!=0){
-  #     #return("Existen precios prom nulos")
-  #     return(tf_ns1())
-  #   }else{
-  #     #return("precios bien")
-  #     return(a)
-  #   }
-  # 
-  # 
-  # })
+  TF_NS <- reactive({
+    a <- tf_ns()
+
+    if(length(which(a==0))!=0){
+      #return("Existen precios prom nulos")
+      return(tf_ns1())
+    }else{
+      #return("precios bien")
+      return(a)
+    }
+
+
+  })
 
 # TF_NS <- reactive({
 #   a <- tf_ns()
