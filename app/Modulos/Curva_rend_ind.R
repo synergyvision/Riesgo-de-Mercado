@@ -604,7 +604,7 @@ output$p_est_tif_ns <- renderDataTable({
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 output$c_tif_ns <- renderPlot({
-  ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=nelson_siegel(t=seq(0.1,20,0.1),pa=pa_ns)*100),aes(x=x,y=y))+
+  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=pa_ns)*100),aes(x=x,y=y))+
     geom_line(color="blue")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Nelson y Siegel Parámetros Iniciales TIF")+
