@@ -2300,7 +2300,7 @@ shinyServer(function(input, output) {
       # dat[,3] <- as.Date(as.character(dat[,3]))
       # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
       #y <-predict(Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),car,pr=tf_dl())[[4]],seq(0.1,20,0.1)*365)$y
-      y <-try(predict(tabla_sp_dl_tif()[[4]],seq(0.1,20,0.1)*365)$y)
+      y <-try(predict(tabla_sp_dl_tif()[[4]],seq(0.9,20,0.1)*365)$y)
       
       if(class(y)!="try-error"){
       
@@ -2308,7 +2308,7 @@ shinyServer(function(input, output) {
     
     figure(width = 1000,height = 400) %>%
       ly_points(pto_sp_tif_dl()[,4],pto_sp_tif_dl()[,7],pto_sp_tif_dl(),hover=list("Nombre"=pto_sp_tif_dl()[,1],"Fecha de operación"=pto_sp_tif_dl()[,2])) %>%
-      ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="green",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
+      ly_points(x=cbind.data.frame(x=seq(0.9,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.9,20,0.1)*365,y)[,2],color="green",hover=list("Plazo"=cbind.data.frame(x=seq(0.9,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.9,20,0.1)*365,y)[,2]),size=4) %>%
       # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
       x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
     

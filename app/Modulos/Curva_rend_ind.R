@@ -319,7 +319,6 @@ tf_ns <- reactive({
   pos1(ns1(),0)
 })
 
-
 #+++++++++++++#
 # Advertencia #
 #+++++++++++++#
@@ -384,75 +383,16 @@ ad_ns_t1 <- reactive({
 # Muestro nuevos precios promedio no nulos #
 #++++++++++++++++++++++++++++++++++++++++++#
 
-  output$sal1_ns <-renderPrint({
-    a <- try(TF_NS())
-    if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
-
-  })
-
-# output$sal1_ns <-renderPrint({
-#   #a <- try(TF_NS())
-#   # a <- try(tf_ns())
-#   #  #if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
-#   #  if(class(a)!="try-error"){
-#   # 
-#   #    #return(names(a))
-#   #    b <- as.character(ad_ns_t1())
-#   # 
-#   #    if(length(as.numeric(unlist(strsplit(input$vec1_ns,","))))!=0){
-#   #      a[b] <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
-#   #    }
-#   # 
-#   #    # ind <- c()
-#   #    # for(i in 1:length(b)){
-#   #    #   ind[i] <- which(b[i]==names(a)[i])
-#   #    # }
-#   #    #
-#   #    # return(ind)
-#   #    return(a)
-#   # 
-#   #    }else{"Existen más precios de lo necesario, revisar precios ingresados"}
-# return(fred())
-# 
-# })
-
-#prueba
-output$freddy <- renderPrint({
-  return(list(class(fred()),fred()))
-})
-
-#func aux
-fred <- reactive({
-  a <- try(tf_ns())
-  #if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
-  if(class(a)!="try-error"){
-    
-    #return(names(a))
-    b <- as.character(ad_ns_t1())
-    
-    if(length(as.numeric(unlist(strsplit(input$vec1_ns,","))))!=0){
-      a[b] <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
-    }
-    
-    # ind <- c()
-    # for(i in 1:length(b)){
-    #   ind[i] <- which(b[i]==names(a)[i])
-    # }
-    #
-    # return(ind)
-    return(as.numeric(a))
-    
-  }else{"Existen más precios de lo necesario, revisar precios ingresados"}
-  
-  
-  
+output$sal1_ns <-renderPrint({
+  a <- try(TF_NS())
+  if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
 })
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++#
 # Función auxiliar nuevos precios promedio no nulos #
 #+++++++++++++++++++++++++++++++++++++++++++++++++++#
 
-  TF_NS <- reactive({
+TF_NS <- reactive({
     a <- tf_ns()
 
     if(length(which(a==0))!=0){
@@ -466,32 +406,11 @@ fred <- reactive({
 
   })
 
-# TF_NS <- reactive({
-#   a <- tf_ns()
-# 
-#   if(length(which(a==0))!=0){
-#     #return(tf_ns1())
-#     b <- as.character(ad_ns_t1())
-#     
-#     if(length(as.numeric(unlist(strsplit(input$vec1_ns,","))))!=0){
-#       a[b] <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
-#     }
-#  
-#     return(as.numeric(a))
-#     
-#   }else{
-#     #return("precios bien")
-#     return(as.numeric(a))
-#   }
-# 
-# 
-#  })
-
 #+++++++++++++++++++++++++++++++++++++++++++++#
 # Función auxiliar que busca precios promedio #
 #+++++++++++++++++++++++++++++++++++++++++++++#
 
-  tf_ns1 <- reactive({
+tf_ns1 <- reactive({
     a <- tf_ns()
 
     if(length(which(a==0))==0){
@@ -524,27 +443,11 @@ fred <- reactive({
     }
   })
   
- # tf_ns1 <- reactive({
- #   a <- tf_ns()
- # 
- #     #return(names(a))
- #     b <- as.character(ad_ns_t1())
- # 
- #     if(length(as.numeric(unlist(strsplit(input$vec1_ns,","))))!=0){
- #       a[b] <- as.numeric(unlist(strsplit(input$vec1_ns,",")))
- #     }
- # 
- # 
- #     return(as.numeric(a))
- # 
- # 
- # })
-
 #+++++++++++++++++++#
 # Variable auxiliar #
 #+++++++++++++++++++#
 
-  dat <- reactive({
+dat <- reactive({
     if(is.null(ad_ns_t1())){ return("Seleccionar instrumento")}
     #obtengo nombres de los instrumentos con precio 0
     a <- ad_ns_t1()
@@ -640,7 +543,7 @@ output$p_est_tif_ns_el <- renderDataTable({
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 output$c_tif_ns1_new <- renderPlot({
-  ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=nelson_siegel(t=seq(0.1,20,0.1),pa=c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif))*100),aes(x=x,y=y))+
+  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif))*100),aes(x=x,y=y))+
     geom_line(color="brown")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos TIF")+
@@ -687,7 +590,7 @@ gra_tif_ns <- reactive({
 #+++++++++++++++++++++++++++++++#
 
 output$c_tif_ns_op <- renderPlot({if(input$opt_tif_ns==1){
-  a <- try(cbind.data.frame(x=seq(0.1,20,0.1),y=nelson_siegel(t=seq(0.1,20,0.1),pa=gra_tif_ns())*100))
+  a <- try(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=gra_tif_ns())*100))
   if(class(a)!="try-error"){
     #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
     ggplot(a,aes(x=x,y=y))+
@@ -739,7 +642,6 @@ data_tit_veb_ns <- reactive({
              sep = input$sep_tit_veb, quote = input$quote_tit_veb)
   
 })
-
 
 #+++++++++++++++++++++++++++++++++++#
 # Muestro selección de los tituulos #
@@ -823,7 +725,6 @@ output$np_ns2 <- renderPrint({
   
 })
 
-
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 # Función auxiliar nombre titulos con precio promedio nulo #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
@@ -847,7 +748,6 @@ ad_ns_t2 <- reactive({
 output$sal2_ns <-renderPrint({
   a <- try(TV_NS())
   if(class(a)!="try-error"){return(a)}else{"Existen más precios de lo necesario, revisar precios ingresados"}
-  
 })
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++#
@@ -963,7 +863,7 @@ output$p_est_veb_ns <- renderDataTable({
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 output$c_veb_ns <- renderPlot({
-  ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=nelson_siegel(t=seq(0.1,20,0.1),pa=pa1_ns)*100),aes(x=x,y=y))+
+  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=pa1_ns)*100),aes(x=x,y=y))+
     geom_line(color="blue")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Nelson y Siegel Parámetros Iniciales VEBONOS")+
@@ -976,7 +876,6 @@ output$c_veb_ns <- renderPlot({
 #+++++++++++++++++++++++++++++#
 
 output$new_ns_veb <- renderPrint({(data.frame('B0'=input$ns_b0_veb,'B1'=input$ns_b1_veb,'B2'=input$ns_b2_veb,'T'=input$ns_t_veb,row.names = " " ))})
-
 
 #++++++++++++++#
 # Verificacion #
@@ -1000,7 +899,7 @@ output$p_est_veb_ns_el <- renderDataTable({
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 output$c_veb_ns1_new <- renderPlot({
-  ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=nelson_siegel(t=seq(0.1,20,0.1),pa=c(input$ns_b0_veb,input$ns_b1_veb,input$ns_b2_veb,input$ns_t_veb))*100),aes(x=x,y=y))+
+  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=c(input$ns_b0_veb,input$ns_b1_veb,input$ns_b2_veb,input$ns_t_veb))*100),aes(x=x,y=y))+
     geom_line(color="brown")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos VEBONO")+
@@ -1046,7 +945,7 @@ gra_veb_ns <- reactive({
 
 output$c_veb_ns_op <- renderPlot({if(input$opt_veb_ns==1){
   #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
-  a <- try(cbind.data.frame(x=seq(0.1,20,0.1),y=nelson_siegel(t=seq(0.1,20,0.1),pa=gra_veb_ns())*100))
+  a <- try(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=gra_veb_ns())*100))
   if(class(a)!="try-error"){
   ggplot(a,aes(x=x,y=y))+
     geom_line(color="green")+xlab("Maduración (años)")+
@@ -1055,7 +954,6 @@ output$c_veb_ns_op <- renderPlot({if(input$opt_veb_ns==1){
     theme(plot.title = element_text(hjust = 0.5))
   }else{}
 }else{}})
-
 
 #/////////////////////////#
 #/# SUBSECCION SVENSSON #/#
@@ -1311,7 +1209,7 @@ output$p_est_tif <- renderDataTable({
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 output$c_tif_sven <- renderPlot({
-  ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=pa_sven)*100),aes(x=x,y=y))+
+  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=pa_sven)*100),aes(x=x,y=y))+
     geom_line(color="blue")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Svensson Parámetros Iniciales TIF")+
@@ -1348,10 +1246,10 @@ output$p_est_tif_opt_sven_el <- renderDataTable({
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 output$c_tif_sven_new <- renderPlot({
-  ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif))*100),aes(x=x,y=y))+
+  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif))*100),aes(x=x,y=y))+
     geom_line(color="brown")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
-    ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos TIF")+
+    ggtitle("Curva de rendimiento Svensson Parámetros elegidos TIF")+
     theme(plot.title = element_text(hjust = 0.5))
 })
 
@@ -1396,7 +1294,7 @@ gra_tif_sven <- reactive({
 
 output$c_tif_sven_op <- renderPlot({if(input$opt_tif_sven==1){
   #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
-  a <- try(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=gra_tif_sven())*100))
+  a <- try(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=gra_tif_sven())*100))
   
   if(class(a)!="try-error"){
     ggplot(a,aes(x=x,y=y))+
@@ -1658,7 +1556,7 @@ output$p_est_veb <- renderDataTable({
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 output$c_veb_sven <- renderPlot({
-  ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=pa1_sven)*100),aes(x=x,y=y))+
+  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=pa1_sven)*100),aes(x=x,y=y))+
     geom_line(color="blue")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Svensson Parámetros Iniciales VEBONOS")+
@@ -1695,7 +1593,7 @@ output$p_est_veb_opt_sven_el <- renderDataTable({
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 output$c_veb_sven_new <- renderPlot({
-  ggplot(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb))*100),aes(x=x,y=y))+
+  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb))*100),aes(x=x,y=y))+
     geom_line(color="brown")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Svensson Parámetros elegidos VEBONOS")+
@@ -1743,7 +1641,7 @@ gra_veb_sven <- reactive({
 
 output$c_veb_sven_op <- renderPlot({if(input$opt_veb_sven==1){
   #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
-  a <- try(cbind.data.frame(x=seq(0.1,20,0.1),y=sven(t=seq(0.1,20,0.1),pa=gra_veb_sven())*100))
+  a <- try(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=gra_veb_sven())*100))
   
   if(class(a)!="try-error"){
     ggplot(a,aes(x=x,y=y))+
