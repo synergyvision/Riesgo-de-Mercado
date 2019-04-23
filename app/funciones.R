@@ -1610,14 +1610,20 @@ precio.dl=function(tit,fv,C,pa,spline1,pr){
   }#final for 
   
   #Creo tabla de Resultados
-  Tabla=as.data.frame(matrix(0,14,length(tit)))
+  #Tabla=as.data.frame(matrix(0,14,length(tit)))
+  Tabla=as.data.frame(matrix(0,8,length(tit)))
   colnames(Tabla)=tit
+  # rownames(Tabla)=c("ISIN","Fecha de Liquidación",
+  #                   "Fecha de emisión","Fecha de Vencimiento","Tasa de Cupón",
+  #                   "Precio Prom","Fecha último Pago","Fecha próximo pago",
+  #                   "RDTO al VMTO","Duración","Inverso de la duración",
+  #                   "Ponderación","Precio Modelo Diebold Li",
+  #                   "Residuos al cuadrado")
   rownames(Tabla)=c("ISIN","Fecha de Liquidación",
                     "Fecha de emisión","Fecha de Vencimiento","Tasa de Cupón",
-                    "Precio Prom","Fecha último Pago","Fecha próximo pago",
-                    "RDTO al VMTO","Duración","Inverso de la duración",
-                    "Ponderación","Precio Modelo Diebold Li",
-                    "Residuos al cuadrado")
+                    "Fecha último Pago","Fecha próximo pago",
+                    "Precio Modelo Diebold Li")
+  
   
   #relleno ISIN
   for(i in 1:ncol(Tabla)){
@@ -1646,84 +1652,85 @@ precio.dl=function(tit,fv,C,pa,spline1,pr){
   
   #relleno fecha ultimo pago
   for(i in 1:ncol(Tabla)){
-    Tabla[7,i]=as.character(C$`Pago cupon 1`[which(names(Tabla)[i]==C$Nombre)])
+    Tabla[6,i]=as.character(C$`Pago cupon 1`[which(names(Tabla)[i]==C$Nombre)])
   }
   
   #relleno proximo pago
   for(i in 1:ncol(Tabla)){
-    Tabla[8,i]=as.character(C$`Pago cupon 2`[which(names(Tabla)[i]==C$Nombre)])
+    Tabla[7,i]=as.character(C$`Pago cupon 2`[which(names(Tabla)[i]==C$Nombre)])
   }
   
   #añado precios promedios
-  Tabla[6,]=pr
+  #Tabla[6,]=pr
   
   #rendimiento
-  for(i in 1:ncol(Tabla)){
-    Tabla[9,i]=bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
-  }
+  # for(i in 1:ncol(Tabla)){
+  #   Tabla[9,i]=bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
+  # }
   
   #verifico si rendimiento es negativo
-  while(length(which(Tabla[9,]<0))!=0){
-    #print("Existe rendimiento negativo")
-    #print("En las posiciones")
-    #print(which(Tabla[9,]<0))
-    
-    #pido ingresar nuevos valores para las posiciones indicadas
-    #print("Favor Ingresar los")
-    #print(length(which(Tabla[9,]<0)))
-    #print("precios promedio nuevos")
-    
-    rendneg <- which(Tabla[9,]<0)
-    
-    vt <- c()
-    for(i in 1:length(which(Tabla[9,]<0))){
-      #vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
-      vt[i] <- find_pre(as.numeric(gsub("[,]",".",Tabla[6,rendneg[i]])),Tabla,fv,rendneg[i])
-    }
-    
-    #sustituyo precios promedio
-    Tabla[6,which(Tabla[9,]<0)]=vt
-    
-    #calculo nuevos rendimientos
-    #rendimiento
-    for(i in 1:ncol(Tabla)){
-      Tabla[9,i]=bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
-    }
-    #muestro tabla
-    # View(Tabla)
-    
-  }#final if rend negativo
+  # while(length(which(Tabla[9,]<0))!=0){
+  #   #print("Existe rendimiento negativo")
+  #   #print("En las posiciones")
+  #   #print(which(Tabla[9,]<0))
+  #   
+  #   #pido ingresar nuevos valores para las posiciones indicadas
+  #   #print("Favor Ingresar los")
+  #   #print(length(which(Tabla[9,]<0)))
+  #   #print("precios promedio nuevos")
+  #   
+  #   rendneg <- which(Tabla[9,]<0)
+  #   
+  #   vt <- c()
+  #   for(i in 1:length(which(Tabla[9,]<0))){
+  #     #vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
+  #     vt[i] <- find_pre(as.numeric(gsub("[,]",".",Tabla[6,rendneg[i]])),Tabla,fv,rendneg[i])
+  #   }
+  #   
+  #   #sustituyo precios promedio
+  #   Tabla[6,which(Tabla[9,]<0)]=vt
+  #   
+  #   #calculo nuevos rendimientos
+  #   #rendimiento
+  #   for(i in 1:ncol(Tabla)){
+  #     Tabla[9,i]=bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
+  #   }
+  #   #muestro tabla
+  #   # View(Tabla)
+  #   
+  # }#final if rend negativo
   
   
   #duracion
-  for(i in 1:ncol(Tabla)){
-    Tabla[10,i]=bond.duration(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[9,i])),convention = c("ACT/360"),4)
-  }
+  # for(i in 1:ncol(Tabla)){
+  #   Tabla[10,i]=bond.duration(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[9,i])),convention = c("ACT/360"),4)
+  # }
   
   #añado inverso duracion
-  Tabla[11,]=1/(as.numeric(gsub("[,]",".",Tabla[10,])))
+  #Tabla[11,]=1/(as.numeric(gsub("[,]",".",Tabla[10,])))
   
   #añado ponderacion
-  for(i in 1:ncol(Tabla)){
-    Tabla[12,i]=(as.numeric(gsub("[,]",".",Tabla[11,i])))/sum((as.numeric(gsub("[,]",".",Tabla[11,]))))
-  }
+  # for(i in 1:ncol(Tabla)){
+  #   Tabla[12,i]=(as.numeric(gsub("[,]",".",Tabla[11,i])))/sum((as.numeric(gsub("[,]",".",Tabla[11,]))))
+  # }
   
   #relleno precios
-  Tabla[13,]=Pr
+  #Tabla[13,]=Pr
+  Tabla[8,]=Pr
   
   #relleno residuos al cuadrado
   
-  for(i in 1:ncol(Tabla)){
-    Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
-  }
+  # for(i in 1:ncol(Tabla)){
+  #   Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
+  # }
   
   #SRC
-  print("EL SRC es")
-  print(sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
+  #print("EL SRC es")
+  #print(sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
   
   
   #retorno precios
-  Pre <- cbind.data.frame("Titulos"=c(tit,"SRC"),"Precio"=c(Pr,sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
+  Pre <- cbind.data.frame("Titulos"=c(tit,"SRC"),"Precio"=c(Pr,0))
   
   #creo lista
   Pre1 <- list(Tabla,Pre)
@@ -1969,14 +1976,20 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C,pr){
     Pr_tit_tif <- precio_diario_sp(fe,num,par,datatif,tit,C,letra)
     
     #creo Tabla de resultados (similar a NS y Sv)
-    Tabla=as.data.frame(matrix(0,14,length(tit)))
+    #Tabla=as.data.frame(matrix(0,14,length(tit)))
+    Tabla=as.data.frame(matrix(0,8,length(tit)))
     colnames(Tabla)=tit
+    # rownames(Tabla)=c("ISIN","Fecha de Liquidación",
+    #                   "Fecha de emisión","Fecha de Vencimiento","Tasa de Cupón",
+    #                   "Precio Prom","Fecha último Pago","Fecha próximo pago",
+    #                   "RDTO al VMTO","Duración","Inverso de la duración",
+    #                   "Ponderación","Precio Modelo Spline",
+    #                   "Residuos al cuadrado")
     rownames(Tabla)=c("ISIN","Fecha de Liquidación",
-                      "Fecha de emisión","Fecha de Vencimiento","Tasa de Cupón",
-                      "Precio Prom","Fecha último Pago","Fecha próximo pago",
-                      "RDTO al VMTO","Duración","Inverso de la duración",
-                      "Ponderación","Precio Modelo Spline",
-                      "Residuos al cuadrado")
+                         "Fecha de emisión","Fecha de Vencimiento","Tasa de Cupón",
+                        "Fecha último Pago","Fecha próximo pago",
+                         "Precio Modelo Spline")
+                          
     
     #relleno ISIN
     for(i in 1:ncol(Tabla)){
@@ -2005,84 +2018,101 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C,pr){
     
     #relleno fecha ultimo pago
     for(i in 1:ncol(Tabla)){
-      Tabla[7,i]=as.character(C$`Pago cupon 1`[which(names(Tabla)[i]==C$Nombre)])
-    }
+      #Tabla[7,i]=as.character(C$`Pago cupon 1`[which(names(Tabla)[i]==C$Nombre)])
+      Tabla[6,i]=as.character(C$`Pago cupon 1`[which(names(Tabla)[i]==C$Nombre)])
+      
+      }
     
     #relleno proximo pago
     for(i in 1:ncol(Tabla)){
-      Tabla[8,i]=as.character(C$`Pago cupon 2`[which(names(Tabla)[i]==C$Nombre)])
-    }
+      #Tabla[8,i]=as.character(C$`Pago cupon 2`[which(names(Tabla)[i]==C$Nombre)])
+      Tabla[7,i]=as.character(C$`Pago cupon 2`[which(names(Tabla)[i]==C$Nombre)])
+      
+      }
     
     #añado precios promedios
-    Tabla[6,]=pr
+    #Tabla[6,]=pr
+    #Tabla[6,]=rep(110,ncol(Tabla))
     
     #rendimiento
-    for(i in 1:ncol(Tabla)){
-      Tabla[9,i]=bond.yield(as.Date(fe,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
-    }
+    #for(i in 1:ncol(Tabla)){
+      #Tabla[9,i]=bond.yield(as.Date(fe,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
+    #}
     
+    #Tabla[9,]=rep(110,ncol(Tabla))
     #verifico si rendimiento es negativo
-    fv <- fe
-    while(length(which(Tabla[9,]<0))!=0){
-      #print("Existe rendimiento negativo")
-      #print("En las posiciones")
-      #print(which(Tabla[9,]<0))
-      
-      #pido ingresar nuevos valores para las posiciones indicadas
-      #print("Favor Ingresar los")
-      #print(length(which(Tabla[9,]<0)))
-      #print("precios promedio nuevos")
-      
-      rendneg <- which(Tabla[9,]<0)
-      
-      vt <- c()
-      for(i in 1:length(which(Tabla[9,]<0))){
-        #vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
-        vt[i] <- find_pre(as.numeric(gsub("[,]",".",Tabla[6,rendneg[i]])),Tabla,fv,rendneg[i])
-      }
-      
-      #sustituyo precios promedio
-      Tabla[6,which(Tabla[9,]<0)]=vt
-      
-      #calculo nuevos rendimientos
-      #rendimiento
-      for(i in 1:ncol(Tabla)){
-        Tabla[9,i]=bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
-      }
-      #muestro tabla
-      # View(Tabla)
-      
-    }#final if rend negativo
-    
+    #fv <- fe
+    # while(length(which(Tabla[9,]<0))!=0){
+    #   #print("Existe rendimiento negativo")
+    #   #print("En las posiciones")
+    #   #print(which(Tabla[9,]<0))
+    #   
+    #   #pido ingresar nuevos valores para las posiciones indicadas
+    #   #print("Favor Ingresar los")
+    #   #print(length(which(Tabla[9,]<0)))
+    #   #print("precios promedio nuevos")
+    #   
+    #   rendneg <- which(Tabla[9,]<0)
+    #   
+    #   vt <- c()
+    #   for(i in 1:length(which(Tabla[9,]<0))){
+    #     #vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
+    #     vt[i] <- find_pre(as.numeric(gsub("[,]",".",Tabla[6,rendneg[i]])),Tabla,fv,rendneg[i])
+    #   }
+    #   
+    #   #sustituyo precios promedio
+    #   Tabla[6,which(Tabla[9,]<0)]=vt
+    #   
+    #   #calculo nuevos rendimientos
+    #   #rendimiento
+    #   for(i in 1:ncol(Tabla)){
+    #     Tabla[9,i]=bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
+    #   }
+    #   #muestro tabla
+    #   # View(Tabla)
+    #   
+    # }#final if rend negativo
+    # 
     
     #duracion
-    for(i in 1:ncol(Tabla)){
-      Tabla[10,i]=bond.duration(as.Date(fe,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[9,i])),convention = c("ACT/360"),4)
-    }
+    # for(i in 1:ncol(Tabla)){
+    #   Tabla[10,i]=bond.duration(as.Date(fe,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[9,i])),convention = c("ACT/360"),4)
+    # }
+    #Tabla[10,]=rep(110,ncol(Tabla))
+    
     
     #añado inverso duracion
-    Tabla[11,]=1/(as.numeric(gsub("[,]",".",Tabla[10,])))
+    #Tabla[11,]=1/(as.numeric(gsub("[,]",".",Tabla[10,])))
+    #Tabla[11,]=rep(110,ncol(Tabla))
+    
     
     #añado ponderacion
-    for(i in 1:ncol(Tabla)){
-      Tabla[12,i]=(as.numeric(gsub("[,]",".",Tabla[11,i])))/sum((as.numeric(gsub("[,]",".",Tabla[11,]))))
-    }
+    # for(i in 1:ncol(Tabla)){
+    #   Tabla[12,i]=(as.numeric(gsub("[,]",".",Tabla[11,i])))/sum((as.numeric(gsub("[,]",".",Tabla[11,]))))
+    # }
+    #Tabla[12,]=rep(110,ncol(Tabla))
+    
     
     #relleno precios
-    Tabla[13,]=as.numeric(Pr_tit_tif[,2]) 
+    #Tabla[13,]=as.numeric(Pr_tit_tif[,2]) 
+    Tabla[8,]=as.numeric(Pr_tit_tif[,2]) 
     
     #relleno residuos al cuadrado
     
-    for(i in 1:ncol(Tabla)){
-      Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
-    }
+    # for(i in 1:ncol(Tabla)){
+    #   Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
+    # }
+    #Tabla[14,]=rep(110,ncol(Tabla))
+    #Tabla[9,]=rep(110,ncol(Tabla))
     
     #SRC
-    print("EL SRC es")
-    print(sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
+    #print("EL SRC es")
+    #print(sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
+    #print(sum(as.numeric(gsub("[,]",".",Tabla[9,]))))
     
     #Pr_tit_tif <- rbind.data.frame(Pr_tit_tif,sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
-    Pr_tit_tif <- cbind.data.frame("Títulos"=c(Pr_tit_tif[,1],"SRC"),"Precios"=c(Pr_tit_tif[,2],sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
+    #Pr_tit_tif <- cbind.data.frame("Títulos"=c(Pr_tit_tif[,1],"SRC"),"Precios"=c(Pr_tit_tif[,2],sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
+    Pr_tit_tif <- cbind.data.frame("Títulos"=c(Pr_tit_tif[,1],"SRC"),"Precios"=c(Pr_tit_tif[,2],0))
     
     #rownames(Pr_tit_tif)[length(Pr_tit_tif[,1])] <- "SRC"
     
@@ -2119,14 +2149,19 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C,pr){
     Pr_tit_veb <- precio_diario_sp(fe,num,par,dataveb,tit,C,letra)
     
     #creo Tabla de resultados (similar a NS y Sv)
-    Tabla=as.data.frame(matrix(0,14,length(tit)))
+    Tabla=as.data.frame(matrix(0,8,length(tit)))
     colnames(Tabla)=tit
+    # rownames(Tabla)=c("ISIN","Fecha de Liquidación",
+    #                   "Fecha de emisión","Fecha de Vencimiento","Tasa de Cupón",
+    #                   "Precio Prom","Fecha último Pago","Fecha próximo pago",
+    #                   "RDTO al VMTO","Duración","Inverso de la duración",
+    #                   "Ponderación","Precio Modelo Spline",
+    #                   "Residuos al cuadrado")
+    
     rownames(Tabla)=c("ISIN","Fecha de Liquidación",
                       "Fecha de emisión","Fecha de Vencimiento","Tasa de Cupón",
-                      "Precio Prom","Fecha último Pago","Fecha próximo pago",
-                      "RDTO al VMTO","Duración","Inverso de la duración",
-                      "Ponderación","Precio Modelo Spline",
-                      "Residuos al cuadrado")
+                      "Fecha último Pago","Fecha próximo pago",
+                      "Precio Modelo Spline")
     
     #relleno ISIN
     for(i in 1:ncol(Tabla)){
@@ -2155,84 +2190,84 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C,pr){
     
     #relleno fecha ultimo pago
     for(i in 1:ncol(Tabla)){
-      Tabla[7,i]=as.character(C$`Pago cupon 1`[which(names(Tabla)[i]==C$Nombre)])
+      Tabla[6,i]=as.character(C$`Pago cupon 1`[which(names(Tabla)[i]==C$Nombre)])
     }
     
     #relleno proximo pago
     for(i in 1:ncol(Tabla)){
-      Tabla[8,i]=as.character(C$`Pago cupon 2`[which(names(Tabla)[i]==C$Nombre)])
+      Tabla[7,i]=as.character(C$`Pago cupon 2`[which(names(Tabla)[i]==C$Nombre)])
     }
     
     #añado precios promedios
-    Tabla[6,]=pr
+    #Tabla[6,]=pr
     
     #rendimiento
-    for(i in 1:ncol(Tabla)){
-      Tabla[9,i]=bond.yield(as.Date(fe,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
-    }
+    # for(i in 1:ncol(Tabla)){
+    #   Tabla[9,i]=bond.yield(as.Date(fe,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
+    # }
     
     #verifico si rendimiento es negativo
-    fv <- fe
-    while(length(which(Tabla[9,]<0))!=0){
-      #print("Existe rendimiento negativo")
-      #print("En las posiciones")
-      #print(which(Tabla[9,]<0))
-      
-      #pido ingresar nuevos valores para las posiciones indicadas
-      #print("Favor Ingresar los")
-      #print(length(which(Tabla[9,]<0)))
-      #print("precios promedio nuevos")
-      
-      rendneg <- which(Tabla[9,]<0)
-      
-      vt <- c()
-      for(i in 1:length(which(Tabla[9,]<0))){
-        #vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
-        vt[i] <- find_pre(as.numeric(gsub("[,]",".",Tabla[6,rendneg[i]])),Tabla,fv,rendneg[i])
-      }
-      
-      #sustituyo precios promedio
-      Tabla[6,which(Tabla[9,]<0)]=vt
-      
-      #calculo nuevos rendimientos
-      #rendimiento
-      for(i in 1:ncol(Tabla)){
-        Tabla[9,i]=bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
-      }
-      #muestro tabla
-      # View(Tabla)
-      
-    }#final if rend negativo
+    #fv <- fe
+    # while(length(which(Tabla[9,]<0))!=0){
+    #   #print("Existe rendimiento negativo")
+    #   #print("En las posiciones")
+    #   #print(which(Tabla[9,]<0))
+    #   
+    #   #pido ingresar nuevos valores para las posiciones indicadas
+    #   #print("Favor Ingresar los")
+    #   #print(length(which(Tabla[9,]<0)))
+    #   #print("precios promedio nuevos")
+    #   
+    #   rendneg <- which(Tabla[9,]<0)
+    #   
+    #   vt <- c()
+    #   for(i in 1:length(which(Tabla[9,]<0))){
+    #     #vt[i] <- as.numeric(readline(prompt="Ej: 101.05,  "))
+    #     vt[i] <- find_pre(as.numeric(gsub("[,]",".",Tabla[6,rendneg[i]])),Tabla,fv,rendneg[i])
+    #   }
+    #   
+    #   #sustituyo precios promedio
+    #   Tabla[6,which(Tabla[9,]<0)]=vt
+    #   
+    #   #calculo nuevos rendimientos
+    #   #rendimiento
+    #   for(i in 1:ncol(Tabla)){
+    #     Tabla[9,i]=bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[6,i])),convention = c("ACT/360"),4)
+    #   }
+    #   #muestro tabla
+    #   # View(Tabla)
+    #   
+    # }#final if rend negativo
     
     
     #duracion
-    for(i in 1:ncol(Tabla)){
-      Tabla[10,i]=bond.duration(as.Date(fe,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[9,i])),convention = c("ACT/360"),4)
-    }
+    # for(i in 1:ncol(Tabla)){
+    #   Tabla[10,i]=bond.duration(as.Date(fe,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,as.numeric(gsub("[,]",".",Tabla[9,i])),convention = c("ACT/360"),4)
+    # }
     
     #añado inverso duracion
-    Tabla[11,]=1/(as.numeric(gsub("[,]",".",Tabla[10,])))
+    #Tabla[11,]=1/(as.numeric(gsub("[,]",".",Tabla[10,])))
     
     #añado ponderacion
-    for(i in 1:ncol(Tabla)){
-      Tabla[12,i]=(as.numeric(gsub("[,]",".",Tabla[11,i])))/sum((as.numeric(gsub("[,]",".",Tabla[11,]))))
-    }
+    # for(i in 1:ncol(Tabla)){
+    #   Tabla[12,i]=(as.numeric(gsub("[,]",".",Tabla[11,i])))/sum((as.numeric(gsub("[,]",".",Tabla[11,]))))
+    # }
     
     #relleno precios
-    Tabla[13,]=as.numeric(Pr_tit_veb[,2]) 
+    Tabla[8,]=as.numeric(Pr_tit_veb[,2]) 
     
     #relleno residuos al cuadrado
     
-    for(i in 1:ncol(Tabla)){
-      Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
-    }
+    # for(i in 1:ncol(Tabla)){
+    #   Tabla[14,i]=(((as.numeric(gsub("[,]",".",Tabla[13,i])))-(as.numeric(gsub("[,]",".",Tabla[6,i]))))*(as.numeric(gsub("[,]",".",Tabla[12,i]))))^2
+    # }
     
     #SRC
-    print("EL SRC es")
-    print(sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
+    #print("EL SRC es")
+    #print(sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
     
     #Pr_tit_veb <- rbind.data.frame(Pr_tit_veb,sum(as.numeric(gsub("[,]",".",Tabla[14,]))))
-    Pr_tit_veb <- cbind.data.frame("Títulos"=c(Pr_tit_veb[,1],"SRC"),"Precios"=c(Pr_tit_veb[,2],sum(as.numeric(gsub("[,]",".",Tabla[14,])))))
+    Pr_tit_veb <- cbind.data.frame("Títulos"=c(Pr_tit_veb[,1],"SRC"),"Precios"=c(Pr_tit_veb[,2],0))
     
     #rownames(Pr_tit_veb)[length(Pr_tit_veb[,1])] <- "SRC"
     
