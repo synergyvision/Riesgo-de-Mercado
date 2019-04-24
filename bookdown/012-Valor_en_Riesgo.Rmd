@@ -86,7 +86,7 @@ De todo ello se deduce que el VaR no es un único valor, sino que fluctuará en 
 
 Tras el estallido de la crisis en 2008, el VaR cobra especial importancia, sobre todo en las salas de tesorería de los bancos. La creciente exigencia de capital (Basilea III) hacia el sector bancario y en consecuencia un mayor control de riesgos, hacen que los departamentos de riesgos asignen (menores cantidades de consumo de VaR), un VaR diario, semanal y mensual a las diferentes mesas de tipo de interés, bonos, trading, volatilidad u otros instrumentos negociables en los mercados. No obstante, también tiene especial importancia en el mundo de la gestión de activos, en la gestión de carteras o en otros sectores en contacto con los mercados financieros.
 
-##Metodologías para calcular el VaR
+## Metodologías para calcular el VaR
 
 Existen tres principales métodos para calcular el VaR:
 
@@ -141,7 +141,7 @@ Desventajas:
 + Otra desventaja es que la hipótesis de linealidad condiciona a este método a ser aplicable a carteras lineales, en un mundo donde los activos no lineales toman cada día mas fuerza. 
 + Por último, incluso ampliando la aproximación del valor de la cartera a una cuadrática, no se logra una buena precisión en la estimación del VaR de carteras no lineales. Teniendo en cuenta que la aplicación complica el cálculo de VaR, disminuyendo de esa forma una de las ventajas más claras que tiene el método.
 
-##VaR Simulación Histórica
+## VaR Simulación Histórica
 
 El VaR histórico o VaR por simulación histórica es un método para estimar el VaR (Valor en Riesgo) que utiliza datos históricos.Una de las maneras de calcular el VaR por el método histórico es acumulando las rentabilidades pasadas y ordenarlas desde la más alta hasta la más baja. Después, identificamos el 5% de datos con rentabilidades más bajas y el mayor de ese 5% de rentabilidades más bajas será el VaR.
 
@@ -163,8 +163,7 @@ Desventajas:
 <!-- cula como la máxima variación que hubiera experimentado dicha cartera (o los factores de riesgo considerados), a lo largo de un período histórico determinado, dentro de un percentil prefijado. Este percentil, precisamente, ofrece el nivel de fiabilidad estadística del importe calculado. El punto clave de estos métodos, en los que no se realizan hipótesis estadísticas sobre el comportamiento de los rendimientos, lo constituye la elección del período histórico a considerar. Propuestas y aplicaciones de métodos de simulación histórica aparecen recogi- das, entre otros, en los trabajos de González Mosquera (1994) y de Hendricks (1996). -->
 
 
-
-##VaR Simulación MonteCarlo
+## VaR Simulación MonteCarlo
 
 ### Origenes
 

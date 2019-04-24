@@ -55,7 +55,7 @@ Entre las teorías que explican la pendiente de la curva de rendimientos, se enc
 La curva de rendimientos presenta empíricamente una serie de dificultades, debido a que se construye a través de una serie de precios (tasas) de instrumentos financieros discontinuos en el tiempo que, por lo general, están lejos de ser una curva suave. Para su estimación existen diversas metodologías, las paramétricas y las no paramétricas. Las metodologías paramétricas se basan en modelos asociados a una familia funcional que obedece al comportamiento de alguna distribución de probabilidad, sobre la cual suponemos que las características de la población de interés pueden ser descritas. Es así como, los modelos diseñados en este contexto, basados en regresión, buscan describir el comportamiento de una variable de interés con otras llamadas exógenas, a través de funciones de vínculo lineales o no lineales.
 
 
-##Metodologías Paramétricas.
+## Metodologías Paramétricas.
 
 Estadísticamente, un modelo paramétrico es una familia funcional que
 obedece al comportamiento de alguna distribución de probabilidad, sobre la cual suponemos que las características de la población de interés
@@ -65,7 +65,7 @@ variable de interés con otras llamadas exógenas, a través de funciones de
 vínculo lineales o no lineales.
 
 
-###Metodología Nelson y Siegel
+### Metodología Nelson y Siegel
 
 Nelson y Siegel introducen un modelo paramétrico para el ajuste
 de los rendimientos hasta la madurez de los bonos del tesoro de Estados
@@ -121,7 +121,7 @@ en cantidades discretas, a través de la función de descuento.
 
 $$\displaystyle{s_{d}(m) = e^{\frac{s(m)}{100}} - 1}$$
 
-###Metodología Svensson
+### Metodología Svensson
 
 En la curva de Nelson-Siegel se destaca que cada coeficiente del modelo
 contribuye en el comportamiento de las tasas forward en el corto,
@@ -165,7 +165,7 @@ cuando la estructura de las tasas de interés es más compleja, el ajuste del
 modelo de Nelson-Siegel es poco satisfactorio y el modelo de Svensson
 logra desempeñarse mejor.
 
-###Polinomios de componentes principales.
+### Polinomios de componentes principales.
 
 Hunt y Terry \cite{HT} propone un ajuste de la curva de rendimientos
 utilizando polinomios. Si frecuentemente la curva es especificada como,
@@ -212,7 +212,7 @@ debido a su capacidad para captar variabilidad. Una descripción
 detallada respecto al cálculo de las componentes principales en el
 esquema polinomial es dada por Hunt y Terry \cite{HT}.
 
-###Polinomios trigonométricos.
+### Polinomios trigonométricos.
 
 Las funciones trigonométricas pueden ser utilizadas para capturar de
 forma satisfactoria las distintas configuraciones que pueden asumir las
@@ -225,9 +225,9 @@ ser utilizada para estimar los parámetros del modelo (Nocedal y Wright
 no es considerado por motivos de parsimonia.
 
 
-###Metodología Diebold-Li
+### Metodología Diebold-Li
 
-####Modelos de factores de la curva de rendimientos
+#### Modelos de factores de la curva de rendimientos
 
 Estos modelos son conocidos porque utilizan factores latentes asociados directamente a los componentes de la curva; generalmente el nivel, la pendiente y la curvatura de la misma.
 
@@ -254,7 +254,7 @@ $$\displaystyle{s_t(m) = \beta_{0t}+ \beta_{1t}\frac{\left(1-e^\frac{-m}{\tau_t}
 Donde $\beta_{0t}$, $\beta_{1t}$ y $\beta_{2t}$ son interpretados como los factores latentes. De manera que $\beta_{0t}$, al igual que en el modelo de Nelson y Siegel corresponde al factor de largo plazo nivel, $\beta_{1t}$ es el factor negativo asociado a la pendiente de la curva o factor de corto plazo y $\beta_{2t}$ se asocia a la curvatura. Con respecto al modelo de Nelson y Siegel, la interpretación es más sencilla pues los factores tienen una interpretación directa.
 
 
-##Metodologías no Paramétricas
+## Metodologías no Paramétricas
 
 La regresión no paramétrica se ha convertido en los últimos años en un
 área de excesivo estudio, debido a sus ventajas relativas respecto a los
@@ -281,7 +281,7 @@ estas condiciones la idea es que la media m(.) sea suave, suavidad que
 puede controlarse acotando la segunda derivada, $|m''(x)| \leq M$, para todo
 $x$ y $M$ una constante.
 
-###Regresión Kernel
+### Regresión Kernel
 
 El método más simple de suavizamiento es el suavizador Kernel. Un
 punto x se fija en el soporte de la función $m(.)$ y una ventana de
@@ -331,7 +331,7 @@ $$\displaystyle{l_{i} = \frac{K(\frac{x_{i}-x}{h})}{\sum_{j=1}^{n} K(\frac{x_{j}
 
 La estimación Kernel en la ecuación @ecu3 es llamada la estimación de Nadaray- Watson, en honor a sus creadores. Su simplicidad lo hace de fácil comprensión e implementación; no obstante, se sabe que los ajustes en los extremos son sesgados. Una referencia ideal para un desarrollo más completo sobre este tema puede encontrarse en Fan y Gijbels \cite{FG}.
 
-###Polinomios locales
+### Polinomios locales
 
 
 Conocida también como regresión local, la idea es aproximar la función suave m(.) por medio de un polinomio de bajo orden en una vecindad entorno de un punto x. Por ejemplo, una aproximación lineal local es $m(x_{i}) \approx a_{0} + a_{1}(x_{i}-x)$ para $x - h \leq x_{i} \leq x+h$. Una aproximación local cuadrática es:
@@ -356,14 +356,14 @@ es un vector de ceros de tamaño n, exceptuando la primera entrada cuyo valor es
 
 Finalmente, la selección del h está basado en procedimientos de bondad de ajuste que permite obtener el mejor modelo. Entre los más utilizados sobresalen los métodos de validación cruzada generalizada y plug-in, los cuales son descritos detalladamente en Fan y Gijbels \cite{FG}.
 
-###Splines suavizados
+### Splines suavizados
 
 Las funciones polinomiales se caracterizan por tener todas las derivadas en cualquier punto de su soporte; no obstante, cuando ciertas funciones no poseen un alto grado de suavidad en determinados puntos, el ajuste debido a estas funciones de polinomios no siempre será satisfactoria en estos tramos.
 
 Para sobrellevar esta desventaja, el ajuste de polinomios de bajo orden localmente, con discontinuidades en ciertos puntos (knots), resulta en el conocido método de splines.
 
 
-###Splines de polinomios
+### Splines de polinomios
 
 Suponga que queremos aproximar la función $m(.)$ por una función spline. Frecuentemente, el spline cúbico es utilizado para esta aproximación, sin embargo, otro tipo de splines pueden ser definidos.
 
@@ -388,14 +388,14 @@ suponiendo que $B_{j,1}=1$ para $x_{j} \leq x \leq x_{j+1}$ y cero en caso contr
 
 Adicionalmente, una desventaja del método, es su sensibilidad al número y ubicación de los nodos, motivo por el cual han sido propuestos diferentes procedimientos para su selección.
 
-###Splines suavizados
+### Splines suavizados
 
 El proceso de suavizamiento a través de este método está basado en la minimización de la funcíon,
 
 $$\displaystyle{ \sum_{i=1}^{n} (y_{i}-m(x_{i})^2 + \lambda \int m''(x)^2dx  }$$
 donde $\lambda$ es una constante especificada de suavizamiento. El mecanismo de optimización intenta crear un balance entre el sesgo de estimación y la suavidad de la curva ajustada. El parámetro $\lambda$ puede asumirse variable (Abramovich y Steinberg \cite{AS}) y estimado a través de validación cruzada generalizada.
 
-###Supersuavizador de Friedmann
+### Supersuavizador de Friedmann
 
 
 Las metodologías usuales de suavizamiento asumen que el parámetro suavizador es constante, factor que sumado a la forma de la curva subyacente puede hacer que surjan problemas, tal como el aumento en la varianza de la componente del error y/o a variaciones incontrolables de la segunda derivada de la función subyacente sobre el conjunto predictor. El suavizador propuesto por Friedman \cite{F} intenta corregir estos problemas, asumiendo que el bandwidth es variable sobre el conjunto de predictores.
@@ -451,7 +451,7 @@ Una vez el bandwidth de suavización variable ha sido obtenido, los siguientes p
 
 Las principales deficiencias atribuidas a esta técnica están asociadas con la pérdida de independencia entre los residuales $\epsilon_{i}$ relativo al orden de los predictores $x_{i}$, subestimando (sobre-estimando) cuando la correlación es positiva-alta (negativa-alta).
 
-###Redes neuronales artificiales
+### Redes neuronales artificiales
 
 Los recientes desarrollos investigativos han mostrado la capacidad de las redes neuronales para la detección de patrones, clasificación y predicción a través del aprendizaje por medio de la experiencia. Su importancia actual, sin lugar a dudas, es consecuencia del desarrollo computacional, punto de partida para su divulgación, desenvolvimiento teórico y práctico en diversos campos del conocimiento.
 
@@ -482,9 +482,9 @@ donde $a_{i}$ es la salida actual de la red.
 Una descripción más detallada sobre las diferentes arquitecturas de red existentes, el número óptimo de capas ocultas y neuronas, las funciones de activación más utilizadas, los algoritmos de entrenamiento, la normalización de los datos, como también de otros temas relacionados con sus ventajas y deficiencias (Haykin \cite{Ha}, Kaastra y Boyd \cite{KB}, Zhang, Patuwo y Hu \cite{ZPH}, Isasi y Galván \cite{IG}), entre otros.
 
 
-###Metodología Splines Cúbicos de Suavizado
+### Metodología Splines Cúbicos de Suavizado
 
-####Teoría de interpolación
+#### Teoría de interpolación
 
 En el subcampo matemático del análisis numérico, se denomina interpolación a la obtención de nuevos puntos partiendo del conocimiento de un conjunto discreto de puntos. En ciertos casos el usuario conoce el valor de una función $f(x)$ en una serie de puntos $x_{1}, x_{2},..., x_{N}$, pero no se conoce una 
 expresión analítica de $f(x)$ que permita calcular el valor de la función para un punto arbitrario. 
@@ -511,7 +511,7 @@ Dentro de las intepolaciones más usadas podemos destacar,
 + Interpolación de Splines.
 
 
-####Interpolación lineal
+#### Interpolación lineal
 
 La interpolación lineal es un procedimiento muy utilizado para estimar los valores que toma una función en un intervalo del cual conocemos sus valores en los extremos $(x_{1}, f(x_{1}))$ y $(x_{2},f(x_{2}))$. Para estimar este valor utilizamos la aproximación a la función $f(x)$ por medio de una recta $r(x)$ (de ahí el nombre de interpolación lineal, ya que también existe la interpolación cuadrática). 
 
@@ -544,7 +544,7 @@ En general,
 
 $$\displaystyle{p_{i}(x) = p_{i-1}(x) +  f_{i} (x_{0},x_{1},...,x_{i-1},x_{i}) \prod_{j=0}^{i-1}(x-x_{j})}$$
 
-####Interpolación de Lagrange
+#### Interpolación de Lagrange
 
 Empezamos con un conjunto de $n+1$ puntos en el plano (que tengan diferentes coordenadas x), $(x_{0}, y_{0}), (x_{1}, y_{1}), (x_{2}, y_{2}),...,(x_{n}, y_{n})$. Así, queremos encontrar una función polinómica que pase por esos $n+1$ puntos y que tengan el menor grado posible. Un polinomio que pase por varios puntos determinados se llama un polinomio de interpolación.
 
@@ -569,7 +569,7 @@ Sin embargo, pocos estudios requieren la interpolación de tan sólo 6 puntos. S
 
 Aunque el polinomio interpolador de Lagrange se emplea mayormente para interpolar funciones e implementar esto fácilmente en una computadora, también tiene otras aplicaciones en el campo del álgebra exacta, lo que ha hecho más célebre a este polinomio, por ejemplo en el campo de los proyectores ortogonales.
 
-####Interpolación de Hermite
+#### Interpolación de Hermite
 
 El objetivo de esta interpolación Hermite es minimizar el error producido en la interpolación de Lagrange de la función $f(x)$ sobre el intervalo $[a, b]$ sin aumentar el grado del polinomio interpolador.
 
@@ -588,7 +588,7 @@ Por lo que podemos dejar el polinomio de Hermite de grado (n-1) expresado de la 
 $$\displaystyle{L(x) = \sum_{j=0}^{k} y_{j} l_{j} (x) }$$
 donde $l_{j}(x)$ son los polinomios de la base de Lagrange.
 
-####Interpolación Polinómica
+#### Interpolación Polinómica
 
 Asumamos que se tiene una tabla con $n$ puntos, $(x_{1},y_{1})...,(x_{n},y_{n})$, donde los valores $x_{i}$, para $i=1,...,n$ están ordenados de forma creciente y todos ellos son distintos. Supongamos que dichos puntos se representan en un plano cartesiano y se quiere determinar una curva suave que interpole dichos valores. Así, se desea determinar una curva que esté definida para todos los $x$ y tome los valores correspondientes de $y$, esto es, que interpole todos los datos de la tabla. Cabe destacar que los puntos considerados se les conoce como nodos.
 
@@ -608,7 +608,7 @@ No sería erróneo pensar que a medida que los nodos se incrementan, la aproxima
 
 Para evitar este fenómeno, puede ser de utilidad relajar la condición de que $f(x)$ debería ser una función que interpole todos los valores dados y en su lugar usar un trozo de un polinomio local de interpolación. La función mediante la cual se logra esta interpolación se le conoce como spline.
 
-####Splines
+#### Splines
 
 Una función spline $S(x)$ es una función que consta de trozos de polinomios unidos por ciertas condiciones de suavizado. Un ejemplo simple, es una función poligonal (spline de primer grado), la cual se forma por polinomios lineales unidos, los cuales se definen entre cada par de nodos. Entre los nodos $x_{j}$ y $x_{j+1}$ se define un spline de primer grado como sigue, 
 
@@ -669,7 +669,7 @@ Otra característica de los splines es que con la adición de un parámetro sól
 
 Mientras que las funciones spline son una herramienta interesante para interpolar funciones suaves, encontrarlas numéricamente no es tarea fácil. Una manera eficiente y muy estable para generar los splines necesarios para aproximar la función subyacente $f(x)$, es usando las bases de los B-splines cúbicos.
 
-####Bases de splines
+#### Bases de splines
 
 En el subcampo matemático de análisis numérico, una B-spline o Basis spline (o traducido una línea polinómica suave básica), es una función spline que tiene el mínimo soporte con respecto a un determinado grado, suavidad y partición del dominio. Un teorema fundamental establece que cada función spline de un determinado grado, suavidad y partición del dominio, se puede representar como una combinación lineal de B-splines del mismo grado y suavidad, y sobre la misma partición. El término B-spline fue propuesto por Isaac Jacob Schoenberg y es la abreviatura de spline básica. Las B-splines pueden ser evaluadas de una manera numéricamente estable por el algoritmo de Boor. De un modo simplificado, se han creado variantes potencialmente más rápidas que el algoritmo de Boor, pero adolecen comparativamente de una menor estabilidad.
 
@@ -694,7 +694,7 @@ $$\displaystyle{S^{0}(x) = \sum_{j=-\infty}^{\infty} y_{j} B^{0}_{j}(x),\hspace{
 Cuando los nodos son equidistantes, la B-spline se dice que es uniforme, de otro modo será no uniforme. Si dos nodos tj son idénticos, cualquiera de las posibles formas indeterminadas 0/0 se consideran 0.
 
 
-####B-spline uniforme
+#### B-spline uniforme
 
 Cuando la B-spline es uniforme, las B-splines básicas para un determinado grado n son sólo copias cambiadas de una a otra. Una alternativa no recursiva de la definición de la B-splines $m-n+1$ básica es,
 
@@ -718,7 +718,7 @@ $$
 \right.
 $$
 
-####B-spline cardinal
+#### B-spline cardinal
 
 Si se define $B_{0}$ como la función característica de ${\displaystyle [-{\tfrac {1}{2}},{\tfrac {1}{2}}]}$, y $B_{k}$ recursivamente como el producto convolución,
 
@@ -743,7 +743,7 @@ $$
 
 En otras palabras si manipulamos un punto de control cambiamos sólo el comportamiento local de la curva y no el comportamiento global como con las curvas de Bézier. La función base se pueda obtener del polinomio de Bernstein. Algunos ejemplos de las bases B-splines se muestran a continuación,
 
-####B-spline constante
+#### B-spline constante
 
 La B-spline constante es la spline más simple. Se define en un solo tramo de nodo y ni siquiera es continua en los nodos. Es sólo la función indicador de los diferentes tramos de nodo.
 
@@ -756,7 +756,7 @@ B_{j}^{0}(t) = 1_{[t_{j},t_{j+1})}  = \left\{
 \right.
 $$
 
-####B-spline lineal
+#### B-spline lineal
 
 La B-spline lineal se define en dos tramos de nodo consecutivos y es continua sobre los nodos, pero no diferenciable.
 
@@ -770,7 +770,7 @@ B_{j}^{1}(t) = \left\{
 \right.
 $$
 
-####B-spline cuadrática uniforme
+#### B-spline cuadrática uniforme
 
 Las B-splines cuadráticas con nodo-vector uniforme es una forma común de B-spline. La función base puede ser calculada fácilmente , y es igual para cada segmento, en este caso.
 
@@ -790,7 +790,7 @@ Escrito en forma de matriz, esto es,
 $$\displaystyle{S_{i}(t) = \begin{bmatrix} t^2 & t & 1  \end{bmatrix} \frac{1}{2} \begin{bmatrix} 1 & -2 & 1\\ -2 & 2 & 0  \\ 1 & 1 & 0 \end{bmatrix} \begin{bmatrix}  \theta_{i-1} \\ \theta_{i} \\ \theta_{i+1}  \end{bmatrix} , \hspace{0.2cm} para \hspace{0.2cm} t \in [0,1],\hspace{0.2cm}  i=1,2,...,m-1 }$$
 
 
-####B-spline cúbica
+#### B-spline cúbica
 
 Una formulación B-spline para un solo segmento puede ser escrita como,
 
@@ -806,7 +806,7 @@ donde i es el número de puntos de control y t es un parámetro global dados los
 
 Hay dos tipos de B-spline - uniforme y no uniforme. Una B-spline no uniforme es una curva donde los intervalos entre los puntos sucesivos de control no son, o no necesariamente son, iguales (el vector de nodos de espacios de nodo interiores no son iguales). Una forma común es donde los intervalos se reducen sucesivamente a cero, interpolando los puntos de control.
 
-####B-spline cúbica uniforme
+#### B-spline cúbica uniforme
 
 La B-spline cúbica con vector-nodo uniforme es la forma más usual de B-spline. La función base puede ser fácilmente calculada, y es igual para cada segmento, en este caso. Puesto en forma de matriz, esto es,
 
@@ -830,7 +830,7 @@ Se puede desmostrar que la solución de este problema es única y la función en
 
 En resumen, la función $f$ mínima es un spline el cual está conformado por trozos de polinomios unidos en los nodos $x_{i}$, donde dicha función tiene $2m-2$ derivadas continuas. Nótese que en muchas aplicaciones $m=2$ es un valor muy utilizado y cuya solución viene dada mediante el spline cúbico natural.
 
-###Regresión no paramétrica
+### Regresión no paramétrica
 
 La teoría clásica de la regresión se basa, en gran parte, en el supuesto que las observaciones son independientes y se encuentran idéntica y normalmente distribuidas. Si bien existen muchos fenómenos del mundo real que pueden modelarse de esta manera, para el tratamiento de ciertos problemas, la normalidad de los datos es insostenible. En el intento de eliminar esa restricción se diseñaron métodos que hacen un número mínimo de supuestos sobre los modelos que describen las observaciones.
 
@@ -854,7 +854,7 @@ La mayor parte de las publicaciones sobre regresión no paramétrica consideran 
 + En etapas preliminares del análisis de datos o en pruebas de diagnóstico se utilizan gráficos de dispersión en los cuales puede ser muy útil ajustar una "curva suavizada". Por ejemplo, para explorar la forma de la función respuesta, para confirmar una función respuesta en particular que haya sido ajustada a los datos, para obtener estimaciones de la respuesta media sin especificar la forma de la función respuesta, para estudiar el cumplimientos de supuestos, etc.
 + Forma la base a partir de la cual se extienden los conceptos para regresión no paramétrica múltiple.
 
-###Regresión no paramétrica mediante splines de suavizado
+### Regresión no paramétrica mediante splines de suavizado
 
 Consideremos el siguiente modelo de regresión homocedástico,
 
@@ -893,7 +893,7 @@ De hecho, la primera suma en la ecuación @ecu9 penaliza la falta de fidelidad d
 
 Por lo tanto $\mu$ es el parámetro de suavizado que controla la medida del estimador del spline polinomial, el cual puede variar desde el modelo más complicado e inestable hasta el modelo más simple. En otras palabras, la ecuación @ecu9 representa un balance entre la fidelidad o ajuste de los datos, representado mediante la suma de los residuos al cuadrado y la suavidad de la curva resultante, la cual se representa por la integral del cuadrado de la m-émisa derivada.
 
-###Proceso de Optimización de Nelson y Siegel y Svensson
+### Proceso de Optimización de Nelson y Siegel y Svensson
 
 
 Para aplicar este proceso es necesario tener una función objetivo, sobre la cual se realizará el proceso de optimización, ya sea para maximizar ó minimizar dicha función. Dependiendo de la forma de dicha función el proceso de optimización será lineal o no lineal. En nuestro caso particular se llevará a cabo un proceso de optimización no lineal donde se buscará minimizar la función objetivo.
@@ -956,7 +956,7 @@ Como se observó en las secciones anteriores el parámetro de suavizamiento fué
 Sin embargo, al realizar este proceso, se obtienen curvas que no son para nada suaves y en ocasiones no poseen ningunas de las formas usuales de la curva de rendimientos. Esto es debido a que en este caso este proceso, varía el parámetro de suavizamiento de tal manera que la diferencia entre el precio promedio y el precio teórico sea lo mas pequeña posible y en este proceso no existe un parámetro que controle la forma de la curva obtenida. Por lo tanto, su aplicación presenta algunos inconvenientes.  
 
 
-###Elaboracion Base de datos para la metodología Splines y Diebold-Li
+### Elaboracion Base de datos para la metodología Splines y Diebold-Li
 
 La fuente principal de información para calcular la curva de rendimientos para los títulos de la deuda pública nacional es el Banco Central de Venezuela (BCV), el cual diariamente publica las operaciones realizadas con estos instrumentos y los publica en el documento "resumersec" (Ver Figura \@ref(fig:bcv). Es importante destacar, que en este documento se encuentran por día dos pestañas, la $``0-22"$ y la $``0-23"$, en la primera pestaña se encuentran las operaciones interbancarias, por su parte la segunda pestaña muestra información sobre las operaciones realizadas por entes privados, en este caso el precio pautado en la operación no está disponible, razón por la cual esta pestaña no se toma en consideración. La información disponible en la pestaña $``0-22"$ es la siguiente,
 

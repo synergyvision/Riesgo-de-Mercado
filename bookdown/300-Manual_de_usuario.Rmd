@@ -1,10 +1,10 @@
 \mainmatter
 
-#Manual de Usuario
+# Manual de Usuario
 
-##Curva de Rendimientos
+## Curva de Rendimientos
 
-###Curva de rendimientos individual
+### Curva de rendimientos individual
 
 En esta sección el usuario puede calcular los precios teóricos de los instrumentos de la Deuda Pública Nacional (TIF ó VEBONOS) para una fecha considerada y para una metodología en específico. Las metodologías disponibles son Nelson y Siegel, Svensson, Diebold-Li y Splines cúbicos de suavizado (Ver Figura \@ref(fig:img1)). 
 
@@ -16,7 +16,7 @@ knitr::include_graphics("images/curva_rend_ind.png")
 ```{r , echo=FALSE, fig.align='center',fig.cap="Precios promedio",label=img3}
 knitr::include_graphics("images/datos_cr_2.png")
 ```
-###Datos
+### Datos
 
 Esta sección nos permite obtener de manera automática los archivos necesarios para el cálculo de los precios teóricos de los instrumentos a considerar (Ver Figura \@ref(fig:img2)). Los archivos necesarios son obtenidos de la página del Banco Central de Venezuela, ellos son,
 
@@ -28,7 +28,7 @@ knitr::include_graphics("images/datos_cr_1.png")
 ```
 
 
-###Metodología Nelson y Siegel
+### Metodología Nelson y Siegel
 
 Con el fin de proceder a realizar los cálculos mediante esta metodología el usuario deberá seguir los siguientes pasos,
 
@@ -84,7 +84,7 @@ knitr::include_graphics("images/ns7.png")
 ```{r , echo=FALSE, fig.align='center',fig.cap="Parámetros optimizados",label=img12}
 knitr::include_graphics("images/ns8.png")
 ``` 
-###Metodología Svensson
+### Metodología Svensson
 
 Con el fin de proceder a realizar los cálculos mediante esta metodología el usuario deberá seguir los siguientes pasos,
 
@@ -132,7 +132,7 @@ knitr::include_graphics("images/sv8.png")
 ```     
 
 
-###Metodología Diebold-Li
+### Metodología Diebold-Li
 
 Con el fin de proceder a realizar los cálculos mediante esta metodología el usuario deberá seguir los siguientes pasos,
 
@@ -164,7 +164,7 @@ knitr::include_graphics("images/dl5.png")
 ``` 
 
 
-###Metodología Splines
+### Metodología Splines
 
 Con el fin de proceder a realizar los cálculos mediante esta metodología el usuario deberá seguir los siguientes pasos,
 
@@ -229,7 +229,7 @@ knitr::include_graphics("images/sp9.png")
 <!-- Como se dijo anteriormente, los resultados de los precios obtenidos mediante el uso de la metodología de splines de suavizado serán comparados con los precios obtenidos a través de la metodología de Svensson. En dicha metodología existe un proceso de optimización el cual permite encontrar los parámetros idóneos, de tal manera que la diferencia entre los precios promedio de cada instrumento y su precio teórico sea lo más pequeña posible. El proceso de esta optimización se muestra a continuación. -->
 
 
-###Curva de rendimientos comparativo
+### Curva de rendimientos comparativo
 
 En esta sección permite obtener un comparativo de los precios teóricos obtenidos mediante las diferentes metodologías disponibles, las cuales son Nelson y Siegel, Svensson, Diebold-Li y Splines cúbicos de suavizado (Ver Figura \@ref(fig:img33)).
 
@@ -237,7 +237,7 @@ En esta sección permite obtener un comparativo de los precios teóricos obtenid
 knitr::include_graphics("images/sc.png")
 ``` 
 
-###Metodologías
+### Metodologías
 
 Con el fin de proceder a realizar los cálculos en esta sección el usuario deberá seguir los siguientes pasos,
 
@@ -269,7 +269,7 @@ knitr::include_graphics("images/sc5.png")
 ```{r , echo=FALSE, fig.align='center',fig.cap="Metodología splines",label=img39}
 knitr::include_graphics("images/sc6.png")
 ``` 
-###Precios Estimados
+### Precios Estimados
 
 Una vez completados todos los parámetros necesarios, los precios obtenidos se presentan en esta sección (Ver Figura \@ref(fig:img40)).
 
@@ -277,7 +277,7 @@ Una vez completados todos los parámetros necesarios, los precios obtenidos se p
 knitr::include_graphics("images/preciosc.png")
 ``` 
 
-###Curvas
+### Curvas
 
 En esta sección se presenta un grafico comparativo donde se grafican las curvas obtenidas mediante las diferentes metodologías. El usuario podrá descargar un reporte en PDF, con los resultados de los precios teóricos obtenidos en cada metodología (Ver Figura \@ref(fig:img41)).
 
@@ -285,7 +285,7 @@ En esta sección se presenta un grafico comparativo donde se grafican las curvas
 knitr::include_graphics("images/curvasc.png")
 ``` 
 
-##Valor en Riesgo
+## Valor en Riesgo
 
 En esta sección el usuario podrá calcular el Valor en Riesgo de los instrumentos financieros que considere, el mismo será calculado mediante tres maneras diferentes las cuales se basan en tres distintas metodologías (Ver Figura \@ref(fig:img42)). El primer VaR a calcular es el VaR paramétrico el cuál se basa en asumir una distribucuión normal de los instrumentos sconsiderados. El segundo VaR es el calculado por simulación histórica. El tercer y último VaR es el calculado mediante la simulación de MonteCarlo, este VaR se subdividirá en dos casos, el primero es asumiendo una distribución Normal para todos los instrumentos, mientras que el segundo es elegiendo una distribución en específico.
 
@@ -293,7 +293,7 @@ En esta sección el usuario podrá calcular el Valor en Riesgo de los instrument
 knitr::include_graphics("images/vr.png")
 ``` 
 
-###Datos
+### Datos
 
 En esta sección el usuario debe ingresar el histórico de precios, así como la posición de cada uno de los instrumentos a considerar (Ver Figura \@ref(fig:img43)), dichos documentos deben poseer las siguientes características,
 
@@ -324,7 +324,7 @@ Es importante que la información sobre los instrumentos considerada en el archi
 knitr::include_graphics("images/vr3.png")
 ``` 
 
-###Distribución
+### Distribución
 
 En está sección el usuario debe seleccionar las distribuciones asociadas a los rendimientos cada instrumento, con el fin de proceder y realizaf los cáculos del VaR de simulación de MonteCarlo. Para esto existen dos opciones:
 
@@ -354,7 +354,7 @@ knitr::include_graphics("images/vr6.png")
      + Weibull = Distribución Weibull.
      + Student = Distribución t-student.
 
-###VaR
+### VaR
 
 En esta sección se realizan todos los cálculos referentes al VaR, el mismo se calculará por tres metodologías, la primera es la metodología del VaR paramétrico, la segunda es la metodología del VaR por simulación histórica y la tercera es la metodología de VaR por simulación de MonteCarlo. En esta sección se muestran tres pestañas en donde se cálculan las metodologías explicadas anteriormente.
 
@@ -448,7 +448,7 @@ knitr::include_graphics("images/vr24.png")
 knitr::include_graphics("images/vr25.png")
 ``` 
  
-###Gráficos
+### Gráficos
 
 En esta sección se subdivide en (Ver Figura \@ref(fig:img68)), 
 
@@ -535,7 +535,7 @@ knitr::include_graphics("images/vr44.png")
 knitr::include_graphics("images/vr45.png")
 ``` 
 
-###Históricos
+### Históricos
 
 Esta sección permite calcular el VaR para un rango de fechas en específico, siempre y cuando las mismas se encuentren disponibles en la data histórica considerada. La misma cuenta con las siguientes secciones (Ver Figura \@ref(fig:img88)), 
 
@@ -570,7 +570,7 @@ knitr::include_graphics("images/vr47.png")
     * Histórico generado por la metodología del Var por simulación de MonteCarlo considerando la mejor distribución, consta de dos columnas la primera indica la fecha, mientras que la segunda indica el valor del VaR para ese día en específico.
   
 
-##Backtesting
+## Backtesting
 
 Esta sección permite realizar diversas pruebas al Valor en Riesgo y así poder calibrar y analizar su comportamiento, entre estas pruebas se encuentran el test de Kupiec y  el test de Haas (Ver Figura \@ref(fig:img90)).
 
@@ -578,7 +578,7 @@ Esta sección permite realizar diversas pruebas al Valor en Riesgo y así poder 
 knitr::include_graphics("images/b1.png")
 ``` 
 
-###Datos
+### Datos
 
 En esta subsección el usuario debe ingresar los datos con los cuales se va a trabajar (Ver Figura \@ref(fig:img91)). Este archivo debe contar con las siguientes características:
 
@@ -592,7 +592,7 @@ knitr::include_graphics("images/b2.png")
 knitr::include_graphics("images/b3.png")
 ``` 
 
-###Resultados
+### Resultados
 
 En esta subsección se muestran los resultados obtenidos para las diferentes pruebas. El usuario debe seleccionar el nivel de confianza para realizar la prueba. Una vez seleccionado este valor, los resultados se muestran con la siguiente estructura (Ver Figura \@ref(fig:img93)),
 
@@ -606,7 +606,7 @@ En esta subsección se muestran los resultados obtenidos para las diferentes pru
 knitr::include_graphics("images/b4.png")
 ``` 
 
-##Valoración
+## Valoración
 
 Esta sección permite realizar los cáculos de valoración de un portafolio, a partir de sus precios y valor nominal para un día determinado en términos de utilidad y pérdida. De igual manera, esta sección permite realizar una prueba de estrés y saber como se comportará la utilidad o périda del portafolio en caso de una posible caida de los precios (Ver Figura \@ref(fig:img94)).
 
@@ -615,7 +615,7 @@ knitr::include_graphics("images/val1.png")
 ``` 
 
 
-###Datos
+### Datos
 
 En esta subsección el usuario debe ingresar la data (Ver Figura \@ref(fig:img95)) con la cual se va a trabajar, la misma debe tener la siguiente estructura (Ver Figura \@ref(fig:img96)),
 
@@ -635,7 +635,7 @@ knitr::include_graphics("images/val2.png")
 ```{r , echo=FALSE, fig.align='center',fig.cap="Datos de prueba",label=img96}
 knitr::include_graphics("images/val3.png")
 ``` 
-###Resultados
+### Resultados
 
 En esta subsección se muestra los resultados de la valoración, la información está distribuida en dos tablas,
 
@@ -648,7 +648,7 @@ knitr::include_graphics("images/val4.png")
 knitr::include_graphics("images/val5.png")
 ``` 
 
-###Resultados prueba de estrés
+### Resultados prueba de estrés
 
 En esta subsección se muestra los resultados de la valoración luego de estresar en forma negativa los precios de mercado de los instrumentos financieros considerados. Con el fin de estresar los precios de mercado es necesario incluir una data de precios históricos (Ver Figura \@ref(fig:img99)), dicha data debe poseer la siguiente estructura (Ver Figura \@ref(fig:img100)),
 
