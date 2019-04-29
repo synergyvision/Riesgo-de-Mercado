@@ -3443,9 +3443,15 @@ shinyServer(function(input, output) {
   
   #COMPARATIVO DE PRECIOS
   #tif
-  gra_tif_ns_comp_i <- reactive({Tabla.ns(fv = input$n5 ,tit = comp1(),pr =tf_comp() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] })
+  gra_tif_ns_comp_i <- reactive({
+    #Tabla.ns(fv = input$n5 ,tit = comp1(),pr =tf_comp() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] 
+    Tabla.ns(fv = input$n5 ,tit = comp1(),pr =TF_NSC() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] 
+    })
   
-  gra_tif_sven_comp_i <- reactive({Tabla.sven(fv = input$n5 ,tit = comp1(),pr =tf_comp() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] })
+  gra_tif_sven_comp_i <- reactive({
+    #Tabla.sven(fv = input$n5 ,tit = comp1(),pr =tf_comp() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] 
+    Tabla.sven(fv = input$n5 ,tit = comp1(),pr =TF_SV() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] 
+    })
   
   
   precios_tif <- reactive({
@@ -3455,9 +3461,11 @@ shinyServer(function(input, output) {
       dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
       dat[,3] <- as.Date(as.character(dat[,3]))
       car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    a <-   Tabla.ns(fv = input$n5 ,tit = comp1(),pr =tf_comp() ,pa = gra_tif_ns_comp_i(),ind = 0,C = car,fe2=0,fe3=0)[[3]]
+    #a <-   Tabla.ns(fv = input$n5 ,tit = comp1(),pr =tf_comp() ,pa = gra_tif_ns_comp_i(),ind = 0,C = car,fe2=0,fe3=0)[[3]]
+    a <-   Tabla.ns(fv = input$n5 ,tit = comp1(),pr =TF_NSC() ,pa = gra_tif_ns_comp_i(),ind = 0,C = car,fe2=0,fe3=0)[[3]]
     incProgress(1/5, detail = "Metodología Svensson")
-    b <-   Tabla.sven(fv = input$n5 ,tit = comp1(),pr =tf_comp() ,pa = gra_tif_sven_comp_i() ,ind = 0,C = car,fe2=0,fe3=0)[[3]]
+    #b <-   Tabla.sven(fv = input$n5 ,tit = comp1(),pr =tf_comp() ,pa = gra_tif_sven_comp_i() ,ind = 0,C = car,fe2=0,fe3=0)[[3]]
+    b <-   Tabla.sven(fv = input$n5 ,tit = comp1(),pr =TF_SV() ,pa = gra_tif_sven_comp_i() ,ind = 0,C = car,fe2=0,fe3=0)[[3]]
     #
     incProgress(1/5, detail = "Metodología Diebold-Li")
     c <-   precio.dl(tit = comp1(),fv = input$n5 ,C = car ,pa = c(1,1,1,1),spline1 = dl_spline_tif_comp(),pr=tf_comp())[[2]]
@@ -3466,10 +3474,25 @@ shinyServer(function(input, output) {
     
     })
     
-    f <- cbind.data.frame(c(tf_comp(),0),a[,2],b[,2],c[,2],d[,2])
+    #f <- cbind.data.frame(c(tf_comp(),0),a[,2],b[,2],c[,2],d[,2])
+    #podria servir TF_NSC tambien
+    f <- cbind.data.frame(c(TF_SV(),0),a[,2],b[,2],c[,2],d[,2])
     names(f) <- c("Precio Promedio","Nelson y Siegel","Svensson","Diebold-Li","Splines")
     #row.names(f)[length(f[,1])] <- "SRC"
     row.names(f)[dim(f)[1]] <- "SRC"
+    
+    #modifico ultima fila de c y d con el fin de calcular el SRC
+    a1 <- Tabla.ns(fv = input$n5 ,tit = comp1(),pr =TF_NSC() ,pa = gra_tif_ns_comp_i(),ind = 0,C = car,fe2=0,fe3=0)[[1]]
+    pond <- as.numeric(sub(",",".",a1[12,]))
+    
+    #SRC DL
+    a2 <- sum(((c[1:(nrow(f)-1),2]-f[1:(nrow(f)-1),1])*pond)^2)
+    f[nrow(f),4] <- a2
+    
+    #SRC SP
+    a3 <- sum(((d[1:(nrow(f)-1),2]-f[1:(nrow(f)-1),1])*pond)^2)
+    f[nrow(f),5] <- a3
+    
     return(f)
     
   })
@@ -3483,9 +3506,15 @@ shinyServer(function(input, output) {
   
   
   #veb
-  gra_veb_ns_comp_i <- reactive({Tabla.ns(fv = input$n5 ,tit = comp2(),pr =tv_comp() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] })
+  gra_veb_ns_comp_i <- reactive({
+    #Tabla.ns(fv = input$n5 ,tit = comp2(),pr =tv_comp() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] 
+    Tabla.ns(fv = input$n5 ,tit = comp2(),pr =TV_NSC() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] 
+    })
   
-  gra_veb_sven_comp_i <- reactive({Tabla.sven(fv = input$n5 ,tit = comp2(),pr =tv_comp() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] })
+  gra_veb_sven_comp_i <- reactive({
+    #Tabla.sven(fv = input$n5 ,tit = comp2(),pr =tv_comp() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] 
+    Tabla.sven(fv = input$n5 ,tit = comp2(),pr =TV_SV() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=1,fe3=0)[[2]] 
+    })
   
   
   precios_veb <- reactive({
@@ -3495,10 +3524,12 @@ shinyServer(function(input, output) {
       dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
       dat[,3] <- as.Date(as.character(dat[,3]))
       car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-     a <-   Tabla.ns(fv = input$n5 ,tit = comp2(),pr =tv_comp() ,pa = gra_veb_ns_comp_i(),ind = 1,C = car,fe2=0,fe3=0)[[3]]
+     #a <-   Tabla.ns(fv = input$n5 ,tit = comp2(),pr =tv_comp() ,pa = gra_veb_ns_comp_i(),ind = 1,C = car,fe2=0,fe3=0)[[3]]
+     a <-   Tabla.ns(fv = input$n5 ,tit = comp2(),pr =TV_NSC() ,pa = gra_veb_ns_comp_i(),ind = 1,C = car,fe2=0,fe3=0)[[3]]
      incProgress(1/5, detail = "Metodología Svensson")
-     b <-   Tabla.sven(fv = input$n5 ,tit = comp2(),pr =tv_comp() ,pa = gra_veb_sven_comp_i() ,ind = 1,C = car,fe2=0,fe3=0)[[3]]
-    #
+     #b <-   Tabla.sven(fv = input$n5 ,tit = comp2(),pr =tv_comp() ,pa = gra_veb_sven_comp_i() ,ind = 1,C = car,fe2=0,fe3=0)[[3]]
+     b <-   Tabla.sven(fv = input$n5 ,tit = comp2(),pr =TV_SV() ,pa = gra_veb_sven_comp_i() ,ind = 1,C = car,fe2=0,fe3=0)[[3]]
+     #
      incProgress(1/5, detail = "Metodología Diebold-Li")
      c <-   precio.dl(tit = comp2(),fv = input$n5 ,C = car ,pa = c(1,1,1,1),spline1 = dl_spline_veb_comp(),pr=tv_comp())[[2]]
      incProgress(1/5, detail = "Metodología Splines")
