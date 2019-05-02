@@ -3537,10 +3537,26 @@ shinyServer(function(input, output) {
     
     })
      
-     f <- cbind.data.frame(c(tv_comp(),0),a[,2],b[,2],c[,2],d[,2])
-     names(f) <- c("Precio Promedio","Nelson y Siegel","Svensson","Diebold-Li","Splines")
+    #podria servir TV_NSC tambien
+     #f <- cbind.data.frame(c(tv_comp(),0),a[,2],b[,2],c[,2],d[,2])
+    f <- cbind.data.frame(c(TV_SV(),0),a[,2],b[,2],c[,2],d[,2])
+    names(f) <- c("Precio Promedio","Nelson y Siegel","Svensson","Diebold-Li","Splines")
      #row.names(f)[length(f[,1])] <- "SRC"
      row.names(f)[dim(f)[1]] <- "SRC"
+    
+     
+     #modifico ultima fila de c y d con el fin de calcular el SRC
+     a1 <- Tabla.ns(fv = input$n5 ,tit = comp2(),pr =TV_NSC() ,pa = gra_veb_ns_comp_i(),ind = 1,C = car,fe2=0,fe3=0)[[1]]
+     pond <- as.numeric(sub(",",".",a1[12,]))
+     
+     #SRC DL
+     a2 <- sum(((c[1:(nrow(f)-1),2]-f[1:(nrow(f)-1),1])*pond)^2)
+     f[nrow(f),4] <- a2
+     
+     #SRC SP
+     a3 <- sum(((d[1:(nrow(f)-1),2]-f[1:(nrow(f)-1),1])*pond)^2)
+     f[nrow(f),5] <- a3
+     
      return(f)
     
   })
