@@ -834,15 +834,16 @@ find_pre <- function(pre,Tabla,fv,i){
   vt1 <- vt1[length(vt1):1]
   
   j <- 1
-  vt2 <- as.numeric(gsub("[,]",".",Tabla[9,j]))
+  #vt2 <- as.numeric(gsub("[,]",".",Tabla[9,j]))
+  vt2 <- as.numeric(gsub("[,]",".",Tabla[9,i]))
   while(vt2<0){
     vt2 <- bond.yield(as.Date(fv,format="%d/%m/%Y"),as.Date(Tabla[4,i],"%d/%m/%Y"),as.numeric(gsub("[,]",".",Tabla[5,i])), 4,vt1[j],convention = c("ACT/360"),4)
     j <- j+1
     
     #condicional por si se queda "pegado"
-    if(j>length(vt1)){
-      return("Precio promedio erróneo")
-    }
+    # if(j>length(vt1)){
+    #   return("Precio promedio erróneo")
+    # }
   }
   
   #consigo precio de manera que el rend no es negativo
