@@ -70,7 +70,27 @@ H <- rbind.data.frame(Historico_act1,data)
 write.table(H,paste(getwd(),"app","data","Historico_act.txt",sep = "/"),row.names = FALSE)
 
 
-#prueba marzo
+#caracteristicas
+ca <- Carac("~/29-03-2019.xls")
+
+#Marzo
 mar19 <- Preciosbcv(ruta = "~/resumersec_0319.xls")
 
 mar19 <- formatop(ca,mar19)
+
+mar19$`Fecha op` <- as.Date(mar19$`Fecha op`,format="%d/%m/%Y")
+mar19$F.Vencimiento <-   as.Date(mar19$F.Vencimiento,format="%d/%m/%Y")
+mar19 <- mar19[order(mar19[,3]),]
+
+#Abril
+ca <- Carac("~/30-04-2019.xls")
+
+abr19 <- Preciosbcv(ruta = "~/resumersec_0419.xls")
+
+abr19 <- formatop(ca,abr19)
+
+abr19$`Fecha op` <- as.Date(abr19$`Fecha op`,format="%d/%m/%Y")
+abr19$F.Vencimiento <-   as.Date(abr19$F.Vencimiento,format="%d/%m/%Y")
+abr19 <- abr19[order(abr19[,3]),]
+
+#Mayo
