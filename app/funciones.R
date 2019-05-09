@@ -2725,11 +2725,46 @@ Carac=function(ruta){
   names(c3)=c("Tipo Instrumento","Sicet","F.Emision","F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1","Pago cupon 2","Cupon")
   
   #tranformo formato fecha
-  c3[,3]=format(c3[,3],"%d/%m/%Y")
-  c3[,4]=format(c3[,4],"%d/%m/%Y")
-  c3[,7]=format(c3[,7],"%d/%m/%Y")
-  c3[,8]=format(c3[,8],"%d/%m/%Y")
+  a1 <- try(format(c3[,3],"%d/%m/%Y"),silent = TRUE)
   
+  if(class(a1)!="try-error"){
+  c3[,3]=a1
+  }else{
+    print("Error en fecha")
+  }
+  
+  #
+  a2 <- try(format(c3[,4],"%d/%m/%Y"),silent = TRUE)
+  
+  if(class(a2)!="try-error"){
+    c3[,4]=a2
+  }else{
+    print("Error en fecha")
+  }
+  
+  #
+  a3 <- try(format(c3[,7],"%d/%m/%Y"),silent = TRUE)
+  
+  if(class(a3)!="try-error"){
+    c3[,7]=a3
+  }else{
+    print("Error en fecha")
+  }
+  
+  #
+  a4 <- try(format(c3[,8],"%d/%m/%Y"),silent = TRUE)
+  if(class(a4)!="try-error"){
+  c3[,8]=a4
+  }else{
+    print("Error en fecha")
+    #resulevo error
+    #obtengo nueva columna a partir de columna anterior
+    #el detalle es que queda en formato Date
+    c3[,8]=as.Date(c3[,7],"%d/%m/%Y")+91
+    
+    c3[,8]=paste(substr(c3[,8],9,10),substr(c3[,8],6,7),substr(c3[,8],1,4),sep = "/")
+    
+  }
   #agrego columna Nombre TIf o Vebono + fecha venc
   c4=c3[,1]
   

@@ -93,4 +93,41 @@ abr19$`Fecha op` <- as.Date(abr19$`Fecha op`,format="%d/%m/%Y")
 abr19$F.Vencimiento <-   as.Date(abr19$F.Vencimiento,format="%d/%m/%Y")
 abr19 <- abr19[order(abr19[,3]),]
 
+#datalle con rendimiento en Letra del 08/04/19
+#existe una operacion de Mayo de Abril, en especifico el 02 de Mayo
+
 #Mayo
+may19 <- Preciosbcv(ruta = "~/resumersec_0519.xlsx")
+
+may19 <- formatop(ca,may19)
+
+may19$`Fecha op` <- as.Date(may19$`Fecha op`,format="%d/%m/%Y")
+may19$F.Vencimiento <-   as.Date(may19$F.Vencimiento,format="%d/%m/%Y")
+may19 <- may19[order(may19[,3]),]
+
+#uno data
+data <- rbind.data.frame(mar19,abr19,may19)
+data$`Fecha op` <- as.character(data$`Fecha op`)
+data$F.Vencimiento <- as.character(data$F.Vencimiento)
+
+
+#obs #8 con problemas se le asignara
+#el problema radica en que la op se llevo a cabo luego de la fecha de venc
+#se eliminara obs
+#problema con VEBONO el dia 2019-04-11, no sale plazo, error en documento
+#se calculo y es 2310 dias, se colocara a mano
+data <- data[-c(8,nrow(data)),]
+data[9,7]=2310
+
+#Historico_act1 <- Historico_act[-c(2848:2861),]
+Historico_act <- read.csv("~/.Trash/Riesgo-de-Mercado/app/data/Historico_act.txt", sep="")
+names(data) <- names(Historico_act)  
+H <- rbind.data.frame(Historico_act,data)
+
+#EXPORTAR H!
+write.table(H,paste(getwd(),"app","data","Historico_act.txt",sep = "/"),row.names = FALSE)
+
+
+#Caracteristicas por pasos
+ruta="~/30-04-2019.xls"
+
