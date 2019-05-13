@@ -26,10 +26,13 @@ output$desc <- renderPrint({ input$dataset })
 
 output$downloadData <- downloadHandler(
   filename = function() {
-    paste(input$dataset, ".xls", sep = "")
+    #paste(input$dataset, ".xls", sep = "")
+    paste(input$dataset,paste0(".",extension(datasetInput())), sep = "")
   },
   content = function(file) {
-    file<-paste(getwd(),"data",paste(input$dataset, ".xls", sep = ""),sep="/")
+    #file<-paste(getwd(),"data",paste(input$dataset, ".xls", sep = ""),sep="/")
+    file<-paste(getwd(),"data",paste(input$dataset, paste0(".",extension(datasetInput())), sep = ""),sep="/")
+    
     #antes en method estaba libcurl
     download.file(url=datasetInput(),destfile=file,method = "internal",mode="wb")
     #GET(datasetInput(), write_disk(file, overwrite=TRUE))
@@ -58,8 +61,10 @@ output$Ca_leida <- renderDataTable({
 #++++++++++++++++++++++++++#
 
 output$docbcv <- renderDataTable({
-  ca <- try(Preciosbcv(paste(getwd(),"data","0-22.xls",sep = "/")))
-  ca1 <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
+  #ca <- try(Preciosbcv(paste(getwd(),"data","0-22.xls",sep = "/")))
+  ca <- try(Preciosbcv(paste(getwd(),"data",paste0("0-22.",extension(ruta_bcv("0-22"))),sep = "/")))
+  #ca1 <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
+  ca1 <- try(Carac(paste(getwd(),"data",paste0("Caracteristicas.",extension(ruta_bcv("caracteristicas"))),sep = "/")))
   
   if(class(ca)=="try-error" | class(ca1)=="try-error" ){
     Aviso <- print("El archivo no se encuentra, descargar y recargar página!")

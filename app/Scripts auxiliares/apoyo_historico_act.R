@@ -131,3 +131,49 @@ write.table(H,paste(getwd(),"app","data","Historico_act.txt",sep = "/"),row.name
 #Caracteristicas por pasos
 ruta="~/30-04-2019.xls"
 
+
+
+#---------------------------------#
+#APOYO LECTURA DOCUMENTO 0-22 
+#DETALLE EN ARCHIVO PUES LO TRAE EN FORMATO XLS Y NO EN XLSX COMO DEBERIA SER
+
+#bajo archivo desde la pag del bcv
+#ruta
+ruta=ruta_bcv("0-22")
+
+s <- unlist(gregexpr(pattern ='/',ruta))
+s[length(s)]
+nchar(ruta)
+
+nombre <- substring(ruta,(s[length(s)]+1),nchar(ruta))
+s1 <- unlist(gregexpr(pattern ="\\.",nombre))
+ext <- substring(nombre,s1+1,nchar(ruta))
+ext
+
+#bajo archivo
+download.file(url=ruta,destfile="/Users/freddytapia/Desktop/0-22.xlsx",method = "internal",mode="wb")
+
+#leo archivo
+a <- Preciosbcv("/Users/freddytapia/Desktop/0-22.xlsx")
+
+#prueba con caracteristicas
+ruta1=ruta_bcv("caracteristicas")
+
+#bajo archivo
+download.file(url=ruta1,destfile="/Users/freddytapia/Desktop/caracteristica.xls",method = "internal",mode="wb")
+
+#leo archivo
+a1 <- Carac("/Users/freddytapia/Desktop/caracteristica.xls")
+
+
+#creo funcion
+extension <- function(ruta){
+  s <- unlist(gregexpr(pattern ='/',ruta))
+  nombre <- substring(ruta,(s[length(s)]+1),nchar(ruta))
+  s1 <- unlist(gregexpr(pattern ="\\.",nombre))
+  ext <- substring(nombre,s1+1,nchar(ruta))
+  return(ext)
+}
+
+extension(ruta)
+extension(ruta1)

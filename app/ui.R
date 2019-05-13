@@ -8,14 +8,15 @@ shinyUI(
                                       message = "Niveles de Riesgo Atípicos",
                                       icon = icon("exclamation-triangle"),
                                       time = "2018-05-12"
-                                      ),#final messageitem
+                                      )
+                           #,#final messageitem
                           
-                          messageItem(
-                                     from = "Señal",
-                                     message = "Volatilidad Anormal",
-                                     icon = icon("life-ring"),
-                                     time = "2018-05-12"
-                                      )#final messageitem
+                          # messageItem(
+                          #            from = "Señal",
+                          #            message = "Volatilidad Anormal",
+                          #            icon = icon("life-ring"),
+                          #            time = "2018-05-12"
+                          #             )#final messageitem
                           )#final dropdownmenu
                   ),#final dashboardheader
     #Sidebar

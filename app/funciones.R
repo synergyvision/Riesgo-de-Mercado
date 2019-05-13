@@ -3220,3 +3220,12 @@ traductor <- function(tit,Ca){
   
   
 }
+
+#funcion para determinar extension del archivo a descargar
+extension <- function(ruta){
+  s <- unlist(gregexpr(pattern ='/',ruta))
+  nombre <- substring(ruta,(s[length(s)]+1),nchar(ruta))
+  s1 <- unlist(gregexpr(pattern ="\\.",nombre))
+  ext <- substring(nombre,s1+1,nchar(ruta))
+  return(ext)
+}
