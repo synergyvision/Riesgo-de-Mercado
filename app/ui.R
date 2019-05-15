@@ -156,7 +156,7 @@ shinyUI(
                                                #htmlOutput("freddy")
                                                 #
                                                 fluidRow(column(width = 3,checkboxGroupInput( inputId = "t1_ns", label = " ",
-                                                                choices=tit[1:9])#final checkboxgroupimput
+                                                                choices=tit[2:9])#final checkboxgroupimput
                                                                 ),#final column
                                                          column(width = 3,checkboxGroupInput( inputId = "t2_ns", label = " ",
                                                                 choices=tit[10:17])#final checkboxgroupimput
@@ -303,13 +303,13 @@ shinyUI(
                                                                             #                    choices = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[which(substr(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[,2],1,3)=="VEB"),2]),
                                                                            fluidRow(
                                                                              column(width = 3,checkboxGroupInput(inputId = "v1_ns", label = " ",
-                                                                                       choices=tit1[1:11])#final checkboxgroupimput
+                                                                                       choices=tit1[3:12])#final checkboxgroupimput
                                                                                     ),#final column
                                                                              column(width = 3,checkboxGroupInput( inputId = "v2_ns", label = " ",
-                                                                                       choices=tit1[12:21])#final checkboxgroupimput
+                                                                                       choices=tit1[13:22])#final checkboxgroupimput
                                                                                     ),#final column
                                                                              column(width = 3,checkboxGroupInput( inputId = "v3_ns",label = " ",
-                                                                                       choices=tit1[22:31])#final checkboxgroupimput
+                                                                                       choices=tit1[23:31])#final checkboxgroupimput
                                                                                     ),#final column
                                                                              column(width = 3,checkboxGroupInput( inputId = "v4_ns", label = " ",
                                                                                        choices=tit1[32:40])#final checkboxgroupimput
@@ -457,7 +457,7 @@ shinyUI(
                                                                      tabPanel("Títulos disponibles",
                                                                               wellPanel(
                                                                                 fluidRow(column(width = 3,checkboxGroupInput( inputId = "t1", label = " ",
-                                                                                                                                             choices=tit[1:9])#final checkboximput
+                                                                                                                                             choices=tit[2:9])#final checkboximput
                                                                                 ),#final column
                                                                                 column(width = 3,checkboxGroupInput( inputId = "t2", label = " ",
                                                                                                                      choices=tit[10:17])#final checkboximput
@@ -596,13 +596,13 @@ shinyUI(
                                                                                 #                    choices = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[which(substr(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[,2],1,3)=="VEB"),2]),
                                                                                 fluidRow(
                                                                                   column(width = 3,checkboxGroupInput(inputId = "v1", label = " ",
-                                                                                                                      choices=tit1[1:11])#final checkboxgroupimput
+                                                                                                                      choices=tit1[3:12])#final checkboxgroupimput
                                                                                   ),#final column
                                                                                   column(width = 3,checkboxGroupInput( inputId = "v2", label = " ",
-                                                                                                                       choices=tit1[12:21])#final checkboxgroupimput
+                                                                                                                       choices=tit1[13:22])#final checkboxgroupimput
                                                                                   ),#final column
                                                                                   column(width = 3,checkboxGroupInput( inputId = "v3",label = " ",
-                                                                                                                       choices=tit1[22:31])#final checkboxgroupimput
+                                                                                                                       choices=tit1[23:31])#final checkboxgroupimput
                                                                                   ),#final column
                                                                                   column(width = 3,checkboxGroupInput( inputId = "v4", label = " ",
                                                                                                                        choices=tit1[32:40])#final checkboxgroupimput
@@ -748,7 +748,7 @@ shinyUI(
                                                                          tabPanel("Títulos disponibles",
                                                                                   wellPanel(
                                                                                     fluidRow(column(width = 3,checkboxGroupInput( inputId = "t1_dl", label = " ",
-                                                                                                                                  choices=tit[1:9])#final checkboximput
+                                                                                                                                  choices=tit[2:9])#final checkboximput
                                                                                     ),#final column
                                                                                     column(width = 3,checkboxGroupInput( inputId = "t2_dl", label = " ",
                                                                                                                          choices=tit[10:17])#final checkboximput
@@ -833,13 +833,13 @@ shinyUI(
                                                                                     #                    choices = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[which(substr(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[,2],1,3)=="VEB"),2]),
                                                                                     fluidRow(
                                                                                       column(width = 3,checkboxGroupInput(inputId = "v1_dl", label = " ",
-                                                                                                                          choices=tit1[1:11])#final checkboxgroupimput
+                                                                                                                          choices=tit1[3:12])#final checkboxgroupimput
                                                                                       ),#final column
                                                                                       column(width = 3,checkboxGroupInput( inputId = "v2_dl", label = " ",
-                                                                                                                           choices=tit1[12:21])#final checkboxgroupimput
+                                                                                                                           choices=tit1[13:22])#final checkboxgroupimput
                                                                                       ),#final column
                                                                                       column(width = 3,checkboxGroupInput( inputId = "v3_dl",label = " ",
-                                                                                                                           choices=tit1[22:31])#final checkboxgroupimput
+                                                                                                                           choices=tit1[23:31])#final checkboxgroupimput
                                                                                       ),#final column
                                                                                       column(width = 3,checkboxGroupInput( inputId = "v4_dl", label = " ",
                                                                                                                            choices=tit1[32:40])#final checkboxgroupimput
@@ -931,7 +931,7 @@ shinyUI(
                                                          tabPanel("Títulos disponibles",
                                                                   wellPanel(
                                                                     fluidRow(column(width = 3,checkboxGroupInput( inputId = "t1_sp", label = " ",
-                                                                                                                  choices=tit[1:9])#final checkboximput
+                                                                                                                  choices=tit[2:9])#final checkboximput
                                                                     ),#final column
                                                                     column(width = 3,checkboxGroupInput( inputId = "t2_sp", label = " ",
                                                                                                          choices=tit[10:17])#final checkboximput
@@ -1042,13 +1042,13 @@ shinyUI(
                                                                     #                    choices = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[which(substr(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[,2],1,3)=="VEB"),2]),
                                                                     fluidRow(
                                                                       column(width = 3,checkboxGroupInput(inputId = "v1_sp", label = " ",
-                                                                                                          choices=tit1[1:11])#final checkboxgroupimput
+                                                                                                          choices=tit1[3:12])#final checkboxgroupimput
                                                                       ),#final column
                                                                       column(width = 3,checkboxGroupInput( inputId = "v2_sp", label = " ",
-                                                                                                           choices=tit1[12:21])#final checkboxgroupimput
+                                                                                                           choices=tit1[13:22])#final checkboxgroupimput
                                                                       ),#final column
                                                                       column(width = 3,checkboxGroupInput( inputId = "v3_sp",label = " ",
-                                                                                                           choices=tit1[22:31])#final checkboxgroupimput
+                                                                                                           choices=tit1[23:31])#final checkboxgroupimput
                                                                       ),#final column
                                                                       column(width = 3,checkboxGroupInput( inputId = "v4_sp", label = " ",
                                                                                                            choices=tit1[32:40])#final checkboxgroupimput
@@ -1200,7 +1200,7 @@ shinyUI(
                                            tabPanel("Títulos disponibles",
                                                     wellPanel(
                                                       fluidRow(column(width = 3,checkboxGroupInput( inputId = "t1_comp", label = " ",
-                                                                                                    choices=tit[1:9])#final checkboximput
+                                                                                                    choices=tit[2:9])#final checkboximput
                                                       ),#final column
                                                       column(width = 3,checkboxGroupInput( inputId = "t2_comp", label = " ",
                                                                                            choices=tit[10:17])#final checkboximput
@@ -1450,13 +1450,13 @@ shinyUI(
                                                       #                    choices = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[which(substr(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[,2],1,3)=="VEB"),2]),
                                                       fluidRow(
                                                         column(width = 3,checkboxGroupInput(inputId = "v1_comp", label = " ",
-                                                                                            choices=tit1[1:11])#final checkboxgroupimput
+                                                                                            choices=tit1[3:12])#final checkboxgroupimput
                                                         ),#final column
                                                         column(width = 3,checkboxGroupInput( inputId = "v2_comp", label = " ",
-                                                                                             choices=tit1[12:21])#final checkboxgroupimput
+                                                                                             choices=tit1[13:22])#final checkboxgroupimput
                                                         ),#final column
                                                         column(width = 3,checkboxGroupInput( inputId = "v3_comp",label = " ",
-                                                                                             choices=tit1[22:31])#final checkboxgroupimput
+                                                                                             choices=tit1[23:31])#final checkboxgroupimput
                                                         ),#final column
                                                         column(width = 3,checkboxGroupInput( inputId = "v4_comp", label = " ",
                                                                                              choices=tit1[32:40])#final checkboxgroupimput
