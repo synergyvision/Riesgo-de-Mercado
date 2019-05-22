@@ -524,23 +524,43 @@ output$c_tif_ns <- renderPlot({
 # Muestro parametros elegidos #
 #+++++++++++++++++++++++++++++#
 
-output$new_ns_tif <- renderPrint({(data.frame('B0'=input$ns_b0_tif,'B1'=input$ns_b1_tif,'B2'=input$ns_b2_tif,'T'=input$ns_t_tif,row.names = " " ))})
+output$new_ns_tif <- renderPrint({
+  # Take a dependency on input$goButton
+  input$boton1
+  
+  a <- isolate(data.frame('B0'=input$ns_b0_tif,'B1'=input$ns_b1_tif,'B2'=input$ns_b2_tif,'T'=input$ns_t_tif,row.names = " " ))
+  a
+  
+  })
 
 #++++++++++++++#
 # Verificacion #
 #++++++++++++++#
 
-output$ver_ns_tif <- renderPrint({data.frame('Condición_1'=input$ns_b0_tif>0,'Condición_2'=input$ns_b0_tif+input$ns_b1_tif>0,'Condición_3'=input$ns_t_tif>0,row.names = " " )})
+output$ver_ns_tif <- renderPrint({
+  # Take a dependency on input$goButton
+  input$boton1
+  
+  a <- isolate(data.frame('Condición_1'=input$ns_b0_tif>0,'Condición_2'=input$ns_b0_tif+input$ns_b1_tif>0,'Condición_3'=input$ns_t_tif>0,row.names = " " ))
+  a
+  
+  })
 
 #++++++++++++++++++++++++++++++++++++++++++#
 # Muestro precios con parámetros escogidos #
 #++++++++++++++++++++++++++++++++++++++++++#
 
 output$p_est_tif_ns_el <- renderDataTable({
+  #take dependency
+  input$boton1
+  
+  #
+  isolate(
   if(length(ns1())!=0){
     a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
     if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
   }else{}
+  )
 })
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
@@ -548,11 +568,17 @@ output$p_est_tif_ns_el <- renderDataTable({
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 output$c_tif_ns1_new <- renderPlot({
+  #take dependency
+  input$boton1
+  
+  #
+  isolate(
   ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif))*100),aes(x=x,y=y))+
     geom_line(color="brown")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos TIF")+
     theme(plot.title = element_text(hjust = 0.5))
+  )
 })
 
 #+++++++++++++++++++++++++++++#
@@ -880,23 +906,42 @@ output$c_veb_ns <- renderPlot({
 # Muestro parametros elegidos #
 #+++++++++++++++++++++++++++++#
 
-output$new_ns_veb <- renderPrint({(data.frame('B0'=input$ns_b0_veb,'B1'=input$ns_b1_veb,'B2'=input$ns_b2_veb,'T'=input$ns_t_veb,row.names = " " ))})
+output$new_ns_veb <- renderPrint({
+  # Take a dependency on input$goButton
+  input$boton2
+  #
+  isolate(data.frame('B0'=input$ns_b0_veb,'B1'=input$ns_b1_veb,'B2'=input$ns_b2_veb,'T'=input$ns_t_veb,row.names = " " ))
+  
+  })
 
 #++++++++++++++#
 # Verificacion #
 #++++++++++++++#
 
-output$ver_ns_veb <- renderPrint({data.frame('Condición_1'=input$ns_b0_veb>0,'Condición_2'=input$ns_b0_veb+input$ns_b1_veb>0,'Condición_3'=input$ns_t_veb>0,row.names = " " )})
+output$ver_ns_veb <- renderPrint({
+  #take dependency
+  input$boton2
+  
+  isolate(
+  data.frame('Condición_1'=input$ns_b0_veb>0,'Condición_2'=input$ns_b0_veb+input$ns_b1_veb>0,'Condición_3'=input$ns_t_veb>0,row.names = " " )
+  )
+  })
 
 #++++++++++++++++++++++++++++++++++++++++++#
 # Muestro precios con parámetros escogidos #
 #++++++++++++++++++++++++++++++++++++++++++#
 
 output$p_est_veb_ns_el <- renderDataTable({
+  #take dependency
+  input$boton2
+  
+  #
+  isolate(
   if(length(ns2())!=0){
     a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa =c(input$ns_b0_veb,input$ns_b1_veb,input$ns_b2_veb,input$ns_t_veb) ,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
     if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
   }else{}
+  )
 })
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
@@ -904,11 +949,17 @@ output$p_est_veb_ns_el <- renderDataTable({
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 output$c_veb_ns1_new <- renderPlot({
+  #take dependency
+  input$boton2
+  
+  #
+  isolate(
   ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=c(input$ns_b0_veb,input$ns_b1_veb,input$ns_b2_veb,input$ns_t_veb))*100),aes(x=x,y=y))+
     geom_line(color="brown")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos VEBONO")+
     theme(plot.title = element_text(hjust = 0.5))
+  )
 })
 
 #+++++++++++++++++++++++++++++#
@@ -1226,24 +1277,47 @@ output$c_tif_sven <- renderPlot({
 # Muestro parametros elegidos #
 #+++++++++++++++++++++++++++++#
 
-output$new_sven_tif <- renderPrint({(data.frame('B0'=input$sven_b0_tif,'B1'=input$sven_b1_tif,'B2'=input$sven_b2_tif,'B3'=input$sven_b3_tif,'T1'=input$sven_t1_tif,'T2'=input$sven_t2_tif,row.names = " " ))})
+output$new_sven_tif <- renderPrint({
+  #take dependency
+  input$boton3
+  
+  #
+  
+  isolate(data.frame('B0'=input$sven_b0_tif,'B1'=input$sven_b1_tif,'B2'=input$sven_b2_tif,'B3'=input$sven_b3_tif,'T1'=input$sven_t1_tif,'T2'=input$sven_t2_tif,row.names = " " ))
+  
+  
+  })
 
 #++++++++++++++#
 # Verificacion #
 #++++++++++++++#
 
-output$ver_sven_tif <- renderPrint({data.frame('Condición_1'=input$sven_b0_tif>0,'Condición_2'=input$sven_b0_tif+input$sven_b1_tif>0,'Condición_3'=input$sven_t1_tif>0,'Condición_4'=input$sven_t2_tif>0,row.names = " " )})
+output$ver_sven_tif <- renderPrint({
+  #take dependency
+  input$boton3
+  
+  #
+  isolate(
+  data.frame('Condición_1'=input$sven_b0_tif>0,'Condición_2'=input$sven_b0_tif+input$sven_b1_tif>0,'Condición_3'=input$sven_t1_tif>0,'Condición_4'=input$sven_t2_tif>0,row.names = " " )
+  )
+  })
 
 #++++++++++++++++++++++++++++++++++++++++++#
 # Muestro precios con parámetros escogidos #
 #++++++++++++++++++++++++++++++++++++++++++#
 
 output$p_est_tif_opt_sven_el <- renderDataTable({
+  #take dependency
+  input$boton3
+  
+  #
+  isolate(
   if(length(sv1())!=0){
     a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
     if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
     
   }else{}
+  )
 })
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
@@ -1251,11 +1325,17 @@ output$p_est_tif_opt_sven_el <- renderDataTable({
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 output$c_tif_sven_new <- renderPlot({
+  #take dependency
+  input$boton3
+  
+  #
+  isolate(
   ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif))*100),aes(x=x,y=y))+
     geom_line(color="brown")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Svensson Parámetros elegidos TIF")+
     theme(plot.title = element_text(hjust = 0.5))
+  )
 })
 
 #+++++++++++++++++++++++++++++#
@@ -1573,24 +1653,47 @@ output$c_veb_sven <- renderPlot({
 # Muestro parametros elegidos #
 #+++++++++++++++++++++++++++++#
 
-output$new_sven_veb <- renderPrint({(data.frame('B0'=input$sven_b0_veb,'B1'=input$sven_b1_veb,'B2'=input$sven_b2_veb,'B3'=input$sven_b3_veb,'T1'=input$sven_t1_veb,'T2'=input$sven_t2_veb,row.names = " " ))})
+output$new_sven_veb <- renderPrint({
+  #take dependency
+  input$boton4
+  
+  #
+  isolate(data.frame('B0'=input$sven_b0_veb,'B1'=input$sven_b1_veb,'B2'=input$sven_b2_veb,'B3'=input$sven_b3_veb,'T1'=input$sven_t1_veb,'T2'=input$sven_t2_veb,row.names = " " ))
+  
+  })
 
 #++++++++++++++#
 # Verificacion #
 #++++++++++++++#
 
-output$ver_sven_veb <- renderPrint({data.frame('Condición_1'=input$sven_b0_veb>0,'Condición_2'=input$sven_b0_veb+input$sven_b1_veb>0,'Condición_3'=input$sven_t1_veb>0,'Condición_4'=input$sven_t2_veb>0,row.names = " " )})
+output$ver_sven_veb <- renderPrint({
+  #take dependency
+  input$boton4
+  
+  #
+  isolate(
+  data.frame('Condición_1'=input$sven_b0_veb>0,'Condición_2'=input$sven_b0_veb+input$sven_b1_veb>0,'Condición_3'=input$sven_t1_veb>0,'Condición_4'=input$sven_t2_veb>0,row.names = " " )
+  )
+  
+  })
 
 #++++++++++++++++++++++++++++++++++++++++++#
 # Muestro precios con parámetros escogidos #
 #++++++++++++++++++++++++++++++++++++++++++#
 
 output$p_est_veb_opt_sven_el <- renderDataTable({
+  #take dependency
+  input$boton4
+  
+  #
+  isolate(
   if(length(sv2())!=0){
     a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
     if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
     
   }else{}
+  )
+  
 })
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
@@ -1598,11 +1701,17 @@ output$p_est_veb_opt_sven_el <- renderDataTable({
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 output$c_veb_sven_new <- renderPlot({
+  #take dependency
+  input$boton4
+  
+  #
+  isolate(
   ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb))*100),aes(x=x,y=y))+
     geom_line(color="brown")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Svensson Parámetros elegidos VEBONOS")+
     theme(plot.title = element_text(hjust = 0.5))
+  )
 })
 
 #+++++++++++++++++++++++++++++#

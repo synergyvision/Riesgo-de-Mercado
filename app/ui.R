@@ -262,6 +262,10 @@ shinyUI(
                                                                         verbatimTextOutput("num_ns_b2_tif")),#final column
                                                                  column(width = 3,numericInput( inputId = "ns_t_tif", label="T: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
                                                                         verbatimTextOutput("num_ns_t_tif")),#final column
+                                                                 #boton q controla la reactividad
+                                                                 actionButton("boton1", "Calcular", icon = icon("chart-area"),
+                                                                              style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                                 
                                                                  h4(" Los nuevos parámetros considerados son, "),
                                                                  verbatimTextOutput("new_ns_tif"),
                                                                  h4(" Verificación, "),
@@ -402,6 +406,12 @@ shinyUI(
                                                                         verbatimTextOutput("num_ns_b2_veb")),#final column
                                                                  column(width = 3,numericInput( inputId = "ns_t_veb", label="T: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
                                                                         verbatimTextOutput("num_ns_t_veb")),#final column
+                                                                 #boton q controla la reactividad
+                                                                 actionButton("boton2", "Calcular", icon = icon("chart-area"),
+                                                                              style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                                 
+                                                                 
+                                                                 
                                                                  h4(" Los nuevos parámetros considerados son, "),
                                                                  verbatimTextOutput("new_ns_veb"),
                                                                  h4(" Verificación, "),
@@ -557,6 +567,11 @@ shinyUI(
                                                                           verbatimTextOutput("num_sven_t1_tif")),#final column
                                                                    column(width = 2,numericInput( inputId = "sven_t2_tif", label="T2: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
                                                                           verbatimTextOutput("num_sven_t2_tif")),#final column
+                                                                   #boton q controla la reactividad
+                                                                   actionButton("boton3", "Calcular", icon = icon("chart-area"),
+                                                                                style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                                   
+                                                                   
                                                                    h4(" Los nuevos parámetros considerados son, "),
                                                                    verbatimTextOutput("new_sven_tif"),
                                                                    h4(" Verificación, "),
@@ -696,6 +711,11 @@ shinyUI(
                                                                           verbatimTextOutput("num_sven_t1_veb")),#final column
                                                                    column(width = 2,numericInput( inputId = "sven_t2_veb", label="T2: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
                                                                           verbatimTextOutput("num_sven_t2_veb")),#final column
+                                                                   #boton q controla la reactividad
+                                                                   actionButton("boton4", "Calcular", icon = icon("chart-area"),
+                                                                                style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                                   
+                                                                   
                                                                    h4(" Los nuevos parámetros considerados son, "),
                                                                    verbatimTextOutput("new_sven_veb"),
                                                                    h4(" Verificación, "),
@@ -1284,6 +1304,11 @@ shinyUI(
                                                                                 verbatimTextOutput("num_ns_b2_tif_comp")),#final column
                                                                          column(width = 3,numericInput( inputId = "ns_t_tif_comp", label="T: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
                                                                                 verbatimTextOutput("num_ns_t_tif_comp")),#final column
+                                                                         #boton q controla la reactividad
+                                                                         actionButton("boton5", "Calcular", icon = icon("chart-area"),
+                                                                                      style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                                         
+                                                                         
                                                                          h4(" Los nuevos parámetros considerados son, "),
                                                                          verbatimTextOutput("new_ns_tif_comp"),
                                                                          h4(" Verificación, "),
@@ -1348,6 +1373,11 @@ shinyUI(
                                                                                 verbatimTextOutput("num_sven_t1_tif_comp")),#final column
                                                                          column(width = 2,numericInput( inputId = "sven_t2_tif_comp", label="T2: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
                                                                                 verbatimTextOutput("num_sven_t2_tif_comp")),#final column
+                                                                         #boton q controla la reactividad
+                                                                         actionButton("boton6", "Calcular", icon = icon("chart-area"),
+                                                                                      style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                                         
+
                                                                          h4(" Los nuevos parámetros considerados son, "),
                                                                          verbatimTextOutput("new_sven_tif_comp"),
                                                                          h4(" Verificación, "),
@@ -1534,6 +1564,11 @@ shinyUI(
                                                                 verbatimTextOutput("num_ns_b2_veb_comp")),#final column
                                                          column(width = 3,numericInput( inputId = "ns_t_veb_comp", label="T: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
                                                                 verbatimTextOutput("num_ns_t_veb_comp")),#final column
+                                                         #boton q controla la reactividad
+                                                         actionButton("boton7", "Calcular", icon = icon("chart-area"),
+                                                                      style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                         
+                                                         
                                                          h4(" Los nuevos parámetros considerados son, "),
                                                          verbatimTextOutput("new_ns_veb_comp"),
                                                          h4(" Verificación, "),
@@ -1598,6 +1633,11 @@ shinyUI(
                                                                 verbatimTextOutput("num_sven_t1_veb_comp")),#final column
                                                          column(width = 2,numericInput( inputId = "sven_t2_veb_comp", label="T2: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
                                                                 verbatimTextOutput("num_sven_t2_veb_comp")),#final column
+                                                         #boton q controla la reactividad
+                                                         actionButton("boton8", "Calcular", icon = icon("chart-area"),
+                                                                      style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                         
+                                                         
                                                          h4(" Los nuevos parámetros considerados son, "),
                                                          verbatimTextOutput("new_sven_veb_comp"),
                                                          h4(" Verificación, "),

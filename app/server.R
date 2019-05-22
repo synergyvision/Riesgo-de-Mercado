@@ -1623,10 +1623,26 @@ shinyServer(function(input, output) {
   output$num_ns_t_tif_comp <-renderPrint({input$ns_t_tif_comp})
   
   #conjunto
-  output$new_ns_tif_comp <- renderPrint({(data.frame('B0'=input$ns_b0_tif_comp,'B1'=input$ns_b1_tif_comp,'B2'=input$ns_b2_tif_comp,'T'=input$ns_t_tif_comp,row.names = " " ))})
+  output$new_ns_tif_comp <- renderPrint({
+    #take dependency
+    input$boton5
+    
+    #
+    isolate(data.frame('B0'=input$ns_b0_tif_comp,'B1'=input$ns_b1_tif_comp,'B2'=input$ns_b2_tif_comp,'T'=input$ns_t_tif_comp,row.names = " " ))
+    
+    })
   
   #verificacion
-  output$ver_ns_tif_comp <- renderPrint({data.frame('Condición_1'=input$ns_b0_tif_comp>0,'Condición_2'=input$ns_b0_tif_comp+input$ns_b1_tif_comp>0,'Condición_3'=input$ns_t_tif_comp>0,row.names = " " )})
+  output$ver_ns_tif_comp <- renderPrint({
+    #take dependency
+    input$boton5
+    
+    #
+    isolate(
+    data.frame('Condición_1'=input$ns_b0_tif_comp>0,'Condición_2'=input$ns_b0_tif_comp+input$ns_b1_tif_comp>0,'Condición_3'=input$ns_t_tif_comp>0,row.names = " " )
+    )
+    
+    })
   
   
   #veb
@@ -1649,10 +1665,25 @@ shinyServer(function(input, output) {
   output$num_ns_t_veb_comp<-renderPrint({input$ns_t_veb_comp})
   
   #conjunto
-  output$new_ns_veb_comp <- renderPrint({(data.frame('B0'=input$ns_b0_veb_comp,'B1'=input$ns_b1_veb_comp,'B2'=input$ns_b2_veb_comp,'T'=input$ns_t_veb_comp,row.names = " " ))})
+  output$new_ns_veb_comp <- renderPrint({
+    #take dependency
+    input$boton7
+    
+    #
+    isolate(data.frame('B0'=input$ns_b0_veb_comp,'B1'=input$ns_b1_veb_comp,'B2'=input$ns_b2_veb_comp,'T'=input$ns_t_veb_comp,row.names = " " ))
+    
+    })
   
   #verificacion
-  output$ver_ns_veb_comp <- renderPrint({data.frame('Condición_1'=input$ns_b0_veb_comp>0,'Condición_2'=input$ns_b0_veb_comp+input$ns_b1_veb_comp>0,'Condición_3'=input$ns_t_veb_comp>0,row.names = " " )})
+  output$ver_ns_veb_comp <- renderPrint({
+    #take dependency
+    input$boton7
+    
+    #
+    isolate(
+    data.frame('Condición_1'=input$ns_b0_veb_comp>0,'Condición_2'=input$ns_b0_veb_comp+input$ns_b1_veb_comp>0,'Condición_3'=input$ns_t_veb_comp>0,row.names = " " )
+    )
+    })
   
   
   #SVENSSON
@@ -1680,10 +1711,26 @@ shinyServer(function(input, output) {
   output$num_sven_t2_tif_comp<-renderPrint({input$sven_t2_tif_comp})
   
   #conjunto
-  output$new_sven_tif_comp <- renderPrint({(data.frame('B0'=input$sven_b0_tif_comp,'B1'=input$sven_b1_tif_comp,'B2'=input$sven_b2_tif_comp,'B3'=input$sven_b3_tif_comp,'T1'=input$sven_t1_tif_comp,'T2'=input$sven_t2_tif_comp,row.names = " " ))})
+  output$new_sven_tif_comp <- renderPrint({
+    #take dependency
+    input$boton6
+    
+    #
+    isolate(data.frame('B0'=input$sven_b0_tif_comp,'B1'=input$sven_b1_tif_comp,'B2'=input$sven_b2_tif_comp,'B3'=input$sven_b3_tif_comp,'T1'=input$sven_t1_tif_comp,'T2'=input$sven_t2_tif_comp,row.names = " " ))
+    
+    })
   
   #verificacion
-  output$ver_sven_tif_comp <- renderPrint({data.frame('Condición_1'=input$sven_b0_tif_comp>0,'Condición_2'=input$sven_b0_tif_comp+input$sven_b1_tif_comp>0,'Condición_3'=input$sven_t1_tif_comp>0,'Condición_4'=input$sven_t2_tif_comp>0,row.names = " " )})
+  output$ver_sven_tif_comp <- renderPrint({
+    #take dependency
+    input$boton6
+    
+    #
+    isolate(
+    data.frame('Condición_1'=input$sven_b0_tif_comp>0,'Condición_2'=input$sven_b0_tif_comp+input$sven_b1_tif_comp>0,'Condición_3'=input$sven_t1_tif_comp>0,'Condición_4'=input$sven_t2_tif_comp>0,row.names = " " )
+    )
+    
+    })
   
   
   
@@ -1711,10 +1758,26 @@ shinyServer(function(input, output) {
   output$num_sven_t2_veb_comp<-renderPrint({input$sven_t2_veb_comp})
   
   #conjunto
-  output$new_sven_veb_comp <- renderPrint({(data.frame('B0'=input$sven_b0_veb_comp,'B1'=input$sven_b1_veb_comp,'B2'=input$sven_b2_veb_comp,'B3'=input$sven_b3_veb_comp,'T1'=input$sven_t1_veb_comp,'T2'=input$sven_t2_veb_comp,row.names = " " ))})
+  output$new_sven_veb_comp <- renderPrint({
+    #take dependency
+    input$boton8
+    
+    #
+    isolate(data.frame('B0'=input$sven_b0_veb_comp,'B1'=input$sven_b1_veb_comp,'B2'=input$sven_b2_veb_comp,'B3'=input$sven_b3_veb_comp,'T1'=input$sven_t1_veb_comp,'T2'=input$sven_t2_veb_comp,row.names = " " ))
+    
+    })
   
   #verificacion
-  output$ver_sven_veb_comp <- renderPrint({data.frame('Condición_1'=input$sven_b0_veb_comp>0,'Condición_2'=input$sven_b0_veb_comp+input$sven_b1_veb_comp>0,'Condición_3'=input$sven_t1_veb_comp>0,'Condición_4'=input$sven_t2_veb_comp>0,row.names = " " )})
+  output$ver_sven_veb_comp <- renderPrint({
+    #take dependency
+    input$boton8
+    
+    #
+    isolate(
+    data.frame('Condición_1'=input$sven_b0_veb_comp>0,'Condición_2'=input$sven_b0_veb_comp+input$sven_b1_veb_comp>0,'Condición_3'=input$sven_t1_veb_comp>0,'Condición_4'=input$sven_t2_veb_comp>0,row.names = " " )
+    )
+    
+    })
   
   
   #muestro caracteristicas
@@ -1840,10 +1903,18 @@ shinyServer(function(input, output) {
   
   #comparativo
   output$p_est_tif_ns_el_comp <- renderDataTable({
-    a <- try(Tabla.ns(fv = input$n5 ,tit = comp1(),pr =TF_NSC() ,pa = c(input$ns_b0_tif_comp,input$ns_b1_tif_comp,input$ns_b2_tif_comp,input$ns_t_tif_comp),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
-    if(class(a)!="try-error"){
+    #take dependency
+    input$boton5
+    
+    #
+    isolate(    
+      a <- try(Tabla.ns(fv = input$n5 ,tit = comp1(),pr =TF_NSC() ,pa = c(input$ns_b0_tif_comp,input$ns_b1_tif_comp,input$ns_b2_tif_comp,input$ns_t_tif_comp),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
+    )
+      if(class(a)!="try-error"){
       datatable(a, options = list(paging = FALSE))
-    }else{}
+      }else{}
+    
+    
     })
   
   
@@ -1870,7 +1941,13 @@ shinyServer(function(input, output) {
   
   #comparativo
   output$p_est_veb_ns_el_comp <- renderDataTable({
+    #take dependency
+    input$boton7
+    
+    #
+    isolate(
     a <- try(Tabla.ns(fv = input$n5 ,tit = comp2(),pr =TV_NSC() ,pa =c(input$ns_b0_veb_comp,input$ns_b1_veb_comp,input$ns_b2_veb_comp,input$ns_t_veb_comp) ,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
+    )
     
     if(class(a)!="try-error"){
       datatable(a, options = list(paging = FALSE))
@@ -1952,7 +2029,13 @@ shinyServer(function(input, output) {
   
   #
   output$p_est_tif_opt_sven_el_comp <- renderDataTable({
+    #take dependency
+    input$boton6
+    
+    #
+    isolate(
     a <- try(Tabla.sven(fv = input$n5 ,tit = comp1(),pr =TF_SV() ,pa = c(input$sven_b0_tif_comp,input$sven_b1_tif_comp,input$sven_b2_tif_comp,input$sven_b3_tif_comp,input$sven_t1_tif_comp,input$sven_t2_tif_comp),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]]) 
+    )
     if(class(a)!="try-error"){
       datatable(a, options = list(paging = FALSE))
     }else{}
@@ -2010,7 +2093,14 @@ shinyServer(function(input, output) {
     })
   
   output$p_est_veb_opt_sven_el_comp <- renderDataTable({
+    #take dependency
+    input$boton8
+    
+    #
+    isolate(
     a <- try(Tabla.sven(fv = input$n5 ,tit = comp2(),pr =TV_SV() ,pa = c(input$sven_b0_veb_comp,input$sven_b1_veb_comp,input$sven_b2_veb_comp,input$sven_b3_veb_comp,input$sven_t1_veb_comp,input$sven_t2_veb_comp),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
+    )
+    
     if(class(a)!="try-error"){
       datatable(a, options = list(paging = FALSE))
     }else{}
@@ -2708,11 +2798,19 @@ shinyServer(function(input, output) {
    # })
    #comparativo
    output$c_tif_ns1_new_comp <- renderPlot({
+     #take dependency
+     input$boton5
+     
+     #
+     isolate(
+     
      ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=c(input$ns_b0_tif_comp,input$ns_b1_tif_comp,input$ns_b2_tif_comp,input$ns_t_tif_comp))*100),aes(x=x,y=y))+
        geom_line(color="red")+xlab("Maduración (años)")+
        ylab("Rendimiento (%)")+theme_gray()+
        ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos TIF")+
        theme(plot.title = element_text(hjust = 0.5))
+     
+     )
    })
    
    
@@ -2727,11 +2825,17 @@ shinyServer(function(input, output) {
    
    #comparativo
    output$c_veb_ns1_new_comp <- renderPlot({
+     #take dependency
+     input$boton7
+     
+     #
+     isolate(
      ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=c(input$ns_b0_veb_comp,input$ns_b1_veb_comp,input$ns_b2_veb_comp,input$ns_t_veb_comp))*100),aes(x=x,y=y))+
        geom_line(color="brown")+xlab("Maduración (años)")+
        ylab("Rendimiento (%)")+theme_gray()+
        ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos VEBONO")+
        theme(plot.title = element_text(hjust = 0.5))
+     )
    })
    
    
@@ -2775,11 +2879,17 @@ shinyServer(function(input, output) {
   
   #comparativo
   output$c_tif_sven_new_comp <- renderPlot({
+    #take dependency
+    input$boton6
+    
+    #
+    isolate(
     ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=c(input$sven_b0_tif_comp,input$sven_b1_tif_comp,input$sven_b2_tif_comp,input$sven_b3_tif_comp,input$sven_t1_tif_comp,input$sven_t2_tif_comp))*100),aes(x=x,y=y))+
       geom_line(color="brown")+xlab("Maduración (años)")+
       ylab("Rendimiento (%)")+theme_gray()+
       ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos TIF")+
       theme(plot.title = element_text(hjust = 0.5))
+    )
   })
   
   #
@@ -2793,11 +2903,17 @@ shinyServer(function(input, output) {
   
   #comparativo
   output$c_veb_sven_new_comp <- renderPlot({
+    #take dependency
+    input$boton8
+    
+    #
+    isolate(
     ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=c(input$sven_b0_veb_comp,input$sven_b1_veb_comp,input$sven_b2_veb_comp,input$sven_b3_veb_comp,input$sven_t1_veb_comp,input$sven_t2_veb_comp))*100),aes(x=x,y=y))+
       geom_line(color="brown")+xlab("Maduración (años)")+
       ylab("Rendimiento (%)")+theme_gray()+
       ggtitle("Curva de rendimiento Svensson Parámetros elegidos VEBONOS")+
       theme(plot.title = element_text(hjust = 0.5))
+    )
   })
   
   #caso Nelson y Siegel
