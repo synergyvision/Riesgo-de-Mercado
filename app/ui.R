@@ -833,6 +833,12 @@ shinyUI(
                                                     h2(" Parámetro de suavizamiento"),
                                                     numericInput( inputId = "parametro_tif_dl", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                                     verbatimTextOutput("spar_tif_dl"),
+                                                    #boton q controla la reactividad
+                                                    actionButton("boton9", "Calcular", icon = icon("chart-area"),
+                                                                 style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                    
+                                                    
+                                                    
                                                     h2(" Curva spline Tif"),
                                                     rbokehOutput("c_tif_splines_dl"),
                                                     h2(" Precios estimados"),
@@ -919,6 +925,11 @@ shinyUI(
                                                     h2(" Parámetro de suavizamiento"),
                                                     numericInput( inputId = "parametro_veb_dl", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                                     verbatimTextOutput("spar_veb_dl"),
+                                                    #boton q controla la reactividad
+                                                    actionButton("boton10", "Calcular", icon = icon("chart-area"),
+                                                                 style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                    
+                                                    
                                                     h2(" Curva spline Vebonos"),
                                                     rbokehOutput("c_veb_splines_dl"),
                                                     h2(" Precios estimados"),
@@ -1023,19 +1034,28 @@ shinyUI(
                                     ),#final box
                                     numericInput( inputId = "parametro_tif", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                            verbatimTextOutput("spar_tif"),
+                                    #boton q controla la reactividad
+                                    actionButton("boton11", "Calcular", icon = icon("chart-area"),
+                                                 style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                    
+                                    
                                     h2(" Precios Splines"),
                                     box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("pre_sp_tif"),
                                                                           style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                     
-                                    h2(" Curva de rendimientos TIF")
-                                    ,
+                                    h2(" Curva de rendimientos TIF"),
                                     rbokehOutput("c_tif_splines"),#verbatimTextOutput("datos")
+                                    #
                                     h2(" Eliminar observaciones"),
                                     htmlOutput("selectUI_tif"),
                                     h3(" Títulos elegidos"),
                                     verbatimTextOutput("obs_elim_tif"),
+                                    #boton q controla la reactividad
+                                    actionButton("boton12", "Calcular", icon = icon("chart-area"),
+                                                 style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                    
                                     h2(" Nuevos títulos candidatos"),
-                                    box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_tif_new")),
+                                      box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_tif_new")),
                                     h2(" Nuevos precios"),
                                     box(width = "12",column(width = 12,DT::dataTableOutput("precios_tif_nuevos"),
                                                                           style="overflow-y: scroll;overflow-x: scroll")),
@@ -1136,6 +1156,11 @@ shinyUI(
                                     ),#final box
                                     numericInput( inputId = "parametro_veb", label="Parámetro: ", min = -10, max = 100,step = 0.1, value = 1, width = "40%"),
                                     verbatimTextOutput("spar_veb"),
+                                    #boton q controla la reactividad
+                                    actionButton("boton13", "Calcular", icon = icon("chart-area"),
+                                                 style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                    
+                                    
                                     h2(" Precios Splines"),
                                     box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("pre_sp_veb"),
                                                                           style="height:500px;overflow-y: scroll;overflow-x: scroll")),
@@ -1146,6 +1171,11 @@ shinyUI(
                                     htmlOutput("selectUI_veb"),
                                     h3(" Títulos elegidos"),
                                     verbatimTextOutput("obs_elim_veb"),
+                                    
+                                    #boton q controla la reactividad
+                                    actionButton("boton14", "Calcular", icon = icon("chart-area"),
+                                                 style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                    
                                     h2(" Nuevos títulos candidatos"),
                                     box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_veb_new")),
                                     h2(" Nuevos precios"),

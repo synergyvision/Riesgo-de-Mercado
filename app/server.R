@@ -2161,22 +2161,34 @@ shinyServer(function(input, output) {
     })
   
   output$spline_tif <- renderPrint({
+    #agrego dependencia 
+    input$boton9
+    
+    #
+    isolate(
     a <- try(dl_spline_tif())
+    )
     if(class(a)!="try-error"){
       a
     }else{
       #b <- 
       return("Poca cantidad de observaciones, favor seleccionar una cantidad mayor")
     }
+    
     })
   
   output$p_est_dl_tif <- renderDataTable({
+    #agrego dependencia 
+    input$boton9
+    
+    #
     withProgress(message = 'Calculando precios teóricos', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
       car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    a <- try(precio.dl(tit = dl1(),fv = input$n3 ,C = car,pa = c(1,1,1,1),spline1 = dl_spline_tif(),pr=tf_dl())[[1]])
+    a <- isolate(try(precio.dl(tit = dl1(),fv = input$n3 ,C = car,pa = c(1,1,1,1),spline1 = dl_spline_tif(),pr=tf_dl())[[1]]))
+    
     if(class(a)!="try-error"){
-      datatable(a, options = list(paging = FALSE))
+      isolate(datatable(a, options = list(paging = FALSE)))
     }else{}
     
     })
@@ -2254,7 +2266,11 @@ shinyServer(function(input, output) {
     })
   
   output$spline_veb <- renderPrint({
-    a <- try(dl_spline_veb())
+    #agrego dependencia 
+    input$boton10
+    
+    #
+    a <- isolate(try(dl_spline_veb()))
     if(class(a)!="try-error"){
       return(a)
     }else{
@@ -2264,12 +2280,16 @@ shinyServer(function(input, output) {
     })
   
   output$p_est_dl_veb <- renderDataTable({
+    #agrego dependencia 
+    input$boton10
+    
     withProgress(message = 'Calculando precios teóricos...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
       car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    a <- try(precio.dl(tit = dl2(),fv = input$n3 ,C = car ,pa = c(1,1,1,1),spline1 = dl_spline_veb(),pr=tv_dl())[[1]])
+    a <- isolate(try(precio.dl(tit = dl2(),fv = input$n3 ,C = car ,pa = c(1,1,1,1),spline1 = dl_spline_veb(),pr=tv_dl())[[1]]))
+    
     if(class(a)!="try-error"){
-      datatable(a, options = list(paging = FALSE))
+      isolate(datatable(a, options = list(paging = FALSE)))
     }else{}
     })
     })
@@ -2384,24 +2404,28 @@ shinyServer(function(input, output) {
   #Splines para Diebold-Li
   #tif
   output$c_tif_splines_dl <- renderRbokeh({
+    #agrego dependencia 
+    input$boton9
+    
+    #
     withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
       incProgress(1/2, detail = "Calculando alturas")
       # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
       # dat[,3] <- as.Date(as.character(dat[,3]))
       # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
       #y <-predict(Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),car,pr=tf_dl())[[4]],seq(0.1,20,0.1)*365)$y
-      y <-try(predict(tabla_sp_dl_tif()[[4]],seq(0.9,20,0.1)*365)$y)
+      y <-isolate(try(predict(tabla_sp_dl_tif()[[4]],seq(0.9,20,0.1)*365)$y))
       
       if(class(y)!="try-error"){
       
       incProgress(1/2, detail = "Ajustando spline")
-    
+        isolate(
     figure(width = 1000,height = 400) %>%
       ly_points(pto_sp_tif_dl()[,4],pto_sp_tif_dl()[,7],pto_sp_tif_dl(),hover=list("Nombre"=pto_sp_tif_dl()[,1],"Fecha de operación"=pto_sp_tif_dl()[,2])) %>%
       ly_points(x=cbind.data.frame(x=seq(0.9,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.9,20,0.1)*365,y)[,2],color="green",hover=list("Plazo"=cbind.data.frame(x=seq(0.9,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.9,20,0.1)*365,y)[,2]),size=4) %>%
       # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
       x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
-    
+      )
       }else{}
     
     
@@ -2433,23 +2457,28 @@ shinyServer(function(input, output) {
   
   #vebonos
   output$c_veb_splines_dl <- renderRbokeh({
+    #agrego dependencia 
+    input$boton10
+    
     withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
       incProgress(1/2, detail = "Calculando alturas")
     #   dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     #   dat[,3] <- as.Date(as.character(dat[,3]))
     #   car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     # y <-predict(Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n3,num = 40,par = input$parametro_veb_dl,tit=c(input$v1_dl,input$v2_dl,input$v3_dl,input$v4_dl),car,pr=tv_dl())[[4]],seq(0.1,20,0.1)*365)$y
-      y <-try(predict(tabla_sp_dl_veb()[[4]],seq(0.1,20,0.1)*365)$y)
+      y <-isolate(try(predict(tabla_sp_dl_veb()[[4]],seq(0.1,20,0.1)*365)$y))
       
       if(class(y)!="try-error"){
       
       incProgress(1/2, detail = "Ajustando spline")
     
+        isolate(
     figure(width = 1000,height = 400) %>%
       ly_points(pto_sp_veb_dl()[,4],pto_sp_veb_dl()[,7],pto_sp_veb_dl(),hover=list("Nombre"=pto_sp_veb_dl()[,1],"Fecha de operación"=pto_sp_veb_dl()[,2])) %>%
       ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="brown",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
       # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
       x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
+        )
       }else{}
     
     
@@ -2483,6 +2512,10 @@ shinyServer(function(input, output) {
   #Grafico 3D!
   #tif
   output$curva_tif_dl <- renderPlotly({ 
+    #agrego dependencia 
+    input$boton9
+    
+    #
     #defino eje maduracion
     X1 <- seq(1,20,0.1)
     
@@ -2493,25 +2526,27 @@ shinyServer(function(input, output) {
     var_par <- as.data.frame(matrix(0,length(Y1),4))
     
     #defino variable spline
-    a <- try(dl_spline_tif())
+    a <- isolate(try(dl_spline_tif()))
     
     if(class(a)!="try-error"){
+      isolate(
     #guardo parametros segun cada tiempo
     for(i in 1:length(Y1)){
       #var_par[i,] <- par_dl(t[i],spline1,pa=c(1,1,1,1))
       var_par[i,] <- par_dl(Y1,a,pa=c(1,1,1,1))
       
     }
-    
+      )
     #calculo nuevos rendimientos a partir de los nuevos parametros
     new_rend <- as.data.frame(matrix(0,length(X1),length(Y1)))
     
-    
+    isolate(
     for(i in 1:length(Y1)){
       
       new_rend[,i] <- diebold_li(as.numeric(var_par[i,]),X1)
       #new_rend[,i] <- nelson_siegel(as.numeric(var_par[i,]),X)
     }
+    )
     
     Z1 <- as.matrix(new_rend*100)
     row.names(Z1) <- X1
@@ -2549,7 +2584,7 @@ shinyServer(function(input, output) {
     plot_ly(z = Z1,  type = "surface") %>%
       layout(title = "Curva de Rendimientos metodología Diebold-Li",scene = scene)
     
-    
+      
     }else{}
     })
   
@@ -2627,6 +2662,10 @@ shinyServer(function(input, output) {
   
   #vebonos
   output$curva_veb_dl <- renderPlotly({ 
+    #agrego dependencia 
+    input$boton10
+    
+    #
     #defino eje maduracion
     X1 <- seq(1,20,0.1)
     
@@ -2637,25 +2676,27 @@ shinyServer(function(input, output) {
     var_par <- as.data.frame(matrix(0,length(Y1),4))
     
     #defino spline
-    a <- try(dl_spline_veb())
+    a <- isolate(try(dl_spline_veb()))
     
     if(class(a)!="try-error"){
+      isolate(
     #guardo parametros segun cada tiempo
     for(i in 1:length(Y1)){
       #var_par[i,] <- par_dl(t[i],spline1,pa=c(1,1,1,1))
       var_par[i,] <- par_dl(Y1,a,pa=c(1,1,1,1))
       
     }
-    
+      )
     #calculo nuevos rendimientos a partir de los nuevos parametros
     new_rend <- as.data.frame(matrix(0,length(X1),length(Y1)))
     
-    
+    isolate(
     for(i in 1:length(Y1)){
       
       new_rend[,i] <- diebold_li(as.numeric(var_par[i,]),X1)
       #new_rend[,i] <- nelson_siegel(as.numeric(var_par[i,]),X)
     }
+    )
     
     Z1 <- as.matrix(new_rend*100)
     row.names(Z1) <- X1
@@ -3127,9 +3168,13 @@ shinyServer(function(input, output) {
     # # #print(str(data_splines))
     # #print(str(dat))
      #Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[5]]
-    a <- try(tabla_sp_tif())
+    #agrego dependencia 
+    input$boton11
+    
+    #
+    a <- isolate(try(tabla_sp_tif()))
     if(class(a)!="try-error"){
-      datatable(a[[5]], options = list(paging = FALSE))
+      isolate(datatable(a[[5]], options = list(paging = FALSE)))
     }else{}
      # 
     
@@ -3144,11 +3189,18 @@ shinyServer(function(input, output) {
      # 
      # Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),car,pr=tv_sp())[[5]] 
      # 
+    #pongo dependencia
+    input$boton13
+    
+    #
+    isolate({
     a <- try(tabla_sp_veb())
     
     if(class(a)!="try-error"){
       datatable(a[[5]], options = list(paging = FALSE))
     }else{}
+    
+    }) #final isolate
       
     })
   
@@ -3188,10 +3240,11 @@ shinyServer(function(input, output) {
     # dat[,3] <- as.Date(as.character(dat[,3]))
     # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     # 
-    
-    
     # y <-predict(Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[4]],seq(0.1,20,0.1)*365)$y
-    a <- try(tabla_sp_tif())
+    #agrego dependencia 
+    input$boton11
+    
+    a <- isolate(try(tabla_sp_tif()))
     
     if(class(a)!="try-error"){
     y <-predict(a[[4]],seq(0.1,20,0.1)*365)$y
@@ -3218,11 +3271,13 @@ shinyServer(function(input, output) {
      
       names(letra1)=names(a[[2]])
      
+      isolate(
       figure(width = 1000,height = 400) %>%
       ly_points(c(letra[,7],a[[2]][,4]),c(letra[,15],a[[2]][,7]),rbind.data.frame(letra1,a[[2]]),hover=list("Nombre"=c(as.character(letra[,2]),as.character(a[[2]][,1])),"Fecha de operación"=c(letra[,3],a[[2]][,2]))) %>%
       ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="blue",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
       # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
-      x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
+      x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)")
+      )
     }else{}
   })
 
@@ -3271,6 +3326,12 @@ shinyServer(function(input, output) {
     # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     # 
     # y <-predict(Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),car,pr=tv_sp())[[4]],seq(0.1,20,0.1)*365)$y
+    #pongo dependencia
+    input$boton13
+    
+    #
+    isolate({
+    
     a <- try(tabla_sp_veb())
     
     if(class(a)!="try-error"){
@@ -3313,6 +3374,8 @@ shinyServer(function(input, output) {
       x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
     
     }else{}
+    
+    }) #final isolate
     
   })
   
@@ -3379,7 +3442,11 @@ shinyServer(function(input, output) {
      # #print(str(data_splines))
     # #print(str(dat))
      #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
-     a <- try(tabla_sp_tif())
+    #agrego dependencia 
+    input$boton11 
+    
+    #
+    a <- isolate(try(tabla_sp_tif()))
      
      if(class(a)!="try-error"){
      letra <- a[[3]]
@@ -3446,6 +3513,11 @@ shinyServer(function(input, output) {
      # 
      # Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp,input$v4_sp),car,pr=tv_sp())[[2]] 
      # 
+    #pongo dependencia
+    input$boton13
+    
+    #
+    isolate({
     a <- try(tabla_sp_veb())
     
     if(class(a)!="try-error"){
@@ -3462,6 +3534,7 @@ shinyServer(function(input, output) {
     return(a1)
     
     }else{}
+    }) #final isolate
     
     })
   
@@ -4173,7 +4246,10 @@ shinyServer(function(input, output) {
     #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
     
      #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
-     a <- try(tabla_sp_tif())
+    #agrego dependencia 
+    #input$boton12 
+    
+    a <- (try(tabla_sp_tif()))
      
      if(class(a)!="try-error"){
      letra <- a[[3]]
@@ -4252,8 +4328,10 @@ shinyServer(function(input, output) {
   #hago el imputselect interactivo
   #TIF
   output$selectUI_tif <- renderUI({ 
+
     selectInput("obs_tif", "Seleccionar títulos", obs_elim_tif(),multiple = TRUE)
-  })
+    
+     })
   
   #TIF - COMPARATIVO
   output$selectUI_tif_comp <- renderUI({ 
@@ -4296,37 +4374,54 @@ shinyServer(function(input, output) {
     # #print(str(data_splines))
     # #print(str(dat))
     #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
-    
     #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
+    #agrego dependencia 
+    input$boton12
+    
+    #
+    isolate({ 
     a <- try(tabla_sp_tif())
     
     if(class(a)!="try-error"){
-    letra <- a[[3]]
-    letra[,6] <- as.Date(letra[,6])
-    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
-    cand <- a[[2]]
+      
+     
+    letra <- (a[[3]])
+    letra[,6] <- (as.Date(letra[,6]))
+    letra1 <- (data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1"))
+    cand <- (a[[2]])
     
     
     names(letra1)=names(cand)
     
-    a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+    a <- (rbind.data.frame(letra1,cand,make.row.names = FALSE))
+    
     
     if(length(input$obs_tif)==0){
       Aviso <- "No se ha seleccionado nada"
       return(as.data.frame(Aviso))
       
     }else{
-    
+      
     b <- c()
+      
+      
     for(i in 1:length(input$obs_tif)){
-    b[i] <- which(input$obs_tif[i]==as.character(a[,1]))
+    b[i] <- (which(input$obs_tif[i]==as.character(a[,1])))
     }
-    a <- a[-b,]
-    return(a)
+      
     
+    #a <- (a[-b,])
+    #return(a)
+     
+      return( (a[-b,]) )
+      
     }
+    
+    
     
     }else{}
+    
+    })
   })
   
   #TIF - COMP
@@ -4367,6 +4462,12 @@ shinyServer(function(input, output) {
   
   #VEBONOS
   output$tit_cand_veb_new <- renderDataTable({
+    #pongo dependencia
+    input$boton14
+    
+    #
+    isolate({
+    
     a <- try(tabla_sp_veb())
     
     if(class(a)!="try-error"){
@@ -4396,6 +4497,8 @@ shinyServer(function(input, output) {
     }
     
     }else{}
+    
+    }) #final isolate
     
   })
   
@@ -4436,6 +4539,11 @@ shinyServer(function(input, output) {
   #calculo nuevos precios
   #TIF
   output$precios_tif_nuevos <- renderDataTable({
+    #agrego dependencia 
+    input$boton12
+    
+    #
+    isolate({
     #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
     # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     # dat[,3] <- as.Date(as.character(dat[,3]))
@@ -4445,7 +4553,7 @@ shinyServer(function(input, output) {
     # #print(str(dat))
     #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
     #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
-    a <- try(tabla_sp_tif())
+    a <- (try(tabla_sp_tif()))
     
     if(class(a)!="try-error"){
     letra <- a[[3]]
@@ -4483,6 +4591,8 @@ shinyServer(function(input, output) {
     }
     
     }else{}
+    
+    })
   
   })
   
@@ -4541,6 +4651,12 @@ shinyServer(function(input, output) {
   
   #VEBONOS
   output$precios_veb_nuevos <- renderDataTable({
+    #pongo dependencia
+    input$boton14
+    
+    #
+    isolate({
+    
     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     a <- try(tabla_sp_veb())
     
@@ -4581,6 +4697,7 @@ shinyServer(function(input, output) {
     
     }else{}
     
+    }) #final isolate
   })
   
   #VEBONO-COMP
@@ -4639,6 +4756,11 @@ shinyServer(function(input, output) {
   #nueva curva TIF
   #renderRbokeh
   output$c_tif_splines_new <- renderRbokeh({
+    #agrego dependencia 
+    input$boton12
+    
+    #
+    isolate({
      withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
        incProgress(1/2, detail = "Calculando alturas")
        # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
@@ -4647,7 +4769,7 @@ shinyServer(function(input, output) {
        # 
        #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[2]]
        #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())
-       a <- try(tabla_sp_tif())
+       a <- (try(tabla_sp_tif()))
        
        if(class(a)!="try-error"){
        letra <- a[[3]]
@@ -4683,7 +4805,9 @@ shinyServer(function(input, output) {
     #     ly_points(pto_sp_tif_dl()[,4],pto_sp_tif_dl()[,7],pto_sp_tif_dl(),hover=list("Nombre"=pto_sp_tif_dl()[,1],"Fecha de operación"=pto_sp_tif_dl()[,2])) %>%
     #     ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="green",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
     #     x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
-         figure(width = 1000,height = 400) %>%
+         
+       
+       figure(width = 1000,height = 400) %>%
            ly_points(a[,4],a[,7],a,hover=list("Nombre"=a[,1],"Fecha de operación"=a[,2])) %>%
            ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="green",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
            x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)")
@@ -4691,6 +4815,8 @@ shinyServer(function(input, output) {
          }else{}
          
        })
+      
+    })#final isolate
   })
   
   #TIF-COMP
@@ -4752,6 +4878,11 @@ shinyServer(function(input, output) {
   
   #VEBONOS
   output$c_veb_splines_new <- renderRbokeh({
+    #pongo dependencia
+    input$boton14
+    
+    #
+    isolate({
     withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
       incProgress(1/2, detail = "Calculando alturas")
       a <- try(tabla_sp_veb())
@@ -4792,6 +4923,7 @@ shinyServer(function(input, output) {
       }else{}
       
     })
+    }) #final isolate
   })
   
   #VEBONO_COMP
