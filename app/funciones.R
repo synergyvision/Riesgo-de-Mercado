@@ -2148,7 +2148,7 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C,pr){
     if(length(which(D1$Tipo.Instrumento=="LETRA"))!=0){
       letra<<- D1[max(which(D1$Tipo.Instrumento=="LETRA")),]
     }else{
-      print("no hay letra")
+      #print("no hay letra")
       letra <- c(97,1.34)
     }
     
