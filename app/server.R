@@ -2221,16 +2221,28 @@ shinyServer(function(input, output) {
     })
   
   output$spline_tif_comp_out <- renderPrint({
+    #pongo dependencia
+    input$boton15
+    
+    #
+    isolate({
     a <- try(dl_spline_tif_comp())
     if(class(a)!="try-error"){
       a
     }else{
       return("Poca cantidad de observaciones, favor seleccionar una cantidad mayor")
     }
+    
+    })
       
     })
   
   output$p_est_dl_tif_comp <- renderDataTable({
+    #pongo dependencia
+    input$boton15
+    
+    #
+    isolate({
     withProgress(message = 'Calculando precios teóricos...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
       a <- try(precio.dl(tit = comp1(),fv = input$n5 ,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,pa = c(1,1,1,1),spline1 = dl_spline_tif_comp(),pr=tf_comp())[[1]])
@@ -2239,6 +2251,8 @@ shinyServer(function(input, output) {
       }else{}
       
       })
+      
+    }) #final isolate
     })
   
   
@@ -2324,6 +2338,11 @@ shinyServer(function(input, output) {
       })
   
   output$spline_veb_comp_out <- renderPrint({
+    #pongo dependencia
+    input$boton16
+    
+    #
+    isolate({
     a <- try(dl_spline_veb_comp())
     if(class(a)!="try-error"){
       a
@@ -2331,9 +2350,17 @@ shinyServer(function(input, output) {
       return("Poca cantidad de observaciones, favor seleccionar una cantidad mayor")
     }
     
+    }) #final isolate
+    
     })
   
   output$p_est_dl_veb_comp <- renderDataTable({
+    #pongo dependencia
+    input$boton16
+    
+    #
+    isolate({
+    
     withProgress(message = 'Calculando precios teóricos', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
       a <- try(precio.dl(tit = comp2(),fv = input$n5 ,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,pa = c(1,1,1,1),spline1 = dl_spline_veb_comp(),pr=tv_comp())[[1]])
@@ -2342,6 +2369,8 @@ shinyServer(function(input, output) {
         }else{}
       
       })
+    }) #final isolate
+      
     })
   
   
@@ -2434,6 +2463,12 @@ shinyServer(function(input, output) {
   
   #comparativo
   output$c_tif_splines_dl_comp <- renderRbokeh({
+    #pongo dependencia
+    input$boton15
+    
+    #
+    isolate({
+    
     withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
       incProgress(1/2, detail = "Calculando alturas")
       # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
@@ -2453,6 +2488,8 @@ shinyServer(function(input, output) {
      }else{}
     
     })
+    }) #final isolate
+      
   })
   
   #vebonos
@@ -2487,6 +2524,11 @@ shinyServer(function(input, output) {
   
   #comparativo
   output$c_veb_splines_dl_comp <- renderRbokeh({
+    #pongo dependencia
+    input$boton16
+    
+    #
+    isolate({
     withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
       incProgress(1/2, detail = "Calculando alturas")
     #   dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
@@ -2507,6 +2549,8 @@ shinyServer(function(input, output) {
     }else{}
     
     })
+      
+    }) #final isolate
   })
   
   #Grafico 3D!
@@ -2590,6 +2634,12 @@ shinyServer(function(input, output) {
   
   #comparativo
   output$curva_tif_dl_comp <- renderPlotly({ 
+    #pongo dependencia
+    input$boton15
+    
+    #
+    isolate({
+    
     #defino eje maduracion
     X1 <- seq(1,20,0.1)
     
@@ -2657,6 +2707,8 @@ shinyServer(function(input, output) {
       layout(title = "Curva de Rendimientos metodología Diebold-Li",scene = scene)
     
     }else{}
+    
+    }) #final isolate
     
   })
   
@@ -2741,6 +2793,11 @@ shinyServer(function(input, output) {
   
   #Comparativo
   output$curva_veb_dl_comp <- renderPlotly({ 
+    #pongo dependencia
+    input$boton16
+    
+    #
+    isolate({
     #defino eje maduracion
     X1 <- seq(1,20,0.1)
     
@@ -2809,6 +2866,8 @@ shinyServer(function(input, output) {
       layout(title = "Curva de Rendimientos metodología Diebold-Li",scene = scene)
     
     }else{}
+    
+    }) #final isolate
     
   })
   
@@ -3211,10 +3270,18 @@ shinyServer(function(input, output) {
     # dat[,3] <- as.Date(as.character(dat[,3]))
     # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     # Tabla.splines(data = dat,tipo = "TIF",fe=input$n5,num = input$d_tif_comp,par = input$parametro_tif_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),car,pr=tf_comp())[[5]] 
-    a <- try(tabla_sp_tif_comp()[[5]])
+    #pongo dependencia
+    input$boton17
+    
+    #
+    isolate({
+    
+     a <- try(tabla_sp_tif_comp()[[5]])
     if(class(a)!="try-error"){
       datatable(a, options = list(paging = FALSE))
-      }else{}
+    }else{}
+     
+    }) #final isolate
       
     })
 
@@ -3224,10 +3291,17 @@ shinyServer(function(input, output) {
     # dat[,3] <- as.Date(as.character(dat[,3]))
     # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     # Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())[[5]] 
+    #pongo dependencia
+    input$boton19
+    
+    #
+    isolate({
+    
     a <- try(tabla_sp_veb_comp()[[5]])
     if(class(a)!="try-error"){
       datatable(a, options = list(paging = FALSE))
       }else{}
+    }) #final isolate
     
     })
   
@@ -3312,7 +3386,11 @@ shinyServer(function(input, output) {
       #ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="blue",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
       # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
       #x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
+    #pongo dependencia
+    input$boton17
     
+    #
+    isolate({
     a <- try(tabla_sp_tif_comp())
     
     if(class(a)!="try-error"){
@@ -3321,23 +3399,51 @@ shinyServer(function(input, output) {
     
     #letra <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[3]]
     letra <- a[[3]]
-    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    #letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
     
     # names(letra1)=names(pto_sp_tif())
     # 
     # figure(width = 1000,height = 400) %>%
     #   ly_points(c(letra[,7],pto_sp_tif()[,4]),c(letra[,15],pto_sp_tif()[,7]),rbind.data.frame(letra1,pto_sp_tif()),hover=list("Nombre"=c(as.character(letra[,2]),as.character(pto_sp_tif()[,1])),"Fecha de operación"=c(letra[,3],pto_sp_tif()[,2]))) %>%
     
-    names(letra1)=names(a[[2]])
+    #names(letra1)=names(a[[2]])
+    
+    #condicional letra
+    if(is.null(names(letra))){
+      #print(letra)
+      letra0 <- data.frame("LETRA","2019-01-01","2019-01-01",letra[1],99,0,letra[2],"Corto Plazo","C1")
+      letra0[,2] <- as.Date(letra0[,2])
+      letra0[,3] <- as.Date(letra0[,3])
+      #cand <- a[[2]]
+      
+      #names(letra0)=names(cand)
+      
+      #letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    }else{
+      letra[,6] <- as.Date(letra[,6])
+      letra0 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+      #cand <- a[[2]]
+      
+      #names(letra0)=names(cand)
+      
+      #letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+      
+    }
+    
+    names(letra0)=names(a[[2]])
+    
+    
     
     figure(width = 1000,height = 400) %>%
-      ly_points(c(letra[,7],a[[2]][,4]),c(letra[,15],a[[2]][,7]),rbind.data.frame(letra1,a[[2]]),hover=list("Nombre"=c(as.character(letra[,2]),as.character(a[[2]][,1])),"Fecha de operación"=c(letra[,3],a[[2]][,2]))) %>%
+      #ly_points(c(letra[,7],a[[2]][,4]),c(letra[,15],a[[2]][,7]),rbind.data.frame(letra1,a[[2]]),hover=list("Nombre"=c(as.character(letra[,2]),as.character(a[[2]][,1])),"Fecha de operación"=c(letra[,3],a[[2]][,2]))) %>%
+      ly_points(c(letra0[,4],a[[2]][,4]),c(letra0[,7],a[[2]][,7]),rbind.data.frame(letra0,a[[2]]),hover=list("Nombre"=c(as.character(letra0[,1]),as.character(a[[2]][,1])),"Fecha de operación"=c(letra0[,2],a[[2]][,2]))) %>%
       ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="blue",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
       # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
       x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)") 
     
     }else{}
     
+    }) #final isolate
   })
   
   #veb
@@ -3431,6 +3537,12 @@ shinyServer(function(input, output) {
     # dat[,3] <- as.Date(as.character(dat[,3]))
     # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     # y <-predict(Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())[[4]],seq(0.1,20,0.1)*365)$y
+    #pongo dependencia
+    input$boton19
+    
+    #
+    isolate({
+    
     a <- try(tabla_sp_veb_comp())
     
     if(class(a)!="try-error"){
@@ -3439,22 +3551,51 @@ shinyServer(function(input, output) {
     
     #letra <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),car,pr=tf_sp())[[3]]
     letra <- a[[3]]
-    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    
+    #letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
     
     # names(letra1)=names(pto_sp_tif())
     # 
     # figure(width = 1000,height = 400) %>%
     #   ly_points(c(letra[,7],pto_sp_tif()[,4]),c(letra[,15],pto_sp_tif()[,7]),rbind.data.frame(letra1,pto_sp_tif()),hover=list("Nombre"=c(as.character(letra[,2]),as.character(pto_sp_tif()[,1])),"Fecha de operación"=c(letra[,3],pto_sp_tif()[,2]))) %>%
     
-    names(letra1)=names(a[[2]])
+    #names(letra1)=names(a[[2]])
+    #condicional letra
+    if(is.null(names(letra))){
+      #print(letra)
+      letra0 <- data.frame("LETRA","2019-01-01","2019-01-01",letra[1],99,0,letra[2],"Corto Plazo","C1")
+      letra0[,2] <- as.Date(letra0[,2])
+      letra0[,3] <- as.Date(letra0[,3])
+      #cand <- a[[2]]
+      
+      #names(letra0)=names(cand)
+      
+      #letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    }else{
+      letra[,6] <- as.Date(letra[,6])
+      letra0 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+      #cand <- a[[2]]
+      
+      #names(letra0)=names(cand)
+      
+      #letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+      
+    }
+    
+    names(letra0)=names(a[[2]])
+    
+    
     
     figure(width = 1000,height = 400) %>%
-      ly_points(c(letra[,7],a[[2]][,4]),c(letra[,15],a[[2]][,7]),rbind.data.frame(letra1,a[[2]]),hover=list("Nombre"=c(as.character(letra[,2]),as.character(a[[2]][,1])),"Fecha de operación"=c(letra[,3],a[[2]][,2]))) %>%
+      #ly_points(c(letra[,7],a[[2]][,4]),c(letra[,15],a[[2]][,7]),rbind.data.frame(letra1,a[[2]]),hover=list("Nombre"=c(as.character(letra[,2]),as.character(a[[2]][,1])),"Fecha de operación"=c(letra[,3],a[[2]][,2]))) %>%
+      ly_points(c(letra0[,4],a[[2]][,4]),c(letra0[,7],a[[2]][,7]),rbind.data.frame(letra0,a[[2]]),hover=list("Nombre"=c(as.character(letra0[,1]),as.character(a[[2]][,1])),"Fecha de operación"=c(letra0[,2],a[[2]][,2]))) %>%
       ly_points(x=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],y=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2],color="blue",hover=list("Plazo"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,1],"Rendimiento"=cbind.data.frame(x=seq(0.1,20,0.1)*365,y)[,2]),size=4) %>%
       # theme_title(text_color="green",text_align="center",text_font_style="italic")%>%
       x_axis("Plazo (días)") %>% y_axis("Rendimiento (%)")  
     
     }else{}
+    
+    }) #final isolate
   })
   
   #titulos candidatos
@@ -3553,25 +3694,57 @@ shinyServer(function(input, output) {
     # dat[,3] <- as.Date(as.character(dat[,3]))
     # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     # Tabla.splines(data = dat,tipo = "TIF",fe=input$n5,num = input$d_tif_comp,par = input$parametro_tif_comp,tit=c(input$t1_comp,input$t2_comp,input$t3_comp,input$t4_comp),car,pr=tf_comp())[[2]] 
+    
+    #pongo dependencia
+    input$boton17
+    
+    #
+    isolate({
     a <- try(tabla_sp_tif_comp())
     
     if(class(a)!="try-error"){
     
     letra <- a[[3]]
-    letra[,6] <- as.Date(letra[,6])
-    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
-    cand <- a[[2]]
+    
+    #letra[,6] <- as.Date(letra[,6])
+    #letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    #cand <- a[[2]]
+    
+    #names(letra1)=names(cand)
+    
+    #a1 <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+    #return(a1)
+    #condicional letra
+    if(is.null(names(letra))){
+      #print(letra)
+      letra1 <- data.frame("LETRA","2019-01-01","2019-01-01",letra[1],99,0,letra[2],"Corto Plazo","C1")
+      letra1[,2] <- as.Date(letra1[,2])
+      letra1[,3] <- as.Date(letra1[,3])
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a1 <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+      return(a1)
+    }else{
+      letra[,6] <- as.Date(letra[,6])
+      letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a1 <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+      return(a1)
+      
+    }
     
     
-    names(letra1)=names(cand)
-    
-    a1 <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
-    return(a1)
     }else{
       Aviso <- "Poca cantidad de observaciones, favor seleccionar mas días"
       return(as.data.frame(Aviso))
     }
   
+    }) #final isolate
     })
   
   
@@ -3642,26 +3815,55 @@ shinyServer(function(input, output) {
     # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     # Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=c(input$v1_comp,input$v2_comp,input$v3_comp,input$v4_comp),car,pr=tv_comp())[[2]] 
     #tabla_sp_veb_comp()[[2]]
+    #pongo dependencia
+    input$boton19
+    
+    #
+    isolate({
     
     a <- try(tabla_sp_veb_comp())
     
     if(class(a)!="try-error"){
     letra <- a[[3]]
-    letra[,6] <- as.Date(letra[,6])
-    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
-    cand <- a[[2]]
     
+    #letra[,6] <- as.Date(letra[,6])
+    #letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    #cand <- a[[2]]
     
-    names(letra1)=names(cand)
+    #names(letra1)=names(cand)
     
-    a1 <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
-    return(a1)
+    #a1 <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+    #return(a1)
+    #condicional letra
+    if(is.null(names(letra))){
+      #print(letra)
+      letra1 <- data.frame("LETRA","2019-01-01","2019-01-01",letra[1],99,0,letra[2],"Corto Plazo","C1")
+      letra1[,2] <- as.Date(letra1[,2])
+      letra1[,3] <- as.Date(letra1[,3])
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a1 <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+      return(a1)
+    }else{
+      letra[,6] <- as.Date(letra[,6])
+      letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a1 <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+      return(a1)
+      
+    }
+    
     
     }else{
       Aviso <- "Poca cantidad de observaciones, favor seleccionar mas días"
       return(as.data.frame(Aviso))
     }
-    
+    }) #final isolate
     })
   
   
@@ -4392,11 +4594,37 @@ shinyServer(function(input, output) {
     
     if(class(a)!="try-error"){
     letra <- a[[3]]
-    cand <- a[[2]]
     
-    a1 <- c(as.character(letra[,2]),as.character(cand[,1]))
-    return(as.character(a1))
-    #return(as.character(a[,1]))
+    #cand <- a[[2]]
+    
+    #a1 <- c(as.character(letra[,2]),as.character(cand[,1]))
+    #return(as.character(a1))
+    #condicional letra
+    if(is.null(names(letra))){
+      #print(letra)
+      letra1 <- data.frame("LETRA","2019-01-01","2019-01-01",letra[1],99,0,letra[2],"Corto Plazo","C1")
+      letra1[,2] <- as.Date(letra1[,2])
+      letra1[,3] <- as.Date(letra1[,3])
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a1 <- c(as.character(letra1[,1]),as.character(cand[,1]))
+      return(as.character(a1))
+    }else{
+      letra[,6] <- as.Date(letra[,6])
+      letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a1 <- c(as.character(letra1[,1]),as.character(cand[,1]))
+      return(as.character(a1))
+      
+    }
+    
+    
+    
     }else{}
     
   })
@@ -4453,11 +4681,37 @@ shinyServer(function(input, output) {
     
     if(class(a)!="try-error"){
     letra <- a[[3]]
-    cand <- a[[2]]
     
-    a1 <- c(as.character(letra[,2]),as.character(cand[,1]))
-    return(as.character(a1))
-    #return(as.character(a[,1]))
+    #cand <- a[[2]]
+    
+    #a1 <- c(as.character(letra[,2]),as.character(cand[,1]))
+    #return(as.character(a1))
+    #condicional letra
+    if(is.null(names(letra))){
+      #print(letra)
+      letra1 <- data.frame("LETRA","2019-01-01","2019-01-01",letra[1],99,0,letra[2],"Corto Plazo","C1")
+      letra1[,2] <- as.Date(letra1[,2])
+      letra1[,3] <- as.Date(letra1[,3])
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a1 <- c(as.character(letra1[,1]),as.character(cand[,1]))
+      return(as.character(a1))
+    }else{
+      letra[,6] <- as.Date(letra[,6])
+      letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a1 <- c(as.character(letra1[,1]),as.character(cand[,1]))
+      return(as.character(a1))
+      
+    }
+    
+    
+    
     }else{}
     
   })
@@ -4586,18 +4840,47 @@ shinyServer(function(input, output) {
   #TIF - COMP
   
   output$tit_cand_tif_new_comp <- renderDataTable({
+    #pongo dependencia
+    input$boton18
+    
+    #
+    isolate({
     a <- try(tabla_sp_tif_comp())
     
     if(class(a)!="try-error"){
     letra <- a[[3]]
-    letra[,6] <- as.Date(letra[,6])
-    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
-    cand <- a[[2]]
+    
+    #letra[,6] <- as.Date(letra[,6])
+    #letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    #cand <- a[[2]]
     
     
-    names(letra1)=names(cand)
+    #names(letra1)=names(cand)
     
-    a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+    #a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+    
+    #condicional letra
+    if(is.null(names(letra))){
+      #print(letra)
+      letra1 <- data.frame("LETRA","2019-01-01","2019-01-01",letra[1],99,0,letra[2],"Corto Plazo","C1")
+      letra1[,2] <- as.Date(letra1[,2])
+      letra1[,3] <- as.Date(letra1[,3])
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+    }else{
+      letra[,6] <- as.Date(letra[,6])
+      letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+
+    }
+    
     
     if(length(input$obs_tif_comp)==0){
       Aviso <- "No se ha seleccionado nada"
@@ -4615,6 +4898,7 @@ shinyServer(function(input, output) {
     }
     
     }else{}
+    }) #final isolate
     
   })
   
@@ -4688,18 +4972,47 @@ shinyServer(function(input, output) {
   
   #VEBONOS-COMP
   output$tit_cand_veb_new_comp <- renderDataTable({
+    #pongo dependencia
+    input$boton20
+    
+    #
+    isolate({
     a <- try(tabla_sp_veb_comp())
     
     if(class(a)!="try-error"){
     letra <- a[[3]]
-    letra[,6] <- as.Date(letra[,6])
-    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
-    cand <- a[[2]]
     
+    #letra[,6] <- as.Date(letra[,6])
+    #letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    #cand <- a[[2]]
     
-    names(letra1)=names(cand)
+    #names(letra1)=names(cand)
     
-    a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+    #a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+    #condicional letra
+    if(is.null(names(letra))){
+      #print(letra)
+      letra1 <- data.frame("LETRA","2019-01-01","2019-01-01",letra[1],99,0,letra[2],"Corto Plazo","C1")
+      letra1[,2] <- as.Date(letra1[,2])
+      letra1[,3] <- as.Date(letra1[,3])
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+      
+    }else{
+      letra[,6] <- as.Date(letra[,6])
+      letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+      
+      
+    }
+    
     
     if(length(input$obs_veb_comp)==0){
       Aviso <- "No se ha seleccionado nada"
@@ -4717,6 +5030,7 @@ shinyServer(function(input, output) {
     }
     
     }else{}
+    }) #final isolate
     
   })
   
@@ -4805,6 +5119,12 @@ shinyServer(function(input, output) {
   
   #TIF-COMP
   output$precios_tif_nuevos_comp <- renderDataTable({
+    #pongo dependencia
+    input$boton18
+    
+    #
+    isolate({
+    
     #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
     # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     # dat[,3] <- as.Date(as.character(dat[,3]))
@@ -4818,14 +5138,40 @@ shinyServer(function(input, output) {
     
     if(class(a)!="try-error"){
     letra <- a[[3]]
-    letra[,6] <- as.Date(letra[,6])
-    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
-    cand <- a[[2]]
+    
+    #letra[,6] <- as.Date(letra[,6])
+    #letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    #cand <- a[[2]]
     
     
-    names(letra1)=names(cand)
+    #names(letra1)=names(cand)
     
-    a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+    #a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+    #condicional letra
+    if(is.null(names(letra))){
+      #print(letra)
+      letra1 <- data.frame("LETRA","2019-01-01","2019-01-01",letra[1],99,0,letra[2],"Corto Plazo","C1")
+      letra1[,2] <- as.Date(letra1[,2])
+      letra1[,3] <- as.Date(letra1[,3])
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+     
+    }else{
+      letra[,6] <- as.Date(letra[,6])
+      letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+      
+      
+    }
+    
+    
     
     if(length(input$obs_tif_comp)==0){
       Aviso <- "No se ha eliminado nada, ver tabla anterior"
@@ -4853,6 +5199,7 @@ shinyServer(function(input, output) {
     
     }else{}
     
+    }) #final isolate
   })
   
   
@@ -4933,6 +5280,12 @@ shinyServer(function(input, output) {
   
   #VEBONO-COMP
   output$precios_veb_nuevos_comp <- renderDataTable({
+    #pongo dependencia
+    input$boton20
+    
+    #
+    isolate({
+    
     #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp,input$t4_sp),C_splines,pr=tf_sp())[[2]]
     # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     # dat[,3] <- as.Date(as.character(dat[,3]))
@@ -4946,14 +5299,37 @@ shinyServer(function(input, output) {
     
     if(class(a)!="try-error"){
     letra <- a[[3]]
-    letra[,6] <- as.Date(letra[,6])
-    letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
-    cand <- a[[2]]
     
+    #letra[,6] <- as.Date(letra[,6])
+    #letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+    #cand <- a[[2]]
+  
+    #names(letra1)=names(cand)
     
-    names(letra1)=names(cand)
-    
-    a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+    #a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+    #condicional letra
+    if(is.null(names(letra))){
+      #print(letra)
+      letra1 <- data.frame("LETRA","2019-01-01","2019-01-01",letra[1],99,0,letra[2],"Corto Plazo","C1")
+      letra1[,2] <- as.Date(letra1[,2])
+      letra1[,3] <- as.Date(letra1[,3])
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+      
+    }else{
+      letra[,6] <- as.Date(letra[,6])
+      letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+      cand <- a[[2]]
+      
+      names(letra1)=names(cand)
+      
+      a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+      
+      
+    }
     
     if(length(input$obs_veb_comp)==0){
       Aviso <- "No se ha eliminado nada, ver tabla anterior"
@@ -4980,6 +5356,7 @@ shinyServer(function(input, output) {
     }
     
     }else{}
+    }) #final isolate
     
   })
   
@@ -5074,6 +5451,11 @@ shinyServer(function(input, output) {
   
   #TIF-COMP
   output$c_tif_splines_new_comp <- renderRbokeh({
+    #pongo dependencia
+    input$boton18
+    
+    #
+    isolate({
     withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
       incProgress(1/2, detail = "Calculando alturas")
       # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
@@ -5086,15 +5468,39 @@ shinyServer(function(input, output) {
       
       if(class(a)!="try-error"){
       letra <- a[[3]]
-      letra[,6] <- as.Date(letra[,6])
-      letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
-      cand <- a[[2]]
+      
+      #letra[,6] <- as.Date(letra[,6])
+      #letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+      #cand <- a[[2]]
       
       
-      names(letra1)=names(cand)
+      #names(letra1)=names(cand)
       
-      a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+      #a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
       
+      #condicional letra
+      if(is.null(names(letra))){
+        #print(letra)
+        letra1 <- data.frame("LETRA","2019-01-01","2019-01-01",letra[1],99,0,letra[2],"Corto Plazo","C1")
+        letra1[,2] <- as.Date(letra1[,2])
+        letra1[,3] <- as.Date(letra1[,3])
+        cand <- a[[2]]
+        
+        names(letra1)=names(cand)
+        
+        a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+      
+      }else{
+        letra[,6] <- as.Date(letra[,6])
+        letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+        cand <- a[[2]]
+        
+        names(letra1)=names(cand)
+        
+        a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+       
+        
+      }
       
       if(length(input$obs_tif_comp)==0){
         figure(width = 1000,height = 400) 
@@ -5126,7 +5532,7 @@ shinyServer(function(input, output) {
       }else{}
     })
     
-  
+    }) #final isolate
   })
   
   #VEBONOS
@@ -5205,6 +5611,12 @@ shinyServer(function(input, output) {
   #VEBONO_COMP
   
   output$c_veb_splines_new_comp <- renderRbokeh({
+    #pongo dependencia
+    input$boton20
+    
+    #
+    isolate({
+    
     withProgress(message = 'Graficando curva de rendimiento...', value = 0, {
       incProgress(1/2, detail = "Calculando alturas")
       # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
@@ -5217,14 +5629,37 @@ shinyServer(function(input, output) {
       
       if(class(a)!="try-error"){
       letra <- a[[3]]
-      letra[,6] <- as.Date(letra[,6])
-      letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
-      cand <- a[[2]]
       
+      #letra[,6] <- as.Date(letra[,6])
+      #letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+      #cand <- a[[2]]
       
-      names(letra1)=names(cand)
+      #names(letra1)=names(cand)
       
-      a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+      #a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+      #condicional letra
+      if(is.null(names(letra))){
+        #print(letra)
+        letra1 <- data.frame("LETRA","2019-01-01","2019-01-01",letra[1],99,0,letra[2],"Corto Plazo","C1")
+        letra1[,2] <- as.Date(letra1[,2])
+        letra1[,3] <- as.Date(letra1[,3])
+        cand <- a[[2]]
+        
+        names(letra1)=names(cand)
+        
+        a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+        
+      }else{
+        letra[,6] <- as.Date(letra[,6])
+        letra1 <- data.frame(letra[,c(2,3,6,7,12,13,15)],"Corto Plazo","C1")
+        cand <- a[[2]]
+        
+        names(letra1)=names(cand)
+        
+        a <- rbind.data.frame(letra1,cand,make.row.names = FALSE)
+        
+        
+      }
       
       
       if(length(input$obs_veb_comp)==0){
@@ -5256,7 +5691,7 @@ shinyServer(function(input, output) {
    
       }else{}
        })
-    
+    }) #final isolate
     
   })
   
