@@ -8170,8 +8170,15 @@ shinyServer(function(input, output) {
   
   #CALCULO VARES INDIVIDUALES MC
   output$tabla_varmc_n <-renderDataTable({
+    #añado dependencia
+    input$boton21
+    
+    #
+    isolate({
     datatable(varmc_ind_n(), options = list(paging = FALSE))
-  })
+    })
+      
+      })
   
   #CREO FUNCION REACTIVA QUE ME CALCULA EL VAR DE PORTAFOLIO MONTE CARLO
   varmc_por_n <- reactive({
@@ -8736,7 +8743,15 @@ shinyServer(function(input, output) {
   
   
   output$tabla_varmc_el <- renderDataTable({
+    #añado dependencia
+    input$boton22
+    
+    #
+    isolate({
+  
     datatable(varmc_ind_el(), options = list(paging = FALSE))
+      
+    })#fin isolate
   })
   
   #VAR PORTAFOLIO ELEGIR DISTRIBUCION VAR MC
@@ -9290,7 +9305,13 @@ shinyServer(function(input, output) {
   #CALCULO VAR PORTAFOLIO MC USANDO MATRIZ DE CORRELACIONES
   #SECCION ELEGIR DISTRIBUCION
   output$varmc_portafolio_el1<-renderPrint({
+    #añado dependencia
+    input$boton22
+    
+    #
+    isolate({
     varmc_por_el1()[[1]]
+    })#fin isolate
   })
   
   ###############
@@ -9474,7 +9495,14 @@ shinyServer(function(input, output) {
   #CALCULO VAR PORTAFOLIO MC USANDO MATRIZ DE CORRELACIONES
   #SECCION DISTRIBUCION NORMAL
   output$varmc_portafolio_n1<-renderPrint({
+    #añado dependencia
+    input$boton21
+    
+    #
+    isolate({
     varmc_por_n1()[[1]]
+    })#fin isolate
+      
   })
   
   #GRAFICOS SECCION VAR MONTECARLO ELEGIR DISTRIBUCION
@@ -10183,12 +10211,20 @@ shinyServer(function(input, output) {
   
   #GENERO OUTPUT
   output$historico_par <- renderDataTable({
+    #añado dependencia
+    input$boton23
+    
+    #
+    isolate({
+    
     a <- try(var_parametrico())
     
     if(class(a)!="try-error"){
       write.table(a,paste(getwd(),"data","Historico_var_par.txt",sep = "/"),row.names = FALSE)
       a
     }else{}
+    
+    })#fin isolate
   })
   
   #EXPORTO DATA
@@ -10327,12 +10363,20 @@ shinyServer(function(input, output) {
   
   #GENERO OUTPUT
   output$historico_hist <- renderDataTable({
+    #añado dependencia
+    input$boton24
+    
+    #
+    isolate({
+    
     a <- try(var_historico())
     
     if(class(a)!="try-error"){
     write.table(a,paste(getwd(),"data","Historico_var_sh.txt",sep = "/"),row.names = FALSE)
     a
     }else{}
+    
+    })#fin isolate
   })
   
   #DESCARGAR DATA
@@ -10517,12 +10561,19 @@ shinyServer(function(input, output) {
   
   #GENERO OUTPUT
   output$historico_smc1 <- renderDataTable({
+    #añado dependencia
+    input$boton25
+    
+    #
+    isolate({
+      
     a <- try(var_smc1())
     
     if(class(a)!="try-error"){
     write.table(a,paste(getwd(),"data","Historico_var_smcn.txt",sep = "/"),row.names = FALSE)
     a
     }else{}
+    })#fin isolate
   })
   
   #DESCARGO DATA
@@ -10873,12 +10924,18 @@ shinyServer(function(input, output) {
   
   #GENERO OUTPUT
   output$historico_smc2 <- renderDataTable({
+    #añado dependencia
+    input$boton26
+    
+    #
+    isolate({
     a <- try(var_smc2())
     
     if(class(a)!="try-error"){
     write.table(a,paste(getwd(),"data","Historico_var_smcmd.txt",sep = "/"),row.names = FALSE)
     a
     }else{}
+    })#fin isolate
   })
   
   #DESCARGO DATA

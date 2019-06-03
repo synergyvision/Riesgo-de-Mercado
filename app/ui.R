@@ -241,7 +241,7 @@ shinyUI(
                                                         box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_ns"),
                                                                                                     style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                                         h2(" Curva de rendimientos inicial TIF"),
-                                                        plotOutput("c_tif_ns")
+                                                        plotlyOutput("c_tif_ns")
                                                                  
                                                         ),# final tabpanel pa iniciales 
                                                         
@@ -254,13 +254,13 @@ shinyUI(
                                                                  box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                                                      collapse= TRUE,"Al ingresar los parámetros considere las siguientes restricciones, ",br(),withMathJax(helpText("$$1) \\quad \\beta_{0} > 0$$")),
                                                                      withMathJax(helpText("$$2) \\quad \\beta_{0}+\\beta_{1} > 0$$")),withMathJax(helpText("$$3) \\quad \\tau > 0$$"))),#final box
-                                                                 column(width = 3,numericInput( inputId = "ns_b0_tif", label="B0: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%")
+                                                                 column(width = 3,numericInput( inputId = "ns_b0_tif", label="B0: ", min = 0, max = 50,step = 0.1, value = "0.52" , width = "40%")
                                                                         , verbatimTextOutput("num_ns_b0_tif")),#final column,
-                                                                 column(width = 3,numericInput( inputId = "ns_b1_tif", label="B1: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                 column(width = 3,numericInput( inputId = "ns_b1_tif", label="B1: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                         verbatimTextOutput("num_ns_b1_tif")),#final column
-                                                                 column(width = 3,numericInput( inputId = "ns_b2_tif", label="B2: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                 column(width = 3,numericInput( inputId = "ns_b2_tif", label="B2: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                         verbatimTextOutput("num_ns_b2_tif")),#final column
-                                                                 column(width = 3,numericInput( inputId = "ns_t_tif", label="T: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                 column(width = 3,numericInput( inputId = "ns_t_tif", label="T: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                         verbatimTextOutput("num_ns_t_tif")),#final column
                                                                  #boton q controla la reactividad
                                                                  actionButton("boton1", "Calcular", icon = icon("chart-area"),
@@ -274,7 +274,7 @@ shinyUI(
                                                                  box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_ns_el"),
                                                                                                        style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                                                  h4(" Curva de Rendimiento"),
-                                                                 plotOutput("c_tif_ns1_new")
+                                                                 plotlyOutput("c_tif_ns1_new")
                                                                  ),# final tabpanel pa elegir
                                                          
                                                         tabPanel(" Parámetros Optimizados",
@@ -291,7 +291,7 @@ shinyUI(
                                                                 h2(" Parámetros optimizados"),
                                                                  verbatimTextOutput("par_tif_ns_op"),
                                                                  h2(" Curva de rendimientos TIF"),
-                                                                 plotOutput("c_tif_ns_op")
+                                                                plotlyOutput("c_tif_ns_op")
                                                                   )#final tabpanel
                                                                
                                                                  )#final tabbox
@@ -387,7 +387,7 @@ shinyUI(
                                                                                               style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                                         
                                                         h2(" Curva de rendimientos inicial"),
-                                                        plotOutput("c_veb_ns")
+                                                        plotlyOutput("c_veb_ns")
                                                             ),#final tabpanel iniciales
                                                         tabPanel(" Elegir Parámetros ",
                                                                  # h2(" Parámetros iniciales"),verbatimTextOutput("pa_veb_ns_el") ,
@@ -398,13 +398,13 @@ shinyUI(
                                                                  box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                                                      collapse= TRUE,"Al ingresar los parámetros considere las siguientes restricciones, ",br(),withMathJax(helpText("$$1) \\quad \\beta_{0} > 0$$")),
                                                                      withMathJax(helpText("$$2) \\quad \\beta_{0}+\\beta_{1} > 0$$")),withMathJax(helpText("$$3) \\quad \\tau > 0$$"))),#final box
-                                                                 column(width = 3,numericInput( inputId = "ns_b0_veb", label="B0: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%")
+                                                                 column(width = 3,numericInput( inputId = "ns_b0_veb", label="B0: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%")
                                                                         , verbatimTextOutput("num_ns_b0_veb")),#final column,
-                                                                 column(width = 3,numericInput( inputId = "ns_b1_veb", label="B1: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                 column(width = 3,numericInput( inputId = "ns_b1_veb", label="B1: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                         verbatimTextOutput("num_ns_b1_veb")),#final column
-                                                                 column(width = 3,numericInput( inputId = "ns_b2_veb", label="B2: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                 column(width = 3,numericInput( inputId = "ns_b2_veb", label="B2: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                         verbatimTextOutput("num_ns_b2_veb")),#final column
-                                                                 column(width = 3,numericInput( inputId = "ns_t_veb", label="T: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                 column(width = 3,numericInput( inputId = "ns_t_veb", label="T: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                         verbatimTextOutput("num_ns_t_veb")),#final column
                                                                  #boton q controla la reactividad
                                                                  actionButton("boton2", "Calcular", icon = icon("chart-area"),
@@ -421,7 +421,7 @@ shinyUI(
                                                                                                        style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                                                  
                                                                  h4(" Curva de Rendimiento"),
-                                                                 plotOutput("c_veb_ns1_new")
+                                                                 plotlyOutput("c_veb_ns1_new")
                                                         ),#final tabpanel elegir
                                                         tabPanel(" Parámetros Optimizados ",
                                                         h2(" Precios estimados optimizados"),
@@ -435,7 +435,7 @@ shinyUI(
                                                         h2(" Parámetros optimizados"),
                                                         verbatimTextOutput("par_veb_ns_op"),
                                                         h2(" Curva de rendimientos"),
-                                                        plotOutput("c_veb_ns_op")
+                                                        plotlyOutput("c_veb_ns_op")
                                                         )#final tabpanel
                                                         )#final tabbox
                                                         
@@ -543,7 +543,7 @@ shinyUI(
                                                                                                  style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                                            
                                                                    h2(" Curva de rendimientos inicial"),
-                                                                   plotOutput("c_tif_sven")
+                                                           plotlyOutput("c_tif_sven")
                                                           ),#final tabpanel p iniciales
                                                           tabPanel(" Elegir Parámetros ",
                                                                    # verbatimTextOutput("pa_tif"),#withMathJax(uiOutput("formula")),
@@ -555,17 +555,17 @@ shinyUI(
                                                                        collapse= TRUE,"Al ingresar los parámetros considere las siguientes restricciones, ",br(),withMathJax(helpText("$$1) \\quad \\beta_{0} > 0$$")),
                                                                        withMathJax(helpText("$$2) \\quad \\beta_{0}+\\beta_{1} > 0$$")),withMathJax(helpText("$$3) \\quad \\tau_{1} > 0$$")),
                                                                        withMathJax(helpText("$$3) \\quad \\tau_{2} > 0$$"))),#final box
-                                                                   column(width = 2,numericInput( inputId = "sven_b0_tif", label="B0: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%")
+                                                                   column(width = 2,numericInput( inputId = "sven_b0_tif", label="B0: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%")
                                                                           , verbatimTextOutput("num_sven_b0_tif")),#final column,
-                                                                   column(width = 2,numericInput( inputId = "sven_b1_tif", label="B1: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                   column(width = 2,numericInput( inputId = "sven_b1_tif", label="B1: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                           verbatimTextOutput("num_sven_b1_tif")),#final column
-                                                                   column(width = 2,numericInput( inputId = "sven_b2_tif", label="B2: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                   column(width = 2,numericInput( inputId = "sven_b2_tif", label="B2: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                           verbatimTextOutput("num_sven_b2_tif")),#final column
-                                                                   column(width = 2,numericInput( inputId = "sven_b3_tif", label="B3: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                   column(width = 2,numericInput( inputId = "sven_b3_tif", label="B3: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                           verbatimTextOutput("num_sven_b3_tif")),#final column
-                                                                   column(width = 2,numericInput( inputId = "sven_t1_tif", label="T1: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                   column(width = 2,numericInput( inputId = "sven_t1_tif", label="T1: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                           verbatimTextOutput("num_sven_t1_tif")),#final column
-                                                                   column(width = 2,numericInput( inputId = "sven_t2_tif", label="T2: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                   column(width = 2,numericInput( inputId = "sven_t2_tif", label="T2: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                           verbatimTextOutput("num_sven_t2_tif")),#final column
                                                                    #boton q controla la reactividad
                                                                    actionButton("boton3", "Calcular", icon = icon("chart-area"),
@@ -687,7 +687,7 @@ shinyUI(
                                                             
                                                             
                                                                    h2(" Curva de rendimientos inicial"),
-                                                                   plotOutput("c_veb_sven")
+                                                            plotlyOutput("c_veb_sven")
                                                           ),#final tabpanel p iniciales
                                                           tabPanel(" Elegir Parámetros ",
                                                                    # verbatimTextOutput("pa_tif"),#withMathJax(uiOutput("formula")),
@@ -699,17 +699,17 @@ shinyUI(
                                                                        collapse= TRUE,"Al ingresar los parámetros considere las siguientes restricciones, ",br(),withMathJax(helpText("$$1) \\quad \\beta_{0} > 0$$")),
                                                                        withMathJax(helpText("$$2) \\quad \\beta_{0}+\\beta_{1} > 0$$")),withMathJax(helpText("$$3) \\quad \\tau_{1} > 0$$")),
                                                                        withMathJax(helpText("$$3) \\quad \\tau_{2} > 0$$"))),#final box
-                                                                   column(width = 2,numericInput( inputId = "sven_b0_veb", label="B0: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%")
+                                                                   column(width = 2,numericInput( inputId = "sven_b0_veb", label="B0: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%")
                                                                           , verbatimTextOutput("num_sven_b0_veb")),#final column,
-                                                                   column(width = 2,numericInput( inputId = "sven_b1_veb", label="B1: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                   column(width = 2,numericInput( inputId = "sven_b1_veb", label="B1: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                           verbatimTextOutput("num_sven_b1_veb")),#final column
-                                                                   column(width = 2,numericInput( inputId = "sven_b2_veb", label="B2: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                   column(width = 2,numericInput( inputId = "sven_b2_veb", label="B2: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                           verbatimTextOutput("num_sven_b2_veb")),#final column
-                                                                   column(width = 2,numericInput( inputId = "sven_b3_veb", label="B3: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                   column(width = 2,numericInput( inputId = "sven_b3_veb", label="B3: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                           verbatimTextOutput("num_sven_b3_veb")),#final column
-                                                                   column(width = 2,numericInput( inputId = "sven_t1_veb", label="T1: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                   column(width = 2,numericInput( inputId = "sven_t1_veb", label="T1: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                           verbatimTextOutput("num_sven_t1_veb")),#final column
-                                                                   column(width = 2,numericInput( inputId = "sven_t2_veb", label="T2: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                   column(width = 2,numericInput( inputId = "sven_t2_veb", label="T2: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                           verbatimTextOutput("num_sven_t2_veb")),#final column
                                                                    #boton q controla la reactividad
                                                                    actionButton("boton4", "Calcular", icon = icon("chart-area"),
@@ -1326,13 +1326,13 @@ shinyUI(
                                                                          box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                                                              collapse= TRUE,"Al ingresar los parámetros considere las siguientes restricciones, ",br(),withMathJax(helpText("$$1) \\quad \\beta_{0} > 0$$")),
                                                                              withMathJax(helpText("$$2) \\quad \\beta_{0}+\\beta_{1} > 0$$")),withMathJax(helpText("$$3) \\quad \\tau > 0$$"))),#final box
-                                                                         column(width = 3,numericInput( inputId = "ns_b0_tif_comp", label="B0: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%")
+                                                                         column(width = 3,numericInput( inputId = "ns_b0_tif_comp", label="B0: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%")
                                                                                 , verbatimTextOutput("num_ns_b0_tif_comp")),#final column,
-                                                                         column(width = 3,numericInput( inputId = "ns_b1_tif_comp", label="B1: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                         column(width = 3,numericInput( inputId = "ns_b1_tif_comp", label="B1: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                                 verbatimTextOutput("num_ns_b1_tif_comp")),#final column
-                                                                         column(width = 3,numericInput( inputId = "ns_b2_tif_comp", label="B2: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                         column(width = 3,numericInput( inputId = "ns_b2_tif_comp", label="B2: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                                 verbatimTextOutput("num_ns_b2_tif_comp")),#final column
-                                                                         column(width = 3,numericInput( inputId = "ns_t_tif_comp", label="T: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                         column(width = 3,numericInput( inputId = "ns_t_tif_comp", label="T: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                                 verbatimTextOutput("num_ns_t_tif_comp")),#final column
                                                                          #boton q controla la reactividad
                                                                          actionButton("boton5", "Calcular", icon = icon("chart-area"),
@@ -1391,17 +1391,17 @@ shinyUI(
                                                                              collapse= TRUE,"Al ingresar los parámetros considere las siguientes restricciones, ",br(),withMathJax(helpText("$$1) \\quad \\beta_{0} > 0$$")),
                                                                              withMathJax(helpText("$$2) \\quad \\beta_{0}+\\beta_{1} > 0$$")),withMathJax(helpText("$$3) \\quad \\tau_{1} > 0$$")),
                                                                              withMathJax(helpText("$$3) \\quad \\tau_{2} > 0$$"))),#final box
-                                                                         column(width = 2,numericInput( inputId = "sven_b0_tif_comp", label="B0: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%")
+                                                                         column(width = 2,numericInput( inputId = "sven_b0_tif_comp", label="B0: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%")
                                                                                 , verbatimTextOutput("num_sven_b0_tif_comp")),#final column,
-                                                                         column(width = 2,numericInput( inputId = "sven_b1_tif_comp", label="B1: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                         column(width = 2,numericInput( inputId = "sven_b1_tif_comp", label="B1: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                                 verbatimTextOutput("num_sven_b1_tif_comp")),#final column
-                                                                         column(width = 2,numericInput( inputId = "sven_b2_tif_comp", label="B2: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                         column(width = 2,numericInput( inputId = "sven_b2_tif_comp", label="B2: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                                 verbatimTextOutput("num_sven_b2_tif_comp")),#final column
-                                                                         column(width = 2,numericInput( inputId = "sven_b3_tif_comp", label="B3: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                         column(width = 2,numericInput( inputId = "sven_b3_tif_comp", label="B3: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                                 verbatimTextOutput("num_sven_b3_tif_comp")),#final column
-                                                                         column(width = 2,numericInput( inputId = "sven_t1_tif_comp", label="T1: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                         column(width = 2,numericInput( inputId = "sven_t1_tif_comp", label="T1: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                                 verbatimTextOutput("num_sven_t1_tif_comp")),#final column
-                                                                         column(width = 2,numericInput( inputId = "sven_t2_tif_comp", label="T2: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                                         column(width = 2,numericInput( inputId = "sven_t2_tif_comp", label="T2: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                                 verbatimTextOutput("num_sven_t2_tif_comp")),#final column
                                                                          #boton q controla la reactividad
                                                                          actionButton("boton6", "Calcular", icon = icon("chart-area"),
@@ -1602,13 +1602,13 @@ shinyUI(
                                                          box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                                              collapse= TRUE,"Al ingresar los parámetros considere las siguientes restricciones, ",br(),withMathJax(helpText("$$1) \\quad \\beta_{0} > 0$$")),
                                                              withMathJax(helpText("$$2) \\quad \\beta_{0}+\\beta_{1} > 0$$")),withMathJax(helpText("$$3) \\quad \\tau > 0$$"))),#final box
-                                                         column(width = 3,numericInput( inputId = "ns_b0_veb_comp", label="B0: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%")
+                                                         column(width = 3,numericInput( inputId = "ns_b0_veb_comp", label="B0: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%")
                                                                 , verbatimTextOutput("num_ns_b0_veb_comp")),#final column,
-                                                         column(width = 3,numericInput( inputId = "ns_b1_veb_comp", label="B1: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                         column(width = 3,numericInput( inputId = "ns_b1_veb_comp", label="B1: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                 verbatimTextOutput("num_ns_b1_veb_comp")),#final column
-                                                         column(width = 3,numericInput( inputId = "ns_b2_veb_comp", label="B2: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                         column(width = 3,numericInput( inputId = "ns_b2_veb_comp", label="B2: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                 verbatimTextOutput("num_ns_b2_veb_comp")),#final column
-                                                         column(width = 3,numericInput( inputId = "ns_t_veb_comp", label="T: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                         column(width = 3,numericInput( inputId = "ns_t_veb_comp", label="T: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                 verbatimTextOutput("num_ns_t_veb_comp")),#final column
                                                          #boton q controla la reactividad
                                                          actionButton("boton7", "Calcular", icon = icon("chart-area"),
@@ -1667,17 +1667,17 @@ shinyUI(
                                                              collapse= TRUE,"Al ingresar los parámetros considere las siguientes restricciones, ",br(),withMathJax(helpText("$$1) \\quad \\beta_{0} > 0$$")),
                                                              withMathJax(helpText("$$2) \\quad \\beta_{0}+\\beta_{1} > 0$$")),withMathJax(helpText("$$3) \\quad \\tau_{1} > 0$$")),
                                                              withMathJax(helpText("$$3) \\quad \\tau_{2} > 0$$"))),#final box
-                                                         column(width = 2,numericInput( inputId = "sven_b0_veb_comp", label="B0: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%")
+                                                         column(width = 2,numericInput( inputId = "sven_b0_veb_comp", label="B0: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%")
                                                                 , verbatimTextOutput("num_sven_b0_veb_comp")),#final column,
-                                                         column(width = 2,numericInput( inputId = "sven_b1_veb_comp", label="B1: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                         column(width = 2,numericInput( inputId = "sven_b1_veb_comp", label="B1: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                 verbatimTextOutput("num_sven_b1_veb_comp")),#final column
-                                                         column(width = 2,numericInput( inputId = "sven_b2_veb_comp", label="B2: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                         column(width = 2,numericInput( inputId = "sven_b2_veb_comp", label="B2: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                 verbatimTextOutput("num_sven_b2_veb_comp")),#final column
-                                                         column(width = 2,numericInput( inputId = "sven_b3_veb_comp", label="B3: ", min = -10, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                         column(width = 2,numericInput( inputId = "sven_b3_veb_comp", label="B3: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                 verbatimTextOutput("num_sven_b3_veb_comp")),#final column
-                                                         column(width = 2,numericInput( inputId = "sven_t1_veb_comp", label="T1: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                         column(width = 2,numericInput( inputId = "sven_t1_veb_comp", label="T1: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                 verbatimTextOutput("num_sven_t1_veb_comp")),#final column
-                                                         column(width = 2,numericInput( inputId = "sven_t2_veb_comp", label="T2: ", min = 0, max = 50,step = 0.1, value = 5, width = "40%"),
+                                                         column(width = 2,numericInput( inputId = "sven_t2_veb_comp", label="T2: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                                 verbatimTextOutput("num_sven_t2_veb_comp")),#final column
                                                          #boton q controla la reactividad
                                                          actionButton("boton8", "Calcular", icon = icon("chart-area"),
@@ -2071,6 +2071,11 @@ shinyUI(
                                                                        box( width = 12, background = "navy",
                                                                        numericInput( inputId = "sim_varmc_n", label="Simulaciones a realizar: ", min = 0, max = 100000,step = 1, value = 100, width = "40%")),
                                                                        box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('simulaciones_varmc_n')),
+                                                                       #boton q controla la reactividad
+                                                                       actionButton("boton21", "Calcular", icon = icon("chart-area"),
+                                                                                    style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                                       
+                                                                       
                                                                        tags$h3(style="padding-left:15px;"," Vares individuales:"),
                                                                       box(height ="595",width = "12",status = "success",column(width = 12,DT::dataTableOutput("tabla_varmc_n"),
                                                                                                                                style="height:500px;overflow-y: scroll;overflow-x: scroll")),
@@ -2101,6 +2106,11 @@ shinyUI(
                                                                            box( width = 12, background = "navy",
                                                                                numericInput( inputId = "sim_varmc_el", label="Simulaciones a realizar: ", min = 0, max = 100000,step = 1, value = 100, width = "40%")),
                                                                            box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('simulaciones_varmc_el')),
+                                                                           #boton q controla la reactividad
+                                                                           actionButton("boton22", "Calcular", icon = icon("chart-area"),
+                                                                                        style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                                           
+                                                                           
                                                                            tags$h3(style="padding-left:15px;"," Vares individuales:"),
                                                                           box(height ="595",width = "12",status = "success",column(width = 12,DT::dataTableOutput("tabla_varmc_el"),
                                                                                                                                    style="height:500px;overflow-y: scroll;overflow-x: scroll")),
@@ -2276,6 +2286,9 @@ shinyUI(
                                                 h4("El histórico se calculara para las fechas comprendidas entre:"),
                                                 
                                                 verbatimTextOutput("dateRangeText_par"),
+                                                #boton q controla la reactividad
+                                                actionButton("boton23", "Calcular", icon = icon("chart-area"),
+                                                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
                                                 
                                                 #verbatimTextOutput("hola"),
                                                 h2("Histórico"),
@@ -2299,6 +2312,11 @@ shinyUI(
                                                 h4("El histórico se calculara para las fechas comprendidas entre:"),
                                                 
                                                 verbatimTextOutput("dateRangeText_hist"),
+                                                #boton q controla la reactividad
+                                                actionButton("boton24", "Calcular", icon = icon("chart-area"),
+                                                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                
+                                                
                                                 
                                                 h2("Histórico"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_hist')),
@@ -2320,7 +2338,11 @@ shinyUI(
                                                 h4("El histórico se calculara para las fechas comprendidas entre:"),
                                                 
                                                 verbatimTextOutput("dateRangeText_smc1"),
-                                               
+                                                #boton q controla la reactividad
+                                                actionButton("boton25", "Calcular", icon = icon("chart-area"),
+                                                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                
+                                                
                                                 h2("Histórico"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_smc1')),
                                                 h2("Descargar"),
@@ -2341,6 +2363,10 @@ shinyUI(
                                                 h4("El histórico se calculara para las fechas comprendidas entre:"),
                                                 
                                                 verbatimTextOutput("dateRangeText_smc2"),    
+                                                #boton q controla la reactividad
+                                                actionButton("boton26", "Calcular", icon = icon("chart-area"),
+                                                             style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                
                                                 
                                                 h2("Histórico"),
                                                 box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_smc2')),

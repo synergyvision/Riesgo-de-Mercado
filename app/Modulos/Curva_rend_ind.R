@@ -511,13 +511,14 @@ output$p_est_tif_ns <- renderDataTable({
 # Muestro curva de rendimiento - parametros iniciales  #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
-output$c_tif_ns <- renderPlot({
-  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=pa_ns)*100),aes(x=x,y=y))+
+output$c_tif_ns <- renderPlotly({
+  a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=nelson_siegel(t=seq(0.9,20,0.1),pa=pa_ns)*100),aes(x=plazo,y=rendimiento))+
     geom_line(color="blue")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Nelson y Siegel Parámetros Iniciales TIF")+
     theme(plot.title = element_text(hjust = 0.5))
   
+  ggplotly(a)
 })
 
 #+++++++++++++++++++++++++++++#
@@ -567,18 +568,19 @@ output$p_est_tif_ns_el <- renderDataTable({
 # Muestro curva de rendimientos con parámetros escogidos #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
-output$c_tif_ns1_new <- renderPlot({
+output$c_tif_ns1_new <- renderPlotly({
   #take dependency
   input$boton1
   
   #
-  isolate(
-  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif))*100),aes(x=x,y=y))+
-    geom_line(color="brown")+xlab("Maduración (años)")+
+  isolate({
+  a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=nelson_siegel(t=seq(0.9,20,0.1),pa=c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif))*100),aes(x=plazo,y=rendimiento))+
+    geom_line(color="blue")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos TIF")+
     theme(plot.title = element_text(hjust = 0.5))
-  )
+  ggplotly(a)
+  })
 })
 
 #+++++++++++++++++++++++++++++#
@@ -620,15 +622,17 @@ gra_tif_ns <- reactive({
 # Muestro curva de rendimientos #
 #+++++++++++++++++++++++++++++++#
 
-output$c_tif_ns_op <- renderPlot({if(input$opt_tif_ns==1){
-  a <- try(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=gra_tif_ns())*100))
+output$c_tif_ns_op <- renderPlotly({if(input$opt_tif_ns==1){
+  a <- try(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=nelson_siegel(t=seq(0.9,20,0.1),pa=gra_tif_ns())*100))
   if(class(a)!="try-error"){
     #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
-    ggplot(a,aes(x=x,y=y))+
-      geom_line(color="green")+xlab("Maduración (años)")+
+    b <- ggplot(a,aes(x=plazo,y=rendimiento))+
+      geom_line(color="blue")+xlab("Maduración (años)")+
       ylab("Rendimiento (%)")+theme_gray()+
       ggtitle("Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")+
       theme(plot.title = element_text(hjust = 0.5))
+    ggplotly(b)
+    
   }else{}
 }else{}})
 
@@ -893,12 +897,13 @@ output$p_est_veb_ns <- renderDataTable({
 # Muestro curva de rendimiento - parametros iniciales  #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
-output$c_veb_ns <- renderPlot({
-  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=pa1_ns)*100),aes(x=x,y=y))+
+output$c_veb_ns <- renderPlotly({
+  a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=nelson_siegel(t=seq(0.9,20,0.1),pa=pa1_ns)*100),aes(x=plazo,y=rendimiento))+
     geom_line(color="blue")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Nelson y Siegel Parámetros Iniciales VEBONOS")+
     theme(plot.title = element_text(hjust = 0.5))
+  ggplotly(a)
   
 })
 
@@ -948,18 +953,19 @@ output$p_est_veb_ns_el <- renderDataTable({
 # Muestro curva de rendimientos con parámetros escogidos #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
-output$c_veb_ns1_new <- renderPlot({
+output$c_veb_ns1_new <- renderPlotly({
   #take dependency
   input$boton2
   
   #
-  isolate(
-  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=c(input$ns_b0_veb,input$ns_b1_veb,input$ns_b2_veb,input$ns_t_veb))*100),aes(x=x,y=y))+
-    geom_line(color="brown")+xlab("Maduración (años)")+
+  isolate({
+  a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=nelson_siegel(t=seq(0.9,20,0.1),pa=c(input$ns_b0_veb,input$ns_b1_veb,input$ns_b2_veb,input$ns_t_veb))*100),aes(x=plazo,y=rendimiento))+
+    geom_line(color="blue")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos VEBONO")+
     theme(plot.title = element_text(hjust = 0.5))
-  )
+  ggplotly(a)
+  })
 })
 
 #+++++++++++++++++++++++++++++#
@@ -999,15 +1005,17 @@ gra_veb_ns <- reactive({
 # Muestro curva de rendimientos #
 #+++++++++++++++++++++++++++++++#
 
-output$c_veb_ns_op <- renderPlot({if(input$opt_veb_ns==1){
+output$c_veb_ns_op <- renderPlotly({if(input$opt_veb_ns==1){
   #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
-  a <- try(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=gra_veb_ns())*100))
+  a <- try(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=nelson_siegel(t=seq(0.9,20,0.1),pa=gra_veb_ns())*100))
   if(class(a)!="try-error"){
-  ggplot(a,aes(x=x,y=y))+
-    geom_line(color="green")+xlab("Maduración (años)")+
+  b <- ggplot(a,aes(x=plazo,y=rendimiento))+
+    geom_line(color="blue")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de redimientos Nelson y Siegel Parametros Optimizados VEBONOS")+
     theme(plot.title = element_text(hjust = 0.5))
+    
+  ggplotly(b)
   }else{}
 }else{}})
 
@@ -1264,13 +1272,13 @@ output$p_est_tif <- renderDataTable({
 # Muestro curva de rendimiento - parametros iniciales  #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
-output$c_tif_sven <- renderPlot({
-  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=pa_sven)*100),aes(x=x,y=y))+
+output$c_tif_sven <- renderPlotly({
+  a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=sven(t=seq(0.9,20,0.1),pa=pa_sven)*100),aes(x=plazo,y=rendimiento))+
     geom_line(color="blue")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Svensson Parámetros Iniciales TIF")+
     theme(plot.title = element_text(hjust = 0.5))
-  
+ ggplotly(a) 
 })
 
 #+++++++++++++++++++++++++++++#
@@ -1640,13 +1648,14 @@ output$p_est_veb <- renderDataTable({
 # Muestro curva de rendimiento - parametros iniciales  #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
-output$c_veb_sven <- renderPlot({
-  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=pa1_sven)*100),aes(x=x,y=y))+
+output$c_veb_sven <- renderPlotly({
+  a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=sven(t=seq(0.9,20,0.1),pa=pa1_sven)*100),aes(x=plazo,y=rendimiento))+
     geom_line(color="blue")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Svensson Parámetros Iniciales VEBONOS")+
     theme(plot.title = element_text(hjust = 0.5))
   
+  ggplotly(a)
 })
 
 #+++++++++++++++++++++++++++++#
