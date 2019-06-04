@@ -1997,6 +1997,12 @@ shinyServer(function(input, output) {
   
   #comparacion
   output$p_est_tif_opt_comp <- renderDataTable({
+    #pongo dependencia
+    input$boton_7
+    
+    #
+    isolate({
+    
     if(input$opt_tif_sven_comp==1){
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
@@ -2009,10 +2015,18 @@ shinyServer(function(input, output) {
       Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
       return(as.data.frame(Aviso))
     }
+      
+    }) #final isolate
     
     })
   
   output$p_est_tif_opt_ns_comp <- renderDataTable({
+    #pongo dependencia
+    input$boton_5
+    
+    #
+    isolate({
+    
     if(input$opt_tif_ns_comp==1){
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
@@ -2025,6 +2039,8 @@ shinyServer(function(input, output) {
       Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
       return(as.data.frame(Aviso))
     }
+      
+    }) #final isolate
     })
   
   #
@@ -2079,6 +2095,12 @@ shinyServer(function(input, output) {
   
   #comparacion
   output$p_est_veb_opt_comp <- renderDataTable({
+    #pongo dependencia
+    input$boton_8
+    
+    #
+    isolate({
+    
     if(input$opt_veb_sven_comp==1){
     withProgress(message = 'Calculando precios teóricos...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
@@ -2090,6 +2112,8 @@ shinyServer(function(input, output) {
       Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
       return(as.data.frame(Aviso))
     }
+      
+    }) #final isolate
     })
   
   output$p_est_veb_opt_sven_el_comp <- renderDataTable({
@@ -2108,6 +2132,12 @@ shinyServer(function(input, output) {
   
   #
   output$p_est_veb_opt_ns_comp <- renderDataTable({
+    #pongo dependencia
+    input$boton_6
+    
+    #
+    isolate({
+    
     if(input$opt_veb_ns_comp==1){
     withProgress(message = 'Calculando precios...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
@@ -2119,6 +2149,7 @@ shinyServer(function(input, output) {
     Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
     return(as.data.frame(Aviso))
     }
+    }) #final isolate
       
     })
   
@@ -2897,20 +2928,21 @@ shinyServer(function(input, output) {
    #     theme(plot.title = element_text(hjust = 0.5))
    # })
    #comparativo
-   output$c_tif_ns1_new_comp <- renderPlot({
+   output$c_tif_ns1_new_comp <- renderPlotly({
      #take dependency
      input$boton5
      
      #
-     isolate(
+     isolate({
      
-     ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=c(input$ns_b0_tif_comp,input$ns_b1_tif_comp,input$ns_b2_tif_comp,input$ns_t_tif_comp))*100),aes(x=x,y=y))+
-       geom_line(color="red")+xlab("Maduración (años)")+
+     a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=nelson_siegel(t=seq(0.9,20,0.1),pa=c(input$ns_b0_tif_comp,input$ns_b1_tif_comp,input$ns_b2_tif_comp,input$ns_t_tif_comp))*100),aes(x=plazo,y=rendimiento))+
+       geom_line(color="blue")+xlab("Maduración (años)")+
        ylab("Rendimiento (%)")+theme_gray()+
        ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos TIF")+
        theme(plot.title = element_text(hjust = 0.5))
      
-     )
+     ggplotly(a)
+     })
    })
    
    
@@ -2924,18 +2956,20 @@ shinyServer(function(input, output) {
    # })
    
    #comparativo
-   output$c_veb_ns1_new_comp <- renderPlot({
+   output$c_veb_ns1_new_comp <- renderPlotly({
      #take dependency
      input$boton7
      
      #
-     isolate(
-     ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=c(input$ns_b0_veb_comp,input$ns_b1_veb_comp,input$ns_b2_veb_comp,input$ns_t_veb_comp))*100),aes(x=x,y=y))+
-       geom_line(color="brown")+xlab("Maduración (años)")+
+     isolate({
+     a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=nelson_siegel(t=seq(0.9,20,0.1),pa=c(input$ns_b0_veb_comp,input$ns_b1_veb_comp,input$ns_b2_veb_comp,input$ns_t_veb_comp))*100),aes(x=plazo,y=rendimiento))+
+       geom_line(color="blue")+xlab("Maduración (años)")+
        ylab("Rendimiento (%)")+theme_gray()+
        ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos VEBONO")+
        theme(plot.title = element_text(hjust = 0.5))
-     )
+    
+     ggplotly(a)
+      })
    })
    
    
@@ -2978,18 +3012,20 @@ shinyServer(function(input, output) {
   # })
   
   #comparativo
-  output$c_tif_sven_new_comp <- renderPlot({
+  output$c_tif_sven_new_comp <- renderPlotly({
     #take dependency
     input$boton6
     
     #
-    isolate(
-    ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=c(input$sven_b0_tif_comp,input$sven_b1_tif_comp,input$sven_b2_tif_comp,input$sven_b3_tif_comp,input$sven_t1_tif_comp,input$sven_t2_tif_comp))*100),aes(x=x,y=y))+
-      geom_line(color="brown")+xlab("Maduración (años)")+
+    isolate({
+    a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=sven(t=seq(0.9,20,0.1),pa=c(input$sven_b0_tif_comp,input$sven_b1_tif_comp,input$sven_b2_tif_comp,input$sven_b3_tif_comp,input$sven_t1_tif_comp,input$sven_t2_tif_comp))*100),aes(x=plazo,y=rendimiento))+
+      geom_line(color="blue")+xlab("Maduración (años)")+
       ylab("Rendimiento (%)")+theme_gray()+
       ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos TIF")+
       theme(plot.title = element_text(hjust = 0.5))
-    )
+    
+    ggplotly(a)
+    })
   })
   
   #
@@ -3002,18 +3038,20 @@ shinyServer(function(input, output) {
   # })
   
   #comparativo
-  output$c_veb_sven_new_comp <- renderPlot({
+  output$c_veb_sven_new_comp <- renderPlotly({
     #take dependency
     input$boton8
     
     #
-    isolate(
-    ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=c(input$sven_b0_veb_comp,input$sven_b1_veb_comp,input$sven_b2_veb_comp,input$sven_b3_veb_comp,input$sven_t1_veb_comp,input$sven_t2_veb_comp))*100),aes(x=x,y=y))+
-      geom_line(color="brown")+xlab("Maduración (años)")+
+    isolate({
+    a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=sven(t=seq(0.9,20,0.1),pa=c(input$sven_b0_veb_comp,input$sven_b1_veb_comp,input$sven_b2_veb_comp,input$sven_b3_veb_comp,input$sven_t1_veb_comp,input$sven_t2_veb_comp))*100),aes(x=plazo,y=rendimiento))+
+      geom_line(color="blue")+xlab("Maduración (años)")+
       ylab("Rendimiento (%)")+theme_gray()+
       ggtitle("Curva de rendimiento Svensson Parámetros elegidos VEBONOS")+
       theme(plot.title = element_text(hjust = 0.5))
-    )
+    
+    ggplotly(a)
+    })
   })
   
   #caso Nelson y Siegel
@@ -3040,8 +3078,17 @@ shinyServer(function(input, output) {
     })
   
   
-  output$par_tif_ns_op_comp<-renderPrint({if(input$opt_tif_ns_comp==1){gra_tif_ns_comp()
-  }else{}})
+  output$par_tif_ns_op_comp<-renderPrint({
+    #pongo dependencia
+    input$boton_5
+    
+    #
+    isolate({
+    if(input$opt_tif_ns_comp==1){gra_tif_ns_comp()
+  }else{return("No se optimizará")}
+    }) #final isolate
+      
+      })
   
   
   # output$c_tif_ns_op <- renderPlot({if(input$opt_tif_ns==1){
@@ -3065,14 +3112,26 @@ shinyServer(function(input, output) {
   # }else{}})
   
   #comparativo
-  output$c_tif_ns_op_comp <- renderPlot({if(input$opt_tif_ns_comp==1){
+  output$c_tif_ns_op_comp <- renderPlotly({
+    #pongo dependencia
+    input$boton_5
+    
+    #
+    isolate({
+    
+    if(input$opt_tif_ns_comp==1){
     #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
-    ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=gra_tif_ns_comp())*100),aes(x=x,y=y))+
+    a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=nelson_siegel(t=seq(0.9,20,0.1),pa=gra_tif_ns_comp())*100),aes(x=plazo,y=rendimiento))+
       geom_line(color="blue")+xlab("Maduración (años)")+
       ylab("Rendimiento (%)")+theme_gray()+
       ggtitle("Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")+
       theme(plot.title = element_text(hjust = 0.5))
-  }else{}})
+    ggplotly(a)
+    
+  }else{}
+    }) #final isolate
+      
+      })
   
   
   #
@@ -3099,17 +3158,38 @@ shinyServer(function(input, output) {
     })
   
   
-  output$par_veb_ns_op_comp<-renderPrint({if(input$opt_veb_ns_comp==1){gra_veb_ns_comp()
-  }else{}})
+  output$par_veb_ns_op_comp<-renderPrint({
+    #pongo dependencia
+    input$boton_6
+    
+    #
+    isolate({
+    if(input$opt_veb_ns_comp==1){gra_veb_ns_comp()
+  }else{return("No se optimizará")}
+    }) #final isolate
+      
+      })
   
-  output$c_veb_ns_op_comp <- renderPlot({if(input$opt_veb_ns_comp==1){
+  output$c_veb_ns_op_comp <- renderPlotly({
+    #pongo dependencia
+    input$boton_6
+    
+    #
+    isolate({
+    
+    if(input$opt_veb_ns_comp==1){
     #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
-    ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=nelson_siegel(t=seq(0.9,20,0.1),pa=gra_veb_ns_comp())*100),aes(x=x,y=y))+
-      geom_line(color="green")+xlab("Maduración (años)")+
+    a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=nelson_siegel(t=seq(0.9,20,0.1),pa=gra_veb_ns_comp())*100),aes(x=plazo,y=rendimiento))+
+      geom_line(color="blue")+xlab("Maduración (años)")+
       ylab("Rendimiento (%)")+theme_gray()+
       ggtitle("Curva de redimientos Nelson y Siegel Parametros Optimizados VEBONOS")+
       theme(plot.title = element_text(hjust = 0.5))
-  }else{}})
+    
+    ggplotly(a)
+  }else{}
+    }) #final isolate
+      
+      })
   
   #caso Svensson
   # gra_tif_sven <- reactive({
@@ -3154,18 +3234,37 @@ shinyServer(function(input, output) {
     })
   
   #tif
-  output$par_tif_sven_op_comp<-renderPrint({if(input$opt_tif_sven_comp==1){gra_tif_sven_comp()
-  }else{}})
+  output$par_tif_sven_op_comp<-renderPrint({
+    #pongo dependencia
+    input$boton_7
+    
+    #
+    isolate({
+    if(input$opt_tif_sven_comp==1){gra_tif_sven_comp()
+  }else{return("No se optimizará")}
+    }) #final isolate
+    })
   
   #
-  output$c_tif_sven_op_comp <- renderPlot({if(input$opt_tif_sven_comp==1){
+  output$c_tif_sven_op_comp <- renderPlotly({
+    #pongo dependencia
+    input$boton_7
+    
+    #
+    isolate({
+    if(input$opt_tif_sven_comp==1){
     #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
-    ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=gra_tif_sven_comp())*100),aes(x=x,y=y))+
-      geom_line(color="green")+xlab("Maduración (años)")+
+    a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=sven(t=seq(0.9,20,0.1),pa=gra_tif_sven_comp())*100),aes(x=plazo,y=rendimiento))+
+      geom_line(color="blue")+xlab("Maduración (años)")+
       ylab("Rendimiento (%)")+theme_gray()+
       ggtitle("Curva de redimientos Svensson Parametros Optimizados TIF")+
       theme(plot.title = element_text(hjust = 0.5))
-  }else{}})
+    
+    ggplotly(a)
+  }else{}
+      
+    }) #final isolate
+      })
   
   #veb
   # output$par_veb_sven_op<-renderPrint({if(input$opt_veb_sven==1){gra_veb_sven()
@@ -3186,18 +3285,38 @@ shinyServer(function(input, output) {
   # }else{}})
   
   #comparativo
-  output$par_veb_sven_op_comp<-renderPrint({if(input$opt_veb_sven_comp==1){gra_veb_sven_comp()
-  }else{}})
+  output$par_veb_sven_op_comp<-renderPrint({
+    #pongo dependencia
+    input$boton_8
+    
+    #
+    isolate({
+    if(input$opt_veb_sven_comp==1){gra_veb_sven_comp()
+  }else{return("No se optimizará")}
+    }) #final isolate
+      
+      })
   
   #
-  output$c_veb_sven_op_comp <- renderPlot({if(input$opt_veb_sven_comp==1){
+  output$c_veb_sven_op_comp <- renderPlotly({
+    #pongo dependencia
+    input$boton_8
+    
+    #
+    isolate({
+    if(input$opt_veb_sven_comp==1){
     #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
-    ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=gra_veb_sven_comp())*100),aes(x=x,y=y))+
-      geom_line(color="green")+xlab("Maduración (años)")+
+    a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=sven(t=seq(0.9,20,0.1),pa=gra_veb_sven_comp())*100),aes(x=plazo,y=rendimiento))+
+      geom_line(color="blue")+xlab("Maduración (años)")+
       ylab("Rendimiento (%)")+theme_gray()+
       ggtitle("Curva de redimientos Svensson Parametros Optimizados VEBONOS")+
       theme(plot.title = element_text(hjust = 0.5))
-  }else{}})
+    
+    ggplotly(a)
+  }else{}
+    }) #final isolate
+      
+      })
   
   #SPLINES
   #tif
@@ -5748,8 +5867,10 @@ shinyServer(function(input, output) {
     
     # read.table(inFile$datapath, header = input$header,
     #            sep = input$sep, quote = input$quote)
-    a <- read.delim2(inFile$datapath, header = input$header,
-                     sep = input$sep, quote = input$quote)
+    a <- try(read.delim2(inFile$datapath, header = input$header,
+                     sep = input$sep, quote = input$quote))
+    
+    if(class(a)!="try-error"){
     
     #ordeno la data de fecha mas reciente a fecha mas antigua
     a[,1] <- as.Date(a[,1])
@@ -5760,7 +5881,7 @@ shinyServer(function(input, output) {
     a <- a[which(input$date_var==a[,1]):(251+which(input$date_var==a[,1])),]
     
     return(a)
-    
+    }else{return(NULL)}
   })
   
   ###############################################################################
@@ -5772,7 +5893,11 @@ shinyServer(function(input, output) {
   output$datatable<-renderDataTable({
     if(is.null(data())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
-    datatable(data())
+    a <- try(data())
+    if(class(a)!="try-error"){
+      datatable(a)
+    }else{return(as.data.frame("Error"))}
+    
     })
   
   #data nueva
@@ -5811,7 +5936,12 @@ shinyServer(function(input, output) {
     if(is.null(data_pos())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     #datatable(data_pos())
-    data_pos()
+    a <- data_pos()
+    if(class(a)!="try-error"){
+      a
+    }else{}
+    
+    
   })
   
   

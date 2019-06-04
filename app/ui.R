@@ -282,10 +282,17 @@ shinyUI(
                                                                  # h2(" Precios estimados iniciales"),dataTableOutput("p_est_tif_ns_el"),
                                                                  # h2(" Curva de rendimientos inicial"),
                                                                  # plotOutput("c_tif_ns_el")
-                                                                 h2(" Precios estimados optimizados"),
+                                                                 
                                                                  radioButtons( inputId = "opt_tif_ns",label = "Desea optimizar los precios obtenidos:", 
                                                                                choices = c("Si"=1, "No"=0),
                                                                                selected=0), #finalradiobuttons
+                                                                 
+                                                                 #boton q controla la reactividad
+                                                                 actionButton("boton_1", "Calcular", icon = icon("chart-area"),
+                                                                              style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                                 
+                                                                 h2(" Precios estimados optimizados"),
+                                               
                                                                  box(width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_opt_ns"),
                                                                                                        style="overflow-y: scroll;overflow-x: scroll")),
                                                                 h2(" Parámetros optimizados"),
@@ -424,10 +431,16 @@ shinyUI(
                                                                  plotlyOutput("c_veb_ns1_new")
                                                         ),#final tabpanel elegir
                                                         tabPanel(" Parámetros Optimizados ",
-                                                        h2(" Precios estimados optimizados"),
+                                                        
                                                         radioButtons( inputId = "opt_veb_ns",label = "Desea optimizar los precios obtenidos:", 
                                                                       choices = c("Si"=1, "No"=0),
                                                                       selected=0),#final radiobuttons
+                                                        #boton q controla la reactividad
+                                                        actionButton("boton_2", "Calcular", icon = icon("chart-area"),
+                                                                     style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                        
+                                                        
+                                                        h2(" Precios estimados optimizados"),
                                                         box(width = "12",column(width = 12,DT::dataTableOutput("p_est_veb_opt_ns"),
                                                                                               style="overflow-y: scroll;overflow-x: scroll")),
                                                         
@@ -581,22 +594,28 @@ shinyUI(
                                                                                                          style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                                                    
                                                                    h4(" Curva de Rendimiento"),
-                                                                   plotOutput("c_tif_sven_new")
+                                                                   plotlyOutput("c_tif_sven_new")
                                                                    
                                                           ),#final tabpanel p elegidos
                                                           tabPanel(" Parámetros Optimizados",
-                                                                   h2(" Precios estimados optimizados"),
+                                                                   
                                                                    radioButtons(inputId = "opt_tif_sven",label = "Desea optimizar los precios obtenidos:", 
                                                                                 choices = c("Si"=1, "No"=0),
-                                                                                selected=0)#final radiobuttoms
-                                                                   ,
+                                                                                selected=0),#final radiobuttoms
+                                                                   #boton q controla la reactividad
+                                                                   actionButton("boton_3", "Calcular", icon = icon("chart-area"),
+                                                                                style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                                   
+                                                                   
+                                                                   
+                                                                   h2(" Precios estimados optimizados"),
                                                                    box(width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_opt"),
                                                                                                          style="overflow-y: scroll;overflow-x: scroll")),
                                                                    
                                                                    h2(" Parámetros optimizados"),
                                                                    verbatimTextOutput("par_tif_sven_op"),
                                                                    h2(" Curva de rendimientos TIF"),
-                                                                   plotOutput("c_tif_sven_op")
+                                                                   plotlyOutput("c_tif_sven_op")
                                                           )#final tabpanel p optimizados
                                                   )#final tabbox
                                                 )#final fluidrow
@@ -725,14 +744,19 @@ shinyUI(
                                                                                                          style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                                                    
                                                                    h4(" Curva de Rendimiento"),
-                                                                   plotOutput("c_veb_sven_new")
+                                                                   plotlyOutput("c_veb_sven_new")
                                                                    
                                                           ),#final tabpanel p elegidos
                                                           tabPanel(" Parámetros Optimizados",
-                                                                   h2(" Precios estimados optimizados"),
+                                                                   
                                                                    radioButtons(inputId = "opt_veb_sven",label = "Desea optimizar los precios obtenidos:", 
                                                                                 choices = c("Si"=1, "No"=0),
                                                                                 selected=0),
+                                                                   #boton q controla la reactividad
+                                                                   actionButton("boton_4", "Calcular", icon = icon("chart-area"),
+                                                                                style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                                   
+                                                                   h2(" Precios estimados optimizados"),
                                                                    box(width = "12",column(width = 12,DT::dataTableOutput("p_est_veb_opt"),
                                                                                                          style="overflow-y: scroll;overflow-x: scroll")),
                                                                    
@@ -740,7 +764,7 @@ shinyUI(
                                                                    h2(" Parámetros optimizados"),
                                                                    verbatimTextOutput("par_veb_sven_op"),
                                                                    h2(" Curva de rendimientos VEBONOS"),
-                                                                   plotOutput("c_veb_sven_op")
+                                                                   plotlyOutput("c_veb_sven_op")
                                                           )#final tabpanel p optimizados
                                                          )#final tabbox
                                                       )#final fluidrow
@@ -1348,22 +1372,29 @@ shinyUI(
                                                                                                                style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                                                          
                                                                          h4(" Curva de Rendimiento"),
-                                                                         plotOutput("c_tif_ns1_new_comp")
+                                                                         plotlyOutput("c_tif_ns1_new_comp")
                                                                        
                                                                          
                                                                 ),# final tabpanel pa elegir 
                                                                 tabPanel(" Parámetros optimizados",
-                                                                         h2(" Precios estimados optimizados"),
+                                                                         
                                                                          radioButtons( inputId = "opt_tif_ns_comp",label = "Desea optimizar los precios obtenidos:", 
                                                                                        choices = c("Si"=1, "No"=0),
                                                                                        selected=0), #finalradiobuttons
+                                                                         #boton q controla la reactividad
+                                                                         actionButton("boton_5", "Calcular", icon = icon("chart-area"),
+                                                                                      style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                                         
+                                                                         
+                                                                         h2(" Precios estimados optimizados"),
+                                                                         
                                                                          box(width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_opt_ns_comp"),
                                                                                                                style="overflow-y: scroll;overflow-x: scroll")),
                                                                          
                                                                          h2(" Parámetros optimizados"),
                                                                          verbatimTextOutput("par_tif_ns_op_comp"),
                                                                          h2(" Curva de rendimientos TIF"),
-                                                                         plotOutput("c_tif_ns_op_comp")
+                                                                         plotlyOutput("c_tif_ns_op_comp")
                                                                          
                                                                 )#final tabpabel pa optimizados
                                                                 
@@ -1417,23 +1448,28 @@ shinyUI(
                                                                                                                style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                                                          
                                                                          h4(" Curva de Rendimiento"),
-                                                                         plotOutput("c_tif_sven_new_comp")
+                                                                         plotlyOutput("c_tif_sven_new_comp")
                                                                          
                                                                          
                                                                 ),# final tabpanel pa elegir 
                                                                 tabPanel(" Parámetros optimizados",
-                                                                         h2(" Precios estimados optimizados"),
+                                                                         
                                                                          radioButtons(inputId = "opt_tif_sven_comp",label = "Desea optimizar los precios obtenidos:", 
                                                                                       choices = c("Si"=1, "No"=0),
                                                                                       selected=0
                                                                          ),#final radiobuttoms
+                                                                         #boton q controla la reactividad
+                                                                         actionButton("boton_7", "Calcular", icon = icon("chart-area"),
+                                                                                      style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                                         
+                                                                         h2(" Precios estimados optimizados"),
                                                                          box(width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_opt_comp"),
                                                                                                  style="overflow-y: scroll;overflow-x: scroll")),
                                                                          
                                                                          h2(" Parámetros optimizados"),
                                                                          verbatimTextOutput("par_tif_sven_op_comp"),
                                                                          h2(" Curva de rendimientos TIF"),
-                                                                         plotOutput("c_tif_sven_op_comp")
+                                                                         plotlyOutput("c_tif_sven_op_comp")
                                                                          
                                                                 )#final tabpabel pa optimizados
                                                                 
@@ -1624,23 +1660,28 @@ shinyUI(
                                                                                                style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                                          
                                                          h4(" Curva de Rendimiento"),
-                                                         plotOutput("c_veb_ns1_new_comp")
+                                                         plotlyOutput("c_veb_ns1_new_comp")
                                                          
                                                          
                                                          
                                                 ),# final tabpanel pa elegir 
                                                 tabPanel(" Parámetros optimizados",
-                                                         h2(" Precios estimados optimizados"),
+                                                         
                                                          radioButtons( inputId = "opt_veb_ns_comp",label = "Desea optimizar los precios obtenidos:", 
                                                                        choices = c("Si"=1, "No"=0),
                                                                        selected=0), #finalradiobuttons
+                                                         #boton q controla la reactividad
+                                                         actionButton("boton_6", "Calcular", icon = icon("chart-area"),
+                                                                      style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                         
+                                                         h2(" Precios estimados optimizados"),
                                                          box(width = "12",column(width = 12,DT::dataTableOutput("p_est_veb_opt_ns_comp"),
                                                                                                style="overflow-y: scroll;overflow-x: scroll")),
                                                          
                                                          h2(" Parámetros optimizados"),
                                                          verbatimTextOutput("par_veb_ns_op_comp"),
                                                          h2(" Curva de rendimientos VEBONO"),
-                                                         plotOutput("c_veb_ns_op_comp")
+                                                         plotlyOutput("c_veb_ns_op_comp")
                                                          
                                                 )#final tabpabel pa optimizados
                                                 
@@ -1693,24 +1734,30 @@ shinyUI(
                                                                                                style="height:500px;overflow-y: scroll;overflow-x: scroll")),
                                                          
                                                          h4(" Curva de Rendimiento"),
-                                                         plotOutput("c_veb_sven_new_comp")
+                                                         plotlyOutput("c_veb_sven_new_comp")
                                                          
                                                          
                                                          
                                                 ),# final tabpanel pa iniciales 
                                                 tabPanel(" Parámetros optimizados",
-                                                         h2(" Precios estimados optimizados"),
+                                                         
                                                          radioButtons(inputId = "opt_veb_sven_comp",label = "Desea optimizar los precios obtenidos:", 
                                                                       choices = c("Si"=1, "No"=0),
                                                                       selected=0
                                                          ),#final radiobuttoms
+                                                         #boton q controla la reactividad
+                                                         actionButton("boton_8", "Calcular", icon = icon("chart-area"),
+                                                                      style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                                                         
+                                                         
+                                                         h2(" Precios estimados optimizados"),
                                                          box(width = "12",column(width = 12,DT::dataTableOutput("p_est_veb_opt_comp"),
                                                                                                style="overflow-y: scroll;overflow-x: scroll")),
                                                          
                                                          h2(" Parámetros optimizados"),
                                                          verbatimTextOutput("par_veb_sven_op_comp"),
                                                          h2(" Curva de rendimientos VEBONOS"),
-                                                         plotOutput("c_veb_sven_op_comp")
+                                                         plotlyOutput("c_veb_sven_op_comp")
                                                          
                                                 )#final tabpabel pa optimizados
                                                 

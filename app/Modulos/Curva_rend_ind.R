@@ -588,6 +588,12 @@ output$c_tif_ns1_new <- renderPlotly({
 #+++++++++++++++++++++++++++++#
 
 output$p_est_tif_opt_ns <- renderDataTable({
+  #pongo dependencia
+  input$boton_1
+  
+  #
+  isolate({
+  
   if(input$opt_tif_ns==1){
     withProgress(message = 'Calculando precios teóricos...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
@@ -600,14 +606,32 @@ output$p_est_tif_opt_ns <- renderDataTable({
     Aviso <- "No se optimizará, revisar precios sección parámetros iniciales"
     return(as.data.frame(Aviso))
   }
+  }) #final isolate
+    
 })
 
 #++++++++++++++++++++++++++++++++#
 # Muestro parametros optimizados #
 #++++++++++++++++++++++++++++++++#
 
-output$par_tif_ns_op<-renderPrint({if(input$opt_tif_ns==1){gra_tif_ns()
-}else{}})
+output$par_tif_ns_op<-renderPrint({
+  #pongo dependencia
+  input$boton_1
+
+  #
+  isolate({
+    
+  if(input$opt_tif_ns==1){
+    
+  gra_tif_ns()
+  #return(a)
+  }else{
+    Aviso <- "No se optimizará"
+    return(Aviso)
+  }
+    
+  }) #final isolate
+    })
 
 #+++++++++++++++++++++++++++++++++++++++++#
 # Función auxiliar parametros optimizados #
@@ -622,7 +646,14 @@ gra_tif_ns <- reactive({
 # Muestro curva de rendimientos #
 #+++++++++++++++++++++++++++++++#
 
-output$c_tif_ns_op <- renderPlotly({if(input$opt_tif_ns==1){
+output$c_tif_ns_op <- renderPlotly({
+  #pongo dependencia
+  input$boton_1
+  
+  #
+  isolate({
+  
+  if(input$opt_tif_ns==1){
   a <- try(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=nelson_siegel(t=seq(0.9,20,0.1),pa=gra_tif_ns())*100))
   if(class(a)!="try-error"){
     #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
@@ -634,7 +665,13 @@ output$c_tif_ns_op <- renderPlotly({if(input$opt_tif_ns==1){
     ggplotly(b)
     
   }else{}
-}else{}})
+  
+
+}else{}
+
+  }) #final isolate
+
+})
 
 #/////////////////#
 #/# CASO VEBONO #/#
@@ -973,6 +1010,12 @@ output$c_veb_ns1_new <- renderPlotly({
 #+++++++++++++++++++++++++++++#
 
 output$p_est_veb_opt_ns <- renderDataTable({
+  #pongo dependencia
+  input$boton_2
+  
+  #
+  isolate({
+  
   if(input$opt_veb_ns==1){
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
@@ -983,14 +1026,26 @@ output$p_est_veb_opt_ns <- renderDataTable({
     Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
     return(as.data.frame(Aviso))
   }
+    
+  }) #final isolate
 })
 
 #++++++++++++++++++++++++++++++++#
 # Muestro parametros optimizados #
 #++++++++++++++++++++++++++++++++#
 
-output$par_veb_ns_op<-renderPrint({if(input$opt_veb_ns==1){gra_veb_ns()
-}else{}})
+output$par_veb_ns_op<-renderPrint({
+  #pongo dependencia
+  input$boton_2
+  
+  #
+  isolate({
+  if(input$opt_veb_ns==1){
+    gra_veb_ns()
+}else{return("No se optimizará")}
+  
+  }) #final isolate
+  })
 
 #+++++++++++++++++++++++++++++++++++++++++#
 # Función auxiliar parametros optimizados #
@@ -1005,7 +1060,14 @@ gra_veb_ns <- reactive({
 # Muestro curva de rendimientos #
 #+++++++++++++++++++++++++++++++#
 
-output$c_veb_ns_op <- renderPlotly({if(input$opt_veb_ns==1){
+output$c_veb_ns_op <- renderPlotly({
+  #pongo dependencia
+  input$boton_2
+  
+  #
+  isolate({
+  
+  if(input$opt_veb_ns==1){
   #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
   a <- try(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=nelson_siegel(t=seq(0.9,20,0.1),pa=gra_veb_ns())*100))
   if(class(a)!="try-error"){
@@ -1017,7 +1079,11 @@ output$c_veb_ns_op <- renderPlotly({if(input$opt_veb_ns==1){
     
   ggplotly(b)
   }else{}
-}else{}})
+  
+}else{}
+    
+  }) #final isolate
+    })
 
 #/////////////////////////#
 #/# SUBSECCION SVENSSON #/#
@@ -1332,18 +1398,20 @@ output$p_est_tif_opt_sven_el <- renderDataTable({
 # Muestro curva de rendimientos con parámetros escogidos #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
-output$c_tif_sven_new <- renderPlot({
+output$c_tif_sven_new <- renderPlotly({
   #take dependency
   input$boton3
   
   #
-  isolate(
-  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif))*100),aes(x=x,y=y))+
-    geom_line(color="brown")+xlab("Maduración (años)")+
+  isolate({
+  a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=sven(t=seq(0.9,20,0.1),pa=c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif))*100),aes(x=plazo,y=rendimiento))+
+    geom_line(color="blue")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Svensson Parámetros elegidos TIF")+
     theme(plot.title = element_text(hjust = 0.5))
-  )
+  
+  ggplotly(a)
+  })
 })
 
 #+++++++++++++++++++++++++++++#
@@ -1351,6 +1419,12 @@ output$c_tif_sven_new <- renderPlot({
 #+++++++++++++++++++++++++++++#
 
 output$p_est_tif_opt <- renderDataTable({
+  #pongo dependencia
+  input$boton_3
+  
+  #
+  isolate({
+  
   if(input$opt_tif_sven==1){
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
@@ -1362,14 +1436,25 @@ output$p_est_tif_opt <- renderDataTable({
     Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
     return(as.data.frame(Aviso))
   }
+    
+  }) #final isolate
 })
 
 #++++++++++++++++++++++++++++++++#
 # Muestro parametros optimizados #
 #++++++++++++++++++++++++++++++++#
 
-output$par_tif_sven_op<-renderPrint({if(input$opt_tif_sven==1){gra_tif_sven()
-}else{}})
+output$par_tif_sven_op<-renderPrint({
+  #pongo dependencia
+  input$boton_3
+  
+  #
+  isolate({
+  if(input$opt_tif_sven==1){gra_tif_sven()
+}else{return("No se optimizará")}
+    
+  }) #final isolate
+    })
 
 #+++++++++++++++++++++++++++++++++++++++++#
 # Función auxiliar parametros optimizados #
@@ -1385,18 +1470,30 @@ gra_tif_sven <- reactive({
 # Muestro curva de rendimientos #
 #+++++++++++++++++++++++++++++++#
 
-output$c_tif_sven_op <- renderPlot({if(input$opt_tif_sven==1){
+output$c_tif_sven_op <- renderPlotly({
+  #pongo dependencia
+  input$boton_3
+  
+  #
+  isolate({
+  
+  if(input$opt_tif_sven==1){
   #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
-  a <- try(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=gra_tif_sven())*100))
+  a <- try(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=sven(t=seq(0.9,20,0.1),pa=gra_tif_sven())*100))
   
   if(class(a)!="try-error"){
-    ggplot(a,aes(x=x,y=y))+
-      geom_line(color="green")+xlab("Maduración (años)")+
+    b <- ggplot(a,aes(x=plazo,y=rendimiento))+
+      geom_line(color="blue")+xlab("Maduración (años)")+
       ylab("Rendimiento (%)")+theme_gray()+
       ggtitle("Curva de redimientos Svensson Parametros Optimizados TIF")+
       theme(plot.title = element_text(hjust = 0.5))
+    
+    ggplotly(b)
   }else{}
-}else{}})
+}else{}
+    
+  }) #final isolate
+    })
 
 #/////////////////#
 #/# CASO VEBONO #/#
@@ -1709,18 +1806,20 @@ output$p_est_veb_opt_sven_el <- renderDataTable({
 # Muestro curva de rendimientos con parámetros escogidos #
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
-output$c_veb_sven_new <- renderPlot({
+output$c_veb_sven_new <- renderPlotly({
   #take dependency
   input$boton4
   
   #
-  isolate(
-  ggplot(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb))*100),aes(x=x,y=y))+
-    geom_line(color="brown")+xlab("Maduración (años)")+
+  isolate({
+  a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=sven(t=seq(0.9,20,0.1),pa=c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb))*100),aes(x=plazo,y=rendimiento))+
+    geom_line(color="blue")+xlab("Maduración (años)")+
     ylab("Rendimiento (%)")+theme_gray()+
     ggtitle("Curva de rendimiento Svensson Parámetros elegidos VEBONOS")+
     theme(plot.title = element_text(hjust = 0.5))
-  )
+  
+  ggplotly(a)
+  })
 })
 
 #+++++++++++++++++++++++++++++#
@@ -1728,6 +1827,12 @@ output$c_veb_sven_new <- renderPlot({
 #+++++++++++++++++++++++++++++#
 
 output$p_est_veb_opt <- renderDataTable({
+  
+  #pongo dependencia
+  input$boton_4
+  
+  #
+  isolate({
   if(input$opt_veb_sven==1){
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
@@ -1739,14 +1844,25 @@ output$p_est_veb_opt <- renderDataTable({
     Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
     return(as.data.frame(Aviso))
   }
+    
+  }) #final isolate
 })
 
 #++++++++++++++++++++++++++++++++#
 # Muestro parametros optimizados #
 #++++++++++++++++++++++++++++++++#
 
-output$par_veb_sven_op<-renderPrint({if(input$opt_veb_sven==1){gra_veb_sven()
-}else{}})
+output$par_veb_sven_op<-renderPrint({
+  #pongo dependencia
+  input$boton_4
+  
+  #
+  isolate({
+  if(input$opt_veb_sven==1){gra_veb_sven()
+}else{return("No se optimizará")}
+  }) #final isolate
+    
+    })
 
 #+++++++++++++++++++++++++++++++++++++++++#
 # Función auxiliar parametros optimizados #
@@ -1762,18 +1878,30 @@ gra_veb_sven <- reactive({
 # Muestro curva de rendimientos #
 #+++++++++++++++++++++++++++++++#
 
-output$c_veb_sven_op <- renderPlot({if(input$opt_veb_sven==1){
+output$c_veb_sven_op <- renderPlotly({
+  #pongo dependencia
+  input$boton_4
+  
+  #
+  isolate({
+  
+  if(input$opt_veb_sven==1){
   #plot(seq(1,20,1),nelson_siegel(t=seq(1,20,1),pa=gra())*100,type = "l",col="blue",xlab = "Maduración (años)",ylab="Rendimiento (%)",main = "Curva de redimientos Nelson y Siegel Parametros Optimizados TIF")
-  a <- try(cbind.data.frame(x=seq(0.9,20,0.1),y=sven(t=seq(0.9,20,0.1),pa=gra_veb_sven())*100))
+  a <- try(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=sven(t=seq(0.9,20,0.1),pa=gra_veb_sven())*100))
   
   if(class(a)!="try-error"){
-    ggplot(a,aes(x=x,y=y))+
-      geom_line(color="green")+xlab("Maduración (años)")+
+    b <- ggplot(a,aes(x=plazo,y=rendimiento))+
+      geom_line(color="blue")+xlab("Maduración (años)")+
       ylab("Rendimiento (%)")+theme_gray()+
       ggtitle("Curva de redimientos Svensson Parametros Optimizados VEBONOS")+
       theme(plot.title = element_text(hjust = 0.5))
+    
+    ggplotly(b)
   }else{}
-}else{}})
+}else{}
+  }) #final isolate
+    
+    })
 
 #///////////////////////////#
 #/# SUBSECCION DIEBOLD-LI #/#

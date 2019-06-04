@@ -977,7 +977,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       Tabla[12,i]=(as.numeric(gsub("[,]",".",Tabla[11,i])))/sum((as.numeric(gsub("[,]",".",Tabla[11,]))))
     }
     
-    print("Muestro tabla preliminar")
+    #print("Muestro tabla preliminar")
     
     #CALCULO PRECIOS ESTIMADOS
     fv=as.Date(fv,format="%d/%m/%Y")
@@ -1205,7 +1205,7 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       Tabla[12,i]=(as.numeric(gsub("[,]",".",Tabla[11,i])))/sum((as.numeric(gsub("[,]",".",Tabla[11,]))))
     }
     
-    print("Muestro tabla preliminar")
+    #print("Muestro tabla preliminar")
     
     #CALCULO PRECIOS ESTIMADOS
     fv=as.Date(fv,format="%d/%m/%Y")
