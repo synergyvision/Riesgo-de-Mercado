@@ -5891,14 +5891,59 @@ shinyServer(function(input, output) {
   ###############################################################################
   
   output$datatable<-renderDataTable({
-    if(is.null(data())){return()}
+    #if(is.null(data())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     a <- try(data())
     if(class(a)!="try-error"){
       datatable(a)
-    }else{return(as.data.frame("Error"))}
+    }else{return(as.data.frame("Error, favor seleccionar otro delimitador"))}
     
     })
+  
+  #data distribuciones por instrumento
+  
+  datadist <- reactive({
+    # input$file1 will be NULL initially. After the user selects
+    # and uploads a file, it will be a data frame with 'name',
+    # 'size', 'type', and 'datapath' columns. The 'datapath'
+    # column will contain the local filenames where the data can
+    # be found.
+    
+    inFile <- input$file_data_dist
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    # read.table(inFile$datapath, header = input$header,
+    #            sep = input$sep, quote = input$quote)
+    a <- try(read.delim2(inFile$datapath, header = input$header_dist,
+                         sep = input$sep_dist, quote = input$quote_dist))
+    
+    if(class(a)!="try-error"){
+      return(a)
+      #ordeno la data de fecha mas reciente a fecha mas antigua
+      #a[,1] <- as.Date(a[,1])
+      #a <- a[order(a[,1],decreasing = TRUE),]
+      
+      #seleciono 252 obs segun fecha seleccionada
+      
+      #a <- a[which(input$date_var==a[,1]):(251+which(input$date_var==a[,1])),]
+      
+      #return(a)
+    }else{return(NULL)}
+  })
+  
+  
+  output$data_dist<-renderDataTable({
+    #if(is.null(data())){return()}
+    #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+    a <- try(datadist())
+    if(class(a)!="try-error"){
+      datatable(a)
+    }else{return(as.data.frame("Error, favor seleccionar otro delimitador"))}
+    
+  })
+  
   
   #data nueva
   output$datatable1<-renderDataTable({
@@ -5933,13 +5978,13 @@ shinyServer(function(input, output) {
   ###############################################################################
   
   output$datatable_pos<-renderDataTable({
-    if(is.null(data_pos())){return()}
+    #if(is.null(data_pos())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     #datatable(data_pos())
     a <- data_pos()
     if(class(a)!="try-error"){
       a
-    }else{}
+    }else{return(as.data.frame("Error, favor seleccionar otro delimitador"))}
     
     
   })
@@ -6088,14 +6133,22 @@ shinyServer(function(input, output) {
   #resultados ajuste distribucion VaR portafolio
   output$result_varp <- renderTable({
     if(is.null(data())){return()}
+    #a <- try(data())
+    
+    #if(class(a)!="try-error"){
     n <- which(input$inst_varp==names(data()))
     dat <- data()[,n]
     dat1 <- diff(log(dat))
-    dat2 <- useFitdist(dat1)
-    dat2$res.matrix
-  },
-  rownames = TRUE, striped = TRUE,
-  hover = TRUE, bordered = TRUE
+    dat2 <- try(useFitdist(dat1))
+    
+    if(class(dat2)!="try-error"){
+    return(dat2$res.matrix)
+      }else{}
+    #}else{}
+  }
+  #,
+  #rownames = TRUE, striped = TRUE,
+  #hover = TRUE, bordered = TRUE
   )
   
   #muestro valores de los paramentros ajustados

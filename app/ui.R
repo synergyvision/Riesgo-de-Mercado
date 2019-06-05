@@ -2008,7 +2008,29 @@ shinyUI(
                                                          radioButtons( inputId = "seleccion_dist",label = "Elija una opción:", 
                                                                        choices = c("Si"=1, "No"=0),selected=0),
                                                          box( width=12, style="overflow-x:scroll",status = "success",
-                                                              tableOutput("dist_elegir")
+                                                              tableOutput("dist_elegir"),
+                                                              fluidRow(
+                                                                box(width = 12, title = h3(UPLOADDATA_TEXT),
+                                                                    box( width=12,background = "navy",
+                                                                         fileInput('file_data_dist', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
+                                                                                   placeholder = FILESELEC_TEXT, buttonLabel = BUTTSELEC_TEXT )
+                                                                    ),
+                                                                    fluidRow(
+                                                                      box(width=4,background="olive",strong(ENCABEZADO_TEXT),
+                                                                          checkboxInput( width="100%", 'header_dist', WITHHEADER_TEXT, TRUE)),
+                                                                      box(width=4,background="olive",
+                                                                          radioButtons( width="40%", 'sep_dist', SEPARATOR_TEXT, UPLOADFILESEP_CONF, ';')),
+                                                                      box(width=4,background="olive",
+                                                                          radioButtons( width="40%", 'quote_dist', COMILLAS_TEXT, UPLOADCOMILLAS_CONF, ''))
+                                                                    )
+                                                                )
+                                                              ),
+                                                              fluidRow(
+                                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('data_dist'))
+                                                              )
+                                                              
+                                                              
+                                                              
                                                          )
                                                          
                                                 )
@@ -2319,8 +2341,13 @@ shinyUI(
                       ),#final tab item graficos
               #HISTORICOS
               tabItem(tabName = "historicos",
-                      fluidRow(tabBox( width = 12, title = " ", id = "historico_vares", height = "50px", 
+                    
+                      #fluidRow(
+                      wellPanel(  
+                        #tabBox( width = 12, title = " ", id = "historico_vares", height = "50px", 
+                        tabsetPanel(type="tabs",           
                                        tabPanel("VaR Paramétrico",
+                                                #wellPanel(
                                                 h2("Rango de fechas disponibles:"),
                                                 verbatimTextOutput("fechas_disponibles_par"),
                                                 
@@ -2342,7 +2369,7 @@ shinyUI(
                                                 box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_par')),
                                                 h2("Descargar"),
                                                 downloadButton("data_var_par", "Descargar")
-                                                
+                                                #)#final wellpanel
                                                 
                                      
                                        )
@@ -2424,13 +2451,13 @@ shinyUI(
                                                     
                                        )
                                        
-                                       
+                                      
                       )#final tabbox
                       
                       
+                      )#final wellpanel   
                       
-                      
-                      )#final fluidrow
+                      #)#final fluidrow
                       
                       
                       
