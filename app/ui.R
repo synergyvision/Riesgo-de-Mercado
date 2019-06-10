@@ -155,18 +155,19 @@ shinyUI(
                                               #                     choices = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[which(substr(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[,2],1,3)=="TIF"),2])
                                                #htmlOutput("freddy")
                                                 #
-                                                fluidRow(column(width = 3,checkboxGroupInput( inputId = "t1_ns", label = " ",
+                                                fluidRow(column(width = 4,checkboxGroupInput( inputId = "t1_ns", label = "Corto Plazo",
                                                                 choices=tit[2:9])#final checkboxgroupimput
                                                                 ),#final column
-                                                         column(width = 3,checkboxGroupInput( inputId = "t2_ns", label = " ",
-                                                                choices=tit[10:17])#final checkboxgroupimput
+                                                         column(width = 4,checkboxGroupInput( inputId = "t2_ns", label = "Mediano Plazo",
+                                                                choices=tit[10:20])#final checkboxgroupimput
                                                                 ),#final column
-                                                         column(width = 3,checkboxGroupInput( inputId = "t3_ns", label = " ",
-                                                                choices=tit[18:25])#final checkboxgroupimput
-                                                                ),#final column
-                                                         column(width = 3,checkboxGroupInput( inputId = "t4_ns", label = " ",
-                                                                choices=tit[26:33])#final checkboxgroupimput
-                                                                ) #final column
+                                                         column(width = 4,checkboxGroupInput( inputId = "t3_ns", label = "Largo plazo",
+                                                                choices=tit[21:33])#final checkboxgroupimput
+                                                                )
+                                                         #,#final column
+                                                         #column(width = 3,checkboxGroupInput( inputId = "t4_ns", label = " ",
+                                                          #      choices=tit[26:33])#final checkboxgroupimput
+                                                           #     ) #final column
                                                          )#final fluidrow
 
 
@@ -313,18 +314,19 @@ shinyUI(
                                                                             #checkboxGroupInput( inputId = "t1_ns2", label = NULL,inline = TRUE,width = '100%',
                                                                             #                    choices = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[which(substr(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[,2],1,3)=="VEB"),2]),
                                                                            fluidRow(
-                                                                             column(width = 3,checkboxGroupInput(inputId = "v1_ns", label = " ",
-                                                                                       choices=tit1[3:12])#final checkboxgroupimput
+                                                                             column(width = 4,checkboxGroupInput(inputId = "v1_ns", label = "Corto Plazo",
+                                                                                       choices=tit1[3:15])#final checkboxgroupimput
                                                                                     ),#final column
-                                                                             column(width = 3,checkboxGroupInput( inputId = "v2_ns", label = " ",
-                                                                                       choices=tit1[13:22])#final checkboxgroupimput
+                                                                             column(width = 4,checkboxGroupInput( inputId = "v2_ns", label = "Mediano Plazo",
+                                                                                       choices=tit1[16:30])#final checkboxgroupimput
                                                                                     ),#final column
-                                                                             column(width = 3,checkboxGroupInput( inputId = "v3_ns",label = " ",
-                                                                                       choices=tit1[23:31])#final checkboxgroupimput
-                                                                                    ),#final column
-                                                                             column(width = 3,checkboxGroupInput( inputId = "v4_ns", label = " ",
-                                                                                       choices=tit1[32:40])#final checkboxgroupimput
-                                                                                    )#final column
+                                                                             column(width = 4,checkboxGroupInput( inputId = "v3_ns",label = "Largo Plazo",
+                                                                                       choices=tit1[31:40])#final checkboxgroupimput
+                                                                                    )
+                                                                             #,#final column
+                                                                             #column(width = 3,checkboxGroupInput( inputId = "v4_ns", label = " ",
+                                                                              #         choices=tit1[32:40])#final checkboxgroupimput
+                                                                               #     )#final column
                                                                                        )#final fluidrow
                                                                            
                                                                            
@@ -1977,9 +1979,13 @@ shinyUI(
                       #          uiOutput("VaR_inicial")  
                       # ),#final tabpanel
                       #tabPanel("VaR Portafolio",
+                      
+                      wellPanel(
                         h2(" VaR Portafolio"),
-                               fluidRow(tabBox( width = 12, title = "Distribuciones", id = "eleccion_dist", height = "50px", 
-                                                
+                              # fluidRow(
+                                 
+                                 #tabBox( width = 12, title = "Distribuciones", id = "eleccion_dist", height = "50px", 
+                                 tabsetPanel(type="tabs",   
                                                 tabPanel("Eleccíon individual",
                                                          h2(" Advertencias:"),
                                                          box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('advertencia_dist_varp_el')),
@@ -2007,8 +2013,8 @@ shinyUI(
                                                          h2(" Desea selecionar archivo de distribuciones:"),
                                                          radioButtons( inputId = "seleccion_dist",label = "Elija una opción:", 
                                                                        choices = c("Si"=1, "No"=0),selected=0),
-                                                         box( width=12, style="overflow-x:scroll",status = "success",
-                                                              tableOutput("dist_elegir"),
+                                                         # box( width=12, style="overflow-x:scroll",status = "success",
+                                                         #      tableOutput("dist_elegir"),
                                                               fluidRow(
                                                                 box(width = 12, title = h3(UPLOADDATA_TEXT),
                                                                     box( width=12,background = "navy",
@@ -2019,15 +2025,18 @@ shinyUI(
                                                                       box(width=4,background="olive",strong(ENCABEZADO_TEXT),
                                                                           checkboxInput( width="100%", 'header_dist', WITHHEADER_TEXT, TRUE)),
                                                                       box(width=4,background="olive",
-                                                                          radioButtons( width="40%", 'sep_dist', SEPARATOR_TEXT, UPLOADFILESEP_CONF, ';')),
+                                                                          radioButtons( width="40%", 'sep_dist', SEPARATOR_TEXT, UPLOADFILESEP_CONF_1, ';')),
                                                                       box(width=4,background="olive",
                                                                           radioButtons( width="40%", 'quote_dist', COMILLAS_TEXT, UPLOADCOMILLAS_CONF, ''))
                                                                     )
                                                                 )
-                                                              ),
-                                                              fluidRow(
-                                                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('data_dist'))
-                                                              )
+                                                              ), 
+                                                         fluidRow(
+                                                                box( width=12, style="overflow-x:scroll",status = "success",
+                                                                           tableOutput("dist_elegir"))
+                                                              #fluidRow(
+                                                              #   box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('data_dist'))
+                                                              # )
                                                               
                                                               
                                                               
@@ -2040,11 +2049,11 @@ shinyUI(
                                                 #         h2(" Las distribuciones asignadas son:")
                                                 #)
                                                 
-                               )#final tabbox
-                               )#final fluidrow
+                               )#final tabsetpannel
+                              # )#final fluidrow
                                
                                
-                               
+                      )#final wellpanel    
                                
 
                      # )#final tabpanel

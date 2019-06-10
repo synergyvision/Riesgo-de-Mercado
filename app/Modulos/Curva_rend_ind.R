@@ -302,7 +302,7 @@ output$q1_ns1 <- renderPrint(
 ns1 <- reactive({
   if(is.null(data_tit_tif_ns())){
     #input$t1_ns1
-    return(c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns))
+    return(c(input$t1_ns,input$t2_ns,input$t3_ns))
   }else{
     a <- data_tit_tif_ns() 
     return(as.character(a[,1]))
@@ -499,7 +499,7 @@ output$pa_tif_ns <- renderPrint({(pa_ns)})
 #+++++++++++++++++++++++++++++++++++++#
 
 output$p_est_tif_ns <- renderDataTable({
-  #if(length(c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns))!=0){
+  #if(length(c(input$t1_ns,input$t2_ns,input$t3_ns))!=0){
   if(length(ns1())!=0){
     a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = pa_ns,ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,fe2=0,fe3=0)[[1]] )
     if(class(a)!="try-error"){datatable(a, options = list(paging = FALSE))}else{}
@@ -597,7 +597,7 @@ output$p_est_tif_opt_ns <- renderDataTable({
   if(input$opt_tif_ns==1){
     withProgress(message = 'Calculando precios teóricos...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
-      #Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns,input$t4_ns),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[1]] 
+      #Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[1]] 
       a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,fe2=input$opt_tif_ns,fe3=0)[[1]] )
       if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
       
@@ -730,7 +730,7 @@ output$q1_ns2 <- renderPrint(
 ns2 <- reactive({
   if(is.null(data_tit_veb_ns())){
     #input$t1_ns2
-    c(input$v1_ns,input$v2_ns,input$v3_ns,input$v4_ns)
+    c(input$v1_ns,input$v2_ns,input$v3_ns)
     
   }else{
     a <- data_tit_veb_ns() 

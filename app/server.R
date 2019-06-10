@@ -6423,8 +6423,9 @@ shinyServer(function(input, output) {
     return()
   }else if(input$seleccion_dist==1){
     #as.data.frame(rep(1,10))
-    b <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
-    b
+    #b <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
+    #b
+    datadist()
   }
     
   })
@@ -8624,8 +8625,9 @@ shinyServer(function(input, output) {
       distribuciones()
     }else if(input$seleccion_dist==1){
       #as.data.frame(rep(1,10))
-      b <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
-      b
+      #b <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
+      #b
+      datadist()
     }
   })
   
@@ -8667,8 +8669,9 @@ shinyServer(function(input, output) {
     if(input$seleccion_dist==0){
       dist <- distribuciones()
     }else if(input$seleccion_dist==1){
-      dist <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
-    }
+      #dist <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
+    dist <- datadist()
+      }
     
     #cuando hay problemas con rend
     #titulos donde hay problema
@@ -8966,8 +8969,9 @@ shinyServer(function(input, output) {
     if(input$seleccion_dist==0){
       dist <- distribuciones()
     }else if(input$seleccion_dist==1){
-      dist <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
-    }
+      #dist <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
+    dist <- datadist()
+      }
     
     #cuando hay problemas con rend
     #titulos donde hay problema
@@ -9237,8 +9241,9 @@ shinyServer(function(input, output) {
     if(input$seleccion_dist==0){
       dist <- distribuciones()
     }else if(input$seleccion_dist==1){
-      dist <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
-    }
+      #dist <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
+    dist <- datadist()
+      }
     
     #cuando hay problemas con rend
     #titulos donde hay problema
@@ -10850,7 +10855,9 @@ shinyServer(function(input, output) {
         dist <- distribuciones()
       }else if(input$seleccion_dist==1){
         #dist <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
-        dist <- read.csv(paste(getwd(),"data","distribuciones3.txt",sep = "/"),sep="")
+        #dist <- read.csv(paste(getwd(),"data","distribuciones3.txt",sep = "/"),sep="")
+        dist <- datadist()
+        
         }
       
       #cuando hay problemas con rend
