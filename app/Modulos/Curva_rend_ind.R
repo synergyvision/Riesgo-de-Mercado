@@ -1141,7 +1141,7 @@ output$q_sv1 <- renderPrint(
 sv1 <- reactive({
   if(is.null(data_tif_sv())){
     #input$t_sv1
-    c(input$t1,input$t2,input$t3,input$t4)
+    c(input$t1,input$t2,input$t3)
   }else{
     a <- data_tif_sv() 
     as.character(a[,1])
@@ -1547,7 +1547,7 @@ output$q2<-renderPrint({
 sv2 <- reactive({
   if(is.null(data_veb_sv())){
     #input$t_sv1
-    c(input$v1,input$v2,input$v3,input$v4)
+    c(input$v1,input$v2,input$v3)
   }else{
     a <- data_veb_sv() 
     as.character(a[,1])
@@ -1957,7 +1957,7 @@ output$q1_dl <- renderPrint({dl1()})
 dl1 <- reactive({
   if(is.null(data_tif_dl())){
     #input$t_sv1
-    c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl)
+    c(input$t1_dl,input$t2_dl,input$t3_dl)
   }else{
     a <- data_tif_dl() 
     as.character(a[,1])
@@ -2057,7 +2057,7 @@ output$c_tif_splines_dl <- renderRbokeh({
     # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     # dat[,3] <- as.Date(as.character(dat[,3]))
     # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-    #y <-predict(Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),car,pr=tf_dl())[[4]],seq(0.1,20,0.1)*365)$y
+    #y <-predict(Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl),car,pr=tf_dl())[[4]],seq(0.1,20,0.1)*365)$y
     y <-try(predict(tabla_sp_dl_tif()[[4]],seq(0.1,20,0.1)*365)$y)
     
     if(class(y)!="try-error"){
@@ -2084,7 +2084,7 @@ pto_sp_tif_dl <- reactive({
   # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
   # dat[,3] <- as.Date(as.character(dat[,3]))
   # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
-  #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl,input$t4_dl),car,pr=tf_dl())[[2]]
+  #a <- Tabla.splines(data = dat,tipo = "TIF",fe=input$n3,num = 40,par = input$parametro_tif_dl,tit=c(input$t1_dl,input$t2_dl,input$t3_dl),car,pr=tf_dl())[[2]]
   a <- tabla_sp_dl_tif()[[2]]
   
   # a1 <- cbind.data.frame(a$Plazo,a$Rendimiento)
