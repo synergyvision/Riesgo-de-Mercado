@@ -426,12 +426,12 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       if(cond==1){
         Tabla <- as.data.frame(print("Problemas al optimizar"))
         names(Tabla) <- "Aviso"
-        Tabla1 <- list(Tabla,NULL,NULL)
+        Tabla1 <- list(Tabla[c(6,13,14),],NULL,NULL)
       }else{
-        Tabla1 <- list(Tabla,ala$par,precios)
+        Tabla1 <- list(Tabla[c(6,13,14),],ala$par,precios)
       }
     }else if(fe2==0){
-      Tabla1 <- list(Tabla,pa,precios)
+      Tabla1 <- list(Tabla[c(6,13,14),],pa,precios)
     }
     
     return(Tabla1)
@@ -650,12 +650,12 @@ Tabla.sven=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       if(cond==1){
         Tabla <- as.data.frame(print("Problemas al optimizar"))
         names(Tabla) <- "Aviso"
-        Tabla1 <- list(Tabla,NULL,NULL)
+        Tabla1 <- list(Tabla[c(6,13,14),],NULL,NULL)
       }else{
-        Tabla1 <- list(Tabla,ala$par,precios)
+        Tabla1 <- list(Tabla[c(6,13,14),],ala$par,precios)
       }
     }else if(fe2==0){
-      Tabla1 <- list(Tabla,pa,precios)
+      Tabla1 <- list(Tabla[c(6,13,14),],pa,precios)
     }
     
     return(Tabla1)
@@ -1138,16 +1138,17 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       if(cond==1){
         Tabla <- as.data.frame(print("Problemas al optimizar"))
         names(Tabla) <- "Aviso"
-        Tabla1 <- list(Tabla,NULL,NULL)
+        Tabla1 <- list(Tabla[c(6,13,14),],NULL,NULL)
       }else{
-        Tabla1 <- list(Tabla,ala$par,precios)
+        Tabla1 <- list(Tabla[c(6,13,14),],ala$par,precios)
       }
       
     }else if(fe2==0){
-      Tabla1 <- list(Tabla,pa,precios)
+      Tabla1 <- list(Tabla[c(6,13,14),],pa,precios)
     }
     
     return(Tabla1)
+    
   } #final if ind -tif
   
   #CASO VEBONOS
@@ -1365,12 +1366,12 @@ Tabla.ns=function(fv,tit,pr,pa,ind,C,fe2,fe3){
       if(cond==1){
         Tabla <- as.data.frame(print("Problemas al optimizar"))
         names(Tabla) <- "Aviso"
-        Tabla1 <- list(Tabla,Tabla,Tabla)
+        Tabla1 <- list(Tabla[c(6,13,14),],Tabla,Tabla)
       }else{
-        Tabla1 <- list(Tabla,ala$par,precios)
+        Tabla1 <- list(Tabla[c(6,13,14),],ala$par,precios)
       }
     }else if(fe2==0){
-      Tabla1 <- list(Tabla,pa,precios)
+      Tabla1 <- list(Tabla[c(6,13,14),],pa,precios)
     }
     
     return(Tabla1)
@@ -1739,7 +1740,7 @@ precio.dl=function(tit,fv,C,pa,spline1,pr){
   Pre <- cbind.data.frame("Titulos"=c(tit,"SRC"),"Precio"=c(Pr,0))
   
   #creo lista
-  Pre1 <- list(Tabla,Pre)
+  Pre1 <- list(Tabla[c(1,4,8),],Pre)
   
   return(Pre1)
   
@@ -2122,7 +2123,7 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C,pr){
     
     #rownames(Pr_tit_tif)[length(Pr_tit_tif[,1])] <- "SRC"
     
-    res_tif <- list(Pr_tit_tif,candidatos[,c(2,3,6,7,12,13,15,17,18)],letra,spline1,Tabla) 
+    res_tif <- list(Pr_tit_tif,candidatos[,c(2,3,6,7,12,13,15,17,18)],letra,spline1,Tabla[c(1,4,8),]) 
     
     return(res_tif)
     
@@ -2277,7 +2278,7 @@ Tabla.splines <- function(data,tipo,fe,num,par,tit,C,pr){
     
     #rownames(Pr_tit_veb)[length(Pr_tit_veb[,1])] <- "SRC"
     
-    res_veb <- list(Pr_tit_veb,candidatos[,c(2,3,6,7,12,13,15,17,18)],letra,spline1,Tabla) 
+    res_veb <- list(Pr_tit_veb,candidatos[,c(2,3,6,7,12,13,15,17,18)],letra,spline1,Tabla[c(1,4,8),]) 
     
     return(res_veb)
     

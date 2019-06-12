@@ -239,8 +239,8 @@ shinyUI(
                                                                  
                                                         verbatimTextOutput("pa_tif_ns"),
                                                         h2(" Precios estimados iniciales"),
-                                                        box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_ns"),
-                                                                                                    style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                        box(width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_ns"),
+                                                                                                    style="overflow-y: scroll;overflow-x: scroll")),
                                                         h2(" Curva de rendimientos inicial TIF"),
                                                         plotlyOutput("c_tif_ns")
                                                                  
@@ -272,8 +272,8 @@ shinyUI(
                                                                  h4(" Verificación, "),
                                                                  verbatimTextOutput("ver_ns_tif"),
                                                                  h2(" Precios estimados"),
-                                                                 box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_ns_el"),
-                                                                                                       style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                                 box(width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_ns_el"),
+                                                                                                       style="overflow-y: scroll;overflow-x: scroll")),
                                                                  h4(" Curva de Rendimiento"),
                                                                  plotlyOutput("c_tif_ns1_new")
                                                                  ),# final tabpanel pa elegir
@@ -392,8 +392,8 @@ shinyUI(
                                                              tabPanel(" Parámetros Iniciales ",
                                                         h2(" Parámetros iniciales"),verbatimTextOutput("pa_veb_ns") ,
                                                         h2(" Precios estimados iniciales"),
-                                                        box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_veb_ns"),
-                                                                                              style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                        box(width = "12",column(width = 12,DT::dataTableOutput("p_est_veb_ns"),
+                                                                                              style="overflow-y: scroll;overflow-x: scroll")),
                                                         
                                                         h2(" Curva de rendimientos inicial"),
                                                         plotlyOutput("c_veb_ns")
@@ -426,8 +426,8 @@ shinyUI(
                                                                  h4(" Verificación, "),
                                                                  verbatimTextOutput("ver_ns_veb"),
                                                                  h2(" Precios estimados"),
-                                                                 box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_veb_ns_el"),
-                                                                                                       style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                                 box(width = "12",column(width = 12,DT::dataTableOutput("p_est_veb_ns_el"),
+                                                                                                       style="overflow-y: scroll;overflow-x: scroll")),
                                                                  
                                                                  h4(" Curva de Rendimiento"),
                                                                  plotlyOutput("c_veb_ns1_new")
@@ -555,8 +555,8 @@ shinyUI(
                                                   tabsetPanel(type="tabs",        
                                                   tabPanel(" Parámetros Iniciales ",verbatimTextOutput("pa_tif"),#withMathJax(uiOutput("formula")),
                                                                    h2(" Precios estimados iniciales"),
-                                                           box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_tif"),
-                                                                                                 style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                           box(width = "12",column(width = 12,DT::dataTableOutput("p_est_tif"),
+                                                                                                 style="overflow-y: scroll;overflow-x: scroll")),
                                                            
                                                                    h2(" Curva de rendimientos inicial"),
                                                            plotlyOutput("c_tif_sven")
@@ -593,8 +593,8 @@ shinyUI(
                                                                    h4(" Verificación, "),
                                                                    verbatimTextOutput("ver_sven_tif"),
                                                                    h2(" Precios estimados"),
-                                                                   box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_opt_sven_el"),
-                                                                                                         style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                                   box(width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_opt_sven_el"),
+                                                                                                         style="overflow-y: scroll;overflow-x: scroll")),
                                                                    
                                                                    h4(" Curva de Rendimiento"),
                                                                    plotlyOutput("c_tif_sven_new")
@@ -705,8 +705,8 @@ shinyUI(
                                                   tabsetPanel(type="tabs",       
                                                    tabPanel(" Parámetros Iniciales ",verbatimTextOutput("pa_veb"),#withMathJax(uiOutput("formula")),
                                                                    h2(" Precios estimados iniciales"),
-                                                            box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_veb"),
-                                                                                                  style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                            box(width = "12",column(width = 12,DT::dataTableOutput("p_est_veb"),
+                                                                                                  style="overflow-y: scroll;overflow-x: scroll")),
                                                             
                                                             
                                                                    h2(" Curva de rendimientos inicial"),
@@ -744,8 +744,8 @@ shinyUI(
                                                                    h4(" Verificación, "),
                                                                    verbatimTextOutput("ver_sven_veb"),
                                                                    h2(" Precios estimados"),
-                                                                   box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_veb_opt_sven_el"),
-                                                                                                         style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                                   box(width = "12",column(width = 12,DT::dataTableOutput("p_est_veb_opt_sven_el"),
+                                                                                                         style="overflow-y: scroll;overflow-x: scroll")),
                                                                    
                                                                    h4(" Curva de Rendimiento"),
                                                                    plotlyOutput("c_veb_sven_new")
@@ -871,8 +871,8 @@ shinyUI(
                                                     h2(" Curva spline Tif"),
                                                     rbokehOutput("c_tif_splines_dl"),
                                                     h2(" Precios estimados"),
-                                                    box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_dl_tif"),
-                                                                            style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                    box(width = "12",column(width = 12,DT::dataTableOutput("p_est_dl_tif"),
+                                                                            style="overflow-y: scroll;overflow-x: scroll")),
                                                     
                                                     h2(" Curva de Rendimientos"),
                                                     plotlyOutput("curva_tif_dl")
@@ -963,8 +963,8 @@ shinyUI(
                                                     h2(" Curva spline Vebonos"),
                                                     rbokehOutput("c_veb_splines_dl"),
                                                     h2(" Precios estimados"),
-                                                    box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_dl_veb"),
-                                                                            style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                    box(width = "12",column(width = 12,DT::dataTableOutput("p_est_dl_veb"),
+                                                                            style="overflow-y: scroll;overflow-x: scroll")),
                                                     
                                                     h2(" Curva de Rendimientos"),
                                                     plotlyOutput("curva_veb_dl")
@@ -1071,8 +1071,8 @@ shinyUI(
                                     
                                     
                                     h2(" Precios Splines"),
-                                    box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("pre_sp_tif"),
-                                                                          style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                    box(width = "12",column(width = 12,DT::dataTableOutput("pre_sp_tif"),
+                                                                          style="overflow-y: scroll;overflow-x: scroll")),
                                     
                                     h2(" Curva de rendimientos TIF"),
                                     rbokehOutput("c_tif_splines"),#verbatimTextOutput("datos")
@@ -1194,8 +1194,8 @@ shinyUI(
                                     
                                     
                                     h2(" Precios Splines"),
-                                    box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("pre_sp_veb"),
-                                                                          style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                    box(width = "12",column(width = 12,DT::dataTableOutput("pre_sp_veb"),
+                                                                          style="overflow-y: scroll;overflow-x: scroll")),
                                     
                                     h2(" Curva de rendimientos VEBONO"),
                                     rbokehOutput("c_veb_splines"),#verbatimTextOutput("datos")
@@ -1377,8 +1377,8 @@ shinyUI(
                                                                          h4(" Verificación, "),
                                                                          verbatimTextOutput("ver_ns_tif_comp"),
                                                                          h2(" Precios estimados"),
-                                                                         box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_ns_el_comp"),
-                                                                                                               style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                                         box(width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_ns_el_comp"),
+                                                                                                               style="overflow-y: scroll;overflow-x: scroll")),
                                                                          
                                                                          h4(" Curva de Rendimiento"),
                                                                          plotlyOutput("c_tif_ns1_new_comp")
@@ -1453,8 +1453,8 @@ shinyUI(
                                                                          h4(" Verificación, "),
                                                                          verbatimTextOutput("ver_sven_tif_comp"),
                                                                          h2(" Precios estimados"),
-                                                                         box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_opt_sven_el_comp"),
-                                                                                                               style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                                         box(width = "12",column(width = 12,DT::dataTableOutput("p_est_tif_opt_sven_el_comp"),
+                                                                                                               style="overflow-y: scroll;overflow-x: scroll")),
                                                                          
                                                                          h4(" Curva de Rendimiento"),
                                                                          plotlyOutput("c_tif_sven_new_comp")
@@ -1503,8 +1503,8 @@ shinyUI(
                                                       h2(" Curva spline Tif"),
                                                       rbokehOutput("c_tif_splines_dl_comp"),
                                                       h2(" Precios estimados"),
-                                                      box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_dl_tif_comp"),
-                                                                                            style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                      box(width = "12",column(width = 12,DT::dataTableOutput("p_est_dl_tif_comp"),
+                                                                                            style="overflow-y: scroll;overflow-x: scroll")),
                                                       
                                                       h2(" Curva de Rendimientos"),
                                                       plotlyOutput("curva_tif_dl_comp")
@@ -1533,8 +1533,8 @@ shinyUI(
                                                       
                                                       
                                                       h2(" Precios Splines"),
-                                                      box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("pre_sp_tif_comp"),
-                                                                                            style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                      box(width = "12",column(width = 12,DT::dataTableOutput("pre_sp_tif_comp"),
+                                                                                            style="overflow-y: scroll;overflow-x: scroll")),
                                                       
                                                       h2(" Curva de rendimientos TIF"),
                                                       rbokehOutput("c_tif_splines_comp"),#verbatimTextOutput("datos")
@@ -1666,8 +1666,8 @@ shinyUI(
                                                          h4(" Verificación, "),
                                                          verbatimTextOutput("ver_ns_veb_comp"),
                                                          h2(" Precios estimados"),
-                                                         box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_veb_ns_el_comp"),
-                                                                                               style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                         box(width = "12",column(width = 12,DT::dataTableOutput("p_est_veb_ns_el_comp"),
+                                                                                               style="overflow-y: scroll;overflow-x: scroll")),
                                                          
                                                          h4(" Curva de Rendimiento"),
                                                          plotlyOutput("c_veb_ns1_new_comp")
@@ -1740,8 +1740,8 @@ shinyUI(
                                                          h4(" Verificación, "),
                                                          verbatimTextOutput("ver_sven_veb_comp"),
                                                          h2(" Precios estimados"),
-                                                         box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_veb_opt_sven_el_comp"),
-                                                                                               style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                                         box(width = "12",column(width = 12,DT::dataTableOutput("p_est_veb_opt_sven_el_comp"),
+                                                                                               style="overflow-y: scroll;overflow-x: scroll")),
                                                          
                                                          h4(" Curva de Rendimiento"),
                                                          plotlyOutput("c_veb_sven_new_comp")
@@ -1790,8 +1790,8 @@ shinyUI(
                                       h2(" Curva spline Tif"),
                                       rbokehOutput("c_veb_splines_dl_comp"),
                                       h2(" Precios estimados"),
-                                      box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("p_est_dl_veb_comp"),
-                                                                            style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                      box(width = "12",column(width = 12,DT::dataTableOutput("p_est_dl_veb_comp"),
+                                                                            style="overflow-y: scroll;overflow-x: scroll")),
                                       
                                       h2(" Curva de Rendimientos"),
                                       plotlyOutput("curva_veb_dl_comp")
@@ -1819,8 +1819,8 @@ shinyUI(
                                       
                                       
                                       h2(" Precios Splines"),
-                                      box(height ="595",width = "12",column(width = 12,DT::dataTableOutput("pre_sp_veb_comp"),
-                                                                            style="height:500px;overflow-y: scroll;overflow-x: scroll")),
+                                      box(width = "12",column(width = 12,DT::dataTableOutput("pre_sp_veb_comp"),
+                                                                            style="overflow-y: scroll;overflow-x: scroll")),
                                       
                                       h2(" Curva de rendimientos VEBONOS"),
                                       rbokehOutput("c_veb_splines_comp"),#verbatimTextOutput("datos")
