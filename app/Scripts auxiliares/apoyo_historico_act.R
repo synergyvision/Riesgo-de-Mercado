@@ -131,6 +131,42 @@ write.table(H,paste(getwd(),"app","data","Historico_act.txt",sep = "/"),row.name
 #Caracteristicas por pasos
 ruta="~/30-04-2019.xls"
 
+#actualizo historico Mayo 2019
+#leo data inicial
+Historico_act <- read.csv("~/.Trash/Riesgo-de-Mercado/app/data/Historico_act.txt", sep="")
+junio <- Historico_act[c(3042:3045),]
+
+#inicio hasta Abril 2019
+his <- Historico_act[1:3041,]
+
+#calculo Mayo 2019
+#leo 022
+may19 <- Preciosbcv(ruta = "~/Documents/resumersec_0519-3.xlsx")
+
+#leo caracteristica
+ca <- Carac("~/Documents/Caracteristicas_jun.xls")
+may19 <- formatop(ca,may19)
+
+may19$`Fecha op` <- as.Date(may19$`Fecha op`,format="%d/%m/%Y")
+may19$F.Vencimiento <-   as.Date(may19$F.Vencimiento,format="%d/%m/%Y")
+may19 <- may19[order(may19[,3]),]
+
+#doy formato antes de unir data
+may19$`Fecha op` <- as.character(may19$`Fecha op`)
+may19$F.Vencimiento <- as.character(may19$F.Vencimiento)
+junio$Fecha.op <- as.character(junio$Fecha.op)
+junio$F.Vencimiento <- as.character(junio$F.Vencimiento)
+his$Fecha.op <- as.character(his$Fecha.op)
+his$F.Vencimiento <- as.character(his$F.Vencimiento)
+
+#uno hist + mayo + jun
+names(may19) <- names(his)  
+names(junio) <- names(his)
+H <- rbind.data.frame(his,may19,junio)
+
+#EXPORTAR H!
+write.table(H,paste(getwd(),"app","data","Historico_act.txt",sep = "/"),row.names = FALSE)
+
 
 
 #---------------------------------#
