@@ -13,8 +13,8 @@ cmd <- cron_rscript(f)
 #cron_add(command = cmd, frequency = '*/15 * * * *',
 #         id = 'proceso', description = 'My process 1', at = '11:42')
 
-cron_add(command = cmd, frequency = 'hourly',
-         id = 'proceso', description = 'My process 1', at = '17:13')
+cron_add(command = cmd, frequency = 'daily',
+         id = 'proceso', description = 'My process 1', at = '16:00')
 
 cron_njobs()
 cron_ls()

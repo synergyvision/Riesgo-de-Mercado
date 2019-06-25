@@ -82,17 +82,18 @@ shinyUI(
     dashboardBody(VisionHeader(),
             tabItems(
               tabItem(tabName = "datos_curvas",
-                      h2(" Descarga de archivos"),
+                      #h2(" Descarga de archivos"),
+                      h2(" Archivos a utilizar"),
                       # Input: Choose dataset ----
-                      selectInput("dataset", "Elegir un Archivo:",
-                                  choices = c("0-22", "Caracteristicas"
-                                  )),
+                      # selectInput("dataset", "Elegir un Archivo:",
+                      #             choices = c("0-22", "Caracteristicas"
+                      #             )),
                       
                       # Button
-                      downloadButton("downloadData", "Descargar"),
-                      h5(" Usted seleccionó"),
-                      verbatimTextOutput("desc"),
-                      h5(" Vista previa"),
+                      #downloadButton("downloadData", "Descargar"),
+                      #h5(" Usted seleccionó"),
+                      #verbatimTextOutput("desc"),
+                      #h5(" Vista previa"),
                       tabsetPanel(type="pills",
                                   tabPanel("Características",
                                            h5("Documento Características"),
