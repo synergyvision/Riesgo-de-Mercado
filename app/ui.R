@@ -2507,7 +2507,7 @@ shinyUI(
                       
               ),#final tabitem Backtesting
               tabItem(tabName = "resultados_back",
-                      h3(" Elegir porcentaje del VaR:"),
+                      h3(" Elegir porcentaje del Backtesting:"),
                       box(width = 12, background = "navy",
                            selectInput( inputId = "porback", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
                       ),

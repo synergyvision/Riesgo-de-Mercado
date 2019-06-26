@@ -331,8 +331,11 @@ knitr::include_graphics("images/vr4.png")
 knitr::include_graphics("images/vr5.png")
 ``` 
  + Se debe seleccionar "Si", en el recuadro que pregunta si desea guardar su distribución. Luego de esto la distribución de cada instrumento se guardará para su posterior uso. Esta serie de pasos debe repetirse por cada instrumento considerado (Ver Figura \@ref(fig:img48)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Distribuciones",label=img48}
+```{r , echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/vr6.png")
+``` 
+```{r , echo=FALSE, fig.align='center',fig.cap="Distribuciones",label=img48}
+knitr::include_graphics("images/vr6.1.png")
 ``` 
 
 2. Seleccionar un archivo que contenga las distribuciones: En caso de elegir esta opción el usuario debe cargar un archivo con las siguientes características:
@@ -595,10 +598,12 @@ En esta subsección se muestran los resultados obtenidos para las diferentes pru
 * Valor crítico asociado a cada prueba.
 * Resultado de cada prueba, obtenido al realizar una comparación entre el valor crítico y el valor del estadístico de cada prueba.
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Resultados",label=img93}
+```{r , echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/b4.png")
 ``` 
-
+```{r , echo=FALSE, fig.align='center',fig.cap="Resultados",label=img93}
+knitr::include_graphics("images/b4.1.png")
+``` 
 ## Valoración
 
 Esta sección permite realizar los cáculos de valoración de un portafolio, a partir de sus precios y valor nominal para un día determinado en términos de utilidad y pérdida. De igual manera, esta sección permite realizar una prueba de estrés y saber como se comportará la utilidad o périda del portafolio en caso de una posible caida de los precios (Ver Figura \@ref(fig:img94)).
