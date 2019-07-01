@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Capítulo 2 Curva de Rendimientos | Riesgo de Mercado</title>
+  <meta name="description" content="Capítulo 2 Curva de Rendimientos | Riesgo de Mercado>
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Capítulo 2 Curva de Rendimientos | Riesgo de Mercado />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="http://synergy.vision/Riesgo-de-Mercado/" />
+  <meta property="og:image" content="http://synergy.vision/Riesgo-de-Mercado/images/cover.png" />
+  
+  <meta name="github-repo" content="synergyvision/Riesgo-de-Mercado/" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 2 Curva de Rendimientos | Riesgo de Mercado />
+  
+  
+  <meta name="twitter:image" content="http://synergy.vision/Riesgo-de-Mercado/images/cover.png" />
+
+<meta name="author" content="Synergy Vision">
+
+
+<meta name="date" content="2019-06-11">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="introduccion.html">
+<link rel="next" href="valor-en-riesgo.html">
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="https://cdn.datacamp.com/datacamp-light-latest.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./"><img src="images/logovision-black.png" width="160"></img></a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefacio</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#por-que-leer-este-libro"><i class="fa fa-check"></i>¿Por qué leer este libro?</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#estructura-del-libro"><i class="fa fa-check"></i>Estructura del libro</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#informacion-sobre-los-programas-y-convenciones"><i class="fa fa-check"></i>Información sobre los programas y convenciones</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#practicas-interactivas-con-r"><i class="fa fa-check"></i>Prácticas interactivas con R</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#agradecimientos"><i class="fa fa-check"></i>Agradecimientos</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="acerca-del-autor.html"><a href="acerca-del-autor.html"><i class="fa fa-check"></i>Acerca del Autor</a></li>
+<li class="chapter" data-level="1" data-path="introduccion.html"><a href="introduccion.html"><i class="fa fa-check"></i><b>1</b> Introducción</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduccion.html"><a href="introduccion.html#motivation"><i class="fa fa-check"></i><b>1.1</b> Motivation</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html"><i class="fa fa-check"></i><b>2</b> Curva de Rendimientos</a><ul>
+<li class="chapter" data-level="2.1" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologias-parametricas."><i class="fa fa-check"></i><b>2.1</b> Metodologías Paramétricas.</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologia-nelson-y-siegel"><i class="fa fa-check"></i><b>2.1.1</b> Metodología Nelson y Siegel</a></li>
+<li class="chapter" data-level="2.1.2" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologia-svensson"><i class="fa fa-check"></i><b>2.1.2</b> Metodología Svensson</a></li>
+<li class="chapter" data-level="2.1.3" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#polinomios-de-componentes-principales."><i class="fa fa-check"></i><b>2.1.3</b> Polinomios de componentes principales.</a></li>
+<li class="chapter" data-level="2.1.4" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#polinomios-trigonometricos."><i class="fa fa-check"></i><b>2.1.4</b> Polinomios trigonométricos.</a></li>
+<li class="chapter" data-level="2.1.5" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologia-diebold-li"><i class="fa fa-check"></i><b>2.1.5</b> Metodología Diebold-Li</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologias-no-parametricas"><i class="fa fa-check"></i><b>2.2</b> Metodologías no Paramétricas</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#regresion-kernel"><i class="fa fa-check"></i><b>2.2.1</b> Regresión Kernel</a></li>
+<li class="chapter" data-level="2.2.2" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#polinomios-locales"><i class="fa fa-check"></i><b>2.2.2</b> Polinomios locales</a></li>
+<li class="chapter" data-level="2.2.3" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#splines-suavizados"><i class="fa fa-check"></i><b>2.2.3</b> Splines suavizados</a></li>
+<li class="chapter" data-level="2.2.4" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#splines-de-polinomios"><i class="fa fa-check"></i><b>2.2.4</b> Splines de polinomios</a></li>
+<li class="chapter" data-level="2.2.5" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#splines-suavizados-1"><i class="fa fa-check"></i><b>2.2.5</b> Splines suavizados</a></li>
+<li class="chapter" data-level="2.2.6" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#supersuavizador-de-friedmann"><i class="fa fa-check"></i><b>2.2.6</b> Supersuavizador de Friedmann</a></li>
+<li class="chapter" data-level="2.2.7" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#redes-neuronales-artificiales"><i class="fa fa-check"></i><b>2.2.7</b> Redes neuronales artificiales</a></li>
+<li class="chapter" data-level="2.2.8" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologia-splines-cubicos-de-suavizado"><i class="fa fa-check"></i><b>2.2.8</b> Metodología Splines Cúbicos de Suavizado</a></li>
+<li class="chapter" data-level="2.2.9" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#regresion-no-parametrica"><i class="fa fa-check"></i><b>2.2.9</b> Regresión no paramétrica</a></li>
+<li class="chapter" data-level="2.2.10" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#regresion-no-parametrica-mediante-splines-de-suavizado"><i class="fa fa-check"></i><b>2.2.10</b> Regresión no paramétrica mediante splines de suavizado</a></li>
+<li class="chapter" data-level="2.2.11" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#proceso-de-optimizacion-de-nelson-y-siegel-y-svensson"><i class="fa fa-check"></i><b>2.2.11</b> Proceso de Optimización de Nelson y Siegel y Svensson</a></li>
+<li class="chapter" data-level="2.2.12" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#elaboracion-base-de-datos-para-la-metodologia-splines-y-diebold-li"><i class="fa fa-check"></i><b>2.2.12</b> Elaboracion Base de datos para la metodología Splines y Diebold-Li</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html"><i class="fa fa-check"></i><b>3</b> Valor en Riesgo</a><ul>
+<li class="chapter" data-level="3.0.1" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#importancia-del-var"><i class="fa fa-check"></i><b>3.0.1</b> Importancia del VaR</a></li>
+<li class="chapter" data-level="3.1" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#metodologias-para-calcular-el-var"><i class="fa fa-check"></i><b>3.1</b> Metodologías para calcular el VaR</a></li>
+<li class="chapter" data-level="3.2" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#var-simulacion-historica"><i class="fa fa-check"></i><b>3.2</b> VaR Simulación Histórica</a></li>
+<li class="chapter" data-level="3.3" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#var-simulacion-montecarlo"><i class="fa fa-check"></i><b>3.3</b> VaR Simulación MonteCarlo</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#origenes"><i class="fa fa-check"></i><b>3.3.1</b> Origenes</a></li>
+<li class="chapter" data-level="3.3.2" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#definicion"><i class="fa fa-check"></i><b>3.3.2</b> Definición</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#limitaciones-del-var"><i class="fa fa-check"></i><b>3.4</b> Limitaciones del VaR</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="backtesting.html"><a href="backtesting.html"><i class="fa fa-check"></i><b>4</b> Backtesting</a><ul>
+<li class="chapter" data-level="4.1" data-path="backtesting.html"><a href="backtesting.html#definicion-1"><i class="fa fa-check"></i><b>4.1</b> Definición</a></li>
+<li class="chapter" data-level="4.2" data-path="backtesting.html"><a href="backtesting.html#prueba-de-kupiec"><i class="fa fa-check"></i><b>4.2</b> Prueba de Kupiec</a></li>
+<li class="chapter" data-level="4.3" data-path="backtesting.html"><a href="backtesting.html#test-de-prueba-mixta-de-kupiec-haas"><i class="fa fa-check"></i><b>4.3</b> Test de Prueba Mixta de Kupiec (Haas)</a></li>
+<li class="chapter" data-level="4.4" data-path="backtesting.html"><a href="backtesting.html#marco-de-referencia-comite-de-basilea-1996."><i class="fa fa-check"></i><b>4.4</b> Marco de referencia Comité de Basilea (1996).</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="pruebas-de-estres.html"><a href="pruebas-de-estres.html"><i class="fa fa-check"></i><b>5</b> Pruebas de Estrés</a><ul>
+<li class="chapter" data-level="5.1" data-path="pruebas-de-estres.html"><a href="pruebas-de-estres.html#definicion-2"><i class="fa fa-check"></i><b>5.1</b> Definición</a></li>
+<li class="chapter" data-level="5.2" data-path="pruebas-de-estres.html"><a href="pruebas-de-estres.html#utilidad"><i class="fa fa-check"></i><b>5.2</b> Utilidad</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html"><i class="fa fa-check"></i><b>6</b> Manual de Usuario</a><ul>
+<li class="chapter" data-level="6.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curva-de-rendimientos-1"><i class="fa fa-check"></i><b>6.1</b> Curva de Rendimientos</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curva-de-rendimientos-individual"><i class="fa fa-check"></i><b>6.1.1</b> Curva de rendimientos individual</a></li>
+<li class="chapter" data-level="6.1.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#datos"><i class="fa fa-check"></i><b>6.1.2</b> Datos</a></li>
+<li class="chapter" data-level="6.1.3" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologia-nelson-y-siegel-1"><i class="fa fa-check"></i><b>6.1.3</b> Metodología Nelson y Siegel</a></li>
+<li class="chapter" data-level="6.1.4" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologia-diebold-li-1"><i class="fa fa-check"></i><b>6.1.4</b> Metodología Diebold-Li</a></li>
+<li class="chapter" data-level="6.1.5" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologia-splines"><i class="fa fa-check"></i><b>6.1.5</b> Metodología Splines</a></li>
+<li class="chapter" data-level="6.1.6" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curva-de-rendimientos-comparativo"><i class="fa fa-check"></i><b>6.1.6</b> Curva de rendimientos comparativo</a></li>
+<li class="chapter" data-level="6.1.7" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologias"><i class="fa fa-check"></i><b>6.1.7</b> Metodologías</a></li>
+<li class="chapter" data-level="6.1.8" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#precios-estimados"><i class="fa fa-check"></i><b>6.1.8</b> Precios Estimados</a></li>
+<li class="chapter" data-level="6.1.9" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curvas"><i class="fa fa-check"></i><b>6.1.9</b> Curvas</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#valor-en-riesgo-1"><i class="fa fa-check"></i><b>6.2</b> Valor en Riesgo</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#datos-1"><i class="fa fa-check"></i><b>6.2.1</b> Datos</a></li>
+<li class="chapter" data-level="6.2.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#distribucion"><i class="fa fa-check"></i><b>6.2.2</b> Distribución</a></li>
+<li class="chapter" data-level="6.2.3" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#var"><i class="fa fa-check"></i><b>6.2.3</b> VaR</a></li>
+<li class="chapter" data-level="6.2.4" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#graficos"><i class="fa fa-check"></i><b>6.2.4</b> Gráficos</a></li>
+<li class="chapter" data-level="6.2.5" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#historicos"><i class="fa fa-check"></i><b>6.2.5</b> Históricos</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#backtesting-1"><i class="fa fa-check"></i><b>6.3</b> Backtesting</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#datos-2"><i class="fa fa-check"></i><b>6.3.1</b> Datos</a></li>
+<li class="chapter" data-level="6.3.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#resultados"><i class="fa fa-check"></i><b>6.3.2</b> Resultados</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#valoracion"><i class="fa fa-check"></i><b>6.4</b> Valoración</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#datos-3"><i class="fa fa-check"></i><b>6.4.1</b> Datos</a></li>
+<li class="chapter" data-level="6.4.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#resultados-1"><i class="fa fa-check"></i><b>6.4.2</b> Resultados</a></li>
+<li class="chapter" data-level="6.4.3" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#resultados-prueba-de-estres"><i class="fa fa-check"></i><b>6.4.3</b> Resultados prueba de estrés</a></li>
+</ul></li>
+</ul></li>
+<li class="appendix"><span><b>Apéndice</b></span></li>
+<li class="chapter" data-level="A" data-path="software-tools.html"><a href="software-tools.html"><i class="fa fa-check"></i><b>A</b> Software Tools</a><ul>
+<li class="chapter" data-level="A.1" data-path="software-tools.html"><a href="software-tools.html#r-and-r-packages"><i class="fa fa-check"></i><b>A.1</b> R and R packages</a></li>
+<li class="chapter" data-level="A.2" data-path="software-tools.html"><a href="software-tools.html#pandoc"><i class="fa fa-check"></i><b>A.2</b> Pandoc</a></li>
+<li class="chapter" data-level="A.3" data-path="software-tools.html"><a href="software-tools.html#latex"><i class="fa fa-check"></i><b>A.3</b> LaTeX</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Riesgo de Mercado</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="curva-de-rendimientos" class="section level1">
+<h1><span class="header-section-number">Capítulo 2</span> Curva de Rendimientos</h1>
+<!-- La curva de rendimientos es una herramienta utilizada ampliamente, por quienes toman las decisiones de política monetaria o planifican sus inversiones, de acuerdo con la valoración, negociación o cobertura sobre instrumentos financieros. Se ha comprobado que la geometría de la curva de rendimientos en los mercados desarrollados incorpora información relevante para la predicción de las recesiones económicas. De igual manera, en finanzas la curva de rendimientos se convierte en un vector de precios de referencia importante para la fijación de las tasas de interés a diferentes plazos y por riesgo de crédito para bancos, prestamistas, colocadores de bonos y, en general, para todos los participantes del mercado de dinero. -->
+<!-- Los resultados revelan las bondades en el ajuste de las redes neuronales artificiales (RNA), la curva de Svensson, la curva de Nelson-Siegel y los polinomios locales. No obstante, se recomienda utilizar la curva de Svensson en la estimación de las tasas de interés, debido a la interpretabilidad de sus parámetros y a su superioridad sobre la -->
+<!-- Curva de Nelson-Siegel. -->
+<p>La curva de rendimientos es una representación grafica que muestra la relación que existe entre los rendimientos de una clase particular de títulos valores y el tiempo que falta para su vencimiento, lo cual es conocido como la estructura temporal de la tasa de interés (ETTI) para instrumentos con riesgo similar pero con diferentes plazos de maduración. La ETTI es un indicador de la evolución futura de los tipos de interés y de inflación, además, la mayoría de los activos financieros se valoran mediante este indicador, por lo cual también se considera básico en el diseño de estrategias de gestión de riesgos y en la toma de decisiones de inversión y financiación. Existen cuatro formas que puede adoptar una curva de rendimientos:</p>
+<ul>
+<li><strong>Curva ascendente</strong>: generalmente, la curva de rendimientos tiene esta forma, lo que indica que los inversionistas requieren mayores rendimientos para vencimientos de más largo plazo, es decir, que los rendimientos varían directamente con los plazos.</li>
+<li><strong>Curva descendente</strong>: indica que los rendimientos disminuyen a medida que aumentan los plazos.</li>
+<li><p><strong>Curva horizontal</strong>: indica que independientemente del plazo de vencimient o, los rendimientos son los mismos; para períodos muy largos, todas las curvas de rendimientos tienden a aplanarse.</p></li>
+<li><p><strong>Curva horizontal</strong>: indica que independientemente del plazo de vencimiento, los rendimientos son los mismos; para períodos muy largos, todas las curvas de rendimientos tienden a aplanarse.</p></li>
+<li><p><strong>Curva creciente y decreciente</strong>: es el reflejo de una situación en la que los rendimientos de corto y largo plazo son los mismos y los rendimientos de mediano plazo son los que varían.</p></li>
+</ul>
+<!-- \begin{figure}[h] -->
+<!--   \scalebox{0.80}{\includegraphics{images/tipo_curvas.jpg}} -->
+<!-- \caption{Tipos de curva de rendimiento.} -->
+<!-- \label{tipos_c} -->
+<!-- \end{figure} -->
+<!-- ![](images/tipo_curvas.jpg "Figura 1: Tipo de Curvas") -->
+<div class="figure" style="text-align: center"><span id="fig:tipos"></span>
+<img src="images/tipo_curvas.jpg" alt="Tipos de Curvas" width="574" />
+<p class="caption">
+Figura 2.1: Tipos de Curvas
+</p>
+</div>
+<p>Es de esperar que una pendiente negativa de la curva de rendimientos (Ver Figura <a href="curva-de-rendimientos.html#fig:tipos">2.1</a> ) o curva invertida (tasas de largo plazo menores a las de corto plazo) indique expectativas de una recesión futura y, por lo tanto, menores tasas de interés futuras; esto se puede explicar ya que los rendimientos esperados contienen información sobre los planes de consumo de los agentes.</p>
+<p>Entre las teorías que explican la pendiente de la curva de rendimientos, se encuentran:</p>
+<ul>
+<li><p><strong>La teoría de la preferencia por la liquidez</strong>: consiste en que los inversionistas prefieren manejar títulos a corto plazo, pues éstos tienen una sensibilidad menor a los cambios en las tasas de interés y ofrecen una mayor flexibilidad en las inversiones si se compara con los títulos de largo plazo. Además, los prestatarios prefieren deuda a largo plazo, pues la de corto plazo los expone al riesgo de hacer una refinanciación de la deuda en condiciones adversas. Ambas situaciones, generan entonces, tasas de corto plazo relativamente bajas. En su conjunto, estos dos grupos de preferencias implican que en condiciones normales existe una Prima de Riesgo por Vencimiento (PRV) que aumenta en función de los años de vencimiento, haciendo que la curva de rendimientos posea una pendiente ascendente .</p></li>
+<li><p><strong>La teoría de la segmentación del mercado</strong>: considera el mercado de renta fija como una serie de distintos mercados, los inversionistas y los emisores están restringidos por el sector específico de maduración. De acuerdo con esta teoría, la curva de rendimientos refleja una serie de condiciones de oferta y demanda que crean una secuencia de precios de equilibrio de mercado (tasas de interés) de los fondos .</p></li>
+<li><p><strong>La teoría del Hábitat Preferido</strong>: plantea que los inversionistas intentarán liquidar sus inversiones en el menor plazo posible mientras que los prestamistas querrán tomar un plazo más largo; por lo tanto, dado que no se encuentran oferta y demanda de fondos para un mismo plazo, algunos inversionistas o prestatarios se verán motivados a cambiar el plazo de la inversión o el financiamiento pero, para lograrlo, deben ser compensados con un premio por el riesgo cuyo tamano reflejará la extesión de la aversión al riesgo.</p></li>
+<li><p><strong>La Hipótesis de las Expectativas (HE)</strong>: plantea que las tasas de interés de largo plazo deben reflejar por completo la información revelada por las futuras tasas de interés de corto plazo esperadas , o sea que los tipos de largo plazo no son más que una suma ponderada de los tipos de corto plazo esperados . Así, se puede afirmar entonces que la HE es una teoría que plantea que las tasas de interés exclusivamente representan las tasas previstas en el futuro.</p></li>
+</ul>
+<p>##Metodologías de estimación de la Curva de Rendimientos.</p>
+<p>La curva de rendimientos presenta empíricamente una serie de dificultades, debido a que se construye a través de una serie de precios (tasas) de instrumentos financieros discontinuos en el tiempo que, por lo general, están lejos de ser una curva suave. Para su estimación existen diversas metodologías, las paramétricas y las no paramétricas. Las metodologías paramétricas se basan en modelos asociados a una familia funcional que obedece al comportamiento de alguna distribución de probabilidad, sobre la cual suponemos que las características de la población de interés pueden ser descritas. Es así como, los modelos diseñados en este contexto, basados en regresión, buscan describir el comportamiento de una variable de interés con otras llamadas exógenas, a través de funciones de vínculo lineales o no lineales.</p>
+<div id="metodologias-parametricas." class="section level2">
+<h2><span class="header-section-number">2.1</span> Metodologías Paramétricas.</h2>
+<p>Estadísticamente, un modelo paramétrico es una familia funcional que
+obedece al comportamiento de alguna distribución de probabilidad, sobre la cual suponemos que las características de la población de interés
+pueden ser descritas. Es así como, los modelos diseñados en este contexto,
+basados en regresión, buscan describir el comportamiento de una
+variable de interés con otras llamadas exógenas, a través de funciones de
+vínculo lineales o no lineales.</p>
+<div id="metodologia-nelson-y-siegel" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Metodología Nelson y Siegel</h3>
+<p>Nelson y Siegel introducen un modelo paramétrico para el ajuste
+de los rendimientos hasta la madurez de los bonos del tesoro de Estados
+Unidos que se caracteriza por ser parsimonioso y flexible en modelar
+cualquier forma típica asociada con las curvas de rendimientos. La estructura
+paramétrica asociada a este modelo permite analizar el comportamiento
+a corto y a largo plazo de los rendimientos y ajustar -sin
+esfuerzos adicionales-, curvas monótonas, unimodales o del tipo S.</p>
+<p>Una clase de funciones que genera fácilmente las formas usuales de las
+curvas de rendimientos es la asociada con la solución de ecuaciones en
+diferencia. La teoría de expectativas sobre la estructura de las tasas de
+interés promueve la investigación en este sentido, dado que si las tasas
+spot son producidas por medio de una ecuación diferencial, entonces las
+tasas forward -siendo pronósticos-, serán la solución de las ecuaciones
+diferenciales. La expresión paramétrica propuesta por Nelson y Siegel
+que describe las tasas forward es exhibida a continuación:</p>
+<p><span class="math display">\[\displaystyle{f(m) = \beta_{0} + \beta_{1} e^{\frac{-m}{\tau}} +\beta_{2} \left(\frac{-m}{\tau}\right)e^{\frac{-m}{\tau}}}\]</span></p>
+<p>donde <span class="math inline">\(m\)</span> denota la madurez del activo y <span class="math inline">\(\beta_{0}\)</span>, <span class="math inline">\(\beta_{1}\)</span>, <span class="math inline">\(\beta_{2}\)</span> y <span class="math inline">\(\tau\)</span> los parámetros a ser
+estimados. Puesto que las tasas spot pueden ser obtenidas a través de tasas
+forward por medio de la expresión:</p>
+<p><span class="math display">\[\displaystyle{s(m) = \int_{0}^{m}f(x)dx}\]</span></p>
+<p>la ecuación que determina las tasas spot <span class="math inline">\(s(m)\)</span> de activos con madurez m es dada por:</p>
+<p><span class="math display">\[\displaystyle{s(m) = \beta_{0}+ \beta_{1}\frac{\left(1-e^\frac{-m}{\tau}\right)}{m/\tau} + \beta_{2} \left(\frac{\left(1-e^\frac{-m}{\tau}\right)}{m/\tau} -  e^\frac{-m}{\tau}\right)}\]</span></p>
+<p>cuya ecuación es lineal si conocemos <span class="math inline">\(\tau\)</span> .</p>
+<p>El valor límite del rendimiento es <span class="math inline">\(\beta_{0}\)</span> cuando el plazo al vencimiento <span class="math inline">\(m\)</span> es grande, mientras que, cuando el plazo al vencimiento <span class="math inline">\(m\)</span> es pequeño el
+rendimiento en el límite es <span class="math inline">\(\beta_{0}+\beta_{1}\)</span>. Igualmente, los coeficientes del
+modelo de tasas forward pueden ser interpretados como medidas de
+fortaleza al corto, mediano y largo plazo. La contribución al largo plazo
+es determinada por <span class="math inline">\(\beta_{0}\)</span>, <span class="math inline">\(\beta_{1}\)</span> lo hace al corto plazo ponderado por la
+función monótona creciente (decreciente) <span class="math inline">\(e^{\frac{-m}{\tau}}\)</span> cuando <span class="math inline">\(\beta_{1}\)</span> es negativo
+(positivo) y <span class="math inline">\(\beta_{2}\)</span> lo hace al mediano plazo ponderado por la función
+monótona creciente (decreciente) <span class="math inline">\((\frac{-m}{\tau}) e^{\frac{-m}{\tau}}\)</span> cuando <span class="math inline">\(\beta_{2}\)</span> es negativo
+(positivo). Una de las principales utilidades de la curva ha sido para
+propósitos de control de la política monetaria.</p>
+<p>Consecuentemente, <span class="math inline">\(s(m)\)</span> será la ecuación utilizada para captar la relación
+subyacente entre los rendimientos y los plazos al vencimiento o madurez,
+sin recurrir a modelos más complejos que involucren un mayor número
+de parámetros. Adicionalmente, dado que la curva de Nelson-Siegel
+proporciona tasas spot compuestas continuas, estas deben transformarse
+en cantidades discretas, a través de la función de descuento.</p>
+<p><span class="math display">\[\displaystyle{s_{d}(m) = e^{\frac{s(m)}{100}} - 1}\]</span></p>
+</div>
+<div id="metodologia-svensson" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> Metodología Svensson</h3>
+<p>En la curva de Nelson-Siegel se destaca que cada coeficiente del modelo
+contribuye en el comportamiento de las tasas forward en el corto,
+mediano y largo plazo; no obstante, Svensson  propone una nueva
+versión de la curva de Nelson-Siegel donde un cuarto término es incluido
+para producir un efecto adicional y semejante al proporcionado por:
+<span class="math inline">\(\beta_{3}(\frac{m}{\tau_{2}})e^{\frac{-m}{\tau_{2}}}\)</span>.</p>
+<p>En este caso, la función para describir la dinámica de las tasas forward es,</p>
+<p><span class="math display">\[\displaystyle{f(m) = \beta_{0} + \beta_{1} e^{\frac{-m}{\tau_{1}}} +\beta_{2} \left(\frac{-m}{\tau_{1}}\right)e^{\frac{-m}{\tau_{1}}} + \beta_{3}\left(\frac{-m}{\tau_{2}}\right)e^{\frac{-m}{\tau_{2}}} }\]</span></p>
+<p>La curva spot de Svensson puede ser derivada a partir de la curva
+forward en forma semejante a la descrita para el modelo de Nelson-
+Siegel, obteniendo la siguiente expresión:</p>
+<p><span class="math display">\[\displaystyle{s(m) = \beta_{0}+ \beta_{1}\frac{\left(1-e^\frac{-m}{\tau_{1}}\right)}{m/\tau_{1}} + \beta_{2} \left(\frac{\left(1-e^\frac{-m}{\tau_{1}}\right)}{m/\tau_{1}} -  e^\frac{-m}{\tau_{1}}\right) + \beta_{3} \left(\frac{\left(1-e^\frac{-m}{\tau_{2}}\right)}{m/\tau_{2}} -  e^\frac{-m}{\tau_{2}}\right)}\]</span></p>
+<p>La función de descuento tiene que ser utilizada con el fin de obtener las
+tasas estimadas para cada día de negociación o trading. Svensson 
+propone estimar los parámetros de la curva cero cupón (curva spot),
+minimizando una medida de ajuste tal como la suma de cuadrados del
+error sobre los precios spot; sin embargo, enfatiza en que los precios
+pueden llegar a ser mal ajustados para los activos de madurez corta. En
+lugar de llevar el análisis por este camino, propone estimar los
+rendimientos fundamentado, principalmente, en que las decisiones de la
+política económica se basan en el comportamiento de las tasas y que
+obteniendo las tasas a través de la curva, los precios pueden ser
+calculados una vez la función de descuento es evaluada. De esta manera,
+los parámetros son escogidos minimizando la suma de cuadrados de la
+diferencia entre los rendimientos observados y estimados por la curva.</p>
+<p>La estimación es realizada por medio de máxima verosimilitud, mínimos
+cuadrados no lineales o el método de momentos generalizados. En
+muchos casos, como afirma Svensson , el modelo de Nelson-
+Siegel proporciona ajustes satisfactorios, aunque en algunos casos
+cuando la estructura de las tasas de interés es más compleja, el ajuste del
+modelo de Nelson-Siegel es poco satisfactorio y el modelo de Svensson
+logra desempeñarse mejor.</p>
+</div>
+<div id="polinomios-de-componentes-principales." class="section level3">
+<h3><span class="header-section-number">2.1.3</span> Polinomios de componentes principales.</h3>
+<p>Hunt y Terry  propone un ajuste de la curva de rendimientos
+utilizando polinomios. Si frecuentemente la curva es especificada como,</p>
+<ol class="example" style="list-style-type: decimal">
+<li><span class="math display">\[
+y(\tau) = \beta_{0} + \beta_{1}\tau +\beta_{2}\tau^2 +\beta_{3}\tau^3
+\]</span></li>
+</ol>
+<p>La cual puede captar todas la formas que puede asumir la curva, su
+principal problema recae en el ajuste para aquellas tasas con períodos de
+vencimiento bastante largos. Aunque los autores conocen sobre las
+propiedades de parsimonia y de ajuste asociados con la curva de Nelson-
+Siegel, critican los problemas que acarrea la estimación de sus
+parámetros, proponiendo el ajuste de la curva de polinomios, bajo
+algunas modificaciones.</p>
+<p>Una transformación sobre el término de plazos (<span class="math inline">\(\tau\)</span>) que remueve la
+inestabilidad asociada con las tasas a largo plazo del polinomio de la ecuación 1 es
+sugerida. El modelo recomendado, siguiendo la notación de Hunt y
+Terry (1998) es:</p>
+<ol start="2" class="example" style="list-style-type: decimal">
+<li><span class="math display">\[
+y(\tau) = \beta_{0} + \sum_{i=1}^{p} \beta_{i} \frac{1}{(1+\tau)^i}
+\]</span></li>
+</ol>
+<p>donde,</p>
+<p><span class="math display">\[\displaystyle{y(0) = \sum_{i=0}^{p}\beta_{i},   \text{ con } y(\infty) = \beta_{0}   }\]</span></p>
+<p>Investigaciones relacionadas con curvas de rendimientos, han llegado a
+la conclusión que modelos con tres o cuatro parámetros son suficientes
+para obtener un buen ajuste de los datos (Hunt ). Por tal motivo,
+Hunt y Terry  proponen restringir <span class="math inline">\(p\)</span> a tres o cuatro. Aunque este
+número de parámetros no necesariamente determina si realmente la
+bondad de ajuste pueda llegar a ser satisfactoria, los autores proponen
+utilizar componentes principales sobre los primeros <span class="math inline">\(p\)</span> términos
+polinomiales <span class="math inline">\(1/(1 + \tau)\)</span>, con el fin de seleccionar <span class="math inline">\(k&lt;p\)</span> variables, a ser
+incluidas en la ecuación 2. Utilizar las componentes principales
+proporcionará un menor error de ajuste en comparación con la ecuación 1,
+debido a su capacidad para captar variabilidad. Una descripción
+detallada respecto al cálculo de las componentes principales en el
+esquema polinomial es dada por Hunt y Terry .</p>
+</div>
+<div id="polinomios-trigonometricos." class="section level3">
+<h3><span class="header-section-number">2.1.4</span> Polinomios trigonométricos.</h3>
+<p>Las funciones trigonométricas pueden ser utilizadas para capturar de
+forma satisfactoria las distintas configuraciones que pueden asumir las
+curvas de rendimientos. En este caso, el modelo puede ser descrito como
+<span class="math inline">\(y(\tau) = \beta_{0} + \beta_{1}cos(\gamma_{1}\tau) + \beta_{2}sen(\gamma_{2}\tau)\)</span>; donde <span class="math inline">\(\tau\)</span> representa la duración o la
+madurez del papel, en tanto que <span class="math inline">\(\beta_{0}\)</span>, <span class="math inline">\(\beta_{1}\)</span>, <span class="math inline">\(\beta_{2}\)</span>, <span class="math inline">\(\gamma_{1}\)</span> y <span class="math inline">\(\gamma_{2}\)</span> son los parámetros
+objeto de interés. Cualquier metodología de optimización no lineal puede
+ser utilizada para estimar los parámetros del modelo (Nocedal y Wright
+). Aunque podría asumirse un parámetro de fase en el modelo, este
+no es considerado por motivos de parsimonia.</p>
+</div>
+<div id="metodologia-diebold-li" class="section level3">
+<h3><span class="header-section-number">2.1.5</span> Metodología Diebold-Li</h3>
+<div id="modelos-de-factores-de-la-curva-de-rendimientos" class="section level4">
+<h4><span class="header-section-number">2.1.5.1</span> Modelos de factores de la curva de rendimientos</h4>
+<p>Estos modelos son conocidos porque utilizan factores latentes asociados directamente a los componentes de la curva; generalmente el nivel, la pendiente y la curvatura de la misma.</p>
+<p>El modelo más simple y conocido es el de Nelson y Siegel, pues genera aproximaciones muy acertadas en cuanto a la simulación de la curva, además de representar de manera adecuada sus características: como lo mencionan en (Christensen, Diebold, &amp; Rudebusch, 2009) se pueden encontrar las diferentes formas de la curvatura, es más volátil la parte corta en comparación con el mediano y largo plazo y está acotado con límites superiores e inferiores para las tasas.</p>
+<p><span class="math display">\[\displaystyle{s(m) = \beta_{0}+ \beta_{1}\frac{\left(1-e^\frac{-m}{\tau}\right)}{m/\tau} + \beta_{2} \left(\frac{\left(1-e^\frac{-m}{\tau}\right)}{m/\tau} -  e^\frac{-m}{\tau}\right)}\]</span></p>
+<p>La ecuación anterior corresponde al modelo de Nelson – Siegel, donde <span class="math inline">\(s(m)\)</span> es el rendimiento de los títulos con vencimiento <span class="math inline">\(m\)</span>. Este modelo propone interpretar los parámetros <span class="math inline">\(\beta_0\)</span> como el factor de largo plazo o nivel, <span class="math inline">\(\beta_2-\beta_1\)</span> como el factor de corto plazo o pendiente y <span class="math inline">\(\beta_2\)</span> como el factor de mediano plazo o curvatura. Siendo el anterior modelo la base para muchos desarrollos, se han encontrado diferentes estudios que buscan utilizar las características favorables de éste y un mejor ajuste a través de modificaciones, tal y como lo hacen en (Christensen et al., 2009) con el modelo sin arbitraje de Nelson y Siegel el cual es una generalización a través de cinco factores.</p>
+<p><span class="math display">\[\displaystyle{s(m) = L_t + S_{t}^{1}(\frac{1-e^{-\lambda_1 m}}{\lambda_1 m})+S_{t}^{2}(\frac{1-e^{-\lambda_2 m}}{\lambda_2 m})+C_{t}^{1}(\frac{1-e^{-\lambda_1 m}}{\lambda_1 m}-e^{-\lambda_1 m})+C_{t}^{2}(\frac{1-e^{-\lambda_2 m}}{\lambda_2 m}-e^{-\lambda_2 m})}\]</span></p>
+<p>Donde,</p>
+<ul>
+<li><span class="math inline">\(L_t\)</span> corresponde al nivel.</li>
+<li><span class="math inline">\(S_{t}^{1}\)</span> y <span class="math inline">\(S_{t}^{2}\)</span> corresponden a dos factores de pendiente.</li>
+<li><span class="math inline">\(C_{t}^{1}\)</span> y <span class="math inline">\(C_{t2}^{2}\)</span> hacen referencia a dos factores asociados a la curvatura.</li>
+</ul>
+<p>Dentro de sus conclusiones, los autores resaltan de este modelo que además de ser libre de arbitraje, tiene un aumento en la cantidad de factores y un muy buen desempeño en el ajuste de la curva.</p>
+<p>Dentro del pool de autores que se ha dedicado a encontrar las mejores aproximaciones para el modelado de la estructura a plazo se encuentre Diebold, quien en compañía de Li y Francis, en su artículo (Francis Diebold &amp; Li, 2005) proponen un ajuste a través de un modelo con variaciones del modelo de Nelson y Siegel para modelar la curva, periodo a periodo, con factores. Básicamente realizan una reinterpretación de la curva de Nelson y Siegel con un modelo dinámico en el tiempo que utiliza tres factores (nivel, pendiente y curvatura) teniendo muy buenos resultados para plazos superiores a un año, y aunque no es libre de arbitraje, resaltan su buen desempeño por su sencillez y parsimonia.</p>
+<p><span class="math display">\[\displaystyle{s_t(m) = \beta_{0t}+ \beta_{1t}\frac{\left(1-e^\frac{-m}{\tau_t}\right)}{m/\tau_t} + \beta_{2t} \left(\frac{\left(1-e^\frac{-m}{\tau_t}\right)}{m/\tau_t} -  e^\frac{-m}{\tau_t}\right)}\]</span></p>
+<p>Donde <span class="math inline">\(\beta_{0t}\)</span>, <span class="math inline">\(\beta_{1t}\)</span> y <span class="math inline">\(\beta_{2t}\)</span> son interpretados como los factores latentes. De manera que <span class="math inline">\(\beta_{0t}\)</span>, al igual que en el modelo de Nelson y Siegel corresponde al factor de largo plazo nivel, <span class="math inline">\(\beta_{1t}\)</span> es el factor negativo asociado a la pendiente de la curva o factor de corto plazo y <span class="math inline">\(\beta_{2t}\)</span> se asocia a la curvatura. Con respecto al modelo de Nelson y Siegel, la interpretación es más sencilla pues los factores tienen una interpretación directa.</p>
+</div>
+</div>
+</div>
+<div id="metodologias-no-parametricas" class="section level2">
+<h2><span class="header-section-number">2.2</span> Metodologías no Paramétricas</h2>
+<p>La regresión no paramétrica se ha convertido en los últimos años en un
+área de excesivo estudio, debido a sus ventajas relativas respecto a los
+modelos de regresión basado en funciones. Entre las características más
+importantes de estos modelos tenemos, la flexibilidad en los supuestos y
+el ajuste dirigido específicamente a través de los datos.</p>
+<p>Dentro de un marco estadístico supondremos que tenemos un conjunto
+de n observaciones <span class="math inline">\((x_{i}, y_{i})\)</span>, <span class="math inline">\(i= 1, 2,., n\)</span>, independientes, donde se intenta
+establecer las relaciones existentes entre una respuesta y un conjunto de
+variables explicativas de forma semejante a los modelos de regresión
+clásica.</p>
+<p>El modelo que relaciona este conjunto de variables es dado por:</p>
+<p><span class="math display">\[\displaystyle{y_{i} = m(x_{i}) + \epsilon_{i}}\]</span></p>
+<p>donde la función <span class="math inline">\(m(.)\)</span> no específica una relación paramétrica, sino
+permitir que los datos determinen la relación funcional apropiada. Bajo
+estas condiciones la idea es que la media m(.) sea suave, suavidad que
+puede controlarse acotando la segunda derivada, <span class="math inline">\(|m&#39;&#39;(x)| \leq M\)</span>, para todo
+<span class="math inline">\(x\)</span> y <span class="math inline">\(M\)</span> una constante.</p>
+<div id="regresion-kernel" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Regresión Kernel</h3>
+<p>El método más simple de suavizamiento es el suavizador Kernel. Un
+punto x se fija en el soporte de la función <span class="math inline">\(m(.)\)</span> y una ventana de
+suavizamiento es definida alrededor de x. Frecuentemente, la ventana de
+suavizamiento es simplemente un intervalo de la forma <span class="math inline">\((x - h, x + h)\)</span>,
+donde h es un parámetro conocido como bandwidth.</p>
+<p>La estimación Kernel es un promedio ponderado de las observaciones
+dentro de la ventana de suavizamiento,</p>
+<ol start="3" class="example" style="list-style-type: decimal">
+<li><span class="math display">\[
+\hat{m}(x) = \frac{\sum_{i=1}^{n} K(\frac{x_{i}-x}{h}) y_{i}}{\sum_{i=1}^{n} K(\frac{x_{i}-x}{h})}
+\]</span></li>
+</ol>
+<p>donde <span class="math inline">\(K(.)\)</span> es la función Kernel de ponderación. La función Kernel es escogida
+de tal forma que las observaciones más próximas a x reciben mayor peso. Una
+función frecuentemente utilizada es la bicuadrática:</p>
+<p><span class="math display">\[
+K(x) = \left\{
+\begin{array}{ll}
+(1-x^2)^2 &amp;  \text{ si }  -1 \leq x  \leq 1 \\
+0   &amp; \text{ si }  x \ge 1,  x&lt;-1
+\end{array}
+\right.
+\]</span></p>
+<p>Sin embargo, otro tipo de funciones de peso son utilizadas, tal como la
+gaussiana, <span class="math inline">\(K(x) = (2 \sqrt{\pi})^{-1} e^{\frac{-x^2}{2}}\)</span> y la familia beta simétrica <span class="math inline">\(K(x) = \frac{(1-x^2)_{+}^{\gamma}}{Beta(0.5,\gamma+1)}, \text{ con } \gamma = 0,1,...\)</span></p>
+<p>Note que cuando escogemos <span class="math inline">\(\gamma = 0, 1, 2\)</span> y <span class="math inline">\(3\)</span> obtenemos las funciones Kernel uniforme (Box), de Epanechnikov, la bipeso y la tripeso, respectivamente.</p>
+<p>El suavizador Kernel puede ser representado como,</p>
+<ol start="4" class="example" style="list-style-type: decimal">
+<li><span class="math display">\[
+\hat{m}(x) = \sum_{i=1}^{n} l_{i}(x) y_{i} 
+\]</span></li>
+</ol>
+<p>donde,</p>
+<p><span class="math display">\[\displaystyle{l_{i} = \frac{K(\frac{x_{i}-x}{h})}{\sum_{j=1}^{n} K(\frac{x_{j}-x}{h})} }\]</span></p>
+<p>La estimación Kernel en la ecuación 3 es llamada la estimación de Nadaray- Watson, en honor a sus creadores. Su simplicidad lo hace de fácil comprensión e implementación; no obstante, se sabe que los ajustes en los extremos son sesgados. Una referencia ideal para un desarrollo más completo sobre este tema puede encontrarse en Fan y Gijbels .</p>
+</div>
+<div id="polinomios-locales" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Polinomios locales</h3>
+<p>Conocida también como regresión local, la idea es aproximar la función suave m(.) por medio de un polinomio de bajo orden en una vecindad entorno de un punto x. Por ejemplo, una aproximación lineal local es <span class="math inline">\(m(x_{i}) \approx a_{0} + a_{1}(x_{i}-x)\)</span> para <span class="math inline">\(x - h \leq x_{i} \leq x+h\)</span>. Una aproximación local cuadrática es:</p>
+<p><span class="math display">\[\displaystyle{m(x_{i}) \approx  a_{0} + a_{1}(x_{i}-x) + \frac{a_{2}}{2}(x_{i}-x)^2}\]</span></p>
+<p>La aproximación local puede ser ajustada a través de mínimos cuadrados ponderados localmente. Una función Kernel y un bandwidth son definidos como en la regresión Kernel. Los coeficientes <span class="math inline">\(\hat{a}_{0}\)</span> y <span class="math inline">\(\hat{a}_{1}\)</span>, son escogidos de tal forma que se pueda minimizar la expresión,</p>
+<ol start="5" class="example" style="list-style-type: decimal">
+<li><span class="math display">\[
+ \sum_{i=1}^{n} K(\frac{x_{i}-x}{h}) (y_{i}-a_{0}-a_{1}(x_{i}-x))^2 
+\]</span></li>
+</ol>
+<p>Reescribiendo la ecuación 5 en términos matriciales obtenemos, <span class="math inline">\(X^{T}W(\tilde{Y}-X \tilde{a})\)</span>. Donde X es la matriz diseño para cada regresión lineal, <span class="math inline">\(\tilde{a}\)</span> el vector de
+parámetros, W la matriz diagonal de pesos <span class="math inline">\(K(\frac{x_{i}-x}{h})\)</span> y <span class="math inline">\(\tilde{Y}\)</span> el vector de observaciones de orden n.</p>
+<p>El vector de parámetros estimado está dado por $  = (X<sup>{T}WX)X</sup>{T}W  $
+y en forma semejante con la ecuación 4, tenemos que: <span class="math inline">\(l(x)_{nx1} = e_{1}^{T} (X^{T}WX)X^{T} \tilde{Y}\)</span> donde <span class="math inline">\(e_{1}^{T}\)</span>
+es un vector de ceros de tamaño n, exceptuando la primera entrada cuyo valor es 1.</p>
+<p>Finalmente, la selección del h está basado en procedimientos de bondad de ajuste que permite obtener el mejor modelo. Entre los más utilizados sobresalen los métodos de validación cruzada generalizada y plug-in, los cuales son descritos detalladamente en Fan y Gijbels .</p>
+</div>
+<div id="splines-suavizados" class="section level3">
+<h3><span class="header-section-number">2.2.3</span> Splines suavizados</h3>
+<p>Las funciones polinomiales se caracterizan por tener todas las derivadas en cualquier punto de su soporte; no obstante, cuando ciertas funciones no poseen un alto grado de suavidad en determinados puntos, el ajuste debido a estas funciones de polinomios no siempre será satisfactoria en estos tramos.</p>
+<p>Para sobrellevar esta desventaja, el ajuste de polinomios de bajo orden localmente, con discontinuidades en ciertos puntos (knots), resulta en el conocido método de splines.</p>
+</div>
+<div id="splines-de-polinomios" class="section level3">
+<h3><span class="header-section-number">2.2.4</span> Splines de polinomios</h3>
+<p>Suponga que queremos aproximar la función <span class="math inline">\(m(.)\)</span> por una función spline. Frecuentemente, el spline cúbico es utilizado para esta aproximación, sin embargo, otro tipo de splines pueden ser definidos.</p>
+<p>Siguiendo la notación de Fan y Gijbels , sea <span class="math inline">\(t_{1}, t_{2}, t_{3},...,t_{J}\)</span> el conjunto de nodos o knots en orden creciente, tal que en cada intervalo (<span class="math inline">\(-\infty\)</span>, <span class="math inline">\(t_{1}\)</span>], <span class="math inline">\([t_{1}, t_{2}],..., [t_{J-1}, t_{J}]\)</span>, [<span class="math inline">\(t_{J}, \infty\)</span>), funciones cúbicas continuas diferenciables son ajustadas. En este caso el espacio parámetrico es (J+4)-dimensional.</p>
+<p>Un conjunto de splines cúbicos son ampliamente utilizados en la obtención de la función de splines, estas son las bases de potencias. Las mismas se definen como sigue, <span class="math inline">\((x- t_{j})_{+}^{3}, j= 1,2,...,J,1,x,x^2,x^3\)</span> donde <span class="math inline">\(x_{+}\)</span> es la parte positiva de x. Así por ejemplo, la función de suavizamiento puede ser expresada como,</p>
+<ol start="6" class="example" style="list-style-type: decimal">
+<li><span class="math display">\[
+m(x) = \sum_{j=1}^{J+4} \theta_{j}B_{j}(x) 
+\]</span></li>
+</ol>
+<p>siendo <span class="math inline">\(B_{j}(x), j = 1, 2,... , J+4\)</span>, la base polinomial descrita anteriormente.</p>
+<p>Los regresores definidos de esta forma pueden ocasionar problemas de estimación (multicolinealidad), motivo por el cual, los <span class="math inline">\(B_{j}(x)\)</span> son
+redefinidos como,</p>
+<p><span class="math display">\[\displaystyle{ B_{j}(x) = \frac{x-x_{j}}{x_{j+k-1}-x_{j}} B_{j,k-1}(x) + \frac{x_{j+k}-x}{x_{j+k}-x_{j}} B_{j+1,k-1}(x) }\]</span>
+suponiendo que <span class="math inline">\(B_{j,1}=1\)</span> para <span class="math inline">\(x_{j} \leq x \leq x_{j+1}\)</span> y cero en caso contrario. El proceso de estimación de la ecuación 6 es realizado a través de mínimos cuadrados penalizados.</p>
+<p>Adicionalmente, una desventaja del método, es su sensibilidad al número y ubicación de los nodos, motivo por el cual han sido propuestos diferentes procedimientos para su selección.</p>
+</div>
+<div id="splines-suavizados-1" class="section level3">
+<h3><span class="header-section-number">2.2.5</span> Splines suavizados</h3>
+<p>El proceso de suavizamiento a través de este método está basado en la minimización de la funcíon,</p>
+<p><span class="math display">\[\displaystyle{ \sum_{i=1}^{n} (y_{i}-m(x_{i})^2 + \lambda \int m&#39;&#39;(x)^2dx  }\]</span>
+donde <span class="math inline">\(\lambda\)</span> es una constante especificada de suavizamiento. El mecanismo de optimización intenta crear un balance entre el sesgo de estimación y la suavidad de la curva ajustada. El parámetro <span class="math inline">\(\lambda\)</span> puede asumirse variable (Abramovich y Steinberg ) y estimado a través de validación cruzada generalizada.</p>
+</div>
+<div id="supersuavizador-de-friedmann" class="section level3">
+<h3><span class="header-section-number">2.2.6</span> Supersuavizador de Friedmann</h3>
+<p>Las metodologías usuales de suavizamiento asumen que el parámetro suavizador es constante, factor que sumado a la forma de la curva subyacente puede hacer que surjan problemas, tal como el aumento en la varianza de la componente del error y/o a variaciones incontrolables de la segunda derivada de la función subyacente sobre el conjunto predictor. El suavizador propuesto por Friedman  intenta corregir estos problemas, asumiendo que el bandwidth es variable sobre el conjunto de predictores.</p>
+<p>Formalmente, se puede estimar un bandwidth para cada <span class="math inline">\(x\)</span>, al igual que el correspondiente valor óptimo de suavizamiento, minimizando la expresión <span class="math inline">\(e^{2}(m,h) = E(Y - m(X|h(X)))^2\)</span> con respecto a las funciones <span class="math inline">\(m(x)\)</span> y <span class="math inline">\(h(x)\)</span>. La expresión anterior puede reescribirse como,</p>
+<ol start="7" class="example" style="list-style-type: decimal">
+<li><span class="math display">\[
+e^{2}(m,h) = E(E(Y - m(X|h(X)))^2|X)
+\]</span></li>
+</ol>
+<p>de tal forma que podemos minimizar el error con respecto a <span class="math inline">\(m\)</span> y <span class="math inline">\(h\)</span> para cada valor de <span class="math inline">\(x\)</span>.</p>
+<p>Como en el caso del bandwidth constante, se comienza aplicando un suavizador lineal local muchas veces sobre diferentes valores discretos de <span class="math inline">\(h\)</span>, <span class="math inline">\(0 &lt; h &lt; n\)</span>. Friedman  propone utilizar tres conjuntos de valores, <span class="math inline">\(h=0,05n\)</span>, <span class="math inline">\(h=0,2n\)</span> y <span class="math inline">\(h=0,5n\)</span>, los cuales llama suavizadores <code>tweeter&quot;,</code>midrange&quot; y ``woofer&quot;, respectivamente.</p>
+<p>Para estimar la ecuación 7 se utiliza el residual de la validación cruzada de la ecuación 8 cuya descripción completa puede encontrarse en Friedman ,</p>
+<ol start="8" class="example" style="list-style-type: decimal">
+<li><span class="math display">\[
+ r_{i}(h)= \frac{|y_{i}-m(x_{i}|h)|}{\left(1-\frac{1}{h}-\frac{(x_{i}-\bar{x}_{h})^2}{V_{h}}\right)}  
+\]</span></li>
+</ol>
+<p>siendo <span class="math inline">\(\bar{x}_{h}\)</span> y <span class="math inline">\(V_{h}\)</span>, la media y varianza de los <span class="math inline">\(x\)</span>, bajo un <span class="math inline">\(h\)</span> preeestablecido. Igualmente, Friedman  aconseja suavizar <span class="math inline">\(|r_{i}(h)|\)</span> contra <span class="math inline">\(x_{i}\)</span>, utilizando los <span class="math inline">\(\hat{e}(m, h|x_{i})\)</span>, en procura de seleccionar la mejor amplitud de intervalo o bandwith, <span class="math inline">\(\hat{e}(m, h_{vc}(x_{i})|x_{i})=min_{h} \hat{e}(m, h|x_{i})\)</span>, donde <span class="math inline">\(h_{vc} (x_{i})\)</span> es el mejor bandwidth bajo la validación cruzada respecto a cada <span class="math inline">\(x_{i}\)</span> , mientras que <span class="math inline">\(h\)</span> toma los valores de los suavizadores antes definidos.</p>
+<p>De esta manera, el mejor valor suavizado dado <span class="math inline">\(x_{i}\)</span>, siguiendo la notación de Friedman , <span class="math inline">\(s^{*}(x_{i})\)</span>, estará asociado con el bandwidth: “tweeter”, “midrange” o “woofer” que minimice el error bajo la validación cruzada. Es posible a través de esta metodología obtener para cada vecindad en torno a <span class="math inline">\(x_{i}\)</span> diferentes bandwith y suavizados que proporcionan resultados óptimos, por tal razón, Friedman  propone seleccionar la mejor amplitud de intervalo, suavizando los <span class="math inline">\(h_{vc} (x_{i})\)</span> contra <span class="math inline">\(x_{i}\)</span> utilizando el suavizador ``midrange&quot;, mientras que la curva estimada es obtenida interpolando entre los dos suavizadores con los bandwith estimados más parecidos.</p>
+<p>Una suposición general establece que la curva subyacente que describe el comportamiento de los datos es suave, así que sería posible modificar el bandwidth en procura de un mayor suavizamiento, sacrificando exactitud numérica. Con este fin, Friedman  propone un método de cálculo del bandwidth,</p>
+<p><span class="math display">\[\displaystyle{h(x_{i}) = h_{vc}(x_{i}) + (h_{w} - h_{vc}(x_{i}))R_{i}^{10-\alpha}}\]</span></p>
+<p>con,</p>
+<p><span class="math display">\[\displaystyle{R_{i} = \left[\frac{\hat{e}(h_{vc}(x_{i})|x_{i})}{\hat{e}(h_{w}(x_{i})|x_{i})} \right] }\]</span></p>
+<p>donde <span class="math inline">\(0 &lt; \alpha &lt; 10\)</span>, <span class="math inline">\(h_{w}\)</span> es la amplitud calculada utilizando
+el suavizador “woofer” y <span class="math inline">\(h_{vc}(.)\)</span> la amplitud obtenida bajo la validación cruzada para cada observación. Sin importar el <span class="math inline">\(\alpha\)</span>, cuando la contribución relativa de cada una de estas amplitudes no difiere significativamente, la amplitud de intervalo o bandwidth seleccionada es la determinada por el suavizador “woofer”; no obstante, si la eficiencia relativa está asociada con la amplitud bajo la validación cruzada, entonces, la ecuación en proporcionará esta amplitud. En otros casos, dependiendo del desempeño relativo y el parámetro <span class="math inline">\(\alpha\)</span> definido por el usuario, la ecuación proporcionará una amplitud, resultado de la combinación lineal entre el suavizador ``woofer&quot;  y el obtenido bajo validación cruzada.</p>
+<p>Una vez el bandwidth de suavización variable ha sido obtenido, los siguientes pasos son realizados sobre el conjunto de observaciones,</p>
+<ul>
+<li>Suavice los datos con los bandwidth “tweeter”, “midrange” y “woofer”.</li>
+<li>Suavice los residuales absolutos (12) obtenidos bajo cada bandwidth en el paso anterior, utilizando una amplitud de intervalo “midrange”.</li>
+<li>Seleccione el mejor bandwidth para cada observación, minimizando el error sobre la salida del paso (2).</li>
+<li>Suavice los mejores bandwidth estimados en el paso (3) utilizando amplitud de intervalo “midrange”.</li>
+<li>Utilice los bandwidth suavizados para interpolar entre los valores suavizados obtenidos en el paso 1.</li>
+</ul>
+<p>Las principales deficiencias atribuidas a esta técnica están asociadas con la pérdida de independencia entre los residuales <span class="math inline">\(\epsilon_{i}\)</span> relativo al orden de los predictores <span class="math inline">\(x_{i}\)</span>, subestimando (sobre-estimando) cuando la correlación es positiva-alta (negativa-alta).</p>
+</div>
+<div id="redes-neuronales-artificiales" class="section level3">
+<h3><span class="header-section-number">2.2.7</span> Redes neuronales artificiales</h3>
+<p>Los recientes desarrollos investigativos han mostrado la capacidad de las redes neuronales para la detección de patrones, clasificación y predicción a través del aprendizaje por medio de la experiencia. Su importancia actual, sin lugar a dudas, es consecuencia del desarrollo computacional, punto de partida para su divulgación, desenvolvimiento teórico y práctico en diversos campos del conocimiento.</p>
+<p>Una de las mayores áreas de aplicación de las redes neuronales es la predicción (Sharda ). Dentro de este contexto, las redes resultan ser una herramienta atractiva para los investigadores, comparada con las metodologías tradicionales basada en modelos de funciones.</p>
+<p>Las redes neuronales artificiales intentan emular el comportamiento biológico del cerebro humano. Como sabemos, el cerebro humano es un conjunto complejo de interconexiones de elementos simples llamados nodos o neuronas. Cada nodo recibe una señal de entrada proveniente de otros nodos o a través de estímulos externos; localmente el nodo procesa la información recibida por medio de una función de transferencia o activación y produce una señal de salida transformada, que irá hacia otros nodos o como una respuesta, consecuencia de un estímulo. Aunque cada nodo individualmente no proporciona información realmente valiosa, en conjunto, pueden realizar un sorprendente número de tareas de forma eficiente. Esta característica hace de las redes neuronales un mecanismo poderoso computacionalmente para aprender a partir de ejemplos y después generalizar para casos nunca antes considerados.</p>
+<p>Aunque diferentes arquitecturas de redes neuronales han sido propuestas (Haykin ), la más utilizada es la red multilayer Perceptron (MLP). Una red MLP está compuesta de varias capas y nodos o neuronas. Los nodos de la primera capa son los encargados de recibir la información del exterior, mientras que la última capa es encargada de proporcionar la respuesta asociada a esta información. Entre estas dos capas puede haber innumerables capas y nodos. Adicionalmente, los nodos de capas adyacentes están completamente conectados.</p>
+<p>Para un problema de pronóstico con redes neuronales, las entradas a la red son asociadas con variables independientes o explicativas. En este caso la relación funcional estimada establecida por la red neuronal será de la forma <span class="math inline">\(y_{t}=f(x_{1}, x_{2},..., x_{p})\)</span>; donde <span class="math inline">\(x_{1}, x_{2},..., x_{p}\)</span> son p variables exógenas y y una variable endógena. En este sentido la red es equivalente a un modelo de regresión no lineal. Igualmente, en el contexto del pronóstico de series temporales, las entradas de la red son series rezagadas de la original y la salida representa su valor futuro. En este caso la red haría un mapeo de la siguiente forma <span class="math inline">\(y_{t}= f (y{t-1}, y{t-2}, ..., y{t-p})\)</span>, donde <span class="math inline">\(y_{t}\)</span> es la observación en el tiempo t. Bajo estas características la red asemeja un modelo autorregresivo en el pronóstico de series temporales. Una discusión respecto a la relación existente entre las redes neuronales y la metodología de Box-Jenkins es dada por Suykens, Vandewalle y Moor .</p>
+<p>Antes de que la red sea utilizada para realizar alguna tarea específica, debe ser entrenada. Básicamente, entrenar es el proceso de determinar los pesos (eje central de la red neuronal). El conocimiento aprendido por la red es almacenado en cada una de los arcos que representan las conexiones entre los nodos. Es a través de estas conexiones que las redes pueden realizar complejos mapeos no lineales desde los nodos de entrada hasta los nodos de salida. El entrenamiento de la MLP es supervisado, caso en el cual la respuesta deseada o valor objetivo para cada patrón de entrada o ejemplo está siempre disponible.</p>
+<p>Los datos de entrenamiento son ingresados a la red en forma de vectores de variables o como patrones de entrada. Cada elemento en el vector de entrada es asociado con un nodo de la capa de entrada; de esta forma, el número de entradas a la red es igual a la dimensión del vector de entrada. Para el pronóstico de series temporales el número de variables de entrada es difícil de establecer, no obstante, una ventana de rezagos fija es constituida a lo largo de la serie. El total de datos disponible es usualmente dividido en un conjunto de entrenamiento y otro de prueba. El primero es utilizado para estimar los pesos de la red, mientras que el segundo es empleado para evaluar la capacidad de generalización de la red.</p>
+<p>Para el proceso de entrenamiento, patrones de entrada son ingresados a la red. Los valores de activación de los nodos de entrada son multiplicados por su peso respectivo y acumulados en cada nodo sobre la primera capa. El total es evaluado en una función de activación y asumido como la salida del respectivo nodo. A esta salida algunos investigadores la identifican como la activación del nodo y es la entrada de otros nodos en capas siguientes de la red hasta que los valores de activación de la salida sean encontrados. El algoritmo de entrenamiento es utilizado para encontrar los pesos que minimicen una medida global de error tal como la suma de cuadrados del error (SSE).</p>
+<p>En el pronóstico con series temporales, un patrón de entrenamiento consiste de un conjunto de valores fijos de variables en rezago de la serie. Suponga que tenemos N observaciones <span class="math inline">\(y_{1}, y_{2}, ..., y_{N}\)</span> para el proceso de entrenamiento y se requiere pronosticar un paso al frente, entonces con una red neuronal de n nodos de entrada, tenemos <span class="math inline">\(N-n\)</span> patrones de entrenamiento. El primer patrón de entrenamiento estará conformado por <span class="math inline">\(y_{1}, y_{2}, ..., y_{n}\)</span> como las entradas y <span class="math inline">\(y_{n+1}\)</span> como el valor objetivo. El segundo patrón de entrenamiento será <span class="math inline">\(y_{2}\)</span>, <span class="math inline">\(y_{3}\)</span>, …, <span class="math inline">\(y_{n+1}\)</span> y el valor de salida deseado <span class="math inline">\(y_{n+2}\)</span>. Finalmente, el último patrón de entrada será <span class="math inline">\(y_{N-n}, y_{N-n+1}, ..., y_{N-1}\)</span> y <span class="math inline">\(y_{N}\)</span> el valor objetivo. Frecuentemente, una función objetivo basada en la SSE es minimizada durante el proceso de entrenamiento,</p>
+<p><span class="math display">\[\displaystyle{E = \frac{1}{2} \sum_{i=n+1}^{N}(y{i}-a{i})^2 }\]</span></p>
+<p>donde <span class="math inline">\(a_{i}\)</span> es la salida actual de la red.</p>
+<p>Una descripción más detallada sobre las diferentes arquitecturas de red existentes, el número óptimo de capas ocultas y neuronas, las funciones de activación más utilizadas, los algoritmos de entrenamiento, la normalización de los datos, como también de otros temas relacionados con sus ventajas y deficiencias (Haykin , Kaastra y Boyd , Zhang, Patuwo y Hu , Isasi y Galván ), entre otros.</p>
+</div>
+<div id="metodologia-splines-cubicos-de-suavizado" class="section level3">
+<h3><span class="header-section-number">2.2.8</span> Metodología Splines Cúbicos de Suavizado</h3>
+<div id="teoria-de-interpolacion" class="section level4">
+<h4><span class="header-section-number">2.2.8.1</span> Teoría de interpolación</h4>
+<p>En el subcampo matemático del análisis numérico, se denomina interpolación a la obtención de nuevos puntos partiendo del conocimiento de un conjunto discreto de puntos. En ciertos casos el usuario conoce el valor de una función <span class="math inline">\(f(x)\)</span> en una serie de puntos <span class="math inline">\(x_{1}, x_{2},..., x_{N}\)</span>, pero no se conoce una
+expresión analítica de <span class="math inline">\(f(x)\)</span> que permita calcular el valor de la función para un punto arbitrario.</p>
+<p>Un ejemplo claro son las mediciones de laboratorio, donde se mide cada minuto un valor, pero se requiere el valor en otro punto que no ha sido medido. Otro ejemplo son mediciones de temperatura en la superficie
+de la Tierra, que se realizan en equipos o estaciones meteorológicas y se necesita calcular la temperatura en un punto cercano, pero distinto al punto de medida.</p>
+<p>La idea de la interpolación es poder estimar <span class="math inline">\(f(x)\)</span> para un valor de x arbitrario, a partir de la construcción de una curva o superficie que une los puntos donde se han realizado las mediciones y cuyo valor si se conoce. Se asume que el punto arbitrario x se encuentra dentro de los límites de los puntos de medición, en caso contrario se llamaría extrapolación. Un proceso de interpolación se realiza en dos etapas:</p>
+<ul>
+<li>Hacer un ajuste de los datos disponibles con una función interpolante.</li>
+<li>Evaluar la función interpolante en el punto de interés x.</li>
+</ul>
+<p>Este proceso en dos etapas no es necesariamente el más
+eficiente. La mayoría de algoritmos comienzan con un punto cercano <span class="math inline">\(f(x_{i})\)</span>, y poco a poco van aplicando correcciones más pequenas a medida que la información de valores <span class="math inline">\(f(x_{i})\)</span> más distantes son incorporadas. El procedimiento toma aproximadamente <span class="math inline">\(O(N^{2})\)</span> operaciones. Si la función tiene un comportamiento suave, la última correción será la más pequeña y puede ser utilizada para estimar un límite a rango de error.</p>
+<p>Dentro de las intepolaciones más usadas podemos destacar,</p>
+<ul>
+<li>Interpolación lineal.</li>
+<li>Interpolación de Hermite.</li>
+<li>Interpolación polinómica.</li>
+<li>Interpolación de Splines.</li>
+</ul>
+</div>
+<div id="interpolacion-lineal" class="section level4">
+<h4><span class="header-section-number">2.2.8.2</span> Interpolación lineal</h4>
+<p>La interpolación lineal es un procedimiento muy utilizado para estimar los valores que toma una función en un intervalo del cual conocemos sus valores en los extremos <span class="math inline">\((x_{1}, f(x_{1}))\)</span> y <span class="math inline">\((x_{2},f(x_{2}))\)</span>. Para estimar este valor utilizamos la aproximación a la función <span class="math inline">\(f(x)\)</span> por medio de una recta <span class="math inline">\(r(x)\)</span> (de ahí el nombre de interpolación lineal, ya que también existe la interpolación cuadrática).</p>
+<p>La expresión de la interpolación lineal se obtiene del polinomio interpolador de Newton de grado uno. Aunque sólo existe un único polinomio que interpola una serie de puntos, existen diferentes formas de calcularlo. Este método es útil para situaciones que requieran un número bajo de puntos para interpolar, ya que a medida que crece el número de puntos, también lo hace el grado del polinomio.</p>
+<p>Existen ciertas ventajas en el uso de este polinomio respecto al polinomio interpolador de Lagrange. Por ejemplo, si fuese necesario añadir algún nuevo punto o nodo a la función, tan sólo habría que calcular este último punto, dada la relación de recurrencia existente y demostrada anteriormente. El primer paso para hallar la fórmula de la interpolación es definir la pendiente de orden <span class="math inline">\(n\)</span> de manera recursiva, así,</p>
+<ul>
+<li><span class="math inline">\(f_{0}(x_{i})\)</span> es el término i-ésimo de la secuencia.</li>
+<li><span class="math inline">\(\displaystyle{f_{1}(x_{0},x_{1}) = \frac{f_{0}(x_{1})-f_{0}(x_{0})}{x_{1}-x_{0}}}\)</span>
+<span class="math inline">\(\displaystyle{f_{2}(x_{0},x_{1},x_{2}) = \frac{f_{1}(x_{1},x_{2})-f_{1}(x_{0},x_{1})}{x_{2}-x_{0}}}\)</span></li>
+</ul>
+<p>En general,</p>
+<p><span class="math display">\[\displaystyle{f_{i}(x_{0},x_{1},...,x_{i-1},x_{i}) = \frac{f_{i-1}(x_{1},...,x_{i-1},x_{i})-f_{i-1}(x_{0},x_{1},...,x_{i-1} )}{x_{i}-x_{0}}}\]</span></p>
+<p>donde <span class="math inline">\(\displaystyle{x_{i}-x_{j}}\)</span> representa la distancia entre dos elementos.</p>
+<p>Puede apreciarse cómo en la definición general se usa la pendiente del paso anterior, <span class="math inline">\(f_{i-1}(x_{1},...,x_{i-1},x_{i})\)</span>, a la cual se le resta la pendiente previa de mismo orden, es decir, el subíndice de los términos se decrementa en 1, como si se desplazara, para obtener <span class="math inline">\(f_{i-1}(x_{0},x_{1},...,x_{i-1})\)</span>.</p>
+<p>Nótese también que aunque el término inicial siempre es <span class="math inline">\(x_{0}\)</span> este puede ser en realidad cualquier otro, por ejemplo, se puede definir <span class="math inline">\(f_{1}(x_{i-1},x_{i})\)</span> de manera análoga al caso mostrado arriba. Una vez conocemos la pendiente, ya es posible definir el polinomio de grado <span class="math inline">\(n\)</span> de manera también recursiva, así,</p>
+<ul>
+<li><span class="math inline">\(p_{0}(x) = f_{0} (x_{0}) =x_{0}\)</span>. Se define así ya que este valor es el único que se ajusta a la secuencia original para el primer término.</li>
+<li><span class="math inline">\(\displaystyle{p_{1}(x) = p_{0}(x) + f_{1} (x_{0},x_{1}) (x-x_{0})}\)</span>.</li>
+<li><span class="math inline">\(\displaystyle{p_{2}(x) = p_{1}(x) + f_{2} (x_{0},x_{1},x_{2}) (x-x_{0})(x-x_{1})}\)</span>.</li>
+</ul>
+<p>En general,</p>
+<p><span class="math display">\[\displaystyle{p_{i}(x) = p_{i-1}(x) +  f_{i} (x_{0},x_{1},...,x_{i-1},x_{i}) \prod_{j=0}^{i-1}(x-x_{j})}\]</span></p>
+</div>
+<div id="interpolacion-de-lagrange" class="section level4">
+<h4><span class="header-section-number">2.2.8.3</span> Interpolación de Lagrange</h4>
+<p>Empezamos con un conjunto de <span class="math inline">\(n+1\)</span> puntos en el plano (que tengan diferentes coordenadas x), <span class="math inline">\((x_{0}, y_{0}), (x_{1}, y_{1}), (x_{2}, y_{2}),...,(x_{n}, y_{n})\)</span>. Así, queremos encontrar una función polinómica que pase por esos <span class="math inline">\(n+1\)</span> puntos y que tengan el menor grado posible. Un polinomio que pase por varios puntos determinados se llama un polinomio de interpolación.</p>
+<p>Una posible solución viene dada por el polinomio de interpolación de Lagrange. Lagrange publicó su fórmula en 1795 pero ya había sido publicada en 1779 por Waring y redescubierta por Euler en 1783.</p>
+<p>Dado un conjunto de <span class="math inline">\(k + 1\)</span> puntos <span class="math inline">\((x_{0}.x_{1}),...,(x_{k}.x_{k+1})\)</span>, donde todos los <span class="math inline">\(x_{j}\)</span> se asumen distintos, el polinomio interpolador en la forma de Lagrange es la combinación lineal,</p>
+<p><span class="math display">\[\displaystyle{L(x) = \sum_{j=0}^{k} y_{j} l_{j}(x)}\]</span>
+donde $ l_{j}(x)$ son las bases polinómicas de Lagrange,</p>
+<p><span class="math display">\[\displaystyle{l_{j}(x) = \prod_{i=0,i \neq j}^{k} \frac{x-x_{i}}{x_{j}-x_{i}}  }\]</span></p>
+<p>La función que estamos buscando es una función polinómica <span class="math inline">\(L(x)\)</span> de grado <span class="math inline">\(k\)</span> con el problema de interpolación puede tener tan solo una solución, pues la diferencia entre dos tales soluciones, sería otro polinomio de grado <span class="math inline">\(k\)</span> a lo sumo, con <span class="math inline">\(k+1\)</span> ceros. Por lo tanto, <span class="math inline">\(L(x)\)</span> es el único polinomio interpolador.</p>
+<p>Si se aumenta el número de puntos a interpolar (o nodos) con la intención de mejorar la aproximación a una función, también lo hace el grado del polinomio interpolador así obtenido, por norma general. De este modo, aumenta la dificultad en el cálculo, haciéndolo poco operativo manualmente a partir del grado 4, dado que no existen métodos directos de resolución de ecuaciones de grado 4, salvo que se puedan tratar como ecuaciones bicuadradas, situación extremadamente rara.</p>
+<p>La tecnología actual permite manejar polinomios de grados superiores sin grandes problemas, a costa de un elevado consumo de tiempo de computación. Pero, a medida que crece el grado, mayores son las oscilaciones entre puntos consecutivos o nodos. Se podría decir que a partir del grado 6 las oscilaciones son tal que el método deja de ser válido, aunque no para todos los casos.</p>
+<p>Sin embargo, pocos estudios requieren la interpolación de tan sólo 6 puntos. Se suelen contar por decenas e incluso centenas. En estos casos, el grado de este polimonio sería tan alto que resultaría inoperable. Por lo tanto, en estos casos, se recurre a otra técnica de interpolación, como por ejemplo a la Interpolación polinómica de Hermite o a los splines cúbicos. Otra gran desventaja, respecto a otros métodos de interpolación, es la necesidad de recalcular todo el polinomio si se varía el número de nodos.</p>
+<p>Aunque el polinomio interpolador de Lagrange se emplea mayormente para interpolar funciones e implementar esto fácilmente en una computadora, también tiene otras aplicaciones en el campo del álgebra exacta, lo que ha hecho más célebre a este polinomio, por ejemplo en el campo de los proyectores ortogonales.</p>
+</div>
+<div id="interpolacion-de-hermite" class="section level4">
+<h4><span class="header-section-number">2.2.8.4</span> Interpolación de Hermite</h4>
+<p>El objetivo de esta interpolación Hermite es minimizar el error producido en la interpolación de Lagrange de la función <span class="math inline">\(f(x)\)</span> sobre el intervalo <span class="math inline">\([a, b]\)</span> sin aumentar el grado del polinomio interpolador.</p>
+<p>Dados un entero no negativo N y N + 1 puntos <span class="math inline">\((x_{0},..., x_{N})\)</span> de la recta distintos dos a dos y los valores <span class="math inline">\(f^{(j)} (x_{i})\)</span>, donde <span class="math inline">\(0&lt;i&lt;N\)</span> y <span class="math inline">\(0&lt;j&lt;k_{i-1}\)</span> de una función f y de sus derivadas, encontrar un polinomio de grado <span class="math inline">\(m = (k_{0} +k_{1} +...+k_{n-1},)\)</span> tal que,</p>
+<p><span class="math display">\[\displaystyle{P^{(j)} (x_{i}) = f^{(j)} (x_{i}), para \hspace{0.2cm} 0&lt;i&lt;N \hspace{0.2cm}y \hspace{0.2cm} 0&lt;j&lt;k_{i-1}}\]</span>
+El problema de interpolación de Hermite tiene solución única, que se llama polinomio interpolador de Hermite. En lugar de interpolar sobre un soporte de puntos (de Tchebycheff) donde en general se desconoce el valor de la función, de hace de otra manera, imponiendo unas condiciones al polinomio,</p>
+<ul>
+<li>Igualar el valor de la función en en los puntos del soporte, <span class="math inline">\(P (x_{i}) = f^{(j)}\)</span>.</li>
+<li>Igualar el valor de algunas derivadas de la función también en los puntos del soporte, <span class="math inline">\(P^{(j)} (x_{i}) = f^{(j)} (x_{i})\)</span>.</li>
+</ul>
+<p>Por lo que podemos dejar el polinomio de Hermite de grado (n-1) expresado de la siguiente manera,</p>
+<p><span class="math display">\[\displaystyle{L(x) = \sum_{j=0}^{k} y_{j} l_{j} (x) }\]</span>
+donde <span class="math inline">\(l_{j}(x)\)</span> son los polinomios de la base de Lagrange.</p>
+</div>
+<div id="interpolacion-polinomica" class="section level4">
+<h4><span class="header-section-number">2.2.8.5</span> Interpolación Polinómica</h4>
+<p>Asumamos que se tiene una tabla con <span class="math inline">\(n\)</span> puntos, <span class="math inline">\((x_{1},y_{1})...,(x_{n},y_{n})\)</span>, donde los valores <span class="math inline">\(x_{i}\)</span>, para <span class="math inline">\(i=1,...,n\)</span> están ordenados de forma creciente y todos ellos son distintos. Supongamos que dichos puntos se representan en un plano cartesiano y se quiere determinar una curva suave que interpole dichos valores. Así, se desea determinar una curva que esté definida para todos los <span class="math inline">\(x\)</span> y tome los valores correspondientes de <span class="math inline">\(y\)</span>, esto es, que interpole todos los datos de la tabla. Cabe destacar que los puntos considerados se les conoce como nodos.</p>
+<p>La primera idea natural es usar una función polinomial que represente esta curva, la cual se puede representar como sigue,</p>
+<p><span class="math display">\[\displaystyle{P_{n} = \sum_{i=0}^{n-1} a_{i}x^{i}}\]</span>
+tal curva se le conoce como función polinomial interpoladora de grado n. Nótese que en cada nodo se satisface que <span class="math inline">\(P_{n}(x_{k})=y_{k}\)</span>, donde <span class="math inline">\(k=1,...,n\)</span>.</p>
+<p>Así, se tiene que si la tabla es representada mediante una función subyacente <span class="math inline">\(f(x)\)</span> tal que <span class="math inline">\(f(x_{k})=y_{k}\)</span>, para todo <span class="math inline">\(k\)</span>, entonces esta función puede ser aproximada mediante <span class="math inline">\(P_{n}\)</span>, en los puntos intermedios.</p>
+<p>No sería erróneo pensar que a medida que los nodos se incrementan, la aproximación sería cada vez mejor, lamentablemente esto no siempre es cierto, debido a que en el caso de tener una data con mucho ruido la interpolación no tendría mucho sentido ya que la varianza de los valores interpolados sería muy grande. En este caso, los polinomios interpoladores resultantes serían una mala representación de la función subyacente.</p>
+<p>Para evitar este fenómeno, puede ser de utilidad relajar la condición de que <span class="math inline">\(f(x)\)</span> debería ser una función que interpole todos los valores dados y en su lugar usar un trozo de un polinomio local de interpolación. La función mediante la cual se logra esta interpolación se le conoce como spline.</p>
+</div>
+<div id="splines" class="section level4">
+<h4><span class="header-section-number">2.2.8.6</span> Splines</h4>
+<p>Una función spline <span class="math inline">\(S(x)\)</span> es una función que consta de trozos de polinomios unidos por ciertas condiciones de suavizado. Un ejemplo simple, es una función poligonal (spline de primer grado), la cual se forma por polinomios lineales unidos, los cuales se definen entre cada par de nodos. Entre los nodos <span class="math inline">\(x_{j}\)</span> y <span class="math inline">\(x_{j+1}\)</span> se define un spline de primer grado como sigue,</p>
+<p><span class="math display">\[\displaystyle{S(x) = a_{j}x + b_{j} = S_{j}(x)}\]</span></p>
+<p>este spline es lineal. Usualmente <span class="math inline">\(S(x)\)</span> se define como <span class="math inline">\(S_{1}(x)\)</span> para <span class="math inline">\(x&lt;x_{1}\)</span> y como <span class="math inline">\(S_{n-1}(x)\)</span> para <span class="math inline">\(x&gt;x_{n}\)</span>, donde <span class="math inline">\(x_{1}\)</span> y <span class="math inline">\(x_{n}\)</span> son nodos frontera (Ver Figura <a href="curva-de-rendimientos.html#fig:spline1">2.2</a>).</p>
+<div class="figure" style="text-align: center"><span id="fig:spline1"></span>
+<img src="images/spline_lineal.png" alt="Spline Lineal" width="624" />
+<p class="caption">
+Figura 2.2: Spline Lineal
+</p>
+</div>
+<p>Un spline de segundo grado es una unión de polinomios cuadráticos tal que <span class="math inline">\(S(x)\)</span> y su derivada <span class="math inline">\(S^{(1)}(x)\)</span> son continuas (Ver Figura <a href="curva-de-rendimientos.html#fig:spline2">2.3</a>). Los polinomios <span class="math inline">\(P(x)\)</span> a través de los que construimos el Spline tienen grado 2. Esto quiere decir, que va a tener la forma <span class="math inline">\(P(x) = ax^2 + bx + c\)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:spline2"></span>
+<img src="images/spline_cuadratico.png" alt="Spline Cuadrático" width="607" />
+<p class="caption">
+Figura 2.3: Spline Cuadrático
+</p>
+</div>
+<p>Como en la interpolación segmentaria lineal, vamos a tener <span class="math inline">\(N-1\)</span> ecuaciones (donde N son los puntos sobre los que se define la función). La interpolación cuadrática nos va a asegurar que la función que nosotros generemos a trozos con los distintos <span class="math inline">\(P(x)\)</span> va a ser continua, ya que para sacar las condiciones que ajusten el polinomio, vamos a determinar como condiciones,</p>
+<ul>
+<li>Que las partes de la función a trozos P(x) pasen por ese punto. Es decir, que las dos Pn(x) que rodean al f(x) que queremos aproximar, sean igual a f(x) en cada uno de estos puntos.</li>
+<li>Que la derivada en un punto siempre coincida para ambos “lados” de la función definida a trozos que pasa por tal punto común.</li>
+<li>Esto sin embargo no es suficiente, y necesitamos una condición más, la cual se obtiene a partir de una condición de borde.</li>
+</ul>
+<p>Por su parte un spline cúbico, se representa mediante la unión de polinomios cúbicos con primera y segunda derivada continuas (Ver Figura <a href="curva-de-rendimientos.html#fig:spline3">2.4</a>). Este spline debido a su flexibilidad es el más usado en las aplicaciones.</p>
+<div class="figure" style="text-align: center"><span id="fig:spline3"></span>
+<img src="images/spline_cubico.png" alt="Spline Cúbico" width="645" />
+<p class="caption">
+Figura 2.4: Spline Cúbico
+</p>
+</div>
+<p>Formalmente un spline cúbico con nodos <span class="math inline">\(x_{1},...x_{n}\)</span> se define a partir de un conjunto de polinomios de la forma,\</p>
+<p><span class="math display">\[\displaystyle{S_{j}(x) = a_{j} + b_{j}x +c_{j}x^2 +d_{j}x^3}\]</span>
+con <span class="math inline">\(x_{j}&lt;x&lt;x_{j+1}\)</span>, sujeto a las siguientes condiciones,</p>
+<p><span class="math display">\[
+\begin{array}{cc}
+ \displaystyle{a_{j-1} + b_{j-1}x_{j} +c_{j-1}x_{j}^2 +d_{j-1}x_{j}^3 = a_{j} + b_{j}x_{j} +c_{j}x_{j}^2 +d_{j}x_{j}^3} \\
+\displaystyle{ b_{j-1} +2c_{j-1}x_{j} +3d_{j-1}x_{j}^2 = b_{j} +2c_{j}x_{j} +3d_{j}x_{j}^2} \\
+\displaystyle{ 2c_{j-1} +6d_{j-1}x_{j} = 2c_{j} +6d_{j}x_{j}}\\
+\displaystyle{ c_{0} = d_{0} = c_{n} =d_{n}}
+\end{array}
+\]</span></p>
+<p>Así para n nodos, existen <span class="math inline">\(4(n-1)\)</span> variables y <span class="math inline">\(4(n-1)-2\)</span> restricciones. Las mismas se deben a la necesidad de que el spline cúbico sea igual en los valores dados en cada nodo. Las primeras tres restricciones aseguran que la función resultante en su primera y segunda derivada sean continuas en los nodos. La restricción final significa que el spline cúbico es lineal en el punto inicial y final de la muestra. Sin embargo, es importante resaltar que el spline cúbico tiene tercera derivada discontinua en los nodos.</p>
+<p>Debido a que hacen falta dos restricciones de borde, estas se deben añadir. Así <span class="math inline">\(S^{(2)}(x_{1}) = S^{(2)}(x_{n}) = 0\)</span> son las restricciones faltantes, estan hacen referencia a que el spline sea un spline cúbico natural. Como se mencionó al inicio si se considera una interpolación polinomial global de un conjunto de datos con mucho ruido pueden surgir aproximaciones no deseables e inestables. En constrate, un spline cúbico de interpolación encaja perfectamente con la suavidad de la función subyacente.</p>
+<div class="figure" style="text-align: center"><span id="fig:spline4"></span>
+<img src="images/Comparativo_splines.png" alt="Comparativo Splines" width="655" />
+<p class="caption">
+Figura 2.5: Comparativo Splines
+</p>
+</div>
+<p>Otra característica de los splines es que con la adición de un parámetro sólo se aumenta la dimensionalidad del espacio de parámetros en una unidad, ya que tres de los cuatro parámetros están restringidos. De igual forma, al incrementar el número de nodos los splines toman formas funcionales más flexibles, lo cual muestra la relación entre el grado aproximación que se logra con el spline y el número de nodos que lo definen. Un comparativo para la interpolación lineal usando splines de primer, segundo y tercer grado, se muestra en la Figura <a href="curva-de-rendimientos.html#fig:spline4">2.5</a>.</p>
+<p>Mientras que las funciones spline son una herramienta interesante para interpolar funciones suaves, encontrarlas numéricamente no es tarea fácil. Una manera eficiente y muy estable para generar los splines necesarios para aproximar la función subyacente <span class="math inline">\(f(x)\)</span>, es usando las bases de los B-splines cúbicos.</p>
+</div>
+<div id="bases-de-splines" class="section level4">
+<h4><span class="header-section-number">2.2.8.7</span> Bases de splines</h4>
+<p>En el subcampo matemático de análisis numérico, una B-spline o Basis spline (o traducido una línea polinómica suave básica), es una función spline que tiene el mínimo soporte con respecto a un determinado grado, suavidad y partición del dominio. Un teorema fundamental establece que cada función spline de un determinado grado, suavidad y partición del dominio, se puede representar como una combinación lineal de B-splines del mismo grado y suavidad, y sobre la misma partición. El término B-spline fue propuesto por Isaac Jacob Schoenberg y es la abreviatura de spline básica. Las B-splines pueden ser evaluadas de una manera numéricamente estable por el algoritmo de Boor. De un modo simplificado, se han creado variantes potencialmente más rápidas que el algoritmo de Boor, pero adolecen comparativamente de una menor estabilidad.</p>
+<p>Una B-spline es simplemente una generalización de una curva de Bézier, que puede evitar el fenómeno Runge sin necesidad de aumentar el grado de la B-spline. Este fenómeno, se presenta al realizar interpolación lineal usando nodos equidistantes, básicamente es un problema que se presenta con el error de aproximaci'n en los extremos del intervalo que se este considerando, así a medida que crece el número de nodos el error de aproximación se incrementa.</p>
+<p>Supongamos que tenemos un conjunto infinito de nodos <span class="math inline">\(...&lt;x_{-2}&lt;x_{-1}&lt;x_{0}&lt;x_{1}&lt;x_{2}&lt;...\)</span>, entonces el j-ésimo B-spline de grado cero es igual a <span class="math inline">\(B^{0}_{j}(x)=1\)</span>, si <span class="math inline">\(x_{j} \leq x \leq x_{j+1}\)</span> y <span class="math inline">\(B^{0}_{j}(x)=0\)</span> en otro caso. Con la función <span class="math inline">\(B^{0}_{j}(x)\)</span> como punto de partida se puede generar B-splines de grados mayores mediante la siguiente fórmula recursiva,\</p>
+<p><span class="math display">\[\displaystyle{B^{k}_{j}(x) = \frac{(x-x_{j})B^{k-1}_{j}(x)}{x_{j+k}-x_{j}} + \frac{(x_{j+k+1}-x)B^{k-1}_{j+1}(x)}{x_{j+k+1}-x_{j+1}}}\]</span>
+para <span class="math inline">\(k\geq 1\)</span>. Así un B-spline de grado <span class="math inline">\(k\)</span> se define como,\</p>
+<p><span class="math display">\[\displaystyle{S^{k}(x) = \sum_{j=-\infty}^{\infty} \theta^{k}_{j} B^{k}_{j-k}(x)}\]</span>
+Los coeficientes <span class="math inline">\(\theta^{k}_{j}\)</span> se llaman puntos de control o puntos de Boor. Hay <span class="math inline">\(m-(n+1)\)</span> puntos de control que forman una envoltura convexa. Note que los B-splines de grado positivo no son ortogonales y por ende no poseen una expresión simple para sus coeficientes.</p>
+<p>Sin embargo, los cálculos empleados para los B-splines interpoladores de grado cero y uno, son bastante sencillos,\</p>
+<p><span class="math display">\[\displaystyle{S^{0}(x) = \sum_{j=-\infty}^{\infty} y_{j} B^{0}_{j}(x),\hspace{0.4cm} S^{1}(x) = \sum_{j=-\infty}^{\infty} y_{j} B^{1}_{j-1}(x) }\]</span>
+Cuando los nodos son equidistantes, la B-spline se dice que es uniforme, de otro modo será no uniforme. Si dos nodos tj son idénticos, cualquiera de las posibles formas indeterminadas 0/0 se consideran 0.</p>
+</div>
+<div id="b-spline-uniforme" class="section level4">
+<h4><span class="header-section-number">2.2.8.8</span> B-spline uniforme</h4>
+<p>Cuando la B-spline es uniforme, las B-splines básicas para un determinado grado n son sólo copias cambiadas de una a otra. Una alternativa no recursiva de la definición de la B-splines <span class="math inline">\(m-n+1\)</span> básica es,</p>
+<p><span class="math display">\[\displaystyle{B_{j}^{n}(t)= B_{n}(t-t_{j}), \hspace{0.2cm}para \hspace{0.2cm}j=0,...,m-n-1 }\]</span>
+con,</p>
+<p><span class="math display">\[\displaystyle{B_{n}(t):= \frac{n+1}{n} \sum_{i=0}^{n+1}w_{i}^{n}(t - t_{i})_{+}^{n}   }\]</span>
+donde,</p>
+<p><span class="math display">\[\displaystyle{w_{i}^{n} := \prod_{j=0, j\neq i}^{n+1} \frac{1}{t_{j}- t_{i}}}\]</span>
+nótese que <span class="math inline">\((t - t_{i})_{+}^{n}\)</span> es la función potencia truncada definida como,</p>
+<p><span class="math display">\[
+(t - t_{i})_{+}^{n} :=  \left\{
+\begin{array}{ll}
+0 &amp;  \text{ si }  t &lt; t_{i} \\
+(t - t_{i})^{n}   &amp; \text{ si }  t \ge t_{i}
+\end{array}
+\right.
+\]</span></p>
+</div>
+<div id="b-spline-cardinal" class="section level4">
+<h4><span class="header-section-number">2.2.8.9</span> B-spline cardinal</h4>
+<p>Si se define <span class="math inline">\(B_{0}\)</span> como la función característica de <span class="math inline">\({\displaystyle [-{\tfrac {1}{2}},{\tfrac {1}{2}}]}\)</span>, y <span class="math inline">\(B_{k}\)</span> recursivamente como el producto convolución,</p>
+<p><span class="math display">\[\displaystyle{B_{k} := B_{k-1}*B_{0}, \hspace{0.2cm} k=1,2,... }\]</span></p>
+<p>entonces <span class="math inline">\(B_{k}\)</span> se llaman B-splines cardinales (centradas). Esta definición se remonta a Schoenberg. <span class="math inline">\(B_{k}\)</span> tiene soporte compacto <span class="math inline">\({\displaystyle [-{\tfrac {k+1}{2}},{\tfrac {k+1}{2}}]}\)</span> y es una función impar. Como <span class="math inline">\({\displaystyle k\rightarrow \infty }\)</span> las B-splines cardinales normalizadas tienden a la función de Gauss.</p>
+<p>Cuando el número de puntos de control de Boor es el mismo que el grado, la B-Spline degenera en una curva de Bézier. La forma de las funciones base es determinada por la posición de los nodos. Escalar o trasladar el vector de nodo no altera las funciones de base.</p>
+<p>El spline está contenido en el casco convexo de sus puntos de control. Una B-spline básica de grado n <span class="math inline">\(B_{i}^{n}(t)\)</span> es distinta de cero sólo en el intervalo <span class="math inline">\([t_{i}, t_{i+n+1}]\)</span> esto es,</p>
+<p><span class="math display">\[
+B_{i}^{n}(t)  = \left\{
+\begin{array}{ll}
+&gt; 0 &amp;  \text{ si }  t_{i}  \leq  t &lt; t_{i+n+1} \\
+0   &amp; \text{ si }  resto
+\end{array}
+\right.
+\]</span></p>
+<p>En otras palabras si manipulamos un punto de control cambiamos sólo el comportamiento local de la curva y no el comportamiento global como con las curvas de Bézier. La función base se pueda obtener del polinomio de Bernstein. Algunos ejemplos de las bases B-splines se muestran a continuación,</p>
+</div>
+<div id="b-spline-constante" class="section level4">
+<h4><span class="header-section-number">2.2.8.10</span> B-spline constante</h4>
+<p>La B-spline constante es la spline más simple. Se define en un solo tramo de nodo y ni siquiera es continua en los nodos. Es sólo la función indicador de los diferentes tramos de nodo.</p>
+<p><span class="math display">\[
+B_{j}^{0}(t) = 1_{[t_{j},t_{j+1})}  = \left\{
+\begin{array}{ll}
+1 &amp;  \text{ si }  t_{j}  \leq  t &lt; t_{j+1}1 \\
+0   &amp; \text{ si }  resto
+\end{array}
+\right.
+\]</span></p>
+</div>
+<div id="b-spline-lineal" class="section level4">
+<h4><span class="header-section-number">2.2.8.11</span> B-spline lineal</h4>
+<p>La B-spline lineal se define en dos tramos de nodo consecutivos y es continua sobre los nodos, pero no diferenciable.</p>
+<p><span class="math display">\[
+B_{j}^{1}(t) = \left\{
+\begin{array}{ll}
+\frac{t-t_{j}}{t_{j+1}-t_{j}} &amp;  \text{ si } t_{j}  \leq  t &lt; t_{j+1} \\
+\frac{t_{j+2}-t}{t_{j+2}-t_{j+1}}    &amp; \text{ si }  t_{j+1}  \leq  t &lt; t_{j+2} \\
+0 &amp;  \text{ si } resto
+\end{array}
+\right.
+\]</span></p>
+</div>
+<div id="b-spline-cuadratica-uniforme" class="section level4">
+<h4><span class="header-section-number">2.2.8.12</span> B-spline cuadrática uniforme</h4>
+<p>Las B-splines cuadráticas con nodo-vector uniforme es una forma común de B-spline. La función base puede ser calculada fácilmente , y es igual para cada segmento, en este caso.</p>
+<p><span class="math display">\[
+B_{j}^{2}(t) = \left\{
+\begin{array}{ll}
+\frac{1}{2} (1-t)^2 \\
+-t^2+t+\frac{1}{2} \\
+\frac{1}{2} t^2
+\end{array}
+\right.
+\]</span></p>
+<p>Escrito en forma de matriz, esto es,</p>
+<p><span class="math display">\[\displaystyle{S_{i}(t) = \begin{bmatrix} t^2 &amp; t &amp; 1  \end{bmatrix} \frac{1}{2} \begin{bmatrix} 1 &amp; -2 &amp; 1\\ -2 &amp; 2 &amp; 0  \\ 1 &amp; 1 &amp; 0 \end{bmatrix} \begin{bmatrix}  \theta_{i-1} \\ \theta_{i} \\ \theta_{i+1}  \end{bmatrix} , \hspace{0.2cm} para \hspace{0.2cm} t \in [0,1],\hspace{0.2cm}  i=1,2,...,m-1 }\]</span></p>
+</div>
+<div id="b-spline-cubica" class="section level4">
+<h4><span class="header-section-number">2.2.8.13</span> B-spline cúbica</h4>
+<p>Una formulación B-spline para un solo segmento puede ser escrita como,</p>
+<p><span class="math display">\[\displaystyle{S_{i}(t) = \sum_{k=0}^{3} \theta_{i-3+k} B_{i-3+k}^{3}(t) \hspace{0.2cm} con \hspace{0.2cm} t \in [0,1]  }\]</span></p>
+<p>donde <span class="math inline">\(S_{i}\)</span> es el i-ésimo segmento B-spline, <span class="math inline">\(\theta\)</span> es el conjunto de puntos de control, el segmento i y k es el índice del punto de control local y $ B_{i-3+k}^{3}(t)$ representa la base de B-spline de grado 3. Un conjunto de puntos de control <span class="math inline">\(\theta\)</span> sería <span class="math inline">\({\displaystyle \theta_{i}^{w}=(w_{i}x_{i},w_{i}y_{i},w_{i}z_{i},w_{i})}\)</span> donde el <span class="math inline">\({\displaystyle w_{i}}\)</span> es el peso, tirando de la curva hacia el punto de control <span class="math inline">\({\displaystyle \theta_{i}}\)</span> mientras que aumenta o se desplazan fuera de la curva, a la vez que disminuye.</p>
+<p>Toda una serie de segmentos se definiría como,</p>
+<p><span class="math display">\[\displaystyle{S(t) = \sum_{i=0}^{m-1} \theta_{i} B_{i}^{3}(t)  }\]</span></p>
+<p>donde i es el número de puntos de control y t es un parámetro global dados los valores de los nodos. Esta formulación expresa una curva B-spline como una combinación lineal de funciones B-spline básicas, de ahí el nombre.</p>
+<p>Hay dos tipos de B-spline - uniforme y no uniforme. Una B-spline no uniforme es una curva donde los intervalos entre los puntos sucesivos de control no son, o no necesariamente son, iguales (el vector de nodos de espacios de nodo interiores no son iguales). Una forma común es donde los intervalos se reducen sucesivamente a cero, interpolando los puntos de control.</p>
+</div>
+<div id="b-spline-cubica-uniforme" class="section level4">
+<h4><span class="header-section-number">2.2.8.14</span> B-spline cúbica uniforme</h4>
+<p>La B-spline cúbica con vector-nodo uniforme es la forma más usual de B-spline. La función base puede ser fácilmente calculada, y es igual para cada segmento, en este caso. Puesto en forma de matriz, esto es,</p>
+<p><span class="math display">\[\displaystyle{S_{i}(t) = \begin{bmatrix} t^3  &amp; t^2 &amp; t &amp; 1  \end{bmatrix} \frac{1}{6} \begin{bmatrix} -1 &amp; 3 &amp; -3 &amp; 1 \\ 3 &amp; -6 &amp; 3 &amp; 0 \\ -3 &amp; 0 &amp; 3 &amp; 0 \\ 1 &amp; 4 &amp; 1 &amp; 0 \end{bmatrix} \begin{bmatrix}  \theta_{i-1} \\ \theta_{i} \\ \theta_{i+1} \\ \theta_{i+2}  \end{bmatrix} , \hspace{0.2cm} para \hspace{0.2cm} t \in [0,1] }\]</span></p>
+<p>Para splines de grados más elevados, algunas arbitrariedades surgen al momento de calcular los coeficientes <span class="math inline">\(\theta_{i}^{k}\)</span>. Por lo tanto, debido a que en las aplicaciones estadisticas existe un mayor interés por encontrar una aproximación que una interpolación, la técnica de minimos cuadros puede ser empleada para calcular estos valores.</p>
+<p>Ahora bien, supongamos que se tiene un conjunto de <span class="math inline">\(m\)</span> funciones diferenciables <span class="math inline">\(f(x)\)</span>, con soporte en el intervalo <span class="math inline">\([a,b]\)</span>, las cuales satifacen las siguientes condiciones,</p>
+<ul>
+<li><span class="math inline">\(f(x_{i})=y_{i}\)</span>, para <span class="math inline">\(i=1...,n\)</span>.</li>
+<li>La m-1 derivada <span class="math inline">\(f^{(m-1)}(x)\)</span>, es continua en x.</li>
+</ul>
+<p>El problema es encontrar entre todas esas funciones, una función tal que tenga la mínima integral del cuadro de su segunda derivada, esto es, una función que tenga el valor más pequeño de <span class="math inline">\(\int_{a}^{b} (f^{(m)}(x))^2 dx\)</span>. Dicha función será la elección más óptima al momento de hallar un balance entre suavidad y ajuste de los datos.</p>
+<p>Se puede desmostrar que la solución de este problema es única y la función en cuestión es un spline polinomial que cumple la condición i), y además satisface que,</p>
+<ul>
+<li>f es un pilinomio de grado no mayor que <span class="math inline">\(m-1\)</span> cuando <span class="math inline">\(x \in [a,x_{1}]\)</span> y <span class="math inline">\(x \in [x_{n},b]\)</span> .</li>
+<li>F es un polinomio de grado no mayor a <span class="math inline">\(2m-1\)</span> para puntos interiores, <span class="math inline">\(x \in [x_{i},x_{i+1}]\)</span> con i=1,…,n.</li>
+<li>f(x) tiene <span class="math inline">\(2m-2\)</span> derivadas continuas en el eje real.</li>
+</ul>
+<p>En resumen, la función <span class="math inline">\(f\)</span> mínima es un spline el cual está conformado por trozos de polinomios unidos en los nodos <span class="math inline">\(x_{i}\)</span>, donde dicha función tiene <span class="math inline">\(2m-2\)</span> derivadas continuas. Nótese que en muchas aplicaciones <span class="math inline">\(m=2\)</span> es un valor muy utilizado y cuya solución viene dada mediante el spline cúbico natural.</p>
+</div>
+</div>
+<div id="regresion-no-parametrica" class="section level3">
+<h3><span class="header-section-number">2.2.9</span> Regresión no paramétrica</h3>
+<p>La teoría clásica de la regresión se basa, en gran parte, en el supuesto que las observaciones son independientes y se encuentran idéntica y normalmente distribuidas. Si bien existen muchos fenómenos del mundo real que pueden modelarse de esta manera, para el tratamiento de ciertos problemas, la normalidad de los datos es insostenible. En el intento de eliminar esa restricción se diseñaron métodos que hacen un número mínimo de supuestos sobre los modelos que describen las observaciones.</p>
+<p>La teoría de los métodos no paramétricos trata, esencialmente, el desarrollo de procedimientos de inferencia estadística, que no realizan una suposición explícita con respecto a la forma funcional de la
+distribución de probabilidad de las observaciones de la muestra. Si bien en la Estadística no paramétrica también aparecen modelos y parámetros, ellos están definidos de una manera más general que en su contrapartida paramétrica.</p>
+<p>La regresión no paramétrica es una colección de técnicas para el ajuste de funciones de regresión cuando existe poco conocimiento a priori acerca de su forma. Proporciona funciones suavizadas de la relación y el procedimiento se denomina suavizado.</p>
+<p>Los fundamentos de los métodos de suavizado son antiguos pero sólo lograron el estado actual de desarrollo gracias a los avances de la computación y los estudios por simulación han permitido evaluar sus comportamientos.</p>
+<p>La técnica más simple de suavizado, los promedios móviles, fue la primera en usarse, sin embargo han surgido nuevas técnicas como la estimación mediante núcleos (``kernel&quot;) o la regresión local ponderada. Estos estimadores de regresión no paramétrica son herramientas poderosas para el análisis de datos, tanto como una técnica de estimación para resumir una relación compleja que no puede ser aprendida por un modelo paramétrico, como para suplementar (o complementar) un análisis de regresión paramétrico.</p>
+<p>En los análisis paramétricos se comienza haciendo supuestos rígidos sobre la estructura básica de los datos, luego se estiman de la forma más eficiente posible los parámetros que definen la estructura y por último se comprueba si los supuestos iniciales se cumplen.</p>
+<p>La regresión no paramétrica, en cambio, desarrolla un ``modelo libre&quot;  para predecir la respuesta sobre el rango de valores de los datos. Básicamente está constituida por métodos que proporcionan una estimación suavizada de la relación para un conjunto de valores (de- nominado ventana) de la variable explicativa. Estos valores son ponderados de modo que, por ejemplo, los vecinos más cercanos tengan mayor peso que los más alejados dentro de una ventana de datos. Se pueden utilizar diversas funciones de ponderación, que son los pesos en que se basan los estimadores. La combinación de la función de ponderación y el ancho de la ventana inciden sobre la bondad de la estimación resultante.</p>
+<p>La mayor parte de las publicaciones sobre regresión no paramétrica consideran el caso de un solo regresor a pesar de que, a simple vista no pareciera de gran utilidad, ya que las aplicaciones más interesantes involucran varias variables explicativas. Sin embargo, la regresión no paramétrica simple es importante por dos motivos:</p>
+<ul>
+<li>En etapas preliminares del análisis de datos o en pruebas de diagnóstico se utilizan gráficos de dispersión en los cuales puede ser muy útil ajustar una “curva suavizada”. Por ejemplo, para explorar la forma de la función respuesta, para confirmar una función respuesta en particular que haya sido ajustada a los datos, para obtener estimaciones de la respuesta media sin especificar la forma de la función respuesta, para estudiar el cumplimientos de supuestos, etc.</li>
+<li>Forma la base a partir de la cual se extienden los conceptos para regresión no paramétrica múltiple.</li>
+</ul>
+</div>
+<div id="regresion-no-parametrica-mediante-splines-de-suavizado" class="section level3">
+<h3><span class="header-section-number">2.2.10</span> Regresión no paramétrica mediante splines de suavizado</h3>
+<p>Consideremos el siguiente modelo de regresión homocedástico,</p>
+<p><span class="math display">\[\displaystyle{Y_{i}=f(X_{i})+\epsilon_{i}}, \hspace{0.3cm} para \hspace{0.2cm} i=1,...,n\]</span>
+donde los <span class="math inline">\(\epsilon_{i}\)</span> son errores de media cero independientes e idénticamente distribuidos.</p>
+<p>Uno de los posibles métodos para emplear splines es aproximar la función de regresión subyacente mediante las bases de splines, por ejemplo, la base de los B-splines cúbicos. Así, se escoge una secuencia fija de nodos <span class="math inline">\(-\infty&lt;t_{1}&lt;t_{2}&lt;...&lt;t_{J}&lt;\infty\)</span>, los cuales pueden diferir de los predictores. Luego, se calculan los elementos de la base cúbica de spline correspondiente.</p>
+<p>Es posible mostrar que sólo son necesarios <span class="math inline">\(J+4\)</span> elementos de esta base. Denotemos a estos elementos por <span class="math inline">\(B_{j}(x)\)</span>, así el spline polinomial lo podemos expresar como sigue,</p>
+<p><span class="math display">\[\displaystyle{S(x)=\sum_{j=1}^{J+4} \theta_{j}B_{j}(x)}\]</span>
+Entonces los coeficientes <span class="math inline">\(\theta_{j}\)</span> pueden ser calculados al ser considerados como los parámetros que se obtienen al minimizar la suma de los errores al cuadrado,</p>
+<p><span class="math display">\[\displaystyle{\sum_{i=1}^{n} \left[ Y_{i} - \sum_{j=1}^{J+4} \theta_{j}B_{j}(X_{j})\right]^2}\]</span>
+Denotamos por <span class="math inline">\(\hat{\theta_{j}}\)</span> al estimador de mínimos cuadrados y definimos el estimador del spline polinomial como sigue,</p>
+<p><span class="math display">\[\displaystyle{ \hat{f}_{n}(x) = \sum_{j=1}^{J+4} \hat{\theta_{j}}B_{j}(x)}\]</span>
+Otro enfoque, se basa en la idea de encontrar un curva suave que minimize la suma penalizada de errores al cuadrado, es decir, que minimize la siguiente expresión,</p>
+<ol start="9" class="example" style="list-style-type: decimal">
+<li><span class="math display">\[
+  n^{-1}\sum_{j=1}^{n}(Y_{j}-f(X_{j}))^2+\mu \int_{a}^{b} [f^{(m)} (x)]^2 dx
+\]</span></li>
+</ol>
+<p>para algún <span class="math inline">\(\mu &gt; 0\)</span>. Así como el enfoque de interpolación anterior, la solución de este problema de minimización es un spline, el cual recibe el nombre de estimador de spline de suavizado.</p>
+<p>En particular, para el caso <span class="math inline">\(m=2\)</span> el minimizador de la ecuación 9, es un spline cúbico natural. Note que <span class="math inline">\(\mu\)</span> juega el papel de parámetro de suavizado, este término se puede interpretar como una penalización por rugosidad de la función. Curvas que cambian lenta o suavemente presentan un valor pequeño de la integral, por ejemplo, en una función lineal la integral toma el valor de cero.</p>
+<p>De hecho, la primera suma en la ecuación 9 penaliza la falta de fidelidad de la aproximación de la data mediante el spline. El segundo término es el responsable de la suavidad de la aproximación obtenida mediante el spline. Para ver esto considérese los casos extremos, es decir, cuando <span class="math inline">\(\mu =0\)</span> y <span class="math inline">\(\mu=\infty\)</span>. El primer caso conduce a una interpolación, esto es <span class="math inline">\(\hat{f}(X_{i})=Y_{i}\)</span> para <span class="math inline">\(i=1,...,n\)</span>. El otro caso, conduce a una regresión lineal pues <span class="math inline">\(f^{(2)}(x)\equiv 0\)</span>.</p>
+<p>Por lo tanto <span class="math inline">\(\mu\)</span> es el parámetro de suavizado que controla la medida del estimador del spline polinomial, el cual puede variar desde el modelo más complicado e inestable hasta el modelo más simple. En otras palabras, la ecuación 9 representa un balance entre la fidelidad o ajuste de los datos, representado mediante la suma de los residuos al cuadrado y la suavidad de la curva resultante, la cual se representa por la integral del cuadrado de la m-émisa derivada.</p>
+</div>
+<div id="proceso-de-optimizacion-de-nelson-y-siegel-y-svensson" class="section level3">
+<h3><span class="header-section-number">2.2.11</span> Proceso de Optimización de Nelson y Siegel y Svensson</h3>
+<p>Para aplicar este proceso es necesario tener una función objetivo, sobre la cual se realizará el proceso de optimización, ya sea para maximizar ó minimizar dicha función. Dependiendo de la forma de dicha función el proceso de optimización será lineal o no lineal. En nuestro caso particular se llevará a cabo un proceso de optimización no lineal donde se buscará minimizar la función objetivo.</p>
+<p>En el cálculo de nuestra función objetivo inteviene el concepto de la duración de un bono ó título, la cuál es una medida del vencimiento medio ponderado de todos los flujos que paga un bono. La misma viene dada mediante la siguiente expresión,</p>
+<p><span class="math display">\[\displaystyle{Duracion = \frac{1+r}{r} - \frac{n(c-r)+(1+r)}{c(1+r)^{n}-(c-r)}}\]</span></p>
+<p>donde</p>
+<ul>
+<li>r es el rendimiento al vencimiento del bono durante el período considerado.</li>
+<li>n es el número de períodos que restan hasta la fecha de vencimiento del bono.</li>
+<li>c es el cupón del bono.</li>
+</ul>
+<p>Así nuestra función objetivo viene dada mediante la siguiente expresión,</p>
+<p><span class="math display">\[
+  f(x) = \sum_{i=1}^{n} (w_{i}\epsilon(x)_{i} )^2
+\]</span></p>
+<p>donde <span class="math inline">\(w_{i}\)</span> representan las ponderaciones, y se calculan mediante la siguiente expresión,</p>
+<p><span class="math display">\[\displaystyle{w_{i} = \frac{\frac{1}{D_{i}}}{\sum_{j=1}^{N}\frac{1}{D_{j}}}}\]</span></p>
+<p>por su parte, <span class="math inline">\(\epsilon_{i}(x)= \hat{Pr}_{i}(x)-Pr_{i}\)</span>, donde <span class="math inline">\(Pr_{i}\)</span> representan los precios promedios de los títulos a considerar, de entrada este es un parámetro ó valor con el que se cuenta. Por otra parte <span class="math inline">\(\hat{Pr}_{i}(x)\)</span> representa los precios estimados donde <span class="math inline">\(x\)</span> es el parámetro que va a variar y es el valor que se quiere optimizar.</p>
+<p>Mediante la función objetivo descrita anteriormente se busca minimizar la diferencia que existe entre los precios promedios y los precios estimados, calculando un valor óptimo del parámetro <span class="math inline">\(x\)</span> mediante el proceso de optimización no lineal.</p>
+<p>El proceso de optimización se realizó mediante el software estadístico R, mediante el paquete “nloptr”. En este paquete, se encuentra el comando “aulag” el cual minimiza un función objetivo y devuelve entre otros valores el parámetro más óptimo, que hace que la función sea mínima. Un ejemplo del uso de este comando se presenta acontinuación,</p>
+<p><span class="math display">\[ala2=auglag(1.22, fn=mifuncion, hin=res)\]</span>
+donde el primer argumento debe ser el valor inicial del parámetro a optimizar, el segundo argumento “fn” se refiere a la función que se desea optimizar, finalmente en el tercer parámetro “hin” se indican las restricciones sobre el parámetro a optimizar, en este caso la restricción establecida es que el parámetro sea mayor a cero.</p>
+<p>Recordemos que la tasa cero cupón que se obtiene mediante la metodología de Svensson está dada por la siguiente expresión,</p>
+<p><span class="math display">\[\displaystyle{s(m) = \beta_{0}+ \beta_{1}\frac{\left(1-e^\frac{-m}{\tau_{1}}\right)}{m/\tau_{1}} + \beta_{2} \left(\frac{\left(1-e^\frac{-m}{\tau_{1}}\right)}{m/\tau_{1}} -  e^\frac{-m}{\tau_{1}}\right) + \beta_{3} \left(\frac{\left(1-e^\frac{-m}{\tau_{2}}\right)}{m/\tau_{2}} -  e^\frac{-m}{\tau_{2}}\right)}\]</span></p>
+<p>esta expresión está sujeta a las siguientes restricciones,</p>
+<ul>
+<li><span class="math inline">\(\beta_{0} &gt; 0\)</span></li>
+<li><span class="math inline">\(\beta_{0}+\beta_{1} &gt; 0\)</span></li>
+<li><span class="math inline">\(\tau_{1} &gt; 0\)</span></li>
+<li><span class="math inline">\(\tau_{2} &gt; 0\)</span></li>
+</ul>
+<p>cada parámetro controla una sección de la curva. La fórmula anterior es de suma importancia ya que ella interviene en el cálculo del precio teórico de cada instrumento. El proceso de optimización actúa directamente sobre esta fórmula, ya que el mismo se centra en variar los parámetros de tal manera que la función objetivo sea minimizada.</p>
+<p>Como se observó en las secciones anteriores el parámetro de suavizamiento fué elegido mediante el método de ensayo y error el cual no es para nada óptimo pues a priori este método no nos garantiza que el valor seleccionado sea el mejor, ya que se contarían con una gran cantidad de posibles valores a seleccionar, con el fin de encontrar dicho parámetro el procedimiento anteriormente explicado puede ser implementado.</p>
+<p>Sin embargo, al realizar este proceso, se obtienen curvas que no son para nada suaves y en ocasiones no poseen ningunas de las formas usuales de la curva de rendimientos. Esto es debido a que en este caso este proceso, varía el parámetro de suavizamiento de tal manera que la diferencia entre el precio promedio y el precio teórico sea lo mas pequeña posible y en este proceso no existe un parámetro que controle la forma de la curva obtenida. Por lo tanto, su aplicación presenta algunos inconvenientes.</p>
+</div>
+<div id="elaboracion-base-de-datos-para-la-metodologia-splines-y-diebold-li" class="section level3">
+<h3><span class="header-section-number">2.2.12</span> Elaboracion Base de datos para la metodología Splines y Diebold-Li</h3>
+<p>La fuente principal de información para calcular la curva de rendimientos para los títulos de la deuda pública nacional es el Banco Central de Venezuela (BCV), el cual diariamente publica las operaciones realizadas con estos instrumentos y los publica en el documento “resumersec” (Ver Figura <a href="curva-de-rendimientos.html#fig:bcv">2.6</a>. Es importante destacar, que en este documento se encuentran por día dos pestañas, la <span class="math inline">\(``0-22&quot;\)</span> y la <span class="math inline">\(``0-23&quot;\)</span>, en la primera pestaña se encuentran las operaciones interbancarias, por su parte la segunda pestaña muestra información sobre las operaciones realizadas por entes privados, en este caso el precio pautado en la operación no está disponible, razón por la cual esta pestaña no se toma en consideración. La información disponible en la pestaña <span class="math inline">\(``0-22&quot;\)</span> es la siguiente,</p>
+<ul>
+<li>Código del instrumento: código único que se asocia a cada instrumento.</li>
+<li>Fecha de vencimiento: fecha de maduración de cada instrumento.</li>
+<li>Plazo: cantidad de días que faltan para que el instrumento venza.</li>
+<li>Cantidad de Operaciones: número de operaciones realizadas con cada instrumento.</li>
+<li>Monto en Bolívares: monto total involucrado en la operación.</li>
+<li>Precio mínimo: precio más bajo pautado en la operación.</li>
+<li>Precio máximo: precio más alto pautado en la operación.</li>
+<li>Precio promedio: precio promedio pautado en la la operación. Cabe destacar que si existe una sóla operación, los precios mínimo, máximo y promedio serán iguales.</li>
+<li>Cupón: tasa de interés pagadera por cada instrumento.</li>
+</ul>
+<div class="figure" style="text-align: center"><span id="fig:bcv"></span>
+<img src="images/Imagen022.png" alt="Pestaña 0-22" width="1277" />
+<p class="caption">
+Figura 2.6: Pestaña 0-22
+</p>
+</div>
+<p>Es importante recordar que dentro de los títulos de la Deuda Pública Nacional se encuentran los títulos de interés fijo (TIF) y los títulos de tasa variable (VEBONO), los primeros se caracterizan por poseer una tasa de cupón que no varia, por su parte los VEBONO poseen una tasa de interés variable.</p>
+<p>Esta información también es suministrada por el BCV, en su documento de las “Características de la Deuda Pública Nacional” (Ver Figura <a href="curva-de-rendimientos.html#fig:carac">2.7</a> ), por lo cual el mismo se debe revisar con cierta frecuencia, con el fin de actualizar la tasa de cupón de los VEBONO. En este documento se muestra información que caracteriza a cada instrumento, el mismo posee varias pestañas, en este trabajo sólo se considerará la pestaña <span class="math inline">\(``DPN&quot;\)</span> en donde se encuentra información sobre los instrumentos emitidos en moneda nacional. La información disponible en este documento se muestra a continuación,</p>
+<ul>
+<li>Número-Emisión-Decreto: información sobre emisión de cada instrumento.</li>
+<li>Código: código único que se asocia a cada instrumento.</li>
+<li>Fecha de emisión: fecha cuando se emitió cada instrumento.</li>
+<li>Fecha de vencimiento: fecha de maduración de cada instrumento.</li>
+<li>Monto en Circulación: monto total de cada instrumento en circulación.</li>
+<li>Porcentaje de referecia: indica si el instrumento es de tasa fija o tasa variable.</li>
+<li>Fecha de inicio: indica cada cuanto tiempo el instrumento paga cupón.</li>
+<li>Período vigente: indica el período (fecha inicio y fecha fin) cuando cada instrumento paga cupón.</li>
+<li>Tasa: cupón asociado a cada instrumento.</li>
+</ul>
+<div class="figure" style="text-align: center"><span id="fig:carac"></span>
+<img src="images/Imagencarac.png" alt="Características" width="1363" />
+<p class="caption">
+Figura 2.7: Características
+</p>
+</div>
+<p>A partir de la pestaña “0-22” y del documento de las características, se creó la base de datos con la cual se va a trabajar, la misma contiene no sólo la información suministrada por la pestaña “0-22”, sino alguna información adicional tomada del documento de las características. En dicha base de datos se contará con la siguiente información,</p>
+<ul>
+<li>Tipo Instrumento: Indica el tipo de instrumento.</li>
+<li>Nombre: Proporciona el nombre corto del título, usualmente este nombre se conforma por el tipo de título más su mes y año de vencimiento, por ejemplo, el título TIF032028, representa al título TIF con vencimiento en marzo del 2028.</li>
+<li>Fecha de operación: Indica la fecha en que se efectuó dicha operación.</li>
+<li>Fuente: Indica la fuente de donde se tomó la información, esta se puede tomar de dos fuentes, la primera mediante la pestaña 0-22 (mercado secundario) y la otra mediante el documento de las subastas (mercado primario, información suministrada por el BCV).</li>
+<li>Sicet: Proporciona el código asociado a cada título.</li>
+<li>Fecha de vencimiento: Indica la fecha de maduración (vencimiento) del instrumento.</li>
+<li>Plazo: Indica la cantidad de días que falta para que el instrumento se venza.</li>
+<li>Cantidad de operaciones: Proporciona la cantidad de operaciones efectuadas con un insrumento en específico.</li>
+<li>Monto: Indica el monto en Bolívares, por el cual se efectuó la operación u operaciones.</li>
+<li>Precio mínimo: Indica el precio mínimo, por el cual se transó la operación.</li>
+<li>Precio máximo: Indica el precio máximo, por el cual se transó la operación.</li>
+<li>Precio promedio: Indica el precio promedio, por el cual se transó la operación, cabe destacar que en dado caso de existir una sola operación el valor del precio mínimo, máximo y promedio van a coincidir.</li>
+<li>Cupón: Proporciona la tasa de cupón asociado a cada instrumento.</li>
+<li>Frecuencia: Indica con que frecuencia el instrumento paga cupón, para los TIF y VEBONO, esta es 4, pues los mismos pagan cu'pon trimestralmente, así se obtiene este valor pues existen 4 trimestres en el año.</li>
+</ul>
+<!-- Una vez obtenida la base de datos esta según sea el caso puede ser depurada mediante ciertos criterios, el primero es que aquellas operaciones con un monto menor a los 10 milllones no se consideran. El segundo es considerar la operación mas reciente, es decir, si en la base de datos se tiene que para un mismo instrumento existen diferentes operaciones en diferentes días, sólo se considerará la operación más reciente. -->
+<!-- Para efectuar la depuración, a la base de datos anterior se le añadirán dos columnas nuevas una que indica el rendimiento al vencimiento de cada instrumento y la otra que indica la decisión que se tomó en base a los criterios descritos anteriormente (Ver Figura \@ref(fig:base)). Esta última será una variable dicotómica, es decir solo con dos valores (0 ó 1), en donde "0" me indica que no selecciono el título y "1" me indica que si lo tomo en cuenta para el estudio a realizar. -->
+<!-- ```{r , echo=FALSE, fig.align='center',fig.cap="Base de datos",label=base} -->
+<!-- knitr::include_graphics("images/Imagenbase.png") -->
+<!-- ``` -->
+<!-- Una vez calculados los precios estimados asociados a cada instrumento, se procederá a comparar los mismo con aquellos obtenidos por una metodología distinta. La metodología con la cual se va a comparar es la de Svensson, la cual es una metodología paramétrica. -->
+<!-- Los instrumentos a considerar serán aquellos pertencientes al portafolio de inversiones de una institución financiera, de tal manera que para un día especifico sea posible conocer cuanta es la ganancia o pérdida que generan estos instrumentos. y por ende saber si es viable la venta o compra de determinado instrumento. -->
+<!-- A partir de la data obtenida (Ver Figura \@ref(fig:base)), se procederá a añadir unas columnas nuevas con el fin de clasificar las observaciones para los distintos instrumentos en diferentes períodos de vencimiento. Los períodos de vencimiento son, -->
+<!-- + Corto plazo: se refiere al vencimiento más cercano, los instrumentos que se encuentran aquí son aquellos que poseen un vencimiento menor a un año. -->
+<!-- + Mediano plazo: en esta clasificación se encuentran los instrumentos cuyo vencimiento este entre uno y diez años. -->
+<!-- + Largo plazo: hace referencia a aquellos instrumentos que tengan un vencimiento mayor a diez años. -->
+<!-- Luego de separar la data por tipo de instrumento, la nueva data con la que se trabajará es la siguiente, -->
+<!-- ```{r , echo=FALSE, fig.align='center',fig.cap="Base de datos TIF",label=baset} -->
+<!-- knitr::include_graphics("images/data_nueva.png") -->
+<!-- ``` -->
+<!-- Con el fin de contar con la data más reciente a partir de la fecha de valoración, se creó la función "extrae" la cual selecciona de la data de la Figura (\@ref(fig:baset)) una determinada cantidad de observaciones, la cual es especificada por el usuario, esta función cuenta con los siguientes argumentos, -->
+<!-- + fv: indica la fecha de valoración para la cual se está realizando el estudio. -->
+<!-- + dias: indica la cantidad de días que el usuario desea, a partir de este valor se va a obtener la data con la que se va a trabajar. -->
+<!-- + data: hace referencia a la data completa para cada tipo de instrumento, a partir de la misma se procedera a extraer parte de ella a partir del número de dias seleccionado. -->
+<!-- Luego de selecionar la data, la misma se procede a depurar, es decir, se van a eliminar las observaciones duplicadas considerando sólo aquellas que sean más recientes.  -->
+<!-- Así a partir de esta data sólo se consideraran las columnas plazo y rendimiento con el fin de tener una nube de puntos a partir de la cual se haga el ajuste de la función spline, y así obtener la curva de rendimientos. -->
+<!-- La data obtenida a partir de la depuración anterior es, -->
+<!-- ```{r , echo=FALSE, fig.align='center',fig.cap="Data depurada TIF",label=datadep} -->
+<!-- knitr::include_graphics("images/cand.png") -->
+<!-- ``` -->
+<!-- Una vez obtenida la data para los Tif y Vebono se utilizó la función "smooth.spline" del programa estadístico R, para ajustar un spline cúbico a la data ingresada. Los argumentos requeridos por esta función son los siguientes, -->
+<!-- + X: representa el vector de la variable predictiva. -->
+<!-- + Y: representa el vector de la variable repuesta. -->
+<!-- + cv: (TRUE/FALSE) variable del tipo lógico que representa si se va a utilizar la validación cruzada generalizada al momento de calcular el parámetro de suavizamiento. -->
+<!-- + Spar: representa el parámetro de suavizamiento, típicamente (aunque no necesariamente) ubicado entre 0 y 1. Es el coeficiente lambda que acompaña a la integral del cuadrado de la segunda derivada de la función f. -->
+<!-- De esta manera el siguiente comando ajusta un spline cubico a la data ingresada, -->
+<!-- spline1=smooth.spline(X=datT1\$Plazo,Y=datT1\$Rendimiento,cv=TRUE, spar=1.35) -->
+<!-- y lo guarda en la variable ``spline1". -->
+<!-- Es importante señalar lo crucial de la escogencia del parámetro "spar", pues de él depende que tan suave sea la curva, la Figura (\@ref(fig:compspar) muestra como varía la curva cuando se cambia  el valor del ``spar", para esta comparación se usó tres valores, el primero fue 0.51 con el cual se obtiene una curva con ciertos picos la cual no es suave en lo absoluto.  -->
+<!-- Usando el valor de 0.71 se obtiene la curva roja la cual presenta una mayor suavidad. Mientras que usando el valor de 0.81 se obtiene un mejor resultado aunque similar al anterior. De esta manera, se puede observar la importancia de la elección correcta de este parámetro, mientras este valor se aproxime a 1 se obtendrá una curva con mayor suvidad. -->
+<!-- ```{r , echo=FALSE, fig.align='center',fig.cap="Curva de rendimiento Vebono para diferentes valores de suavizado",label=compspar} -->
+<!-- knitr::include_graphics("images/curvavbv2.jpg") -->
+<!-- ``` -->
+<!-- Cabe destacar que para cada versión el parámetro usado en la variable "spar" cambió. Esto debido a la diferente cantidad de puntos que tiene cada versión. Así el valor del parámetro "spar" para los TIF se ubicó en el siguiente intervalo [0.4,0.6], por su parte para los VEBONOS la elección de dicho parámetro esta en [0.3,0.5]. Los mismos se obtuvieron mediante ensayo y error. Para los valores ubicados dentro de los intervalos mencionados siempre se obtuvo una curva suave. -->
+<!-- Una vez que se obtiene la curva estimada y es guardada en una variable (en este caso, la variable es spline1), se procede a aplicar el comando "predict", para estimar el rendimiento de algún plazo que se ingrese. -->
+<!-- Así con el fin de calcular el precio estimado de cada título, se creó la función "precio" mediante R, para determinar de forma automática dichos valores. Los imputs de dicha función son los siguientes, -->
+<!-- + Tit: representa el nombre de cada título, al cual se le quiere estimar su precio, el mismo debe ser un carácter, ej: TIF102017 ó VEBONO112017. -->
+<!-- + Spline1: representa la variable donde se guardo la curva ajustada mediante el spline. -->
+<!-- + Fv: indica la fecha de valoración, para la cual se desea conocer el precio estimado. -->
+<!-- Una vez ingresado los imputs, la función internamente busca el nombre del título en el documento de las características más reciente, y extrae del mismo la fecha de pago del próximo cupón y su fecha de vencimiento, con el fin de crear un vector de flujos. -->
+<!-- Por ejemplo, si se quiere conocer el precio estimado del título "TIF032022"  al "01/03/2018", la función busca su fecha de vencimiento $(03/03/2022)$ y la fecha de pago del próximo cupón la cual es en este caso $08/03/2018$. Luego con dichos valores calcula la Tabla \ref{tabla1}, que representa los cupones que le quedan por pagar al título, -->
+<!-- \renewcommand{\tablename}{Tabla} -->
+<!-- \begin{table}[H] -->
+<!-- \centering -->
+<!-- %\begin{center} -->
+<!-- {\begin{tabular}[t]{|l |c |c |c |c |c |r|} -->
+<!-- \hline -->
+<!-- Fecha & Plazo título & Plazo años & Rend estimado & Exp & Cupón & Producto \\ -->
+<!-- \hline -->
+<!-- 08/03/2018 & 7  & 0,0191780 & 0,45\% & 0,9999131 & 4& 3,999652\\ -->
+<!-- \hline -->
+<!-- 07/06/2018 & 98 & 0,2684931 & 1,05\% & 0,9971804 & 4& 3,988721\\ -->
+<!-- \hline -->
+<!-- 06/09/2018 & 189 & 0,5178082 & 1,64\% & 0,9915025 & 4& 3,966010\\ -->
+<!-- \hline -->
+<!-- 06/12/2018 & 280 & 0,7671232 & 2,23\% & 0,9829646 & 4& 3,931859\\ -->
+<!-- \hline -->
+<!-- 07/03/2019 & 317 & 1,0164383 & 2,82\% & 0,9717013 & 4& 3,886805\\ -->
+<!-- \hline -->
+<!-- 06/06/2019 & 462 & 1,2657534 & 3,39\% & 0,9578928 & 4& 3,831571\\ -->
+<!-- \hline -->
+<!-- 05/09/2019 & 553 & 1,5150684 & 3,96\% & 0,9417596 & 4& 3,767038\\ -->
+<!-- \hline -->
+<!-- 05/12/2019 & 644 & 1,7643835 & 4,50\% & 0,9235567 & 4& 3,694227\\ -->
+<!-- \hline -->
+<!-- 05/03/2020 & 735 & 2,0136986 & 5,03\% & 0,9035668 & 4& 3,614267\\ -->
+<!-- \hline -->
+<!-- 04/06/2020 & 826 & 2,2630137 & 5,54\% & 0,8820934 & 4& 3,528373\\ -->
+<!-- \hline -->
+<!-- 03/09/2020 & 917 & 2,5123287 & 6,02\% & 0,8594532 & 4& 3,437813\\ -->
+<!-- \hline -->
+<!-- 03/12/2020 & 1008 & 2,7616438 & 6,48\% & 0,8359698 & 4& 3,343879\\ -->
+<!-- \hline -->
+<!-- 04/03/2021 & 1099 & 3,0109589 & 6,91\% & 0,8119665 & 4& 3,247866\\ -->
+<!-- \hline -->
+<!-- 03/06/2021 & 1190 & 3,2602739 & 7,31\% & 0,7877226 & 4& 3,150890\\ -->
+<!-- \hline -->
+<!-- 02/09/2021 & 1281 & 3,5095890 & 7,69\% & 0,7634473 & 4& 3,053789\\ -->
+<!-- \hline -->
+<!-- 02/12/2021 & 1372 & 3,7589041 & 8,03\% & 0,7393192 & 4& 2,957277\\ -->
+<!-- \hline -->
+<!-- 03/03/2022 & 1463 & 4,0082191 & 8,35\% & 0,7154912 & 104 & 74,411084\\ -->
+<!-- \hline -->
+<!-- % Precio &  &  &  & & & 112,688809\\ -->
+<!-- \multicolumn{6}{|c|}{Precio} & 131,8111 \\ -->
+<!-- \hline -->
+<!-- \end{tabular} -->
+<!-- } -->
+<!-- %\caption{Tabla} -->
+<!-- %\end{center} -->
+<!-- \caption{Cálculos función precio.} -->
+<!-- \label{tabla1} -->
+<!-- \end{table} -->
+<!-- Así la primera columna (Fecha) se obtiene de sumarle a la fecha de pago del próximo cupón ($08/03/2018$) 91 días, que representa el tiempo cada cuando el título paga cupón, esto se realiza  hasta llegar a la fecha de vencimiento. -->
+<!-- Luego la columna "Plazo título", se obtiene realizando la diferencia entre la columna 1 y la fecha de valoración (01/03/2018). Luego la columna 3 se obtiene dividiendo el valor de la columna 2 entre 365, para pasar dicho valor a años. Después evalúo los valores de la columna 2 en el spline obtenido, para así obtener los rendimientos estimados (columna 4). Posteriormente en la columna 5 (EXP) calculo la exponencial del producto de menos uno con el plazo en años (columna 3) y con el rendimiento estimado (columna 4). -->
+<!-- La columna 6 (Cupón) la calculo dividiendo el valor del cupón del título entre 4, ya que cada cupón se paga cada tres meses, a diferencia del último al cual se le debe sumar el valor de 100. Finalmente en la última columna (Producto) calculo el producto del valor de la columna EXP con la columna Cupón, para luego realizar la sumatoria de todas sus filas y así obtener el precio estimado (131,8111 en este caso). -->
+<!-- El mismo procedimiento se repite para cada título ya sea Tif o Vebono. Es importante señalar que los títulos considerados fueron aquellos que pertenecían al portafolio de inversiones del banco en un tiempo determinado. -->
+
+
+</div>
+</div>
+</div>
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-78759535-1', 'auto');
+ga('send', 'pageview');  
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduccion.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="valor-en-riesgo.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/synergyvision/Teoria-de-Portafolio/edit/master/bookdown/011-Curva_de_Rendimientos.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["Riesgo-de-Mercado.pdf"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

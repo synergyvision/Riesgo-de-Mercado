@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Capítulo 3 Valor en Riesgo | Riesgo de Mercado</title>
+  <meta name="description" content="Capítulo 3 Valor en Riesgo | Riesgo de Mercado>
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Capítulo 3 Valor en Riesgo | Riesgo de Mercado />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="http://synergy.vision/Riesgo-de-Mercado/" />
+  <meta property="og:image" content="http://synergy.vision/Riesgo-de-Mercado/images/cover.png" />
+  
+  <meta name="github-repo" content="synergyvision/Riesgo-de-Mercado/" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 3 Valor en Riesgo | Riesgo de Mercado />
+  
+  
+  <meta name="twitter:image" content="http://synergy.vision/Riesgo-de-Mercado/images/cover.png" />
+
+<meta name="author" content="Synergy Vision">
+
+
+<meta name="date" content="2019-06-11">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="curva-de-rendimientos.html">
+<link rel="next" href="backtesting.html">
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="https://cdn.datacamp.com/datacamp-light-latest.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./"><img src="images/logovision-black.png" width="160"></img></a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefacio</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#por-que-leer-este-libro"><i class="fa fa-check"></i>¿Por qué leer este libro?</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#estructura-del-libro"><i class="fa fa-check"></i>Estructura del libro</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#informacion-sobre-los-programas-y-convenciones"><i class="fa fa-check"></i>Información sobre los programas y convenciones</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#practicas-interactivas-con-r"><i class="fa fa-check"></i>Prácticas interactivas con R</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#agradecimientos"><i class="fa fa-check"></i>Agradecimientos</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="acerca-del-autor.html"><a href="acerca-del-autor.html"><i class="fa fa-check"></i>Acerca del Autor</a></li>
+<li class="chapter" data-level="1" data-path="introduccion.html"><a href="introduccion.html"><i class="fa fa-check"></i><b>1</b> Introducción</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduccion.html"><a href="introduccion.html#motivation"><i class="fa fa-check"></i><b>1.1</b> Motivation</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html"><i class="fa fa-check"></i><b>2</b> Curva de Rendimientos</a><ul>
+<li class="chapter" data-level="2.1" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologias-parametricas."><i class="fa fa-check"></i><b>2.1</b> Metodologías Paramétricas.</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologia-nelson-y-siegel"><i class="fa fa-check"></i><b>2.1.1</b> Metodología Nelson y Siegel</a></li>
+<li class="chapter" data-level="2.1.2" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologia-svensson"><i class="fa fa-check"></i><b>2.1.2</b> Metodología Svensson</a></li>
+<li class="chapter" data-level="2.1.3" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#polinomios-de-componentes-principales."><i class="fa fa-check"></i><b>2.1.3</b> Polinomios de componentes principales.</a></li>
+<li class="chapter" data-level="2.1.4" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#polinomios-trigonometricos."><i class="fa fa-check"></i><b>2.1.4</b> Polinomios trigonométricos.</a></li>
+<li class="chapter" data-level="2.1.5" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologia-diebold-li"><i class="fa fa-check"></i><b>2.1.5</b> Metodología Diebold-Li</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologias-no-parametricas"><i class="fa fa-check"></i><b>2.2</b> Metodologías no Paramétricas</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#regresion-kernel"><i class="fa fa-check"></i><b>2.2.1</b> Regresión Kernel</a></li>
+<li class="chapter" data-level="2.2.2" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#polinomios-locales"><i class="fa fa-check"></i><b>2.2.2</b> Polinomios locales</a></li>
+<li class="chapter" data-level="2.2.3" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#splines-suavizados"><i class="fa fa-check"></i><b>2.2.3</b> Splines suavizados</a></li>
+<li class="chapter" data-level="2.2.4" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#splines-de-polinomios"><i class="fa fa-check"></i><b>2.2.4</b> Splines de polinomios</a></li>
+<li class="chapter" data-level="2.2.5" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#splines-suavizados-1"><i class="fa fa-check"></i><b>2.2.5</b> Splines suavizados</a></li>
+<li class="chapter" data-level="2.2.6" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#supersuavizador-de-friedmann"><i class="fa fa-check"></i><b>2.2.6</b> Supersuavizador de Friedmann</a></li>
+<li class="chapter" data-level="2.2.7" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#redes-neuronales-artificiales"><i class="fa fa-check"></i><b>2.2.7</b> Redes neuronales artificiales</a></li>
+<li class="chapter" data-level="2.2.8" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologia-splines-cubicos-de-suavizado"><i class="fa fa-check"></i><b>2.2.8</b> Metodología Splines Cúbicos de Suavizado</a></li>
+<li class="chapter" data-level="2.2.9" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#regresion-no-parametrica"><i class="fa fa-check"></i><b>2.2.9</b> Regresión no paramétrica</a></li>
+<li class="chapter" data-level="2.2.10" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#regresion-no-parametrica-mediante-splines-de-suavizado"><i class="fa fa-check"></i><b>2.2.10</b> Regresión no paramétrica mediante splines de suavizado</a></li>
+<li class="chapter" data-level="2.2.11" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#proceso-de-optimizacion-de-nelson-y-siegel-y-svensson"><i class="fa fa-check"></i><b>2.2.11</b> Proceso de Optimización de Nelson y Siegel y Svensson</a></li>
+<li class="chapter" data-level="2.2.12" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#elaboracion-base-de-datos-para-la-metodologia-splines-y-diebold-li"><i class="fa fa-check"></i><b>2.2.12</b> Elaboracion Base de datos para la metodología Splines y Diebold-Li</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html"><i class="fa fa-check"></i><b>3</b> Valor en Riesgo</a><ul>
+<li class="chapter" data-level="3.0.1" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#importancia-del-var"><i class="fa fa-check"></i><b>3.0.1</b> Importancia del VaR</a></li>
+<li class="chapter" data-level="3.1" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#metodologias-para-calcular-el-var"><i class="fa fa-check"></i><b>3.1</b> Metodologías para calcular el VaR</a></li>
+<li class="chapter" data-level="3.2" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#var-simulacion-historica"><i class="fa fa-check"></i><b>3.2</b> VaR Simulación Histórica</a></li>
+<li class="chapter" data-level="3.3" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#var-simulacion-montecarlo"><i class="fa fa-check"></i><b>3.3</b> VaR Simulación MonteCarlo</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#origenes"><i class="fa fa-check"></i><b>3.3.1</b> Origenes</a></li>
+<li class="chapter" data-level="3.3.2" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#definicion"><i class="fa fa-check"></i><b>3.3.2</b> Definición</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#limitaciones-del-var"><i class="fa fa-check"></i><b>3.4</b> Limitaciones del VaR</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="backtesting.html"><a href="backtesting.html"><i class="fa fa-check"></i><b>4</b> Backtesting</a><ul>
+<li class="chapter" data-level="4.1" data-path="backtesting.html"><a href="backtesting.html#definicion-1"><i class="fa fa-check"></i><b>4.1</b> Definición</a></li>
+<li class="chapter" data-level="4.2" data-path="backtesting.html"><a href="backtesting.html#prueba-de-kupiec"><i class="fa fa-check"></i><b>4.2</b> Prueba de Kupiec</a></li>
+<li class="chapter" data-level="4.3" data-path="backtesting.html"><a href="backtesting.html#test-de-prueba-mixta-de-kupiec-haas"><i class="fa fa-check"></i><b>4.3</b> Test de Prueba Mixta de Kupiec (Haas)</a></li>
+<li class="chapter" data-level="4.4" data-path="backtesting.html"><a href="backtesting.html#marco-de-referencia-comite-de-basilea-1996."><i class="fa fa-check"></i><b>4.4</b> Marco de referencia Comité de Basilea (1996).</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="pruebas-de-estres.html"><a href="pruebas-de-estres.html"><i class="fa fa-check"></i><b>5</b> Pruebas de Estrés</a><ul>
+<li class="chapter" data-level="5.1" data-path="pruebas-de-estres.html"><a href="pruebas-de-estres.html#definicion-2"><i class="fa fa-check"></i><b>5.1</b> Definición</a></li>
+<li class="chapter" data-level="5.2" data-path="pruebas-de-estres.html"><a href="pruebas-de-estres.html#utilidad"><i class="fa fa-check"></i><b>5.2</b> Utilidad</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html"><i class="fa fa-check"></i><b>6</b> Manual de Usuario</a><ul>
+<li class="chapter" data-level="6.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curva-de-rendimientos-1"><i class="fa fa-check"></i><b>6.1</b> Curva de Rendimientos</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curva-de-rendimientos-individual"><i class="fa fa-check"></i><b>6.1.1</b> Curva de rendimientos individual</a></li>
+<li class="chapter" data-level="6.1.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#datos"><i class="fa fa-check"></i><b>6.1.2</b> Datos</a></li>
+<li class="chapter" data-level="6.1.3" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologia-nelson-y-siegel-1"><i class="fa fa-check"></i><b>6.1.3</b> Metodología Nelson y Siegel</a></li>
+<li class="chapter" data-level="6.1.4" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologia-diebold-li-1"><i class="fa fa-check"></i><b>6.1.4</b> Metodología Diebold-Li</a></li>
+<li class="chapter" data-level="6.1.5" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologia-splines"><i class="fa fa-check"></i><b>6.1.5</b> Metodología Splines</a></li>
+<li class="chapter" data-level="6.1.6" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curva-de-rendimientos-comparativo"><i class="fa fa-check"></i><b>6.1.6</b> Curva de rendimientos comparativo</a></li>
+<li class="chapter" data-level="6.1.7" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologias"><i class="fa fa-check"></i><b>6.1.7</b> Metodologías</a></li>
+<li class="chapter" data-level="6.1.8" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#precios-estimados"><i class="fa fa-check"></i><b>6.1.8</b> Precios Estimados</a></li>
+<li class="chapter" data-level="6.1.9" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curvas"><i class="fa fa-check"></i><b>6.1.9</b> Curvas</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#valor-en-riesgo-1"><i class="fa fa-check"></i><b>6.2</b> Valor en Riesgo</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#datos-1"><i class="fa fa-check"></i><b>6.2.1</b> Datos</a></li>
+<li class="chapter" data-level="6.2.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#distribucion"><i class="fa fa-check"></i><b>6.2.2</b> Distribución</a></li>
+<li class="chapter" data-level="6.2.3" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#var"><i class="fa fa-check"></i><b>6.2.3</b> VaR</a></li>
+<li class="chapter" data-level="6.2.4" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#graficos"><i class="fa fa-check"></i><b>6.2.4</b> Gráficos</a></li>
+<li class="chapter" data-level="6.2.5" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#historicos"><i class="fa fa-check"></i><b>6.2.5</b> Históricos</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#backtesting-1"><i class="fa fa-check"></i><b>6.3</b> Backtesting</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#datos-2"><i class="fa fa-check"></i><b>6.3.1</b> Datos</a></li>
+<li class="chapter" data-level="6.3.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#resultados"><i class="fa fa-check"></i><b>6.3.2</b> Resultados</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#valoracion"><i class="fa fa-check"></i><b>6.4</b> Valoración</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#datos-3"><i class="fa fa-check"></i><b>6.4.1</b> Datos</a></li>
+<li class="chapter" data-level="6.4.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#resultados-1"><i class="fa fa-check"></i><b>6.4.2</b> Resultados</a></li>
+<li class="chapter" data-level="6.4.3" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#resultados-prueba-de-estres"><i class="fa fa-check"></i><b>6.4.3</b> Resultados prueba de estrés</a></li>
+</ul></li>
+</ul></li>
+<li class="appendix"><span><b>Apéndice</b></span></li>
+<li class="chapter" data-level="A" data-path="software-tools.html"><a href="software-tools.html"><i class="fa fa-check"></i><b>A</b> Software Tools</a><ul>
+<li class="chapter" data-level="A.1" data-path="software-tools.html"><a href="software-tools.html#r-and-r-packages"><i class="fa fa-check"></i><b>A.1</b> R and R packages</a></li>
+<li class="chapter" data-level="A.2" data-path="software-tools.html"><a href="software-tools.html#pandoc"><i class="fa fa-check"></i><b>A.2</b> Pandoc</a></li>
+<li class="chapter" data-level="A.3" data-path="software-tools.html"><a href="software-tools.html#latex"><i class="fa fa-check"></i><b>A.3</b> LaTeX</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Riesgo de Mercado</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="valor-en-riesgo" class="section level1">
+<h1><span class="header-section-number">Capítulo 3</span> Valor en Riesgo</h1>
+<p>El valor en riesgo, conocido comúnmente como VaR (Value at Risk), es una técnica estadística para medir el riesgo financiero de una inversión. Indica la probabilidad (normalmente 1% o 5%) de sufrir una determinada pérdida durante un periodo de tiempo (normalmente 1 día, 1 semana o 1 mes).</p>
+<p>Dicho de otro modo, el VaR establece la pérdida máxima que puede experimentar una inversión dentro de un horizonte temporal, dado un nivel de confianza (1- α), normalmente 95% o 99%. Por ejemplo, la pérdida máxima será durante un mes con un 95% de probabilidad igual o menor que 5 millones de euros. O lo que es lo mismo, existe una probabilidad del 5% de que la pérdida sea como mínimo de 5 millones de euros en un mes. Por lo tanto, también mide la pérdida mínima que sufrirá una inversión para un nivel de significación (α).</p>
+<p>El VaR mide el riesgo financiero de una inversión, por lo que tiene una amplia aplicación en el mundo de las finanzas. Se puede calcular la pérdida máxima tanto para un solo activo financiero como para una cartera de activos financieros. Es muy utilizado en análisis de riesgos para medir y controlar el nivel de riesgo que una empresa es capaz de soportar. El gestor de riesgos es asegurarse de que no se incurre en riesgos mayores de los que la empresa podría afrontar.</p>
+<p>Se trata de un método para cuantificar la exposición al riesgo de mercado, utilizando técnicas estadísticas tradicionales. Partamos de la base de que los agentes económicos de hoy enfrentan riesgos de diferente naturaleza, como por ejemplo de crédito, de mercado, de liquidez, operacional, legal, etc. El Valor en Riesgo vendría a medir la pérdida que se podría sufrir en condiciones normales de mercado en un intervalo de tiempo y con un cierto nivel de probabilidad o de confianza.</p>
+<p>Este método fue desarrollado por matemáticos y estadísticos de JP Morgan a principios de los 90, y fue adaptado rápidamente por el resto de las firmas financieras de Wall Street gracias al gran éxito inicial y a su simplicidad de concepto. Sin embargo, no nos olvidemos de que el VaR mide probabilidades. Es decir, solo proporciona una medida resumida del riesgo del mercado. Se puede distinguir entre el VaR absoluto y el VaR relativo. En función del tipo, se pueden utilizar distintos tipos de métodos para hallarlo.</p>
+<!-- Un ejemplo práctico puede ser que una entidad financiera podría considerar que el VaR diario de una cartera operativa es de 50 millones de euros, con un nivel de confianza del 90%. Esto quiere decir que solamente hay 1 posibilidad en 10, en condiciones normales de mercado, de que haya una pérdida superior a los 40 millones de euros. -->
+<!-- Si la misma entidad fija un nivel de confianza del 99%, entonces significa que las posibilidades de que las pérdidas excedan al VaR es de solo un 1%. Lo cual implicaría, una inversión segura. -->
+<!-- ¿Es útil este indicador? -->
+<p>Durante años, el VaR fue la panacea de los gurúes de Wall Street. Pero tantas noticias buenas les nubló la razón, y no se percataron de que lo único que mide el VaR son probabilidades. Es decir, hay un 99% de probabilidades de no perder. Pero nadie miró a ese 1% restante hasta que finalmente sucedió. Ese 1% se materializó y las pérdidas se acumularon en miles de millones. Se podría decir que el VaR hundió a Wall Street, ya que no tomaron en cuenta las probabilidades matemáticas negativas. Lo cierto es que la matemática no falla. Y las probabilidades, por mínimas que parezcan, pueden volverse en nuestra contra.</p>
+<!-- ## Otra Fuente -->
+<!-- La técnica del Valor en Riesgo o Value at Risk (VaR), es una metodología que permite homogeneizar el cálculo de los diferentes riesgos que acontecen en una empresa. -->
+<!-- Si el riesgo se define como la probabilidad de obtener un resultado diferente al esperado, los factores de los que dependerá serán, la posición de la entidad, el factor de riesgo considerado y el período de tiempo de cálculo. -->
+<!-- De esta forma, el VaR pretende establecer cuantitativamente en unidades monetarias el riesgo, definiéndolo como la pérdida máxima probable en una posición, durante un intervalo concreto, según las condiciones del mercado donde se negocia el factor de riesgo. -->
+<p>La metodología VaR constituye el desarrollo natural de la Teoría de Carteras de Markowitz de los años cincuenta. Su principal impulso en el mundo financiero lo recibió de J.P. Morgan, cuando un alto ejecutivo preguntó por la máxima pérdida probable en las siguientes veinticuatro horas, surgiendo así el informe posterior al cierre, denominado 4:15, que hoy día da nombre a la aplicación de la metodología desarrolla por esta entidad financiera (Risk MetricsTM).</p>
+<p>El VaR puede entenderse de diversas maneras, cada una de las cuáles constituye una definición:</p>
+<ul>
+<li>Cuantía máxima de dinero que puede perderse en un período para un nivel específico de confianza.</li>
+<li>Procedimiento numérico, estadístico o matemático que genera un VaR monetario.</li>
+<li>Metodologías o conjunto de procedimientos que permiten estimar el valor monetario del riesgo.</li>
+<li>Técnica de gestión del riesgo, que conlleva una reestructuración de la entidad y de sus posiciones, en función del binomio rendimiento-riesgo, medido este último en términos VaR.</li>
+</ul>
+<p>En cuanto la propuesta Risk Metrics, destacar, en primer lugar, que se trata de un estudio sobre el riesgo de mercado y su medición a través de la metodología VaR, y dentro del mismo, aparecen las características técnicas de la propuesta de JP Morgan, así como la posibilidad de que esta entidad suministre la base de datos necesaria. Su aplicación está fundamentada en una contabilidad mark-to-market, realizándose las estimaciones no sobre precios, sino sobre rentabilidades.</p>
+<p>En esta propuesta pueden diferenciarse dos partes, una destinada al análisis de la metodología VaR, y otra que presenta el estudio de la propuesta concreta. A esta última parte le acompaña un completo estudio estadístico, sobre el que se fundamenta, en lo referente al comportamiento de la volatilidad y de las correlaciones entre factores de riesgo; destaca en este apartado estadístico la aplicación de la descomposición de Cholesky, empleada por JP Morgan en la estimación de la matriz de covarianzas tanto para la propuesta delta-normal como para la de simulación de Monte Carlo.</p>
+<p>En definitiva, según cuáles sean los parámetros iniciales y en base al modelo empleado, existen infinidad de posibilidades de estimación del riesgo según la metodología VaR, lo que hace difícil elegir una aplicación práctica concreta, de manera que cada entidad deberá buscarla para cubrir sus necesidades y objetivos.</p>
+<p>De todo ello se deduce que el VaR no es un único valor, sino que fluctuará en función de las decisiones iniciales que se adopten sobre el modelo, por tanto el análisis del riesgo a través de esta metodología quedaría incompleto si no se acompañase de otros análisis complementarios. Se pretende pues, establecer más que la bondad del modelo VaR empleado, lo cual será un objetivo estadístico, completar la información suministrada, con la intención de facilitar la toma de decisiones.</p>
+<!-- El VaR se articularía en tres pasos: -->
+<!-- + La dirección fija los objetivos de riesgo. -->
+<!-- + Se estimaría el VaR de la posición. -->
+<!-- + Se negociarían nuevas posiciones, normalmente derivados, que permitiesen cubrir el riesgo de la posición inicial, de forma que el VaR conjunto tienda al objetivo marcado. -->
+<!-- ##Definicion teórica -->
+<!-- El Valor en Riesgo (VaR) es una de las medidas utilizadas para evaluar el riesgo de una determinada posición o cartera de activos Önancieros. La deÖnición del VaR puede hacerse en tÈrminos de rentabilidades o en tÈrminos de PÈrdidas y Ganancias P&L (tÈrminos nominales); la deÖnición tambiÈn depende de que se aplique a una posición larga (comprada), como es habitual, o a una posi- ción corta (vendida) en un activo Önanciero. Consideremos la situación de un inversor que ha comprado un determinado activo o cartera. El VaR responde entonces a la pregunta: dado un determinado horizonte de gestión (se denom- ina horizonte de riesgo) y con una cierta probabilidad reducida, por ejemplo, p =0,1% ó 1%, øcu·l es la caÌda en el valor del activo que ser· sobrepasada sólo con una probabilidad del p%; o un porcentaje p% de los dÌas? Una interpretación equivalente es que con probabilidad 1
+
+<!-- El VaR puede calcularse para perÌodos de inversiÛn de un dÌa o tambiÈn superiores, como una semana o un mes. De hecho, para el c·lculo del VaR hay que especiÖcar el nivel de signiÖcaciÛn p o equivalentemente, el nivel de conÖanza 1
+
+
+<!-- El horizonte debe estar asociado al tiempo durante el cual pensamos que vamos a estar expuestos al riesgo con la posiciÛn asumida por el activo o cartera. Ese perÌodo de tiempo es menor en los activos muy liquidos, y mayor en los activos poco liquidos. Por eso, al calcular el VaR en un banco, no es extraÒo hablar del VaR a 1 aÒo. Esto es lo natural si estamos evaluando la posibilidad de insolvencia de una compaÒÌa, es decir, al evaluar riesgo de crÈdito, y tambien lo es al estimar el nivel de riesgo operacional. En cambio, al hablar de activos que cotizan en mercados liquidos como son las acciones, puede ser adecuado calcular el VaR a un dÌa. Esto es m·s habitual en mesas de TesorerÌa. Cuando se Öjan limites de negociaciÛn a los traders, se suele trabajar con el VaR a 1 dÌa al nivel de conÖanza del 95%, umbral que un trader no debe sobrepasar con excesiva frecuencia (por ejemplo, m·s del 5% de los dÌas). Un nivel de conÖanza superior darÌa excesiva libertad al trader.  -->
+<!-- Para Öjar el capital regulatorio de los bancos, Basilea II adoptÛ como criterio est·ndar el c·lculo del VaR 1% para la rentabilidad a 10 dÌas (2 semanas de mercado). Pero, en media, se deberÌa obtener una pÈrdida superior al VaR 1% en uno de cada 100 dias, es decir, una vez cada cuatro aÒos. Esto puede ser inasumible para el supervisor bancario, de ahÌ que se multiplique el VaR por un factor de 3 Û 4 para obtener el capital regulatorio exigible a la entidad. -->
+<!-- Sea V (h) la variaciÛn en el valor de los activos de una posiciÛn Önanciera entre t y t + h; medida en unidades monetarias. En t; el valor que la posiciÛn tenga en t+h es aleatorio, y denotamos por Fh(x) la funciÛn de distribuciÛn de V (h). DeÖnimos el V aR nominal de una posiciÛn larga en el horizonte de h dÌas, con probabilidad p; como la cantidad V aR que satisface: -->
+<!-- $$ -->
+<!-- p= P[\Delta V(h) \leq VaR] = F_{h}(VaR) -->
+<!-- $$ -->
+<!-- Puesto que la probabilidad de los valores posibles de V (h) estar· repartida -->
+<!-- de manera relativamente equilibrada entre valores positivos y negativos se tendr· -->
+<!-- que, para valores reducidos de la probabilidad p; el V aR ser· habitualmente -->
+<!-- negativo, por lo que se proporciona cambiado de signo: 
+<!-- est· dado, la distribuciÛn de probabilidad de V (h) tiene asociada de modo -->
+<!-- biunÌvoco una distribuciÛn de probabilidad para Vt+h; de modo que una vez -->
+<!-- estimado el VaR V (h); tendremos asimismo un umbral V  para el propio -->
+<!-- t+h -->
+<!-- Para posiciones cortas, la pÈrdida se producir· ante una elevaciÛn del precio -->
+<!-- valor de la cartera: V  = Vt + V (h): t+h -->
+<!-- de la cartera de magnitud poco habitual, por lo que tendrÌamos: -->
+<!-- $$ -->
+<!-- p= P[\Delta V(h) \geq VaR] = 1- P[\Delta V(h) \leq VaR] = 1- F_{h}(VaR) -->
+<!-- $$ -->
+<!-- y para una p pequeÒa, tal cantidad ser· positiva. Por tanto, la cola izquierda de la distribuciÛn de Fh(x) es la relevante para posiciones largas, mientras que la cola derecha es la relevante para las posiciones cortas. -->
+<div id="importancia-del-var" class="section level3">
+<h3><span class="header-section-number">3.0.1</span> Importancia del VaR</h3>
+<p>Tras el estallido de la crisis en 2008, el VaR cobra especial importancia, sobre todo en las salas de tesorería de los bancos. La creciente exigencia de capital (Basilea III) hacia el sector bancario y en consecuencia un mayor control de riesgos, hacen que los departamentos de riesgos asignen (menores cantidades de consumo de VaR), un VaR diario, semanal y mensual a las diferentes mesas de tipo de interés, bonos, trading, volatilidad u otros instrumentos negociables en los mercados. No obstante, también tiene especial importancia en el mundo de la gestión de activos, en la gestión de carteras o en otros sectores en contacto con los mercados financieros.</p>
+</div>
+<div id="metodologias-para-calcular-el-var" class="section level2">
+<h2><span class="header-section-number">3.1</span> Metodologías para calcular el VaR</h2>
+<p>Existen tres principales métodos para calcular el VaR:</p>
+<ul>
+<li>VaR paramétrico: utiliza datos de rentabilidad estimados y asume una distribución normal de la rentabilidad.</li>
+<li>VaR histórico: utiliza datos históricos.</li>
+<li>VaR por Monte Carlo: utiliza un software informático para generar cientos o miles de posibles resultados según unos datos iniciales introducidos por el usuario.</li>
+</ul>
+<!-- + Agrega todo el riesgo de una inversión en un solo número, lo que hace muy fácil de valorar el riesgo -->
+<!-- + Es una medida de riesgo muy estandarizada y por tanto se puede comparar por ser ampliamente calculada. -->
+<!-- + Cuando la correlación entre diferentes inversiones es menor que 1 el conjunto del VaR será menor que la suma de los VaR. -->
+<!-- ### Desventajas del VaR -->
+<!-- Existen distintos enfoques para el c·lculo del VaR: i) el modelo lineal, ii) el VaR histÛrico, y iii) el mÈtodo de simulaciÛn de Monte Carlo, y sÛlo para el primero de ellos es necesario establecer un supuesto acerca de la distribuciÛn de probabilidad de las rentabilidades, lo cual es bastante conveniente. -->
+<!-- 1. mÈtodo paramÈtrico de VaR, en el que suponemos que la distribuciÛn de las rentabilidades de los factores sigue una distribuciÛn Normal multivari- ante y la cartera es funciÛn lineal de los factores. Su ventaja es que es tratable analÌticamente, pero solo se puede generalizar a una pocas for- mas paramÈtricas, como la Normal, la t-Student, o mixturas de Normales o de t-Student. Cuando se incluyen tipos de interÈs entre los factores las relaciones son no lineales, pero la no linealidad ya est· incorporada en los tÈrminos PV01. El modelo no puede aplicarse, sin embargo, a carteras con opciones. En este modelo no podemos predecir la matriz de covarianzas utilizando un modelo GARCH, porque ello signiÖca que las rentabilidades no son i., i.d.. Como consecuencia, la regla de la raiz cuadrada en la ex- trapolaciÛn de la varianza no es v·lida. Pero el mayor problema es que en ese caso, desconocemos cual es la distribuciÛn de las rentabilidades h dias a partir de hoy: -->
+<!-- 2. mÈtodo de simulaciÛn histÛrica, que utiliza un gran cantidad de datos histÛricos para estimar el VaR pero hace el mÌnimo de supuestos acerca de la distribuciÛn de probabilidad seguida por las rentabilidades de los factores. Supone que todas las variaciones futuras posibles en los precios de los activos ya se han observado en el pasado. Esto impone restricciones no muy realistas en los datos. -->
+<!-- 3. mÈtodo VaR Monte Carlo, que hace supuestos similares a los del modelo lineal Normal. Se puede aplicar a carteras no lineales, activos con pagos path-dependent, etc.. Pero es computacionalmente intensivo y los errores de simulaciÛn pueden ser considerables, por lo que conviene utilizar mÈto- dos numÈricos de cierto nivel de soÖsticaciÛn. -->
+<!-- ##Otra fuente -->
+<!-- El VaR es una teoría creada para la administración de los riesgos financieros de una empresa. Los riesgos financieros son aquellos que provienen de posibles pérdidas en el mercado financiero, por ejemplo variaciones en los tipos de cambio, cambios en las tasas de interés, entre otros. Todos esos riesgos, que son los que trata de administrar la teoría del VaR pueden subdividirse en: -->
+<!-- + Riesgo de mercado: movimientos en los niveles o volatilidad en los precios de mercado. -->
+<!-- + Riesgo de crédito: posibilidad de que la contraparte se niegue o no pueda cumplir con los compromisos de pagos que adquirió en el pasado. -->
+<!-- + Riesgo de liquidez: este riesgo puede dividirse en dos, por una parte que sea difícil liquidar los activo al precio correspondiente (puede ser debido al tamaño de la posición por ejemplo), por lo que haya que disminuir su precio para deshacerse del activo. Por otro lado el hecho de tener que liquidar tempranamente una posición para así poder cumplir con las obligaciones de pago. -->
+<!-- + Riesgo operacional: viene dado por posibles errores técnicos o humanos.   -->
+<!-- + Riesgo Legal: eventualidad de que un contrato no se pueda hacer cumplir legalmente. -->
+<p>##VaR Paramétrico</p>
+<p>El VaR paramétrico es un método para estimar el VaR (Valor en Riesgo) utilizando datos de rentabilidad estimados y asumiendo una distribución normal de la rentabilidad. También se conoce como método varianza-covarianza o método analítico.</p>
+<p>Cuando tenemos los datos de rentabilidad esperados y el riesgo histórico (medido por la desviación típica) utilizamos la siguiente fórmula:</p>
+<p><span class="math display">\[VaR = |R – z·δ|· V\]</span></p>
+<p>Siendo R, la rentabilidad esperada, z, el valor correspondiente para un nivel de significancia (por ejemplo 1,645 para 5%), δ, la desviación típica de la rentabilidad y V, el valor de la inversión.</p>
+<p>El método del VaR paramétrico es el método más fácil de calcular, ya que el VaR histórico aunque puede ser más fácil de entender es bastante más laborioso de calcular y aunque es menos preciso que el VaR por Montecarlo es más sencillo de aplicar. Este método se basa en la hipótesis de la distribución conjunta normal de los rendimientos de la cartera, y en la hipótesis de la relación lineal (a lo más cuadrática) entre los factores de riesgo del mercado y el valor de la empresa.</p>
+<p>Ventajas:</p>
+<ul>
+<li>La estimación de VaR a través de éste método es simple y rápida, lo que lo hace atractivo cuando se trabaja en tiempo real.</li>
+</ul>
+<p>Desventajas:</p>
+<ul>
+<li>Sobreestima el VaR para niveles bajos de confianza, y lo subestima para niveles altos de confianza (inconveniente derivado de la suposición de normalidad en los retornos de la cartera y no capturar el fenómeno de las colas gruesas).</li>
+<li>Otra desventaja es que la hipótesis de linealidad condiciona a este método a ser aplicable a carteras lineales, en un mundo donde los activos no lineales toman cada día mas fuerza.</li>
+<li>Por último, incluso ampliando la aproximación del valor de la cartera a una cuadrática, no se logra una buena precisión en la estimación del VaR de carteras no lineales. Teniendo en cuenta que la aplicación complica el cálculo de VaR, disminuyendo de esa forma una de las ventajas más claras que tiene el método.</li>
+</ul>
+</div>
+<div id="var-simulacion-historica" class="section level2">
+<h2><span class="header-section-number">3.2</span> VaR Simulación Histórica</h2>
+<p>El VaR histórico o VaR por simulación histórica es un método para estimar el VaR (Valor en Riesgo) que utiliza datos históricos.Una de las maneras de calcular el VaR por el método histórico es acumulando las rentabilidades pasadas y ordenarlas desde la más alta hasta la más baja. Después, identificamos el 5% de datos con rentabilidades más bajas y el mayor de ese 5% de rentabilidades más bajas será el VaR.</p>
+<p>Los datos para calcular el VaR histórico son los precios históricos de los títulos. Por tanto, una serie histórica más grande (por ejemplo 5 o 10 años) dará resultado a mayores resultados simulados y por tanto será más precisa que una serie histórica de 3 meses. La principal desventaja del modelo histórico para calcular el VaR es que se asume que las rentabilidades obtenidas en el pasado se van a repetir en el futuro.</p>
+<p>El VAR por simulación histórica es una de las formas del cálculo del VaR, siempre un poco más laboriosa que el VaR paramétrico y menos precisa que el VaR por simulación de montecarlo. Se trata de aplicar a la cartera de activos financieros, variaciones históricas del precio de los títulos para generar escenarios contrastables con la posición inicial (conocida como spot en inglés), generando diferentes posibles resultados simulados a partir de los cuales se obtendrá el VAR.</p>
+<p>Es un método aplicable tanto a carteras lineales como no lineales, debido a que es un método no paramétrico, que no depende de ninguna de las hipótesis sobre distribuciones de probabilidad subyacente y, por lo tanto, permite capturar el fenómeno de las colas gruesas al mismo tiempo que elimina la necesidad de estimar y trabajar con volatilidades y correlaciones, evitando en gran medida el riesgo de modelización.</p>
+<p>Ventajas:</p>
+<ul>
+<li>Las ventajas fueron mencionadas en su definición, y hace que este método sea preferible al de matriz varianza-covarianza, especialmente cuando se trata del cálculo del VaR para carteras de instrumentos no lineales.</li>
+</ul>
+<p>Desventajas:</p>
+<ul>
+<li>La principal desventaja del método de simulación histórica viene dada por las características de los datos utilizados, que supone que ningún evento que no haya ocurrido en el pasado podrá ocurrir en el futuro.</li>
+</ul>
+<!-- Métodos de simulación histórica. En éstos, la variación máxima que puede experimentar el valor de una cartera como consecuencia de la exposición frente al riesgo de mercado se cal- -->
+<!-- cula como la máxima variación que hubiera experimentado dicha cartera (o los factores de riesgo considerados), a lo largo de un período histórico determinado, dentro de un percentil prefijado. Este percentil, precisamente, ofrece el nivel de fiabilidad estadística del importe calculado. El punto clave de estos métodos, en los que no se realizan hipótesis estadísticas sobre el comportamiento de los rendimientos, lo constituye la elección del período histórico a considerar. Propuestas y aplicaciones de métodos de simulación histórica aparecen recogi- das, entre otros, en los trabajos de González Mosquera (1994) y de Hendricks (1996). -->
+</div>
+<div id="var-simulacion-montecarlo" class="section level2">
+<h2><span class="header-section-number">3.3</span> VaR Simulación MonteCarlo</h2>
+<div id="origenes" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Origenes</h3>
+<p>La invención del método de MonteCarlo se asigna a Stanislaw Ulam y a John von Neumann. Ulam ha explicado cómo se le ocurrió la idea mientras jugaba un solitario durante una enfermedad en 1946. Advirtió que resulta mucho más simple tener una idea del resultado general del solitario haciendo pruebas múltiples con las cartas y contando las proporciones de los resultados que computar todas las posibilidades de combinación formalmente. Se le ocurrió que esta misma observación debía aplicarse a su trabajo de Los Álamos sobre difusión de neutrones, para la cual resulta prácticamente imposible solucionar las ecuaciones íntegro-diferenciales que gobiernan la dispersión, la absorción y la fisión. “La idea consistía en probar con experimentos mentales las miles de posibilidades, y en cada etapa, determinar por casualidad, por un número aleatorio distribuido según las probabilidades, qué sucedería y totalizar todas las posibilidades y tener una idea de la conducta del proceso físico”.</p>
+<p>Podían utilizarse máquinas de computación, que comenzaban a estar disponibles, para efectuar las pruebas numéricas y en efecto reemplazar el aparato experimental del físico. Durante una de las visitas de von Neumann a Los Álamos en 1946, Ulam le mencionó el método. Después de cierto escepticismo inicial, von Neumann se entusiasmó con la idea y pronto comenzó a desarrollar sus posibilidades en un procedimiento sistemático. Ulam expresó que MonteCarlo “comenzó a tener forma concreta y empezó a desarrollarse con todas sus fallas de teoría rudimentaria después de que se lo propuse a Johnny”.</p>
+<p>A principios de 1947 Von Neumann envió una carta a Richtmyer a Los Álamos en la que expuso de modo influyente tal vez el primer informe por escrito del método de MonteCarlo. Su carta fue encuadernada junto con la respuesta de Richtmyer como un informe de Los Álamos y distribuida entre los miembros del laboratorio. Von Neumann sugería aplicar el método para rastrear la generación isótropa de neutrones desde una composición variable de material activo a lo largo del radio de una esfera. Sostenía que el problema era adecuado para el ENIAC y estimaba que llevaría 5 horas calcular la acción de 100 neutrones a través de un curso de 100 colisiones cada uno.</p>
+<p>Ulam estaba particularmente interesado en el método MonteCarlo para evaluar integrales múltiples. Una de las primeras aplicaciones de este método a un problema determinista fue llevada a cabo en 1948 por Enrico Fermi, Ulam y von Neumann cuando consideraron los valores singulares de la ecuación de Schrödinger.</p>
+</div>
+<div id="definicion" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Definición</h3>
+<p>El VaR por MonteCarlo es un método para estimar el VaR (Valor en Riesgo) que utiliza un software informático para generar cientos o miles de posibles resultados según unos datos iniciales introducidos por el usuario.</p>
+<p>Los resultados obtenidos se ordenan desde la rentabilidad más alta a la más pequeña como en el cálculo del VaR por el método histórico. Después, identificamos el 5% de datos con rentabilidades más bajas y el mayor de ese 5% de rentabilidades más bajas será el VaR. Los datos se suelen presentar de forma gráfica para tener una mejor visualización de los resultados y su frecuencia.</p>
+<p>La principal ventaja de estimar el VaR por el método de Monte Carlo es a su vez su principal desventaja, ya que dependiendo de los datos iniciales introducidos se generarán una serie de presunciones que guiarán los resultados (path dependency o dependiente del camino escogido). Dada la complejidad de Monte Carlo, se puede tener una falsa sensación de fiabilidad, pero si los datos introducidos (inputs) no son correctos la información no será fiable. A pesar de ello suele ser más preciso que el método del VaR paramétrico.</p>
+<!-- El método de Montecarlo1 es un método no determinista o estadístico numérico, usado para aproximar expresiones matemáticas complejas y costosas de evaluar con exactitud. -->
+<p>El método se llamó así en referencia al Casino de Montecarlo (Mónaco) por ser “la capital del juego de azar”, al ser la ruleta un generador simple de números aleatorios. El nombre y el desarrollo sistemático de los métodos de Montecarlo datan aproximadamente de 1944 y se mejoraron enormemente con el desarrollo de la computadora.</p>
+<!-- El uso de los métodos de Montecarlo como herramienta de investigación, proviene del trabajo realizado en el desarrollo de la bomba atómica durante la Segunda Guerra Mundial en el Laboratorio Nacional de Los Álamos en EE. UU. Este trabajo conllevaba la simulación de problemas probabilísticos de hidrodinámica concernientes a la difusión de neutrones en el material de fisión. Esta difusión posee un comportamiento eminentemente aleatorio. En la actualidad es parte fundamental de los algoritmos de raytracing para la generación de imágenes 3D. -->
+<!-- En la primera etapa de estas investigaciones, John von Neumann y Stanislaw Ulam refinaron esta ruleta y los métodos "de división" de tareas. Sin embargo, el desarrollo sistemático de estas ideas tuvo que esperar al trabajo de Harris y Herman Kahn en 1948. Aproximadamente en el mismo año, Enrico Fermi, Nicholas Metropolis y Ulam obtuvieron estimadores para los valores característicos de la ecuación de Schrödinger para la captura de neutrones a nivel nuclear usando este método. -->
+<p>El método de Montecarlo proporciona soluciones aproximadas a una gran variedad de problemas matemáticos posibilitando la realización de experimentos con muestreos de números pseudoaleatorios en una computadora. El método es aplicable a cualquier tipo de problema, ya sea estocástico o determinista. A diferencia de los métodos numéricos que se basan en evaluaciones en N puntos en un espacio M-dimensional para producir una solución aproximada, el método de Montecarlo tiene un error absoluto de la estimación que decrece como
+<span class="math inline">\({\displaystyle {\frac {1}{\sqrt {N}}}}\)</span> en virtud del teorema del límite central.</p>
+<!-- 3. Método de simulación de Monte Carlo: Es un método de valoración global, tanto paramétrico como no paramétrico. Eliminando la necesidad de establecer aproximaciones que introducen imprecisión en los cálculos. Este método es aplicable tanto a posiciones lineales como no lineales. En el caso del modelo no paramétrico, al no estar sujeto a ninguna distribución de probabilidad subyacente, evita mayormente el riesgo de modelización y permite capturar el fenómeno de las colas gruesas, eliminando al mismo tiempo, la necesidad de trabajar con volatilidades y correlaciones. -->
+<!-- La simulación de Monte Carlo ofrece una descripción más realista del riesgo ya que la distribución de las variaciones en los precios refleja un abanico completo de todas las realizaciones y sus posibilidades. -->
+<p>Ventajas:</p>
+<ul>
+<li>Las ventajas fueron mencionadas anteriormente, y ubican a este método de simulación por sobre los otros dos métodos analizados anteriormente.</li>
+</ul>
+<p>Desventajas:</p>
+<ul>
+<li>La mayor desventaja de este método es su lentitud, pero este inconveniente se va solucionando rápidamente a través del tiempo debido al desarrollo informático que se esta teniendo.</li>
+</ul>
+<!-- - Métodos de simulación de Montecarlo. En ellos se parte de la generación de series de n ŭme- ros aleatorios, que no tiene otra finalidad sino la de fijar una distribución de probabilidad pa- ra la posible evolución futura, bien del factor o factores de riesgo considerados, o bien de la propia cartera. Es habitual la utilización de n ŭmeros aleatorios normalmente distribuidos, en los que los parámetros de la distribución (media y desviación típica) han sido obtenidos en base a datos históricos. Aplicaciones concretas del método de Montecarlo para el cálculo del VaR se pueden encontrar, entre otros, en los trabajos de Beder (1995) y Singh (1997). Métodos de varianzas-covarianzas. En éstos se asume que el Valor en Riesgo es proporcio- nal a la desviación típica del rendimiento de la cartera, calculada en base a información his- tórica.  -->
+</div>
+</div>
+<div id="limitaciones-del-var" class="section level2">
+<h2><span class="header-section-number">3.4</span> Limitaciones del VaR</h2>
+<p>Principalmente las limitaciones del VaR vienen dadas por:</p>
+<ul>
+<li>La suposición de normalidad es inadecuada para la medición de riesgo en las colas de la distribución. En un mercado heterocedástico, la varianza no es un múltiplo del horizonte temporal y, por ejemplo, la varianza semanal no tiene relación con la varianza diaria.</li>
+<li>El VaR no tiene en cuenta que el riesgo de liquidez puede ser el mayor riesgo en algunos mercados. En algunos instrumentos que son nuevos o ilíquidos, y que no están muy anidados al mercado los costes liquidez son casi indistinguibles de los riesgos de mercado, por lo que la venta de un paquete grande de éstos activos, sobre todo si es una venta forzada, podría alterar fuertemente los precios de mercado de éstos.</li>
+<li>Tanto la diversificación, como la correlación entre activos falla en los momentos de tensión. La evidencia empírica lo muestra en épocas de crisis, como son por ejemplo la crisis de la bolsa en 1987, la de tipos de cambio en 1992, bonos en 1994, entre otras, en donde las correlaciones desaparecen y la diversificación se ve afectada por éste hecho.</li>
+<li>La volatilidad no es observable, por lo que siempre se hace necesario estimarla. Para esta estimación no existe un acuerdo sobre que método es mejor, e incluso si es mejor o no utilizar estimaciones
+implícitas.</li>
+<li>Los derivados presentan una no linealidad que dificulta
+el cálculo del VaR. No existe ningún tipo de convención que establezca de que forma se debe calcular el VaR en carteras con estas posiciones.</li>
+<li>El VaR es tan útil como buenos sean los resultados que se han utilizado para calcularlo. Si los datos incluidos no son correctos, el VaR no será útil.</li>
+<li>El VaR no considera todos los peor escenarios posibles. Para solventar esto, el VaR se complementa con los test de estrés, que consideran extremos escenarios no contemplados por el VaR.</li>
+<li>Algunos métodos para calcularlo son costosos y difíciles de aplicar (MonteCarlo).</li>
+<li>Los resultados obtenidos por diferentes métodos pueden ser diferentes.</li>
+<li>Genera una falsa sensación de seguridad, cuando es tan solo una probabilidad. + No tiene porque darse por sentado.</li>
+<li>No calcula la cuantía de la pérdida esperada que se queda en el porcentaje de probabilidad.
+<!-- , es decir, si hay un 1% de perder más de 5 millones de euros, ¿cuál será la cantidad de pérdida esperada? Para eso se utiliza la técnica de la pérdida espera o Tail VaR. --></li>
+<li>A veces la diversificación que otorga el VaR no es intuitiva. Podemos pensar que es mejor invertir solo en los sectores que tienen mayores rendimientos por cada unidad de riesgo, pero de esta manera no diversificamos el riesgo.</li>
+</ul>
+<!-- ##ejemplo -->
+<!-- Los programas de diseño asistido por ordenador (CAD) pueden determinar rápidamente el volumen de modelos muy complejos. Estos modelos, en general, no tienen una expresión analítica para determinar su volumen (por ejemplo, para un prisma, área de la base multiplicada por la altura), y la única solución es dividir el modelo en un conjunto de pequeños submodelos (teselación) cuyo volumen pueda determinarse (por ejemplo, dividir el modelo en miles de tetraedros). Sin embargo, esto consume muchos recursos, tanto para la teselación como para el cálculo del volumen de cada uno de los elementos. Por ello utilizan métodos de Montecarlo, más robustos y eficientes. -->
+<!-- Como el software sí que conoce la expresión analítica de la geometría del modelo (posición de los nodos, aristas y superficies) puede determinar si un punto está dentro del modelo o está fuera con un coste mucho menor que el de determinar un volumen. -->
+<!-- + En primer lugar el software coloca el modelo dentro de un volumen conocido (por ejemplo, dentro de un cubo de 1 m3 de volumen). -->
+<!-- + A continuación, genera un punto aleatorio del interior del volumen conocido, y registra si el punto "ha caído" dentro o fuera del modelo. Esto se repite un gran número de veces (miles o millones), consiguiendo un registro muy grande de cuántos puntos han quedado dentro y cuántos fuera. -->
+<!-- + Como la probabilidad de que caiga dentro es proporcional al volumen del modelo, la proporción de puntos que han caído dentro con respecto al total de puntos generados es la misma proporción de volumen que ocupa el modelo dentro del cubo de 1 m3. -->
+<!-- Si el 50% de los puntos han caído dentro, el modelo ocupa el 50% el volumen total, es decir, 0.5 m3. Evidentemente, cuantos más puntos genere el software, menor será el error de la estimación del volumen. -->
+
+
+</div>
+</div>
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-78759535-1', 'auto');
+ga('send', 'pageview');  
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="curva-de-rendimientos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="backtesting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/synergyvision/Teoria-de-Portafolio/edit/master/bookdown/012-Valor_en_Riesgo.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["Riesgo-de-Mercado.pdf"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Referencias | Riesgo de Mercado</title>
-  <meta name="description" content="Referencias | Riesgo de Mercado>
+  <title>Capítulo 4 Backtesting | Riesgo de Mercado</title>
+  <meta name="description" content="Capítulo 4 Backtesting | Riesgo de Mercado>
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Referencias | Riesgo de Mercado />
+  <meta property="og:title" content="Capítulo 4 Backtesting | Riesgo de Mercado />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="http://synergy.vision/Riesgo-de-Mercado/" />
   <meta property="og:image" content="http://synergy.vision/Riesgo-de-Mercado/images/cover.png" />
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="synergyvision/Riesgo-de-Mercado/" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Referencias | Riesgo de Mercado />
+  <meta name="twitter:title" content="Capítulo 4 Backtesting | Riesgo de Mercado />
   
   
   <meta name="twitter:image" content="http://synergy.vision/Riesgo-de-Mercado/images/cover.png" />
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="software-tools.html">
-
+<link rel="prev" href="valor-en-riesgo.html">
+<link rel="next" href="pruebas-de-estres.html">
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
@@ -241,55 +241,79 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="referencias" class="section level1 unnumbered">
-<h1>Referencias</h1>
-<!-- \begin{thebibliography}{99} -->
-<!-- \bibitem{AS}  Abramovich, F. y Steinberg, D.},  Improved Inference in Nonparametric Regression using Lk Smoothing Splines}. Journal of Statistical Planning, 49: 327-341, 1996. -->
-<!-- \bibitem{Mm}  Maita B. Miriam A.},  Estimación de una curva de rendimientos para los bonos de la deuda pública interna en Venezuela}, (trabajo de grado Maestría en Administración de Empresas mención Finanzas).  Universidad Católica Andrés Bello, Caracas, Venezuela, 2010. -->
-<!-- \bibitem{NS}  Nelson, C. y Siegel, A.}  Parsimonius Modeling of Yield Curves}. Journal of -->
-<!-- Business, $60$: $473$-$489$, 1987. -->
-<!-- \bibitem{DO}  Douglas, L.G.}  Yield Curve Analysis}. New York Institute of Finance, 1988. -->
-<!-- \bibitem{Sv}  Svensson, L.}  Estimating and Interpreting Forward Interest Rates: Sweden 1992-1994}, NBER Working Papers, 4871. Estocolmo: National Bureau of Economic Research, 1994. -->
-<!-- \bibitem{HT}  Hunt, B. y Terry, C.}  Zero-Coupon Yield Curve Estimation: A Principal Component-Polynomial Approach}, Technical report 81. Sydney: University of Technology Sydney - School of Finance and Economics, 1998. -->
-<!-- \bibitem{H}  Hunt, B.}  Modelling the Yields on Australian Coupon Paying Bonds}, Technical report 9. Sydney: University of Technology Sydney - School of Finance and Economics, 1995. -->
-<!-- \bibitem{Ha}  Haykin, S.}  Neural Networks}. New York: McMillan College Publishing Company, 1994. -->
-<!-- \bibitem{IG}  Isasi, P. y Galván, I.}  Redes neuronales artificiales: un enfoque práctico.}. Madrid: Pearson-Prentice Hall, 2004. -->
-<!-- \bibitem{KB}  Kaastra, I. y Boyd, M.}  Design a Neural Network for Forecasting Financial and Economic Time Series}. Neurocomputing 10: 215-236, 1996. -->
-<!-- \bibitem{NW}  Nocedal, J. y Wright, S.}  Numerical Optimization}. New York: Springer-Verlag, 1999. -->
-<!-- \bibitem{FG}  Fan, J. y Gijbels, I.}  Local Polynomial Modelling and Its Applications}. New York: Chapman and Hall, 1996. -->
-<!-- \bibitem{BW}  B.W. Silverman.}  Some Aspects of the Spline Smoothing Approach to Non-Parametric Regression Curve Fitting}. Journal of the Royal Statistical Society. Series B (Methodological), Vol. 47, No. 1, 1(1985), pp. 1-52, 1984. -->
-<!-- \bibitem{F}  Friedman, J. H.}  A Variable Span Smoother}, Technical report 5. Standford: -->
-<!-- Standford University - Departament of Statistics, 1984. -->
-<!-- \bibitem{SH}  Sharda, R.}  Neural networks for the MS/OR analyst: An application bibliography}. Interfaces, 24(2): 116-130, 1994. -->
-<!-- \bibitem{SVM}  Suykens, J.; Vandewalle, J. y Moor, B. D.}  Artificial Neural Networks for Modelling and Control of Nonlinear Systems.}. Boston: Kluwer Academic Publishers, 1996. -->
-<!-- \bibitem{FR}  Fernández J.L., Robles, M.D.}   Teoría de las Expectativas y Cambio Estructural: nueva evidencia en los tipos a corto plazo españoles.} Tribuna de Economía No. 827. ICE, 2005. -->
-<!-- \bibitem{YS}  Yung-Shi Liau, Jack J.W. Yang.}  The Expectations Hypothesis of Term Structure of Interest Rates in Taiwan's Money Market.} International Research Journal of Finance and Economics, 2009. -->
-<!-- \bibitem{ZPH}  Zhang, G.; Patuwo, B. y Hu, Y.}  Forecasting with Artificial Neural Networks: The State of Art.} International Journal of Forecasting, 14: 35-62, 1998. -->
-<!-- \end{thebibliography} -->
+<div id="backtesting" class="section level1">
+<h1><span class="header-section-number">Capítulo 4</span> Backtesting</h1>
+<div id="definicion-1" class="section level2">
+<h2><span class="header-section-number">4.1</span> Definición</h2>
+<p>El Valor en Riesgo (VaR) se ha convertido en un modelo ampliamente empleado por las instituciones financieras y administradores de portafolios para medir el riesgo de mercado. Sin embargo, los modelos de VaR son útiles sólo si se predicen con exactitud los riesgos futuros. Con la finalidad de evaluar la calidad de las estimaciones de los modelos de Valor en Riesgo, se debe emplear el Backtesting que es un procedimiento estadístico donde las ganancias y las pérdidas reales se comparan sistemáticamente con el modelo de medición de riesgos.</p>
+<!-- El Valor en Riesgo es un modelo estadístico que permite estimar la pérdida potencial que puede tener el portafolio de inversión en un horizonte de tiempo determinado y con un nivel de confianza dado. Para verificar que el modelo esté midiendo el riesgo adecuadamente se recomienda realizar pruebas de Backtesting con el fin de verificar si el modelo es adecuado y, en caso de no ser, realizar ajustes y calibrar el modelo. -->
+<p>El rol que juega el VaR en la actualidad como una medida de riesgo incrementa la necesidad de evaluar la calidad de sus estimaciones. El Backtesting es un proceso donde los beneficios o pérdidas actuales son comparados con la estimación del modelo de Valor en Riesgo, los métodos de Backtesting pueden ser incondicionales o condicionales.</p>
+<p>Los métodos incondicionales cuentan el número de excepciones y las comparan con el nivel de confianza, si las excepciones están dentro de los límites estadísticos definidos el modelo es aceptado, y en caso contrario rechazado. Por el contrario, los métodos condicionales evalúan la independencia de las excepciones. Dentro de los métodos incondicionales se encuentran el Test de kupiec y el semáforo propuesto por Basilea, por su parte el Test de Haas y la Prueba Mixta de Kupiec son ejemplos de los métodos condicionales.</p>
+<p>El concepto de Backtesting es esencial en el proceso de evaluar y calibrar los modelos de medición de riesgos. Para realizar un backtesting es necesario comparar el valor en riesgo observado con las pérdidas y ganancias reales. En esta prueba lo que se mide es la eficiencia en el modelo, contando las observaciones de pérdidas y ganancias que fueron mayor al VaR.</p>
+<!-- Los pasos a seguir para la realización de un backtesting son los siguientes: -->
+<!-- Las pérdidas y ganancias se calculan con cambios en la valoración o mark-to-mark -->
+<!-- Se debe comparar periódicamente el valor en riesgo observado ajustado a un día con las pérdidas y ganancias diarias (se recomienda 250 observaciones, es decir, una ventana de un año). -->
+<!-- Los errores o excepciones detectados se calculan contando el número de veces que las pérdidas y ganancias exceden el valor en riesgo. -->
+<!-- El nivel de eficiencia del modelo será número de excepciones/número de observaciones. -->
+<!-- Con el objetivo de medir la eficiencia del modelo de Valor en Riesgo del BNC se utilizó los métodos condicionales, específicamente se han empleado el Test propuesto por Kupiec (1995) y el Test propuesto por Basilea (Semáforo) y para los métodos condicionales se usó el Test Propuesto por Haas (2001) y la Prueba Mixta de Kupiec. -->
+</div>
+<div id="prueba-de-kupiec" class="section level2">
+<h2><span class="header-section-number">4.2</span> Prueba de Kupiec</h2>
+<p>Uno de los principales métodos desarrollados para calibrar y validar los modelos de riesgo es el test de Kupiec. El planteamiento propuesto por Paul H. Kupiec en 1995, permite determinar si la proporción de excepciones observadas de un modelo es consistente con la proporción de excepciones esperada, si se tiene en cuenta tanto el modelo VaR elegido como el nivel de confianza del mismo.</p>
+<!-- La prueba consiste en realizar el conteo de las pérdidas y/o ganancias que exceden el VaR (excepciones) durante un periodo determinado, de forma que pueda concluirse si estadísticamente las proporciones son iguales o no, lo que determina la calidad del modelo evaluado. -->
+<!-- Asumiendo n como el total de observaciones, x como el número de excepciones y (1-α) como el nivel de confianza al cual se encuentra calculado el modelo VaR, se contrasta la hipótesis de que la proporción observada de excepciones (x/n) es estadísticamente igual a la probabilidad de error considerada para el VaR (α). -->
+<!-- Kupiec planteó un estadístico de prueba, que sigue una distribución t-student cuya expresión se describe a continuación: -->
+<p>Dado que la realización del VaR no es observable, se tienen que realizar varias consideraciones para evaluar las diferentes aproximaciones para estimar el VaR. La manera más intuitiva para comprobar la bondad del modelo propuesto será comprobar cuál es la proporción de períodos de la muestra en que se observa una pérdida superior a la predicción del modelo (es decir, superior al VaR). Dicha proporción debería ser en promedio igual al nivel de significancia. En otras palabras, el modelo debe proveer la cobertura no condicionada esperada por el diseño.</p>
+<p>La prueba consiste en contar las veces que las pérdidas y ganancias exceden el VaR durante un período (porcentaje de excepciones). Se asume que T es el número de observaciones que exceden la pérdida o ganancia, y para un nivel de confianza dado (1-P), se prueba si la N observada es estadísticamente diferente a la probabilidad de error p que se considera para el cálculo del VaR.</p>
+<p>La probabilidad de observar N excesos durante un período de T observaciones en total, se explica con una distribución binomial dada por:</p>
+<p><span class="math display">\[f(x) = \left(\frac{T}{x}\right) p^{x}(1-p)^{T-x}\]</span></p>
+<p>Kupiec desarrolló unas regiones de confianza con base en una distribución chi-cuadrado con un grado de libertad, considerando la hipótesis nula de que p es estadísticamente igual a la probabilidad utilizada para el VaR, contra la hipótesis alternativa de que p sea diferente a dicha probabilidad.</p>
+<p>Las regiones fueron determinadas de los extremos de máxima verosimilitud dada por la siguiente ecuación:</p>
+<p><span class="math display">\[Lrpof = -2* Ln(\frac{(1-p)^{T-x}p^{x}}{\left[1-\left(\frac{T}{x}\right)\right]^{T-x}\left(\frac{T}{x}\right)^{x}})\]</span></p>
+<p>La máxima probabilidad del resultado observado bajo la hipótesis nula se define en el numerador y la máxima probabilidad del resultado observado bajo la hipótesis alternativa se define en el denominador. La decisión se basará en el valor del ratio. Mientras más pequeño es el ratio, mayor será el estadístico L, si el valor del estadístico es mayor que el valor crítico de la distribución chi-cuadrado, la hipótesis nula será rechazada.</p>
+</div>
+<div id="test-de-prueba-mixta-de-kupiec-haas" class="section level2">
+<h2><span class="header-section-number">4.3</span> Test de Prueba Mixta de Kupiec (Haas)</h2>
+<p>El Test de Haas plantea como hipótesis nula que las excepciones son independientes y por ende también lo son sus estadísticos, al ser los estadísticos independientes los mismos pueden sumarse, en vista de que el Test de Haas establece que el estadístico se comporta como una distribución chi cuadrado con n grados de libertad igual al número de las excepciones, la distribución chi cuadrado también será aditiva de esta manera podemos sumar los valores críticos, como resultado se tiene un Test de Independencia donde se plantea como Hipotesis Nula <span class="math inline">\(H_0\)</span>: que las Excepciones son Independientes, al tener n excepciones, el correspondiente estadístico es</p>
+<p><span class="math display">\[L_{ind} = \sum_{i=2}^{n} \left[- 2Ln\left( \frac{p(1-p)^{v_i-1}}{\left(\frac{1}{v_i}\right) \left( 1- \frac{1}{v_i}\right)^{v_i-1}}\right)\right] - 2Ln\left( \frac{p(1-p)^{v-1}}{\left(\frac{1}{v}\right) \left( 1- \frac{1}{v}\right)^{v-1}}\right)\]</span></p>
+<p>Donde el valor <span class="math inline">\(v_i\)</span> ubicado en el primer término de la ecuación corresponde al tiempo entre la excepción <span class="math inline">\(i\)</span> y la excepción <span class="math inline">\(i-1\)</span> y el segundo término corresponde al Test de Kupiec: (Tiempo Hasta la Primera Excepción), por su parte <span class="math inline">\(v\)</span> es el tiempo donde ocurre la primera excepción. Una vez calculado del Test de Haas podemos realizar la prueba conjunta de condicionalidad e independencia, la cual consiste en sumar el Test de Kupiec (<span class="math inline">\(L_{rpof}\)</span>) y el Test de Haas (<span class="math inline">\(L_{ind}\)</span>).</p>
+<p><span class="math display">\[L_{mix} = L_{rpof}+L_{rind}\]</span></p>
+<p>El valor crítico será obtenido de una distribución chi cuadrado con n+1 grados de libertad, donde n es el número de excepciones del período en estudio.</p>
+</div>
+<div id="marco-de-referencia-comite-de-basilea-1996." class="section level2">
+<h2><span class="header-section-number">4.4</span> Marco de referencia Comité de Basilea (1996).</h2>
+<p>El comité de Basilea de Supervisión Bancaria elaboró un marco para la incorporación de backtesting en los modelos de valoración de riesgo, con el objetivo de diferenciar claramente modelos precisos de modelos imprecisos, ya que en la actualidad se siguen desarrollando nuevos enfoques que permiten perfeccionar los diferentes métodos. El objetivo del marco de referencia es promover enfoques más rigurosos en el desarrollo del backtesting y en la interpretación de los resultados (Basel Committee on Banking Supervision 1996).</p>
+<p>El marco abarca la comparación periódica del valor en riesgo diario con la pérdida y/o ganancia diaria real, y permite comparar si el porcentaje real de los resultados cubiertos por la medida de riesgo es consistente con un nivel de 99% de confianza; adicionalmente, se encuentra propuesto para el uso de medidas de riesgo calibradas para un período de tenencia de un día.</p>
+<p>El Comité de Basilea prevé que el requisito mínimo de capital (RMC) para cubrir el riesgo de mercado, sea calculado como el máximo valor entre el VaR del día anterior y el producto entre el promedio de los últimos 60 VaR diarios y un factor multiplicativo, calculado como la suma entre 3 y un factor aditivo !! que se encuentra relacionado con la calidad del modelo y que se fija dependiendo del número de pérdidas que exceden al VaR (excepciones). La expresión para hallar el RMC se encuentra a continuación:</p>
+<p><span class="math display">\[
+RMC_{t+1} = max[VaR_t , (3+s_t)*\frac{1}{60}\sum_{i=1}^{60} VaR_{t-1} ]+SR_t
+\]</span></p>
+<p>Para evaluar la precisión del modelo VaR, se emplea el backtesting interpretando los resultados de acuerdo a la clasificación en tres zonas que se distinguen por colores y que jerarquizan los resultados. Las zonas, que se clasifican en verde, amarilla y roja, se encuentran determinadas de forma que se equilibren los tipos de errores estadísticos en los que es posible caer: (error tipo I) clasificar un modelo preciso siendo impreciso y (error tipo II) clasificar un modelo impreciso como un modelo preciso.</p>
 <ul>
-<li><p>Abramovich, F. y Steinberg, D., Improved Inference in Nonparametric Regression using Lk Smoothing Splines. Journal of Statistical Planning, 49: 327-341, 1996.</p></li>
-<li><p>Maita B. Miriam A., Estimación de una curva de rendimientos para los bonos de la deuda pública interna en Venezuela, (trabajo de grado Maestría en Administración de Empresas mención Finanzas). Universidad Católica Andrés Bello, Caracas, Venezuela, 2010.</p></li>
-<li><p>Nelson, C. y Siegel, A. Parsimonius Modeling of Yield Curves. Journal of
-Business, <span class="math inline">\(60\)</span>: <span class="math inline">\(473\)</span>-<span class="math inline">\(489\)</span>, 1987.</p></li>
-<li><p>Douglas, L.G. Yield Curve Analysis. New York Institute of Finance, 1988.</p></li>
-<li><p>Svensson, L. Estimating and Interpreting Forward Interest Rates: Sweden 1992-1994, NBER Working Papers, 4871. Estocolmo: National Bureau of Economic Research, 1994.</p></li>
-<li><p>Hunt, B. y Terry, C. Zero-Coupon Yield Curve Estimation: A Principal Component-Polynomial Approach, Technical report 81. Sydney: University of Technology Sydney - School of Finance and Economics, 1998.</p></li>
-<li><p>Hunt, B. Modelling the Yields on Australian Coupon Paying Bonds, Technical report 9. Sydney: University of Technology Sydney - School of Finance and Economics, 1995.</p></li>
-<li><p>Haykin, S. Neural Networks. New York: McMillan College Publishing Company, 1994.</p></li>
-<li><p>Isasi, P. y Galván, I. Redes neuronales artificiales: un enfoque práctico.. Madrid: Pearson-Prentice Hall, 2004.</p></li>
-<li><p>Kaastra, I. y Boyd, M. Design a Neural Network for Forecasting Financial and Economic Time Series. Neurocomputing 10: 215-236, 1996.</p></li>
-<li><p>Nocedal, J. y Wright, S. Numerical Optimization. New York: Springer-Verlag, 1999.</p></li>
-<li><p>Fan, J. y Gijbels, I. Local Polynomial Modelling and Its Applications. New York: Chapman and Hall, 1996.</p></li>
-<li><p>B.W. Silverman. Some Aspects of the Spline Smoothing Approach to Non-Parametric Regression Curve Fitting. Journal of the Royal Statistical Society. Series B (Methodological), Vol. 47, No. 1, 1(1985), pp. 1-52, 1984.</p></li>
-<li><p>Friedman, J. H. A Variable Span Smoother, Technical report 5. Standford:
-Standford University - Departament of Statistics, 1984.</p></li>
-<li><p>Sharda, R. Neural networks for the MS/OR analyst: An application bibliography. Interfaces, 24(2): 116-130, 1994.</p></li>
-<li><p>Suykens, J.; Vandewalle, J. y Moor, B. D. Artificial Neural Networks for Modelling and Control of Nonlinear Systems.. Boston: Kluwer Academic Publishers, 1996.</p></li>
-<li><p>Fernández J.L., Robles, M.D. Teoría de las Expectativas y Cambio Estructural: nueva evidencia en los tipos a corto plazo españoles. Tribuna de Economía No. 827. ICE, 2005.</p></li>
-<li><p>Yung-Shi Liau, Jack J.W. Yang. The Expectations Hypothesis of Term Structure of Interest Rates in Taiwan’s Money Market. International Research Journal of Finance and Economics, 2009.</p></li>
-<li><p>Zhang, G.; Patuwo, B. y Hu, Y. Forecasting with Artificial Neural Networks: The State of Art. International Journal of Forecasting, 14: 35-62, 1998.</p></li>
+<li>Zona verde</li>
 </ul>
+<p>Los resultados que se encuentran en este rango requieren de poca información adicional. En esta región el modelo no necesita ser calibrado, ya que no presenta problemas de calidad. Para una muestra de 250 observaciones y con un método calculado con el 99% de confianza, se espera que un máximo de cuatro excepciones.
+La expresión que permite calcular el umbral de esta zona, para una muestra de <span class="math inline">\(n\)</span> observaciones, se describe a continuación:</p>
+<p><span class="math display">\[
+\binom{x}{n} * 0,01*(1-0.01)^{n-x} &lt; 0.95
+\]</span></p>
+<p>al despejar <span class="math inline">\(x\)</span> de la desigualdad resulta el valor máximo de la zona verde, lo que quiere decir que esta zona está comprendida entre 0 y <span class="math inline">\(x\)</span> excepeciones.</p>
+<ul>
+<li>Zona amarilla</li>
+</ul>
+<p>En esta zona, la interpretación de resultados es válida tanto para modelos precisos como para modelos imprecisos; sin embargo, para este rango la probabilidad de concluir que el modelo es inexacto cuando realmente no lo es, aumenta con el aumento del número de excepciones. Para un modelo de 250 observaciones, con el 99% de confianza, el umbral de la zona amarilla corresponde a nueve excepciones. La expresión que permite calcular el umbral de esta zona, para una muestra de ! observaciones, se describe a continuación:</p>
+<p><span class="math display">\[
+\binom{y}{n} * 0,01*(1-0.01)^{n-y} &lt; 0.99
+\]</span></p>
+<p>al despejar <span class="math inline">\(y\)</span> de esta desigualdad, se obtiene el límite superior de la zona amarilla, lo que quiere decir que esta zona está comprendida entre <span class="math inline">\(x+1\)</span> y <span class="math inline">\(y\)</span> excepeciones.</p>
+<ul>
+<li>Zona roja</li>
+</ul>
+<p>Los resultados que se encuentran en la zona roja indican automáticamente un problema en calidad del modelo y en la confiabilidad del mismo, debido a que no se considera la posibilidad de que un modelo exacto genere tantas excepciones independientes. Con esta conclusión, se pone en evidencia la necesidad de modificar la estimación. Para un modelo de 250 observaciones la zona roja corresponde a mínimo 10 excepciones.
+La construcción de este marco incentiva la utilización de modelos precisos, de forma que premian con un factor multiplicativo más pequeño los modelos bien calibrados, y penalizan un factor multiplicativo mayor a aquellos modelos que tengan excepciones que caigan en el límite de la zona amarilla y en la zona roja.</p>
 
+
+</div>
 </div>
 <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -302,8 +326,8 @@ ga('send', 'pageview');
           </div>
         </div>
       </div>
-<a href="software-tools.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="valor-en-riesgo.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="pruebas-de-estres.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook/js/app.min.js"></script>
@@ -333,7 +357,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/synergyvision/Teoria-de-Portafolio/edit/master/bookdown/500-references.Rmd",
+"link": "https://github.com/synergyvision/Teoria-de-Portafolio/edit/master/bookdown/013-Backtesting.Rmd",
 "text": "Edit"
 },
 "history": {

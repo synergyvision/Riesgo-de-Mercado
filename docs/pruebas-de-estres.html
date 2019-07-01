@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Capítulo 5 Pruebas de Estrés | Riesgo de Mercado</title>
+  <meta name="description" content="Capítulo 5 Pruebas de Estrés | Riesgo de Mercado>
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Capítulo 5 Pruebas de Estrés | Riesgo de Mercado />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="http://synergy.vision/Riesgo-de-Mercado/" />
+  <meta property="og:image" content="http://synergy.vision/Riesgo-de-Mercado/images/cover.png" />
+  
+  <meta name="github-repo" content="synergyvision/Riesgo-de-Mercado/" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 5 Pruebas de Estrés | Riesgo de Mercado />
+  
+  
+  <meta name="twitter:image" content="http://synergy.vision/Riesgo-de-Mercado/images/cover.png" />
+
+<meta name="author" content="Synergy Vision">
+
+
+<meta name="date" content="2019-06-11">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="backtesting.html">
+<link rel="next" href="manual-de-usuario.html">
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="https://cdn.datacamp.com/datacamp-light-latest.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./"><img src="images/logovision-black.png" width="160"></img></a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prefacio</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#por-que-leer-este-libro"><i class="fa fa-check"></i>¿Por qué leer este libro?</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#estructura-del-libro"><i class="fa fa-check"></i>Estructura del libro</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#informacion-sobre-los-programas-y-convenciones"><i class="fa fa-check"></i>Información sobre los programas y convenciones</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#practicas-interactivas-con-r"><i class="fa fa-check"></i>Prácticas interactivas con R</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#agradecimientos"><i class="fa fa-check"></i>Agradecimientos</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="acerca-del-autor.html"><a href="acerca-del-autor.html"><i class="fa fa-check"></i>Acerca del Autor</a></li>
+<li class="chapter" data-level="1" data-path="introduccion.html"><a href="introduccion.html"><i class="fa fa-check"></i><b>1</b> Introducción</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduccion.html"><a href="introduccion.html#motivation"><i class="fa fa-check"></i><b>1.1</b> Motivation</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html"><i class="fa fa-check"></i><b>2</b> Curva de Rendimientos</a><ul>
+<li class="chapter" data-level="2.1" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologias-parametricas."><i class="fa fa-check"></i><b>2.1</b> Metodologías Paramétricas.</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologia-nelson-y-siegel"><i class="fa fa-check"></i><b>2.1.1</b> Metodología Nelson y Siegel</a></li>
+<li class="chapter" data-level="2.1.2" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologia-svensson"><i class="fa fa-check"></i><b>2.1.2</b> Metodología Svensson</a></li>
+<li class="chapter" data-level="2.1.3" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#polinomios-de-componentes-principales."><i class="fa fa-check"></i><b>2.1.3</b> Polinomios de componentes principales.</a></li>
+<li class="chapter" data-level="2.1.4" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#polinomios-trigonometricos."><i class="fa fa-check"></i><b>2.1.4</b> Polinomios trigonométricos.</a></li>
+<li class="chapter" data-level="2.1.5" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologia-diebold-li"><i class="fa fa-check"></i><b>2.1.5</b> Metodología Diebold-Li</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologias-no-parametricas"><i class="fa fa-check"></i><b>2.2</b> Metodologías no Paramétricas</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#regresion-kernel"><i class="fa fa-check"></i><b>2.2.1</b> Regresión Kernel</a></li>
+<li class="chapter" data-level="2.2.2" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#polinomios-locales"><i class="fa fa-check"></i><b>2.2.2</b> Polinomios locales</a></li>
+<li class="chapter" data-level="2.2.3" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#splines-suavizados"><i class="fa fa-check"></i><b>2.2.3</b> Splines suavizados</a></li>
+<li class="chapter" data-level="2.2.4" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#splines-de-polinomios"><i class="fa fa-check"></i><b>2.2.4</b> Splines de polinomios</a></li>
+<li class="chapter" data-level="2.2.5" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#splines-suavizados-1"><i class="fa fa-check"></i><b>2.2.5</b> Splines suavizados</a></li>
+<li class="chapter" data-level="2.2.6" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#supersuavizador-de-friedmann"><i class="fa fa-check"></i><b>2.2.6</b> Supersuavizador de Friedmann</a></li>
+<li class="chapter" data-level="2.2.7" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#redes-neuronales-artificiales"><i class="fa fa-check"></i><b>2.2.7</b> Redes neuronales artificiales</a></li>
+<li class="chapter" data-level="2.2.8" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#metodologia-splines-cubicos-de-suavizado"><i class="fa fa-check"></i><b>2.2.8</b> Metodología Splines Cúbicos de Suavizado</a></li>
+<li class="chapter" data-level="2.2.9" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#regresion-no-parametrica"><i class="fa fa-check"></i><b>2.2.9</b> Regresión no paramétrica</a></li>
+<li class="chapter" data-level="2.2.10" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#regresion-no-parametrica-mediante-splines-de-suavizado"><i class="fa fa-check"></i><b>2.2.10</b> Regresión no paramétrica mediante splines de suavizado</a></li>
+<li class="chapter" data-level="2.2.11" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#proceso-de-optimizacion-de-nelson-y-siegel-y-svensson"><i class="fa fa-check"></i><b>2.2.11</b> Proceso de Optimización de Nelson y Siegel y Svensson</a></li>
+<li class="chapter" data-level="2.2.12" data-path="curva-de-rendimientos.html"><a href="curva-de-rendimientos.html#elaboracion-base-de-datos-para-la-metodologia-splines-y-diebold-li"><i class="fa fa-check"></i><b>2.2.12</b> Elaboracion Base de datos para la metodología Splines y Diebold-Li</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html"><i class="fa fa-check"></i><b>3</b> Valor en Riesgo</a><ul>
+<li class="chapter" data-level="3.0.1" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#importancia-del-var"><i class="fa fa-check"></i><b>3.0.1</b> Importancia del VaR</a></li>
+<li class="chapter" data-level="3.1" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#metodologias-para-calcular-el-var"><i class="fa fa-check"></i><b>3.1</b> Metodologías para calcular el VaR</a></li>
+<li class="chapter" data-level="3.2" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#var-simulacion-historica"><i class="fa fa-check"></i><b>3.2</b> VaR Simulación Histórica</a></li>
+<li class="chapter" data-level="3.3" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#var-simulacion-montecarlo"><i class="fa fa-check"></i><b>3.3</b> VaR Simulación MonteCarlo</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#origenes"><i class="fa fa-check"></i><b>3.3.1</b> Origenes</a></li>
+<li class="chapter" data-level="3.3.2" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#definicion"><i class="fa fa-check"></i><b>3.3.2</b> Definición</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="valor-en-riesgo.html"><a href="valor-en-riesgo.html#limitaciones-del-var"><i class="fa fa-check"></i><b>3.4</b> Limitaciones del VaR</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="backtesting.html"><a href="backtesting.html"><i class="fa fa-check"></i><b>4</b> Backtesting</a><ul>
+<li class="chapter" data-level="4.1" data-path="backtesting.html"><a href="backtesting.html#definicion-1"><i class="fa fa-check"></i><b>4.1</b> Definición</a></li>
+<li class="chapter" data-level="4.2" data-path="backtesting.html"><a href="backtesting.html#prueba-de-kupiec"><i class="fa fa-check"></i><b>4.2</b> Prueba de Kupiec</a></li>
+<li class="chapter" data-level="4.3" data-path="backtesting.html"><a href="backtesting.html#test-de-prueba-mixta-de-kupiec-haas"><i class="fa fa-check"></i><b>4.3</b> Test de Prueba Mixta de Kupiec (Haas)</a></li>
+<li class="chapter" data-level="4.4" data-path="backtesting.html"><a href="backtesting.html#marco-de-referencia-comite-de-basilea-1996."><i class="fa fa-check"></i><b>4.4</b> Marco de referencia Comité de Basilea (1996).</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="pruebas-de-estres.html"><a href="pruebas-de-estres.html"><i class="fa fa-check"></i><b>5</b> Pruebas de Estrés</a><ul>
+<li class="chapter" data-level="5.1" data-path="pruebas-de-estres.html"><a href="pruebas-de-estres.html#definicion-2"><i class="fa fa-check"></i><b>5.1</b> Definición</a></li>
+<li class="chapter" data-level="5.2" data-path="pruebas-de-estres.html"><a href="pruebas-de-estres.html#utilidad"><i class="fa fa-check"></i><b>5.2</b> Utilidad</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html"><i class="fa fa-check"></i><b>6</b> Manual de Usuario</a><ul>
+<li class="chapter" data-level="6.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curva-de-rendimientos-1"><i class="fa fa-check"></i><b>6.1</b> Curva de Rendimientos</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curva-de-rendimientos-individual"><i class="fa fa-check"></i><b>6.1.1</b> Curva de rendimientos individual</a></li>
+<li class="chapter" data-level="6.1.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#datos"><i class="fa fa-check"></i><b>6.1.2</b> Datos</a></li>
+<li class="chapter" data-level="6.1.3" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologia-nelson-y-siegel-1"><i class="fa fa-check"></i><b>6.1.3</b> Metodología Nelson y Siegel</a></li>
+<li class="chapter" data-level="6.1.4" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologia-diebold-li-1"><i class="fa fa-check"></i><b>6.1.4</b> Metodología Diebold-Li</a></li>
+<li class="chapter" data-level="6.1.5" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologia-splines"><i class="fa fa-check"></i><b>6.1.5</b> Metodología Splines</a></li>
+<li class="chapter" data-level="6.1.6" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curva-de-rendimientos-comparativo"><i class="fa fa-check"></i><b>6.1.6</b> Curva de rendimientos comparativo</a></li>
+<li class="chapter" data-level="6.1.7" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologias"><i class="fa fa-check"></i><b>6.1.7</b> Metodologías</a></li>
+<li class="chapter" data-level="6.1.8" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#precios-estimados"><i class="fa fa-check"></i><b>6.1.8</b> Precios Estimados</a></li>
+<li class="chapter" data-level="6.1.9" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curvas"><i class="fa fa-check"></i><b>6.1.9</b> Curvas</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#valor-en-riesgo-1"><i class="fa fa-check"></i><b>6.2</b> Valor en Riesgo</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#datos-1"><i class="fa fa-check"></i><b>6.2.1</b> Datos</a></li>
+<li class="chapter" data-level="6.2.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#distribucion"><i class="fa fa-check"></i><b>6.2.2</b> Distribución</a></li>
+<li class="chapter" data-level="6.2.3" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#var"><i class="fa fa-check"></i><b>6.2.3</b> VaR</a></li>
+<li class="chapter" data-level="6.2.4" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#graficos"><i class="fa fa-check"></i><b>6.2.4</b> Gráficos</a></li>
+<li class="chapter" data-level="6.2.5" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#historicos"><i class="fa fa-check"></i><b>6.2.5</b> Históricos</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#backtesting-1"><i class="fa fa-check"></i><b>6.3</b> Backtesting</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#datos-2"><i class="fa fa-check"></i><b>6.3.1</b> Datos</a></li>
+<li class="chapter" data-level="6.3.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#resultados"><i class="fa fa-check"></i><b>6.3.2</b> Resultados</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#valoracion"><i class="fa fa-check"></i><b>6.4</b> Valoración</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#datos-3"><i class="fa fa-check"></i><b>6.4.1</b> Datos</a></li>
+<li class="chapter" data-level="6.4.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#resultados-1"><i class="fa fa-check"></i><b>6.4.2</b> Resultados</a></li>
+<li class="chapter" data-level="6.4.3" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#resultados-prueba-de-estres"><i class="fa fa-check"></i><b>6.4.3</b> Resultados prueba de estrés</a></li>
+</ul></li>
+</ul></li>
+<li class="appendix"><span><b>Apéndice</b></span></li>
+<li class="chapter" data-level="A" data-path="software-tools.html"><a href="software-tools.html"><i class="fa fa-check"></i><b>A</b> Software Tools</a><ul>
+<li class="chapter" data-level="A.1" data-path="software-tools.html"><a href="software-tools.html#r-and-r-packages"><i class="fa fa-check"></i><b>A.1</b> R and R packages</a></li>
+<li class="chapter" data-level="A.2" data-path="software-tools.html"><a href="software-tools.html#pandoc"><i class="fa fa-check"></i><b>A.2</b> Pandoc</a></li>
+<li class="chapter" data-level="A.3" data-path="software-tools.html"><a href="software-tools.html#latex"><i class="fa fa-check"></i><b>A.3</b> LaTeX</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Riesgo de Mercado</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="pruebas-de-estres" class="section level1">
+<h1><span class="header-section-number">Capítulo 5</span> Pruebas de Estrés</h1>
+<div id="definicion-2" class="section level2">
+<h2><span class="header-section-number">5.1</span> Definición</h2>
+<p>Las Pruebas de Estrés aplicables al Sistema Financiero son una medida de la exposición al riesgo de un grupo de instituciones financieras a un escenario macroeconómico o microfinanciero particular, ya sea histórico o hipotético, por lo que constituyen una herramienta útil para analizar la vulnerabilidad actual y futura de las entidades de intermediación financiera ante choques adversos.</p>
+<p>Desde el punto de vista regulador, los ejercicios de estrés resultan relevantes para monitorear los distintos riesgos a que está expuesto el sistema, en la medida en que proporcionan alertas sobre potenciales resultados adversos e informan sobre el capital necesario para enfrentar las pérdidas que pudieran materializarse.</p>
+<p>De hecho, las pruebas de tensión son un requisito presente en los estándares internacionales de buenas prácticas de gestión de riesgos tales como Basilea II, donde se requiere el uso de pruebas de tensión en el cálculo directo del capital mínimo regulatorio por riesgo de crédito y mercado (Pilar I), así como en la evaluación interna de la suficiencia de capital de cada entidad de intermediación financiera.</p>
+<p>Mediante la realización de Pruebas de Estrés es posible identificar las áreas de vulnerabilidad y/o el grado de exposición al riesgo del Sistema Financiero ante variaciones en las variables macroeconómicas y variables especificas de las entidades. Asimismo, es posible analizar el impacto de cambios en aspectos regulatorios, además de determinar el requerimiento de capital adicional necesario para mantener la estabilidad financiera ante choques de índole macroeconómica o microprudencial.</p>
+<p>La realización de Pruebas de Estrés involucra un conjunto de técnicas estadísticas, econométricas y de análisis, y su uso está ampliamente arraigado en las Superintendencias de Bancos, Bancos Centrales, Organismos Multilaterales, así como en Entidades de Intermediación Financiera, en razón de su evidente utilidad para el análisis de estabilidad financiera, el cual requiere una vigilancia sistemática de todas las fuentes y vulnerabilidades de riesgo, considerando también la medida en que las perturbaciones pueden ser absorbidas por el sistema financiero.</p>
+<!-- ## Definición de Pruebas de Estrés -->
+<!-- Las pruebas de estrés son una medida de la exposición al riesgo de un grupo de instituciones financieras a un escenario macroeconómico o micro financiero particular, ya sea histórico o hipotético. En este sentido, constituyen un instrumento de evaluación del perfil de riesgo financiero, que se utiliza para cuantificar el impacto potencial en el sistema de un evento específico o de cambios simultáneos en variables macroeconómicas y financieras. -->
+<!-- Las pruebas de estrés son una herramienta útil para determinar el requerimiento de capital adicional necesario para mantener la estabilidad del sistema ante un shock severo, ya sea de índole macro o micro prudencial. -->
+</div>
+<div id="utilidad" class="section level2">
+<h2><span class="header-section-number">5.2</span> Utilidad</h2>
+<!-- Las pruebas de estrés son una técnica de gestión de riesgos que se utiliza para evaluar la situación financiera de una institución. En ellas se hacen análisis sobre el efecto que tendrían eventos excepcionales pero plausibles sobre los balances de dicha institución. En las pruebas se incluyen análisis de escenarios y pruebas de sensibilidad. -->
+<p>Las pruebas de estrés son realmente necesarias después de largos períodos donde las condiciones económicas y financieras han sido favorables, debido a que la buena marcha de la economía durante tanto tiempo puede conducir a la complacencia y a la infravaloración del riesgo.</p>
+<p>También se emplea como una herramienta clave en la gestión de riesgos durante los períodos de expansión, cuando la innovación conduce a nuevos productos con alta demanda, de los cuales no se tiene ninguna experiencia histórica.</p>
+<p>En definitiva, lo que tratan de medir y analizar las pruebas de estrés es la solvencia financiera de una institución ante escenarios extremadamente adversos y muy volátiles.</p>
+<p>Estas pruebas deben ser realizadas por las empresas para mejorar en su toma de decisiones, estableciendo límites de exposición al riesgo, y que sirven para la evaluación de las opciones estratégicas en la planificación empresarial a largo plazo.</p>
+<!-- ¿Para qué sirven los tests de estrés? -->
+<p>Las pruebas de estrés deberían servir para los siguientes fines:</p>
+<ul>
+<li>Identificación del riesgo</li>
+</ul>
+<p>Los tests de estrés deben estar incluidos en las actividades de gestión de riesgos de las instituciones en los distintos niveles. En particular, se debe utilizar para abordar e identificar los riesgos en toda la institución.</p>
+<ul>
+<li>Complemento a otras herramientas de gestión de riesgos</li>
+</ul>
+<p>Las pruebas de estrés deben complementar a otras metodologías de cuantificación del riesgo que se basan en complejos modelos cuantitativos que analizan datos históricos y realizan proyecciones a futuro para tratar de conocer cuáles serán los escenarios a los que se van a enfrentar.</p>
+<p>En particular, los resultados de las pruebas de estrés para una cartera pueden proporcionar información acerca de la validez de los modelos estadísticos, por ejemplo los que se utilizan para determinar el VaR (Value at Risk).</p>
+<ul>
+<li>Apoyo a la gestión del capital</li>
+</ul>
+<p>Estas pruebas también deben formar parte de la gestión del capital interno de las entidades, donde con visión de futuro, tratarán de identificar problemas graves, incluyendo una serie de eventos de capitalización o cambios en las condiciones de mercado que podrían afectar negativamente a la institución.</p>
+<ul>
+<li>Mejora en la gestión de la liquidez</li>
+</ul>
+<p>Los tests de estrés deben ser la herramienta central en la identificación, medición y control de los riesgos de liquidez de financiación. En particular debe servir para identificar el perfil de liquidez de la institución y la adecuación de sus reservas en caso de que tanto la institución como el mercado estén en riesgo.</p>
+<!-- + ¿Qué riesgos tienen que cubrir los tests de estrés? -->
+<p>Las pruebas de estrés tienen que cubrir una serie de riesgos y áreas de negocio, así como a nivel de toda la institución. Una empresa debe ser capaz de integrar de manera efectiva y significativa, en toda la gama de sus actividades, las pruebas de estrés para proporcionar una imagen completa de los riesgos en toda la institución.</p>
+<p>Antes de cualquier prueba de estrés debe definirse el nivel de granularidad adecuado para el propósito de las pruebas, así como qué efectos se van a evaluar a través de todos los factores de riesgo que se agreguen al test. Además también será necesario tener en cuenta las interrelaciones entre todos los factores.</p>
+<p>Los riesgos típicos que se suelen tener en cuenta en estas pruebas son los siguientes:</p>
+<ul>
+<li>Riesgo de crédito, incluyendo la contraparte y el riesgo de reaseguro.</li>
+<li>Riesgo de mercado</li>
+<li>Riesgo de seguro</li>
+<li>Riesgo de liquidez</li>
+<li>Riesgo operacional y legal</li>
+<li>Riesgo de concentración</li>
+<li>Riesgo de contagio</li>
+<li>Riesgo de reputación</li>
+<li>Riesgo regulatorio</li>
+<li>Riesgo de inflación</li>
+</ul>
+<p>Las pruebas de estrés deben llevarse a cabo con flexibilidad e imaginación, con el fin de mejorar la probabilidad de identificar las vulnerabilidades ocultas de la institución. La omisión de factores de riesgo puede dar lugar a una subestimación de la severidad de los efectos que puedan producir eventos extremos.</p>
+<p>Estos tests deben ofrecer una amplia gama de niveles de gravedad, incluyendo eventos capaces de generar el mayor daño a la institución, ya sea daño financiero o cualquier otro daño que provoque una gran caída de la reputación de la empresa frente a terceros.</p>
+<!-- ##Otra fuente -->
+<!-- Los test de estrés son pruebas que se realizan a las entidades para valorar su situación financiera y comprobar la estabilidad del sistema financiero ante posibles escenarios de riesgo de contagio o sistémico. El test de estrés es un caso de escenario extremo en el análisis de escenarios. -->
+<!-- Para realizar estas pruebas, los componentes de activo y de pasivo de un Banco o empresa se someten a diferentes situaciones tanto en escenarios que van con la tendencia positiva de la economía y la macroeconomía, como en escenarios más complicados. Este tipo de prácticas son simulaciones que pretenden contener y anticipar momentos de pánico bancario o bank run en inglés. -->
+<!-- En el mundo de la inversión se utiliza a menudo como complemento del análisis VAR, porque refleja resultados que no aparecen en el VAR. El test de estrés -->
+<!-- Los países de la Unión Europea pretenden demostrar a los inversores después de las ayudas públicas otorgadas- 4,6 billones de euros entre avales que las entidades tienen que pagar por las garantías ofrecidas, recapitalizaciones y fusiones- que se están tomando medidas para evitar situaciones adversas por el deterioro en el volumen de negocio y la aparición de pérdidas en la cartera de crédito, así como en el deterioro en la valoración de determinados activos, especialmente los inmobiliarios. -->
+<!-- Las primeras pruebas de resistencia bancaria se llevaron a cabo por el Comité de Supervisores Bancarios desde 2009 y se realizan cada año, contando con la colaboración del Banco Central Europeo (BCE) y la Comisión Europea (CE). -->
+<!-- Método de cálculo del test de estrés -->
+<!-- Con el objetivo de poder enfrentarse a crisis financieras dónde se cumplen determinadas condiciones como el aumento del nivel de desempleo, impago de créditos concedidos por parte de los Bancos y pérdida de valor de inversiones, los test de stress siguen la siguiente metodología general de cálculo. -->
+<!-- Se miden a partir del indicador Tier 1 o Nivel 1. Este coeficiente mide la solvencia de los bancos. En este caso, las pruebas analizan lo que cada banco tiene en capital más reservas, beneficios no distribuidos y participaciones preferentes perpetuas (o cuotas participativas en el caso de las cajas) para hacer frente a los activos, créditos concedidos, acciones y otras inversiones de riesgo. Esto es, el dinero que tienen garantizado o recursos propios, en relación con aquel que tienen comprometido en alguna inversión no del todo segura. Como norma general, los supervisores han fijado un mínimo de Tier 1 del 6%. Cuanto mayor es este porcentaje, mayor es la solvencia. -->
+<!-- En los acuerdos de Basilea se puede ver la evolución en las directrices marcadas en este aspecto, con la finalidad de corregir problemas adicionales como la liquidez, riesgo de incumplimiento o el apalancamiento financiero. -->
+<!-- Escenarios posibles de la prueba de estrés -->
+<!-- Se establecen los siguientes escenarios para el cálculo de estas pruebas de rendimiento: -->
+<!-- + Escenario normal: Este es el más estable en el plano macroeconómico. Se estudian las cuentas de los Bancos y se concilian para ver si cumplen con la situación actual del mercado. -->
+<!-- + Escenario complicado: Deterioro de la situación macroeconómica, se analiza los efectos de una caída del PIB del 3%, nivel a partir del cuál se deja de crear empleo de forma sostenible, se analizan los activos de los bancos ponderados por su nivel de riesgo, por ejemplo, un préstamo concedido sin garantías pondera al 100%, sin embargo, un bono del estado alemán como el Bund pondera al 0%, las pérdidas de valor de activos financieros y el capital final que se obtiene después de contabilizar las ayuda públicas recibidas. -->
+<!-- + Crisis de deuda de un país: Es el escenario más complicado. Pretende establecer una solvencia en caso de que la deuda de un país tenga cifras arrolladoras como el caso de Grecia en un 25%, Portugal con un 15% o España con un 12%. -->
+<!--  Aquellos bancos o entidades que no pasen los test de estrés tienen mecanismos para salir de esta situación, y son los siguientes: -->
+<!-- Acudir al sector privado y al mercado para poder financiarse. -->
+<!-- Fondo de emergencia de la UE para la defensa del euro. -->
+<!-- Fondo de reestructuración ordenada bancaria (FROB) en el caso de España. -->
+<!-- Ejemplo test de estrés -->
+<!-- Ante caídas del PIB desde los inicios de la crisis hasta ahora cercanas al 4,5%, un ejemplo de transparencia en las pruebas lo ha sido España. -->
+<!-- Al publicar los datos de más del 95% de su sistema financiero, incluso entrando en más aspectos que el del resto de Europa, como por ejemplo, en las carteras de inmuebles de sus bancos. En el año 2014, de los 15 bancos españoles a los que se realizaron las pruebas, solamente uno, Liberbank, fue suspendido en una de las fases de la prueba con un déficit de capital de 35 millones de euros (dato relativamente bajo comparado con la media). Además, después de analizar la calidad de sus activos, el dato fue de 1,6 en comparación con la media de UE, que fue un 3,5%. -->
+
+
+<!-- # Función de precios teóricos mediante la metodología de Svensson -->
+<!-- La función principal utilizada para estimar los precios teóricos mediante la metodología de Svensson es la denominada "Tabla.sven", a grandes razgos esta función estima los precios teóricos para los títulos que se consideren ya sean Tif o Vebono. -->
+<!-- ## Paquetes y funciones a utilizar -->
+<!-- Los paquetes necesarios para correr la función principal "Tabla.sven" son, -->
+<!-- * jrvFinance: necesario para calcular rendimientos y duraciones de los bonos considerados. -->
+<!-- * xlsx: necesario para leer y exportar archivos en excel. -->
+<!-- * nloptr: necesario para realizar una optimización no lineal. -->
+<!-- * alabama: igual que el paquete anterior, se usa para realizar una optimización no lineal mediante un método diferente. -->
+<!-- Las funciones que utiliza la función principal son las siguientes, -->
+<!-- 1. sort.data.frame : función que permite ordenar un data frame según una columna específica. La misma cuenta con los siguientes parámetros, -->
+<!--  * form: data frame a ordenar. -->
+<!--  * dat: indica el nombre de la columna por el que se quiere ordenar. -->
+<!-- 2. sven: función que calcula el rendimiento cero cupón, mediante la metodología de Svensson, la misma utiliza la siguiente fórmula para su cálculo, -->
+<!-- $$r_m =  \beta_0 + (\beta_1+\beta_2)*\left(\frac{1-\exp{\left(-\frac{m}{\tau_1}\right)}}{\left(\frac{m}{\tau_1}\right)}\right) -\beta_2*\exp{\left(-\frac{m}{\tau_1}\right)} + \beta_3*\left(\frac{1-\exp{\left(-\frac{m}{\tau_2}\right)}}{\left(\frac{m}{\tau_2}\right)}\right) - \beta_3*\exp{\left(-\frac{m}{\tau_2}\right)} $$ -->
+<!-- Dicha función necesita los siguientes argumentos, -->
+<!-- * pa: vector que indica los parámetros $\beta_0, \beta_1, \beta_2, \beta_3,\tau_1$ y  $\tau_2$. -->
+<!-- * t: vector que indica el tiempo para el cual se quiere calcular el rendimiento cero cupón. -->
+<!-- 3. Carac: lee y guarda en un data frame la información disponible en el documento de las características de la deuda pública nacional que se obtiene de la página del BCV. La función posee un solo argumento, -->
+<!-- * ruta: caracter que especifica la ruta donde se ubica el documento de las caracteristicas de la deuda pública nacional que ya se ha descargado de la página del BCV. -->
+<!-- 4. precio.sven: función que calcula los precios teóricos de los títulos considerados mediante la metodología de Svensson, la misma necesita de los siguientes argumentos, -->
+<!-- * tit: vector de caracter ó caracteres donde se indica el nombre  corto del título al cual se le quiere estimar su precio teórico, por ejemplo "TIF082018" ó "VEBONO072018". -->
+<!-- * fv: caracter que indica la fecha de valoración, por ejemplo "06/07/2018". -->
+<!-- * C: data frame que se obtiene de ejecutar la función "Carac", esta variable contiene la información del documento de las caracteristicas de la deuda pública nacional que se obtiene de la página del BCV. -->
+<!-- * pa: vector que indica los parámetros $\beta_0, \beta_1, \beta_2, \beta_3,\tau_1$ y  $\tau_2$. -->
+<!-- Una vez ingresado los imputs, la función internamente busca el nombre del título en el documento de las características más reciente, y extrae del mismo la fecha de pago del próximo cupón y su fecha de vencimiento, con el fin de crear un vector de  fujos, que representa cuantos cupones le quedan por pagar al título en consideración. -->
+<!-- Por ejemplo, si se quiere conocer el precio estimado del título "TIF102020" al "02/06/2017", -->
+<!-- la función busca su fecha de vencimiento (15/10/2020) y la fecha de pago del próximo cupón -->
+<!-- la cual es en este caso 20/07/2017. Luego con dichos valores calcula la siguiente tabla, que -->
+<!-- representa los cupones que le quedan por pagar al título, -->
+<!-- | Fecha      | Plazo | Plazo años | Rend Estimado | Exp        | Cupón     | Producto   | -->
+<!-- |------------|-------|------------|---------------|------------|-----------|------------| -->
+<!-- | 20/07/2017 |   48  |  0,1350685 |     0,03%     | 0,99995494 |  2,46875  | 2,46863876 | -->
+<!-- | 19/10/2017 |  139  | 0,38082192 |     0,57%     | 0,99781633 |  2,46875  | 2,46335906 | -->
+<!-- | 18/01/2018 |  230  | 0,63013699 |     1,11%     | 0,99300575 |  2,46875  | 2,45148295 | -->
+<!-- | 19/04/2018 |  321  | 0,87945205 |     1,65%     | 0,98555214 |  2,46875  | 2,43308184 | -->
+<!-- | 19/07/2018 |  412  | 1,12876712 |     2,20%     | 0,97548422 |  2,46875  | 2,40822667 | -->
+<!-- | 18/10/2018 |  503  | 1,37808219 |     2,75%     | 0,96286752 |  2,46875  | 2,37707920 | -->
+<!-- | 17/01/2019 |  594  | 1,62739726 |     3,28%     | 0,94796138 |  2,46875  | 2,34027965 | -->
+<!-- | 18/04/2019 |  685  | 1,87671233 |     3,80%     | 0,93117489 |  2,46875  | 2,29883801 | -->
+<!-- | 18/07/2019 |  776  |  2,1260274 |     4,29%     | 0,91282638 |  2,46875  | 2,25354012 | -->
+<!-- | 17/10/2019 |  867  | 2,37534247 |     4,75%     | 0,89320395 |  2,46875  | 2,20509724 | -->
+<!-- | 16/01/2020 |  958  | 2.62465753 |     5,19%     | 0,87257101 |  2,46875  | 2,15415967 | -->
+<!-- | 16/04/2020 |  1049 |  2,8739726 |     5,61%     | 0,85116993 |  2,46875  | 2,10132576 | -->
+<!-- | 16/07/2020 |  1140 | 3,12328767 |     6,00%     | 0,82922554 |  2,46875  | 2,04715055 | -->
+<!-- | 15/10/2020 |  1231 | 3,37260274 |     6,36%     | 0,80694407 | 102,46875 | 82,6865498 | -->
+<!-- |            |       |            |     Precio    |            |           | 112,688809 | -->
+<!-- Así la primera columna (Fecha) se obtiene de sumarle a la fecha de pago del próximo cupón (20/07/2017) 91 días, que representa el tiempo cada cuando el título paga cupón, esto se realiza hasta llegar a la fecha de vencimiento. -->
+<!-- Luego la columna "Plazo título", se obtiene realizando la diferencia entre la columna 1 y la fecha de valoración (02-06-2017). Luego la columna 3 se obtiene dividiendo el valor de la columna 2 entre 365, para pasar dicho valor a años. Después evalúo los valores de la columna 2 en el spline obtenido, para así obtener los rendimientos estimados (columna 4). Posteriormente en la columna 5 (EXP) calculo la exponencial del producto de menos uno con el plazo en años (columna 3) y con el rendimiento estimado (columna 4). -->
+<!-- La columna 6 (Cupón) la calculo dividiendo el valor del cupón del título entre 4, ya que cada cupón se paga cada tres meses, a diferencia del último al cual se le debe sumar el valor de 100. Finalmente en la última columna (Producto) calculo el producto del valor de la columna EXP con la columna Cupón, para luego realizar la sumatoria de todas sus filas y así obtener el precio estimado (112.688809 en este caso). El mismo procedimiento se repite para cada título ya sea Tif o Vebono. -->
+<!-- ## Función Tabla.sven -->
+<!-- Esta función a parte de usar todas las funciones descritas anteriormente necesita de los siguientes argumentos para su correcto funcionamiento, -->
+<!-- * fv: caracter que indica la fecha de valoración, por ejemplo "06/07/2018". -->
+<!-- * tit: vector de caracter ó caracteres donde se indica el nombre  corto del título al cual se le quiere estimar su precio teórico, por ejemplo "TIF082018" ó "VEBONO072018". -->
+<!-- * pr: vector numérico que indica los precios promedios de los títulos considerados, esta variable es de suma importancia al momento de realizar el proceso de optimización. -->
+<!-- * pa: vector que indica los parámetros $\beta_0, \beta_1, \beta_2, \beta_3,\tau_1$ y  $\tau_2$. -->
+<!-- * ind: entero, 0 ó 1 que indica si se trabajará con TIF (0) ó con VEBONOS (1). -->
+<!-- * C: data frame que se obtiene de ejecutar la función "Carac", esta variable contiene la información del documento de las caracteristicas de la deuda pública nacional que se obtiene de la página del BCV. -->
+<!-- Inicialmente la función crea la siguiente tabla donde muestra los resultados de los precios estimados además de información adicional de cada instrumento considerado, -->
+<!-- |                                 |    TIF082018   |    TIF042019   |    TIF082019   |    TIF112019   |    TIF102020   | -->
+<!-- |---------------------------------|:--------------:|:--------------:|:--------------:|:--------------:|:--------------:| -->
+<!-- | ISIN                            | DPBS08773-0034 | DPBS08772-0026 | DPBS04686-0040 | DPBS09115-0024 | DPBS04686-0059 | -->
+<!-- | Fecha de Liquidación            |   06/07/2018   |   06/07/2018   |   06/07/2018   |   06/07/2018   |   06/07/2018   | -->
+<!-- | Fecha de emisión                |   11/01/2012   |   11/01/2012   |   17/07/2006   |   26/07/2012   |   17/07/2006   | -->
+<!-- | Fecha de Vencimiento            |   23/08/2018   |   18/04/2019   |   02/08/2019   |   21/11/2019   |   15/10/2020   | -->
+<!-- | Tasa de Cupón                   |      0,16      |      0,16      |     0,09875    |      0,16      |     0,09875    | -->
+<!-- | Precio Prom                     |       101      |       112      |       110      |    121,0234    |    116,5251    | -->
+<!-- | Fecha último Pago               |   24/05/2018   |   19/04/2018   |   04/05/2018   |   24/05/2018   |   19/04/2018   | -->
+<!-- | Fecha próximo pago              |   23/08/2018   |   19/07/2018   |   03/08/2018   |   23/08/2018   |   19/07/2018   | -->
+<!-- | RDTO al VMTO                    |   0,07608461   |   0,00577764   |   0,004909042  |   0,006009809  |   0,023786201  | -->
+<!-- | Duración                        |   0,130555556  |   0,730395202  |   1,018624797  |   1,254346022  |   2,032862623  | -->
+<!-- | Inverso de la duración          |   7,659574468  |   1,369121809  |   0,981715744  |   0,797228183  |   0,491917156  | -->
+<!-- | Ponderación                     |   0,677865002  |   0,121165968  |   0,086880903  |   0,07055393   |   0,043534197  | -->
+<!-- | Precio Modelo Svensson Ajustado |   102,9921258  |   116,0085721  |   111,9889864  |   122,104268   |   114,3006826  | -->
+<!-- | Residuos al cuadrado            |   1,823559602  |   0,23590694   |   0,029861545  |   0,005815509  |   0,009377642  | -->
+<!-- |                                 |                |                |                |                |    2,10E+00    | -->
+<!-- En la tabla anterior en cada columna se muestra el nombre corto de cada título considerado, en este caso se tomaron en cuenta cinco TIF (TIF082018, TIF042019, TIF082019,TIF112019, TIF102020). Por otra parte, cada fila contiene información adicional de cada instrumento, en la primera fila se encuentra el ISIN, el cual es un código único que identifica a cada  título. En la segunda fila se encuentra la fecha de liquidación, la cual no es más que la fecha de valoración que se eligió anteriormente. En la tercera y cuarta fila se ubica la fecha de emisión y la fecha de vencimiento respectivamente. En la quinta fila se encuentra la tasa de cupón asociada a cada TIF, en la sexta fila está el precio promedio de cada instrumento. En la septima y octava fila se encuentra la fecha de último pago y la fecha de próximo pago del cupón de cada título. -->
+<!-- Toda la información anterior a excepción de la sexta fila (precio promedio) se obtiene del documento de las características de la deuda pública nacional que se obtiene de la página del BCV. La información de la fila 6, se obtiene del documento de "resumersec" del BCV donde se observan las operaciones del mercado secundario. La información ubicada entre la novena y decima segunda fila, es necesaria para realizar la optimización no lineal sobre los parámetros de la metodología de Svensson. En la fila número nueve se encuentra el rendimiento al vencimiento de cada título, en la décima fila se ubica la duración, en la fila once se encuentra el inverso de la fila anterior. En la doceava fila se encuentra la ponderación , la cual se calcula en base a la duración de cada instrumento. En la fila número trece se ubica el precio obtenido mediante la función "precio.sven", finalmente en la última fila se ubica los residuos al cuadrado, los cuales se calculan a partir de la siguiente fórmula, -->
+<!-- $$ ((Precio Svensson - Precio Promedio)*Ponderación)^2$$ -->
+<!-- La suma de estos errores (SRC) se presenta al final de la tabla y este representa que tanto se asemejan los precios teóricos a los precios promedio. -->
+<!-- ## Proceso de optimización -->
+<!-- Este proceso se aplica directamente sobre los parámetros $\beta_0, \beta_1, \beta_2, \beta_3,\tau_1$ y  $\tau_2$. Donde se varian dichos parámetros con el fin de encontrar aquellos parámetros que minimicen el valor del SRC. Es importante señalar las restricciones que existen sobre estos parámetros, ellas son, -->
+<!-- * $\beta_0 > 0$  -->
+<!-- * $\beta_0 + \beta_1 > 0$   -->
+<!-- * $\tau_1 > 0$ -->
+<!-- * $\tau_2 > 0$ -->
+<!-- Para aplicar este proceso es necesario tener una función objetivo, sobre la cual se realizará el proceso de optimización, ya sea para maximizar ó minimizar dicha función. Dependiendo de la forma de dicha función el proceso de optimización será lineal o no lineal. En nuestro caso particular se llevará a cabo un proceso de optimización no lineal donde se buscará minimizar la función objetivo. -->
+<!-- En el cálculo de nuestra función objetivo inteviene el concepto de la duración de un bono ó título, la cuál es una medida del vencimiento medio ponderado de todos los flujos que paga un bono. La misma viene dada mediante la siguiente expresión, -->
+<!-- $$Duración = \frac{1+r}{r} - \frac{n(c-r)+(1+r)}{c(1+n)^n - (c-r)}  $$ -->
+<!-- donde, -->
+<!-- * r: es el rendimiento al vencimiento del bono durante el período considerado. -->
+<!-- * n: es el número de períodos que restan hasta la fecha de vencimiento del bono. -->
+<!-- * c: es el cupón del bono. -->
+<!-- Así nuestra función objetivo viene dada mediante la siguiente expresión, -->
+<!-- $$ f(x) = \sum_{i=1}^n (w_i \epsilon_i(x))^2$$ -->
+<!-- donde $w_i$ representan las ponderaciones, y se calculan mediante la siguiente expresión, -->
+<!-- $$ w_i = \frac{\frac{1}{D_i}}{\sum_{j=1}^n\frac{1}{D_j}}$$ -->
+<!-- por su parte, $\epsilon_i(x) = \hat{P_i}(x) - P_i$ , donde $P_i$ representan los precios promedios de los títulos a considerar, de entrada este es un parámetro ó valor con el que se cuenta. Por otra parte $\hat{P_i}(x)$ representa los precios estimados donde x es el parámetro que va a variar y es el valor que se quiere optimizar. -->
+<!-- Mediante la función objetivo descrita anteriormente se busca minimizar la diferencia -->
+<!-- que existe entre los precios promedios y los precios estimados, calculando un valor óptimo del parámetro $x$ mediante el proceso de optimización no lineal. -->
+<!-- El proceso de optimización se puede llevar a cabo mediante dos paquetes de R, el primero es "nloptr" el cual utiliza un método Lagrangiano aumentado que agrega términos adicionales a la función objetivo no restringida, diseñada para emular un multiplicador lagrangiano. El segundo paquete es "alabama", este paquete igual que el anterior utiliza un algoritmo de minimización lagrangiana aumentada, con la diferencia de que el mismo permite usar funciones objetivo no lineales con restricciones, las cuales pueden ser lineales ó no lineales. -->
+<!-- El método de optimización que usa por defecto el paquete "alabama" es el BFGS (Algoritmo de Broyden–Fletcher–Goldfarb–Shanno) el cual es un método iterativo para resolver problemas no lineasles de optimización. Por su parte, el paquete "nloptr" usa el método LBGS (Limited-memory Broyden–Fletcher–Goldfarb–Shanno) el cual aproxima el algoritmo BFGS usando una cantidad limitada de memoria del computador. Acorde con las pruebas realizadas se puede afirmar que los resultados obtenidos por el paquete nloptr son mejores a los dados por el paquete alabama, esto al comparar los valores SRC obtenidos luego de cada proceso, sin embargo, el paquete nloptr requiere más tiempo de cálculo para llegar a su valor óptimo mientras que el paquete alabama es más rápido en cumplir ese objetivo. A continuación se presentan los resultados obtenidos al aplicar cada uno de los procesos de optimización, es importante señalar que la optimización realizada por el paquete alabama es la mejor, esto se puede observar en el valor SRC (suma de residuos), lo que indica que los precios Svensson obtenidos mediante esta optimización son los que más se parecen a los precios promedio ingresados. -->
+<!-- Tabla obtenida mediante la optimización del paquete alabama -->
+<!-- |                                 |    TIF082018   |    TIF042019   |    TIF082019   |    TIF112019   |    TIF102020   | -->
+<!-- |---------------------------------|:--------------:|:--------------:|:--------------:|:--------------:|:--------------:| -->
+<!-- | ISIN                            | DPBS08773-0034 | DPBS08772-0026 | DPBS04686-0040 | DPBS09115-0024 | DPBS04686-0059 | -->
+<!-- | Fecha de Liquidación            |   06/07/2018   |   06/07/2018   |   06/07/2018   |   06/07/2018   |   06/07/2018   | -->
+<!-- | Fecha de emisión                |   11/01/2012   |   11/01/2012   |   17/07/2006   |   26/07/2012   |   17/07/2006   | -->
+<!-- | Fecha de Vencimiento            |   23/08/2018   |   18/04/2019   |   02/08/2019   |   21/11/2019   |   15/10/2020   | -->
+<!-- | Tasa de Cupón                   |      0,16      |      0,16      |     0,09875    |      0,16      |     0,09875    | -->
+<!-- | Precio Prom                     |       101      |       112      |       110      |    121,0234    |    116,5251    | -->
+<!-- | Fecha último Pago               |   24/05/2018   |   19/04/2018   |   04/05/2018   |   24/05/2018   |   19/04/2018   | -->
+<!-- | Fecha próximo pago              |   23/08/2018   |   19/07/2018   |   03/08/2018   |   23/08/2018   |   19/07/2018   | -->
+<!-- | RDTO al VMTO                    |   0,07608461   |   0,00577764   |   0,004909042  |   0,006009809  |   0,023786201  | -->
+<!-- | Duración                        |   0,130555556  |   0,730395202  |   1,018624797  |   1,254346022  |   2,032862623  | -->
+<!-- | Inverso de la duración          |   7,659574468  |   1,369121809  |   0,981715744  |   0,797228183  |   0,491917156  | -->
+<!-- | Ponderación                     |   0,677865002  |   0,121165968  |   0,086880903  |   0,07055393   |   0,043534197  | -->
+<!-- | Precio Modelo Svensson Ajustado |   100,9971913  |   112,1371665  |   109,6489894  |   121,2079619  |   116,5454994  | -->
+<!-- | Residuos al cuadrado            |    3,62E-06    |   0,000276221  |   0,000930013  |   0,000169561  |    7,89E-07    | -->
+<!-- |                                 |                |                |                |                |    1,38E-03    | -->
+<!-- Tabla obtenida mediante la optimización del Nloptr -->
+<!-- |                                 |    TIF082018   |    TIF042019   |    TIF082019   |    TIF112019   |    TIF102020   | -->
+<!-- |---------------------------------|:--------------:|:--------------:|:--------------:|:--------------:|:--------------:| -->
+<!-- | ISIN                            | DPBS08773-0034 | DPBS08772-0026 | DPBS04686-0040 | DPBS09115-0024 | DPBS04686-0059 | -->
+<!-- | Fecha de Liquidación            |   06/07/2018   |   06/07/2018   |   06/07/2018   |   06/07/2018   |   06/07/2018   | -->
+<!-- | Fecha de emisión                |   11/01/2012   |   11/01/2012   |   17/07/2006   |   26/07/2012   |   17/07/2006   | -->
+<!-- | Fecha de Vencimiento            |   23/08/2018   |   18/04/2019   |   02/08/2019   |   21/11/2019   |   15/10/2020   | -->
+<!-- | Tasa de Cupón                   |      0,16      |      0,16      |     0,09875    |      0,16      |     0,09875    | -->
+<!-- | Precio Prom                     |       101      |       112      |       110      |    121,0234    |    116,5251    | -->
+<!-- | Fecha último Pago               |   24/05/2018   |   19/04/2018   |   04/05/2018   |   24/05/2018   |   19/04/2018   | -->
+<!-- | Fecha próximo pago              |   23/08/2018   |   19/07/2018   |   03/08/2018   |   23/08/2018   |   19/07/2018   | -->
+<!-- | RDTO al VMTO                    |   0,07608461   |   0,00577764   |   0,004909042  |   0,006009809  |   0,023786201  | -->
+<!-- | Duración                        |   0,130555556  |   0,730395202  |   1,018624797  |   1,254346022  |   2,032862623  | -->
+<!-- | Inverso de la duración          |   7,659574468  |   1,369121809  |   0,981715744  |   0,797228183  |   0,491917156  | -->
+<!-- | Ponderación                     |   0,677865002  |   0,121165968  |   0,086880903  |   0,07055393   |   0,043534197  | -->
+<!-- | Precio Modelo Svensson Ajustado |   100,9987932  |   112,0987759  |   109,6758328  |   121,2655549  |   116,4765443  | -->
+<!-- | Residuos al cuadrado            |    6,69E-07    |   0,00014324   |   0,000793207  |   0,000291897  |    4,47E-06    | -->
+<!-- |                                 |                |                |                |                |    1,23E-03    | -->
+<!-- ## Ejemplo en R -->
+<!-- Una vez cargados todos los paquetes y funciones necesarias para ejecutar la función principal "Tabla.sven", se definen los argumentos necesarios para esta función, primero defino los nombres de los títulos, su precio promedio y los parámetros iniciales. -->
+<!-- ```{r} -->
+<!-- #Prueba Julio 2018 -->
+<!-- #ejemplo -->
+<!-- #source('C:/Users/Freddy Tapia/Desktop/Svensson/funciones.R') -->
+<!-- #TIF -->
+<!-- tit=c("TIF082018","TIF042019","TIF082019", -->
+<!--       "TIF112019","TIF102020","TIF112020","TIF022021","TIF032022","TIF042023", -->
+<!--       "TIF012024","TIF062025","TIF012026","TIF112027","TIF032028","TIF052028", -->
+<!--       "TIF022029","TIF032029","TIF022030","TIF102030","TIF022031","TIF032031", -->
+<!--       "TIF022032","TIF032032","TIF032033","TIF052034") -->
+<!-- #precios promedio -->
+<!-- pr=c(101,112,110,121.0234,116.5251,130.0234, -->
+<!--      129.0156,125.0626,128.1000,120,124,122,126.5234,128.5235,128.1913, -->
+<!--      129,132.0391,128.5235,129.8875,130.1,128.5313,127,128.5235,127.0156, -->
+<!--      127.0156) -->
+<!-- #parametros TIF -->
+<!-- pa=c(0.133799434790145,-0.01,-0.307885339616438,-0.134075672659356, -->
+<!--      0.545398124008073,0.350692201663154) -->
+<!-- ``` -->
+<!-- Luego creo la variable "C", la cual se genera a partir de la información del documento de las características de la deuda pública nacional que se obtiene de la página del BCV, -->
+<!-- ```{r} -->
+<!-- #Documento de la características -->
+<!-- #C <- Carac("C:/Users/Freddy Tapia/Desktop/29-06-18.xls") -->
+<!-- #head(C) -->
+<!-- ``` -->
+<!-- Finalmente ejecuto la función, -->
+<!-- ```{r} -->
+<!-- #Tabla11t=Tabla.sven(fv = "06/07/2018",tit = tit,pr = pr,pa = pa,ind = 0,C = C)  -->
+<!-- ``` -->
+<!-- Inicialmente la función muestra una tabla con los valores iniciales, luego de esto se pregunta al usuario si desea optimizar los precios, en caso afirmativo se ofrecen dos métodos uno mediante el paquete nloptr y el otro mediante alabama. -->
+
+
+</div>
+</div>
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-78759535-1', 'auto');
+ga('send', 'pageview');  
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="backtesting.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="manual-de-usuario.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/synergyvision/Teoria-de-Portafolio/edit/master/bookdown/014-Pruebas_de_estres.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["Riesgo-de-Mercado.pdf"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
