@@ -2485,17 +2485,18 @@ ruta_bcv <- function(file){
       a <- "Operaciones Interbancarias Overnight"
       b <- as.numeric(gregexpr(a,text1))
       c <- results1[which(b>0)] %>% html_nodes("a") %>% html_attr("href")
-      return(c)
+      return(as.character(c))
     }
     if(file=="caracteristicas"){
       #return(as.character(df[37,1]))
       #return(as.character(df[40,1]))
       results <- webpage %>% html_nodes(".even")
       text <- xml_text(results)
-      a1 <- "Características de las emisiones de títulos valores"
+      #a1 <- "Características de las emisiones de títulos valores"
+      a1 <- " de las emisiones de "
       b1 <- as.numeric(gregexpr(a1,text))
       c1 <- results[which(b1>0)] %>% html_nodes("a") %>% html_attr("href")
-      return(c1)
+      return(as.character(c1))
     }
     
     

@@ -31,12 +31,13 @@ output$downloadData <- downloadHandler(
   },
   content = function(file) {
     #file<-paste(getwd(),"data",paste(input$dataset, ".xls", sep = ""),sep="/")
-    file<-paste(getwd(),"data",paste(input$dataset, paste0(".",extension(datasetInput())), sep = ""),sep="/")
-    
+    #file<-paste(getwd(),"data",paste(input$dataset, paste0(".",extension(datasetInput())), sep = ""),sep="/")
+
     #antes en method estaba libcurl
     download.file(url=datasetInput(),destfile=file,method = "internal",mode="wb")
     #GET(datasetInput(), write_disk(file, overwrite=TRUE))
     #write.xlsx(datasetInput(), file, row.names = FALSE)
+
   }
 )
 
@@ -74,31 +75,32 @@ output$docbcv <- renderDataTable({
     if(is.null(dim(ca))){
       Aviso <- "No existen operaciones para el mes actual"
       return(as.data.frame(Aviso))
-    }else{
-      
+    }
+    else{
+
       ca2 <- formatop(ca1,ca)
       #convierto fecha de op y venc en fechas
       ca2$`Fecha op` <- as.Date(as.character(ca2$`Fecha op`),format="%d/%m/%Y")
       ca2$F.Vencimiento <- as.Date(as.character(ca2$F.Vencimiento),format="%d/%m/%Y")
-      
+
       #este data frame es el que utiliza la metodologia Spline para los calculos
       ca3 <- dplyr::arrange(ca2,(`Fecha op`))
-      
+
       #guardo historico_actualizado
-      hist <- read.csv(paste(getwd(),"data","Historico.txt",sep = "/"),sep="")
-      hist[,3] <- as.Date(as.character(hist[,3]))
-      hist[,6] <- as.Date(as.character(hist[,6]))
-      
-      
-      names(ca3)=names(hist)
+      #hist <- read.csv(paste(getwd(),"data","Historico.txt",sep = "/"),sep="")
+      #hist[,3] <- as.Date(as.character(hist[,3]))
+      #hist[,6] <- as.Date(as.character(hist[,6]))
+
+
+      #names(ca3)=names(hist)
       #print(str(ca3))
       #print(str(hist))
-      
-      hist_act <- rbind.data.frame(hist,ca3)
-      
-      
-      write.table(hist_act,paste(getwd(),"data","Historico_act.txt",sep = "/"),row.names = FALSE)
-      
+
+      #hist_act <- rbind.data.frame(hist,ca3)
+
+
+      #write.table(hist_act,paste(getwd(),"data","Historico_act.txt",sep = "/"),row.names = FALSE)
+
       return(ca3)
     }#final condicional no hay operaciones
   }
