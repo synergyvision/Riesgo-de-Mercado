@@ -28,7 +28,7 @@ library(VaRES)
 library(lmomco)
 
 
-source(paste(getwd(),".Trash/Riesgo-de-Mercado",'app/funciones.R',sep="/"))
+source(paste(getwd(),"Desktop/Riesgo_de_mercado_1",'app/funciones.R',sep="/"))
 
 
 #descargo archivos
@@ -38,15 +38,16 @@ print(ruta_bcv("0-22"))
 
 
 #a <-  "http://www.bcv.org.ve/sites/default/files/3_1_2.xls"
-download.file(url=a,destfile=paste(getwd(),".Trash/Riesgo-de-Mercado","app","data",paste0("Caracteristicas.",extension(a)),sep = "/"),method = "internal",mode="wb")
-download.file(url=ruta_bcv("0-22"),destfile=paste(getwd(),".Trash/Riesgo-de-Mercado","app","data",paste0("0-22.",extension(ruta_bcv("0-22"))),sep = "/"),method = "internal",mode="wb")
+#download.file(url=a,destfile=paste(getwd(),".Trash/Riesgo-de-Mercado","app","data",paste0("Caracteristicas.",extension(a)),sep = "/"),method = "internal",mode="wb")
+download.file(url=a,destfile=paste(getwd(),"Desktop/Riesgo_de_mercado_1","app","data",paste0("Caracteristicas.",extension(a)),sep = "/"),method = "internal",mode="wb")
+download.file(url=ruta_bcv("0-22"),destfile=paste(getwd(),"Desktop/Riesgo_de_mercado_1","app","data",paste0("0-22.",extension(ruta_bcv("0-22"))),sep = "/"),method = "internal",mode="wb")
 
 
 #ca <- try(Preciosbcv(paste(getwd(),"data","0-22.xls",sep = "/")))
-ca <- try(Preciosbcv(paste(getwd(),".Trash/Riesgo-de-Mercado","app","data",paste0("0-22.",extension(ruta_bcv("0-22"))),sep = "/")))
+ca <- try(Preciosbcv(paste(getwd(),"Desktop/Riesgo_de_mercado_1","app","data",paste0("0-22.",extension(ruta_bcv("0-22"))),sep = "/")))
 #ca1 <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
 #ca1 <- try(Carac(paste(getwd(),".Trash/Riesgo-de-Mercado","app","data",paste0("Caracteristicas.",extension(ruta_bcv("caracteristicas"))),sep = "/")))
-ca1 <- try(Carac(paste(getwd(),".Trash/Riesgo-de-Mercado","app","data",paste0("Caracteristicas.","xls"),sep = "/")))
+ca1 <- try(Carac(paste(getwd(),"Desktop/Riesgo_de_mercado_1","app","data",paste0("Caracteristicas.","xls"),sep = "/")))
 
 
 
@@ -59,7 +60,7 @@ ca2 <- formatop(ca1,ca)
   ca3 <- dplyr::arrange(ca2,(`Fecha op`))
 
   #guardo historico_actualizado
-  hist <- read.csv(paste(getwd(),".Trash/Riesgo-de-Mercado","app","data","Historico.txt",sep = "/"),sep="")
+  hist <- read.csv(paste(getwd(),"Desktop/Riesgo_de_mercado_1","app","data","Historico.txt",sep = "/"),sep="")
   hist[,3] <- as.Date(as.character(hist[,3]))
   hist[,6] <- as.Date(as.character(hist[,6]))
 
@@ -71,7 +72,7 @@ ca2 <- formatop(ca1,ca)
   hist_act <- rbind.data.frame(hist,ca3)
 
 
-  write.table(hist_act,paste(getwd(),".Trash/Riesgo-de-Mercado","app","data","Historico_act.txt",sep = "/"),row.names = FALSE)
+  write.table(hist_act,paste(getwd(),"Desktop/Riesgo_de_mercado_1","app","data","Historico_act.txt",sep = "/"),row.names = FALSE)
 
  # return(ca3)
   

@@ -596,3 +596,317 @@ downloaded 269 KB
 [1] "022 07-06  "
 [1] "No hubo operacion el dia "
 [1] "022 05-06 "
+Loading required package: MASS
+Loading required package: survival
+Loading required package: npsurv
+Loading required package: lsei
+
+Attaching package: 'shinydashboard'
+
+The following object is masked from 'package:graphics':
+
+    box
+
+
+Attaching package: 'dplyr'
+
+The following object is masked from 'package:MASS':
+
+    select
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Warning message:
+package 'dplyr' was built under R version 3.5.2 
+
+Attaching package: 'lubridate'
+
+The following object is masked from 'package:base':
+
+    date
+
+
+Attaching package: 'jrvFinance'
+
+The following object is masked from 'package:lubridate':
+
+    duration
+
+
+Attaching package: 'plotly'
+
+The following object is masked from 'package:ggplot2':
+
+    last_plot
+
+The following object is masked from 'package:MASS':
+
+    select
+
+The following object is masked from 'package:stats':
+
+    filter
+
+The following object is masked from 'package:graphics':
+
+    layout
+
+Loading required package: numDeriv
+
+Attaching package: 'alabama'
+
+The following object is masked from 'package:nloptr':
+
+    auglag
+
+
+Attaching package: 'DT'
+
+The following objects are masked from 'package:shiny':
+
+    dataTableOutput, renderDataTable
+
+
+Attaching package: 'rvest'
+
+The following object is masked from 'package:readr':
+
+    guess_encoding
+
+Warning message:
+package 'rvest' was built under R version 3.5.2 
+Error in file(filename, "r", encoding = encoding) : 
+  no se puede abrir la conexi'on
+Calls: source -> file
+Adem'as: Warning message:
+In file(filename, "r", encoding = encoding) :
+  no fue posible abrir el archivo '/Users/freddytapia/.Trash/Riesgo-de-Mercado/app/funciones.R': No such file or directory
+Ejecuci'on interrumpida
+Loading required package: MASS
+Loading required package: survival
+Loading required package: npsurv
+Loading required package: lsei
+
+Attaching package: 'shinydashboard'
+
+The following object is masked from 'package:graphics':
+
+    box
+
+
+Attaching package: 'dplyr'
+
+The following object is masked from 'package:MASS':
+
+    select
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Warning message:
+package 'dplyr' was built under R version 3.5.2 
+
+Attaching package: 'lubridate'
+
+The following object is masked from 'package:base':
+
+    date
+
+
+Attaching package: 'jrvFinance'
+
+The following object is masked from 'package:lubridate':
+
+    duration
+
+
+Attaching package: 'plotly'
+
+The following object is masked from 'package:ggplot2':
+
+    last_plot
+
+The following object is masked from 'package:MASS':
+
+    select
+
+The following object is masked from 'package:stats':
+
+    filter
+
+The following object is masked from 'package:graphics':
+
+    layout
+
+Loading required package: numDeriv
+
+Attaching package: 'alabama'
+
+The following object is masked from 'package:nloptr':
+
+    auglag
+
+
+Attaching package: 'DT'
+
+The following objects are masked from 'package:shiny':
+
+    dataTableOutput, renderDataTable
+
+
+Attaching package: 'rvest'
+
+The following object is masked from 'package:readr':
+
+    guess_encoding
+
+Warning message:
+package 'rvest' was built under R version 3.5.2 
+Error in file(filename, "r", encoding = encoding) : 
+  no se puede abrir la conexi'on
+Calls: source -> file
+Adem'as: Warning message:
+In file(filename, "r", encoding = encoding) :
+  no fue posible abrir el archivo '/Users/freddytapia//Users/freddytapia/Desktop/Riesgo_de_mercado_1/app/funciones.R': No such file or directory
+Ejecuci'on interrumpida
+Loading required package: MASS
+Loading required package: survival
+Loading required package: npsurv
+Loading required package: lsei
+
+Attaching package: 'shinydashboard'
+
+The following object is masked from 'package:graphics':
+
+    box
+
+
+Attaching package: 'dplyr'
+
+The following object is masked from 'package:MASS':
+
+    select
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Warning message:
+package 'dplyr' was built under R version 3.5.2 
+
+Attaching package: 'lubridate'
+
+The following object is masked from 'package:base':
+
+    date
+
+
+Attaching package: 'jrvFinance'
+
+The following object is masked from 'package:lubridate':
+
+    duration
+
+
+Attaching package: 'plotly'
+
+The following object is masked from 'package:ggplot2':
+
+    last_plot
+
+The following object is masked from 'package:MASS':
+
+    select
+
+The following object is masked from 'package:stats':
+
+    filter
+
+The following object is masked from 'package:graphics':
+
+    layout
+
+Loading required package: numDeriv
+
+Attaching package: 'alabama'
+
+The following object is masked from 'package:nloptr':
+
+    auglag
+
+
+Attaching package: 'DT'
+
+The following objects are masked from 'package:shiny':
+
+    dataTableOutput, renderDataTable
+
+
+Attaching package: 'rvest'
+
+The following object is masked from 'package:readr':
+
+    guess_encoding
+
+Warning message:
+package 'rvest' was built under R version 3.5.2 
+[1] "http://www.bcv.org.ve/sites/default/files/3_1_2.xls"
+[1] "http://www.bcv.org.ve/sites/default/files/EstadisticasGeneral/resumersec_0719.xls"
+Warning message:
+`data_frame()` is deprecated, use `tibble()`.
+This warning is displayed once per session. 
+probando la URL 'http://www.bcv.org.ve/sites/default/files/3_1_2.xls'
+Content type 'application/vnd.ms-excel' length 114688 bytes (112 KB)
+==================================================
+downloaded 112 KB
+
+probando la URL 'http://www.bcv.org.ve/sites/default/files/EstadisticasGeneral/resumersec_0719.xls'
+Content type 'application/vnd.ms-excel' length 492544 bytes (481 KB)
+==================================================
+downloaded 481 KB
+
+[1] "No hubo operacion el dia "
+[1] "022 30-07"
+[1] "No hubo operacion el dia "
+[1] "022 29-07"
+[1] "No hubo operacion el dia "
+[1] " 022 23-07"
+[1] "No hubo operacion el dia "
+[1] " 022 22-07"
+[1] "No hubo operacion el dia "
+[1] "022 19-07"
+[1] "No hubo operacion el dia "
+[1] "022 18-07"
+[1] "No hubo operacion el dia "
+[1] "022 17-07 "
+[1] "No hubo operacion el dia "
+[1] "022 16-07    "
+[1] "No hubo operacion el dia "
+[1] "022 15-07"
+[1] "No hubo operacion el dia "
+[1] "022 12-07"
+[1] "No hubo operacion el dia "
+[1] "022 09-07   "
+[1] "No hubo operacion el dia "
+[1] "022 08-07  "
+[1] "No hubo operacion el dia "
+[1] "022 04-07 "
+[1] "No hubo operacion el dia "
+[1] "022 03-07"
+[1] "No hubo operacion el dia "
+[1] "022 01-07"
