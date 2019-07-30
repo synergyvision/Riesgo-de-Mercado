@@ -74,3 +74,4 @@ ca2 <- formatop(ca1,ca)
   write.table(hist_act,paste(getwd(),".Trash/Riesgo-de-Mercado","app","data","Historico_act.txt",sep = "/"),row.names = FALSE)
 
  # return(ca3)
+  
