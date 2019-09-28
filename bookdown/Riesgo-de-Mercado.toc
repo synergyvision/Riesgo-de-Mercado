@@ -1,0 +1,90 @@
+\babel@toc {spanish}{}
+\contentsline {fm}{\'{I}ndice de cuadros}{\es@scroman {vii}}{chapter*.1}
+\contentsline {fm}{\'{I}ndice de figuras}{\es@scroman {ix}}{chapter*.2}
+\contentsline {fm}{Prefacio}{\es@scroman {xi}}{chapter*.3}
+\contentsline {fm}{Acerca del Autor}{\es@scroman {xv}}{chapter*.9}
+\contentsline {chapter}{\numberline {1}Introducci\IeC {\'o}n}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Motivation}{2}{section.1.1}
+\contentsline {chapter}{\numberline {2}Curva de Rendimientos}{1}{chapter.2}
+\contentsline {section}{\numberline {2.1}Metodolog\IeC {\'\i }as Param\IeC {\'e}tricas.}{4}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Metodolog\IeC {\'\i }a Nelson y Siegel}{4}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}Metodolog\IeC {\'\i }a Svensson}{6}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.3}Polinomios de componentes principales.}{7}{subsection.2.1.3}
+\contentsline {subsection}{\numberline {2.1.4}Polinomios trigonom\IeC {\'e}tricos.}{8}{subsection.2.1.4}
+\contentsline {subsection}{\numberline {2.1.5}Metodolog\IeC {\'\i }a Diebold-Li}{9}{subsection.2.1.5}
+\contentsline {subsubsection}{\numberline {2.1.5.1}Modelos de factores de la curva de rendimientos}{9}{subsubsection.2.1.5.1}
+\contentsline {section}{\numberline {2.2}Metodolog\IeC {\'\i }as no Param\IeC {\'e}tricas}{10}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Regresi\IeC {\'o}n Kernel}{11}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Polinomios locales}{12}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}Splines suavizados}{14}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.2.4}Splines de polinomios}{14}{subsection.2.2.4}
+\contentsline {subsection}{\numberline {2.2.5}Splines suavizados}{15}{subsection.2.2.5}
+\contentsline {subsection}{\numberline {2.2.6}Supersuavizador de Friedmann}{15}{subsection.2.2.6}
+\contentsline {subsection}{\numberline {2.2.7}Redes neuronales artificiales}{18}{subsection.2.2.7}
+\contentsline {subsection}{\numberline {2.2.8}Metodolog\IeC {\'\i }a Splines C\IeC {\'u}bicos de Suavizado}{21}{subsection.2.2.8}
+\contentsline {subsubsection}{\numberline {2.2.8.1}Teor\IeC {\'\i }a de interpolaci\IeC {\'o}n}{21}{subsubsection.2.2.8.1}
+\contentsline {subsubsection}{\numberline {2.2.8.2}Interpolaci\IeC {\'o}n lineal}{22}{subsubsection.2.2.8.2}
+\contentsline {subsubsection}{\numberline {2.2.8.3}Interpolaci\IeC {\'o}n de Lagrange}{24}{subsubsection.2.2.8.3}
+\contentsline {subsubsection}{\numberline {2.2.8.4}Interpolaci\IeC {\'o}n de Hermite}{25}{subsubsection.2.2.8.4}
+\contentsline {subsubsection}{\numberline {2.2.8.5}Interpolaci\IeC {\'o}n Polin\IeC {\'o}mica}{26}{subsubsection.2.2.8.5}
+\contentsline {subsubsection}{\numberline {2.2.8.6}Splines}{27}{subsubsection.2.2.8.6}
+\contentsline {subsubsection}{\numberline {2.2.8.7}Bases de splines}{31}{subsubsection.2.2.8.7}
+\contentsline {subsubsection}{\numberline {2.2.8.8}B-spline uniforme}{33}{subsubsection.2.2.8.8}
+\contentsline {subsubsection}{\numberline {2.2.8.9}B-spline cardinal}{33}{subsubsection.2.2.8.9}
+\contentsline {subsubsection}{\numberline {2.2.8.10}B-spline constante}{34}{subsubsection.2.2.8.10}
+\contentsline {subsubsection}{\numberline {2.2.8.11}B-spline lineal}{34}{subsubsection.2.2.8.11}
+\contentsline {subsubsection}{\numberline {2.2.8.12}B-spline cuadr\IeC {\'a}tica uniforme}{35}{subsubsection.2.2.8.12}
+\contentsline {subsubsection}{\numberline {2.2.8.13}B-spline c\IeC {\'u}bica}{35}{subsubsection.2.2.8.13}
+\contentsline {subsubsection}{\numberline {2.2.8.14}B-spline c\IeC {\'u}bica uniforme}{36}{subsubsection.2.2.8.14}
+\contentsline {subsection}{\numberline {2.2.9}Regresi\IeC {\'o}n no param\IeC {\'e}trica}{37}{subsection.2.2.9}
+\contentsline {subsection}{\numberline {2.2.10}Regresi\IeC {\'o}n no param\IeC {\'e}trica mediante splines de suavizado}{39}{subsection.2.2.10}
+\contentsline {subsection}{\numberline {2.2.11}Proceso de Optimizaci\IeC {\'o}n de Nelson y Siegel y Svensson}{41}{subsection.2.2.11}
+\contentsline {subsection}{\numberline {2.2.12}Elaboracion Base de datos para la metodolog\IeC {\'\i }a Splines y Diebold-Li}{44}{subsection.2.2.12}
+\contentsline {chapter}{\numberline {3}Valor en Riesgo}{1}{chapter.3}
+\contentsline {subsection}{\numberline {3.0.1}Importancia del VaR}{4}{subsection.3.0.1}
+\contentsline {section}{\numberline {3.1}Metodolog\IeC {\'\i }as para calcular el VaR}{4}{section.3.1}
+\contentsline {section}{\numberline {3.2}VaR Simulaci\IeC {\'o}n Hist\IeC {\'o}rica}{5}{section.3.2}
+\contentsline {section}{\numberline {3.3}VaR Simulaci\IeC {\'o}n MonteCarlo}{7}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Origenes}{7}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Definici\IeC {\'o}n}{8}{subsection.3.3.2}
+\contentsline {section}{\numberline {3.4}Limitaciones del VaR}{9}{section.3.4}
+\contentsline {chapter}{\numberline {4}Backtesting}{1}{chapter.4}
+\contentsline {section}{\numberline {4.1}Definici\IeC {\'o}n}{1}{section.4.1}
+\contentsline {section}{\numberline {4.2}Prueba de Kupiec}{2}{section.4.2}
+\contentsline {section}{\numberline {4.3}Test de Prueba Mixta de Kupiec (Haas)}{3}{section.4.3}
+\contentsline {section}{\numberline {4.4}Marco de referencia Comit\IeC {\'e} de Basilea (1996).}{4}{section.4.4}
+\contentsline {chapter}{\numberline {5}Pruebas de Estr\IeC {\'e}s}{1}{chapter.5}
+\contentsline {section}{\numberline {5.1}Definici\IeC {\'o}n}{1}{section.5.1}
+\contentsline {section}{\numberline {5.2}Utilidad}{2}{section.5.2}
+\contentsline {chapter}{\numberline {6}Manual de Usuario}{1}{chapter.6}
+\contentsline {section}{\numberline {6.1}Curva de Rendimientos}{1}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Curva de rendimientos individual}{1}{subsection.6.1.1}
+\contentsline {subsection}{\numberline {6.1.2}Datos}{3}{subsection.6.1.2}
+\contentsline {subsection}{\numberline {6.1.3}Metodolog\IeC {\'\i }a Nelson y Siegel}{3}{subsection.6.1.3}
+\contentsline {subsection}{\numberline {6.1.4}Metodolog\IeC {\'\i }a Svensson}{8}{subsection.6.1.4}
+\contentsline {subsection}{\numberline {6.1.5}Metodolog\IeC {\'\i }a Diebold-Li}{12}{subsection.6.1.5}
+\contentsline {subsection}{\numberline {6.1.6}Metodolog\IeC {\'\i }a Splines}{16}{subsection.6.1.6}
+\contentsline {subsection}{\numberline {6.1.7}Curva de rendimientos comparativo}{20}{subsection.6.1.7}
+\contentsline {subsection}{\numberline {6.1.8}Metodolog\IeC {\'\i }as}{21}{subsection.6.1.8}
+\contentsline {subsection}{\numberline {6.1.9}Precios Estimados}{25}{subsection.6.1.9}
+\contentsline {subsection}{\numberline {6.1.10}Curvas}{25}{subsection.6.1.10}
+\contentsline {section}{\numberline {6.2}Valor en Riesgo}{26}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Datos}{27}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}Distribuci\IeC {\'o}n}{29}{subsection.6.2.2}
+\contentsline {subsection}{\numberline {6.2.3}VaR}{32}{subsection.6.2.3}
+\contentsline {subsection}{\numberline {6.2.4}Gr\IeC {\'a}ficos}{41}{subsection.6.2.4}
+\contentsline {subsection}{\numberline {6.2.5}Hist\IeC {\'o}ricos}{49}{subsection.6.2.5}
+\contentsline {section}{\numberline {6.3}Backtesting}{52}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Datos}{52}{subsection.6.3.1}
+\contentsline {subsection}{\numberline {6.3.2}Resultados}{53}{subsection.6.3.2}
+\contentsline {section}{\numberline {6.4}Valoraci\IeC {\'o}n}{55}{section.6.4}
+\contentsline {subsection}{\numberline {6.4.1}Datos}{55}{subsection.6.4.1}
+\contentsline {subsection}{\numberline {6.4.2}Resultados}{56}{subsection.6.4.2}
+\contentsline {subsection}{\numberline {6.4.3}Resultados prueba de estr\IeC {\'e}s}{58}{subsection.6.4.3}
+\contentsline {chapter}{Ap\'{e}ndice}{61}{subsection.6.4.3}
+\contentsline {chapter}{\numberline {A}Software Tools}{61}{appendix.Alph1}
+\contentsline {section}{\numberline {A.1}R and R packages}{61}{section.Alph1.1}
+\contentsline {section}{\numberline {A.2}Pandoc}{62}{section.Alph1.2}
+\contentsline {section}{\numberline {A.3}LaTeX}{63}{section.Alph1.3}
+\contentsline {chapter}{\'{I}ndice alfab\'{e}tico}{69}{section.Alph1.3}
+\contentsline {section}{}{69}{section.Alph1.3}

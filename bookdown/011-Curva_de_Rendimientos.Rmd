@@ -339,7 +339,7 @@ Conocida también como regresión local, la idea es aproximar la función suave 
 $$\displaystyle{m(x_{i}) \approx  a_{0} + a_{1}(x_{i}-x) + \frac{a_{2}}{2}(x_{i}-x)^2}$$
 
 
-La aproximación local puede ser ajustada a través de mínimos cuadrados ponderados localmente. Una función Kernel y un bandwidth son definidos como en la regresión Kernel. Los coeficientes $\hat{a}_{0}$ y $\hat{a}_{1}$, son escogidos de tal forma que se pueda minimizar la expresión,
+La aproximación local puede ser ajustada a través de mínimos cuadrados ponderados localmente. Una función Kernel y un bandwidth son definidos como en la regresión Kernel. Los coeficientes $$\hat{a}_{0}$$ y $$\hat{a}_{1}$$, son escogidos de tal forma que se pueda minimizar la expresión,
 
 
 (@ecu5)
@@ -347,11 +347,11 @@ $$
  \sum_{i=1}^{n} K(\frac{x_{i}-x}{h}) (y_{i}-a_{0}-a_{1}(x_{i}-x))^2 
 $$
 
-Reescribiendo la ecuación @ecu5 en términos matriciales obtenemos, $X^{T}W(\tilde{Y}-X \tilde{a})$. Donde X es la matriz diseño para cada regresión lineal, $\tilde{a}$ el vector de
-parámetros, W la matriz diagonal de pesos $K(\frac{x_{i}-x}{h})$ y $\tilde{Y}$ el vector de observaciones de orden n.
+Reescribiendo la ecuación @ecu5 en términos matriciales obtenemos, $$X^{T}W(\tilde{Y}-X \tilde{a})$$. Donde X es la matriz diseño para cada regresión lineal, $$\tilde{a}$$ el vector de
+parámetros, W la matriz diagonal de pesos $K(\frac{x_{i}-x}{h})$ y $$\tilde{Y}$$ el vector de observaciones de orden n.
 
-El vector de parámetros estimado está dado por $ \hat{\tilde{a}} = (X^{T}WX)X^{T}W \tilde{Y} $
-y en forma semejante con la ecuación @ecu4, tenemos que: $l(x)_{nx1} = e_{1}^{T} (X^{T}WX)X^{T} \tilde{Y}$ donde $e_{1}^{T}$
+El vector de parámetros estimado está dado por $$\hat{\tilde{a}} = (X^{T}WX)X^{T}W \tilde{Y} $$
+y en forma semejante con la ecuación @ecu4, tenemos que: $$l(x)_{nx1} = e_{1}^{T} (X^{T}WX)X^{T} \tilde{Y}$$ donde $e_{1}^{T}$
 es un vector de ceros de tamaño n, exceptuando la primera entrada cuyo valor es 1.
 
 Finalmente, la selección del h está basado en procedimientos de bondad de ajuste que permite obtener el mejor modelo. Entre los más utilizados sobresalen los métodos de validación cruzada generalizada y plug-in, los cuales son descritos detalladamente en Fan y Gijbels \cite{FG}.

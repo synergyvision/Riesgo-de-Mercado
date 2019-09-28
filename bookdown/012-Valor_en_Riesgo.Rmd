@@ -4,7 +4,7 @@
 
 El valor en riesgo, conocido comúnmente como VaR (Value at Risk), es una técnica estadística para medir el riesgo financiero de una inversión. Indica la probabilidad (normalmente 1% o 5%) de sufrir una determinada pérdida durante un periodo de tiempo (normalmente 1 día, 1 semana o 1 mes).
 
-Dicho de otro modo, el VaR establece la pérdida máxima que puede experimentar una inversión dentro de un horizonte temporal, dado un nivel de confianza (1- α), normalmente 95% o 99%. Por ejemplo, la pérdida máxima será durante un mes con un 95% de probabilidad igual o menor que 5 millones de euros. O lo que es lo mismo, existe una probabilidad del 5% de que la pérdida sea como mínimo de 5 millones de euros en un mes. Por lo tanto, también mide la pérdida mínima que sufrirá una inversión para un nivel de significación (α).
+Dicho de otro modo, el VaR establece la pérdida máxima que puede experimentar una inversión dentro de un horizonte temporal, dado un nivel de confianza (1- $\alpha$), normalmente 95% o 99%. Por ejemplo, la pérdida máxima será durante un mes con un 95% de probabilidad igual o menor que 5 millones de euros. O lo que es lo mismo, existe una probabilidad del 5% de que la pérdida sea como mínimo de 5 millones de euros en un mes. Por lo tanto, también mide la pérdida mínima que sufrirá una inversión para un nivel de significación ($\alpha$).
 
 El VaR mide el riesgo financiero de una inversión, por lo que tiene una amplia aplicación en el mundo de las finanzas. Se puede calcular la pérdida máxima tanto para un solo activo financiero como para una cartera de activos financieros. Es muy utilizado en análisis de riesgos para medir y controlar el nivel de riesgo que una empresa es capaz de soportar. El gestor de riesgos es asegurarse de que no se incurre en riesgos mayores de los que la empresa podría afrontar.
 
@@ -125,9 +125,9 @@ El VaR paramétrico es un método para estimar el VaR (Valor en Riesgo) utilizan
 
 Cuando tenemos los datos de rentabilidad esperados y el riesgo histórico (medido por la desviación típica) utilizamos la siguiente fórmula:
 
-$$VaR = |R – z·δ|· V$$
+$$VaR = |R – z·\delta|· V$$
 
-Siendo R, la rentabilidad esperada, z, el valor correspondiente para un nivel de significancia (por ejemplo 1,645 para 5%), δ, la desviación típica de la rentabilidad y V, el valor de la inversión.
+Siendo R, la rentabilidad esperada, z, el valor correspondiente para un nivel de significancia (por ejemplo 1,645 para 5%), $\delta$, la desviación típica de la rentabilidad y V, el valor de la inversión.
 
 El método del VaR paramétrico es el método más fácil de calcular, ya que el VaR histórico aunque puede ser más fácil de entender es bastante más laborioso de calcular y aunque es menos preciso que el VaR por Montecarlo es más sencillo de aplicar. Este método se basa en la hipótesis de la distribución conjunta normal de los rendimientos de la cartera, y en la hipótesis de la relación lineal (a lo más cuadrática) entre los factores de riesgo del mercado y el valor de la empresa.
 

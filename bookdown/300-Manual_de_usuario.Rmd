@@ -6,24 +6,24 @@
 
 ### Curva de rendimientos individual
 
-En esta sección el usuario puede calcular los precios teóricos de los instrumentos de la Deuda Pública Nacional (TIF ó VEBONOS) para una fecha considerada y para una metodología en específico. Las metodologías disponibles son Nelson y Siegel, Svensson, Diebold-Li y Splines cúbicos de suavizado (Ver Figura \@ref(fig:img1)). 
+En esta sección el usuario puede calcular los precios teóricos de los instrumentos de la Deuda Pública Nacional (TIF ó VEBONOS) para una fecha considerada y para una metodología en específico. Las metodologías disponibles son Nelson y Siegel, Svensson, Diebold-Li y Splines cúbicos de suavizado (Ver Imágen siguiente(fig:img1)). 
 
-Para el cálculo de las metodología de Nelson y Siegel, así como la de Svensson y Diebold-Li es importante contar con los precios promedios de los instrumentos a considerar puesto que a partir de los mismos se realizará un proceso de optimización el cual busca encontrar los parámetros más adecuados de esta metodología de manera que los precios teóricos obtenidos se asemejen a los precios promedio. Esta sección permite calcular los precios teóricos de los instrumentos de la deuda pública nacional (Ver Figura \@ref(fig:img3)).
+Para el cálculo de las metodología de Nelson y Siegel, así como la de Svensson y Diebold-Li es importante contar con los precios promedios de los instrumentos a considerar puesto que a partir de los mismos se realizará un proceso de optimización el cual busca encontrar los parámetros más adecuados de esta metodología de manera que los precios teóricos obtenidos se asemejen a los precios promedio. Esta sección permite calcular los precios teóricos de los instrumentos de la deuda pública nacional (Ver Imágen siguiente(fig:img3)).
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Sección individual curva de rendimientos",label=img1,out.height=200,out.width=200}
+```{r , echo=FALSE, label=img1}
 knitr::include_graphics("images/curva_rend_ind.png")
 ```
-```{r , echo=FALSE, fig.align='center',fig.cap="Precios promedio",label=img3}
+```{r , echo=FALSE, label=img3}
 knitr::include_graphics("images/datos_cr_2.png")
 ```
 ### Datos
 
-Esta sección nos permite obtener de manera automática los archivos necesarios para el cálculo de los precios teóricos de los instrumentos a considerar (Ver Figura \@ref(fig:img2)). Los archivos necesarios son obtenidos de la página del Banco Central de Venezuela, ellos son,
+Esta sección nos permite obtener de manera automática los archivos necesarios para el cálculo de los precios teóricos de los instrumentos a considerar (Ver Imágen siguiente(fig:img2)). Los archivos necesarios son obtenidos de la página del Banco Central de Venezuela, ellos son,
 
 + Documento de operaciones del mercado secundario (resumersec) .
 + Documento de las características de los instrumentos de la Deuda Pública Nacional.
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Sección Datos",label=img2}
+```{r , echo=FALSE,label=img2}
 knitr::include_graphics("images/datos_cr_1.png")
 ```
 
@@ -32,34 +32,34 @@ knitr::include_graphics("images/datos_cr_1.png")
 
 Con el fin de proceder a realizar los cálculos mediante esta metodología el usuario deberá seguir los siguientes pasos,
 
-1. Seleccionar una fecha para la cual se calcularán los precios estimados (Ver Figura \@ref(fig:img4)).
+1. Seleccionar una fecha para la cual se calcularán los precios estimados (Ver Imágen siguiente(fig:img4)).
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Sección Nelson y Siegel individual",label=img4}
+```{r , echo=FALSE,label=img4}
 knitr::include_graphics("images/ns1.png")
 ``` 
 
-2. Selecionar los instrumentos a considerar ya sean TIF ó VEBONO (Ver Figura \@ref(fig:img5)), para este fin el usuario podrá elegir los mismos selecionando su nombre corto o ingresando un archivo plano (Ver Figura \@ref(fig:img6)). Cabe destacar que este archivo debera tener las siguientes características,
+2. Selecionar los instrumentos a considerar ya sean TIF ó VEBONO (Ver Imágen siguiente(fig:img5)), para este fin el usuario podrá elegir los mismos selecionando su nombre corto o ingresando un archivo plano (Ver Imágen siguiente(fig:img6)). Cabe destacar que este archivo debera tener las siguientes características,
     + Debe ser un archivo plano (txt).
     + Debe contener una columna, la cual debe ser del tipo caracter donde se indicará el nombre corto del instrumento a considerar.
     + Ejemplo estructura fila: Para el TIF cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "TIF082019".
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
-```{r , echo=FALSE, fig.align='center',fig.cap="Selecionar instrumentos",label=img5}
+```{r , echo=FALSE, label=img5}
 knitr::include_graphics("images/ns2.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Selecionar instrumentos desde un archivo plano",label=img6}
+```{r , echo=FALSE, label=img6}
 knitr::include_graphics("images/ns1.1.png")
 ``` 
 
 
-3. El usuario debera seleccionar un método para calcular los precios teóricos, los cuales se ubican en estas secciones (Ver Figura \@ref(fig:img7)),
-    + Parámetros iniciales: en esta sección los parámetros a considerar serán tomados por defecto y los cálculos del los precios y curva de rendimientos (Ver Figura \@ref(fig:img8)) se realizarán con los mismos.
-```{r , echo=FALSE, fig.align='center',fig.cap="Opción parámetros iniciales",label=img7}
+3. El usuario debera seleccionar un método para calcular los precios teóricos, los cuales se ubican en estas secciones (Ver Imágen siguiente(fig:img7)),
+    + Parámetros iniciales: en esta sección los parámetros a considerar serán tomados por defecto y los cálculos del los precios y curva de rendimientos (Ver Imágen siguiente(fig:img8)) se realizarán con los mismos.
+```{r , echo=FALSE,label=img7}
 knitr::include_graphics("images/ns3.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Curva de rendimientos inicial",label=img8}
+```{r , echo=FALSE,label=img8}
 knitr::include_graphics("images/ns4.png")
 ``` 
-    + Elegir parámetros: en esta sección el usuario podrá elegir los parámetros de está metodología siempre y cuando los mismos cumplan con ciertas restricciones (Ver Figura \@ref(fig:img9)). El usuario deberá seleccionar un valor para las siguientes variables, 
+    + Elegir parámetros: en esta sección el usuario podrá elegir los parámetros de está metodología siempre y cuando los mismos cumplan con ciertas restricciones (Ver Imágen siguiente(fig:img9)). El usuario deberá seleccionar un valor para las siguientes variables, 
         + $\beta_{0}$.
         + $\beta_{1}$.
         + $\beta_{2}$.
@@ -69,42 +69,40 @@ knitr::include_graphics("images/ns4.png")
         + Verificación de que los parámetros cuamplan con las restricciones necesarias.
         + Precios teóricos de los instrumentos seleccionados.
         + Curva de rendimientos obtenida en base a los parámetros seleccionados.
-```{r , echo=FALSE, fig.align='center',fig.cap="Opción elegir parámetros",label=img9}
+```{r , echo=FALSE,label=img9}
 knitr::include_graphics("images/ns5.png")
 ```
-    + Parámetros optimizados: en esta sección los parámetros a utilizar serán los obtenidos luego de realizar un proceso de optimización sobre los mismos (Ver Figura \@ref(fig:img10)). Posteriormente se mostrarán los precios teóricos y curva de rendimientos obtenida para estos parámetros (Ver Figuras \@ref(fig:img11) y \@ref(fig:img12)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Opción optimizar parámetros",label=img10}
-knitr::include_graphics("images/ns6.png")
-``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Precios optimizados",label=img11}
+    + Parámetros optimizados: en esta sección los parámetros a utilizar serán los obtenidos luego de realizar un proceso de optimización sobre los mismos (Ver Imágen siguiente(fig:img10)). Posteriormente se mostrarán los precios teóricos y curva de rendimientos obtenida para estos parámetros (Ver Imágens siguiente(fig:img11) y siguiente(fig:img12)).
+
+```{r , echo=FALSE, label=img11}
 knitr::include_graphics("images/ns7.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Parámetros optimizados",label=img12}
+```{r , echo=FALSE, label=img12}
 knitr::include_graphics("images/ns8.png")
 ``` 
 ### Metodología Svensson
 
 Con el fin de proceder a realizar los cálculos mediante esta metodología el usuario deberá seguir los siguientes pasos,
 
-1. Seleccionar una fecha para la cual se calcularán los precios estimados (Ver Figura \@ref(fig:img13)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Sección Svensson individual",label=img13}
+1. Seleccionar una fecha para la cual se calcularán los precios estimados (Ver Imágen siguiente(fig:img13)).
+```{r , echo=FALSE, label=img13}
 knitr::include_graphics("images/sv1.png")
 ``` 
 
-2. Selecionar los instrumentos a considerar ya sean TIF ó VEBONO, para este fin el usuario podrá elegir los mismos selecionando su nombre corto o ingresando una archivo plano (Ver Figuras \@ref(fig:img5) y \@ref(fig:img6)). Cabe destacar que este archivo debera tener las siguientes características,
+2. Selecionar los instrumentos a considerar ya sean TIF ó VEBONO, para este fin el usuario podrá elegir los mismos selecionando su nombre corto o ingresando una archivo plano (Ver Imágens siguiente(fig:img5) y siguiente(fig:img6)). Cabe destacar que este archivo debera tener las siguientes características,
     + Debe ser un archivo plano (txt).
     + Debe contener una columna, la cual debe ser del tipo caracter donde se indicará el nombre corto del instrumento a considerar.
     + Ejemplo estructura fila: Para el TIF cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "TIF082019".
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
 3. El usuario debera seleccionar un método para calcular los precios teóricos, los cuales se ubican es estas secciones,
-    + Parámetros iniciales: en esta sección los parámetros a considerar serán tomados por defecto y los cálculos del los precios y curva de rendimientos se realizarán con los mismos (Ver Figuras \@ref(fig:img14) y \@ref(fig:img15)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Parámetros iniciales",label=img14}
+    + Parámetros iniciales: en esta sección los parámetros a considerar serán tomados por defecto y los cálculos del los precios y curva de rendimientos se realizarán con los mismos (Ver Imágens siguiente(fig:img14) y siguiente(fig:img15)).
+```{r , echo=FALSE, label=img14}
 knitr::include_graphics("images/sv3.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Curva de rendimientos parámetros iniciales",label=img15}
+```{r , echo=FALSE, label=img15}
 knitr::include_graphics("images/sv4.png")
 ``` 
-    + Elegir parámetros: en esta sección el usuario podrá elegir los parámetros de está metodología siempre y cuando los mismos cumplan con ciertas restricciones (Ver Figura \@ref(fig:img16)). El usuario deberá seleccionar un valor para las siguientes variables,
+    + Elegir parámetros: en esta sección el usuario podrá elegir los parámetros de está metodología siempre y cuando los mismos cumplan con ciertas restricciones (Ver Imágen siguiente(fig:img16)). El usuario deberá seleccionar un valor para las siguientes variables,
         + $\beta_{0}$.
         + $\beta_{1}$.
         + $\beta_{2}$.
@@ -116,14 +114,14 @@ knitr::include_graphics("images/sv4.png")
         + Verificación de que los parámetros cuamplan con las restricciones necesarias.
         + Precios teóricos de los instrumentos seleccionados.
         + Curva de rendimientos obtenida en base a los parámetros seleccionados.
-```{r , echo=FALSE, fig.align='center',fig.cap="Elegir parámetros",label=img16}
+```{r , echo=FALSE, label=img16}
 knitr::include_graphics("images/sv5.png")
 ``` 
-    + Parámetros optimizados: en esta sección los parámetros a utilizar serán los obtenidos luego de realizar un proceso de optimización sobre los mismos. Posteriormente se mostrarán los precios teóricos y curva de rendimientos obtenida para estos parámetros (Ver Figuras \@ref(fig:img17) y \@ref(fig:img18)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Precios optimizados",label=img17}
+    + Parámetros optimizados: en esta sección los parámetros a utilizar serán los obtenidos luego de realizar un proceso de optimización sobre los mismos. Posteriormente se mostrarán los precios teóricos y curva de rendimientos obtenida para estos parámetros (Ver Imágens siguiente(fig:img17) y siguiente(fig:img18)).
+```{r , echo=FALSE, label=img17}
 knitr::include_graphics("images/sv7.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Parámetros optimizados",label=img18}
+```{r , echo=FALSE, label=img18}
 knitr::include_graphics("images/sv8.png")
 ```     
 
@@ -132,31 +130,31 @@ knitr::include_graphics("images/sv8.png")
 
 Con el fin de proceder a realizar los cálculos mediante esta metodología el usuario deberá seguir los siguientes pasos,
 
-1. Seleccionar una fecha para la cual se calcularán los precios estimados (Ver Figura \@ref(fig:img19)).
+1. Seleccionar una fecha para la cual se calcularán los precios estimados (Ver Imágen siguiente(fig:img19)).
 2. Selecionar los instrumentos a considerar ya sean TIF ó VEBONO, para este fin el usuario podrá elegir los mismos selecionando su nombre corto o ingresando una archivo plano. Cabe destacar que este archivo debera tener las siguientes características,
     + Debe ser un archivo plano (txt).
     + Debe contener una columna, la cual debe ser del tipo caracter donde se indicará el nombre corto del instrumento a considerar.
     + Ejemplo estructura fila: Para el TIF cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "TIF082019".
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
-```{r , echo=FALSE, fig.align='center',fig.cap="Sección Diebold-Li",label=img19}
+```{r , echo=FALSE, label=img19}
 knitr::include_graphics("images/dl1.png")
 ```   
-3. Posteriormente, el usuario en caso de no observar ninguna curva graficada deberá seleccionar una mayor cantidad de observaciones (Ver Figura \@ref(fig:img20)), esto se debe a que no se están considerando la suficiente cantidad de operaciones para graficar la curva de rendimientos a partir de la cual se obtendrán los rendimientos teóricos, los cuales son necesarios para el cálculo de los precios teóricos según esta metodología.
-```{r , echo=FALSE, fig.align='center',fig.cap="Poca cantidad de observaciones",label=img20}
+3. Posteriormente, el usuario en caso de no observar ninguna curva graficada deberá seleccionar una mayor cantidad de observaciones (Ver Imágen siguiente(fig:img20)), esto se debe a que no se están considerando la suficiente cantidad de operaciones para graficar la curva de rendimientos a partir de la cual se obtendrán los rendimientos teóricos, los cuales son necesarios para el cálculo de los precios teóricos según esta metodología.
+```{r , echo=FALSE, label=img20}
 knitr::include_graphics("images/dl2.png")
 ``` 
-4. Una vez visualizada la curva ajustada mediante el spline, es necesario calibrar el parámetro de suavizamiento, el mismo controla la suavidad de la curva mostrada (Ver Figura \@ref(fig:img21)).
-```{r , echo=FALSE, fig.align='center'}
+4. Una vez visualizada la curva ajustada mediante el spline, es necesario calibrar el parámetro de suavizamiento, el mismo controla la suavidad de la curva mostrada (Ver Imágen siguiente(fig:img21)).
+```{r , echo=FALSE}
 knitr::include_graphics("images/dl3.1.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Curva spline",label=img21}
+```{r , echo=FALSE, label=img21}
 knitr::include_graphics("images/dl3.png")
 ``` 
-5. Luego de seleccionar este valor, se mostrará el spline a utilizar en el cálculo de los precios teóricos (Ver Figura \@ref(fig:img22)). Posteriormente se mostrarán los precios estimados y la curva de rendimientos obtenida, la cual en este caso es una superficie (Ver Figura \@ref(fig:img23)). Esto debido a considerar los parámetros de Diebold-Li dinámicos con respecto al tiempo.
-```{r , echo=FALSE, fig.align='center',fig.cap="Precios estimados",label=img22}
+5. Luego de seleccionar este valor, se mostrará el spline a utilizar en el cálculo de los precios teóricos (Ver Imágen siguiente(fig:img22)). Posteriormente se mostrarán los precios estimados y la curva de rendimientos obtenida, la cual en este caso es una superficie (Ver Imágen siguiente(fig:img23)). Esto debido a considerar los parámetros de Diebold-Li dinámicos con respecto al tiempo.
+```{r , echo=FALSE, label=img22}
 knitr::include_graphics("images/dl4.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Curva de rendimiento Diebold-Li",label=img23}
+```{r , echo=FALSE, label=img23}
 knitr::include_graphics("images/dl5.png")
 ``` 
 
@@ -165,41 +163,41 @@ knitr::include_graphics("images/dl5.png")
 
 Con el fin de proceder a realizar los cálculos mediante esta metodología el usuario deberá seguir los siguientes pasos,
 
-1. Seleccionar una fecha para la cual se calcularán los precios estimados (Ver Figura \@ref(fig:img24)).
+1. Seleccionar una fecha para la cual se calcularán los precios estimados (Ver Imágen siguiente(fig:img24)).
 2. Selecionar los instrumentos a considerar ya sean TIF ó VEBONO, para este fin el usuario podrá elegir los mismos selecionando su nombre corto o ingresando una archivo plano. Cabe destacar que este archivo debera tener las siguientes características,
     + Debe ser un archivo plano (txt).
     + Debe contener una columna, la cual debe ser del tipo caracter donde se indicará el nombre corto del instrumento a considerar.
     + Ejemplo estructura fila: Para el TIF cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "TIF082019".
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
-```{r , echo=FALSE, fig.align='center',fig.cap="Sección splines",label=img24}
+```{r , echo=FALSE, label=img24}
 knitr::include_graphics("images/sp1.png")
 ``` 
-3. Posteriormente, el usuario en caso de no observar ninguna curva graficada deberá seleccionar una mayor cantidad de observaciones (Ver Figura \@ref(fig:img25)), esto se debe a que no se están considerando la suficiente cantidad de operaciones para graficar la curva de rendimientos a partir de la cual se obtendrán los rendimientos teóricos, los cuales son necesarios para el cálculo de los precios teóricos según esta metodología.
-```{r , echo=FALSE, fig.align='center',fig.cap="Pocas observaciones",label=img25}
+3. Posteriormente, el usuario en caso de no observar ninguna curva graficada deberá seleccionar una mayor cantidad de observaciones (Ver Imágen siguiente(fig:img25)), esto se debe a que no se están considerando la suficiente cantidad de operaciones para graficar la curva de rendimientos a partir de la cual se obtendrán los rendimientos teóricos, los cuales son necesarios para el cálculo de los precios teóricos según esta metodología.
+```{r , echo=FALSE, label=img25}
 knitr::include_graphics("images/sp2.png")
 ``` 
-4.  Una vez visualizada la curva ajustada mediante el spline, es necesario calibrar el parámetro de suavizamiento, el mismo controla la suavidad de la curva mostrada (Ver Figura \@ref(fig:img26)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Parámetro de suavizamiento",label=img26}
+4.  Una vez visualizada la curva ajustada mediante el spline, es necesario calibrar el parámetro de suavizamiento, el mismo controla la suavidad de la curva mostrada (Ver Imágen siguiente(fig:img26)).
+```{r , echo=FALSE, label=img26}
 knitr::include_graphics("images/sp4.png")
 ``` 
-5. A continuación se mostraran los títulos candidatos a partir de los cuales la curva de rendimientos será trazada (Ver Figura \@ref(fig:img27)). Posteriormente se mostrarán los precios estimados y la curva de rendimientos obtenida (Ver Figuras \@ref(fig:img28) y \@ref(fig:img29)). 
-```{r , echo=FALSE, fig.align='center',fig.cap="Títulos candidatos",label=img27}
+5. A continuación se mostraran los títulos candidatos a partir de los cuales la curva de rendimientos será trazada (Ver Imágen siguiente(fig:img27)). Posteriormente se mostrarán los precios estimados y la curva de rendimientos obtenida (Ver Imágens siguiente(fig:img28) y siguiente(fig:img29)). 
+```{r , echo=FALSE, label=img27}
 knitr::include_graphics("images/sp3.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Precios spline",label=img28}
+```{r , echo=FALSE, label=img28}
 knitr::include_graphics("images/sp5.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Curva de rendimientos spline",label=img29}
+```{r , echo=FALSE, label=img29}
 knitr::include_graphics("images/sp6.png")
 ``` 
-6. Luego en caso de que el usuario desee eliminar alguna observación en específico, la misma debe ser elegida a partir de la lista desplegable que se muestra (Ver Figura \@ref(fig:img30)). Al seleccionar una observación, se mostrará la nueva data con la que se trabajará (títulos candidatos, ver figura \@ref(fig:img31)) así como los nuevos precios teóricos calculados y nueva curva de rendimientos obtenida (Ver Figura \@ref(fig:img32)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Opción eliminar observaciones",label=img30}
+6. Luego en caso de que el usuario desee eliminar alguna observación en específico, la misma debe ser elegida a partir de la lista desplegable que se muestra (Ver Imágen siguiente(fig:img30)). Al seleccionar una observación, se mostrará la nueva data con la que se trabajará (títulos candidatos, Ver Imágen siguiente(fig:img31)) así como los nuevos precios teóricos calculados y nueva curva de rendimientos obtenida (Ver Imágen siguiente(fig:img32)).
+```{r , echo=FALSE, label=img30}
 knitr::include_graphics("images/sp7.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Nuevos títulos candidatos",label=img31}
+```{r , echo=FALSE, label=img31}
 knitr::include_graphics("images/sp8.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Nuevos precios y curva de rendimientos",label=img32}
+```{r , echo=FALSE, label=img32}
 knitr::include_graphics("images/sp9.png")
 ``` 
 
@@ -213,7 +211,7 @@ knitr::include_graphics("images/sp9.png")
 
 <!-- Aunado a cada tipo de instrumento (TIF ó VEBONO), se considerará un instrumento de otro tipo este es la letra del tesoro, este tipo de instrumento representará el punto inicial la curva, cabe destacar que la letra a considerar debe ser aquella cuya fecha de operación sea la más reciente con respecto a la fecha de valoración (día en que se quiere conocer los rendimientos estimados). -->
 
-<!-- A partir de la curva de rendimientos obtenida (Ver Figura (\@ref(fig:crend)) es posible calcular un rendimiento estimado para algún tipo de instrumento a partir de su plazo, que no es más que la cantidad de días que faltan por transcurrir hasta su vencimiento. Este valor es de suma importancia ya que a partir del mismo es posible calcular el precio estimado asociado a cada instrumento en un día específico. Con lo cual es posible saber a partir de la historia (base de datos), el precio estimado de algún instrumento que le interese a cierta institución y por ende saber si ese título es rentable o no, es decir, si vale la pena invertir en el mismo o no. -->
+<!-- A partir de la curva de rendimientos obtenida (Ver Imágen (siguiente(fig:crend)) es posible calcular un rendimiento estimado para algún tipo de instrumento a partir de su plazo, que no es más que la cantidad de días que faltan por transcurrir hasta su vencimiento. Este valor es de suma importancia ya que a partir del mismo es posible calcular el precio estimado asociado a cada instrumento en un día específico. Con lo cual es posible saber a partir de la historia (base de datos), el precio estimado de algún instrumento que le interese a cierta institución y por ende saber si ese título es rentable o no, es decir, si vale la pena invertir en el mismo o no. -->
 
 
 <!-- ```{r , echo=FALSE, fig.align='center',fig.cap="Curva de Rendimiento",label=crend} -->
@@ -226,9 +224,9 @@ knitr::include_graphics("images/sp9.png")
 
 ### Curva de rendimientos comparativo
 
-En esta sección permite obtener un comparativo de los precios teóricos obtenidos mediante las diferentes metodologías disponibles, las cuales son Nelson y Siegel, Svensson, Diebold-Li y Splines cúbicos de suavizado (Ver Figura \@ref(fig:img33)).
+En esta sección permite obtener un comparativo de los precios teóricos obtenidos mediante las diferentes metodologías disponibles, las cuales son Nelson y Siegel, Svensson, Diebold-Li y Splines cúbicos de suavizado (Ver Imágen siguiente(fig:img33)).
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Sección comparativo",label=img33,out.height=120,out.width=200}
+```{r , echo=FALSE, label=img33}
 knitr::include_graphics("images/sc.png")
 ``` 
 
@@ -236,59 +234,59 @@ knitr::include_graphics("images/sc.png")
 
 Con el fin de proceder a realizar los cálculos en esta sección el usuario deberá seguir los siguientes pasos,
 
-1. Seleccionar una fecha para la cual se calcularán los precios estimados (Ver Figura \@ref(fig:img34)).
+1. Seleccionar una fecha para la cual se calcularán los precios estimados (Ver Imágen siguiente(fig:img34)).
 2. Selecionar los instrumentos a considerar ya sean TIF ó VEBONO, para este fin el usuario podrá elegir los mismos selecionando su nombre corto o ingresando una archivo plano. Cabe destacar que este archivo debera tener las siguientes características,
     + Debe ser un archivo plano (txt).
     + Debe contener una columna, la cual debe ser del tipo caracter donde se indicará el nombre corto del instrumento a considerar.
     + Ejemplo estructura fila: Para el TIF cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "TIF082019".
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
-```{r , echo=FALSE, fig.align='center',fig.cap="Selección de instrumentos",label=img34}
+```{r , echo=FALSE, label=img34}
 knitr::include_graphics("images/sc1.png")
 ``` 
-3. Luego de esto, se deberá rellenar la información correspondiente a cada metodología como ya se explico en la sección anterior, esto con el fin de obtener todos los parámetros necesarios para calcular los precios teóricos según cada metodología (Ver Figuras \@ref(fig:img35), \@ref(fig:img36), \@ref(fig:img37), \@ref(fig:img38) y \@ref(fig:img39)). 
+3. Luego de esto, se deberá rellenar la información correspondiente a cada metodología como ya se explico en la sección anterior, esto con el fin de obtener todos los parámetros necesarios para calcular los precios teóricos según cada metodología (Ver Imágens siguiente(fig:img35), siguiente(fig:img36), siguiente(fig:img37), siguiente(fig:img38) y siguiente(fig:img39)). 
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Metodologías",label=img35}
+```{r , echo=FALSE, label=img35}
 knitr::include_graphics("images/sc2.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Metodología Nelson y Siegel",label=img36}
+```{r , echo=FALSE, label=img36}
 knitr::include_graphics("images/sc3.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Metodología Svensson",label=img37}
+```{r , echo=FALSE, label=img37}
 knitr::include_graphics("images/sc4.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Metodología Diebold-Li",label=img38}
+```{r , echo=FALSE, label=img38}
 knitr::include_graphics("images/sc5.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Metodología splines",label=img39}
+```{r , echo=FALSE, label=img39}
 knitr::include_graphics("images/sc6.png")
 ``` 
 ### Precios Estimados
 
-Una vez completados todos los parámetros necesarios, los precios obtenidos se presentan en esta sección (Ver Figura \@ref(fig:img40)).
+Una vez completados todos los parámetros necesarios, los precios obtenidos se presentan en esta sección (Ver Imágen siguiente(fig:img40)).
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Comparativo de precios",label=img40}
+```{r , echo=FALSE, label=img40}
 knitr::include_graphics("images/preciosc.png")
 ``` 
 
 ### Curvas
 
-En esta sección se presenta un grafico comparativo donde se grafican las curvas obtenidas mediante las diferentes metodologías. El usuario podrá descargar un reporte en PDF, con los resultados de los precios teóricos obtenidos en cada metodología (Ver Figura \@ref(fig:img41)).
+En esta sección se presenta un grafico comparativo donde se grafican las curvas obtenidas mediante las diferentes metodologías. El usuario podrá descargar un reporte en PDF, con los resultados de los precios teóricos obtenidos en cada metodología (Ver Imágen siguiente(fig:img41)).
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Comparativo de curvas",label=img41}
+```{r , echo=FALSE, label=img41}
 knitr::include_graphics("images/curvasc.png")
 ``` 
 
 ## Valor en Riesgo
 
-En esta sección el usuario podrá calcular el Valor en Riesgo de los instrumentos financieros que considere, el mismo será calculado mediante tres maneras diferentes las cuales se basan en tres distintas metodologías (Ver Figura \@ref(fig:img42)). El primer VaR a calcular es el VaR paramétrico el cuál se basa en asumir una distribucuión normal de los instrumentos sconsiderados. El segundo VaR es el calculado por simulación histórica. El tercer y último VaR es el calculado mediante la simulación de MonteCarlo, este VaR se subdividirá en dos casos, el primero es asumiendo una distribución Normal para todos los instrumentos, mientras que el segundo es elegiendo una distribución en específico.
+En esta sección el usuario podrá calcular el Valor en Riesgo de los instrumentos financieros que considere, el mismo será calculado mediante tres maneras diferentes las cuales se basan en tres distintas metodologías (Ver Imágen siguiente(fig:img42)). El primer VaR a calcular es el VaR paramétrico el cuál se basa en asumir una distribucuión normal de los instrumentos sconsiderados. El segundo VaR es el calculado por simulación histórica. El tercer y último VaR es el calculado mediante la simulación de MonteCarlo, este VaR se subdividirá en dos casos, el primero es asumiendo una distribución Normal para todos los instrumentos, mientras que el segundo es elegiendo una distribución en específico.
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Sección valor en riesgo",label=img42,out.height=200,out.width=200}
+```{r , echo=FALSE, label=img42}
 knitr::include_graphics("images/vr.png")
 ``` 
 
 ### Datos
 
-En esta sección el usuario debe ingresar el histórico de precios, así como la posición de cada uno de los instrumentos a considerar (Ver Figura \@ref(fig:img43)), dichos documentos deben poseer las siguientes características,
+En esta sección el usuario debe ingresar el histórico de precios, así como la posición de cada uno de los instrumentos a considerar (Ver Imágen siguiente(fig:img43)), dichos documentos deben poseer las siguientes características,
 
 Para el archivo de precios:
 
@@ -297,23 +295,23 @@ Para el archivo de precios:
  + La primera columna del archivo deberá contener las fechas de las observaciones (precios), dichas observaciones deben estar ordenadas en forma decreciente. El formato de la fecha debe ser: Año-Mes_Día (ej: 2019-06-07).
  + El resto de las columnas deben representar información para cada instrumento, es decir, cada columna debe contener las observaciones de cada título. Estas columnas deben contener información sobre los precios de cada día de cada instrumento y su contenido debe ser numérico .
  
-```{r , echo=FALSE, fig.align='center',fig.cap="Data precios",label=img43}
+```{r , echo=FALSE, label=img43}
 knitr::include_graphics("images/vr1.png")
 ``` 
 
 Para el archivo de posiciones:
 
  + El formato del archivo debe ser txt. 
- + El archivo debe tener dos columnas, la primera debe contener el nombre corto del instrumentos. Por su parte la segunda columna deberá contener la posición del instrumento. En caso de existir decimales usar "." como separación (Ver Figura \@ref(fig:img44)).
+ + El archivo debe tener dos columnas, la primera debe contener el nombre corto del instrumentos. Por su parte la segunda columna deberá contener la posición del instrumento. En caso de existir decimales usar "." como separación (Ver Imágen siguiente(fig:img44)).
  
-```{r , echo=FALSE, fig.align='center',fig.cap="Data posiciones",label=img44}
+```{r , echo=FALSE, label=img44}
 knitr::include_graphics("images/vr2.png")
 ```
 
 
-Es importante que la información sobre los instrumentos considerada en el archivo de precios y el archivo de posiciones sea la misma, es decir, los títulos que aparecen en el archivo de precios deben ser los mismos que aparecen en el archivo de posiciones. Una ventana ubicada en esta sección (Aviso) realizará esta validación, en caso de existir una discrepancia no se realizará ningún cálculo (Ver Figura \@ref(fig:img45)).
+Es importante que la información sobre los instrumentos considerada en el archivo de precios y el archivo de posiciones sea la misma, es decir, los títulos que aparecen en el archivo de precios deben ser los mismos que aparecen en el archivo de posiciones. Una ventana ubicada en esta sección (Aviso) realizará esta validación, en caso de existir una discrepancia no se realizará ningún cálculo (Ver Imágen siguiente(fig:img45)).
  
-```{r , echo=FALSE, fig.align='center',fig.cap="Aviso data",label=img45}
+```{r , echo=FALSE, label=img45}
 knitr::include_graphics("images/vr3.png")
 ``` 
 
@@ -321,20 +319,20 @@ knitr::include_graphics("images/vr3.png")
 
 En está sección el usuario debe seleccionar las distribuciones asociadas a los rendimientos cada instrumento, con el fin de proceder y realizaf los cáculos del VaR de simulación de MonteCarlo. Para esto existen dos opciones:
 
-1. Elegir Distribución: En esta subsección al inicio se muestra una advertencia referente a si existe problemas con los precios ingresados, usualmente estos problemas surgen cuando existen dos precios iguales y ellos están seguidos. En caso de existir este problema, el instrumento ó instrumentos involucrados serán excluidos del estudio (Ver Figura \@ref(fig:img46)). Posteriormente el usuario debe:
+1. Elegir Distribución: En esta subsección al inicio se muestra una advertencia referente a si existe problemas con los precios ingresados, usualmente estos problemas surgen cuando existen dos precios iguales y ellos están seguidos. En caso de existir este problema, el instrumento ó instrumentos involucrados serán excluidos del estudio (Ver Imágen siguiente(fig:img46)). Posteriormente el usuario debe:
  +  Seleccionar el instrumento, para el cual se realizará la prueba de bondad de ajuste. Una vez seleccionado el instrumento se desplegará una ventana que mostrará las distribuciones que más se asemejan a los rendimientos de los precios del instrumento en estudio.
-```{r , echo=FALSE, fig.align='center',fig.cap="Elección instrumento",label=img46}
+```{r , echo=FALSE, label=img46}
 knitr::include_graphics("images/vr4.png")
 ``` 
- + Una vez generado las posibles opciones el usuario debe seleccionar una distribución, luego de esto se mostrarán los parámetros obtenidos a partir de dicho ajuste (Ver Figura \@ref(fig:img47)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Ajuste de distribución",label=img47}
+ + Una vez generado las posibles opciones el usuario debe seleccionar una distribución, luego de esto se mostrarán los parámetros obtenidos a partir de dicho ajuste (Ver Imágen siguiente(fig:img47)).
+```{r , echo=FALSE, label=img47}
 knitr::include_graphics("images/vr5.png")
 ``` 
- + Se debe seleccionar "Si", en el recuadro que pregunta si desea guardar su distribución. Luego de esto la distribución de cada instrumento se guardará para su posterior uso. Esta serie de pasos debe repetirse por cada instrumento considerado (Ver Figura \@ref(fig:img48)).
-```{r , echo=FALSE, fig.align='center'}
+ + Se debe seleccionar "Si", en el recuadro que pregunta si desea guardar su distribución. Luego de esto la distribución de cada instrumento se guardará para su posterior uso. Esta serie de pasos debe repetirse por cada instrumento considerado (Ver Imágen siguiente(fig:img48)).
+```{r , echo=FALSE}
 knitr::include_graphics("images/vr6.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Distribuciones",label=img48}
+```{r , echo=FALSE, label=img48}
 knitr::include_graphics("images/vr6.1.png")
 ``` 
 
@@ -354,197 +352,197 @@ knitr::include_graphics("images/vr6.1.png")
 
 En esta sección se realizan todos los cálculos referentes al VaR, el mismo se calculará por tres metodologías, la primera es la metodología del VaR paramétrico, la segunda es la metodología del VaR por simulación histórica y la tercera es la metodología de VaR por simulación de MonteCarlo. En esta sección se muestran tres pestañas en donde se cálculan las metodologías explicadas anteriormente.
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas sección VaR",label=img49}
+```{r , echo=FALSE, label=img49}
 knitr::include_graphics("images/vr7.png")
 ``` 
 
  * Pestaña Paramétrico: en esta pestaña se muestra la siguiente información,
-    * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia (Ver Figura \@ref(fig:img50)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Rendimientos",label=img50}
+    * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia (Ver Imágen siguiente(fig:img50)).
+```{r , echo=FALSE, label=img50}
 knitr::include_graphics("images/vr8.png")
 ``` 
-    * Parámetros seleccionados para cada instrumento suponiendo una distribución Normal (Ver Figura \@ref(fig:img51)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Advertencias y parámetros",label=img51}
+    * Parámetros seleccionados para cada instrumento suponiendo una distribución Normal (Ver Imágen siguiente(fig:img51)).
+```{r , echo=FALSE, label=img51}
 knitr::include_graphics("images/vr9.png")
 ``` 
-    * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99% (Ver Figura \@ref(fig:img52)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Nivel de confianza",label=img52}
+    * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99% (Ver Imágen siguiente(fig:img52)).
+```{r , echo=FALSE, label=img52}
 knitr::include_graphics("images/vr10.png")
 ``` 
     * Luego se seleccionar este valor, se mostrará una tabla con los vares individuales, desviación estándar y el porcentaje que representa cada VaR individual sobre el portafolio.
-    * Finalmente se muestra el valor del VaR de portafolio (Ver Figura \@ref(fig:img53)).
-```{r , echo=FALSE, fig.align='center',fig.cap="VaRes",label=img53}
+    * Finalmente se muestra el valor del VaR de portafolio (Ver Imágen siguiente(fig:img53)).
+```{r , echo=FALSE, label=img53}
 knitr::include_graphics("images/vr11.png")
 ``` 
  * Pestaña Histórico: en esta pestaña se muestra la siguiente información,
     * Una advertencia en caso de existir algún problema con algún instrumento.
-    * Pesos de cada instrumento, calculado a partir de su proporción de valor nominal con respecto al total de instrumentos (Ver Figura \@ref(fig:img54)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Pesos",label=img54}
+    * Pesos de cada instrumento, calculado a partir de su proporción de valor nominal con respecto al total de instrumentos (Ver Imágen siguiente(fig:img54)).
+```{r , echo=FALSE, label=img54}
 knitr::include_graphics("images/vr12.png")
 ``` 
     * Valor nominal del portafolio.
-    * Suma de pesos (Ver Figura \@ref(fig:img55)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Valor nominal y suma de pesos",label=img55}
+    * Suma de pesos (Ver Imágen siguiente(fig:img55)).
+```{r , echo=FALSE, label=img55}
 knitr::include_graphics("images/vr13.png")
 ``` 
-    * Escenarios, se refiere a las variaciones que ha sufrido el valor de portafolio de manera diaria esto debido a la variación de los precios de los instrumentos (Ver Figura \@ref(fig:img56)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Escenarios",label=img56}
+    * Escenarios, se refiere a las variaciones que ha sufrido el valor de portafolio de manera diaria esto debido a la variación de los precios de los instrumentos (Ver Imágen siguiente(fig:img56)).
+```{r , echo=FALSE, label=img56}
 knitr::include_graphics("images/vr14.png")
 ``` 
     * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99%.
-    * Ubicación de la observación a ser considerada para el cálculo del VaR por simulación Histórica (Ver Figura \@ref(fig:img57)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Nivel de confianza y ubicación",label=img57}
+    * Ubicación de la observación a ser considerada para el cálculo del VaR por simulación Histórica (Ver Imágen siguiente(fig:img57)).
+```{r , echo=FALSE, label=img57}
 knitr::include_graphics("images/vr15.png")
 ``` 
     * Resultados de los vares individuales, donde se mostrará el valor nominal y el VaR para cada instrumento.
-    * VaR del portafolio (Ver Figura \@ref(fig:img58)).
-```{r , echo=FALSE, fig.align='center',fig.cap="VaRes",label=img58}
+    * VaR del portafolio (Ver Imágen siguiente(fig:img58)).
+```{r , echo=FALSE, label=img58}
 knitr::include_graphics("images/vr16.png")
 ``` 
- * Pestaña Simulación MonteCarlo: esta pestaña se subdivide en dos secciones (Ver Figura \@ref(fig:img59)),
-```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas simulación MonteCarlo",label=img59}
+ * Pestaña Simulación MonteCarlo: esta pestaña se subdivide en dos secciones (Ver Imágen siguiente(fig:img59)),
+```{r , echo=FALSE, label=img59}
 knitr::include_graphics("images/vr17.png")
 ```  
     * VaR Simulación MonteCarlo asumiendo normalidad: en esta sección se muestra la siguiente información,
-        * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia (Ver Figura \@ref(fig:img60)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Rendimientos",label=img60}
+        * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia (Ver Imágen siguiente(fig:img60)).
+```{r , echo=FALSE, label=img60}
 knitr::include_graphics("images/vr18.png")
 ``` 
         * Parámetros seleccionados para cada instrumento suponiendo una distribución Normal.
-        * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99% (Ver Figura \@ref(fig:img61)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Parámetros y nivel de confianza",label=img61}
+        * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99% (Ver Imágen siguiente(fig:img61)).
+```{r , echo=FALSE, label=img61}
 knitr::include_graphics("images/vr19.png")
 ``` 
-        * Lista de selección, donde el usuario debe elegir la cantidad de simulaciones que desea realizar (Ver Figura \@ref(fig:img62)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Cantidad de simulaciones",label=img62}
+        * Lista de selección, donde el usuario debe elegir la cantidad de simulaciones que desea realizar (Ver Imágen siguiente(fig:img62)).
+```{r , echo=FALSE, label=img62}
 knitr::include_graphics("images/vr20.png")
 ``` 
         * Resultados de los vares individuales obtenidos mediante esta metodología. Donde se muestra el nombre del instrumento, el valor nominal, el var individual y el porcentaje de cada VaR con respecto al portafolio.
-        * Resultado del VaR de portafolio (Ver Figura \@ref(fig:img63)).
-```{r , echo=FALSE, fig.align='center',fig.cap="VaRes",label=img63}
+        * Resultado del VaR de portafolio (Ver Imágen siguiente(fig:img63)).
+```{r , echo=FALSE, label=img63}
 knitr::include_graphics("images/vr21.png")
 ``` 
     * VaR Simulación MonteCarlo considerando mejor distribución: en esta sección se muestra la siguiente información,
-        * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia (Ver Figura \@ref(fig:img64)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Rendimientos",label=img64}
+        * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia (Ver Imágen siguiente(fig:img64)).
+```{r , echo=FALSE, label=img64}
 knitr::include_graphics("images/vr22.png")
 ``` 
         * Distribuciones seleccionadas para cada instrumento, ya sea seleccionadas mediante la aplicación o mediante un archivo ingresado por el usuario.
-        * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99% (Ver Figura \@ref(fig:img65)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Distribuciones y nivel de confianza",label=img65}
+        * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99% (Ver Imágen siguiente(fig:img65)).
+```{r , echo=FALSE, label=img65}
 knitr::include_graphics("images/vr23.png")
 ``` 
-        * Lista de selección, donde el usuario debe elegir la cantidad de simulaciones que desea realizar (Ver Figura \@ref(fig:img66)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Cantidad de simulaciones",label=img66}
+        * Lista de selección, donde el usuario debe elegir la cantidad de simulaciones que desea realizar (Ver Imágen siguiente(fig:img66)).
+```{r , echo=FALSE, label=img66}
 knitr::include_graphics("images/vr24.png")
 ``` 
         * Resultados del VaR individual.
-        * Resultado del VaR de portafolio (Ver Figura \@ref(fig:img67)).
-```{r , echo=FALSE, fig.align='center',fig.cap="VaRes",label=img67}
+        * Resultado del VaR de portafolio (Ver Imágen siguiente(fig:img67)).
+```{r , echo=FALSE, label=img67}
 knitr::include_graphics("images/vr25.png")
 ``` 
  
 ### Gráficos
 
-En esta sección se subdivide en (Ver Figura \@ref(fig:img68)), 
+En esta sección se subdivide en (Ver Imágen siguiente(fig:img68)), 
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas sección Gráficos",label=img68}
+```{r , echo=FALSE, label=img68}
 knitr::include_graphics("images/vr26.png")
 ``` 
 
- * Pestaña Valor nominal: en esta subsección se muestra un gráfico de torta donde se muestra el valor nominal de cada instrumento (Ver Figura \@ref(fig:img69)).
+ * Pestaña Valor nominal: en esta subsección se muestra un gráfico de torta donde se muestra el valor nominal de cada instrumento (Ver Imágen siguiente(fig:img69)).
  
-```{r , echo=FALSE, fig.align='center',fig.cap="Gráfico valor nominal",label=img69}
+```{r , echo=FALSE, label=img69}
 knitr::include_graphics("images/vr27.png")
 ``` 
  
- * VaRes: esta subsección presenta los resultados de los VaRes obtenidos mediante las diferentes metodologías, la misma se divide en (Ver Figura \@ref(fig:img70)),
-```{r , echo=FALSE, fig.align='center',fig.cap="Pestañs VaRes",label=img70}
+ * VaRes: esta subsección presenta los resultados de los VaRes obtenidos mediante las diferentes metodologías, la misma se divide en (Ver Imágen siguiente(fig:img70)),
+```{r , echo=FALSE, label=img70}
 knitr::include_graphics("images/vr28.png")
 ``` 
-    * VaR Paramétrico: en esta subsección se muestran los gráficos correspondientes a esta metodología. La misma se subdivide en (Ver Figura \@ref(fig:img71)),
-```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas VaR paramétrico",label=img71}
+    * VaR Paramétrico: en esta subsección se muestran los gráficos correspondientes a esta metodología. La misma se subdivide en (Ver Imágen siguiente(fig:img71)),
+```{r , echo=FALSE, label=img71}
 knitr::include_graphics("images/vr29.png")
 ``` 
-        + VaRes individuales: se muestra un gráfico de torta donde se muestra información sobre los VaRes individuales obtenidos (Ver Figura \@ref(fig:img72)).
-```{r , echo=FALSE, fig.align='center',fig.cap="VaRes individuales",label=img72}
+        + VaRes individuales: se muestra un gráfico de torta donde se muestra información sobre los VaRes individuales obtenidos (Ver Imágen siguiente(fig:img72)).
+```{r , echo=FALSE, label=img72}
 knitr::include_graphics("images/vr30.png")
 ```        
-        + Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales (Ver Figura \@ref(fig:img73)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Comparativo",label=img73}
+        + Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales (Ver Imágen siguiente(fig:img73)).
+```{r , echo=FALSE, label=img73}
 knitr::include_graphics("images/vr31.png")
 ``` 
-    * VaR Simulación Histórica: esta subsección muestra los siguientes gráficos (Ver Figura \@ref(fig:img74)),
-```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas VaR simulación por histórica",label=img74}
+    * VaR Simulación Histórica: esta subsección muestra los siguientes gráficos (Ver Imágen siguiente(fig:img74)),
+```{r , echo=FALSE, label=img74}
 knitr::include_graphics("images/vr32.png")
 ``` 
-        + Escenarios: muestra un histograma mediante el cual se muestran los diferentes escenarios obtenidos (Ver Figura \@ref(fig:img75)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Histograma escenarios",label=img75}
+        + Escenarios: muestra un histograma mediante el cual se muestran los diferentes escenarios obtenidos (Ver Imágen siguiente(fig:img75)).
+```{r , echo=FALSE, label=img75}
 knitr::include_graphics("images/vr33.png")
 ``` 
-        + VaRes individuales: muestra un gráfico de torta donde se muestra información sobre los Vares individuales obtenidos (Ver Figura \@ref(fig:img76)).
-```{r , echo=FALSE, fig.align='center',fig.cap="VaRes individuales",label=img76}
+        + VaRes individuales: muestra un gráfico de torta donde se muestra información sobre los Vares individuales obtenidos (Ver Imágen siguiente(fig:img76)).
+```{r , echo=FALSE, label=img76}
 knitr::include_graphics("images/vr34.png")
 ``` 
-        + Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales (Ver Figura \@ref(fig:img77)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Comparativo",label=img77}
+        + Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales (Ver Imágen siguiente(fig:img77)).
+```{r , echo=FALSE, label=img77}
 knitr::include_graphics("images/vr35.png")
 ``` 
-    * VaR Simulación MonteCarlo: esta subsección se divide en dos (Ver Figura \@ref(fig:img78)),
-```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas VaR simulación MonteCarlo",label=img78}
+    * VaR Simulación MonteCarlo: esta subsección se divide en dos (Ver Imágen siguiente(fig:img78)),
+```{r , echo=FALSE, label=img78}
 knitr::include_graphics("images/vr36.png")
 ```     
-        + Distribución Normal: se muestra los resultados, asumiendo una distribución normal (Ver Figura \@ref(fig:img79)),
-```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas VaR simulación MonteCarlo normal",label=img79}
+        + Distribución Normal: se muestra los resultados, asumiendo una distribución normal (Ver Imágen siguiente(fig:img79)),
+```{r , echo=FALSE, label=img79}
 knitr::include_graphics("images/vr37.png")
 ```     
-            * Escenarios: muestra un histograma mediante el cual se muestran los diferentes escenarios obtenidos (Ver Figura \@ref(fig:img80)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Histograma escenarios",label=img80}
+            * Escenarios: muestra un histograma mediante el cual se muestran los diferentes escenarios obtenidos (Ver Imágen siguiente(fig:img80)).
+```{r , echo=FALSE, label=img80}
 knitr::include_graphics("images/vr38.png")
 ```
-            * VaRes individuales: muestra un gráfico de torta donde se muestra información sobre los Vares individuales obtenidos (Ver Figura \@ref(fig:img81)).
-```{r , echo=FALSE, fig.align='center',fig.cap="VaRes individuales",label=img81}
+            * VaRes individuales: muestra un gráfico de torta donde se muestra información sobre los Vares individuales obtenidos (Ver Imágen siguiente(fig:img81)).
+```{r , echo=FALSE, label=img81}
 knitr::include_graphics("images/vr39.png")
 ```
-            * Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales (Ver Figura \@ref(fig:img82)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Comparativo",label=img82}
+            * Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales (Ver Imágen siguiente(fig:img82)).
+```{r , echo=FALSE, label=img82}
 knitr::include_graphics("images/vr40.png")
 ```            
-        + Distribución Elegida: se muestran los resultados, asumiendo la mejor distribución (Ver Figura \@ref(fig:img83)),
-```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas VaR simulación MonteCarlo mejor distribución",label=img83}
+        + Distribución Elegida: se muestran los resultados, asumiendo la mejor distribución (Ver Imágen siguiente(fig:img83)),
+```{r , echo=FALSE, label=img83}
 knitr::include_graphics("images/vr41.png")
 ```
-            * Escenarios: muestra un histograma mediante el cual se muestran los diferentes escenarios obtenidos (Ver Figura \@ref(fig:img84)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Histograma escenarios",label=img84}
+            * Escenarios: muestra un histograma mediante el cual se muestran los diferentes escenarios obtenidos (Ver Imágen siguiente(fig:img84)).
+```{r , echo=FALSE, label=img84}
 knitr::include_graphics("images/vr42.png")
 ```           
-            * VaRes individuales: muestra un gráfico de torta donde se muestra información sobre los Vares individuales obtenidos (Ver Figura \@ref(fig:img85)).
-```{r , echo=FALSE, fig.align='center',fig.cap="VaRes individuales",label=img85}
+            * VaRes individuales: muestra un gráfico de torta donde se muestra información sobre los Vares individuales obtenidos (Ver Imágen siguiente(fig:img85)).
+```{r , echo=FALSE, label=img85}
 knitr::include_graphics("images/vr43.png")
 ```
-            * Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales (Ver Figura \@ref(fig:img86)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Comparativo",label=img86}
+            * Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales (Ver Imágen siguiente(fig:img86)).
+```{r , echo=FALSE, label=img86}
 knitr::include_graphics("images/vr44.png")
 ``` 
- * Comparativo Vares: en esta subsección se muestra un gráfico comparativo del VaR de portafolio obtenido para cada metodología (Ver Figura \@ref(fig:img87)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Comparativo VaRes",label=img87}
+ * Comparativo Vares: en esta subsección se muestra un gráfico comparativo del VaR de portafolio obtenido para cada metodología (Ver Imágen siguiente(fig:img87)).
+```{r , echo=FALSE, label=img87}
 knitr::include_graphics("images/vr45.png")
 ``` 
 
 ### Históricos
 
-Esta sección permite calcular el VaR para un rango de fechas en específico, siempre y cuando las mismas se encuentren disponibles en la data histórica considerada. La misma cuenta con las siguientes secciones (Ver Figura \@ref(fig:img88)), 
+Esta sección permite calcular el VaR para un rango de fechas en específico, siempre y cuando las mismas se encuentren disponibles en la data histórica considerada. La misma cuenta con las siguientes secciones (Ver Imágen siguiente(fig:img88)), 
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas sección Históricos",label=img88}
+```{r , echo=FALSE, label=img88}
 knitr::include_graphics("images/vr46.png")
 ``` 
 
-  * VaR Paramétrico: esta subsección permite calcular el histórico de los VaRes mediante el uso de la metodología del VaR paramétrico, la cual se basa en asumir una distribución normal para cada instrumento. Dentro de esta subsección se encuentra (Ver Figura \@ref(fig:img89)),
+  * VaR Paramétrico: esta subsección permite calcular el histórico de los VaRes mediante el uso de la metodología del VaR paramétrico, la cual se basa en asumir una distribución normal para cada instrumento. Dentro de esta subsección se encuentra (Ver Imágen siguiente(fig:img89)),
     * Rango de fechas disponibles, el cual es obtenido a partir de la data cargada en la sección Datos.
     * Opción para seleccionar el rango de fechas deseado, es importante acotar que la fecha inicial debe ser siempre menor que la fecha final, y las mismas no se pueden salir del rango establecido en el punto anterior.
     * Elección realizada por el usuario.
     * Histórico generado por la metodología del Var paramétrico, consta de dos columnas la primera indica la fecha, mientras que la segunda indica el valor del VaR para ese día en específico.
-```{r , echo=FALSE, fig.align='center',fig.cap="Sección Históricos",label=img89}
+```{r , echo=FALSE, label=img89}
 knitr::include_graphics("images/vr47.png")
 ``` 
   * VaR Histórico: esta subsección permite calcular el histórico de los Vares mediante el uso de la metodología del VaR por simulación histórica, la cual se caracteriza por no asignar ninguna distribución conocida, sino que trabaja con la distribución empírica de los datos. Dentro de esta subsección se encuentra:
@@ -568,29 +566,29 @@ knitr::include_graphics("images/vr47.png")
 
 ## Backtesting
 
-Esta sección permite realizar diversas pruebas al Valor en Riesgo y así poder calibrar y analizar su comportamiento, entre estas pruebas se encuentran el test de Kupiec y  el test de Haas (Ver Figura \@ref(fig:img90)).
+Esta sección permite realizar diversas pruebas al Valor en Riesgo y así poder calibrar y analizar su comportamiento, entre estas pruebas se encuentran el test de Kupiec y  el test de Haas (Ver Imágen siguiente(fig:img90)).
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas sección Backtesting",label=img90,out.height=100,out.width=200}
+```{r , echo=FALSE, label=img90}
 knitr::include_graphics("images/b1.png")
 ``` 
 
 ### Datos
 
-En esta subsección el usuario debe ingresar los datos con los cuales se va a trabajar (Ver Figura \@ref(fig:img91)). Este archivo debe contar con las siguientes características:
+En esta subsección el usuario debe ingresar los datos con los cuales se va a trabajar (Ver Imágen siguiente(fig:img91)). Este archivo debe contar con las siguientes características:
 
   * Debe ser un archivo de texto txt.
-  * Debe contar con tres columnas, la primera debe proporcionar información sobre la fecha (ej: 27/03/2018), la segunda columna debe contener información sobre el VaR para ese día. Finalmente, la tercera columna debe indicar información sobre el valor nominal del portafolio para el día considerado. Es importante mencionar que el archivo debe contener 252 observaciones (Ver Figura \@ref(fig:img92)).
+  * Debe contar con tres columnas, la primera debe proporcionar información sobre la fecha (ej: 27/03/2018), la segunda columna debe contener información sobre el VaR para ese día. Finalmente, la tercera columna debe indicar información sobre el valor nominal del portafolio para el día considerado. Es importante mencionar que el archivo debe contener 252 observaciones (Ver Imágen siguiente(fig:img92)).
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Datos",label=img91}
+```{r , echo=FALSE, label=img91}
 knitr::include_graphics("images/b2.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Data de prueba",label=img92}
+```{r , echo=FALSE, label=img92}
 knitr::include_graphics("images/b3.png")
 ``` 
 
 ### Resultados
 
-En esta subsección se muestran los resultados obtenidos para las diferentes pruebas. El usuario debe seleccionar el nivel de confianza para realizar la prueba. Una vez seleccionado este valor, los resultados se muestran con la siguiente estructura (Ver Figura \@ref(fig:img93)),
+En esta subsección se muestran los resultados obtenidos para las diferentes pruebas. El usuario debe seleccionar el nivel de confianza para realizar la prueba. Una vez seleccionado este valor, los resultados se muestran con la siguiente estructura (Ver Imágen siguiente(fig:img93)),
 
 * Número de excepciones negativas, número de excepciones dentro del rango VaR y número total de excepciones.
 * Tiempo entre excepciones.
@@ -598,24 +596,24 @@ En esta subsección se muestran los resultados obtenidos para las diferentes pru
 * Valor crítico asociado a cada prueba.
 * Resultado de cada prueba, obtenido al realizar una comparación entre el valor crítico y el valor del estadístico de cada prueba.
 
-```{r , echo=FALSE, fig.align='center'}
+```{r , echo=FALSE}
 knitr::include_graphics("images/b4.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Resultados",label=img93}
+```{r , echo=FALSE, label=img93}
 knitr::include_graphics("images/b4.1.png")
 ``` 
 ## Valoración
 
-Esta sección permite realizar los cáculos de valoración de un portafolio, a partir de sus precios y valor nominal para un día determinado en términos de utilidad y pérdida. De igual manera, esta sección permite realizar una prueba de estrés y saber como se comportará la utilidad o périda del portafolio en caso de una posible caida de los precios (Ver Figura \@ref(fig:img94)).
+Esta sección permite realizar los cáculos de valoración de un portafolio, a partir de sus precios y valor nominal para un día determinado en términos de utilidad y pérdida. De igual manera, esta sección permite realizar una prueba de estrés y saber como se comportará la utilidad o périda del portafolio en caso de una posible caida de los precios (Ver Imágen siguiente(fig:img94)).
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Pestañas sección Valoración",label=img94,out.height=120,out.width=200}
+```{r , echo=FALSE, label=img94}
 knitr::include_graphics("images/val1.png")
 ``` 
 
 
 ### Datos
 
-En esta subsección el usuario debe ingresar la data (Ver Figura \@ref(fig:img95)) con la cual se va a trabajar, la misma debe tener la siguiente estructura (Ver Figura \@ref(fig:img96)),
+En esta subsección el usuario debe ingresar la data (Ver Imágen siguiente(fig:img95)) con la cual se va a trabajar, la misma debe tener la siguiente estructura (Ver Imágen siguiente(fig:img96)),
 
 * Deber ser un archivo plano txt.
 * Debe contener cinco columnas, cada una se explica a continuación,
@@ -627,52 +625,52 @@ En esta subsección el usuario debe ingresar la data (Ver Figura \@ref(fig:img95
   
 * El archivo debe contener tantas filas como instrumentos se desee considerar.
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Datos",label=img95}
+```{r , echo=FALSE, label=img95}
 knitr::include_graphics("images/val2.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Datos de prueba",label=img96}
+```{r , echo=FALSE, label=img96}
 knitr::include_graphics("images/val3.png")
 ``` 
 ### Resultados
 
 En esta subsección se muestra los resultados de la valoración, la información está distribuida en dos tablas,
 
-* La primera tabla muestra información acerca del monto invertido en cada instrumento y su valor actual, considerando el precio teórico elegido. También se muestra la ganancia ó perdida que se tiene actualmente con un instrumento. En esta tabla se presenta la información para cada instrumento por separado (Ver Figura \@ref(fig:img97)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Resultados individuales",label=img97}
+* La primera tabla muestra información acerca del monto invertido en cada instrumento y su valor actual, considerando el precio teórico elegido. También se muestra la ganancia ó perdida que se tiene actualmente con un instrumento. En esta tabla se presenta la información para cada instrumento por separado (Ver Imágen siguiente(fig:img97)).
+```{r , echo=FALSE, label=img97}
 knitr::include_graphics("images/val4.png")
 ``` 
-* La segunda tabla, muestra un resumen para todo el portafolio, se presenta la suma del valor nominal por tipo de instrumento, el precio promedio ponderado por el valor nominal dpara cada isntrumento, y la ganancia ó pérdida obtenida para cada tipo de instrumento considerado (Ver Figura \@ref(fig:img98)).
-```{r , echo=FALSE, fig.align='center',fig.cap="Resultados portafolio",label=img98}
+* La segunda tabla, muestra un resumen para todo el portafolio, se presenta la suma del valor nominal por tipo de instrumento, el precio promedio ponderado por el valor nominal dpara cada isntrumento, y la ganancia ó pérdida obtenida para cada tipo de instrumento considerado (Ver Imágen siguiente(fig:img98)).
+```{r , echo=FALSE, label=img98}
 knitr::include_graphics("images/val5.png")
 ``` 
 
 ### Resultados prueba de estrés
 
-En esta subsección se muestra los resultados de la valoración luego de estresar en forma negativa los precios de mercado de los instrumentos financieros considerados. Con el fin de estresar los precios de mercado es necesario incluir una data de precios históricos (Ver Figura \@ref(fig:img99)), dicha data debe poseer la siguiente estructura (Ver Figura \@ref(fig:img100)),
+En esta subsección se muestra los resultados de la valoración luego de estresar en forma negativa los precios de mercado de los instrumentos financieros considerados. Con el fin de estresar los precios de mercado es necesario incluir una data de precios históricos (Ver Imágen siguiente(fig:img99)), dicha data debe poseer la siguiente estructura (Ver Imágen siguiente(fig:img100)),
 
 * Debe ser un archivo plano txt.
 * La primera columna debe señalar la fecha del precio en cuestión.
 * Cada columna debe representar la historia para cada instrumento.
 * El archivo debe contener la misma cantidad de instrumentos considerados en la data anterior.
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Datos",label=img99}
+```{r , echo=FALSE, label=img99}
 knitr::include_graphics("images/val6.png")
 ``` 
-```{r , echo=FALSE, fig.align='center',fig.cap="Datos de prueba",label=img100}
+```{r , echo=FALSE, label=img100}
 knitr::include_graphics("images/val7.png")
 ```
-```{r , echo=FALSE, fig.align='center',fig.cap="Advertencia",label=img101}
+```{r , echo=FALSE, label=img101}
 knitr::include_graphics("images/val7.1.png")
 ```
 La información está distribuida en dos tablas,
 
-* La primera tabla muestra información acerca del monto invertido en cada instrumento, su valor actual, el precio teórico elegido, la desviación estandar de cada instrumento, el precio estresado, el Mark to Market (MTM), y la ganancia o pérdida considerando los precios teóricos iniciales y los precios teóricos estresados (Ver Figura \@ref(fig:img102)). 
-```{r , echo=FALSE, fig.align='center',fig.cap="Resultados individuales estresados",label=img102}
+* La primera tabla muestra información acerca del monto invertido en cada instrumento, su valor actual, el precio teórico elegido, la desviación estandar de cada instrumento, el precio estresado, el Mark to Market (MTM), y la ganancia o pérdida considerando los precios teóricos iniciales y los precios teóricos estresados (Ver Imágen siguiente(fig:img102)). 
+```{r , echo=FALSE, label=img102}
 knitr::include_graphics("images/val8.png")
 ```
 
-* La segunda tabla, muestra un resumen para todo el portafolio, se presenta la suma del valor nominal por tipo de instrumento, el precio promedio ponderado por el valor nominal para cada instrumento, y la ganancia ó pérdida obtenida para cada tipo de instrumento considerado los precios de mercado y los precios estresados (Ver Figura \@ref(fig:img103)).
+* La segunda tabla, muestra un resumen para todo el portafolio, se presenta la suma del valor nominal por tipo de instrumento, el precio promedio ponderado por el valor nominal para cada instrumento, y la ganancia ó pérdida obtenida para cada tipo de instrumento considerado los precios de mercado y los precios estresados (Ver Imágen siguiente(fig:img103)).
 
-```{r , echo=FALSE, fig.align='center',fig.cap="Resultados portafolio estresados",label=img103}
+```{r , echo=FALSE, label=img103}
 knitr::include_graphics("images/val9.png")
 ```

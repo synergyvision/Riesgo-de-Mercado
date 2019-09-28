@@ -25,7 +25,7 @@
 <meta name="author" content="Synergy Vision">
 
 
-<meta name="date" content="2019-06-11">
+<meta name="date" content="2019-09-26">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -52,9 +52,9 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -64,14 +64,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +82,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -190,12 +192,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curva-de-rendimientos-individual"><i class="fa fa-check"></i><b>6.1.1</b> Curva de rendimientos individual</a></li>
 <li class="chapter" data-level="6.1.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#datos"><i class="fa fa-check"></i><b>6.1.2</b> Datos</a></li>
 <li class="chapter" data-level="6.1.3" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologia-nelson-y-siegel-1"><i class="fa fa-check"></i><b>6.1.3</b> Metodología Nelson y Siegel</a></li>
-<li class="chapter" data-level="6.1.4" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologia-diebold-li-1"><i class="fa fa-check"></i><b>6.1.4</b> Metodología Diebold-Li</a></li>
-<li class="chapter" data-level="6.1.5" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologia-splines"><i class="fa fa-check"></i><b>6.1.5</b> Metodología Splines</a></li>
-<li class="chapter" data-level="6.1.6" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curva-de-rendimientos-comparativo"><i class="fa fa-check"></i><b>6.1.6</b> Curva de rendimientos comparativo</a></li>
-<li class="chapter" data-level="6.1.7" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologias"><i class="fa fa-check"></i><b>6.1.7</b> Metodologías</a></li>
-<li class="chapter" data-level="6.1.8" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#precios-estimados"><i class="fa fa-check"></i><b>6.1.8</b> Precios Estimados</a></li>
-<li class="chapter" data-level="6.1.9" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curvas"><i class="fa fa-check"></i><b>6.1.9</b> Curvas</a></li>
+<li class="chapter" data-level="6.1.4" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologia-svensson-1"><i class="fa fa-check"></i><b>6.1.4</b> Metodología Svensson</a></li>
+<li class="chapter" data-level="6.1.5" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologia-diebold-li-1"><i class="fa fa-check"></i><b>6.1.5</b> Metodología Diebold-Li</a></li>
+<li class="chapter" data-level="6.1.6" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologia-splines"><i class="fa fa-check"></i><b>6.1.6</b> Metodología Splines</a></li>
+<li class="chapter" data-level="6.1.7" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curva-de-rendimientos-comparativo"><i class="fa fa-check"></i><b>6.1.7</b> Curva de rendimientos comparativo</a></li>
+<li class="chapter" data-level="6.1.8" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#metodologias"><i class="fa fa-check"></i><b>6.1.8</b> Metodologías</a></li>
+<li class="chapter" data-level="6.1.9" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#precios-estimados"><i class="fa fa-check"></i><b>6.1.9</b> Precios Estimados</a></li>
+<li class="chapter" data-level="6.1.10" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#curvas"><i class="fa fa-check"></i><b>6.1.10</b> Curvas</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#valor-en-riesgo-1"><i class="fa fa-check"></i><b>6.2</b> Valor en Riesgo</a><ul>
 <li class="chapter" data-level="6.2.1" data-path="manual-de-usuario.html"><a href="manual-de-usuario.html#datos-1"><i class="fa fa-check"></i><b>6.2.1</b> Datos</a></li>
@@ -248,8 +251,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- Curva de Nelson-Siegel. -->
 <p>La curva de rendimientos es una representación grafica que muestra la relación que existe entre los rendimientos de una clase particular de títulos valores y el tiempo que falta para su vencimiento, lo cual es conocido como la estructura temporal de la tasa de interés (ETTI) para instrumentos con riesgo similar pero con diferentes plazos de maduración. La ETTI es un indicador de la evolución futura de los tipos de interés y de inflación, además, la mayoría de los activos financieros se valoran mediante este indicador, por lo cual también se considera básico en el diseño de estrategias de gestión de riesgos y en la toma de decisiones de inversión y financiación. Existen cuatro formas que puede adoptar una curva de rendimientos:</p>
 <ul>
-<li><strong>Curva ascendente</strong>: generalmente, la curva de rendimientos tiene esta forma, lo que indica que los inversionistas requieren mayores rendimientos para vencimientos de más largo plazo, es decir, que los rendimientos varían directamente con los plazos.</li>
-<li><strong>Curva descendente</strong>: indica que los rendimientos disminuyen a medida que aumentan los plazos.</li>
+<li><p><strong>Curva ascendente</strong>: generalmente, la curva de rendimientos tiene esta forma, lo que indica que los inversionistas requieren mayores rendimientos para vencimientos de más largo plazo, es decir, que los rendimientos varían directamente con los plazos.</p></li>
+<li><p><strong>Curva descendente</strong>: indica que los rendimientos disminuyen a medida que aumentan los plazos.</p></li>
 <li><p><strong>Curva horizontal</strong>: indica que independientemente del plazo de vencimient o, los rendimientos son los mismos; para períodos muy largos, todas las curvas de rendimientos tienden a aplanarse.</p></li>
 <li><p><strong>Curva horizontal</strong>: indica que independientemente del plazo de vencimiento, los rendimientos son los mismos; para períodos muy largos, todas las curvas de rendimientos tienden a aplanarse.</p></li>
 <li><p><strong>Curva creciente y decreciente</strong>: es el reflejo de una situación en la que los rendimientos de corto y largo plazo son los mismos y los rendimientos de mediano plazo son los que varían.</p></li>
@@ -261,7 +264,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- \end{figure} -->
 <!-- ![](images/tipo_curvas.jpg "Figura 1: Tipo de Curvas") -->
 <div class="figure" style="text-align: center"><span id="fig:tipos"></span>
-<img src="images/tipo_curvas.jpg" alt="Tipos de Curvas" width="574" />
+<img src="images/tipo_curvas.jpg" alt="Tipos de Curvas" width="330px" />
 <p class="caption">
 Figura 2.1: Tipos de Curvas
 </p>
@@ -498,16 +501,16 @@ gaussiana, <span class="math inline">\(K(x) = (2 \sqrt{\pi})^{-1} e^{\frac{-x^2}
 <h3><span class="header-section-number">2.2.2</span> Polinomios locales</h3>
 <p>Conocida también como regresión local, la idea es aproximar la función suave m(.) por medio de un polinomio de bajo orden en una vecindad entorno de un punto x. Por ejemplo, una aproximación lineal local es <span class="math inline">\(m(x_{i}) \approx a_{0} + a_{1}(x_{i}-x)\)</span> para <span class="math inline">\(x - h \leq x_{i} \leq x+h\)</span>. Una aproximación local cuadrática es:</p>
 <p><span class="math display">\[\displaystyle{m(x_{i}) \approx  a_{0} + a_{1}(x_{i}-x) + \frac{a_{2}}{2}(x_{i}-x)^2}\]</span></p>
-<p>La aproximación local puede ser ajustada a través de mínimos cuadrados ponderados localmente. Una función Kernel y un bandwidth son definidos como en la regresión Kernel. Los coeficientes <span class="math inline">\(\hat{a}_{0}\)</span> y <span class="math inline">\(\hat{a}_{1}\)</span>, son escogidos de tal forma que se pueda minimizar la expresión,</p>
+<p>La aproximación local puede ser ajustada a través de mínimos cuadrados ponderados localmente. Una función Kernel y un bandwidth son definidos como en la regresión Kernel. Los coeficientes <span class="math display">\[\hat{a}_{0}\]</span> y <span class="math display">\[\hat{a}_{1}\]</span>, son escogidos de tal forma que se pueda minimizar la expresión,</p>
 <ol start="5" class="example" style="list-style-type: decimal">
 <li><span class="math display">\[
  \sum_{i=1}^{n} K(\frac{x_{i}-x}{h}) (y_{i}-a_{0}-a_{1}(x_{i}-x))^2 
 \]</span></li>
 </ol>
-<p>Reescribiendo la ecuación 5 en términos matriciales obtenemos, <span class="math inline">\(X^{T}W(\tilde{Y}-X \tilde{a})\)</span>. Donde X es la matriz diseño para cada regresión lineal, <span class="math inline">\(\tilde{a}\)</span> el vector de
-parámetros, W la matriz diagonal de pesos <span class="math inline">\(K(\frac{x_{i}-x}{h})\)</span> y <span class="math inline">\(\tilde{Y}\)</span> el vector de observaciones de orden n.</p>
-<p>El vector de parámetros estimado está dado por $  = (X<sup>{T}WX)X</sup>{T}W  $
-y en forma semejante con la ecuación 4, tenemos que: <span class="math inline">\(l(x)_{nx1} = e_{1}^{T} (X^{T}WX)X^{T} \tilde{Y}\)</span> donde <span class="math inline">\(e_{1}^{T}\)</span>
+<p>Reescribiendo la ecuación 5 en términos matriciales obtenemos, <span class="math display">\[X^{T}W(\tilde{Y}-X \tilde{a})\]</span>. Donde X es la matriz diseño para cada regresión lineal, <span class="math display">\[\tilde{a}\]</span> el vector de
+parámetros, W la matriz diagonal de pesos <span class="math inline">\(K(\frac{x_{i}-x}{h})\)</span> y <span class="math display">\[\tilde{Y}\]</span> el vector de observaciones de orden n.</p>
+<p>El vector de parámetros estimado está dado por <span class="math display">\[\hat{\tilde{a}} = (X^{T}WX)X^{T}W \tilde{Y} \]</span>
+y en forma semejante con la ecuación 4, tenemos que: <span class="math display">\[l(x)_{nx1} = e_{1}^{T} (X^{T}WX)X^{T} \tilde{Y}\]</span> donde <span class="math inline">\(e_{1}^{T}\)</span>
 es un vector de ceros de tamaño n, exceptuando la primera entrada cuyo valor es 1.</p>
 <p>Finalmente, la selección del h está basado en procedimientos de bondad de ajuste que permite obtener el mejor modelo. Entre los más utilizados sobresalen los métodos de validación cruzada generalizada y plug-in, los cuales son descritos detalladamente en Fan y Gijbels .</p>
 </div>
@@ -549,7 +552,7 @@ e^{2}(m,h) = E(E(Y - m(X|h(X)))^2|X)
 \]</span></li>
 </ol>
 <p>de tal forma que podemos minimizar el error con respecto a <span class="math inline">\(m\)</span> y <span class="math inline">\(h\)</span> para cada valor de <span class="math inline">\(x\)</span>.</p>
-<p>Como en el caso del bandwidth constante, se comienza aplicando un suavizador lineal local muchas veces sobre diferentes valores discretos de <span class="math inline">\(h\)</span>, <span class="math inline">\(0 &lt; h &lt; n\)</span>. Friedman  propone utilizar tres conjuntos de valores, <span class="math inline">\(h=0,05n\)</span>, <span class="math inline">\(h=0,2n\)</span> y <span class="math inline">\(h=0,5n\)</span>, los cuales llama suavizadores <code>tweeter&quot;,</code>midrange&quot; y ``woofer&quot;, respectivamente.</p>
+<p>Como en el caso del bandwidth constante, se comienza aplicando un suavizador lineal local muchas veces sobre diferentes valores discretos de <span class="math inline">\(h\)</span>, <span class="math inline">\(0 &lt; h &lt; n\)</span>. Friedman  propone utilizar tres conjuntos de valores, <span class="math inline">\(h=0,05n\)</span>, <span class="math inline">\(h=0,2n\)</span> y <span class="math inline">\(h=0,5n\)</span>, los cuales llama suavizadores <code>tweeter",</code>midrange" y ``woofer", respectivamente.</p>
 <p>Para estimar la ecuación 7 se utiliza el residual de la validación cruzada de la ecuación 8 cuya descripción completa puede encontrarse en Friedman ,</p>
 <ol start="8" class="example" style="list-style-type: decimal">
 <li><span class="math display">\[
@@ -557,13 +560,13 @@ e^{2}(m,h) = E(E(Y - m(X|h(X)))^2|X)
 \]</span></li>
 </ol>
 <p>siendo <span class="math inline">\(\bar{x}_{h}\)</span> y <span class="math inline">\(V_{h}\)</span>, la media y varianza de los <span class="math inline">\(x\)</span>, bajo un <span class="math inline">\(h\)</span> preeestablecido. Igualmente, Friedman  aconseja suavizar <span class="math inline">\(|r_{i}(h)|\)</span> contra <span class="math inline">\(x_{i}\)</span>, utilizando los <span class="math inline">\(\hat{e}(m, h|x_{i})\)</span>, en procura de seleccionar la mejor amplitud de intervalo o bandwith, <span class="math inline">\(\hat{e}(m, h_{vc}(x_{i})|x_{i})=min_{h} \hat{e}(m, h|x_{i})\)</span>, donde <span class="math inline">\(h_{vc} (x_{i})\)</span> es el mejor bandwidth bajo la validación cruzada respecto a cada <span class="math inline">\(x_{i}\)</span> , mientras que <span class="math inline">\(h\)</span> toma los valores de los suavizadores antes definidos.</p>
-<p>De esta manera, el mejor valor suavizado dado <span class="math inline">\(x_{i}\)</span>, siguiendo la notación de Friedman , <span class="math inline">\(s^{*}(x_{i})\)</span>, estará asociado con el bandwidth: “tweeter”, “midrange” o “woofer” que minimice el error bajo la validación cruzada. Es posible a través de esta metodología obtener para cada vecindad en torno a <span class="math inline">\(x_{i}\)</span> diferentes bandwith y suavizados que proporcionan resultados óptimos, por tal razón, Friedman  propone seleccionar la mejor amplitud de intervalo, suavizando los <span class="math inline">\(h_{vc} (x_{i})\)</span> contra <span class="math inline">\(x_{i}\)</span> utilizando el suavizador ``midrange&quot;, mientras que la curva estimada es obtenida interpolando entre los dos suavizadores con los bandwith estimados más parecidos.</p>
+<p>De esta manera, el mejor valor suavizado dado <span class="math inline">\(x_{i}\)</span>, siguiendo la notación de Friedman , <span class="math inline">\(s^{*}(x_{i})\)</span>, estará asociado con el bandwidth: “tweeter”, “midrange” o “woofer” que minimice el error bajo la validación cruzada. Es posible a través de esta metodología obtener para cada vecindad en torno a <span class="math inline">\(x_{i}\)</span> diferentes bandwith y suavizados que proporcionan resultados óptimos, por tal razón, Friedman  propone seleccionar la mejor amplitud de intervalo, suavizando los <span class="math inline">\(h_{vc} (x_{i})\)</span> contra <span class="math inline">\(x_{i}\)</span> utilizando el suavizador ``midrange", mientras que la curva estimada es obtenida interpolando entre los dos suavizadores con los bandwith estimados más parecidos.</p>
 <p>Una suposición general establece que la curva subyacente que describe el comportamiento de los datos es suave, así que sería posible modificar el bandwidth en procura de un mayor suavizamiento, sacrificando exactitud numérica. Con este fin, Friedman  propone un método de cálculo del bandwidth,</p>
 <p><span class="math display">\[\displaystyle{h(x_{i}) = h_{vc}(x_{i}) + (h_{w} - h_{vc}(x_{i}))R_{i}^{10-\alpha}}\]</span></p>
 <p>con,</p>
 <p><span class="math display">\[\displaystyle{R_{i} = \left[\frac{\hat{e}(h_{vc}(x_{i})|x_{i})}{\hat{e}(h_{w}(x_{i})|x_{i})} \right] }\]</span></p>
 <p>donde <span class="math inline">\(0 &lt; \alpha &lt; 10\)</span>, <span class="math inline">\(h_{w}\)</span> es la amplitud calculada utilizando
-el suavizador “woofer” y <span class="math inline">\(h_{vc}(.)\)</span> la amplitud obtenida bajo la validación cruzada para cada observación. Sin importar el <span class="math inline">\(\alpha\)</span>, cuando la contribución relativa de cada una de estas amplitudes no difiere significativamente, la amplitud de intervalo o bandwidth seleccionada es la determinada por el suavizador “woofer”; no obstante, si la eficiencia relativa está asociada con la amplitud bajo la validación cruzada, entonces, la ecuación en proporcionará esta amplitud. En otros casos, dependiendo del desempeño relativo y el parámetro <span class="math inline">\(\alpha\)</span> definido por el usuario, la ecuación proporcionará una amplitud, resultado de la combinación lineal entre el suavizador ``woofer&quot;  y el obtenido bajo validación cruzada.</p>
+el suavizador “woofer” y <span class="math inline">\(h_{vc}(.)\)</span> la amplitud obtenida bajo la validación cruzada para cada observación. Sin importar el <span class="math inline">\(\alpha\)</span>, cuando la contribución relativa de cada una de estas amplitudes no difiere significativamente, la amplitud de intervalo o bandwidth seleccionada es la determinada por el suavizador “woofer”; no obstante, si la eficiencia relativa está asociada con la amplitud bajo la validación cruzada, entonces, la ecuación en proporcionará esta amplitud. En otros casos, dependiendo del desempeño relativo y el parámetro <span class="math inline">\(\alpha\)</span> definido por el usuario, la ecuación proporcionará una amplitud, resultado de la combinación lineal entre el suavizador ``woofer"  y el obtenido bajo validación cruzada.</p>
 <p>Una vez el bandwidth de suavización variable ha sido obtenido, los siguientes pasos son realizados sobre el conjunto de observaciones,</p>
 <ul>
 <li>Suavice los datos con los bandwidth “tweeter”, “midrange” y “woofer”.</li>
@@ -668,7 +671,7 @@ donde <span class="math inline">\(l_{j}(x)\)</span> son los polinomios de la bas
 <p>Asumamos que se tiene una tabla con <span class="math inline">\(n\)</span> puntos, <span class="math inline">\((x_{1},y_{1})...,(x_{n},y_{n})\)</span>, donde los valores <span class="math inline">\(x_{i}\)</span>, para <span class="math inline">\(i=1,...,n\)</span> están ordenados de forma creciente y todos ellos son distintos. Supongamos que dichos puntos se representan en un plano cartesiano y se quiere determinar una curva suave que interpole dichos valores. Así, se desea determinar una curva que esté definida para todos los <span class="math inline">\(x\)</span> y tome los valores correspondientes de <span class="math inline">\(y\)</span>, esto es, que interpole todos los datos de la tabla. Cabe destacar que los puntos considerados se les conoce como nodos.</p>
 <p>La primera idea natural es usar una función polinomial que represente esta curva, la cual se puede representar como sigue,</p>
 <p><span class="math display">\[\displaystyle{P_{n} = \sum_{i=0}^{n-1} a_{i}x^{i}}\]</span>
-tal curva se le conoce como función polinomial interpoladora de grado n. Nótese que en cada nodo se satisface que <span class="math inline">\(P_{n}(x_{k})=y_{k}\)</span>, donde <span class="math inline">\(k=1,...,n\)</span>.</p>
+tal curva se le conoce como función polinomial interpoladora de grado n. Nótese que en cada nodo se satisface que <span class="math inline">\(P_{n}(x_{k})=y_{k}\)</span>, donde <span class="math inline">\(k=1,...,n\)</span>.</p>
 <p>Así, se tiene que si la tabla es representada mediante una función subyacente <span class="math inline">\(f(x)\)</span> tal que <span class="math inline">\(f(x_{k})=y_{k}\)</span>, para todo <span class="math inline">\(k\)</span>, entonces esta función puede ser aproximada mediante <span class="math inline">\(P_{n}\)</span>, en los puntos intermedios.</p>
 <p>No sería erróneo pensar que a medida que los nodos se incrementan, la aproximación sería cada vez mejor, lamentablemente esto no siempre es cierto, debido a que en el caso de tener una data con mucho ruido la interpolación no tendría mucho sentido ya que la varianza de los valores interpolados sería muy grande. En este caso, los polinomios interpoladores resultantes serían una mala representación de la función subyacente.</p>
 <p>Para evitar este fenómeno, puede ser de utilidad relajar la condición de que <span class="math inline">\(f(x)\)</span> debería ser una función que interpole todos los valores dados y en su lugar usar un trozo de un polinomio local de interpolación. La función mediante la cual se logra esta interpolación se le conoce como spline.</p>
@@ -679,14 +682,14 @@ tal curva se le conoce como función polinomial interpoladora de grado n. Nótes
 <p><span class="math display">\[\displaystyle{S(x) = a_{j}x + b_{j} = S_{j}(x)}\]</span></p>
 <p>este spline es lineal. Usualmente <span class="math inline">\(S(x)\)</span> se define como <span class="math inline">\(S_{1}(x)\)</span> para <span class="math inline">\(x&lt;x_{1}\)</span> y como <span class="math inline">\(S_{n-1}(x)\)</span> para <span class="math inline">\(x&gt;x_{n}\)</span>, donde <span class="math inline">\(x_{1}\)</span> y <span class="math inline">\(x_{n}\)</span> son nodos frontera (Ver Figura <a href="curva-de-rendimientos.html#fig:spline1">2.2</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:spline1"></span>
-<img src="images/spline_lineal.png" alt="Spline Lineal" width="624" />
+<img src="images/spline_lineal.png" alt="Spline Lineal" width="330px" />
 <p class="caption">
 Figura 2.2: Spline Lineal
 </p>
 </div>
 <p>Un spline de segundo grado es una unión de polinomios cuadráticos tal que <span class="math inline">\(S(x)\)</span> y su derivada <span class="math inline">\(S^{(1)}(x)\)</span> son continuas (Ver Figura <a href="curva-de-rendimientos.html#fig:spline2">2.3</a>). Los polinomios <span class="math inline">\(P(x)\)</span> a través de los que construimos el Spline tienen grado 2. Esto quiere decir, que va a tener la forma <span class="math inline">\(P(x) = ax^2 + bx + c\)</span>.</p>
 <div class="figure" style="text-align: center"><span id="fig:spline2"></span>
-<img src="images/spline_cuadratico.png" alt="Spline Cuadrático" width="607" />
+<img src="images/spline_cuadratico.png" alt="Spline Cuadrático" width="330px" />
 <p class="caption">
 Figura 2.3: Spline Cuadrático
 </p>
@@ -699,7 +702,7 @@ Figura 2.3: Spline Cuadrático
 </ul>
 <p>Por su parte un spline cúbico, se representa mediante la unión de polinomios cúbicos con primera y segunda derivada continuas (Ver Figura <a href="curva-de-rendimientos.html#fig:spline3">2.4</a>). Este spline debido a su flexibilidad es el más usado en las aplicaciones.</p>
 <div class="figure" style="text-align: center"><span id="fig:spline3"></span>
-<img src="images/spline_cubico.png" alt="Spline Cúbico" width="645" />
+<img src="images/spline_cubico.png" alt="Spline Cúbico" width="330px" />
 <p class="caption">
 Figura 2.4: Spline Cúbico
 </p>
@@ -718,7 +721,7 @@ con <span class="math inline">\(x_{j}&lt;x&lt;x_{j+1}\)</span>, sujeto a las sig
 <p>Así para n nodos, existen <span class="math inline">\(4(n-1)\)</span> variables y <span class="math inline">\(4(n-1)-2\)</span> restricciones. Las mismas se deben a la necesidad de que el spline cúbico sea igual en los valores dados en cada nodo. Las primeras tres restricciones aseguran que la función resultante en su primera y segunda derivada sean continuas en los nodos. La restricción final significa que el spline cúbico es lineal en el punto inicial y final de la muestra. Sin embargo, es importante resaltar que el spline cúbico tiene tercera derivada discontinua en los nodos.</p>
 <p>Debido a que hacen falta dos restricciones de borde, estas se deben añadir. Así <span class="math inline">\(S^{(2)}(x_{1}) = S^{(2)}(x_{n}) = 0\)</span> son las restricciones faltantes, estan hacen referencia a que el spline sea un spline cúbico natural. Como se mencionó al inicio si se considera una interpolación polinomial global de un conjunto de datos con mucho ruido pueden surgir aproximaciones no deseables e inestables. En constrate, un spline cúbico de interpolación encaja perfectamente con la suavidad de la función subyacente.</p>
 <div class="figure" style="text-align: center"><span id="fig:spline4"></span>
-<img src="images/Comparativo_splines.png" alt="Comparativo Splines" width="655" />
+<img src="images/Comparativo_splines.png" alt="Comparativo Splines" width="330px" />
 <p class="caption">
 Figura 2.5: Comparativo Splines
 </p>
@@ -851,9 +854,9 @@ B_{j}^{2}(t) = \left\{
 distribución de probabilidad de las observaciones de la muestra. Si bien en la Estadística no paramétrica también aparecen modelos y parámetros, ellos están definidos de una manera más general que en su contrapartida paramétrica.</p>
 <p>La regresión no paramétrica es una colección de técnicas para el ajuste de funciones de regresión cuando existe poco conocimiento a priori acerca de su forma. Proporciona funciones suavizadas de la relación y el procedimiento se denomina suavizado.</p>
 <p>Los fundamentos de los métodos de suavizado son antiguos pero sólo lograron el estado actual de desarrollo gracias a los avances de la computación y los estudios por simulación han permitido evaluar sus comportamientos.</p>
-<p>La técnica más simple de suavizado, los promedios móviles, fue la primera en usarse, sin embargo han surgido nuevas técnicas como la estimación mediante núcleos (``kernel&quot;) o la regresión local ponderada. Estos estimadores de regresión no paramétrica son herramientas poderosas para el análisis de datos, tanto como una técnica de estimación para resumir una relación compleja que no puede ser aprendida por un modelo paramétrico, como para suplementar (o complementar) un análisis de regresión paramétrico.</p>
+<p>La técnica más simple de suavizado, los promedios móviles, fue la primera en usarse, sin embargo han surgido nuevas técnicas como la estimación mediante núcleos (``kernel") o la regresión local ponderada. Estos estimadores de regresión no paramétrica son herramientas poderosas para el análisis de datos, tanto como una técnica de estimación para resumir una relación compleja que no puede ser aprendida por un modelo paramétrico, como para suplementar (o complementar) un análisis de regresión paramétrico.</p>
 <p>En los análisis paramétricos se comienza haciendo supuestos rígidos sobre la estructura básica de los datos, luego se estiman de la forma más eficiente posible los parámetros que definen la estructura y por último se comprueba si los supuestos iniciales se cumplen.</p>
-<p>La regresión no paramétrica, en cambio, desarrolla un ``modelo libre&quot;  para predecir la respuesta sobre el rango de valores de los datos. Básicamente está constituida por métodos que proporcionan una estimación suavizada de la relación para un conjunto de valores (de- nominado ventana) de la variable explicativa. Estos valores son ponderados de modo que, por ejemplo, los vecinos más cercanos tengan mayor peso que los más alejados dentro de una ventana de datos. Se pueden utilizar diversas funciones de ponderación, que son los pesos en que se basan los estimadores. La combinación de la función de ponderación y el ancho de la ventana inciden sobre la bondad de la estimación resultante.</p>
+<p>La regresión no paramétrica, en cambio, desarrolla un ``modelo libre"  para predecir la respuesta sobre el rango de valores de los datos. Básicamente está constituida por métodos que proporcionan una estimación suavizada de la relación para un conjunto de valores (de- nominado ventana) de la variable explicativa. Estos valores son ponderados de modo que, por ejemplo, los vecinos más cercanos tengan mayor peso que los más alejados dentro de una ventana de datos. Se pueden utilizar diversas funciones de ponderación, que son los pesos en que se basan los estimadores. La combinación de la función de ponderación y el ancho de la ventana inciden sobre la bondad de la estimación resultante.</p>
 <p>La mayor parte de las publicaciones sobre regresión no paramétrica consideran el caso de un solo regresor a pesar de que, a simple vista no pareciera de gran utilidad, ya que las aplicaciones más interesantes involucran varias variables explicativas. Sin embargo, la regresión no paramétrica simple es importante por dos motivos:</p>
 <ul>
 <li>En etapas preliminares del análisis de datos o en pruebas de diagnóstico se utilizan gráficos de dispersión en los cuales puede ser muy útil ajustar una “curva suavizada”. Por ejemplo, para explorar la forma de la función respuesta, para confirmar una función respuesta en particular que haya sido ajustada a los datos, para obtener estimaciones de la respuesta media sin especificar la forma de la función respuesta, para estudiar el cumplimientos de supuestos, etc.</li>
@@ -933,7 +936,7 @@ donde el primer argumento debe ser el valor inicial del parámetro a optimizar, 
 <li>Cupón: tasa de interés pagadera por cada instrumento.</li>
 </ul>
 <div class="figure" style="text-align: center"><span id="fig:bcv"></span>
-<img src="images/Imagen022.png" alt="Pestaña 0-22" width="1277" />
+<img src="images/Imagen022.png" alt="Pestaña 0-22" width="330px" />
 <p class="caption">
 Figura 2.6: Pestaña 0-22
 </p>
@@ -952,7 +955,7 @@ Figura 2.6: Pestaña 0-22
 <li>Tasa: cupón asociado a cada instrumento.</li>
 </ul>
 <div class="figure" style="text-align: center"><span id="fig:carac"></span>
-<img src="images/Imagencarac.png" alt="Características" width="1363" />
+<img src="images/Imagencarac.png" alt="Características" width="330px" />
 <p class="caption">
 Figura 2.7: Características
 </p>

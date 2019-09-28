@@ -4,10 +4,9 @@
 title: "Riesgo de Mercado"
 subtitle: "Ciencia de los Datos Financieros"
 author: "Synergy Vision"
-date: "2019-06-11"
+date: "2019-09-26"
 knit: "bookdown::render_book"
 documentclass: krantz
-bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
 colorlinks: yes
@@ -29,7 +28,7 @@ cover-image: images/cover.png
 
 # Prefacio {-}
 
-<a href="https://synergy.vision/LibrosInteractivos/" target="_blank"><img src="images/cover.png" style="display: block; margin: auto;" /></a>
+<a href="https://synergy.vision/LibrosInteractivos/" target="_blank"><img src="images/cover.png" width="330px" style="display: block; margin: auto;" /></a>
 
 
 ![Creative Commons License](images/by-nc-sa.png)  
@@ -192,7 +191,7 @@ La curva de rendimientos es una representación grafica que muestra la relación
 
 
 <div class="figure" style="text-align: center">
-<img src="images/tipo_curvas.jpg" alt="Tipos de Curvas" width="574" />
+<img src="images/tipo_curvas.jpg" alt="Tipos de Curvas" width="330px" />
 <p class="caption">(\#fig:tipos)Tipos de Curvas</p>
 </div>
 
@@ -498,7 +497,7 @@ Conocida también como regresión local, la idea es aproximar la función suave 
 $$\displaystyle{m(x_{i}) \approx  a_{0} + a_{1}(x_{i}-x) + \frac{a_{2}}{2}(x_{i}-x)^2}$$
 
 
-La aproximación local puede ser ajustada a través de mínimos cuadrados ponderados localmente. Una función Kernel y un bandwidth son definidos como en la regresión Kernel. Los coeficientes $\hat{a}_{0}$ y $\hat{a}_{1}$, son escogidos de tal forma que se pueda minimizar la expresión,
+La aproximación local puede ser ajustada a través de mínimos cuadrados ponderados localmente. Una función Kernel y un bandwidth son definidos como en la regresión Kernel. Los coeficientes $$\hat{a}_{0}$$ y $$\hat{a}_{1}$$, son escogidos de tal forma que se pueda minimizar la expresión,
 
 
 (@ecu5)
@@ -506,11 +505,11 @@ $$
  \sum_{i=1}^{n} K(\frac{x_{i}-x}{h}) (y_{i}-a_{0}-a_{1}(x_{i}-x))^2 
 $$
 
-Reescribiendo la ecuación @ecu5 en términos matriciales obtenemos, $X^{T}W(\tilde{Y}-X \tilde{a})$. Donde X es la matriz diseño para cada regresión lineal, $\tilde{a}$ el vector de
-parámetros, W la matriz diagonal de pesos $K(\frac{x_{i}-x}{h})$ y $\tilde{Y}$ el vector de observaciones de orden n.
+Reescribiendo la ecuación @ecu5 en términos matriciales obtenemos, $$X^{T}W(\tilde{Y}-X \tilde{a})$$. Donde X es la matriz diseño para cada regresión lineal, $$\tilde{a}$$ el vector de
+parámetros, W la matriz diagonal de pesos $K(\frac{x_{i}-x}{h})$ y $$\tilde{Y}$$ el vector de observaciones de orden n.
 
-El vector de parámetros estimado está dado por $ \hat{\tilde{a}} = (X^{T}WX)X^{T}W \tilde{Y} $
-y en forma semejante con la ecuación @ecu4, tenemos que: $l(x)_{nx1} = e_{1}^{T} (X^{T}WX)X^{T} \tilde{Y}$ donde $e_{1}^{T}$
+El vector de parámetros estimado está dado por $$\hat{\tilde{a}} = (X^{T}WX)X^{T}W \tilde{Y} $$
+y en forma semejante con la ecuación @ecu4, tenemos que: $$l(x)_{nx1} = e_{1}^{T} (X^{T}WX)X^{T} \tilde{Y}$$ donde $e_{1}^{T}$
 es un vector de ceros de tamaño n, exceptuando la primera entrada cuyo valor es 1.
 
 Finalmente, la selección del h está basado en procedimientos de bondad de ajuste que permite obtener el mejor modelo. Entre los más utilizados sobresalen los métodos de validación cruzada generalizada y plug-in, los cuales son descritos detalladamente en Fan y Gijbels \cite{FG}.
@@ -776,14 +775,14 @@ $$\displaystyle{S(x) = a_{j}x + b_{j} = S_{j}(x)}$$
 este spline es lineal. Usualmente $S(x)$ se define como $S_{1}(x)$ para $x<x_{1}$ y como $S_{n-1}(x)$ para $x>x_{n}$, donde $x_{1}$ y $x_{n}$ son nodos frontera (Ver Figura \@ref(fig:spline1)).
 
 <div class="figure" style="text-align: center">
-<img src="images/spline_lineal.png" alt="Spline Lineal" width="624" />
+<img src="images/spline_lineal.png" alt="Spline Lineal" width="330px" />
 <p class="caption">(\#fig:spline1)Spline Lineal</p>
 </div>
 
 Un spline de segundo grado es una unión de polinomios cuadráticos tal que $S(x)$ y su derivada $S^{(1)}(x)$ son continuas (Ver Figura \@ref(fig:spline2)). Los polinomios $P(x)$ a través de los que construimos el Spline tienen grado 2. Esto quiere decir, que va a tener la forma $P(x) = ax^2 + bx + c$.
 
 <div class="figure" style="text-align: center">
-<img src="images/spline_cuadratico.png" alt="Spline Cuadrático" width="607" />
+<img src="images/spline_cuadratico.png" alt="Spline Cuadrático" width="330px" />
 <p class="caption">(\#fig:spline2)Spline Cuadrático</p>
 </div>
 
@@ -797,7 +796,7 @@ Como en la interpolación segmentaria lineal, vamos a tener $N-1$ ecuaciones (do
 Por su parte un spline cúbico, se representa mediante la unión de polinomios cúbicos con primera y segunda derivada continuas (Ver Figura \@ref(fig:spline3)). Este spline debido a su flexibilidad es el más usado en las aplicaciones.
 
 <div class="figure" style="text-align: center">
-<img src="images/spline_cubico.png" alt="Spline Cúbico" width="645" />
+<img src="images/spline_cubico.png" alt="Spline Cúbico" width="330px" />
 <p class="caption">(\#fig:spline3)Spline Cúbico</p>
 </div>
 
@@ -822,7 +821,7 @@ Así para n nodos, existen $4(n-1)$ variables y $4(n-1)-2$ restricciones. Las mi
 Debido a que hacen falta dos restricciones de borde, estas se deben añadir. Así  $S^{(2)}(x_{1}) = S^{(2)}(x_{n}) = 0$ son las restricciones faltantes, estan hacen referencia a que el spline sea un spline cúbico natural. Como se mencionó al inicio si se considera una interpolación polinomial global de un conjunto de datos con mucho ruido pueden surgir aproximaciones no deseables e inestables. En constrate, un spline cúbico de interpolación encaja perfectamente con la suavidad de la función subyacente.
 
 <div class="figure" style="text-align: center">
-<img src="images/Comparativo_splines.png" alt="Comparativo Splines" width="655" />
+<img src="images/Comparativo_splines.png" alt="Comparativo Splines" width="330px" />
 <p class="caption">(\#fig:spline4)Comparativo Splines</p>
 </div>
 
@@ -1134,7 +1133,7 @@ La fuente principal de información para calcular la curva de rendimientos para 
 + Cupón: tasa de interés pagadera por cada instrumento.
 
 <div class="figure" style="text-align: center">
-<img src="images/Imagen022.png" alt="Pestaña 0-22" width="1277" />
+<img src="images/Imagen022.png" alt="Pestaña 0-22" width="330px" />
 <p class="caption">(\#fig:bcv)Pestaña 0-22</p>
 </div>
 
@@ -1153,7 +1152,7 @@ Esta información también es suministrada por el BCV, en su documento de las "C
 + Tasa: cupón asociado a cada instrumento.
 
 <div class="figure" style="text-align: center">
-<img src="images/Imagencarac.png" alt="Características" width="1363" />
+<img src="images/Imagencarac.png" alt="Características" width="330px" />
 <p class="caption">(\#fig:carac)Características</p>
 </div>
 
@@ -1333,7 +1332,7 @@ A partir de la pestaña "0-22" y del documento de las características, se creó
 
 El valor en riesgo, conocido comúnmente como VaR (Value at Risk), es una técnica estadística para medir el riesgo financiero de una inversión. Indica la probabilidad (normalmente 1% o 5%) de sufrir una determinada pérdida durante un periodo de tiempo (normalmente 1 día, 1 semana o 1 mes).
 
-Dicho de otro modo, el VaR establece la pérdida máxima que puede experimentar una inversión dentro de un horizonte temporal, dado un nivel de confianza (1- α), normalmente 95% o 99%. Por ejemplo, la pérdida máxima será durante un mes con un 95% de probabilidad igual o menor que 5 millones de euros. O lo que es lo mismo, existe una probabilidad del 5% de que la pérdida sea como mínimo de 5 millones de euros en un mes. Por lo tanto, también mide la pérdida mínima que sufrirá una inversión para un nivel de significación (α).
+Dicho de otro modo, el VaR establece la pérdida máxima que puede experimentar una inversión dentro de un horizonte temporal, dado un nivel de confianza (1- $\alpha$), normalmente 95% o 99%. Por ejemplo, la pérdida máxima será durante un mes con un 95% de probabilidad igual o menor que 5 millones de euros. O lo que es lo mismo, existe una probabilidad del 5% de que la pérdida sea como mínimo de 5 millones de euros en un mes. Por lo tanto, también mide la pérdida mínima que sufrirá una inversión para un nivel de significación ($\alpha$).
 
 El VaR mide el riesgo financiero de una inversión, por lo que tiene una amplia aplicación en el mundo de las finanzas. Se puede calcular la pérdida máxima tanto para un solo activo financiero como para una cartera de activos financieros. Es muy utilizado en análisis de riesgos para medir y controlar el nivel de riesgo que una empresa es capaz de soportar. El gestor de riesgos es asegurarse de que no se incurre en riesgos mayores de los que la empresa podría afrontar.
 
@@ -1454,9 +1453,9 @@ El VaR paramétrico es un método para estimar el VaR (Valor en Riesgo) utilizan
 
 Cuando tenemos los datos de rentabilidad esperados y el riesgo histórico (medido por la desviación típica) utilizamos la siguiente fórmula:
 
-$$VaR = |R – z·δ|· V$$
+$$VaR = |R – z·\delta|· V$$
 
-Siendo R, la rentabilidad esperada, z, el valor correspondiente para un nivel de significancia (por ejemplo 1,645 para 5%), δ, la desviación típica de la rentabilidad y V, el valor de la inversión.
+Siendo R, la rentabilidad esperada, z, el valor correspondiente para un nivel de significancia (por ejemplo 1,645 para 5%), $\delta$, la desviación típica de la rentabilidad y V, el valor de la inversión.
 
 El método del VaR paramétrico es el método más fácil de calcular, ya que el VaR histórico aunque puede ser más fácil de entender es bastante más laborioso de calcular y aunque es menos preciso que el VaR por Montecarlo es más sencillo de aplicar. Este método se basa en la hipótesis de la distribución conjunta normal de los rendimientos de la cartera, y en la hipótesis de la relación lineal (a lo más cuadrática) entre los factores de riesgo del mercado y el valor de la empresa.
 
@@ -2074,7 +2073,7 @@ Para el cálculo de las metodología de Nelson y Siegel, así como la de Svensso
 <p class="caption">(\#fig:img1)Sección individual curva de rendimientos</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/datos_cr_2.png" alt="Precios promedio" width="2073" />
+<img src="images/datos_cr_2.png" alt="Precios promedio" width="330px" />
 <p class="caption">(\#fig:img3)Precios promedio</p>
 </div>
 ### Datos
@@ -2085,7 +2084,7 @@ Esta sección nos permite obtener de manera automática los archivos necesarios 
 + Documento de las características de los instrumentos de la Deuda Pública Nacional.
 
 <div class="figure" style="text-align: center">
-<img src="images/datos_cr_1.png" alt="Sección Datos" width="2067" />
+<img src="images/datos_cr_1.png" alt="Sección Datos" width="330px" />
 <p class="caption">(\#fig:img2)Sección Datos</p>
 </div>
 
@@ -2097,23 +2096,21 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
 1. Seleccionar una fecha para la cual se calcularán los precios estimados (Ver Figura \@ref(fig:img4)).
 
 <div class="figure" style="text-align: center">
-<img src="images/ns1.png" alt="Sección Nelson y Siegel individual" width="2065" />
+<img src="images/ns1.png" alt="Sección Nelson y Siegel individual" width="330px" />
 <p class="caption">(\#fig:img4)Sección Nelson y Siegel individual</p>
 </div>
 
 2. Selecionar los instrumentos a considerar ya sean TIF ó VEBONO (Ver Figura \@ref(fig:img5)), para este fin el usuario podrá elegir los mismos selecionando su nombre corto o ingresando un archivo plano (Ver Figura \@ref(fig:img6)). Cabe destacar que este archivo debera tener las siguientes características,
     + Debe ser un archivo plano (txt).
-    + Debe contener dos columnas.
-    + En la primera columna debe contener el ISIN ó coódigo del instrumento.
-    + En la segunda columna debe contener el nombre corto del instrumento.
-    + Ejemplo estructura fila: Para el TIF de ISIN "DPBS04686-0040", cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "DPBS04686-0040" "TIF082019".
+    + Debe contener una columna, la cual debe ser del tipo caracter donde se indicará el nombre corto del instrumento a considerar.
+    + Ejemplo estructura fila: Para el TIF cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "TIF082019".
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
 <div class="figure" style="text-align: center">
-<img src="images/ns2.png" alt="Selecionar instrumentos" width="2064" />
+<img src="images/ns2.png" alt="Selecionar instrumentos" width="330px" />
 <p class="caption">(\#fig:img5)Selecionar instrumentos</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/ns1.1.png" alt="Selecionar instrumentos desde un archivo plano" width="2060" />
+<img src="images/ns1.1.png" alt="Selecionar instrumentos desde un archivo plano" width="330px" />
 <p class="caption">(\#fig:img6)Selecionar instrumentos desde un archivo plano</p>
 </div>
 
@@ -2121,11 +2118,11 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
 3. El usuario debera seleccionar un método para calcular los precios teóricos, los cuales se ubican en estas secciones (Ver Figura \@ref(fig:img7)),
     + Parámetros iniciales: en esta sección los parámetros a considerar serán tomados por defecto y los cálculos del los precios y curva de rendimientos (Ver Figura \@ref(fig:img8)) se realizarán con los mismos.
 <div class="figure" style="text-align: center">
-<img src="images/ns3.png" alt="Opción parámetros iniciales" width="2058" />
+<img src="images/ns3.png" alt="Opción parámetros iniciales" width="330px" />
 <p class="caption">(\#fig:img7)Opción parámetros iniciales</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/ns4.png" alt="Curva de rendimientos inicial" width="2070" />
+<img src="images/ns4.png" alt="Curva de rendimientos inicial" width="330px" />
 <p class="caption">(\#fig:img8)Curva de rendimientos inicial</p>
 </div>
     + Elegir parámetros: en esta sección el usuario podrá elegir los parámetros de está metodología siempre y cuando los mismos cumplan con ciertas restricciones (Ver Figura \@ref(fig:img9)). El usuario deberá seleccionar un valor para las siguientes variables, 
@@ -2139,20 +2136,17 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
         + Precios teóricos de los instrumentos seleccionados.
         + Curva de rendimientos obtenida en base a los parámetros seleccionados.
 <div class="figure" style="text-align: center">
-<img src="images/ns5.png" alt="Opción elegir parámetros" width="2056" />
+<img src="images/ns5.png" alt="Opción elegir parámetros" width="330px" />
 <p class="caption">(\#fig:img9)Opción elegir parámetros</p>
 </div>
     + Parámetros optimizados: en esta sección los parámetros a utilizar serán los obtenidos luego de realizar un proceso de optimización sobre los mismos (Ver Figura \@ref(fig:img10)). Posteriormente se mostrarán los precios teóricos y curva de rendimientos obtenida para estos parámetros (Ver Figuras \@ref(fig:img11) y \@ref(fig:img12)).
+
 <div class="figure" style="text-align: center">
-<img src="images/ns6.png" alt="Opción optimizar parámetros" width="2064" />
-<p class="caption">(\#fig:img10)Opción optimizar parámetros</p>
-</div>
-<div class="figure" style="text-align: center">
-<img src="images/ns7.png" alt="Precios optimizados" width="2064" />
+<img src="images/ns7.png" alt="Precios optimizados" width="330px" />
 <p class="caption">(\#fig:img11)Precios optimizados</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/ns8.png" alt="Parámetros optimizados" width="2057" />
+<img src="images/ns8.png" alt="Parámetros optimizados" width="330px" />
 <p class="caption">(\#fig:img12)Parámetros optimizados</p>
 </div>
 ### Metodología Svensson
@@ -2161,25 +2155,23 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
 
 1. Seleccionar una fecha para la cual se calcularán los precios estimados (Ver Figura \@ref(fig:img13)).
 <div class="figure" style="text-align: center">
-<img src="images/sv1.png" alt="Sección Svensson individual" width="2068" />
+<img src="images/sv1.png" alt="Sección Svensson individual" width="330px" />
 <p class="caption">(\#fig:img13)Sección Svensson individual</p>
 </div>
 
 2. Selecionar los instrumentos a considerar ya sean TIF ó VEBONO, para este fin el usuario podrá elegir los mismos selecionando su nombre corto o ingresando una archivo plano (Ver Figuras \@ref(fig:img5) y \@ref(fig:img6)). Cabe destacar que este archivo debera tener las siguientes características,
     + Debe ser un archivo plano (txt).
-    + Debe contener dos columnas.
-    + En la primera columna debe contener el ISIN ó coódigo del instrumento.
-    + En la segunda columna debe contener el nombre corto del instrumento.
-    + Ejemplo estructura fila: Para el TIF de ISIN "DPBS04686-0040", cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "DPBS04686-0040" "TIF082019".
+    + Debe contener una columna, la cual debe ser del tipo caracter donde se indicará el nombre corto del instrumento a considerar.
+    + Ejemplo estructura fila: Para el TIF cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "TIF082019".
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
 3. El usuario debera seleccionar un método para calcular los precios teóricos, los cuales se ubican es estas secciones,
     + Parámetros iniciales: en esta sección los parámetros a considerar serán tomados por defecto y los cálculos del los precios y curva de rendimientos se realizarán con los mismos (Ver Figuras \@ref(fig:img14) y \@ref(fig:img15)).
 <div class="figure" style="text-align: center">
-<img src="images/sv3.png" alt="Parámetros iniciales" width="2054" />
+<img src="images/sv3.png" alt="Parámetros iniciales" width="330px" />
 <p class="caption">(\#fig:img14)Parámetros iniciales</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/sv4.png" alt="Curva de rendimientos parámetros iniciales" width="2069" />
+<img src="images/sv4.png" alt="Curva de rendimientos parámetros iniciales" width="330px" />
 <p class="caption">(\#fig:img15)Curva de rendimientos parámetros iniciales</p>
 </div>
     + Elegir parámetros: en esta sección el usuario podrá elegir los parámetros de está metodología siempre y cuando los mismos cumplan con ciertas restricciones (Ver Figura \@ref(fig:img16)). El usuario deberá seleccionar un valor para las siguientes variables,
@@ -2195,16 +2187,16 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
         + Precios teóricos de los instrumentos seleccionados.
         + Curva de rendimientos obtenida en base a los parámetros seleccionados.
 <div class="figure" style="text-align: center">
-<img src="images/sv5.png" alt="Elegir parámetros" width="2060" />
+<img src="images/sv5.png" alt="Elegir parámetros" width="330px" />
 <p class="caption">(\#fig:img16)Elegir parámetros</p>
 </div>
     + Parámetros optimizados: en esta sección los parámetros a utilizar serán los obtenidos luego de realizar un proceso de optimización sobre los mismos. Posteriormente se mostrarán los precios teóricos y curva de rendimientos obtenida para estos parámetros (Ver Figuras \@ref(fig:img17) y \@ref(fig:img18)).
 <div class="figure" style="text-align: center">
-<img src="images/sv7.png" alt="Precios optimizados" width="2066" />
+<img src="images/sv7.png" alt="Precios optimizados" width="330px" />
 <p class="caption">(\#fig:img17)Precios optimizados</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/sv8.png" alt="Parámetros optimizados" width="2062" />
+<img src="images/sv8.png" alt="Parámetros optimizados" width="330px" />
 <p class="caption">(\#fig:img18)Parámetros optimizados</p>
 </div>
 
@@ -2216,32 +2208,31 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
 1. Seleccionar una fecha para la cual se calcularán los precios estimados (Ver Figura \@ref(fig:img19)).
 2. Selecionar los instrumentos a considerar ya sean TIF ó VEBONO, para este fin el usuario podrá elegir los mismos selecionando su nombre corto o ingresando una archivo plano. Cabe destacar que este archivo debera tener las siguientes características,
     + Debe ser un archivo plano (txt).
-    + Debe contener dos columnas.
-    + En la primera columna debe contener el ISIN ó coódigo del instrumento.
-    + En la segunda columna debe contener el nombre corto del instrumento.
-    + Ejemplo estructura fila: Para el TIF de ISIN "DPBS04686-0040", cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "DPBS04686-0040" "TIF082019".
+    + Debe contener una columna, la cual debe ser del tipo caracter donde se indicará el nombre corto del instrumento a considerar.
+    + Ejemplo estructura fila: Para el TIF cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "TIF082019".
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
 <div class="figure" style="text-align: center">
-<img src="images/dl1.png" alt="Sección Diebold-Li" width="2060" />
+<img src="images/dl1.png" alt="Sección Diebold-Li" width="330px" />
 <p class="caption">(\#fig:img19)Sección Diebold-Li</p>
 </div>
 3. Posteriormente, el usuario en caso de no observar ninguna curva graficada deberá seleccionar una mayor cantidad de observaciones (Ver Figura \@ref(fig:img20)), esto se debe a que no se están considerando la suficiente cantidad de operaciones para graficar la curva de rendimientos a partir de la cual se obtendrán los rendimientos teóricos, los cuales son necesarios para el cálculo de los precios teóricos según esta metodología.
 <div class="figure" style="text-align: center">
-<img src="images/dl2.png" alt="Poca cantidad de observaciones" width="1414" />
+<img src="images/dl2.png" alt="Poca cantidad de observaciones" width="330px" />
 <p class="caption">(\#fig:img20)Poca cantidad de observaciones</p>
 </div>
 4. Una vez visualizada la curva ajustada mediante el spline, es necesario calibrar el parámetro de suavizamiento, el mismo controla la suavidad de la curva mostrada (Ver Figura \@ref(fig:img21)).
+<img src="images/dl3.1.png" width="330px" style="display: block; margin: auto;" />
 <div class="figure" style="text-align: center">
-<img src="images/dl3.png" alt="Curva spline" width="1417" />
+<img src="images/dl3.png" alt="Curva spline" width="330px" />
 <p class="caption">(\#fig:img21)Curva spline</p>
 </div>
 5. Luego de seleccionar este valor, se mostrará el spline a utilizar en el cálculo de los precios teóricos (Ver Figura \@ref(fig:img22)). Posteriormente se mostrarán los precios estimados y la curva de rendimientos obtenida, la cual en este caso es una superficie (Ver Figura \@ref(fig:img23)). Esto debido a considerar los parámetros de Diebold-Li dinámicos con respecto al tiempo.
 <div class="figure" style="text-align: center">
-<img src="images/dl4.png" alt="Precios estimados" width="1326" />
+<img src="images/dl4.png" alt="Precios estimados" width="330px" />
 <p class="caption">(\#fig:img22)Precios estimados</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/dl5.png" alt="Curva de rendimiento Diebold-Li" width="1362" />
+<img src="images/dl5.png" alt="Curva de rendimiento Diebold-Li" width="330px" />
 <p class="caption">(\#fig:img23)Curva de rendimiento Diebold-Li</p>
 </div>
 
@@ -2253,49 +2244,47 @@ Con el fin de proceder a realizar los cálculos mediante esta metodología el us
 1. Seleccionar una fecha para la cual se calcularán los precios estimados (Ver Figura \@ref(fig:img24)).
 2. Selecionar los instrumentos a considerar ya sean TIF ó VEBONO, para este fin el usuario podrá elegir los mismos selecionando su nombre corto o ingresando una archivo plano. Cabe destacar que este archivo debera tener las siguientes características,
     + Debe ser un archivo plano (txt).
-    + Debe contener dos columnas.
-    + En la primera columna debe contener el ISIN ó coódigo del instrumento.
-    + En la segunda columna debe contener el nombre corto del instrumento.
-    + Ejemplo estructura fila: Para el TIF de ISIN "DPBS04686-0040", cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "DPBS04686-0040" "TIF082019".
+    + Debe contener una columna, la cual debe ser del tipo caracter donde se indicará el nombre corto del instrumento a considerar.
+    + Ejemplo estructura fila: Para el TIF cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "TIF082019".
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
 <div class="figure" style="text-align: center">
-<img src="images/sp1.png" alt="Sección splines" width="2056" />
+<img src="images/sp1.png" alt="Sección splines" width="330px" />
 <p class="caption">(\#fig:img24)Sección splines</p>
 </div>
 3. Posteriormente, el usuario en caso de no observar ninguna curva graficada deberá seleccionar una mayor cantidad de observaciones (Ver Figura \@ref(fig:img25)), esto se debe a que no se están considerando la suficiente cantidad de operaciones para graficar la curva de rendimientos a partir de la cual se obtendrán los rendimientos teóricos, los cuales son necesarios para el cálculo de los precios teóricos según esta metodología.
 <div class="figure" style="text-align: center">
-<img src="images/sp2.png" alt="Pocas observaciones" width="2058" />
+<img src="images/sp2.png" alt="Pocas observaciones" width="330px" />
 <p class="caption">(\#fig:img25)Pocas observaciones</p>
 </div>
 4.  Una vez visualizada la curva ajustada mediante el spline, es necesario calibrar el parámetro de suavizamiento, el mismo controla la suavidad de la curva mostrada (Ver Figura \@ref(fig:img26)).
 <div class="figure" style="text-align: center">
-<img src="images/sp4.png" alt="Parámetro de suavizamiento" width="2055" />
+<img src="images/sp4.png" alt="Parámetro de suavizamiento" width="330px" />
 <p class="caption">(\#fig:img26)Parámetro de suavizamiento</p>
 </div>
 5. A continuación se mostraran los títulos candidatos a partir de los cuales la curva de rendimientos será trazada (Ver Figura \@ref(fig:img27)). Posteriormente se mostrarán los precios estimados y la curva de rendimientos obtenida (Ver Figuras \@ref(fig:img28) y \@ref(fig:img29)). 
 <div class="figure" style="text-align: center">
-<img src="images/sp3.png" alt="Títulos candidatos" width="2058" />
+<img src="images/sp3.png" alt="Títulos candidatos" width="330px" />
 <p class="caption">(\#fig:img27)Títulos candidatos</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/sp5.png" alt="Precios spline" width="2050" />
+<img src="images/sp5.png" alt="Precios spline" width="330px" />
 <p class="caption">(\#fig:img28)Precios spline</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/sp6.png" alt="Curva de rendimientos spline" width="2060" />
+<img src="images/sp6.png" alt="Curva de rendimientos spline" width="330px" />
 <p class="caption">(\#fig:img29)Curva de rendimientos spline</p>
 </div>
 6. Luego en caso de que el usuario desee eliminar alguna observación en específico, la misma debe ser elegida a partir de la lista desplegable que se muestra (Ver Figura \@ref(fig:img30)). Al seleccionar una observación, se mostrará la nueva data con la que se trabajará (títulos candidatos, ver figura \@ref(fig:img31)) así como los nuevos precios teóricos calculados y nueva curva de rendimientos obtenida (Ver Figura \@ref(fig:img32)).
 <div class="figure" style="text-align: center">
-<img src="images/sp7.png" alt="Opción eliminar observaciones" width="2064" />
+<img src="images/sp7.png" alt="Opción eliminar observaciones" width="330px" />
 <p class="caption">(\#fig:img30)Opción eliminar observaciones</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/sp8.png" alt="Nuevos títulos candidatos" width="2060" />
+<img src="images/sp8.png" alt="Nuevos títulos candidatos" width="330px" />
 <p class="caption">(\#fig:img31)Nuevos títulos candidatos</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/sp9.png" alt="Nuevos precios y curva de rendimientos" width="2063" />
+<img src="images/sp9.png" alt="Nuevos precios y curva de rendimientos" width="330px" />
 <p class="caption">(\#fig:img32)Nuevos precios y curva de rendimientos</p>
 </div>
 
@@ -2336,35 +2325,33 @@ Con el fin de proceder a realizar los cálculos en esta sección el usuario debe
 1. Seleccionar una fecha para la cual se calcularán los precios estimados (Ver Figura \@ref(fig:img34)).
 2. Selecionar los instrumentos a considerar ya sean TIF ó VEBONO, para este fin el usuario podrá elegir los mismos selecionando su nombre corto o ingresando una archivo plano. Cabe destacar que este archivo debera tener las siguientes características,
     + Debe ser un archivo plano (txt).
-    + Debe contener dos columnas.
-    + En la primera columna debe contener el ISIN ó coódigo del instrumento.
-    + En la segunda columna debe contener el nombre corto del instrumento.
-    + Ejemplo estructura fila: Para el TIF de ISIN "DPBS04686-0040", cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "DPBS04686-0040" "TIF082019".
+    + Debe contener una columna, la cual debe ser del tipo caracter donde se indicará el nombre corto del instrumento a considerar.
+    + Ejemplo estructura fila: Para el TIF cuyo vencimiento es el "02/08/2019". En este caso el nombre corto de este instrumento es "TIF082019". Así para cada fila debe existir la siguiente información "TIF082019".
     + El archivo debe contener tantas filas como instrumentos desee considerar el usuario. Posteriormente se mostraran los títulos seleccionados por el usuario así como su respectivo precio promedio es caso de existir, de lo contrario el precio asignado será de 0. Se mostrará también el documento de las características de los instrumentos financieros venezolanos, con el fin de que el usuario pueda observar en detalle cada instrumento.
 <div class="figure" style="text-align: center">
-<img src="images/sc1.png" alt="Selección de instrumentos" width="1424" />
+<img src="images/sc1.png" alt="Selección de instrumentos" width="330px" />
 <p class="caption">(\#fig:img34)Selección de instrumentos</p>
 </div>
 3. Luego de esto, se deberá rellenar la información correspondiente a cada metodología como ya se explico en la sección anterior, esto con el fin de obtener todos los parámetros necesarios para calcular los precios teóricos según cada metodología (Ver Figuras \@ref(fig:img35), \@ref(fig:img36), \@ref(fig:img37), \@ref(fig:img38) y \@ref(fig:img39)). 
 
 <div class="figure" style="text-align: center">
-<img src="images/sc2.png" alt="Metodologías" width="1424" />
+<img src="images/sc2.png" alt="Metodologías" width="330px" />
 <p class="caption">(\#fig:img35)Metodologías</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/sc3.png" alt="Metodología Nelson y Siegel" width="2058" />
+<img src="images/sc3.png" alt="Metodología Nelson y Siegel" width="330px" />
 <p class="caption">(\#fig:img36)Metodología Nelson y Siegel</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/sc4.png" alt="Metodología Svensson" width="2061" />
+<img src="images/sc4.png" alt="Metodología Svensson" width="330px" />
 <p class="caption">(\#fig:img37)Metodología Svensson</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/sc5.png" alt="Metodología Diebold-Li" width="1417" />
+<img src="images/sc5.png" alt="Metodología Diebold-Li" width="330px" />
 <p class="caption">(\#fig:img38)Metodología Diebold-Li</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/sc6.png" alt="Metodología splines" width="1415" />
+<img src="images/sc6.png" alt="Metodología splines" width="330px" />
 <p class="caption">(\#fig:img39)Metodología splines</p>
 </div>
 ### Precios Estimados
@@ -2372,7 +2359,7 @@ Con el fin de proceder a realizar los cálculos en esta sección el usuario debe
 Una vez completados todos los parámetros necesarios, los precios obtenidos se presentan en esta sección (Ver Figura \@ref(fig:img40)).
 
 <div class="figure" style="text-align: center">
-<img src="images/preciosc.png" alt="Comparativo de precios" width="2049" />
+<img src="images/preciosc.png" alt="Comparativo de precios" width="330px" />
 <p class="caption">(\#fig:img40)Comparativo de precios</p>
 </div>
 
@@ -2381,7 +2368,7 @@ Una vez completados todos los parámetros necesarios, los precios obtenidos se p
 En esta sección se presenta un grafico comparativo donde se grafican las curvas obtenidas mediante las diferentes metodologías. El usuario podrá descargar un reporte en PDF, con los resultados de los precios teóricos obtenidos en cada metodología (Ver Figura \@ref(fig:img41)).
 
 <div class="figure" style="text-align: center">
-<img src="images/curvasc.png" alt="Comparativo de curvas" width="2049" />
+<img src="images/curvasc.png" alt="Comparativo de curvas" width="330px" />
 <p class="caption">(\#fig:img41)Comparativo de curvas</p>
 </div>
 
@@ -2402,11 +2389,11 @@ Para el archivo de precios:
 
  + El formato del archivo debe ser txt. 
  + El archivo debe contener al menos 252 observaciones por cada instrumento. El archivo debe contener tantas columnas como instrumentos se consideren.
- + La primera columna del archivo deberá contener las fechas de las observaciones (precios), dichas observaciones deben estar ordenadas en forma decreciente. El formatod de la fecha debe ser: Año-Mes_Día (ej: 2019-06-07).
- + El resto de las columnas deben representar información para cada instrumento, es decir, cada columna debe contener las observaciones de cada título.
+ + La primera columna del archivo deberá contener las fechas de las observaciones (precios), dichas observaciones deben estar ordenadas en forma decreciente. El formato de la fecha debe ser: Año-Mes_Día (ej: 2019-06-07).
+ + El resto de las columnas deben representar información para cada instrumento, es decir, cada columna debe contener las observaciones de cada título. Estas columnas deben contener información sobre los precios de cada día de cada instrumento y su contenido debe ser numérico .
  
 <div class="figure" style="text-align: center">
-<img src="images/vr1.png" alt="Data precios" width="2073" />
+<img src="images/vr1.png" alt="Data precios" width="330px" />
 <p class="caption">(\#fig:img43)Data precios</p>
 </div>
 
@@ -2416,7 +2403,7 @@ Para el archivo de posiciones:
  + El archivo debe tener dos columnas, la primera debe contener el nombre corto del instrumentos. Por su parte la segunda columna deberá contener la posición del instrumento. En caso de existir decimales usar "." como separación (Ver Figura \@ref(fig:img44)).
  
 <div class="figure" style="text-align: center">
-<img src="images/vr2.png" alt="Data posiciones" width="2064" />
+<img src="images/vr2.png" alt="Data posiciones" width="330px" />
 <p class="caption">(\#fig:img44)Data posiciones</p>
 </div>
 
@@ -2424,7 +2411,7 @@ Para el archivo de posiciones:
 Es importante que la información sobre los instrumentos considerada en el archivo de precios y el archivo de posiciones sea la misma, es decir, los títulos que aparecen en el archivo de precios deben ser los mismos que aparecen en el archivo de posiciones. Una ventana ubicada en esta sección (Aviso) realizará esta validación, en caso de existir una discrepancia no se realizará ningún cálculo (Ver Figura \@ref(fig:img45)).
  
 <div class="figure" style="text-align: center">
-<img src="images/vr3.png" alt="Aviso data" width="2060" />
+<img src="images/vr3.png" alt="Aviso data" width="330px" />
 <p class="caption">(\#fig:img45)Aviso data</p>
 </div>
 
@@ -2435,17 +2422,18 @@ En está sección el usuario debe seleccionar las distribuciones asociadas a los
 1. Elegir Distribución: En esta subsección al inicio se muestra una advertencia referente a si existe problemas con los precios ingresados, usualmente estos problemas surgen cuando existen dos precios iguales y ellos están seguidos. En caso de existir este problema, el instrumento ó instrumentos involucrados serán excluidos del estudio (Ver Figura \@ref(fig:img46)). Posteriormente el usuario debe:
  +  Seleccionar el instrumento, para el cual se realizará la prueba de bondad de ajuste. Una vez seleccionado el instrumento se desplegará una ventana que mostrará las distribuciones que más se asemejan a los rendimientos de los precios del instrumento en estudio.
 <div class="figure" style="text-align: center">
-<img src="images/vr4.png" alt="Elección instrumento" width="2063" />
+<img src="images/vr4.png" alt="Elección instrumento" width="330px" />
 <p class="caption">(\#fig:img46)Elección instrumento</p>
 </div>
  + Una vez generado las posibles opciones el usuario debe seleccionar una distribución, luego de esto se mostrarán los parámetros obtenidos a partir de dicho ajuste (Ver Figura \@ref(fig:img47)).
 <div class="figure" style="text-align: center">
-<img src="images/vr5.png" alt="Ajuste de distribución" width="2024" />
+<img src="images/vr5.png" alt="Ajuste de distribución" width="330px" />
 <p class="caption">(\#fig:img47)Ajuste de distribución</p>
 </div>
  + Se debe seleccionar "Si", en el recuadro que pregunta si desea guardar su distribución. Luego de esto la distribución de cada instrumento se guardará para su posterior uso. Esta serie de pasos debe repetirse por cada instrumento considerado (Ver Figura \@ref(fig:img48)).
+<img src="images/vr6.png" width="330px" style="display: block; margin: auto;" />
 <div class="figure" style="text-align: center">
-<img src="images/vr6.png" alt="Distribuciones" width="2022" />
+<img src="images/vr6.1.png" alt="Distribuciones" width="330px" />
 <p class="caption">(\#fig:img48)Distribuciones</p>
 </div>
 
@@ -2466,111 +2454,111 @@ En está sección el usuario debe seleccionar las distribuciones asociadas a los
 En esta sección se realizan todos los cálculos referentes al VaR, el mismo se calculará por tres metodologías, la primera es la metodología del VaR paramétrico, la segunda es la metodología del VaR por simulación histórica y la tercera es la metodología de VaR por simulación de MonteCarlo. En esta sección se muestran tres pestañas en donde se cálculan las metodologías explicadas anteriormente.
 
 <div class="figure" style="text-align: center">
-<img src="images/vr7.png" alt="Pestañas sección VaR" width="2062" />
+<img src="images/vr7.png" alt="Pestañas sección VaR" width="330px" />
 <p class="caption">(\#fig:img49)Pestañas sección VaR</p>
 </div>
 
  * Pestaña Paramétrico: en esta pestaña se muestra la siguiente información,
     * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia (Ver Figura \@ref(fig:img50)).
 <div class="figure" style="text-align: center">
-<img src="images/vr8.png" alt="Rendimientos" width="2063" />
+<img src="images/vr8.png" alt="Rendimientos" width="330px" />
 <p class="caption">(\#fig:img50)Rendimientos</p>
 </div>
     * Parámetros seleccionados para cada instrumento suponiendo una distribución Normal (Ver Figura \@ref(fig:img51)).
 <div class="figure" style="text-align: center">
-<img src="images/vr9.png" alt="Advertencias y parámetros" width="2059" />
+<img src="images/vr9.png" alt="Advertencias y parámetros" width="330px" />
 <p class="caption">(\#fig:img51)Advertencias y parámetros</p>
 </div>
     * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99% (Ver Figura \@ref(fig:img52)).
 <div class="figure" style="text-align: center">
-<img src="images/vr10.png" alt="Nivel de confianza" width="2058" />
+<img src="images/vr10.png" alt="Nivel de confianza" width="330px" />
 <p class="caption">(\#fig:img52)Nivel de confianza</p>
 </div>
     * Luego se seleccionar este valor, se mostrará una tabla con los vares individuales, desviación estándar y el porcentaje que representa cada VaR individual sobre el portafolio.
     * Finalmente se muestra el valor del VaR de portafolio (Ver Figura \@ref(fig:img53)).
 <div class="figure" style="text-align: center">
-<img src="images/vr11.png" alt="VaRes" width="2060" />
+<img src="images/vr11.png" alt="VaRes" width="330px" />
 <p class="caption">(\#fig:img53)VaRes</p>
 </div>
  * Pestaña Histórico: en esta pestaña se muestra la siguiente información,
     * Una advertencia en caso de existir algún problema con algún instrumento.
     * Pesos de cada instrumento, calculado a partir de su proporción de valor nominal con respecto al total de instrumentos (Ver Figura \@ref(fig:img54)).
 <div class="figure" style="text-align: center">
-<img src="images/vr12.png" alt="Pesos" width="2062" />
+<img src="images/vr12.png" alt="Pesos" width="330px" />
 <p class="caption">(\#fig:img54)Pesos</p>
 </div>
     * Valor nominal del portafolio.
     * Suma de pesos (Ver Figura \@ref(fig:img55)).
 <div class="figure" style="text-align: center">
-<img src="images/vr13.png" alt="Valor nominal y suma de pesos" width="2052" />
+<img src="images/vr13.png" alt="Valor nominal y suma de pesos" width="330px" />
 <p class="caption">(\#fig:img55)Valor nominal y suma de pesos</p>
 </div>
     * Escenarios, se refiere a las variaciones que ha sufrido el valor de portafolio de manera diaria esto debido a la variación de los precios de los instrumentos (Ver Figura \@ref(fig:img56)).
 <div class="figure" style="text-align: center">
-<img src="images/vr14.png" alt="Escenarios" width="2056" />
+<img src="images/vr14.png" alt="Escenarios" width="330px" />
 <p class="caption">(\#fig:img56)Escenarios</p>
 </div>
     * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99%.
     * Ubicación de la observación a ser considerada para el cálculo del VaR por simulación Histórica (Ver Figura \@ref(fig:img57)).
 <div class="figure" style="text-align: center">
-<img src="images/vr15.png" alt="Nivel de confianza y ubicación" width="2063" />
+<img src="images/vr15.png" alt="Nivel de confianza y ubicación" width="330px" />
 <p class="caption">(\#fig:img57)Nivel de confianza y ubicación</p>
 </div>
     * Resultados de los vares individuales, donde se mostrará el valor nominal y el VaR para cada instrumento.
     * VaR del portafolio (Ver Figura \@ref(fig:img58)).
 <div class="figure" style="text-align: center">
-<img src="images/vr16.png" alt="VaRes" width="2055" />
+<img src="images/vr16.png" alt="VaRes" width="330px" />
 <p class="caption">(\#fig:img58)VaRes</p>
 </div>
  * Pestaña Simulación MonteCarlo: esta pestaña se subdivide en dos secciones (Ver Figura \@ref(fig:img59)),
 <div class="figure" style="text-align: center">
-<img src="images/vr17.png" alt="Pestañas simulación MonteCarlo" width="2060" />
+<img src="images/vr17.png" alt="Pestañas simulación MonteCarlo" width="330px" />
 <p class="caption">(\#fig:img59)Pestañas simulación MonteCarlo</p>
 </div>
     * VaR Simulación MonteCarlo asumiendo normalidad: en esta sección se muestra la siguiente información,
         * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia (Ver Figura \@ref(fig:img60)).
 <div class="figure" style="text-align: center">
-<img src="images/vr18.png" alt="Rendimientos" width="2063" />
+<img src="images/vr18.png" alt="Rendimientos" width="330px" />
 <p class="caption">(\#fig:img60)Rendimientos</p>
 </div>
         * Parámetros seleccionados para cada instrumento suponiendo una distribución Normal.
         * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99% (Ver Figura \@ref(fig:img61)).
 <div class="figure" style="text-align: center">
-<img src="images/vr19.png" alt="Parámetros y nivel de confianza" width="2063" />
+<img src="images/vr19.png" alt="Parámetros y nivel de confianza" width="330px" />
 <p class="caption">(\#fig:img61)Parámetros y nivel de confianza</p>
 </div>
         * Lista de selección, donde el usuario debe elegir la cantidad de simulaciones que desea realizar (Ver Figura \@ref(fig:img62)).
 <div class="figure" style="text-align: center">
-<img src="images/vr20.png" alt="Cantidad de simulaciones" width="2064" />
+<img src="images/vr20.png" alt="Cantidad de simulaciones" width="330px" />
 <p class="caption">(\#fig:img62)Cantidad de simulaciones</p>
 </div>
         * Resultados de los vares individuales obtenidos mediante esta metodología. Donde se muestra el nombre del instrumento, el valor nominal, el var individual y el porcentaje de cada VaR con respecto al portafolio.
         * Resultado del VaR de portafolio (Ver Figura \@ref(fig:img63)).
 <div class="figure" style="text-align: center">
-<img src="images/vr21.png" alt="VaRes" width="2062" />
+<img src="images/vr21.png" alt="VaRes" width="330px" />
 <p class="caption">(\#fig:img63)VaRes</p>
 </div>
     * VaR Simulación MonteCarlo considerando mejor distribución: en esta sección se muestra la siguiente información,
         * Rendimientos de cada instrumento, en caso de existir algún problema con un instrumento se mostrará un mensaje de advertencia (Ver Figura \@ref(fig:img64)).
 <div class="figure" style="text-align: center">
-<img src="images/vr22.png" alt="Rendimientos" width="2052" />
+<img src="images/vr22.png" alt="Rendimientos" width="330px" />
 <p class="caption">(\#fig:img64)Rendimientos</p>
 </div>
         * Distribuciones seleccionadas para cada instrumento, ya sea seleccionadas mediante la aplicación o mediante un archivo ingresado por el usuario.
         * Lista de selección, donde el usuario debe elegir el nivel de confianza del VaR, ya sea 90, 95 ó 99% (Ver Figura \@ref(fig:img65)).
 <div class="figure" style="text-align: center">
-<img src="images/vr23.png" alt="Distribuciones y nivel de confianza" width="2053" />
+<img src="images/vr23.png" alt="Distribuciones y nivel de confianza" width="330px" />
 <p class="caption">(\#fig:img65)Distribuciones y nivel de confianza</p>
 </div>
         * Lista de selección, donde el usuario debe elegir la cantidad de simulaciones que desea realizar (Ver Figura \@ref(fig:img66)).
 <div class="figure" style="text-align: center">
-<img src="images/vr24.png" alt="Cantidad de simulaciones" width="2057" />
+<img src="images/vr24.png" alt="Cantidad de simulaciones" width="330px" />
 <p class="caption">(\#fig:img66)Cantidad de simulaciones</p>
 </div>
         * Resultados del VaR individual.
         * Resultado del VaR de portafolio (Ver Figura \@ref(fig:img67)).
 <div class="figure" style="text-align: center">
-<img src="images/vr25.png" alt="VaRes" width="2057" />
+<img src="images/vr25.png" alt="VaRes" width="330px" />
 <p class="caption">(\#fig:img67)VaRes</p>
 </div>
  
@@ -2579,105 +2567,105 @@ En esta sección se realizan todos los cálculos referentes al VaR, el mismo se 
 En esta sección se subdivide en (Ver Figura \@ref(fig:img68)), 
 
 <div class="figure" style="text-align: center">
-<img src="images/vr26.png" alt="Pestañas sección Gráficos" width="2072" />
+<img src="images/vr26.png" alt="Pestañas sección Gráficos" width="330px" />
 <p class="caption">(\#fig:img68)Pestañas sección Gráficos</p>
 </div>
 
  * Pestaña Valor nominal: en esta subsección se muestra un gráfico de torta donde se muestra el valor nominal de cada instrumento (Ver Figura \@ref(fig:img69)).
  
 <div class="figure" style="text-align: center">
-<img src="images/vr27.png" alt="Gráfico valor nominal" width="2065" />
+<img src="images/vr27.png" alt="Gráfico valor nominal" width="330px" />
 <p class="caption">(\#fig:img69)Gráfico valor nominal</p>
 </div>
  
  * VaRes: esta subsección presenta los resultados de los VaRes obtenidos mediante las diferentes metodologías, la misma se divide en (Ver Figura \@ref(fig:img70)),
 <div class="figure" style="text-align: center">
-<img src="images/vr28.png" alt="Pestañs VaRes" width="2071" />
+<img src="images/vr28.png" alt="Pestañs VaRes" width="330px" />
 <p class="caption">(\#fig:img70)Pestañs VaRes</p>
 </div>
     * VaR Paramétrico: en esta subsección se muestran los gráficos correspondientes a esta metodología. La misma se subdivide en (Ver Figura \@ref(fig:img71)),
 <div class="figure" style="text-align: center">
-<img src="images/vr29.png" alt="Pestañas VaR paramétrico" width="2069" />
+<img src="images/vr29.png" alt="Pestañas VaR paramétrico" width="330px" />
 <p class="caption">(\#fig:img71)Pestañas VaR paramétrico</p>
 </div>
         + VaRes individuales: se muestra un gráfico de torta donde se muestra información sobre los VaRes individuales obtenidos (Ver Figura \@ref(fig:img72)).
 <div class="figure" style="text-align: center">
-<img src="images/vr30.png" alt="VaRes individuales" width="2065" />
+<img src="images/vr30.png" alt="VaRes individuales" width="330px" />
 <p class="caption">(\#fig:img72)VaRes individuales</p>
 </div>
         + Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales (Ver Figura \@ref(fig:img73)).
 <div class="figure" style="text-align: center">
-<img src="images/vr31.png" alt="Comparativo" width="2061" />
+<img src="images/vr31.png" alt="Comparativo" width="330px" />
 <p class="caption">(\#fig:img73)Comparativo</p>
 </div>
     * VaR Simulación Histórica: esta subsección muestra los siguientes gráficos (Ver Figura \@ref(fig:img74)),
 <div class="figure" style="text-align: center">
-<img src="images/vr32.png" alt="Pestañas VaR simulación por histórica" width="2069" />
+<img src="images/vr32.png" alt="Pestañas VaR simulación por histórica" width="330px" />
 <p class="caption">(\#fig:img74)Pestañas VaR simulación por histórica</p>
 </div>
         + Escenarios: muestra un histograma mediante el cual se muestran los diferentes escenarios obtenidos (Ver Figura \@ref(fig:img75)).
 <div class="figure" style="text-align: center">
-<img src="images/vr33.png" alt="Histograma escenarios" width="2063" />
+<img src="images/vr33.png" alt="Histograma escenarios" width="330px" />
 <p class="caption">(\#fig:img75)Histograma escenarios</p>
 </div>
         + VaRes individuales: muestra un gráfico de torta donde se muestra información sobre los Vares individuales obtenidos (Ver Figura \@ref(fig:img76)).
 <div class="figure" style="text-align: center">
-<img src="images/vr34.png" alt="VaRes individuales" width="2063" />
+<img src="images/vr34.png" alt="VaRes individuales" width="330px" />
 <p class="caption">(\#fig:img76)VaRes individuales</p>
 </div>
         + Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales (Ver Figura \@ref(fig:img77)).
 <div class="figure" style="text-align: center">
-<img src="images/vr35.png" alt="Comparativo" width="2062" />
+<img src="images/vr35.png" alt="Comparativo" width="330px" />
 <p class="caption">(\#fig:img77)Comparativo</p>
 </div>
     * VaR Simulación MonteCarlo: esta subsección se divide en dos (Ver Figura \@ref(fig:img78)),
 <div class="figure" style="text-align: center">
-<img src="images/vr36.png" alt="Pestañas VaR simulación MonteCarlo" width="2063" />
+<img src="images/vr36.png" alt="Pestañas VaR simulación MonteCarlo" width="330px" />
 <p class="caption">(\#fig:img78)Pestañas VaR simulación MonteCarlo</p>
 </div>
         + Distribución Normal: se muestra los resultados, asumiendo una distribución normal (Ver Figura \@ref(fig:img79)),
 <div class="figure" style="text-align: center">
-<img src="images/vr37.png" alt="Pestañas VaR simulación MonteCarlo normal" width="2060" />
+<img src="images/vr37.png" alt="Pestañas VaR simulación MonteCarlo normal" width="330px" />
 <p class="caption">(\#fig:img79)Pestañas VaR simulación MonteCarlo normal</p>
 </div>
             * Escenarios: muestra un histograma mediante el cual se muestran los diferentes escenarios obtenidos (Ver Figura \@ref(fig:img80)).
 <div class="figure" style="text-align: center">
-<img src="images/vr38.png" alt="Histograma escenarios" width="2073" />
+<img src="images/vr38.png" alt="Histograma escenarios" width="330px" />
 <p class="caption">(\#fig:img80)Histograma escenarios</p>
 </div>
             * VaRes individuales: muestra un gráfico de torta donde se muestra información sobre los Vares individuales obtenidos (Ver Figura \@ref(fig:img81)).
 <div class="figure" style="text-align: center">
-<img src="images/vr39.png" alt="VaRes individuales" width="2062" />
+<img src="images/vr39.png" alt="VaRes individuales" width="330px" />
 <p class="caption">(\#fig:img81)VaRes individuales</p>
 </div>
             * Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales (Ver Figura \@ref(fig:img82)).
 <div class="figure" style="text-align: center">
-<img src="images/vr40.png" alt="Comparativo" width="2066" />
+<img src="images/vr40.png" alt="Comparativo" width="330px" />
 <p class="caption">(\#fig:img82)Comparativo</p>
 </div>
         + Distribución Elegida: se muestran los resultados, asumiendo la mejor distribución (Ver Figura \@ref(fig:img83)),
 <div class="figure" style="text-align: center">
-<img src="images/vr41.png" alt="Pestañas VaR simulación MonteCarlo mejor distribución" width="2072" />
+<img src="images/vr41.png" alt="Pestañas VaR simulación MonteCarlo mejor distribución" width="330px" />
 <p class="caption">(\#fig:img83)Pestañas VaR simulación MonteCarlo mejor distribución</p>
 </div>
             * Escenarios: muestra un histograma mediante el cual se muestran los diferentes escenarios obtenidos (Ver Figura \@ref(fig:img84)).
 <div class="figure" style="text-align: center">
-<img src="images/vr42.png" alt="Histograma escenarios" width="2069" />
+<img src="images/vr42.png" alt="Histograma escenarios" width="330px" />
 <p class="caption">(\#fig:img84)Histograma escenarios</p>
 </div>
             * VaRes individuales: muestra un gráfico de torta donde se muestra información sobre los Vares individuales obtenidos (Ver Figura \@ref(fig:img85)).
 <div class="figure" style="text-align: center">
-<img src="images/vr43.png" alt="VaRes individuales" width="2067" />
+<img src="images/vr43.png" alt="VaRes individuales" width="330px" />
 <p class="caption">(\#fig:img85)VaRes individuales</p>
 </div>
             * Comparativo: se muestra un gráfico comparativo donde se compara el VaR de portafolio y la suma de los VaRes individuales (Ver Figura \@ref(fig:img86)).
 <div class="figure" style="text-align: center">
-<img src="images/vr44.png" alt="Comparativo" width="2070" />
+<img src="images/vr44.png" alt="Comparativo" width="330px" />
 <p class="caption">(\#fig:img86)Comparativo</p>
 </div>
  * Comparativo Vares: en esta subsección se muestra un gráfico comparativo del VaR de portafolio obtenido para cada metodología (Ver Figura \@ref(fig:img87)).
 <div class="figure" style="text-align: center">
-<img src="images/vr45.png" alt="Comparativo VaRes" width="2066" />
+<img src="images/vr45.png" alt="Comparativo VaRes" width="330px" />
 <p class="caption">(\#fig:img87)Comparativo VaRes</p>
 </div>
 
@@ -2686,7 +2674,7 @@ En esta sección se subdivide en (Ver Figura \@ref(fig:img68)),
 Esta sección permite calcular el VaR para un rango de fechas en específico, siempre y cuando las mismas se encuentren disponibles en la data histórica considerada. La misma cuenta con las siguientes secciones (Ver Figura \@ref(fig:img88)), 
 
 <div class="figure" style="text-align: center">
-<img src="images/vr46.png" alt="Pestañas sección Históricos" width="2071" />
+<img src="images/vr46.png" alt="Pestañas sección Históricos" width="330px" />
 <p class="caption">(\#fig:img88)Pestañas sección Históricos</p>
 </div>
 
@@ -2696,7 +2684,7 @@ Esta sección permite calcular el VaR para un rango de fechas en específico, si
     * Elección realizada por el usuario.
     * Histórico generado por la metodología del Var paramétrico, consta de dos columnas la primera indica la fecha, mientras que la segunda indica el valor del VaR para ese día en específico.
 <div class="figure" style="text-align: center">
-<img src="images/vr47.png" alt="Sección Históricos" width="2041" />
+<img src="images/vr47.png" alt="Sección Históricos" width="330px" />
 <p class="caption">(\#fig:img89)Sección Históricos</p>
 </div>
   * VaR Histórico: esta subsección permite calcular el histórico de los Vares mediante el uso de la metodología del VaR por simulación histórica, la cual se caracteriza por no asignar ninguna distribución conocida, sino que trabaja con la distribución empírica de los datos. Dentro de esta subsección se encuentra:
@@ -2735,11 +2723,11 @@ En esta subsección el usuario debe ingresar los datos con los cuales se va a tr
   * Debe contar con tres columnas, la primera debe proporcionar información sobre la fecha (ej: 27/03/2018), la segunda columna debe contener información sobre el VaR para ese día. Finalmente, la tercera columna debe indicar información sobre el valor nominal del portafolio para el día considerado. Es importante mencionar que el archivo debe contener 252 observaciones (Ver Figura \@ref(fig:img92)).
 
 <div class="figure" style="text-align: center">
-<img src="images/b2.png" alt="Datos" width="2072" />
+<img src="images/b2.png" alt="Datos" width="330px" />
 <p class="caption">(\#fig:img91)Datos</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/b3.png" alt="Data de prueba" width="2079" />
+<img src="images/b3.png" alt="Data de prueba" width="330px" />
 <p class="caption">(\#fig:img92)Data de prueba</p>
 </div>
 
@@ -2753,11 +2741,11 @@ En esta subsección se muestran los resultados obtenidos para las diferentes pru
 * Valor crítico asociado a cada prueba.
 * Resultado de cada prueba, obtenido al realizar una comparación entre el valor crítico y el valor del estadístico de cada prueba.
 
+<img src="images/b4.png" width="330px" style="display: block; margin: auto;" />
 <div class="figure" style="text-align: center">
-<img src="images/b4.png" alt="Resultados" width="2073" />
+<img src="images/b4.1.png" alt="Resultados" width="330px" />
 <p class="caption">(\#fig:img93)Resultados</p>
 </div>
-
 ## Valoración
 
 Esta sección permite realizar los cáculos de valoración de un portafolio, a partir de sus precios y valor nominal para un día determinado en términos de utilidad y pérdida. De igual manera, esta sección permite realizar una prueba de estrés y saber como se comportará la utilidad o périda del portafolio en caso de una posible caida de los precios (Ver Figura \@ref(fig:img94)).
@@ -2783,11 +2771,11 @@ En esta subsección el usuario debe ingresar la data (Ver Figura \@ref(fig:img95
 * El archivo debe contener tantas filas como instrumentos se desee considerar.
 
 <div class="figure" style="text-align: center">
-<img src="images/val2.png" alt="Datos" width="2078" />
+<img src="images/val2.png" alt="Datos" width="330px" />
 <p class="caption">(\#fig:img95)Datos</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/val3.png" alt="Datos de prueba" width="2062" />
+<img src="images/val3.png" alt="Datos de prueba" width="330px" />
 <p class="caption">(\#fig:img96)Datos de prueba</p>
 </div>
 ### Resultados
@@ -2796,12 +2784,12 @@ En esta subsección se muestra los resultados de la valoración, la información
 
 * La primera tabla muestra información acerca del monto invertido en cada instrumento y su valor actual, considerando el precio teórico elegido. También se muestra la ganancia ó perdida que se tiene actualmente con un instrumento. En esta tabla se presenta la información para cada instrumento por separado (Ver Figura \@ref(fig:img97)).
 <div class="figure" style="text-align: center">
-<img src="images/val4.png" alt="Resultados individuales" width="2058" />
+<img src="images/val4.png" alt="Resultados individuales" width="330px" />
 <p class="caption">(\#fig:img97)Resultados individuales</p>
 </div>
 * La segunda tabla, muestra un resumen para todo el portafolio, se presenta la suma del valor nominal por tipo de instrumento, el precio promedio ponderado por el valor nominal dpara cada isntrumento, y la ganancia ó pérdida obtenida para cada tipo de instrumento considerado (Ver Figura \@ref(fig:img98)).
 <div class="figure" style="text-align: center">
-<img src="images/val5.png" alt="Resultados portafolio" width="2059" />
+<img src="images/val5.png" alt="Resultados portafolio" width="330px" />
 <p class="caption">(\#fig:img98)Resultados portafolio</p>
 </div>
 
@@ -2815,29 +2803,29 @@ En esta subsección se muestra los resultados de la valoración luego de estresa
 * El archivo debe contener la misma cantidad de instrumentos considerados en la data anterior.
 
 <div class="figure" style="text-align: center">
-<img src="images/val6.png" alt="Datos" width="2071" />
+<img src="images/val6.png" alt="Datos" width="330px" />
 <p class="caption">(\#fig:img99)Datos</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/val7.png" alt="Datos de prueba" width="2063" />
+<img src="images/val7.png" alt="Datos de prueba" width="330px" />
 <p class="caption">(\#fig:img100)Datos de prueba</p>
 </div>
 <div class="figure" style="text-align: center">
-<img src="images/val7.1.png" alt="Advertencia" width="2046" />
+<img src="images/val7.1.png" alt="Advertencia" width="330px" />
 <p class="caption">(\#fig:img101)Advertencia</p>
 </div>
 La información está distribuida en dos tablas,
 
 * La primera tabla muestra información acerca del monto invertido en cada instrumento, su valor actual, el precio teórico elegido, la desviación estandar de cada instrumento, el precio estresado, el Mark to Market (MTM), y la ganancia o pérdida considerando los precios teóricos iniciales y los precios teóricos estresados (Ver Figura \@ref(fig:img102)). 
 <div class="figure" style="text-align: center">
-<img src="images/val8.png" alt="Resultados individuales estresados" width="2065" />
+<img src="images/val8.png" alt="Resultados individuales estresados" width="330px" />
 <p class="caption">(\#fig:img102)Resultados individuales estresados</p>
 </div>
 
 * La segunda tabla, muestra un resumen para todo el portafolio, se presenta la suma del valor nominal por tipo de instrumento, el precio promedio ponderado por el valor nominal para cada instrumento, y la ganancia ó pérdida obtenida para cada tipo de instrumento considerado los precios de mercado y los precios estresados (Ver Figura \@ref(fig:img103)).
 
 <div class="figure" style="text-align: center">
-<img src="images/val9.png" alt="Resultados portafolio estresados" width="2058" />
+<img src="images/val9.png" alt="Resultados portafolio estresados" width="330px" />
 <p class="caption">(\#fig:img103)Resultados portafolio estresados</p>
 </div>
 
@@ -2893,7 +2881,7 @@ An R Markdown document (`*.Rmd`) is first compiled to Markdown (`*.md`) through 
 
 ```r
 rmarkdown::pandoc_version()
-## [1] '2.3.1'
+## [1] '2.7.3'
 ```
 
 If you find this version too low and there are Pandoc features only in a later version, you can install the later version of Pandoc, and **rmarkdown** will call the newer version instead of its built-in version.
