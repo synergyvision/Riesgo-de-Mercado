@@ -13,32 +13,32 @@
 \contentsline {subsection}{\numberline {2.1.4}Polinomios trigonom\IeC {\'e}tricos.}{8}{subsection.2.1.4}
 \contentsline {subsection}{\numberline {2.1.5}Metodolog\IeC {\'\i }a Diebold-Li}{9}{subsection.2.1.5}
 \contentsline {subsubsection}{\numberline {2.1.5.1}Modelos de factores de la curva de rendimientos}{9}{subsubsection.2.1.5.1}
-\contentsline {section}{\numberline {2.2}Metodolog\IeC {\'\i }as no Param\IeC {\'e}tricas}{10}{section.2.2}
+\contentsline {section}{\numberline {2.2}Metodolog\IeC {\'\i }as no Param\IeC {\'e}tricas}{11}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}Regresi\IeC {\'o}n Kernel}{11}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}Polinomios locales}{12}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.2}Polinomios locales}{13}{subsection.2.2.2}
 \contentsline {subsection}{\numberline {2.2.3}Splines suavizados}{14}{subsection.2.2.3}
 \contentsline {subsection}{\numberline {2.2.4}Splines de polinomios}{14}{subsection.2.2.4}
 \contentsline {subsection}{\numberline {2.2.5}Splines suavizados}{15}{subsection.2.2.5}
-\contentsline {subsection}{\numberline {2.2.6}Supersuavizador de Friedmann}{15}{subsection.2.2.6}
+\contentsline {subsection}{\numberline {2.2.6}Supersuavizador de Friedmann}{16}{subsection.2.2.6}
 \contentsline {subsection}{\numberline {2.2.7}Redes neuronales artificiales}{18}{subsection.2.2.7}
 \contentsline {subsection}{\numberline {2.2.8}Metodolog\IeC {\'\i }a Splines C\IeC {\'u}bicos de Suavizado}{21}{subsection.2.2.8}
 \contentsline {subsubsection}{\numberline {2.2.8.1}Teor\IeC {\'\i }a de interpolaci\IeC {\'o}n}{21}{subsubsection.2.2.8.1}
-\contentsline {subsubsection}{\numberline {2.2.8.2}Interpolaci\IeC {\'o}n lineal}{22}{subsubsection.2.2.8.2}
+\contentsline {subsubsection}{\numberline {2.2.8.2}Interpolaci\IeC {\'o}n lineal}{23}{subsubsection.2.2.8.2}
 \contentsline {subsubsection}{\numberline {2.2.8.3}Interpolaci\IeC {\'o}n de Lagrange}{24}{subsubsection.2.2.8.3}
-\contentsline {subsubsection}{\numberline {2.2.8.4}Interpolaci\IeC {\'o}n de Hermite}{25}{subsubsection.2.2.8.4}
-\contentsline {subsubsection}{\numberline {2.2.8.5}Interpolaci\IeC {\'o}n Polin\IeC {\'o}mica}{26}{subsubsection.2.2.8.5}
-\contentsline {subsubsection}{\numberline {2.2.8.6}Splines}{27}{subsubsection.2.2.8.6}
-\contentsline {subsubsection}{\numberline {2.2.8.7}Bases de splines}{31}{subsubsection.2.2.8.7}
+\contentsline {subsubsection}{\numberline {2.2.8.4}Interpolaci\IeC {\'o}n de Hermite}{26}{subsubsection.2.2.8.4}
+\contentsline {subsubsection}{\numberline {2.2.8.5}Interpolaci\IeC {\'o}n Polin\IeC {\'o}mica}{27}{subsubsection.2.2.8.5}
+\contentsline {subsubsection}{\numberline {2.2.8.6}Splines}{28}{subsubsection.2.2.8.6}
+\contentsline {subsubsection}{\numberline {2.2.8.7}Bases de splines}{32}{subsubsection.2.2.8.7}
 \contentsline {subsubsection}{\numberline {2.2.8.8}B-spline uniforme}{33}{subsubsection.2.2.8.8}
-\contentsline {subsubsection}{\numberline {2.2.8.9}B-spline cardinal}{33}{subsubsection.2.2.8.9}
-\contentsline {subsubsection}{\numberline {2.2.8.10}B-spline constante}{34}{subsubsection.2.2.8.10}
-\contentsline {subsubsection}{\numberline {2.2.8.11}B-spline lineal}{34}{subsubsection.2.2.8.11}
+\contentsline {subsubsection}{\numberline {2.2.8.9}B-spline cardinal}{34}{subsubsection.2.2.8.9}
+\contentsline {subsubsection}{\numberline {2.2.8.10}B-spline constante}{35}{subsubsection.2.2.8.10}
+\contentsline {subsubsection}{\numberline {2.2.8.11}B-spline lineal}{35}{subsubsection.2.2.8.11}
 \contentsline {subsubsection}{\numberline {2.2.8.12}B-spline cuadr\IeC {\'a}tica uniforme}{35}{subsubsection.2.2.8.12}
-\contentsline {subsubsection}{\numberline {2.2.8.13}B-spline c\IeC {\'u}bica}{35}{subsubsection.2.2.8.13}
-\contentsline {subsubsection}{\numberline {2.2.8.14}B-spline c\IeC {\'u}bica uniforme}{36}{subsubsection.2.2.8.14}
-\contentsline {subsection}{\numberline {2.2.9}Regresi\IeC {\'o}n no param\IeC {\'e}trica}{37}{subsection.2.2.9}
-\contentsline {subsection}{\numberline {2.2.10}Regresi\IeC {\'o}n no param\IeC {\'e}trica mediante splines de suavizado}{39}{subsection.2.2.10}
-\contentsline {subsection}{\numberline {2.2.11}Proceso de Optimizaci\IeC {\'o}n de Nelson y Siegel y Svensson}{41}{subsection.2.2.11}
+\contentsline {subsubsection}{\numberline {2.2.8.13}B-spline c\IeC {\'u}bica}{36}{subsubsection.2.2.8.13}
+\contentsline {subsubsection}{\numberline {2.2.8.14}B-spline c\IeC {\'u}bica uniforme}{37}{subsubsection.2.2.8.14}
+\contentsline {subsection}{\numberline {2.2.9}Regresi\IeC {\'o}n no param\IeC {\'e}trica}{38}{subsection.2.2.9}
+\contentsline {subsection}{\numberline {2.2.10}Regresi\IeC {\'o}n no param\IeC {\'e}trica mediante splines de suavizado}{40}{subsection.2.2.10}
+\contentsline {subsection}{\numberline {2.2.11}Proceso de Optimizaci\IeC {\'o}n de Nelson y Siegel y Svensson}{42}{subsection.2.2.11}
 \contentsline {subsection}{\numberline {2.2.12}Elaboracion Base de datos para la metodolog\IeC {\'\i }a Splines y Diebold-Li}{44}{subsection.2.2.12}
 \contentsline {chapter}{\numberline {3}Valor en Riesgo}{1}{chapter.3}
 \contentsline {subsection}{\numberline {3.0.1}Importancia del VaR}{4}{subsection.3.0.1}
