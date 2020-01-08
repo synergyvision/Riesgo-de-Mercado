@@ -55,8 +55,24 @@ library(xml2)
 library(rvest)
 library(VaRES)
 library(lmomco)
+library(rintrojs)
+library(shinyauthr)
+library(shinyWidgets)
+library(shinythemes)
+library(shinyjs)
+library(V8)
+library(glue)
 
-#fjkdfshfk
+
+
+# sample logins dataframe with passwords hashed by sodium package
+user_base <- tibble(
+  user = c("user1", "user2", "gaby","danshiny"),
+  password = sapply(c("pass1", "pass2","proteino40.","c1037729"), sodium::password_store),
+  permissions = c("admin", "standard","standard", "admin"),
+  name = c("User One", "User Two", "Gabriela Alvarado", "Danny Morales")
+)
+
 options(OutDec = ",")
 
 

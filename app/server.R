@@ -1,7 +1,145 @@
-shinyServer(function(input, output) {
+shinyServer(function(input, output,session) {
 
   source(paste(getwd(),"Modulos","Curva_rend_ind.R",sep = "/"),local = TRUE)
  
+  # start introjs when button is pressed with custom options and events
+  observeEvent(input$help,
+               introjs(session, options = list("nextLabel"="Siguiente",
+                                               "prevLabel"="Regresar",
+                                               "skipLabel"="Salir"),
+                       events = list("oncomplete"=I('alert("Listo!")')))
+  )
+  
+  
+  #CREDENCIALES
+  # login status and info will be managed by shinyauthr module and stores here
+  credentials <- callModule(shinyauthr::login, "login",
+                            data = user_base,
+                            user_col = user,
+                            pwd_col = password,
+                            sodium_hashed = TRUE,
+                            log_out = reactive(logout_init()))
+  
+  # logout status managed by shinyauthr module and stored here
+  logout_init <- callModule(shinyauthr::logout, "logout", reactive(credentials()$user_auth))
+  
+  # this opens or closes the sidebar on login/logout
+  observe({
+    if(credentials()$user_auth) {
+      shinyjs::removeClass(selector = "body", class = "sidebar-collapse")
+    } else {
+      shinyjs::addClass(selector = "body", class = "sidebar-collapse")
+    }
+  })
+  
+  
+  observe({
+    if(credentials()$user_auth) {
+      V8::JS(js$hidehead(''))
+    } else {
+      V8::JS(js$hidehead('none'))
+    }
+  })
+  # only when credentials()$user_auth is TRUE, render your desired sidebar menu
+  output$sidebar <- renderMenu({
+    req(credentials()$user_auth)
+    sidebarMenu(
+      id = "tabs",
+                #fluidPage(
+                  # Application title
+
+      menuItem("Curva de Rendimiento", icon = icon("chart-area"),
+               introBox(
+                  menuSubItem("Datos", tabName = "datos_curvas", icon = icon("folder-open")),
+
+                  menuSubItem("Nelson y Siegel", tabName = "subitem1", icon = icon("circle-o")),
+
+                  menuSubItem("Svensson", tabName = "subitem2", icon = icon("circle-o")),
+
+                  menuSubItem("Diebold-Li", tabName = "subitem3", icon = icon("circle-o")),
+
+                  menuSubItem("Splines", tabName = "subitem4", icon = icon("circle-o")),
+                  data.step = 1,
+                  data.intro = "Esta es la sección de curvas de rendimiento",
+                  data.position = c("right")
+               ) #final introbox
+                ),#fin menuitem
+
+
+                  #menuItem("Comparativo", icon = icon("circle-o"), tabName = "comparativo"),
+      introBox(
+      menuItem("Comparativo", icon = icon("th-list"),
+
+                  #menuSubItem("Datos", tabName = "datos", icon = icon("circle-o")),
+
+                  menuSubItem("Metodologías", tabName = "metodologias", icon = icon("clipboard-list")),
+
+                  menuSubItem("Precios estimados", tabName = "precios", icon = icon("coins")),
+
+                  menuSubItem("Curvas", tabName = "curvas", icon = icon("chart-line"))
+
+                ),#fin menuitem
+      data.step = 2,
+      data.intro = "Esta es la sección de curvas de Comparativos"
+      ), #final introbox
+
+      menuItem("Valor en Riesgo", icon = icon("coins"),
+
+               menuSubItem("Datos", tabName = "datos_var", icon = icon("folder-open")),
+
+               menuSubItem("Distribución", tabName = "distribucion_var", icon = icon("project-diagram")),
+
+               menuSubItem("VaR", tabName = "var", icon = icon("file-invoice-dollar")),
+
+               menuSubItem("Gráficos", tabName = "graficos", icon = icon("chart-pie")),
+
+               menuSubItem("Históricos", tabName = "historicos", icon = icon("calendar-alt"))
+
+      ),#fin menuitem
+                menuItem("Backtesting", icon = icon("angle-double-left"),
+                         menuSubItem("Datos", tabName = "datos_back", icon = icon("folder-open")),
+                         menuSubItem("Resultados", tabName = "resultados_back", icon = icon("file-alt"))
+                ),
+       menuItem("Valoración", icon = icon("bar-chart-o"),
+               menuSubItem("Datos", tabName = "datos_val", icon = icon("folder-open")),
+               menuSubItem("Resultados", tabName = "resultados_val", icon = icon("file-alt")),
+               menuSubItem("Resultados Prueba de Estrés", tabName = "resultados_val_estres", icon = icon("file-contract"))
+        ),
+
+                  menuItem("Acerca", icon = icon("exclamation-circle"), tabName = "acerca")
+
+                #)#final fluidpage
+
+      
+      )#final sidebarmenu
+  })
+
+  output$dropmenu <- renderMenu({
+    req(credentials()$user_auth)
+    dropdownMenu(type = "messages",
+                 messageItem(
+                   from = "Señal",
+                   message = "Volatilidad Anormal",
+                   icon = icon("life-ring"),
+                   time = "2018-05-12"
+                 )
+    )
+
+  })
+  
+  
+  
+  #BIENVENIDA
+  user_info <- reactive({credentials()$info})
+  
+  output$bienvenida <- renderText({
+    req(credentials()$user_auth)
+    
+    glue("Bienvenid@ {user_info()$name}")
+  })
+  
+  
+  
   #fechas
   #Svensson
   #output$p1<-renderPrint({paste(substr(input$n1,9,10),substr(input$n1,6,7),substr(input$n1,1,4),sep = "/")})
