@@ -10,6 +10,13 @@ shinyServer(function(input, output,session) {
                        events = list("oncomplete"=I('alert("Listo!")')))
   )
   
+  #
+  observeEvent(input$help1,
+               introjs(session, options = list("nextLabel"="Siguiente",
+                                               "prevLabel"="Regresar",
+                                               "skipLabel"="Salir"),
+                       events = list("oncomplete"=I('alert("Listo!")')))
+  )
   
   #CREDENCIALES
   # login status and info will be managed by shinyauthr module and stores here
@@ -49,21 +56,48 @@ shinyServer(function(input, output,session) {
                   # Application title
 
       menuItem("Curva de Rendimiento", icon = icon("chart-area"),
-               #introBox(
+               introBox(
                   menuSubItem("Datos", tabName = "datos_curvas", icon = icon("folder-open")),
-
+                  data.step = 1,
+                  data.intro = "Esta es la sección de Datos",
+                  data.position = c("right")
+               ), #final introbox
+                  introBox(
                   menuSubItem("Nelson y Siegel", tabName = "subitem1", icon = icon("circle-o")),
-
+                  data.step = 2,
+                  data.intro = "Esta es la sección de Nelson y Siegel",
+                  data.position = c("right")
+                ), #final introbox
+                  introBox(
                   menuSubItem("Svensson", tabName = "subitem2", icon = icon("circle-o")),
-
+                  data.step = 3,
+                  data.intro = "Esta es la sección de Svensson",
+                  data.position = c("right")
+                  ), #final introbox
+                introBox(
                   menuSubItem("Diebold-Li", tabName = "subitem3", icon = icon("circle-o")),
-
-                  menuSubItem("Splines", tabName = "subitem4", icon = icon("circle-o"))
-                  #data.step = 1,
-                 # data.intro = "Esta es la sección de curvas de rendimiento",
-                #  data.position = c("right")
-               #) #final introbox
-                ),#fin menuitem
+                  data.step = 4,
+                  data.intro = "Esta es la sección de Diebold-Li, El Fútbol Club Barcelona, conocido
+                  popularmente como Barça,  es una entidad polideportiva de Barcelona, España. 
+                  Fue fundado como club de fútbol el 29 de noviembre de 1899.",
+                  data.position = c("right")
+               ), #final introbox
+               introBox(
+                  menuSubItem("Splines", tabName = "subitem4", icon = icon("circle-o")),
+                  data.step = 5,
+                  data.intro = "Esta es la sección de Splines",
+                  data.position = c("right")
+               ), #final introbox
+               introBox(
+                 actionButton("help", "Ayuda",width = '80px',icon = icon("folder-open")),
+                 data.step = 6,
+                 data.intro = "Boton de instrucciones"
+               ) #final introbox
+               
+               
+               )
+      
+      ,#fin menuitem
 
 
                   #menuItem("Comparativo", icon = icon("circle-o"), tabName = "comparativo"),
@@ -71,12 +105,21 @@ shinyServer(function(input, output,session) {
       menuItem("Comparativo", icon = icon("th-list"),
 
                   #menuSubItem("Datos", tabName = "datos", icon = icon("circle-o")),
-
-                  menuSubItem("Metodologías", tabName = "metodologias", icon = icon("clipboard-list")),
-
+               introBox(
+                  menuSubItem("Metodologías", tabName = "metodologias", icon = icon("clipboard-list"))
+               #data.step = 1,
+               #data.intro = "Esta es la sección de Metodologías",
+               #data.position = c("right")
+              ), #final introbox
                   menuSubItem("Precios estimados", tabName = "precios", icon = icon("coins")),
 
-                  menuSubItem("Curvas", tabName = "curvas", icon = icon("chart-line"))
+                  menuSubItem("Curvas", tabName = "curvas", icon = icon("chart-line")),
+               
+               introBox(
+                 actionButton("help1", "Ayuda",width = '80px',icon = icon("folder-open"))
+                 #data.step = 2,
+                 #data.intro = "Boton de instrucciones"
+               ) #final introbox
 
                 ),#fin menuitem
       #data.step = 2,
@@ -106,10 +149,14 @@ shinyServer(function(input, output,session) {
                menuSubItem("Resultados Prueba de Estrés", tabName = "resultados_val_estres", icon = icon("file-contract"))
         ),
 
-                  menuItem("Acerca", icon = icon("exclamation-circle"), tabName = "acerca")
+                  menuItem("Acerca", icon = icon("exclamation-circle"), tabName = "acerca"),
 
                 #)#final fluidpage
-
+      introBox(
+          actionButton("help2", "Instrucciones"),
+          data.step = 9,
+          data.intro = "Boton de instrucciones"
+        ) #final introbox
       
       )#final sidebarmenu
   })

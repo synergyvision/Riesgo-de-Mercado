@@ -19,7 +19,7 @@ shinyUI(
                   ),#final dashboardheader
     #Sidebar
     dashboardSidebar(
-      #introjsUI(),
+      introjsUI(),
       fluidPage(
                 #sidebarSearchForm(label = "Ingrese un Número", "searchText", "searchButton"),
               
