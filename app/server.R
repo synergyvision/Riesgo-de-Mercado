@@ -18,6 +18,20 @@ shinyServer(function(input, output,session) {
                        events = list("oncomplete"=I('alert("Listo!")')))
   )
   
+  #DEFINO PASOS PARA INTRO SIN INTROBOX
+  steps_1 <- reactive(data.frame(
+    element=c("#menu1","#menu2","#menu3","#menu4","#menu5","#menu6"),
+    intro=c("Sección Curva de Rendimientos","Sección Comparativo","Sección Valor en Riesgo",
+            "Sección Backtesting","Sección Valoración","Sección de información"),
+    position=c("bottom","bottom","bottom","bottom","bottom","bottom")
+  ))
+  
+  observeEvent(input$help2,
+               introjs(session, options = list("nextLabel"="Siguiente",
+                                               "prevLabel"="Regresar",
+                                               "skipLabel"="Salir",steps=steps_1())
+                       ))
+  
   #CREDENCIALES
   # login status and info will be managed by shinyauthr module and stores here
   credentials <- callModule(shinyauthr::login, "login",
@@ -55,7 +69,7 @@ shinyServer(function(input, output,session) {
                 #fluidPage(
                   # Application title
 
-      menuItem("Curva de Rendimiento", icon = icon("chart-area"),
+      menuItem(tags$span(id="menu1","Curva de Rendimiento"), icon = icon("chart-area"),
                introBox(
                   menuSubItem("Datos", tabName = "datos_curvas", icon = icon("folder-open")),
                   data.step = 1,
@@ -102,7 +116,7 @@ shinyServer(function(input, output,session) {
 
                   #menuItem("Comparativo", icon = icon("circle-o"), tabName = "comparativo"),
       #introBox(
-      menuItem("Comparativo", icon = icon("th-list"),
+      menuItem(tags$span(id="menu2","Comparativo"), icon = icon("th-list"),
 
                   #menuSubItem("Datos", tabName = "datos", icon = icon("circle-o")),
                introBox(
@@ -126,7 +140,7 @@ shinyServer(function(input, output,session) {
       #data.intro = "Esta es la sección de curvas de Comparativos"
       #), #final introbox
 
-      menuItem("Valor en Riesgo", icon = icon("coins"),
+      menuItem(tags$span(id="menu3","Valor en Riesgo"), icon = icon("coins"),
 
                menuSubItem("Datos", tabName = "datos_var", icon = icon("folder-open")),
 
@@ -139,17 +153,17 @@ shinyServer(function(input, output,session) {
                menuSubItem("Históricos", tabName = "historicos", icon = icon("calendar-alt"))
 
       ),#fin menuitem
-                menuItem("Backtesting", icon = icon("angle-double-left"),
+                menuItem(tags$span(id="menu4","Backtesting"), icon = icon("angle-double-left"),
                          menuSubItem("Datos", tabName = "datos_back", icon = icon("folder-open")),
                          menuSubItem("Resultados", tabName = "resultados_back", icon = icon("file-alt"))
                 ),
-       menuItem("Valoración", icon = icon("bar-chart-o"),
+       menuItem(tags$span(id="menu5","Valoración"), icon = icon("bar-chart-o"),
                menuSubItem("Datos", tabName = "datos_val", icon = icon("folder-open")),
                menuSubItem("Resultados", tabName = "resultados_val", icon = icon("file-alt")),
                menuSubItem("Resultados Prueba de Estrés", tabName = "resultados_val_estres", icon = icon("file-contract"))
         ),
 
-                  menuItem("Acerca", icon = icon("exclamation-circle"), tabName = "acerca"),
+                  menuItem(tags$span(id="menu6","Acerca"), icon = icon("exclamation-circle"), tabName = "acerca"),
 
                 #)#final fluidpage
       introBox(
