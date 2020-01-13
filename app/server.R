@@ -6,7 +6,8 @@ shinyServer(function(input, output,session) {
   observeEvent(input$help,
                introjs(session, options = list("nextLabel"="Siguiente",
                                                "prevLabel"="Regresar",
-                                               "skipLabel"="Salir"),
+                                               "skipLabel"="Salir"
+                                               ),
                        events = list("oncomplete"=I('alert("Listo!")')))
   )
   
@@ -29,8 +30,38 @@ shinyServer(function(input, output,session) {
   observeEvent(input$help2,
                introjs(session, options = list("nextLabel"="Siguiente",
                                                "prevLabel"="Regresar",
-                                               "skipLabel"="Salir",steps=steps_1())
+                                               "skipLabel"="Salir",
+                                               "doneLabel"="Aceptar",steps=boton()
+                                               ),
+                       events = list(onbeforechange = readCallback("switchTabs"))
                        ))
+  
+  #PASOS DE PRUEBA
+  steps_2 <- reactive(data.frame(
+    element=c("#menu1","#m1","#tab1","#Ca_leida","#tab6"),
+    intro=c("Sección Curva de Rendimientos","Sección Datos","Datos","Documento Características","Comparativo"),
+    position=c("bottom","bottom","bottom","bottom","bottom")
+  ))
+  
+  #PASOS DE PRUEBA
+  steps_datos_curvas <- reactive(data.frame(
+    element=c("#menu1","#m1","#Ca_leida","#docbcv","#pre_prom_tif","#pre_prom_veb","#tab6"),
+    intro=c("Sección Curvas de Rendimiento","Sección Datos",
+            "Documento Características","Documento 0-22","Precios promedios TIF",
+            "Precios promedios VEBONO","Comp"),
+    position=c("bottom","bottom","bottom","bottom","bottom","bottom","bottom")
+  ))
+  
+  #CONDICIONALES CON TABITEMS
+  boton <- reactive({
+    if(input$tabs=="datos_curvas"){
+      return(steps_datos_curvas())
+    }else if(input$tabs=="subitem1"){
+      return(steps_1())
+    }else{}
+    
+    
+  })
   
   #CREDENCIALES
   # login status and info will be managed by shinyauthr module and stores here
@@ -70,43 +101,43 @@ shinyServer(function(input, output,session) {
                   # Application title
 
       menuItem(tags$span(id="menu1","Curva de Rendimiento"), icon = icon("chart-area"),
-               introBox(
-                  menuSubItem("Datos", tabName = "datos_curvas", icon = icon("folder-open")),
-                  data.step = 1,
-                  data.intro = "Esta es la sección de Datos",
-                  data.position = c("right")
-               ), #final introbox
-                  introBox(
+               #introBox(
+                  menuSubItem(tags$span(id="m1","Datos"), tabName = "datos_curvas", icon = icon("folder-open")),
+              #    data.step = 1,
+               #   data.intro = "Esta es la sección de Datos",
+                #  data.position = c("right")
+               #), #final introbox
+                #  introBox(
                   menuSubItem("Nelson y Siegel", tabName = "subitem1", icon = icon("circle-o")),
-                  data.step = 2,
-                  data.intro = "Esta es la sección de Nelson y Siegel",
-                  data.position = c("right")
-                ), #final introbox
-                  introBox(
+                 # data.step = 2,
+                  #data.intro = "Esta es la sección de Nelson y Siegel",
+                  #data.position = c("right")
+                #), #final introbox
+                 # introBox(
                   menuSubItem("Svensson", tabName = "subitem2", icon = icon("circle-o")),
-                  data.step = 3,
-                  data.intro = "Esta es la sección de Svensson",
-                  data.position = c("right")
-                  ), #final introbox
-                introBox(
+                  #data.step = 3,
+                  #data.intro = "Esta es la sección de Svensson",
+                  #data.position = c("right")
+                  #), #final introbox
+                #introBox(
                   menuSubItem("Diebold-Li", tabName = "subitem3", icon = icon("circle-o")),
-                  data.step = 4,
-                  data.intro = "Esta es la sección de Diebold-Li, El Fútbol Club Barcelona, conocido
-                  popularmente como Barça,  es una entidad polideportiva de Barcelona, España. 
-                  Fue fundado como club de fútbol el 29 de noviembre de 1899.",
-                  data.position = c("right")
-               ), #final introbox
-               introBox(
-                  menuSubItem("Splines", tabName = "subitem4", icon = icon("circle-o")),
-                  data.step = 5,
-                  data.intro = "Esta es la sección de Splines",
-                  data.position = c("right")
-               ), #final introbox
-               introBox(
-                 actionButton("help", "Ayuda",width = '80px',icon = icon("folder-open")),
-                 data.step = 6,
-                 data.intro = "Boton de instrucciones"
-               ) #final introbox
+                 # data.step = 4,
+                #  data.intro = "Esta es la sección de Diebold-Li, El Fútbol Club Barcelona, conocido
+                 # popularmente como Barça,  es una entidad polideportiva de Barcelona, España. 
+                  #Fue fundado como club de fútbol el 29 de noviembre de 1899.",
+                  #data.position = c("right")
+               #), #final introbox
+               #introBox(
+                  menuSubItem("Splines", tabName = "subitem4", icon = icon("circle-o"))
+                #  data.step = 5,
+                #  data.intro = "Esta es la sección de Splines",
+                #  data.position = c("right")
+               #), #final introbox
+               #introBox(
+                # actionButton("help", "Ayuda",width = '80px',icon = icon("folder-open")),
+                # data.step = 6,
+                # data.intro = "Boton de instrucciones"
+               #) #final introbox
                
                
                )
@@ -126,9 +157,12 @@ shinyServer(function(input, output,session) {
                #data.position = c("right")
               ), #final introbox
                   menuSubItem("Precios estimados", tabName = "precios", icon = icon("coins")),
-
+              introBox(
                   menuSubItem("Curvas", tabName = "curvas", icon = icon("chart-line")),
-               
+              data.step = 7,
+              data.intro = "Esta es la sección de Splines",
+              data.position = c("right")
+      ), #final introbox
                introBox(
                  actionButton("help1", "Ayuda",width = '80px',icon = icon("folder-open"))
                  #data.step = 2,
@@ -224,7 +258,7 @@ shinyServer(function(input, output,session) {
   #TAB 1 - datos_curvas
   output$tab1 <- renderUI({
     req(credentials()$user_auth)
-    fluidPage(
+    wellPanel(
     h2(" Descarga de archivos"),
     h2(" Archivos a utilizar"),
     # Input: Choose dataset ----
@@ -271,7 +305,7 @@ shinyServer(function(input, output,session) {
   #TAB 2 - subitem1 - Nelson y Siegel
   output$tab2 <- renderUI({
     req(credentials()$user_auth)
-    fluidPage(
+    wellPanel(
       h2("Nelson y Siegel"),
       fluidRow(column(width = 6,box( width = 12, background = "navy",
                                      dateInput(inputId="n2", label="Por favor, seleccionar una fecha", language= "es",
@@ -611,7 +645,7 @@ shinyServer(function(input, output,session) {
   #TAB 3 - subitem1 - Svensson
   output$tab3 <- renderUI({
     req(credentials()$user_auth)
-    fluidPage(
+    wellPanel(
       h2("  Svensson"),
       fluidRow(column(width = 6,box( width = 12, background = "navy",
                                      dateInput(inputId="n1", label="Por favor, seleccionar una fecha", language= "es",
@@ -934,7 +968,7 @@ shinyServer(function(input, output,session) {
   #TAB 4 - subitem1 - Diebold Li
   output$tab4 <- renderUI({
     req(credentials()$user_auth)
-    fluidPage(
+    wellPanel(
       h2("Diebold-Li"),
       fluidRow(column( width = 6,box( width = 12, background = "navy",
                                       dateInput(inputId="n3", label="Por favor, seleccionar una fecha", language= "es",
@@ -1137,7 +1171,7 @@ shinyServer(function(input, output,session) {
   #TAB 5 - subitem1 -  Splines
   output$tab5 <- renderUI({
     req(credentials()$user_auth)
-    fluidPage(
+    wellPanel(
       h2("Splines"),
       fluidRow(column( width = 6,box( width = 12, background = "navy",
                                       dateInput(inputId="n4", label="Por favor, seleccionar una fecha", language= "es",
@@ -1391,7 +1425,7 @@ shinyServer(function(input, output,session) {
   #TAB 6 - Comparativo - Metodologias
   output$tab6 <- renderUI({
     req(credentials()$user_auth)
-    fluidPage(
+    wellPanel(
       h2(" Comparativo"),
       fluidRow(column(width = 6,box( width = 12, background = "navy",
                                      dateInput(inputId="n5", label="Por favor, seleccionar una fecha", language= "es",
@@ -1986,9 +2020,11 @@ shinyServer(function(input, output,session) {
   #TAB 7 - Comparativo - Precios estimados
   output$tab7 <- renderUI({
     req(credentials()$user_auth)
-    fluidPage(
+    wellPanel(
+      fluidPage(
       h2("Comparativo de precios"),
-      tabBox( width = 12, title = "Instrumentos", id = "precios_comp", height = "50px", 
+      #tabBox( width = 12, title = "Instrumentos", id = "precios_comp", height = "50px", 
+      tabsetPanel(type="pills",       
               tabPanel("TIF",
                        box(style="overflow-x:scroll",width = 12,dataTableOutput("comparativo_precios_tif"))
                        
@@ -1999,7 +2035,7 @@ shinyServer(function(input, output,session) {
                        
               )#final tabpanel
       )#final tabbox
-      
+      )
       
     )#final fluidpage
   })
@@ -2007,10 +2043,12 @@ shinyServer(function(input, output,session) {
   #TAB 8 - Comparativo - Curvas
   output$tab8 <- renderUI({
     req(credentials()$user_auth)
-    fluidPage(
+    wellPanel(
+      fluidPage(
       h2("Comparativo de curvas"),
-      tabBox( width = 12, title = "Instrumentos", id = "curvas_comp", height = "50px", 
-              tabPanel("TIF",
+      #tabBox( width = 12, title = "Instrumentos", id = "curvas_comp", height = "50px", 
+      tabsetPanel(type="pills",       
+             tabPanel("TIF",
                        plotlyOutput("curva_comp_tif"),
                        h2("Reporte"),
                        downloadButton("report", "Descargar")
@@ -2027,14 +2065,14 @@ shinyServer(function(input, output,session) {
               )#final tabpanel
       )#final tabbox
       
-      
+      )
     )#final fluidpage
   })
   
   #TAB 9 - VAR - Datos
   output$tab9 <- renderUI({
     req(credentials()$user_auth)
-    fluidPage(
+    wellPanel(
       h2(" Seleccionar archivo"),
       h2(" Histórico de precios:"),
       fluidRow(
@@ -2598,7 +2636,7 @@ shinyServer(function(input, output,session) {
   #TAB 14 - BACKTESTING - Datos
   output$tab14 <- renderUI({
     req(credentials()$user_auth)
-    fluidPage(
+    wellPanel(
       h2(" Seleccionar archivo"),
       fluidRow(
         box(width = 12, title = h3(UPLOADDATA_TEXT),
@@ -2626,7 +2664,7 @@ shinyServer(function(input, output,session) {
   #TAB 15 - BACKTESTING - Resultados
   output$tab15 <- renderUI({
     req(credentials()$user_auth)
-    fluidPage(
+    wellPanel(
       h3(" Elegir porcentaje del Backtesting:"),
       box(width = 12, background = "navy",
           selectInput( inputId = "porback", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
@@ -2647,7 +2685,7 @@ shinyServer(function(input, output,session) {
   #TAB 16 - VALORACION - Datos
   output$tab16 <- renderUI({
     req(credentials()$user_auth)
-    fluidPage(
+    wellPanel(
       h2(" Seleccionar archivo"),
       fluidRow(
         box(width = 12, title = h3(UPLOADDATA_TEXT),
@@ -2677,7 +2715,7 @@ shinyServer(function(input, output,session) {
   #TAB 17 - VALORACION - Resultados
   output$tab17 <- renderUI({
     req(credentials()$user_auth)
-    fluidPage(
+    wellPanel(
       h2("Resultados"),
       fluidRow(
         box(height ="595",width = "12",status = "success",column(width = 12,DT::dataTableOutput("result_val"),
@@ -2702,7 +2740,7 @@ shinyServer(function(input, output,session) {
   #TAB 18 - VALORACION - Resultados prueba estres
   output$tab18 <- renderUI({
     req(credentials()$user_auth)
-    fluidPage(
+    wellPanel(
       h2("Precios históricos"),
       fluidRow(
         box(width = 12, title = h3(UPLOADDATA_TEXT),
@@ -6843,7 +6881,10 @@ shinyServer(function(input, output,session) {
     a <- try(precios_tif())
     if(class(a)!="try-error"){
       a
-    }else{}
+    }else{
+      Aviso <- "Por favor seleccionar instrumentos"
+      return(as.data.frame(Aviso))
+    }
     })
   
   
@@ -6907,7 +6948,10 @@ shinyServer(function(input, output,session) {
     a <- try(precios_veb())
     if(class(a)!="try-error"){
       a
-    }else{}
+    }else{
+      Aviso <- "Por favor seleccionar instrumentos"
+      return(as.data.frame(Aviso))
+    }
     })
   
   #Graficas comparativos
