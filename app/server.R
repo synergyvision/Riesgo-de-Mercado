@@ -43,7 +43,7 @@ shinyServer(function(input, output,session) {
     position=c("bottom","bottom","bottom","bottom","bottom")
   ))
   
-  #PASOS DE PRUEBA
+  #PASOS CR-DATOS
   steps_datos_curvas <- reactive(data.frame(
     element=c("#menu1","#m1","#Ca_leida","#docbcv","#pre_prom_tif","#pre_prom_veb","#tab6"),
     intro=c("Sección Curvas de Rendimiento","Sección Datos",
@@ -52,12 +52,58 @@ shinyServer(function(input, output,session) {
     position=c("bottom","bottom","bottom","bottom","bottom","bottom","bottom")
   ))
   
+  #PASOS CR-NELSON Y SIEGEL
+  steps_cr_ns <- reactive(data.frame(
+    
+    element=c("#menu1","#m2","#date1_ns","#date2_ns","#tit1_ns","#tit2_ns","#q1_ns1","#pre1_ns","#ad_pns_tif",
+              "#vec1_ns","#np_ns1","#sal1_ns","#Ca_ns","#pa_tif_ns","#p_est_tif_ns","#c_tif_ns","#el1_ns",
+              "#new_ns_tif","#ver_ns_tif","#p_est_tif_ns_el","#c_tif_ns1_new","#opt_tif_ns","#p_est_tif_opt_ns",
+              "#par_tif_ns_op","#c_tif_ns_op"),
+    
+    intro=c("Sección Curvas de Rendimiento","Sección Nelson y Siegel","Fecha a seleccionar",
+            "Fecha seleccionada","Títulos TIF a seleccionar","Opción para ingresar archivo con títulos TIF",
+            "Títulos seleccionados","Precios Promedio","Advertencias","Ingresar precio promedio",
+            "Nuevos precios ingresados","Nuevos precios promedio","Documento Características","Parámetros iniciales TIF",
+            "Precios estimados iniciales TIF","Curva de Rendimientos inicial TIF","Opción para ingresar parámetros de la Curva de Rendimientos",
+            "Nuevos parámetros ingresados","Verificación","Precios estimados usando parámetros ingresados",
+            "Curva de Rendimientos con nuevos parámetros","Opción de selección para optimizar o no los párametros","Precios optimizados obtenidos",
+            "Parámetros optimizados","Curva de Rendimientos con parámetros optimizados"),
+    
+    position=c("bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom","bottom")
+  ))
+  
+  #PASOS CR-SVENSSON  
+  steps_cr_sv <- reactive(data.frame(
+    
+    element=c("#menu1","#m3","#date1_sv","#date2_sv","#tit1_sv","#tit2_sv","#q_sv1","#pre1","#ad_psv_tif",
+              "#vec1_sv","#np_sv1","#sal1_sv","#Ca","#pa_tif","#p_est_tif","#c_tif_sven","#el1_sv",
+              "#new_sven_tif","#ver_sven_tif","#p_est_tif_opt_sven_el","#c_tif_sven_new","#opt_tif_sven","#p_est_tif_opt",
+              "#par_tif_sven_op","#c_tif_sven_op"),
+    
+    intro=c("Sección Curvas de Rendimiento","Sección Svensson","Fecha a seleccionar",
+            "Fecha seleccionada","Títulos TIF a seleccionar","Opción para ingresar archivo con títulos TIF",
+            "Títulos seleccionados","Precios Promedio","Advertencias","Ingresar precio promedio",
+            "Nuevos precios ingresados","Nuevos precios promedio","Documento Características","Parámetros iniciales TIF",
+            "Precios estimados iniciales TIF","Curva de Rendimientos inicial TIF","Opción para ingresar parámetros de la Curva de Rendimientos",
+            "Nuevos parámetros ingresados","Verificación","Precios estimados usando parámetros ingresados",
+            "Curva de Rendimientos con nuevos parámetros","Opción de selección para optimizar o no los párametros","Precios optimizados obtenidos",
+            "Parámetros optimizados","Curva de Rendimientos con parámetros optimizados"),
+    
+    position=c("bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom","bottom")
+  ))
+  
   #CONDICIONALES CON TABITEMS
   boton <- reactive({
     if(input$tabs=="datos_curvas"){
       return(steps_datos_curvas())
     }else if(input$tabs=="subitem1"){
-      return(steps_1())
+      return(steps_cr_ns())
+    }else if(input$tabs=="subitem2"){
+      return(steps_cr_sv())
     }else{}
     
     
@@ -108,13 +154,13 @@ shinyServer(function(input, output,session) {
                 #  data.position = c("right")
                #), #final introbox
                 #  introBox(
-                  menuSubItem("Nelson y Siegel", tabName = "subitem1", icon = icon("circle-o")),
+                  menuSubItem(tags$span(id="m2","Nelson y Siegel"), tabName = "subitem1", icon = icon("circle-o")),
                  # data.step = 2,
                   #data.intro = "Esta es la sección de Nelson y Siegel",
                   #data.position = c("right")
                 #), #final introbox
                  # introBox(
-                  menuSubItem("Svensson", tabName = "subitem2", icon = icon("circle-o")),
+                  menuSubItem(tags$span(id="m3","Svensson"), tabName = "subitem2", icon = icon("circle-o")),
                   #data.step = 3,
                   #data.intro = "Esta es la sección de Svensson",
                   #data.position = c("right")
@@ -307,12 +353,12 @@ shinyServer(function(input, output,session) {
     req(credentials()$user_auth)
     wellPanel(
       h2("Nelson y Siegel"),
-      fluidRow(column(width = 6,box( width = 12, background = "navy",
+      fluidRow(column(width = 6,box(id="date1_ns", width = 12, background = "navy",
                                      dateInput(inputId="n2", label="Por favor, seleccionar una fecha", language= "es",
                                                width = "100%")#final dateimput 
       )#final box
       ),#final column
-      box( width = 6,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p2')) #final box
+      box(id="date2_ns", width = 6,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p2')) #final box
       ),#final fluidrow
       h2("  Títulos"), h5("  Favor seleccionar los títulos a considerar: "),
       wellPanel(
@@ -327,7 +373,7 @@ shinyServer(function(input, output,session) {
                              #tabPanel(" Títulos disponibles ",
                              tabsetPanel(type="pills",
                                          tabPanel("Títulos disponibles",
-                                                  wellPanel(
+                                                  wellPanel(id="tit1_ns",
                                                     # checkboxGroupInput(inputId = "t1_ns1", label = NULL,inline = TRUE,width = '100%',
                                                     #                     choices = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[which(substr(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))[,2],1,3)=="TIF"),2])
                                                     #htmlOutput("freddy")
@@ -352,7 +398,7 @@ shinyServer(function(input, output,session) {
                                          ),
                                          tabPanel("Elegir Instrumentos",
                                                   h2("Seleccione"),
-                                                  fluidRow(
+                                                  fluidRow(id="tit2_ns",
                                                     box(width = 12, title = h3(UPLOADDATA_TEXT),
                                                         box( width=12,background = "navy",
                                                              fileInput('data_tit_tif', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
@@ -432,6 +478,8 @@ shinyServer(function(input, output,session) {
                                                      box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                                          collapse= TRUE,"Al ingresar los parámetros considere las siguientes restricciones, ",br(),withMathJax(helpText("$$1) \\quad \\beta_{0} > 0$$")),
                                                          withMathJax(helpText("$$2) \\quad \\beta_{0}+\\beta_{1} > 0$$")),withMathJax(helpText("$$3) \\quad \\tau > 0$$"))),#final box
+                                                     
+                                                     fluidRow(id="el1_ns",
                                                      column(width = 3,numericInput( inputId = "ns_b0_tif", label="B0: ", min = 0, max = 50,step = 0.1, value = "0.52" , width = "40%")
                                                             , verbatimTextOutput("num_ns_b0_tif")),#final column,
                                                      column(width = 3,numericInput( inputId = "ns_b1_tif", label="B1: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
@@ -439,7 +487,9 @@ shinyServer(function(input, output,session) {
                                                      column(width = 3,numericInput( inputId = "ns_b2_tif", label="B2: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                             verbatimTextOutput("num_ns_b2_tif")),#final column
                                                      column(width = 3,numericInput( inputId = "ns_t_tif", label="T: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%"),
-                                                            verbatimTextOutput("num_ns_t_tif")),#final column
+                                                            verbatimTextOutput("num_ns_t_tif"))#final column
+                                                     
+                                                     ),
                                                      #boton q controla la reactividad
                                                      actionButton("boton1", "Calcular", icon = icon("chart-area"),
                                                                   style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
@@ -647,12 +697,12 @@ shinyServer(function(input, output,session) {
     req(credentials()$user_auth)
     wellPanel(
       h2("  Svensson"),
-      fluidRow(column(width = 6,box( width = 12, background = "navy",
+      fluidRow(column(width = 6,box(id="date1_sv", width = 12, background = "navy",
                                      dateInput(inputId="n1", label="Por favor, seleccionar una fecha", language= "es",
                                                width = "100%")#final dateimput 
       )#final box
       ),#final column
-      column(width = 6,box(width = 12,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p1')
+      column(width = 6,box(id="date2_sv",width = 12,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p1')
       )#final box
       )#final column
       ),#final fluidrow
@@ -664,7 +714,7 @@ shinyServer(function(input, output,session) {
                     tabPanel("TIF",
                              tabsetPanel(type="pills",
                                          tabPanel("Títulos disponibles",
-                                                  wellPanel(
+                                                  wellPanel(id="tit1_sv",
                                                     fluidRow(column(width = 4,checkboxGroupInput( inputId = "t1", label = "Corto Plazo",
                                                                                                   choices=tit[2:9])#final checkboximput
                                                     ),#final column
@@ -684,7 +734,7 @@ shinyServer(function(input, output,session) {
                                          ),
                                          tabPanel("Elegir Instrumentos",
                                                   h2("Seleccione"),
-                                                  fluidRow(
+                                                  fluidRow(id="tit2_sv",
                                                     box(width = 12, title = h3(UPLOADDATA_TEXT),
                                                         box( width=12,background = "navy",
                                                              fileInput('data_tit_tif_sv', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
@@ -755,6 +805,8 @@ shinyServer(function(input, output,session) {
                                                         collapse= TRUE,"Al ingresar los parámetros considere las siguientes restricciones, ",br(),withMathJax(helpText("$$1) \\quad \\beta_{0} > 0$$")),
                                                         withMathJax(helpText("$$2) \\quad \\beta_{0}+\\beta_{1} > 0$$")),withMathJax(helpText("$$3) \\quad \\tau_{1} > 0$$")),
                                                         withMathJax(helpText("$$3) \\quad \\tau_{2} > 0$$"))),#final box
+                                                    
+                                                    fluidRow(id="el1_sv",
                                                     column(width = 2,numericInput( inputId = "sven_b0_tif", label="B0: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%")
                                                            , verbatimTextOutput("num_sven_b0_tif")),#final column,
                                                     column(width = 2,numericInput( inputId = "sven_b1_tif", label="B1: ", min = -10, max = 50,step = 0.1, value = "0.52", width = "40%"),
@@ -766,7 +818,9 @@ shinyServer(function(input, output,session) {
                                                     column(width = 2,numericInput( inputId = "sven_t1_tif", label="T1: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%"),
                                                            verbatimTextOutput("num_sven_t1_tif")),#final column
                                                     column(width = 2,numericInput( inputId = "sven_t2_tif", label="T2: ", min = 0, max = 50,step = 0.1, value = "0.52", width = "40%"),
-                                                           verbatimTextOutput("num_sven_t2_tif")),#final column
+                                                           verbatimTextOutput("num_sven_t2_tif"))#final column
+                                                    
+                                                    ),
                                                     #boton q controla la reactividad
                                                     actionButton("boton3", "Calcular", icon = icon("chart-area"),
                                                                  style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
