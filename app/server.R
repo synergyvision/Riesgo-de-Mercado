@@ -44,13 +44,21 @@ shinyServer(function(input, output,session) {
   ))
   
   #PASOS CR-DATOS
+  # steps_datos_curvas <- reactive(data.frame(
+  #   element=c("#menu1","#m1","#Ca_leida","#docbcv","#pre_prom_tif","#pre_prom_veb","#tab6"),
+  #   intro=c("Sección Curvas de Rendimiento","Sección Datos",
+  #           "Documento Características","Documento 0-22","Precios promedios TIF",
+  #           "Precios promedios VEBONO","Comp"),
+  #   position=c("bottom","bottom","bottom","bottom","bottom","bottom","bottom")
+  # ))
   steps_datos_curvas <- reactive(data.frame(
-    element=c("#menu1","#m1","#Ca_leida","#docbcv","#pre_prom_tif","#pre_prom_veb","#tab6"),
-    intro=c("Sección Curvas de Rendimiento","Sección Datos",
+    element=c("#menu1","#Ca_leida","#docbcv","#pre_prom_tif","#pre_prom_veb"),
+    intro=c("Sección Curvas de Rendimiento",
             "Documento Características","Documento 0-22","Precios promedios TIF",
-            "Precios promedios VEBONO","Comp"),
-    position=c("bottom","bottom","bottom","bottom","bottom","bottom","bottom")
+            "Precios promedios VEBONO"),
+    position=c("bottom","bottom","bottom","bottom","bottom")
   ))
+  
   
   #PASOS CR-NELSON Y SIEGEL
   steps_cr_ns <- reactive(data.frame(
@@ -96,6 +104,82 @@ shinyServer(function(input, output,session) {
                "bottom","bottom","bottom","bottom","bottom")
   ))
   
+  #PASOS CR-DIEBOLD-LI  
+  steps_cr_dl <- reactive(data.frame(
+    
+    element=c("#menu1","#m4","#date1_dl","#date2_dl","#tit1_dl","#tit2_dl","#q1_dl","#pre1_dl",
+              "#Ca_dl","#d_tif_dl","#spline_tif","#parametro_tif_dl","#c_tif_splines_dl",
+              "#p_est_dl_tif","#curva_tif_dl"),
+    
+    intro=c("Sección Curvas de Rendimiento","Sección Diebold-Li","Fecha a seleccionar",
+            "Fecha seleccionada","Títulos TIF a seleccionar","Opción para ingresar archivo con títulos TIF",
+            "Títulos seleccionados","Precios Promedio",
+            "Documento Características","Cantidad de observaciones(días) a considerar en el histórico",
+            "Spline a usar","Parámetro de suavizamiento de la curva Spline","Curva Spline obtenida",
+            "Precios estimados usando la metodología de Diebold-Li","Curva de Rendimientos obtenida mediante la metodología Diebold-Li"),
+    
+    position=c("bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom","bottom","bottom","bottom")
+  ))
+  
+  #PASOS CR-SPLINES  
+  steps_cr_sp <- reactive(data.frame(
+    
+    element=c("#menu1","#m5","#date1_sp","#date2_sp","#tit1_sp","#tit2_sp","#q1_sp","#pre1_sp",
+              "#Ca_sp","#d_tif","#tit_cand_tif","#parametro_tif","#pre_sp_tif",
+              "#c_tif_splines","#selectUI_tif","#tit_cand_tif_new","#precios_tif_nuevos","#c_tif_splines_new"),
+    
+    intro=c("Sección Curvas de Rendimiento","Sección Splines","Fecha a seleccionar",
+            "Fecha seleccionada","Títulos TIF a seleccionar","Opción para ingresar archivo con títulos TIF",
+            "Títulos seleccionados","Precios Promedio",
+            "Documento Características","Cantidad de observaciones(días) a considerar en el histórico",
+            "Títulos candidatos a usar para graficar curva Spline","Parámetro de suavizamiento de la curva Spline","Precios obtenidos mediante la metodología Splines",
+            "Curva de Rendimientos obtenida mediante la metodología Splines","Opción para eliminar observaciones correspondientes a los títulos candidatos",
+            "Nuevos títulos candidatos considerados","Precios nuevos obtenidos mediante la metodología Splines ","Nueva curva de Rendimientos obtenida mediante la metodología Splines"),
+    
+    position=c("bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom")
+  ))
+  
+  #PASOS COMP-METODOLOGIAS
+  steps_comp_met <- reactive(data.frame(
+    
+    element=c("#menu2","#m6","#date1_compa","#date2_compa","#tit1_compa","#tit2_compa","#q1_comp",
+              "#Ca_comp","#seccion_ns","#seccion_sv","#seccion_dl","#seccion_sp"),
+    
+    intro=c("Sección Comparativo de Curvas de Rendimiento","Sección Metodologías","Fecha a seleccionar",
+            "Fecha seleccionada","Títulos TIF a seleccionar","Opción para ingresar archivo con títulos TIF",
+            "Títulos seleccionados",
+            "Documento Características","Sección Nelson y Siegel",
+            "Sección Svensson","Sección Diebold-Li","Sección Splines"),
+    
+    position=c("bottom","bottom","bottom","bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom")
+  ))
+  
+  #PASOS COMP-PRECIOS
+  steps_comp_pre <- reactive(data.frame(
+    
+    element=c("#menu2","#m7","#comp_pre_tif","#comp_pre_veb"),
+    
+    intro=c("Sección Comparativo de Curvas de Rendimiento","Sección Precios","Precios comparativo TIF",
+            "Precios Comparativos VEBONO"),
+    
+    position=c("bottom","bottom","bottom","bottom")
+  ))
+  
+  #PASOS COMP-CURVAS
+  steps_comp_curvas <- reactive(data.frame(
+    
+    element=c("#menu2","#m8","#curva_comp_tif","#curva_comp_veb","#report"),
+    
+    intro=c("Sección Comparativo de Curvas de Rendimiento","Sección Curvas","Comparativo Curvas de Rendimiento TIF",
+            "Comparativo Curvas de Rendimiento VEBONO","Reporte sobre comparativo de instrumentos"),
+    
+    position=c("bottom","bottom","bottom","bottom","bottom")
+  ))
+  
+  
   #CONDICIONALES CON TABITEMS
   boton <- reactive({
     if(input$tabs=="datos_curvas"){
@@ -104,6 +188,16 @@ shinyServer(function(input, output,session) {
       return(steps_cr_ns())
     }else if(input$tabs=="subitem2"){
       return(steps_cr_sv())
+    }else if(input$tabs=="subitem3"){
+      return(steps_cr_dl())
+    }else if(input$tabs=="subitem4"){
+      return(steps_cr_sp())
+    }else if(input$tabs=="metodologias"){
+      return(steps_comp_met())
+    }else if(input$tabs=="precios"){
+      return(steps_comp_pre())
+    }else if(input$tabs=="curvas"){
+      return(steps_comp_curvas())
     }else{}
     
     
@@ -166,7 +260,7 @@ shinyServer(function(input, output,session) {
                   #data.position = c("right")
                   #), #final introbox
                 #introBox(
-                  menuSubItem("Diebold-Li", tabName = "subitem3", icon = icon("circle-o")),
+                  menuSubItem(tags$span(id="m4","Diebold-Li"), tabName = "subitem3", icon = icon("circle-o")),
                  # data.step = 4,
                 #  data.intro = "Esta es la sección de Diebold-Li, El Fútbol Club Barcelona, conocido
                  # popularmente como Barça,  es una entidad polideportiva de Barcelona, España. 
@@ -174,7 +268,7 @@ shinyServer(function(input, output,session) {
                   #data.position = c("right")
                #), #final introbox
                #introBox(
-                  menuSubItem("Splines", tabName = "subitem4", icon = icon("circle-o"))
+                  menuSubItem(tags$span(id="m5","Splines"), tabName = "subitem4", icon = icon("circle-o"))
                 #  data.step = 5,
                 #  data.intro = "Esta es la sección de Splines",
                 #  data.position = c("right")
@@ -196,24 +290,24 @@ shinyServer(function(input, output,session) {
       menuItem(tags$span(id="menu2","Comparativo"), icon = icon("th-list"),
 
                   #menuSubItem("Datos", tabName = "datos", icon = icon("circle-o")),
-               introBox(
-                  menuSubItem("Metodologías", tabName = "metodologias", icon = icon("clipboard-list"))
+               #introBox(
+                  menuSubItem(tags$span(id="m6","Metodologías"), tabName = "metodologias", icon = icon("clipboard-list")),
                #data.step = 1,
                #data.intro = "Esta es la sección de Metodologías",
                #data.position = c("right")
-              ), #final introbox
-                  menuSubItem("Precios estimados", tabName = "precios", icon = icon("coins")),
-              introBox(
-                  menuSubItem("Curvas", tabName = "curvas", icon = icon("chart-line")),
-              data.step = 7,
-              data.intro = "Esta es la sección de Splines",
-              data.position = c("right")
-      ), #final introbox
-               introBox(
-                 actionButton("help1", "Ayuda",width = '80px',icon = icon("folder-open"))
+              #), #final introbox
+                  menuSubItem(tags$span(id="m7","Precios estimados"), tabName = "precios", icon = icon("coins")),
+              #introBox(
+                  menuSubItem(tags$span(id="m8","Curvas"), tabName = "curvas", icon = icon("chart-line"))
+              #data.step = 7,
+              #data.intro = "Esta es la sección de Splines",
+              #data.position = c("right")
+      #), #final introbox
+       #        introBox(
+        #         actionButton("help1", "Ayuda",width = '80px',icon = icon("folder-open"))
                  #data.step = 2,
                  #data.intro = "Boton de instrucciones"
-               ) #final introbox
+         #      ) #final introbox
 
                 ),#fin menuitem
       #data.step = 2,
@@ -1024,12 +1118,12 @@ shinyServer(function(input, output,session) {
     req(credentials()$user_auth)
     wellPanel(
       h2("Diebold-Li"),
-      fluidRow(column( width = 6,box( width = 12, background = "navy",
+      fluidRow(column( width = 6,box(id="date1_dl" ,width = 12, background = "navy",
                                       dateInput(inputId="n3", label="Por favor, seleccionar una fecha", language= "es",
                                                 width = "100%")#final dateimput 
       )#final box
       ),#final column
-      box( width = 6,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p3')) #finalbox
+      box(id="date2_dl" , width = 6,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p3')) #finalbox
       ),#final fluidrow
       h2("  Títulos"), h5("  Favor seleccionar los títulos a considerar: "),
       wellPanel(
@@ -1038,7 +1132,7 @@ shinyServer(function(input, output,session) {
                     tabPanel("TIF",
                              tabsetPanel(type="pills",
                                          tabPanel("Títulos disponibles",
-                                                  wellPanel(
+                                                  wellPanel(id="tit1_dl" ,
                                                     fluidRow(column(width = 4,checkboxGroupInput( inputId = "t1_dl", label = "Corto Plazo",
                                                                                                   choices=tit[2:9])#final checkboximput
                                                     ),#final column
@@ -1058,7 +1152,7 @@ shinyServer(function(input, output,session) {
                                          ),
                                          tabPanel("Elegir Instrumentos",
                                                   h2("Seleccione"),
-                                                  fluidRow(
+                                                  fluidRow(id="tit2_dl" ,
                                                     box(width = 12, title = h3(UPLOADDATA_TEXT),
                                                         box( width=12,background = "navy",
                                                              fileInput('data_tit_tif_dl', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
@@ -1227,12 +1321,12 @@ shinyServer(function(input, output,session) {
     req(credentials()$user_auth)
     wellPanel(
       h2("Splines"),
-      fluidRow(column( width = 6,box( width = 12, background = "navy",
+      fluidRow(column( width = 6,box(id="date1_sp", width = 12, background = "navy",
                                       dateInput(inputId="n4", label="Por favor, seleccionar una fecha", language= "es",
                                                 width = "100%")#final dateimput 
       )#final box
       ),#final column
-      box( width = 6,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p4'))),
+      box(id="date2_sp", width = 6,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p4'))),
       h2("  Títulos"), h5("  Favor seleccionar los títulos a considerar: "),
       wellPanel(
         #tabBox(width = 12, title = "Títulos", id = "tab3", height = "50px", 
@@ -1240,7 +1334,7 @@ shinyServer(function(input, output,session) {
                     tabPanel("TIF",
                              tabsetPanel(type="pills",
                                          tabPanel("Títulos disponibles",
-                                                  wellPanel(
+                                                  wellPanel(id="tit1_sp",
                                                     fluidRow(column(width = 4,checkboxGroupInput( inputId = "t1_sp", label = "Corto Plazo",
                                                                                                   choices=tit[2:9])#final checkboximput
                                                     ),#final column
@@ -1260,7 +1354,7 @@ shinyServer(function(input, output,session) {
                                          ),
                                          tabPanel("Elegir Instrumentos",
                                                   h2("Seleccione"),
-                                                  fluidRow(
+                                                  fluidRow(id="tit2_sp",
                                                     box(width = 12, title = h3(UPLOADDATA_TEXT),
                                                         box( width=12,background = "navy",
                                                              fileInput('data_tit_tif_sp', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
@@ -1481,12 +1575,12 @@ shinyServer(function(input, output,session) {
     req(credentials()$user_auth)
     wellPanel(
       h2(" Comparativo"),
-      fluidRow(column(width = 6,box( width = 12, background = "navy",
+      fluidRow(column(width = 6,box(id="date1_compa",width = 12, background = "navy",
                                      dateInput(inputId="n5", label="Por favor, seleccionar una fecha", language= "es",
                                                width = "100%")#final dateimput 
       )#final box
       ),#final column
-      box( width = 6,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p5')) #final box
+      box(id="date2_compa", width = 6,height = 2,title = "Fecha de valoración: ",verbatimTextOutput('p5')) #final box
       ),#final fluidrow
       h2("  Títulos"), h5("  Favor seleccionar los títulos a considerar: "),
       wellPanel(
@@ -1495,7 +1589,7 @@ shinyServer(function(input, output,session) {
                     tabPanel("TIF",
                              tabsetPanel(type="pills",
                                          tabPanel("Títulos disponibles",
-                                                  wellPanel(
+                                                  wellPanel(id="tit1_compa",
                                                     fluidRow(column(width = 4,checkboxGroupInput( inputId = "t1_comp", label = "Corto Plazo",
                                                                                                   choices=tit[2:9])#final checkboximput
                                                     ),#final column
@@ -1515,7 +1609,7 @@ shinyServer(function(input, output,session) {
                                          ),
                                          tabPanel("Elegir Instrumentos",
                                                   h2("Seleccione"),
-                                                  fluidRow(
+                                                  fluidRow(id="tit2_compa",
                                                     box(width = 12, title = h3(UPLOADDATA_TEXT),
                                                         box( width=12,background = "navy",
                                                              fileInput('data_tit_tif_comp', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
@@ -1558,6 +1652,8 @@ shinyServer(function(input, output,session) {
                                #tabBox(width = 12, title = " ", id = "tab5", height = "50px", 
                                tabsetPanel(type="tabs", 
                                            tabPanel("Nelson y siegel",
+                                                    fluidPage(id="seccion_ns",
+                                                    
                                                     h2(" Precios Promedios"),verbatimTextOutput("pre_comp_tif_ns"),
                                                     
                                                     h5("Advertencia"),verbatimTextOutput("ad_pnsc_tif"),
@@ -1624,10 +1720,11 @@ shinyServer(function(input, output,session) {
                                                                 
                                                     )#final tabbox
                                                     
-                                                    
+                                                    )#final fluidpage
                                            ),#final tabpanel Nelson y siegel
                                            
                                            tabPanel("Svensson",
+                                                    fluidPage(id="seccion_sv",
                                                     h2(" Precios Promedios"),verbatimTextOutput("pre_comp_tif_sven"),
                                                     h5("Advertencia"),verbatimTextOutput("ad_psvc_tif"),
                                                     textInput('vec1_svc', 'Ingrese un precio o vector de precios (separados por coma)'),
@@ -1699,8 +1796,12 @@ shinyServer(function(input, output,session) {
                                                                 
                                                     )#final tabbox
                                                     
+                                                    )#final fluidpage
+                                                    
                                            ),#final tabpanel Svensson 
                                            tabPanel("Diebold Li",
+                                                    
+                                                    fluidPage(id="seccion_dl",
                                                     h2(" Cantidad de observaciones"),
                                                     numericInput( inputId = "d_tif_dl_comp", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
                                                     verbatimTextOutput("dias_tif_dl_comp"),
@@ -1723,9 +1824,11 @@ shinyServer(function(input, output,session) {
                                                     
                                                     h2(" Curva de Rendimientos"),
                                                     plotlyOutput("curva_tif_dl_comp")
+                                                    )#final fluidpage
                                                     
                                            ),#final tabpanel Diebold li 
                                            tabPanel("Splines",
+                                                    fluidPage(id="seccion_sp",
                                                     h3(" Por favor seleccionar el cantidad de días "),
                                                     box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                                         collapse= TRUE,"Recuerde que esta es la cantidad de días a considerar hacia atras en el tiempo
@@ -1772,7 +1875,7 @@ shinyServer(function(input, output,session) {
                                                     rbokehOutput("c_tif_splines_new_comp")
                                                     
                                                     
-                                                    
+                                           )#final fluidpage
                                            )#final tabpanel Splines 
                                )#final tabbox
                              )#final fluidrow
@@ -2080,12 +2183,12 @@ shinyServer(function(input, output,session) {
       #tabBox( width = 12, title = "Instrumentos", id = "precios_comp", height = "50px", 
       tabsetPanel(type="pills",       
               tabPanel("TIF",
-                       box(style="overflow-x:scroll",width = 12,dataTableOutput("comparativo_precios_tif"))
+                       box(id="comp_pre_tif",style="overflow-x:scroll",width = 12,dataTableOutput("comparativo_precios_tif"))
                        
               ),#final tabpanel
               tabPanel("VEBONO",
                        
-                       box(style="overflow-x:scroll",width = 12,dataTableOutput("comparativo_precios_veb"))
+                       box(id="comp_pre_veb",style="overflow-x:scroll",width = 12,dataTableOutput("comparativo_precios_veb"))
                        
               )#final tabpanel
       )#final tabbox
