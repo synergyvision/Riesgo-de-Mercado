@@ -179,6 +179,55 @@ shinyServer(function(input, output,session) {
     position=c("bottom","bottom","bottom","bottom","bottom")
   ))
   
+  #PASOS VAR-DATOS
+  steps_var_datos <- reactive(data.frame(
+    
+    element=c("#menu3","#m9","#var1_dat","#var2_dat","#datatable","#var3_dat","#var4_dat","#datatable_pos",
+              "#aviso_datos_var","#var5_dat"),
+    
+    intro=c("Sección Valor en Riesgo","Sección Datos","Opción para cargar archivo de precios",
+            "Opción para seleccionar separadores","Archivo de precios","Opción para cargar archivo de posiciones",
+            "Opción para seleccionar separadores","Archivo de posiciones","Aviso de coincidencia de instrumentos","Fechas disponibles para el cálculo del VaR"),
+    
+    position=c("bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom","bottom")
+  ))
+  
+  #PASOS VAR-DISTRIBUCION
+  steps_var_dist <- reactive(data.frame(
+    
+    element=c("#menu3","#m10","#advertencia_dist_varp_el","#instrumento_varp","#result_varp","#var3_distr","#parametros_dist_varp","#seleccion_varp",
+              "#seleccion_dist","#var1_distr","#var2_distr","#dist_elegir"),
+    
+    intro=c("Sección Valor en Riesgo","Sección Elegir Distribución","Advertencias sobre algún problema con los datos",
+            "Opción para seleccionar instrumento","Resultados preliminares ajuste distribución","Opción para elegir alguna distribución",
+            "Parámetros obtenidos según distribución considerada","Opción que permite guardar la distribución elegida para cada instrumento","Opción que habilita la carga de un archivo con las distribuciones de cada instrumento",
+            "Opción para cargar archivo de distribuciones","Opción para seleccionar los separadoes","Vista del archivo de distribuciónes"),
+    
+    position=c("bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom","bottom","bottom","bottom")
+  ))
+  
+  #PASOS VAR-VAR
+  steps_var_v <- reactive(data.frame(
+    
+    element=c("#menu3","#m11","#rend_varn","#advertencia_varn","#parametros_varn","#var_v1","#tabla_varn","#varn_portafolio",
+              "#advertencia_varsh","#grafico_pesos","#suma_posvarsh","#suma_pesos","#escenarios_varsh","#var_v2","#ubicacion_varsh",
+              "#varind_sh","#varsh","#rend_varmc_n","#advertencia_varmc_n","#parametros_varmc_n","#var_v3","#var_v4","#tabla_varmc_n","#varmc_portafolio_n1"),
+    
+    intro=c("Sección Valor en Riesgo","Sección VaR","Rendimientos de los precios de cada instrumento",
+            "Advertencia sobre posibles problemas con los rendimientos","Parámetros seleccionados","Opción para elegir el porcentaje del VaR",
+            "Vares individuales calculados","VaR de portafolio","Advertencia sobre posibles problemas con los rendimientos",
+            "Pesos según valor nominal de los instrumentos","Valor nominal del portafolio","Suma de pesos","Escenarios","Opción para elegir el porcentaje del VaR",
+            "Ubicación o punto de corte del VaR","Vares individuales calculados","VaR de portafolio","Rendimientos de los precios de cada instrumento",
+            "Advertencia sobre posibles problemas con los rendimientos","Parámetros seleccionados","Opción para elegir el porcentaje del VaR",
+            "Opción para seleccionar la cantidad de simulaciones a realizar","Vares individuales calculados","VaR de portafolio"),
+    
+    position=c("bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom","bottom","bottom","bottom")
+  ))
   
   #CONDICIONALES CON TABITEMS
   boton <- reactive({
@@ -198,6 +247,12 @@ shinyServer(function(input, output,session) {
       return(steps_comp_pre())
     }else if(input$tabs=="curvas"){
       return(steps_comp_curvas())
+    }else if(input$tabs=="datos_var"){
+      return(steps_var_datos())
+    }else if(input$tabs=="distribucion_var"){
+      return(steps_var_dist())
+    }else if(input$tabs=="var"){
+      return(steps_var_v())
     }else{}
     
     
@@ -316,11 +371,11 @@ shinyServer(function(input, output,session) {
 
       menuItem(tags$span(id="menu3","Valor en Riesgo"), icon = icon("coins"),
 
-               menuSubItem("Datos", tabName = "datos_var", icon = icon("folder-open")),
+               menuSubItem(tags$span(id="m9","Datos"), tabName = "datos_var", icon = icon("folder-open")),
 
-               menuSubItem("Distribución", tabName = "distribucion_var", icon = icon("project-diagram")),
+               menuSubItem(tags$span(id="m10","Distribución"), tabName = "distribucion_var", icon = icon("project-diagram")),
 
-               menuSubItem("VaR", tabName = "var", icon = icon("file-invoice-dollar")),
+               menuSubItem(tags$span(id="m11","VaR"), tabName = "var", icon = icon("file-invoice-dollar")),
 
                menuSubItem("Gráficos", tabName = "graficos", icon = icon("chart-pie")),
 
@@ -2234,11 +2289,11 @@ shinyServer(function(input, output,session) {
       h2(" Histórico de precios:"),
       fluidRow(
         box(width = 12, title = h3(UPLOADDATA_TEXT),
-            box( width=12,background = "navy",
+            box(id="var1_dat",width=12,background = "navy",
                  fileInput('file_data', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
                            placeholder = FILESELEC_TEXT, buttonLabel = BUTTSELEC_TEXT )
             ),
-            fluidRow(
+            fluidRow(id="var2_dat",
               box(width=4,background="olive",strong(ENCABEZADO_TEXT),
                   checkboxInput( width="100%", 'header', WITHHEADER_TEXT, TRUE)),
               box(width=4,background="olive",
@@ -2253,12 +2308,12 @@ shinyServer(function(input, output,session) {
       ),
       h2(" Posiciones:"),
       fluidRow(
-        box(width = 12, title = h3(UPLOADDATA_TEXT),
+        box(id="var3_dat",width = 12, title = h3(UPLOADDATA_TEXT),
             box( width=12,background = "navy",
                  fileInput('file_data_pos', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
                            placeholder = FILESELEC_TEXT, buttonLabel = BUTTSELEC_TEXT )
             ),
-            fluidRow(
+            fluidRow(id="var4_dat",
               box(width=4,background="olive",strong(ENCABEZADO_TEXT),
                   checkboxInput( width="100%", 'header_pos', WITHHEADER_TEXT, TRUE)),
               box(width=4,background="olive",
@@ -2276,7 +2331,7 @@ shinyServer(function(input, output,session) {
         box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('aviso_datos_var'))
       ),
       h2(" Fechas Disponibles"),
-      fluidRow(
+      fluidRow(id="var5_dat",
         box(width=6,htmlOutput("fechas_var"))
         ,
         #h2(" Fecha seleccionada"),
@@ -2313,7 +2368,7 @@ shinyServer(function(input, output,session) {
                                   tableOutput("result_varp")
                              ),
                              h2(" Elegir distribución"),
-                             box( width=12,background = "navy",
+                             box(id="var3_distr", width=12,background = "navy",
                                   selectInput( width="100%", inputId = "distsA_varp", label = SELECFUNCTION_TEXT,
                                                choices= DISTANALAH_CONF, selected = NULL)
                              ),
@@ -2332,11 +2387,11 @@ shinyServer(function(input, output,session) {
                              #      tableOutput("dist_elegir"),
                              fluidRow(
                                box(width = 12, title = h3(UPLOADDATA_TEXT),
-                                   box( width=12,background = "navy",
+                                   box(id="var1_distr", width=12,background = "navy",
                                         fileInput('file_data_dist', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
                                                   placeholder = FILESELEC_TEXT, buttonLabel = BUTTSELEC_TEXT )
                                    ),
-                                   fluidRow(
+                                   fluidRow(id="var2_distr",
                                      box(width=4,background="olive",strong(ENCABEZADO_TEXT),
                                          checkboxInput( width="100%", 'header_dist', WITHHEADER_TEXT, TRUE)),
                                      box(width=4,background="olive",
@@ -2393,7 +2448,7 @@ shinyServer(function(input, output,session) {
                                tags$h3(style="padding-left:15px;","Parámetros seleccionados:"),
                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('parametros_varn')),
                                tags$h3(style="padding-left:15px;","Elegir porcentaje del VaR:"),
-                               box( width = 12, background = "navy",
+                               box(id="var_v1", width = 12, background = "navy",
                                     selectInput( inputId = "porVarn", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
                                ),
                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('porcentaje_varn')),
@@ -2426,7 +2481,7 @@ shinyServer(function(input, output,session) {
                                tags$h2(style="padding-left:15px;"," Escenarios"),
                                box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('escenarios_varsh')),
                                tags$h3(style="padding-left:15px;","Elegir porcentaje del VaR:"),
-                               box( width = 12, background = "navy",
+                               box(id="var_v2", width = 12, background = "navy",
                                     selectInput( inputId = "porVarsh", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
                                ),
                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('porcentaje_varsh')),
@@ -2458,12 +2513,12 @@ shinyServer(function(input, output,session) {
                                                       tags$h3(style="padding-left:15px;"," Parámetros seleccionados:"),
                                                       box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('parametros_varmc_n')),
                                                       tags$h3(style="padding-left:15px;"," Elegir porcentaje del VaR:"),
-                                                      box( width = 12, background = "navy",
+                                                      box(id="var_v3", width = 12, background = "navy",
                                                            selectInput( inputId = "porVarmc_n", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
                                                       ),
                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('porcentaje_varmc_n')),
                                                       tags$h3(style="padding-left:15px;"," Elegir cantidad de simulaciones:"),
-                                                      box( width = 12, background = "navy",
+                                                      box(id="var_v4", width = 12, background = "navy",
                                                            numericInput( inputId = "sim_varmc_n", label="Simulaciones a realizar: ", min = 0, max = 100000,step = 1, value = 100, width = "40%")),
                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('simulaciones_varmc_n')),
                                                       #boton q controla la reactividad
@@ -2493,12 +2548,12 @@ shinyServer(function(input, output,session) {
                                                       tags$h3(style="padding-left:15px;"," Mejores distribuciones elegidas:"),
                                                       box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('dist_varmc_el')),
                                                       tags$h3(style="padding-left:15px;"," Elegir porcentaje del VaR:"),
-                                                      box( width = 12, background = "navy",
+                                                      box( id="var_v5",width = 12, background = "navy",
                                                            selectInput( inputId = "porVarmc_el", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
                                                       ),
                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('porcentaje_varmc_el')),
                                                       tags$h3(style="padding-left:15px;"," Elegir cantidad de simulaciones"),
-                                                      box( width = 12, background = "navy",
+                                                      box(id="var_v6", width = 12, background = "navy",
                                                            numericInput( inputId = "sim_varmc_el", label="Simulaciones a realizar: ", min = 0, max = 100000,step = 1, value = 100, width = "40%")),
                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('simulaciones_varmc_el')),
                                                       #boton q controla la reactividad
