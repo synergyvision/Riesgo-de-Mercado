@@ -213,7 +213,8 @@ shinyServer(function(input, output,session) {
     
     element=c("#menu3","#m11","#rend_varn","#advertencia_varn","#parametros_varn","#var_v1","#tabla_varn","#varn_portafolio",
               "#advertencia_varsh","#grafico_pesos","#suma_posvarsh","#suma_pesos","#escenarios_varsh","#var_v2","#ubicacion_varsh",
-              "#varind_sh","#varsh","#rend_varmc_n","#advertencia_varmc_n","#parametros_varmc_n","#var_v3","#var_v4","#tabla_varmc_n","#varmc_portafolio_n1"),
+              "#varind_sh","#varsh","#rend_varmc_n","#advertencia_varmc_n","#parametros_varmc_n","#var_v3","#var_v4","#tabla_varmc_n","#varmc_portafolio_n1",
+              "#rend_varmc_el","#advertencia_varmc_el","#dist_varmc_el","#var_v5","#var_v6","#tabla_varmc_el","#varmc_portafolio_el1"),
     
     intro=c("Sección Valor en Riesgo","Sección VaR","Rendimientos de los precios de cada instrumento",
             "Advertencia sobre posibles problemas con los rendimientos","Parámetros seleccionados","Opción para elegir el porcentaje del VaR",
@@ -221,12 +222,87 @@ shinyServer(function(input, output,session) {
             "Pesos según valor nominal de los instrumentos","Valor nominal del portafolio","Suma de pesos","Escenarios","Opción para elegir el porcentaje del VaR",
             "Ubicación o punto de corte del VaR","Vares individuales calculados","VaR de portafolio","Rendimientos de los precios de cada instrumento",
             "Advertencia sobre posibles problemas con los rendimientos","Parámetros seleccionados","Opción para elegir el porcentaje del VaR",
+            "Opción para seleccionar la cantidad de simulaciones a realizar","Vares individuales calculados","VaR de portafolio",
+            "Rendimientos de los precios de cada instrumento","Advertencia sobre posibles problemas con los rendimientos",
+            "Mejores distribuciones seleccionadas","Opción para elegir el porcentaje del VaR",
             "Opción para seleccionar la cantidad de simulaciones a realizar","Vares individuales calculados","VaR de portafolio"),
     
     position=c("bottom","bottom","bottom","bottom","bottom",
                "bottom","bottom","bottom","bottom","bottom","bottom","bottom",
                "bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom","bottom","bottom","bottom",
                "bottom","bottom","bottom","bottom","bottom","bottom","bottom")
+  ))
+  
+  #PASOS VAR-GRAFICOS
+  steps_var_graf <- reactive(data.frame(
+    
+    element=c("#menu3","#m12","#grafico_vnominal","#reporte_var","#grafico_vind","#grafico_vcomp","#grafico_hist_sh","#grafico_vind_sh",
+              "#grafico_comp_sh","#grafico_hist_smcn","#grafico_vind_mcn","#grafico_comp_mcn","#grafico_hist_smc_el","#grafico_vind_mc_el","#grafico_comp_mc_el",
+              "#grafico_var_comp"),
+    
+    intro=c("Sección Valor en Riesgo","Sección Gráficos de VaRes","Gráfico del Valor Nominal de cada instrumento",
+            "Botón para descargar reporte sobre el VaR","Gráfico VaRes individuales con la metodología paramétrica","Gráfico VaR Portafolio vs suma de VaRes individuales con la metodología paramétrica",
+            "Gráfico de Escenarios obtenidos mediante la simulación histórica","Gráfico VaRes individuales con la metodología de simulación histórica","Gráfico VaR Portafolio vs suma de VaRes individuales con la metodología de simulación histórica",
+            "Gráfico de Escenarios obtenidos mediante la simulación de MonteCarlo Normal","Gráfico VaRes individuales con la metodología de simulación de MonteCarlo normal","Gráfico VaR Portafolio vs suma de VaRes individuales con la metodología de simulación de MonteCarlo normal",
+            "Gráfico de Escenarios obtenidos mediante la simulación de MonteCarlo considerando mejor distribución","Gráfico VaRes individuales con la metodología de simulación de MonteCarlo considerando mejor distribución","Gráfico VaR Portafolio vs suma de VaRes individuales con la metodología de simulación de MonteCarlo considerando mejor distribución",
+            "Gráfico comparativo de VaRes"),
+    
+    position=c("bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom")
+  ))
+  
+  #PASOS VAR-HISTORICOS
+  steps_var_hist <- reactive(data.frame(
+    
+    element=c("#menu3","#m13","#fechas_disponibles_par","#dateRange_par","#historico_par","#data_var_par","#fechas_disponibles_hist","#dateRange_hist",
+              "#historico_hist","#data_var_hist","#fechas_disponibles_smc1","#dateRange_smc1","#historico_smc1","#data_var_smc1","#fechas_disponibles_smc2",
+              "#dateRange_smc2","#historico_smc2","#data_var_smc2"),
+    
+    intro=c("Sección Valor en Riesgo","Sección Histórico de VaRes","Rango de fechas disponibles para calcular el VaR",
+            "Opción para elegir fechas","Histórico de VaRes con la metodología paramétrica","Opción para descargar data con la metodología paramétrica","Rango de fechas disponibles para calcular el VaR",
+            "Opción para elegir fechas","Histórico de VaRes con la metodología de simulación histórica","Opción para descargar data con la metodología de simulación histórica",
+            "Rango de fechas disponibles para calcular el VaR",
+            "Opción para elegir fechas","Histórico de VaRes con la metodología de MonteCarlo normal","Opción para descargar data con la metodología de MonteCarlo normal","Rango de fechas disponibles para calcular el VaR",
+            "Opción para elegir fechas","Histórico de VaRes con la metodología de MonteCarlo considerando mejor distribución","Opción para descargar data con la metodología de MonteCarlo considerando mejor distribución"
+            ),
+    
+    position=c("bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom","bottom","bottom","bottom")
+  ))
+  
+  #PASOS BACKTESTING-DATOS
+  steps_var_back_d <- reactive(data.frame(
+    
+    element=c("#menu4","#m14","#backv1","#backv2"),
+    
+    intro=c("Sección Backtesting","Sección Datos","Opción para cargar archivo","Vista preliminar de archivo"),
+    
+    position=c("bottom","bottom","bottom","bottom")
+  ))
+  
+  #PASOS BACKTESTING-DATOS
+  steps_var_back_r <- reactive(data.frame(
+    
+    element=c("#menu4","#m15","#back_por","#result_back","#grafico_back","#report_back"),
+    
+    intro=c("Sección Backtesting","Sección Resultados","Opción para elegir nivel de confianza","Resultados obtenidos","Valores críticos obtenidos",
+            "Botón para descargar reporte"),
+    
+    position=c("bottom","bottom","bottom","bottom","bottom","bottom")
+  ))
+  
+  #PASOS VALORACION-DATOS
+  steps_val_d <- reactive(data.frame(
+    
+    element=c("#menu5","#m16","#valo1","#datatable_val"),
+    
+    intro=c("Sección Valoración","Sección Datos","Opción para seleccionar archivo",
+            "Vista preliminar del archivo"),
+    
+    position=c("bottom","bottom","bottom","bottom")
   ))
   
   #CONDICIONALES CON TABITEMS
@@ -253,6 +329,16 @@ shinyServer(function(input, output,session) {
       return(steps_var_dist())
     }else if(input$tabs=="var"){
       return(steps_var_v())
+    }else if(input$tabs=="graficos"){
+      return(steps_var_graf())
+    }else if(input$tabs=="historicos"){
+      return(steps_var_hist())
+    }else if(input$tabs=="datos_back"){
+      return(steps_var_back_d())
+    }else if(input$tabs=="resultados_back"){
+      return(steps_var_back_r())
+    }else if(input$tabs=="datos_val"){
+      return(steps_val_d())
     }else{}
     
     
@@ -377,19 +463,19 @@ shinyServer(function(input, output,session) {
 
                menuSubItem(tags$span(id="m11","VaR"), tabName = "var", icon = icon("file-invoice-dollar")),
 
-               menuSubItem("Gráficos", tabName = "graficos", icon = icon("chart-pie")),
+               menuSubItem(tags$span(id="m12","Gráficos"), tabName = "graficos", icon = icon("chart-pie")),
 
-               menuSubItem("Históricos", tabName = "historicos", icon = icon("calendar-alt"))
+               menuSubItem(tags$span(id="m13","Históricos"), tabName = "historicos", icon = icon("calendar-alt"))
 
       ),#fin menuitem
                 menuItem(tags$span(id="menu4","Backtesting"), icon = icon("angle-double-left"),
-                         menuSubItem("Datos", tabName = "datos_back", icon = icon("folder-open")),
-                         menuSubItem("Resultados", tabName = "resultados_back", icon = icon("file-alt"))
+                         menuSubItem(tags$span(id="m14","Datos"), tabName = "datos_back", icon = icon("folder-open")),
+                         menuSubItem(tags$span(id="m15","Resultados"), tabName = "resultados_back", icon = icon("file-alt"))
                 ),
        menuItem(tags$span(id="menu5","Valoración"), icon = icon("bar-chart-o"),
-               menuSubItem("Datos", tabName = "datos_val", icon = icon("folder-open")),
-               menuSubItem("Resultados", tabName = "resultados_val", icon = icon("file-alt")),
-               menuSubItem("Resultados Prueba de Estrés", tabName = "resultados_val_estres", icon = icon("file-contract"))
+               menuSubItem(tags$span(id="m16","Datos"), tabName = "datos_val", icon = icon("folder-open")),
+               menuSubItem(tags$span(id="m17","Resultados"), tabName = "resultados_val", icon = icon("file-alt")),
+               menuSubItem(tags$span(id="m18","Resultados Prueba de Estrés"), tabName = "resultados_val_estres", icon = icon("file-contract"))
         ),
 
                   menuItem(tags$span(id="menu6","Acerca"), icon = icon("exclamation-circle"), tabName = "acerca"),
@@ -2850,7 +2936,7 @@ shinyServer(function(input, output,session) {
     req(credentials()$user_auth)
     wellPanel(
       h2(" Seleccionar archivo"),
-      fluidRow(
+      fluidRow(id="backv1",
         box(width = 12, title = h3(UPLOADDATA_TEXT),
             box( width=12,background = "navy",
                  fileInput('file_data_back', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
@@ -2866,7 +2952,7 @@ shinyServer(function(input, output,session) {
             )
         )
       ),
-      fluidRow(
+      fluidRow(id="backv2",
         box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_back'))
       )
       
@@ -2878,7 +2964,7 @@ shinyServer(function(input, output,session) {
     req(credentials()$user_auth)
     wellPanel(
       h3(" Elegir porcentaje del Backtesting:"),
-      box(width = 12, background = "navy",
+      box(id="back_por",width = 12, background = "navy",
           selectInput( inputId = "porback", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
       ),
       verbatimTextOutput("back_porcentaje"),
@@ -2899,7 +2985,7 @@ shinyServer(function(input, output,session) {
     req(credentials()$user_auth)
     wellPanel(
       h2(" Seleccionar archivo"),
-      fluidRow(
+      fluidRow(id="valo1",
         box(width = 12, title = h3(UPLOADDATA_TEXT),
             box( width=12,background = "navy",
                  fileInput('file_data_val', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
@@ -11621,12 +11707,22 @@ shinyServer(function(input, output,session) {
    #  hist 
     #distribuciones()
     if(input$seleccion_dist==0){
-      distribuciones()
+      a <- try(distribuciones())
+      
+      if(class(a)!="try-error"){
+        a
+      }else{}
+      
     }else if(input$seleccion_dist==1){
       #as.data.frame(rep(1,10))
       #b <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
       #b
-      datadist()
+      a <- try(datadist())
+      
+      if(class(a)!="try-error"){
+        a
+      }else{}
+      
     }
   })
   
