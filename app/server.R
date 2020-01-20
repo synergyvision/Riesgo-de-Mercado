@@ -2,6 +2,8 @@ shinyServer(function(input, output,session) {
 
   source(paste(getwd(),"Modulos","Curva_rend_ind.R",sep = "/"),local = TRUE)
  
+  #observe_helpers(withMathJax = TRUE)
+  
   # start introjs when button is pressed with custom options and events
   observeEvent(input$help,
                introjs(session, options = list("nextLabel"="Siguiente",
@@ -305,6 +307,41 @@ shinyServer(function(input, output,session) {
     position=c("bottom","bottom","bottom","bottom")
   ))
   
+  #PASOS VALORACION-RESULTADOS
+  steps_val_r <- reactive(data.frame(
+    
+    element=c("#menu5","#m17","#result_val","#grafico_val1","#result_val_port","#report_val1"),
+    
+    intro=c("Sección Valoración","Sección Resultados de la Valoración","Resultados de la valoración","Gráfico de Utilidad o Pérdida",
+            "Resumen de la valoración del portafolio","Botón para descargar reporte de Valoración"),
+    
+    position=c("bottom","bottom","bottom","bottom","bottom","bottom")
+  ))
+  
+  #PASOS VALORACION-RESULTADOS-ESTRES
+  steps_val_est <- reactive(data.frame(
+    
+    element=c("#menu5","#m18","#val_est1","#val_est2","#datatable_val_estres_ad",
+              "#result_val_estres","#grafico_val2","#result_val_estres_port","#report_val2"),
+    
+    intro=c("Sección Valoración","Sección Resultados Valoración estresada","Opción para cargar archivo de precios","Diferentes opciones de separadores",
+            "Advertencia sobre posible error con el archivo","Resultados de la valoración estresada",
+            "Gráfico de Utilidad o Pérdida","Resumen de valoración estresada del portafolio","Botón para descargar reporte de Valoración estresada"),
+    
+    position=c("bottom","bottom","bottom","bottom","bottom","bottom",
+               "bottom","bottom","bottom")
+  ))
+  
+  #PASOS ACERCA
+  steps_acerca <- reactive(data.frame(
+    
+    element=c("#menu6","#acer1"),
+    
+    intro=c("Sección Acerca","Información acerca de la aplicación"),
+    
+    position=c("bottom","bottom")
+  ))
+  
   #CONDICIONALES CON TABITEMS
   boton <- reactive({
     if(input$tabs=="datos_curvas"){
@@ -339,6 +376,12 @@ shinyServer(function(input, output,session) {
       return(steps_var_back_r())
     }else if(input$tabs=="datos_val"){
       return(steps_val_d())
+    }else if(input$tabs=="resultados_val"){
+      return(steps_val_r())
+    }else if(input$tabs=="resultados_val_estres"){
+      return(steps_val_est())
+    }else if(input$tabs=="acerca"){
+      return(steps_acerca())
     }else{}
     
     
@@ -482,7 +525,7 @@ shinyServer(function(input, output,session) {
 
                 #)#final fluidpage
       introBox(
-          actionButton("help2", "Instrucciones"),
+          actionButton("help2", "Instrucciones") ,
           data.step = 9,
           data.intro = "Boton de instrucciones"
         ) #final introbox
@@ -518,7 +561,7 @@ shinyServer(function(input, output,session) {
   #LO COLOCO PARA EVITAR QUE SE MUESTRE AL SALIR DE LA SESION
   output$acerca1 <- renderUI({
     req(credentials()$user_auth)
-    box( width = 9, status="warning",
+    box(id="acer1" ,width = 9, status="warning",
          h3(ACERTITLE_TEXT),
          tags$hr(),
          h4(ACERVER_TEXT),
@@ -3040,13 +3083,13 @@ shinyServer(function(input, output,session) {
     req(credentials()$user_auth)
     wellPanel(
       h2("Precios históricos"),
-      fluidRow(
+      fluidRow(id="val_est1",
         box(width = 12, title = h3(UPLOADDATA_TEXT),
             box( width=12,background = "navy",
                  fileInput('file_data_val_estres', SELECTFILE_TEXT, accept = UPLOADFILETYPE_CONF,
                            placeholder = FILESELEC_TEXT, buttonLabel = BUTTSELEC_TEXT )
             ),
-            fluidRow(
+            fluidRow(id="val_est2",
               box(width=4,background="olive",strong(ENCABEZADO_TEXT),
                   checkboxInput( width="100%", 'header_val_estres', WITHHEADER_TEXT, TRUE)),
               box(width=4,background="olive",

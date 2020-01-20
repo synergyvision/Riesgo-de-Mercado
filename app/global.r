@@ -62,6 +62,9 @@ library(shinythemes)
 library(shinyjs)
 library(V8)
 library(glue)
+library(shinyhelper)
+library(magrittr)
+
 
 
 
@@ -74,7 +77,7 @@ user_base <- tibble(
 )
 
 options(OutDec = ",")
-
+options(shiny.trace=TRUE)
 
 #TIF iniciales
 #tif viejos
