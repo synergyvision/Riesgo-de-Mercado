@@ -5,29 +5,29 @@ shinyServer(function(input, output,session) {
   #observe_helpers(withMathJax = TRUE)
   
   # start introjs when button is pressed with custom options and events
-  observeEvent(input$help,
-               introjs(session, options = list("nextLabel"="Siguiente",
-                                               "prevLabel"="Regresar",
-                                               "skipLabel"="Salir"
-                                               ),
-                       events = list("oncomplete"=I('alert("Listo!")')))
-  )
+  # observeEvent(input$help,
+  #              introjs(session, options = list("nextLabel"="Siguiente",
+  #                                              "prevLabel"="Regresar",
+  #                                              "skipLabel"="Salir"
+  #                                              ),
+  #                      events = list("oncomplete"=I('alert("Listo!")')))
+  # )
   
   #
-  observeEvent(input$help1,
-               introjs(session, options = list("nextLabel"="Siguiente",
-                                               "prevLabel"="Regresar",
-                                               "skipLabel"="Salir"),
-                       events = list("oncomplete"=I('alert("Listo!")')))
-  )
+  # observeEvent(input$help1,
+  #              introjs(session, options = list("nextLabel"="Siguiente",
+  #                                              "prevLabel"="Regresar",
+  #                                              "skipLabel"="Salir"),
+  #                      events = list("oncomplete"=I('alert("Listo!")')))
+  # )
   
   #DEFINO PASOS PARA INTRO SIN INTROBOX
-  steps_1 <- reactive(data.frame(
-    element=c("#menu1","#menu2","#menu3","#menu4","#menu5","#menu6"),
-    intro=c("Sección Curva de Rendimientos","Sección Comparativo","Sección Valor en Riesgo",
-            "Sección Backtesting","Sección Valoración","Sección de información"),
-    position=c("bottom","bottom","bottom","bottom","bottom","bottom")
-  ))
+  # steps_1 <- reactive(data.frame(
+  #   element=c("#menu1","#menu2","#menu3","#menu4","#menu5","#menu6"),
+  #   intro=c("Sección Curva de Rendimientos","Sección Comparativo","Sección Valor en Riesgo",
+  #           "Sección Backtesting","Sección Valoración","Sección de información"),
+  #   position=c("bottom","bottom","bottom","bottom","bottom","bottom")
+  # ))
   
   observeEvent(input$help2,
                introjs(session, options = list("nextLabel"="Siguiente",
@@ -39,11 +39,11 @@ shinyServer(function(input, output,session) {
                        ))
   
   #PASOS DE PRUEBA
-  steps_2 <- reactive(data.frame(
-    element=c("#menu1","#m1","#tab1","#Ca_leida","#tab6"),
-    intro=c("Sección Curva de Rendimientos","Sección Datos","Datos","Documento Características","Comparativo"),
-    position=c("bottom","bottom","bottom","bottom","bottom")
-  ))
+  # steps_2 <- reactive(data.frame(
+  #   element=c("#menu1","#m1","#tab1","#Ca_leida","#tab6"),
+  #   intro=c("Sección Curva de Rendimientos","Sección Datos","Datos","Documento Características","Comparativo"),
+  #   position=c("bottom","bottom","bottom","bottom","bottom")
+  # ))
   
   #PASOS CR-DATOS
   # steps_datos_curvas <- reactive(data.frame(
@@ -524,11 +524,11 @@ shinyServer(function(input, output,session) {
                   menuItem(tags$span(id="menu6","Acerca"), icon = icon("exclamation-circle"), tabName = "acerca"),
 
                 #)#final fluidpage
-      introBox(
-          actionButton("help2", "Instrucciones") ,
-          data.step = 9,
-          data.intro = "Boton de instrucciones"
-        ) #final introbox
+      #introBox(
+          actionButton("help2", "Instrucciones") 
+       #   data.step = 9,
+        #  data.intro = "Boton de instrucciones"
+        #) #final introbox
       
       )#final sidebarmenu
   })
