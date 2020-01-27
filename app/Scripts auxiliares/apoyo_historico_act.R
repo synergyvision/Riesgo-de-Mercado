@@ -213,3 +213,102 @@ extension <- function(ruta){
 
 extension(ruta)
 extension(ruta1)
+
+##################
+##################
+##################
+##################
+##################
+
+#ACTUALIZO HISTORICO AGOSTO 2019 - ENERO 2020
+#LEO HISTORICO DESDE ENERO 2016 - JULIO 2019
+Historico_act <- read.csv("~/Riesgo-de-Mercado/app/data/Historico_act.txt", sep="")
+
+#AGOSTO 2019
+
+#NO HUBO OPERACION
+
+#SEPTIEMBRE 2019
+sep19 <- Preciosbcv(ruta = "resumersec_0919.xlsm")
+
+ca <- Carac("30-09-2019.xls")
+
+sep19 <- formatop(ca,sep19)
+
+sep19$`Fecha op` <- as.Date(sep19$`Fecha op`,format="%d/%m/%Y")
+sep19$F.Vencimiento <-   as.Date(sep19$F.Vencimiento,format="%d/%m/%Y")
+sep19 <- sep19[order(sep19[,3]),]
+
+#doy formato antes de unir data
+sep19$`Fecha op` <- as.character(sep19$`Fecha op`)
+sep19$F.Vencimiento <- as.character(sep19$F.Vencimiento)
+
+
+Historico_act$Fecha.op <- as.character(Historico_act$Fecha.op)
+Historico_act$F.Vencimiento <- as.character(Historico_act$F.Vencimiento)
+
+#uno hist + mayo + jun
+names(sep19) <- names(Historico_act)  
+
+H <- rbind.data.frame(Historico_act,sep19)
+
+
+#OCTUBRE 2019
+oct19 <- Preciosbcv(ruta = "resumersec_1019.xls")
+
+ca <- Carac("31-10-2019.xls")
+
+oct19 <- formatop(ca,oct19)
+
+oct19$`Fecha op` <- as.Date(oct19$`Fecha op`,format="%d/%m/%Y")
+oct19$F.Vencimiento <-   as.Date(oct19$F.Vencimiento,format="%d/%m/%Y")
+oct19 <- oct19[order(oct19[,3]),]
+
+#doy formato antes de unir data
+oct19$`Fecha op` <- as.character(oct19$`Fecha op`)
+oct19$F.Vencimiento <- as.character(oct19$F.Vencimiento)
+
+names(oct19) <- names(Historico_act)  
+
+H <- rbind.data.frame(H,oct19)
+
+#NOVIEMBRE 2019
+
+#NO HUBO OPERACION
+
+#DICIEMBRE 2019
+dic19 <- Preciosbcv(ruta = "resumersec_1219.xls")
+
+ca <- Carac("30-12-2019.xls")
+
+dic19 <- formatop(ca,dic19)
+
+dic19$`Fecha op` <- as.Date(dic19$`Fecha op`,format="%d/%m/%Y")
+dic19$F.Vencimiento <-   as.Date(dic19$F.Vencimiento,format="%d/%m/%Y")
+dic19 <- dic19[order(dic19[,3]),]
+
+#doy formato antes de unir data
+dic19$`Fecha op` <- as.character(dic19$`Fecha op`)
+dic19$F.Vencimiento <- as.character(dic19$F.Vencimiento)
+
+names(dic19) <- names(Historico_act)  
+
+H <- rbind.data.frame(H,dic19)
+
+
+#ENERO 2020
+ene2020 <- Preciosbcv(ruta = "resumersec_012020.xls")
+
+#NO HUBO OPERACION
+
+write.table(H,paste(getwd(),"app","data","Historico_act.txt",sep = "/"),row.names = FALSE)
+
+
+
+
+
+
+
+
+
+

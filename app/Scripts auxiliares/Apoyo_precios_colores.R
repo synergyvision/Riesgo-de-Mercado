@@ -1,6 +1,7 @@
 library(flextable)
 library(magrittr)
 library(dplyr)
+library(tidyverse)
 
 
 col_palette <- c("#D73027", "#F46D43", "#FDAE61", "#FEE08B", 
@@ -161,3 +162,56 @@ t
 v <- tabla_color(Historico = Historico,tipo_tit = "VEBONO",colores = c("blue","white","#d62728"))
 v
 
+
+
+#COLORES USANDO DT
+library(DT)
+options(DT.options = list(pageLength = 10))
+df = as.data.frame(cbind(matrix(round(rnorm(50), 3), 10), sample(0:1, 10, TRUE)))
+# style V6 based on values of V6
+datatable(df) %>% formatStyle(
+  'V6',
+  backgroundColor = styleEqual(c(0, 1), c('gray', 'yellow'))
+)
+
+
+# create 19 breaks and 20 rgb color values ranging from white to red
+brks <- quantile(df, probs = seq(.05, .95, .05), na.rm = TRUE)
+clrs <- round(seq(255, 40, length.out = length(brks) + 1), 0) %>%
+  {paste0("rgb(255,", ., ",", ., ")")}
+datatable(df) %>% formatStyle(names(df), backgroundColor = styleInterval(brks, clrs))
+
+#EJEMPLO TIF
+a <- styleEqual("0", "orange")
+a[1] <- "value != \"0\" ? \"orange\" : value"
+
+datatable(pre_tif) %>% 
+  formatStyle(names(pre_tif), backgroundColor = a)
+
+
+datatable(pre_tif) %>% 
+  formatStyle(names(pre_tif), backgroundColor = styleColorBar(co, "red"))
+
+#
+datatable(iris) %>% formatStyle(
+  .,
+  columns = c(1),
+  valueColumns = 0,
+  target = 'cell',
+  backgroundColor = styleEqual(c(1,3), c('red','blue'))
+ )  %>% formatStyle(
+   .,
+   columns = c(2),
+   valueColumns = 0,
+   target = 'cell',
+   backgroundColor = styleEqual(c(2), c('orange'))
+ )
+
+b <- formatStyle( datatable(iris)
+  ,
+  columns = c(1),
+  valueColumns = 0,
+  target = 'cell',
+  backgroundColor = styleEqual(c(1,3), c('red','blue'))
+)
+#EJEMPLO VENBONOS

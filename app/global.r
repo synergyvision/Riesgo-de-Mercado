@@ -64,6 +64,9 @@ library(V8)
 library(glue)
 library(shinyhelper)
 library(magrittr)
+library(flextable)
+library(magrittr)
+library(tidyverse)
 
 
 
@@ -77,7 +80,7 @@ user_base <- tibble(
 )
 
 options(OutDec = ",")
-options(shiny.trace=TRUE)
+#options(shiny.trace=TRUE)
 
 #TIF iniciales
 #tif viejos

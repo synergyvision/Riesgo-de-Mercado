@@ -19,11 +19,11 @@ shinyUI(
                   ),#final dashboardheader
     #Sidebar
     dashboardSidebar(
-      introjsUI(),
-      fluidPage(
+      #introjsUI(),
+      #fluidPage(
                 #sidebarSearchForm(label = "Ingrese un Número", "searchText", "searchButton"),
               
-        collapsed = TRUE, sidebarMenuOutput("sidebar")
+        collapsed = FALSE, sidebarMenuOutput("sidebar")
         
                 # sidebarMenu(id = "tabs",
                 #           #fluidPage(
@@ -98,12 +98,13 @@ shinyUI(
                 #   data.intro = "Boton de instrucciones"
                 # ) #final introbox
                 
-      )#final fluidpage
+      #)#final fluidpage
                 ), #final dashboardsidebar
     #Body
     dashboardBody(
       setBackgroundImage(src = "img/logogrande.png", shinydashboard = TRUE),
       VisionHeader(),
+      introjsUI(),
       shinyjs::useShinyjs(),
       extendShinyjs(text = "shinyjs.hidehead = function(parm){
                                     $('header').css('display', parm); }"),
@@ -196,6 +197,8 @@ shinyUI(
               #CARGO DATOS VAR
               tabItem(tabName = "datos_var",
                       uiOutput("tab9")
+                      #h1("Prueba tabla Flextable"),
+                      #uiOutput("tabla")
               ),
               #CALCULO Y BUSCO DISTRIBUCION DE LOS RETORNOS
               tabItem(tabName = "distribucion_var",
