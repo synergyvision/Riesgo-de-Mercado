@@ -45,7 +45,7 @@ output$downloadData <- downloadHandler(
 # Muestro documento "Caracteristicas" #
 #+++++++++++++++++++++++++++++++++++++#
 
-output$Ca_leida <- renderDataTable({
+output$Ca_leida <- DT::renderDataTable({
   ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
   if(class(ca)=="try-error"){
     Aviso <- print("El archivo no se encuentra, descargar y recargar página!")

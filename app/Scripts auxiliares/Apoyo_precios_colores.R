@@ -166,7 +166,7 @@ v
 
 #COLORES USANDO DT
 library(DT)
-options(DT.options = list(pageLength = 10))
+#options(DT.options = list(pageLength = 10))
 df = as.data.frame(cbind(matrix(round(rnorm(50), 3), 10), sample(0:1, 10, TRUE)))
 # style V6 based on values of V6
 datatable(df) %>% formatStyle(
@@ -185,6 +185,7 @@ datatable(df) %>% formatStyle(names(df), backgroundColor = styleInterval(brks, c
 a <- styleEqual("0", "orange")
 a[1] <- "value != \"0\" ? \"orange\" : value"
 
+#!ESTE FUNCIONA!!!!
 datatable(pre_tif) %>% 
   formatStyle(names(pre_tif), backgroundColor = a)
 
@@ -192,7 +193,7 @@ datatable(pre_tif) %>%
 datatable(pre_tif) %>% 
   formatStyle(names(pre_tif), backgroundColor = styleColorBar(co, "red"))
 
-#
+#COLOREAR UNA CELDA ESPECIFICA
 datatable(iris) %>% formatStyle(
   .,
   columns = c(1),
@@ -214,4 +215,52 @@ b <- formatStyle( datatable(iris)
   target = 'cell',
   backgroundColor = styleEqual(c(1,3), c('red','blue'))
 )
+
+b
+#CREO FUNCION
+colores <- function(i){
+  if(i==1){
+    return(styleEqual(c(1,3), rep("blue",2)))
+  }else if(i==2){
+    return(styleEqual(c(2), c('orange')))
+  }
+}
+
+#INICIALIZO VARIABLE
+a <- datatable(iris)
+
+for(i in c(1,2)){
+a <- formatStyle( a,
+             columns = names(iris)[i],
+             valueColumns = 0,
+             target = 'cell',
+             backgroundColor = colores(i)
+)
+}
+
+a
+
+#PRUEBA TIF
+#INICIALIZO VARIABLE
+a1 <- datatable(pre_tif)
+
+
+#CREO FUNCION PARA OBTENER VALORES NO NULOS DE CADA COLUMNA
+indice_col <- function(i){
+  z1 <- which(pre_tif[,i]!=0)
+  return(styleEqual(row.names(pre_tif)[z1], rep("red",length(z1))))
+}
+
+
+
+for(i in c(1,2)){
+  a1 <- formatStyle(a1,
+                    columns = i,
+                    valueColumns = 0,
+                    target = 'cell',
+                    backgroundColor = indice_col(i)
+  )
+}
+
+a1
 #EJEMPLO VENBONOS

@@ -602,7 +602,7 @@ shinyServer(function(input, output,session) {
                          #      style="height:500px;overflow-y: scroll;overflow-x: scroll"
                          #     ))
                          box(style="overflow-x:scroll",width = 12,
-                             dataTableOutput("Ca_leida"))
+                             DT::dataTableOutput("Ca_leida"))
                          )
                 ,
                 tabPanel("Operaciones BCV 022",
@@ -2540,13 +2540,33 @@ shinyServer(function(input, output,session) {
 
     mycolors <- col_palette[co]
 
-    flextable(rownames_to_column(pre_tif,"Fechas")) %>%
-      bg(bg = mycolors) %>%  autofit() %>% htmltools_value() 
+    # flextable(rownames_to_column(pre_tif,"Fechas")) %>%
+    #   bg(bg = mycolors) %>%  autofit() %>% htmltools_value() 
 
   
 
     #flextable(iris) %>% htmltools_value()
-
+    a1 <- datatable(pre_tif)
+    
+    
+    #CREO FUNCION PARA OBTENER VALORES NO NULOS DE CADA COLUMNA
+    indice_col <- function(i){
+      z1 <- which(pre_tif[,i]!=0)
+      return(styleEqual(row.names(pre_tif)[z1], rep("red",length(z1))))
+    }
+    
+    
+    
+    for(i in c(1,2)){
+      a1 <- formatStyle(a1,
+                        columns = i,
+                        valueColumns = 0,
+                        target = 'cell',
+                        backgroundColor = indice_col(i)
+      )
+    }
+    
+    return(a1)
     
   })
   
@@ -3074,8 +3094,9 @@ shinyServer(function(input, output,session) {
       fluidRow(id="backv2",
         box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_back'))
       ),
-      h1("Prueba flextable"),
-      uiOutput("ta")
+      h1("Prueba flextable")
+      #,
+      #uiOutput("ta")
       
     )#final fluidpage
   })
