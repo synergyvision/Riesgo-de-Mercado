@@ -49,10 +49,10 @@ output$Ca_leida <- DT::renderDataTable({
   ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
   if(class(ca)=="try-error"){
     Aviso <- print("El archivo no se encuentra, descargar y recargar página!")
-    #return(datatable(Aviso, options = list(paging = FALSE)))
+    #return(DT::datatable(Aviso, options = list(paging = FALSE)))
     return(as.data.frame(Aviso))
   }else{
-    #return(datatable(ca, options = list(paging = FALSE)))
+    #return(DT::datatable(ca, options = list(paging = FALSE)))
     return(ca)
   }
 })
@@ -61,7 +61,7 @@ output$Ca_leida <- DT::renderDataTable({
 # Muestro documento "0-22" #
 #++++++++++++++++++++++++++#
 
-output$docbcv <- renderDataTable({
+output$docbcv <- DT::renderDataTable({
   #ca <- try(Preciosbcv(paste(getwd(),"data","0-22.xls",sep = "/")))
   ca <- try(Preciosbcv(paste(getwd(),"data",paste0("0-22.",extension(ruta_bcv("0-22"))),sep = "/")))
   #ca1 <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
@@ -261,10 +261,10 @@ output$p2<-renderPrint({paste(substr(input$n2,9,10),substr(input$n2,6,7),substr(
 # Selección de instrumentos por archivo plano #
 #+++++++++++++++++++++++++++++++++++++++++++++#
 
-output$datatable_tit_tif<-renderDataTable({
+output$datatable_tit_tif<-DT::renderDataTable({
   if(is.null(data_tit_tif_ns())){return()}
-  #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
-  #datatable(data_pos())
+  #DT::datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+  #DT::datatable(data_pos())
   data_tit_tif_ns()
 })
 
@@ -479,7 +479,7 @@ dat <- reactive({
 # Muestro documento "Caracteristicas" #
 #+++++++++++++++++++++++++++++++++++++#
 
-output$Ca_ns <- renderDataTable({
+output$Ca_ns <- DT::renderDataTable({
   ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
   if(class(ca)=="try-error"){
     v <- print("El archivo no se encuentra, descargar y recargar página!")
@@ -500,11 +500,11 @@ output$pa_tif_ns <- renderPrint({(pa_ns)})
 # Muestro precios estimados iniciales #
 #+++++++++++++++++++++++++++++++++++++#
 
-output$p_est_tif_ns <- renderDataTable({
+output$p_est_tif_ns <- DT::renderDataTable({
   #if(length(c(input$t1_ns,input$t2_ns,input$t3_ns))!=0){
   if(length(ns1())!=0){
     a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = pa_ns,ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,fe2=0,fe3=0)[[1]] )
-    if(class(a)!="try-error"){datatable(a, options = list(paging = FALSE))}else{}
+    if(class(a)!="try-error"){DT::datatable(a, options = list(paging = FALSE))}else{}
     
   }else{}
 })
@@ -553,7 +553,7 @@ output$ver_ns_tif <- renderPrint({
 # Muestro precios con parámetros escogidos #
 #++++++++++++++++++++++++++++++++++++++++++#
 
-output$p_est_tif_ns_el <- renderDataTable({
+output$p_est_tif_ns_el <- DT::renderDataTable({
   #take dependency
   input$boton1
   
@@ -561,7 +561,7 @@ output$p_est_tif_ns_el <- renderDataTable({
   isolate(
   if(length(ns1())!=0){
     a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = c(input$ns_b0_tif,input$ns_b1_tif,input$ns_b2_tif,input$ns_t_tif),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
-    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+    if(class(a)!="try-error"){return(DT::datatable(a, options = list(paging = FALSE)))}else{}
   }else{}
   )
 })
@@ -589,7 +589,7 @@ output$c_tif_ns1_new <- renderPlotly({
 # Muestro precios optimizados #
 #+++++++++++++++++++++++++++++#
 
-output$p_est_tif_opt_ns <- renderDataTable({
+output$p_est_tif_opt_ns <- DT::renderDataTable({
   #pongo dependencia
   input$boton_1
   
@@ -601,7 +601,7 @@ output$p_est_tif_opt_ns <- renderDataTable({
       incProgress(1/2, detail = "Realizando iteraciones")
       #Tabla.ns(fv = input$n2 ,tit = c(input$t1_ns,input$t2_ns,input$t3_ns),pr =tf_ns() ,pa = c(1,1,1,1),ind = 0,C = C,fe2=input$opt_tif_ns,fe3=0)[[1]] 
       a <- try(Tabla.ns(fv = input$n2 ,tit = ns1(),pr =TF_NS() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,fe2=input$opt_tif_ns,fe3=0)[[1]] )
-      if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+      if(class(a)!="try-error"){return(DT::datatable(a, options = list(paging = FALSE)))}else{}
       
     })
   }else{
@@ -689,7 +689,7 @@ output$c_tif_ns_op <- renderPlotly({
 # Selección de instrumentos por archivo plano #
 #+++++++++++++++++++++++++++++++++++++++++++++#
 
-output$datatable_tit_veb<-renderDataTable({
+output$datatable_tit_veb<-DT::renderDataTable({
   if(is.null(data_tit_veb_ns())){return()}
   #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
   #datatable(data_pos())
@@ -904,7 +904,7 @@ dat1 <- reactive({
 # Muestro documento "Caracteristicas" #
 #+++++++++++++++++++++++++++++++++++++#
 
-output$Ca1_ns <- renderDataTable({
+output$Ca1_ns <- DT::renderDataTable({
   ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
   if(class(ca)=="try-error"){
     v <- print("El archivo no se encuentra, descargar y recargar página!")
@@ -925,10 +925,10 @@ output$pa_veb_ns <- renderPrint({pa1_ns})
 # Muestro precios estimados iniciales #
 #+++++++++++++++++++++++++++++++++++++#
 
-output$p_est_veb_ns <- renderDataTable({
+output$p_est_veb_ns <- DT::renderDataTable({
   if(length(ns2())!=0){
     a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa = pa1_ns,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
-    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+    if(class(a)!="try-error"){return(DT::datatable(a, options = list(paging = FALSE)))}else{}
   }else{}
 })
 
@@ -975,7 +975,7 @@ output$ver_ns_veb <- renderPrint({
 # Muestro precios con parámetros escogidos #
 #++++++++++++++++++++++++++++++++++++++++++#
 
-output$p_est_veb_ns_el <- renderDataTable({
+output$p_est_veb_ns_el <- DT::renderDataTable({
   #take dependency
   input$boton2
   
@@ -983,7 +983,7 @@ output$p_est_veb_ns_el <- renderDataTable({
   isolate(
   if(length(ns2())!=0){
     a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa =c(input$ns_b0_veb,input$ns_b1_veb,input$ns_b2_veb,input$ns_t_veb) ,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
-    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+    if(class(a)!="try-error"){return(DT::datatable(a, options = list(paging = FALSE)))}else{}
   }else{}
   )
 })
@@ -1011,7 +1011,7 @@ output$c_veb_ns1_new <- renderPlotly({
 # Muestro precios optimizados #
 #+++++++++++++++++++++++++++++#
 
-output$p_est_veb_opt_ns <- renderDataTable({
+output$p_est_veb_opt_ns <- DT::renderDataTable({
   #pongo dependencia
   input$boton_2
   
@@ -1022,7 +1022,7 @@ output$p_est_veb_opt_ns <- renderDataTable({
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
       a <- try(Tabla.ns(fv = input$n2 ,tit = ns2(),pr =TV_NS() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns,fe3=0)[[1]] )
-      if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+      if(class(a)!="try-error"){return(DT::datatable(a, options = list(paging = FALSE)))}else{}
     })
   }else{
     Aviso <- "No se optimizará, revisar los precios de la sección parámetros iniciales"
@@ -1105,7 +1105,7 @@ output$p1<-renderPrint({paste(substr(input$n1,9,10),substr(input$n1,6,7),substr(
 # Selección de instrumentos por archivo plano #
 #+++++++++++++++++++++++++++++++++++++++++++++#
 
-output$datatable_tit_tif_sv<-renderDataTable({
+output$datatable_tit_tif_sv<-DT::renderDataTable({
   if(is.null(data_tif_sv())){return()}
   #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
   #datatable(data_pos())
@@ -1307,7 +1307,7 @@ dat1_sv <- reactive({
 # Muestro documento "Caracteristicas" #
 #+++++++++++++++++++++++++++++++++++++#
 
-output$Ca <- renderDataTable({
+output$Ca <- DT::renderDataTable({
   ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
   if(class(ca)=="try-error"){
     v <- print("El archivo no se encuentra, descargar y recargar página!")
@@ -1328,10 +1328,10 @@ output$pa_tif <- renderPrint({pa_sven})
 # Muestro precios estimados iniciales #
 #+++++++++++++++++++++++++++++++++++++#
 
-output$p_est_tif <- renderDataTable({
+output$p_est_tif <- DT::renderDataTable({
   if(length(sv1())!=0){
     a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = pa_sven,ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
-    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+    if(class(a)!="try-error"){return(DT::datatable(a, options = list(paging = FALSE)))}else{}
     
   }else{}
 })
@@ -1382,7 +1382,7 @@ output$ver_sven_tif <- renderPrint({
 # Muestro precios con parámetros escogidos #
 #++++++++++++++++++++++++++++++++++++++++++#
 
-output$p_est_tif_opt_sven_el <- renderDataTable({
+output$p_est_tif_opt_sven_el <- DT::renderDataTable({
   #take dependency
   input$boton3
   
@@ -1390,7 +1390,7 @@ output$p_est_tif_opt_sven_el <- renderDataTable({
   isolate(
   if(length(sv1())!=0){
     a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = c(input$sven_b0_tif,input$sven_b1_tif,input$sven_b2_tif,input$sven_b3_tif,input$sven_t1_tif,input$sven_t2_tif),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
-    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+    if(class(a)!="try-error"){return(DT::datatable(a, options = list(paging = FALSE)))}else{}
     
   }else{}
   )
@@ -1420,7 +1420,7 @@ output$c_tif_sven_new <- renderPlotly({
 # Muestro precios optimizados #
 #+++++++++++++++++++++++++++++#
 
-output$p_est_tif_opt <- renderDataTable({
+output$p_est_tif_opt <- DT::renderDataTable({
   #pongo dependencia
   input$boton_3
   
@@ -1431,7 +1431,7 @@ output$p_est_tif_opt <- renderDataTable({
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
       a <- try(Tabla.sven(fv = input$n1 ,tit = sv1(),pr =TF() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven,fe3=0)[[1]] )
-      if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+      if(class(a)!="try-error"){return(DT::datatable(a, options = list(paging = FALSE)))}else{}
       
     })
   }else{
@@ -1511,10 +1511,10 @@ output$c_tif_sven_op <- renderPlotly({
 # Selección de instrumentos por archivo plano #
 #+++++++++++++++++++++++++++++++++++++++++++++#
 
-output$datatable_tit_veb_sv<-renderDataTable({
+output$datatable_tit_veb_sv<-DT::renderDataTable({
   if(is.null(data_veb_sv())){return()}
-  #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
-  #datatable(data_pos())
+  #DT::datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+  #DT::datatable(data_pos())
   data_veb_sv()
 })
 
@@ -1714,7 +1714,7 @@ dat2_sv <- reactive({
 # Muestro documento "Caracteristicas" #
 #+++++++++++++++++++++++++++++++++++++#
 
-output$Ca1 <- renderDataTable({
+output$Ca1 <- DT::renderDataTable({
   ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
   if(class(ca)=="try-error"){
     v <- print("El archivo no se encuentra, descargar y recargar página!")
@@ -1735,10 +1735,10 @@ output$pa_veb <- renderPrint({pa1_sven})
 # Muestro precios estimados iniciales #
 #+++++++++++++++++++++++++++++++++++++#
 
-output$p_est_veb <- renderDataTable({
+output$p_est_veb <- DT::renderDataTable({
   if((length(sv2()))!=0){
     a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = pa1_sven,ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
-    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+    if(class(a)!="try-error"){return(DT::datatable(a, options = list(paging = FALSE)))}else{}
     
   }else{}
 })
@@ -1789,7 +1789,7 @@ output$ver_sven_veb <- renderPrint({
 # Muestro precios con parámetros escogidos #
 #++++++++++++++++++++++++++++++++++++++++++#
 
-output$p_est_veb_opt_sven_el <- renderDataTable({
+output$p_est_veb_opt_sven_el <- DT::renderDataTable({
   #take dependency
   input$boton4
   
@@ -1797,7 +1797,7 @@ output$p_est_veb_opt_sven_el <- renderDataTable({
   isolate(
   if(length(sv2())!=0){
     a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = c(input$sven_b0_veb,input$sven_b1_veb,input$sven_b2_veb,input$sven_b3_veb,input$sven_t1_veb,input$sven_t2_veb),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]])
-    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+    if(class(a)!="try-error"){return(DT::datatable(a, options = list(paging = FALSE)))}else{}
     
   }else{}
   )
@@ -1828,7 +1828,7 @@ output$c_veb_sven_new <- renderPlotly({
 # Muestro precios optimizados #
 #+++++++++++++++++++++++++++++#
 
-output$p_est_veb_opt <- renderDataTable({
+output$p_est_veb_opt <- DT::renderDataTable({
   
   #pongo dependencia
   input$boton_4
@@ -1839,7 +1839,7 @@ output$p_est_veb_opt <- renderDataTable({
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
       a <- try(Tabla.sven(fv = input$n1 ,tit = sv2(),pr =TV() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven,fe3=0)[[1]])
-      if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+      if(class(a)!="try-error"){return(DT::datatable(a, options = list(paging = FALSE)))}else{}
       
     })
   }else{
@@ -1923,10 +1923,10 @@ output$p3<-renderPrint({paste(substr(input$n3,9,10),substr(input$n3,6,7),substr(
 # Selección de instrumentos por archivo plano #
 #+++++++++++++++++++++++++++++++++++++++++++++#
 
-output$datatable_tit_tif_dl<-renderDataTable({
+output$datatable_tit_tif_dl<-DT::renderDataTable({
   if(is.null(data_tif_dl())){return()}
-  #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
-  #datatable(data_pos())
+  #DT::datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
+  #DT::datatable(data_pos())
   data_tif_dl()
 })
 
@@ -1982,7 +1982,7 @@ tf_dl <- reactive({pos1(dl1(),0)})
 # Muestro documento "Caracteristicas" #
 #+++++++++++++++++++++++++++++++++++++#
 
-output$Ca_dl <- renderDataTable({
+output$Ca_dl <- DT::renderDataTable({
   ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
   if(class(ca)=="try-error"){
     v <- print("El archivo no se encuentra, descargar y recargar página!")
@@ -2098,13 +2098,13 @@ pto_sp_tif_dl <- reactive({
 # Muestro precios estimados #
 #+++++++++++++++++++++++++++#
 
-output$p_est_dl_tif <- renderDataTable({
+output$p_est_dl_tif <- DT::renderDataTable({
   withProgress(message = 'Calculando precios teóricos', value = 0, {
     incProgress(1/2, detail = "Realizando iteraciones")
     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     a <- try(precio.dl(tit = dl1(),fv = input$n3 ,C = car,pa = c(1,1,1,1),spline1 = dl_spline_tif(),pr=tf_dl())[[1]])
     if(class(a)!="try-error"){
-      datatable(a, options = list(paging = FALSE))
+      DT::datatable(a, options = list(paging = FALSE))
     }else{}
     
   })

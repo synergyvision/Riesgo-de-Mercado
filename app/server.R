@@ -608,7 +608,7 @@ shinyServer(function(input, output,session) {
                 tabPanel("Operaciones BCV 022",
                          h5("Documento 0-22"),
                          box(style="overflow-x:scroll",width = 12,
-                             dataTableOutput("docbcv"))
+                             DT::dataTableOutput("docbcv"))
                 )
     ),
     h2("Calculo precio promedio"),
@@ -693,7 +693,7 @@ shinyServer(function(input, output,session) {
                                                     )
                                                   ),
                                                   fluidRow(
-                                                    box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_tit_tif'))
+                                                    box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_tit_tif'))
                                                   )
                                          )#final tabpanel selecionar titulos
                              ),
@@ -731,7 +731,7 @@ shinyServer(function(input, output,session) {
                              #helpText('\\(\\beta_{0}\\) \\(\\beta_{1}\\) \\(\\beta_{2}\\) \\(\\tau_{1}\\) '),
                              #uiOutput('ex1')
                              
-                             h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca_ns")),
+                             h2(" Características"),box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("Ca_ns")),
                              h2(" Parámetros"), 
                              wellPanel(
                                #tabBox( width = 12, title = "Parámetros", id = "tab1_ns_tif", height = "50px", 
@@ -857,7 +857,7 @@ shinyServer(function(input, output,session) {
                                                     )
                                                   ),
                                                   fluidRow(
-                                                    box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_tit_veb'))
+                                                    box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_tit_veb'))
                                                   )
                                          )#final tabpanel selecionar titulos
                              ),
@@ -889,7 +889,7 @@ shinyServer(function(input, output,session) {
                              h5("Nuevos precios promedio"), verbatimTextOutput("sal2_ns"),
                              
                              
-                             h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca1_ns")),
+                             h2(" Características"),box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("Ca1_ns")),
                              h2(" Parámetros"),
                              wellPanel(
                                #tabBox( width = 12, title = "Parámetros", id = "tab1_ns_veb", height = "50px", 
@@ -1029,7 +1029,7 @@ shinyServer(function(input, output,session) {
                                                     )
                                                   ),
                                                   fluidRow(
-                                                    box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_tit_tif_sv'))
+                                                    box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_tit_tif_sv'))
                                                   )
                                          )#final tabpanel selecionar titulos
                              ),
@@ -1060,7 +1060,7 @@ shinyServer(function(input, output,session) {
                              h5("Nuevos precios promedio"), verbatimTextOutput("sal1_sv"),
                              
                              
-                             h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca")),
+                             h2(" Características"),box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("Ca")),
                              h2(" Parámetros"),
                              wellPanel(
                                #tabBox( width = 12, title = "Parámetros", id = "tab1_sven_tif", height = "50px", 
@@ -1186,7 +1186,7 @@ shinyServer(function(input, output,session) {
                                                     )
                                                   ),
                                                   fluidRow(
-                                                    box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_tit_veb_sv'))
+                                                    box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_tit_veb_sv'))
                                                   )
                                          )#final tabpanel selecionar titulos
                              ),
@@ -1214,7 +1214,7 @@ shinyServer(function(input, output,session) {
                              h5("Nuevos precios promedio"), verbatimTextOutput("sal2_sv"),
                              
                              
-                             h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca1")),
+                             h2(" Características"),box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("Ca1")),
                              h2(" Parámetros"),
                              wellPanel(
                                #tabBox( width = 12, title = "Parámetros", id = "tab1_sven_veb", height = "50px", 
@@ -1353,7 +1353,7 @@ shinyServer(function(input, output,session) {
                                                     )
                                                   ),
                                                   fluidRow(
-                                                    box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_tit_tif_dl'))
+                                                    box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_tit_tif_dl'))
                                                   )
                                          )#final tabpanel selecionar titulos
                              ),
@@ -1374,7 +1374,7 @@ shinyServer(function(input, output,session) {
                              # ),#final fluidrow 
                              verbatimTextOutput("q1_dl"),h2(" Precios Promedios"),verbatimTextOutput("pre1_dl"),
                              
-                             h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca_dl")),
+                             h2(" Características"),box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("Ca_dl")),
                              h2(" Cantidad de observaciones"),
                              numericInput( inputId = "d_tif_dl", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
                              verbatimTextOutput("dias_tif_dl"),
@@ -1447,7 +1447,7 @@ shinyServer(function(input, output,session) {
                                                     )
                                                   ),
                                                   fluidRow(
-                                                    box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_tit_veb_dl'))
+                                                    box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_tit_veb_dl'))
                                                   )
                                          )#final tabpanel selecionar titulos
                              ),
@@ -1467,7 +1467,7 @@ shinyServer(function(input, output,session) {
                              # ),#final fluidrow
                              verbatimTextOutput("q2_dl"), h2(" Precios Promedios"),verbatimTextOutput("pre2_dl"),
                              
-                             h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca1_dl")),
+                             h2(" Características"),box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("Ca1_dl")),
                              h2(" Cantidad de observaciones"),
                              numericInput( inputId = "d_veb_dl", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
                              verbatimTextOutput("dias_veb_dl"),
@@ -1555,7 +1555,7 @@ shinyServer(function(input, output,session) {
                                                     )
                                                   ),
                                                   fluidRow(
-                                                    box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_tit_tif_sp'))
+                                                    box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_tit_tif_sp'))
                                                   )
                                          )#final tabpanel selecionar titulos
                              ),
@@ -1576,7 +1576,7 @@ shinyServer(function(input, output,session) {
                              
                              verbatimTextOutput("q1_sp"),h2(" Precios Promedios"),verbatimTextOutput("pre1_sp"),
                              
-                             h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca_sp")),
+                             h2(" Características"),box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("Ca_sp")),
                              h3(" Por favor seleccionar el cantidad de días "),
                              box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                  collapse= TRUE,"Recuerde que esta es la cantidad de días a considerar hacia atras en el tiempo
@@ -1586,7 +1586,7 @@ shinyServer(function(input, output,session) {
                              ),#final box
                              numericInput( inputId = "d_tif", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
                              verbatimTextOutput("dias_tif"),
-                             h2(" Títulos candidatos"),box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_tif")),
+                             h2(" Títulos candidatos"),box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("tit_cand_tif")),
                              h3(" Por favor ingresar el parámetro de suavizamiento "),
                              box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                  collapse= TRUE,"Recuerde que este valor corresponde al grado de suavidad que tendrá la curva de rendimientos resultante" 
@@ -1614,7 +1614,7 @@ shinyServer(function(input, output,session) {
                                           style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
                              
                              h2(" Nuevos títulos candidatos"),
-                             box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_tif_new")),
+                             box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("tit_cand_tif_new")),
                              h2(" Nuevos precios"),
                              box(width = "12",column(width = 12,DT::dataTableOutput("precios_tif_nuevos"),
                                                      style="overflow-y: scroll;overflow-x: scroll")),
@@ -1678,7 +1678,7 @@ shinyServer(function(input, output,session) {
                                                     )
                                                   ),
                                                   fluidRow(
-                                                    box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_tit_veb_sp'))
+                                                    box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_tit_veb_sp'))
                                                   )
                                          )#final tabpanel selecionar titulos
                              ),
@@ -1698,7 +1698,7 @@ shinyServer(function(input, output,session) {
                              # ),#final fluidrow
                              verbatimTextOutput("q2_sp"), h2(" Precios Promedios"),verbatimTextOutput("pre2_sp"),
                              
-                             h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca1_sp")),
+                             h2(" Características"),box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("Ca1_sp")),
                              h3(" Por favor seleccionar el cantidad de días "),
                              box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                  collapse= TRUE,"Recuerde que esta es la cantidad de días a considerar hacia atras en el tiempo
@@ -1709,7 +1709,7 @@ shinyServer(function(input, output,session) {
                              numericInput( inputId = "d_veb", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
                              verbatimTextOutput("dias_veb"),
                              h2(" Títulos candidatos"),
-                             box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_veb")),
+                             box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("tit_cand_veb")),
                              h3(" Por favor ingresar el parámetro de suavizamiento "),
                              box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                  collapse= TRUE,"Recuerde que este valor corresponde al grado de suavidad que tendrá la curva de rendimientos resultante" 
@@ -1737,7 +1737,7 @@ shinyServer(function(input, output,session) {
                                           style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
                              
                              h2(" Nuevos títulos candidatos"),
-                             box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_veb_new")),
+                             box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("tit_cand_veb_new")),
                              h2(" Nuevos precios"),
                              box(width = "12",column(width = 12,DT::dataTableOutput("precios_veb_nuevos"),
                                                      style="overflow-y: scroll;overflow-x: scroll")),
@@ -1810,7 +1810,7 @@ shinyServer(function(input, output,session) {
                                                     )
                                                   ),
                                                   fluidRow(
-                                                    box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_tit_tif_comp'))
+                                                    box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_tit_tif_comp'))
                                                   )
                                          )#final tabpanel selecionar titulos
                              ),
@@ -1830,7 +1830,7 @@ shinyServer(function(input, output,session) {
                              # )#final column
                              # ),#final fluidrow 
                              verbatimTextOutput("q1_comp"),
-                             h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca_comp")),
+                             h2(" Características"),box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("Ca_comp")),
                              h2(" Metodologías"),
                              wellPanel(
                                #tabBox(width = 12, title = " ", id = "tab5", height = "50px", 
@@ -2022,7 +2022,7 @@ shinyServer(function(input, output,session) {
                                                     ),#final box
                                                     numericInput( inputId = "d_tif_comp", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
                                                     verbatimTextOutput("dias_tif_comp"),
-                                                    h2(" Títulos candidatos"),box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_tif_comp")),
+                                                    h2(" Títulos candidatos"),box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("tit_cand_tif_comp")),
                                                     h3(" Por favor ingresar el parámetro de suavizamiento "),
                                                     box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                                         collapse= TRUE,"Recuerde que este valor corresponde al grado de suavidad que tendrá la curva de rendimientos resultante" 
@@ -2050,7 +2050,7 @@ shinyServer(function(input, output,session) {
                                                     h3(" Títulos elegidos"),
                                                     verbatimTextOutput("obs_elim_tif_comp"),
                                                     h2(" Nuevos títulos candidatos"),
-                                                    box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_tif_new_comp")),
+                                                    box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("tit_cand_tif_new_comp")),
                                                     h2(" Nuevos precios"),
                                                     box(width = "12",column(width = 12,DT::dataTableOutput("precios_tif_nuevos_comp"),
                                                                             style="overflow-y: scroll;overflow-x: scroll")),
@@ -2110,7 +2110,7 @@ shinyServer(function(input, output,session) {
                                                     )
                                                   ),
                                                   fluidRow(
-                                                    box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_tit_veb_comp'))
+                                                    box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_tit_veb_comp'))
                                                   )
                                          )#final tabpanel selecionar titulos
                              ),
@@ -2129,7 +2129,7 @@ shinyServer(function(input, output,session) {
                              #   )#final column
                              # ),#final fluidrow
                              verbatimTextOutput("q2_comp"),
-                             h2(" Características"),box(style="overflow-x:scroll",width = 12,dataTableOutput("Ca1_comp")),
+                             h2(" Características"),box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("Ca1_comp")),
                              h2(" Metodologías"),
                              wellPanel(
                                #tabBox(width = 12, title = " ", id = "tab5", height = "50px", 
@@ -2308,7 +2308,7 @@ shinyServer(function(input, output,session) {
                                                     ),#final box
                                                     numericInput( inputId = "d_veb_comp", label="Días: ", min = 1, max = 100,step = 1, value = 40, width = "40%"),
                                                     verbatimTextOutput("dias_veb_comp"),
-                                                    h2(" Títulos candidatos"),box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_veb_comp")),
+                                                    h2(" Títulos candidatos"),box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("tit_cand_veb_comp")),
                                                     h3(" Por favor ingresar el parámetro de suavizamiento "),
                                                     box(width=12,title="Importante",status="primary",solidHeader=TRUE ,collapsible = TRUE,
                                                         collapse= TRUE,"Recuerde que este valor corresponde al grado de suavidad que tendrá la curva de rendimientos resultante" 
@@ -2336,7 +2336,7 @@ shinyServer(function(input, output,session) {
                                                     
                                                     
                                                     h2(" Nuevos títulos candidatos"),
-                                                    box(style="overflow-x:scroll",width = 12,dataTableOutput("tit_cand_veb_new_comp")),
+                                                    box(style="overflow-x:scroll",width = 12,DT::dataTableOutput("tit_cand_veb_new_comp")),
                                                     h2(" Nuevos precios"),
                                                     box(width = "12",column(width = 12,DT::dataTableOutput("precios_veb_nuevos_comp"),
                                                                             style="overflow-y: scroll;overflow-x: scroll")),
@@ -3484,7 +3484,7 @@ shinyServer(function(input, output,session) {
   })
   
   #muestro data
-  output$datatable_tit_tif_dl<-renderDataTable({
+  output$datatable_tit_tif_dl<- DT::renderDataTable({
     if(is.null(data_tif_dl())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     #datatable(data_pos())
@@ -3522,7 +3522,7 @@ shinyServer(function(input, output,session) {
   })
   
   #muestro data
-  output$datatable_tit_veb_dl<-renderDataTable({
+  output$datatable_tit_veb_dl<-DT::renderDataTable({
     if(is.null(data_veb_dl())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     #datatable(data_pos())
@@ -3563,7 +3563,7 @@ shinyServer(function(input, output,session) {
   })
   
   #muestro data
-  output$datatable_tit_tif_sp<-renderDataTable({
+  output$datatable_tit_tif_sp<-DT::renderDataTable({
     if(is.null(data_tif_sp())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     #datatable(data_pos())
@@ -3600,7 +3600,7 @@ shinyServer(function(input, output,session) {
   })
   
   #muestro data
-  output$datatable_tit_veb_sp<-renderDataTable({
+  output$datatable_tit_veb_sp<-DT::renderDataTable({
     if(is.null(data_veb_sp())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     #datatable(data_pos())
@@ -3640,7 +3640,7 @@ shinyServer(function(input, output,session) {
   })
   
   #muestro data
-  output$datatable_tit_tif_comp<-renderDataTable({
+  output$datatable_tit_tif_comp<-DT::renderDataTable({
     if(is.null(data_tif_comp())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     #datatable(data_pos())
@@ -3677,7 +3677,7 @@ shinyServer(function(input, output,session) {
   })
 
   #muestro data
-  output$datatable_tit_veb_comp<-renderDataTable({
+  output$datatable_tit_veb_comp<-DT::renderDataTable({
     if(is.null(data_veb_comp())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     #datatable(data_pos())
@@ -5023,7 +5023,7 @@ shinyServer(function(input, output,session) {
   #     return(ca)
   #   }
   # })
-  output$Ca_dl <- renderDataTable({
+  output$Ca_dl <- DT::renderDataTable({
     ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
     if(class(ca)=="try-error"){
       v <- print("El archivo no se encuentra, descargar y recargar página!")
@@ -5033,7 +5033,7 @@ shinyServer(function(input, output,session) {
     }
   })
   #output$Ca_sp <- renderDataTable({C})
-  output$Ca_sp <- renderDataTable({
+  output$Ca_sp <- DT::renderDataTable({
     car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
     })
   
@@ -5057,7 +5057,7 @@ shinyServer(function(input, output,session) {
   #     return(ca)
   #   }
   #   })
-  output$Ca1_dl <- renderDataTable({
+  output$Ca1_dl <- DT::renderDataTable({
     ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
     if(class(ca)=="try-error"){
       v <- print("El archivo no se encuentra, descargar y recargar página!")
@@ -5066,7 +5066,7 @@ shinyServer(function(input, output,session) {
       return(ca)
     }
   })
-  output$Ca1_sp <- renderDataTable({
+  output$Ca1_sp <- DT::renderDataTable({
     ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
     if(class(ca)=="try-error"){
       v <- print("El archivo no se encuentra, descargar y recargar página!")
@@ -5075,7 +5075,7 @@ shinyServer(function(input, output,session) {
       return(ca)
     }
   })
-  output$Ca_comp <- renderDataTable({
+  output$Ca_comp <- DT::renderDataTable({
     ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
     if(class(ca)=="try-error"){
       v <- print("El archivo no se encuentra, descargar y recargar página!")
@@ -5084,7 +5084,7 @@ shinyServer(function(input, output,session) {
       return(ca)
     }
   })
-  output$Ca1_comp <- renderDataTable({
+  output$Ca1_comp <- DT::renderDataTable({
     ca <- try(Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")))
     if(class(ca)=="try-error"){
       v <- print("El archivo no se encuentra, descargar y recargar página!")
@@ -5123,7 +5123,7 @@ shinyServer(function(input, output,session) {
   
   
   #comparativo
-  output$p_est_tif_ns_el_comp <- renderDataTable({
+  output$p_est_tif_ns_el_comp <- DT::renderDataTable({
     #take dependency
     input$boton5
     
@@ -5132,7 +5132,7 @@ shinyServer(function(input, output,session) {
       a <- try(Tabla.ns(fv = input$n5 ,tit = comp1(),pr =TF_NSC() ,pa = c(input$ns_b0_tif_comp,input$ns_b1_tif_comp,input$ns_b2_tif_comp,input$ns_t_tif_comp),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]] )
     )
       if(class(a)!="try-error"){
-      datatable(a, options = list(paging = FALSE))
+      DT::datatable(a, options = list(paging = FALSE))
       }else{}
     
     
@@ -5161,7 +5161,7 @@ shinyServer(function(input, output,session) {
   #     })
   
   #comparativo
-  output$p_est_veb_ns_el_comp <- renderDataTable({
+  output$p_est_veb_ns_el_comp <- DT::renderDataTable({
     #take dependency
     input$boton7
     
@@ -5171,7 +5171,7 @@ shinyServer(function(input, output,session) {
     )
     
     if(class(a)!="try-error"){
-      datatable(a, options = list(paging = FALSE))
+      DT::datatable(a, options = list(paging = FALSE))
     }else{}
     
     })
@@ -5217,7 +5217,7 @@ shinyServer(function(input, output,session) {
   #   })
   
   #comparacion
-  output$p_est_tif_opt_comp <- renderDataTable({
+  output$p_est_tif_opt_comp <- DT::renderDataTable({
     #pongo dependencia
     input$boton_7
     
@@ -5228,7 +5228,7 @@ shinyServer(function(input, output,session) {
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
     a <- try(Tabla.sven(fv = input$n5 ,tit = comp1(),pr =TF_SV() ,pa = c(1,1,1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_sven_comp,fe3=0)[[1]])
-    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+    if(class(a)!="try-error"){return(DT::datatable(a, options = list(paging = FALSE)))}else{}
     
     #incProgress(1/2, detail = "Fin")
      })
@@ -5241,7 +5241,7 @@ shinyServer(function(input, output,session) {
     
     })
   
-  output$p_est_tif_opt_ns_comp <- renderDataTable({
+  output$p_est_tif_opt_ns_comp <- DT::renderDataTable({
     #pongo dependencia
     input$boton_5
     
@@ -5252,7 +5252,7 @@ shinyServer(function(input, output,session) {
     withProgress(message = 'Calculando parámetros optimizados', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
     a <- try(Tabla.ns(fv = input$n5 ,tit = comp1(),pr =TF_NSC() ,pa = c(1,1,1,1),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_tif_ns_comp,fe3=0)[[1]] )
-    if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+    if(class(a)!="try-error"){return(DT::datatable(a, options = list(paging = FALSE)))}else{}
     
     #incProgress(1/2, detail = "Fin")
     })
@@ -5265,7 +5265,7 @@ shinyServer(function(input, output,session) {
     })
   
   #
-  output$p_est_tif_opt_sven_el_comp <- renderDataTable({
+  output$p_est_tif_opt_sven_el_comp <- DT::renderDataTable({
     #take dependency
     input$boton6
     
@@ -5274,7 +5274,7 @@ shinyServer(function(input, output,session) {
     a <- try(Tabla.sven(fv = input$n5 ,tit = comp1(),pr =TF_SV() ,pa = c(input$sven_b0_tif_comp,input$sven_b1_tif_comp,input$sven_b2_tif_comp,input$sven_b3_tif_comp,input$sven_t1_tif_comp,input$sven_t2_tif_comp),ind = 0,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=0,fe3=0)[[1]]) 
     )
     if(class(a)!="try-error"){
-      datatable(a, options = list(paging = FALSE))
+      DT::datatable(a, options = list(paging = FALSE))
     }else{}
     })
   
@@ -5315,7 +5315,7 @@ shinyServer(function(input, output,session) {
   #   })
   
   #comparacion
-  output$p_est_veb_opt_comp <- renderDataTable({
+  output$p_est_veb_opt_comp <- DT::renderDataTable({
     #pongo dependencia
     input$boton_8
     
@@ -5326,7 +5326,7 @@ shinyServer(function(input, output,session) {
     withProgress(message = 'Calculando precios teóricos...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
       a <- try(Tabla.sven(fv = input$n5 ,tit = comp2(),pr =TV_SV() ,pa = c(1,1,1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_sven_comp,fe3=0)[[1]])
-      if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+      if(class(a)!="try-error"){return(DT::datatable(a, options = list(paging = FALSE)))}else{}
       
     })
     }else{
@@ -5337,7 +5337,7 @@ shinyServer(function(input, output,session) {
     }) #final isolate
     })
   
-  output$p_est_veb_opt_sven_el_comp <- renderDataTable({
+  output$p_est_veb_opt_sven_el_comp <- DT::renderDataTable({
     #take dependency
     input$boton8
     
@@ -5347,12 +5347,12 @@ shinyServer(function(input, output,session) {
     )
     
     if(class(a)!="try-error"){
-      datatable(a, options = list(paging = FALSE))
+      DT::datatable(a, options = list(paging = FALSE))
     }else{}
     })
   
   #
-  output$p_est_veb_opt_ns_comp <- renderDataTable({
+  output$p_est_veb_opt_ns_comp <- DT::renderDataTable({
     #pongo dependencia
     input$boton_6
     
@@ -5363,7 +5363,7 @@ shinyServer(function(input, output,session) {
     withProgress(message = 'Calculando precios...', value = 0, {
       incProgress(1/2, detail = "Realizando iteraciones")
       a <- try(Tabla.ns(fv = input$n5 ,tit = comp2(),pr =TV_NSC() ,pa = c(1,1,1,1),ind = 1,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")),fe2=input$opt_veb_ns_comp,fe3=0)[[1]] )
-      if(class(a)!="try-error"){return(datatable(a, options = list(paging = FALSE)))}else{}
+      if(class(a)!="try-error"){return(DT::datatable(a, options = list(paging = FALSE)))}else{}
       #incProgress(1/2, detail = "Fin")
       })
     }else{
@@ -5429,7 +5429,7 @@ shinyServer(function(input, output,session) {
     
     })
   
-  output$p_est_dl_tif <- renderDataTable({
+  output$p_est_dl_tif <- DT::renderDataTable({
     #agrego dependencia 
     input$boton9
     
@@ -5440,7 +5440,7 @@ shinyServer(function(input, output,session) {
     a <- isolate(try(precio.dl(tit = dl1(),fv = input$n3 ,C = car,pa = c(1,1,1,1),spline1 = dl_spline_tif(),pr=tf_dl())[[1]]))
     
     if(class(a)!="try-error"){
-      isolate(datatable(a, options = list(paging = FALSE)))
+      isolate(DT::datatable(a, options = list(paging = FALSE)))
     }else{}
     
     })
@@ -5489,7 +5489,7 @@ shinyServer(function(input, output,session) {
       
     })
   
-  output$p_est_dl_tif_comp <- renderDataTable({
+  output$p_est_dl_tif_comp <- DT::renderDataTable({
     #pongo dependencia
     input$boton15
     
@@ -5499,7 +5499,7 @@ shinyServer(function(input, output,session) {
       incProgress(1/2, detail = "Realizando iteraciones")
       a <- try(precio.dl(tit = comp1(),fv = input$n5 ,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,pa = c(1,1,1,1),spline1 = dl_spline_tif_comp(),pr=tf_comp())[[1]])
       if(class(a)!="try-error"){
-        datatable(a, options = list(paging = FALSE))
+        DT::datatable(a, options = list(paging = FALSE))
       }else{}
       
       })
@@ -5545,7 +5545,7 @@ shinyServer(function(input, output,session) {
     
     })
   
-  output$p_est_dl_veb <- renderDataTable({
+  output$p_est_dl_veb <- DT::renderDataTable({
     #agrego dependencia 
     input$boton10
     
@@ -5555,7 +5555,7 @@ shinyServer(function(input, output,session) {
     a <- isolate(try(precio.dl(tit = dl2(),fv = input$n3 ,C = car ,pa = c(1,1,1,1),spline1 = dl_spline_veb(),pr=tv_dl())[[1]]))
     
     if(class(a)!="try-error"){
-      isolate(datatable(a, options = list(paging = FALSE)))
+      isolate(DT::datatable(a, options = list(paging = FALSE)))
     }else{}
     })
     })
@@ -5606,7 +5606,7 @@ shinyServer(function(input, output,session) {
     
     })
   
-  output$p_est_dl_veb_comp <- renderDataTable({
+  output$p_est_dl_veb_comp <- DT::renderDataTable({
     #pongo dependencia
     input$boton16
     
@@ -5617,7 +5617,7 @@ shinyServer(function(input, output,session) {
       incProgress(1/2, detail = "Realizando iteraciones")
       a <- try(precio.dl(tit = comp2(),fv = input$n5 ,C = Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/")) ,pa = c(1,1,1,1),spline1 = dl_spline_veb_comp(),pr=tv_comp())[[1]])
       if(class(a)!="try-error"){
-        datatable(a, options = list(paging = FALSE))
+        DT::datatable(a, options = list(paging = FALSE))
         }else{}
       
       })
@@ -6242,7 +6242,7 @@ shinyServer(function(input, output,session) {
     a <- ggplot(cbind.data.frame(plazo=seq(0.9,20,0.1),rendimiento=sven(t=seq(0.9,20,0.1),pa=c(input$sven_b0_tif_comp,input$sven_b1_tif_comp,input$sven_b2_tif_comp,input$sven_b3_tif_comp,input$sven_t1_tif_comp,input$sven_t2_tif_comp))*100),aes(x=plazo,y=rendimiento))+
       geom_line(color="blue")+xlab("Maduración (años)")+
       ylab("Rendimiento (%)")+theme_gray()+
-      ggtitle("Curva de rendimiento Nelson y Siegel Parámetros elegidos TIF")+
+      ggtitle("Curva de rendimiento Svensson Parámetros elegidos TIF")+
       theme(plot.title = element_text(hjust = 0.5))
     
     ggplotly(a)
@@ -6559,7 +6559,7 @@ shinyServer(function(input, output,session) {
   
   #precios
   #output$pre_sp_tif <- renderDataTable({Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp),C_splines,pr=tf_sp())[[5]] })
-  output$pre_sp_tif <- renderDataTable({
+  output$pre_sp_tif <- DT::renderDataTable({
     #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp),C_splines,pr=tf_sp())[[5]] 
     #  dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     #  dat[,3] <- as.Date(as.character(dat[,3]))
@@ -6573,14 +6573,14 @@ shinyServer(function(input, output,session) {
     #
     a <- isolate(try(tabla_sp_tif()))
     if(class(a)!="try-error"){
-      isolate(datatable(a[[5]], options = list(paging = FALSE)))
+      isolate(DT::datatable(a[[5]], options = list(paging = FALSE)))
     }else{}
      # 
     
     })
   
   #output$pre_sp <- renderPrint({precio_diario_sp(fe=input$n4,num=input$d_tif,par =input$parametro_tif ,datatif =datatif ,tit =tf_sp() ,C=C_splines,letra=c(97,1.34)) })
-  output$pre_sp_veb <- renderDataTable({
+  output$pre_sp_veb <- DT::renderDataTable({
     #Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp),C_splines,pr=tv_sp())[[5]] 
      # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
      # dat[,3] <- as.Date(as.character(dat[,3]))
@@ -6596,7 +6596,7 @@ shinyServer(function(input, output,session) {
     a <- isolate(try(tabla_sp_veb()))
     
     if(class(a)!="try-error"){
-      isolate(datatable(a[[5]], options = list(paging = FALSE)))
+      isolate(DT::datatable(a[[5]], options = list(paging = FALSE)))
     }else{}
     
     #}) #final isolate
@@ -6605,7 +6605,7 @@ shinyServer(function(input, output,session) {
   
   #comparativo
   #tif
-  output$pre_sp_tif_comp <- renderDataTable({
+  output$pre_sp_tif_comp <- DT::renderDataTable({
     # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     # dat[,3] <- as.Date(as.character(dat[,3]))
     # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
@@ -6618,7 +6618,7 @@ shinyServer(function(input, output,session) {
     
      a <- try(tabla_sp_tif_comp()[[5]])
     if(class(a)!="try-error"){
-      datatable(a, options = list(paging = FALSE))
+      DT::datatable(a, options = list(paging = FALSE))
     }else{}
      
     }) #final isolate
@@ -6626,7 +6626,7 @@ shinyServer(function(input, output,session) {
     })
 
   #veb
-  output$pre_sp_veb_comp <- renderDataTable({
+  output$pre_sp_veb_comp <- DT::renderDataTable({
     # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     # dat[,3] <- as.Date(as.character(dat[,3]))
     # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
@@ -6639,7 +6639,7 @@ shinyServer(function(input, output,session) {
     
     a <- try(tabla_sp_veb_comp()[[5]])
     if(class(a)!="try-error"){
-      datatable(a, options = list(paging = FALSE))
+      DT::datatable(a, options = list(paging = FALSE))
       }else{}
     }) #final isolate
     
@@ -6960,7 +6960,7 @@ shinyServer(function(input, output,session) {
   
   
   #tif
-  output$tit_cand_tif <- renderDataTable({
+  output$tit_cand_tif <- DT::renderDataTable({
     #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp),C_splines,pr=tf_sp())[[2]]
      # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
      # dat[,3] <- as.Date(as.character(dat[,3]))
@@ -7029,7 +7029,7 @@ shinyServer(function(input, output,session) {
   })
   
   
-  output$tit_cand_tif_comp <- renderDataTable({
+  output$tit_cand_tif_comp <- DT::renderDataTable({
     # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     # dat[,3] <- as.Date(as.character(dat[,3]))
     # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
@@ -7089,7 +7089,7 @@ shinyServer(function(input, output,session) {
   
   
   #veb
-  output$tit_cand_veb <- renderDataTable({
+  output$tit_cand_veb <- DT::renderDataTable({
     #Tabla.splines(data = data_splines,tipo = "VEBONO",fe=input$n4,num = input$d_veb,par = input$parametro_veb,tit=c(input$v1_sp,input$v2_sp,input$v3_sp),C_splines,pr=tv_sp())[[2]] 
      # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
      # dat[,3] <- as.Date(as.character(dat[,3]))
@@ -7149,7 +7149,7 @@ shinyServer(function(input, output,session) {
     Tabla.splines(data = dat,tipo = "VEBONO",fe=input$n5,num = input$d_veb_comp,par = input$parametro_veb_comp,tit=comp2(),car,pr=tv_comp()) 
   })
   
-  output$tit_cand_veb_comp <- renderDataTable({
+  output$tit_cand_veb_comp <- DT::renderDataTable({
     # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     # dat[,3] <- as.Date(as.character(dat[,3]))
     # car <- Carac(paste(getwd(),"data","Caracteristicas.xls",sep = "/"))
@@ -8102,7 +8102,7 @@ shinyServer(function(input, output,session) {
   
   #muestro nuevos candidatos
   #TIF
-  output$tit_cand_tif_new <- renderDataTable({
+  output$tit_cand_tif_new <- DT::renderDataTable({
     #Tabla.splines(data = data_splines,tipo = "TIF",fe=input$n4,num = input$d_tif,par = input$parametro_tif,tit=c(input$t1_sp,input$t2_sp,input$t3_sp),C_splines,pr=tf_sp())[[2]]
     # dat <- read.csv(paste(getwd(),"data","Historico_act.txt",sep = "/"),sep="")
     # dat[,3] <- as.Date(as.character(dat[,3]))
@@ -8185,7 +8185,7 @@ shinyServer(function(input, output,session) {
   
   #TIF - COMP
   
-  output$tit_cand_tif_new_comp <- renderDataTable({
+  output$tit_cand_tif_new_comp <- DT::renderDataTable({
     #pongo dependencia
     input$boton18
     
@@ -8250,7 +8250,7 @@ shinyServer(function(input, output,session) {
   
   
   #VEBONOS
-  output$tit_cand_veb_new <- renderDataTable({
+  output$tit_cand_veb_new <- DT::renderDataTable({
     #pongo dependencia
     input$boton14
     
@@ -8317,7 +8317,7 @@ shinyServer(function(input, output,session) {
   })
   
   #VEBONOS-COMP
-  output$tit_cand_veb_new_comp <- renderDataTable({
+  output$tit_cand_veb_new_comp <- DT::renderDataTable({
     #pongo dependencia
     input$boton20
     
@@ -8382,7 +8382,7 @@ shinyServer(function(input, output,session) {
   
   #calculo nuevos precios
   #TIF
-  output$precios_tif_nuevos <- renderDataTable({
+  output$precios_tif_nuevos <- DT::renderDataTable({
     #agrego dependencia 
     input$boton12
     
@@ -8454,7 +8454,7 @@ shinyServer(function(input, output,session) {
       
       pre1 <- cbind.data.frame("Títulos"=sp1(),"Precios"=pre)
       
-      return(datatable(pre1, options = list(paging = FALSE)))
+      return(DT::datatable(pre1, options = list(paging = FALSE)))
     }
     
     }else{}
@@ -8464,7 +8464,7 @@ shinyServer(function(input, output,session) {
   })
   
   #TIF-COMP
-  output$precios_tif_nuevos_comp <- renderDataTable({
+  output$precios_tif_nuevos_comp <- DT::renderDataTable({
     #pongo dependencia
     input$boton18
     
@@ -8540,7 +8540,7 @@ shinyServer(function(input, output,session) {
       
       pre1 <- cbind.data.frame("Títulos"=comp1(),"Precios"=pre)
       
-      return(datatable(pre1, options = list(paging = FALSE)))
+      return(DT::datatable(pre1, options = list(paging = FALSE)))
     }
     
     }else{}
@@ -8550,7 +8550,7 @@ shinyServer(function(input, output,session) {
   
   
   #VEBONOS
-  output$precios_veb_nuevos <- renderDataTable({
+  output$precios_veb_nuevos <- DT::renderDataTable({
     #pongo dependencia
     input$boton14
     
@@ -8616,7 +8616,7 @@ shinyServer(function(input, output,session) {
       
       pre1 <- cbind.data.frame("Títulos"=sp2(),"Precios"=pre)
       
-      return(datatable(pre1, options = list(paging = FALSE)))
+      return(DT::datatable(pre1, options = list(paging = FALSE)))
     }
     
     }else{}
@@ -8625,7 +8625,7 @@ shinyServer(function(input, output,session) {
   })
   
   #VEBONO-COMP
-  output$precios_veb_nuevos_comp <- renderDataTable({
+  output$precios_veb_nuevos_comp <- DT::renderDataTable({
     #pongo dependencia
     input$boton20
     
@@ -8698,7 +8698,7 @@ shinyServer(function(input, output,session) {
       
       pre1 <- cbind.data.frame("Títulos"=comp2(),"Precios"=pre)
       
-      return(datatable(pre1, options = list(paging = FALSE)))
+      return(DT::datatable(pre1, options = list(paging = FALSE)))
     }
     
     }else{}
