@@ -2367,12 +2367,12 @@ shinyServer(function(input, output,session) {
       #tabBox( width = 12, title = "Instrumentos", id = "precios_comp", height = "50px", 
       tabsetPanel(type="pills",       
               tabPanel("TIF",
-                       box(id="comp_pre_tif",style="overflow-x:scroll",width = 12,dataTableOutput("comparativo_precios_tif"))
+                       box(id="comp_pre_tif",style="overflow-x:scroll",width = 12,DT::dataTableOutput("comparativo_precios_tif"))
                        
               ),#final tabpanel
               tabPanel("VEBONO",
                        
-                       box(id="comp_pre_veb",style="overflow-x:scroll",width = 12,dataTableOutput("comparativo_precios_veb"))
+                       box(id="comp_pre_veb",style="overflow-x:scroll",width = 12,DT::dataTableOutput("comparativo_precios_veb"))
                        
               )#final tabpanel
       )#final tabbox
@@ -2433,7 +2433,7 @@ shinyServer(function(input, output,session) {
         )
       ),
       fluidRow(
-        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable'))
+        box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable'))
       ),
       h2(" Posiciones:"),
       fluidRow(
@@ -2453,7 +2453,7 @@ shinyServer(function(input, output,session) {
         )
       ),
       fluidRow(
-        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_pos'))
+        box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_pos'))
       ),
       h2(" Aviso"),
       fluidRow(
@@ -2667,11 +2667,11 @@ shinyServer(function(input, output,session) {
                              fluidRow(
                                tags$h2(style="padding-left:15px;","VaR normal"),
                                tags$h3(style="padding-left:15px;","Rendimientos:"),
-                               box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('rend_varn')),
+                               box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('rend_varn')),
                                tags$h3(style="padding-left:15px;","Advertencias:"),
                                box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('advertencia_varn')),
                                tags$h3(style="padding-left:15px;","Parámetros seleccionados:"),
-                               box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('parametros_varn')),
+                               box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('parametros_varn')),
                                tags$h3(style="padding-left:15px;","Elegir porcentaje del VaR:"),
                                box(id="var_v1", width = 12, background = "navy",
                                     selectInput( inputId = "porVarn", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
@@ -2704,7 +2704,7 @@ shinyServer(function(input, output,session) {
                                tags$h2(style="padding-left:15px;"," Suma de Pesos"),
                                verbatimTextOutput("suma_pesos"),
                                tags$h2(style="padding-left:15px;"," Escenarios"),
-                               box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('escenarios_varsh')),
+                               box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('escenarios_varsh')),
                                tags$h3(style="padding-left:15px;","Elegir porcentaje del VaR:"),
                                box(id="var_v2", width = 12, background = "navy",
                                     selectInput( inputId = "porVarsh", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
@@ -2732,11 +2732,11 @@ shinyServer(function(input, output,session) {
                                                     fluidRow(  
                                                       tags$h2(style="padding-left:15px;","  VaR asumiendo distribución Normal"),
                                                       tags$h3(style="padding-left:15px;"," Rendimientos:"),
-                                                      box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('rend_varmc_n')),
+                                                      box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('rend_varmc_n')),
                                                       tags$h3(style="padding-left:15px;"," Advertencias:"),
                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('advertencia_varmc_n')),
                                                       tags$h3(style="padding-left:15px;"," Parámetros seleccionados:"),
-                                                      box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('parametros_varmc_n')),
+                                                      box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('parametros_varmc_n')),
                                                       tags$h3(style="padding-left:15px;"," Elegir porcentaje del VaR:"),
                                                       box(id="var_v3", width = 12, background = "navy",
                                                            selectInput( inputId = "porVarmc_n", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
@@ -2767,11 +2767,11 @@ shinyServer(function(input, output,session) {
                                                     fluidRow(
                                                       tags$h2(style="padding-left:15px;"," VaR mejor distribución seleccionada"),
                                                       tags$h3(style="padding-left:15px;"," Rendimientos:"),
-                                                      box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('rend_varmc_el')),
+                                                      box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('rend_varmc_el')),
                                                       tags$h3(style="padding-left:15px;"," Advertencias:"),
                                                       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('advertencia_varmc_el')),
                                                       tags$h3(style="padding-left:15px;"," Mejores distribuciones elegidas:"),
-                                                      box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('dist_varmc_el')),
+                                                      box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('dist_varmc_el')),
                                                       tags$h3(style="padding-left:15px;"," Elegir porcentaje del VaR:"),
                                                       box( id="var_v5",width = 12, background = "navy",
                                                            selectInput( inputId = "porVarmc_el", "Seleccione Porcentaje del VaR", choices = c(.90, .95, .99), selected = .95)
@@ -2970,7 +2970,7 @@ shinyServer(function(input, output,session) {
                              
                              #verbatimTextOutput("hola"),
                              h2("Histórico"),
-                             box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_par')),
+                             box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('historico_par')),
                              h2("Descargar"),
                              downloadButton("data_var_par", "Descargar")
                              #)#final wellpanel
@@ -2997,7 +2997,7 @@ shinyServer(function(input, output,session) {
                              
                              
                              h2("Histórico"),
-                             box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_hist')),
+                             box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('historico_hist')),
                              h2("Descargar"),
                              downloadButton("data_var_hist", "Descargar")
                              
@@ -3022,7 +3022,7 @@ shinyServer(function(input, output,session) {
                              
                              
                              h2("Histórico"),
-                             box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_smc1')),
+                             box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('historico_smc1')),
                              h2("Descargar"),
                              downloadButton("data_var_smc1", "Descargar")
                              
@@ -3047,7 +3047,7 @@ shinyServer(function(input, output,session) {
                              
                              
                              h2("Histórico"),
-                             box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('historico_smc2')),
+                             box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('historico_smc2')),
                              h2("Descargar"),
                              downloadButton("data_var_smc2", "Descargar")
                              
@@ -3092,7 +3092,7 @@ shinyServer(function(input, output,session) {
         )
       ),
       fluidRow(id="backv2",
-        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_back'))
+        box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_back'))
       ),
       h1("Prueba flextable")
       #,
@@ -3144,7 +3144,7 @@ shinyServer(function(input, output,session) {
         )
       ),
       fluidRow(
-        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_val'))
+        box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_val'))
       )
       
       
@@ -3168,7 +3168,7 @@ shinyServer(function(input, output,session) {
       
       h2("Resúmen portafolio"),
       fluidRow(
-        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('result_val_port'))
+        box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('result_val_port'))
       ),
       h2("Reporte"),
       downloadButton("report_val1", "Descargar")
@@ -3199,7 +3199,7 @@ shinyServer(function(input, output,session) {
         )
       ),
       fluidRow(
-        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('datatable_val_estres'))
+        box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_val_estres'))
       ),
       h2("Advertencia"),
       box(width=12,style="overflow-x:scroll",status = "success",verbatimTextOutput('datatable_val_estres_ad')),
@@ -3215,7 +3215,7 @@ shinyServer(function(input, output,session) {
       plotlyOutput("grafico_val2"),
       h2("Resúmen portafolio"),
       fluidRow(
-        box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput('result_val_estres_port'))
+        box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('result_val_estres_port'))
       ),
       h2("Reporte"),
       downloadButton("report_val2", "Descargar")
@@ -7317,7 +7317,7 @@ shinyServer(function(input, output,session) {
     
   })
   
-  output$comparativo_precios_tif <- renderDataTable({
+  output$comparativo_precios_tif <- DT::renderDataTable({
     a <- try(precios_tif())
     if(class(a)!="try-error"){
       a
@@ -7384,7 +7384,7 @@ shinyServer(function(input, output,session) {
     
   })
   
-  output$comparativo_precios_veb <- renderDataTable({
+  output$comparativo_precios_veb <- DT::renderDataTable({
     a <- try(precios_veb())
     if(class(a)!="try-error"){
       a
@@ -9117,12 +9117,12 @@ shinyServer(function(input, output,session) {
   ###############################################################################
   ###############################################################################
   
-  output$datatable<-renderDataTable({
+  output$datatable<-DT::renderDataTable({
     #if(is.null(data())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     a <- try(data())
     if(class(a)!="try-error"){
-      datatable(a)
+      DT::datatable(a)
     }else{return(as.data.frame("Error, favor seleccionar otro delimitador"))}
     
     })
@@ -9204,7 +9204,7 @@ shinyServer(function(input, output,session) {
   ###############################################################################
   ###############################################################################
   
-  output$datatable_pos<-renderDataTable({
+  output$datatable_pos<-DT::renderDataTable({
     #if(is.null(data_pos())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     #datatable(data_pos())
@@ -9658,7 +9658,7 @@ shinyServer(function(input, output,session) {
   })
   
   #seccion VaR Parametrico Normal
-  output$rend_varn<-renderDataTable({
+  output$rend_varn<-DT::renderDataTable({
     if(is.null(data())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     data1 <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
@@ -9670,12 +9670,12 @@ shinyServer(function(input, output,session) {
     }
     
     #datatable(head(data1))
-    datatable(data1)
+    DT::datatable(data1)
   })
   
   
   #parametros u y sigma de cada titulo
-  output$parametros_varn<-renderDataTable({
+  output$parametros_varn<-DT::renderDataTable({
     if(is.null(data())){return()}
     rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
     names(rend) <- names(data())[-1]
@@ -9740,7 +9740,7 @@ shinyServer(function(input, output,session) {
   
   
   #creo tabla para VaR individuales metodo parametrico
-  output$tabla_varn<-renderDataTable({
+  output$tabla_varn<-DT::renderDataTable({
     #calculo sd
     if(is.null(data())){return()}
     rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
@@ -9791,7 +9791,7 @@ shinyServer(function(input, output,session) {
       tabla[,4] <- tabla[,3]*100/tabla[nrow(tabla),3]
       tabla[nrow(tabla),4] <- sum(tabla[1:((nrow(tabla))-1),4])
       
-      return(datatable(tabla, options = list(paging = FALSE)))
+      return(DT::datatable(tabla, options = list(paging = FALSE)))
       
     }
     
@@ -10491,7 +10491,7 @@ shinyServer(function(input, output,session) {
   
   
   #ESCENARIOS VAR SIMULACION HISTORICA
-  output$escenarios_varsh <- renderDataTable({
+  output$escenarios_varsh <- DT::renderDataTable({
     #calculo sd
     if(is.null(data())){return()}
     rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
@@ -10956,7 +10956,7 @@ shinyServer(function(input, output,session) {
   
   
   #CALCULO VARES INDIVIDUALES SIMULACION HISTORICA
-  output$varind_sh <- renderDataTable({ 
+  output$varind_sh <- DT::renderDataTable({ 
     #calculo sd
     if(is.null(data())){return()}
     rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
@@ -11012,7 +11012,7 @@ shinyServer(function(input, output,session) {
          
          var_ind[nrow(var_ind),3] <- sum(var_ind[1:(nrow(var_ind)-1),3])
          
-         datatable(var_ind, options = list(paging = FALSE))
+         DT::datatable(var_ind, options = list(paging = FALSE))
         # #Ordeno data
         # esc1 <- esc[,ncol(esc)]
         # esc1 <- esc1[order(esc1)]
@@ -11048,7 +11048,7 @@ shinyServer(function(input, output,session) {
       }
       
       var_ind[nrow(var_ind),3] <- sum(var_ind[1:(nrow(var_ind)-1),3])
-      datatable(var_ind, options = list(paging = FALSE))
+      DT::datatable(var_ind, options = list(paging = FALSE))
         #if(sum(p[,3])==1){
         #calculo escenarios
         # for(i in 1:nrow(rend)){
@@ -11358,7 +11358,7 @@ shinyServer(function(input, output,session) {
   ##################
   #ASUMO NORMALIDAD
   #RENDIMIENTOS
-  output$rend_varmc_n<-renderDataTable({
+  output$rend_varmc_n<-DT::renderDataTable({
     if(is.null(data())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     data1 <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
@@ -11370,7 +11370,7 @@ shinyServer(function(input, output,session) {
     }
     
     #datatable(head(data1))
-    datatable(data1)
+    DT::datatable(data1)
   })
   
   #ADVERTENCIA
@@ -11403,7 +11403,7 @@ shinyServer(function(input, output,session) {
   })
   
   #PARAMETROS SELECCIONADOS
-  output$parametros_varmc_n<-renderDataTable({
+  output$parametros_varmc_n<-DT::renderDataTable({
     if(is.null(data())){return()}
     rend <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
     names(rend) <- names(data())[-1]
@@ -11580,13 +11580,13 @@ shinyServer(function(input, output,session) {
   
   
   #CALCULO VARES INDIVIDUALES MC
-  output$tabla_varmc_n <-renderDataTable({
+  output$tabla_varmc_n <-DT::renderDataTable({
     #añado dependencia
     input$boton21
     
     #
     isolate({
-    datatable(varmc_ind_n(), options = list(paging = FALSE))
+    DT::datatable(varmc_ind_n(), options = list(paging = FALSE))
     })
       
       })
@@ -11797,7 +11797,7 @@ shinyServer(function(input, output,session) {
   
    #ELEGIR DISTRIBUCION
   #RENDIMIENTOS ELEGIR DISTRIBUCION VAR MC
-  output$rend_varmc_el<-renderDataTable({
+  output$rend_varmc_el<-DT::renderDataTable({
     if(is.null(data())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
     data1 <- as.data.frame(matrix(0,nrow = (nrow(data())-1),ncol = (ncol(data())-1)))
@@ -11809,7 +11809,7 @@ shinyServer(function(input, output,session) {
     }
     
     #datatable(head(data1))
-    datatable(data1)
+    DT::datatable(data1)
   })
   
   
@@ -11843,7 +11843,7 @@ shinyServer(function(input, output,session) {
   })
   
   #TABLA DISTRIBUCIONES ELEGIR DISTRIBUCION VAR MC
-  output$dist_varmc_el <- renderDataTable({
+  output$dist_varmc_el <- DT::renderDataTable({
     #leo el historico actualizado
    # hist <- read.csv(paste(getwd(),"data","distribuciones.txt",sep = "/"),sep="")
    #  hist 
@@ -12165,14 +12165,14 @@ shinyServer(function(input, output,session) {
   
   
   
-  output$tabla_varmc_el <- renderDataTable({
+  output$tabla_varmc_el <- DT::renderDataTable({
     #añado dependencia
     input$boton22
     
     #
     isolate({
   
-    datatable(varmc_ind_el(), options = list(paging = FALSE))
+    DT::datatable(varmc_ind_el(), options = list(paging = FALSE))
       
     })#fin isolate
   })
@@ -13635,7 +13635,7 @@ shinyServer(function(input, output,session) {
   })
   
   #GENERO OUTPUT
-  output$historico_par <- renderDataTable({
+  output$historico_par <- DT::renderDataTable({
     #añado dependencia
     input$boton23
     
@@ -13787,7 +13787,7 @@ shinyServer(function(input, output,session) {
   })
   
   #GENERO OUTPUT
-  output$historico_hist <- renderDataTable({
+  output$historico_hist <- DT::renderDataTable({
     #añado dependencia
     input$boton24
     
@@ -13985,7 +13985,7 @@ shinyServer(function(input, output,session) {
   })
   
   #GENERO OUTPUT
-  output$historico_smc1 <- renderDataTable({
+  output$historico_smc1 <- DT::renderDataTable({
     #añado dependencia
     input$boton25
     
@@ -14047,8 +14047,8 @@ shinyServer(function(input, output,session) {
     #LEO FECHAS A CALCULAR
     #if(is.null(fecha_par())){return()}
     fe <- fecha_smc2()
-    
-    #CREO ESTRUCTURA PARA GUARDAR LOS VARES
+
+        #CREO ESTRUCTURA PARA GUARDAR LOS VARES
     var <- cbind.data.frame(fe,rep(0,length(fe)))
     names(var) <- c("Fechas","VaRes")
     
@@ -14060,33 +14060,33 @@ shinyServer(function(input, output,session) {
       #j <- 1
       # #ACTUALIZO DATA CON LA QUE TRABAJARE
       data0 <- data_var()
-      
-      # #SELECCIONO 252 OBS SEGUN FECHA SELECCIONADA
+
+     # #SELECCIONO 252 OBS SEGUN FECHA SELECCIONADA
       data <- data0[which(fe[j]==data0[,1]):(251+which(fe[j]==data0[,1])),]
-      
+
       #--#
       #calculo sd
       if(is.null(data)){return()}
       rend <- as.data.frame(matrix(0,nrow = (nrow(data)-1),ncol = (ncol(data)-1)))
       names(rend) <- names(data)[-1]
-      
+
       for(i in 1:(ncol(data)-1)){
         rend[,i] <- diff(log(data[,i+1]))
       }
-      
+
       #veo si hay valores NA o inf en la data
       a <- rep(0,ncol(rend))
-      
+
       for(i in 1:ncol(rend)){
         if(anyNA(rend[,i])|sum(is.infinite(rend[,i]))>=1){
           a[i] <- 1
         }
       }
-      
+
       #leo posiciones
       p <- data_pos()
       #p$pesos <- p[,2]/sum(p[,2])
-      
+
       #leo distribuciones
       if(input$seleccion_dist==0){
         dist <- distribuciones()
@@ -14094,29 +14094,29 @@ shinyServer(function(input, output,session) {
         #dist <- read.csv(paste(getwd(),"data","distribuciones2.txt",sep = "/"),sep="")
         #dist <- read.csv(paste(getwd(),"data","distribuciones3.txt",sep = "/"),sep="")
         dist <- datadist()
-        
+
         }
-      
+
       #cuando hay problemas con rend
       #titulos donde hay problema
       b <- which(a==1)
       if(sum(a)>=1){
         rend <- rend[,-b]
-        
+
         #actualizo posiciones
         p <- p[-b,]
         #p[,3] <- p[,2]/sum(p[,2])
-        
+
         #actualizo distribuciones
         dist <- dist[,-b]
-        
+
         #creo matriz donde guardare simulaciones de cada instrumento
         #mat <- as.data.frame(matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend)+2)))
         #names(mat) <- c(names(rend),"incremento","escenario")
         mat <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
         names(mat) <- c(names(rend))
-         
-         
+
+
         #relleno matriz de simulaciones
         withProgress(message = 'Calculando números aleatorios', value = 0, {
           incProgress(1/3, detail = "Realizando iteraciones")
@@ -14220,20 +14220,20 @@ shinyServer(function(input, output,session) {
          #vc <- (mat1[length(mat1)*5/100])
          vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_el)))])
          var_sm <- sum(p[,2])-vc
-         
+
         var[j,2] <- var_sm
-  
+
         #return(as.data.frame(var_sm))
-        
+
       }else{#final if
-      
+
       #creo matriz donde guardare simulaciones de cada instrumento
       #mat <- as.data.frame(matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend)+2)))
       #names(mat) <- c(names(rend),"incremento","escenario")
       mat <- (matrix(0,nrow = input$sim_varmc_el,ncol = (ncol(rend))))
       names(mat) <- c(names(rend))
-      
-      
+
+
       #relleno matriz de simulaciones
       withProgress(message = 'Calculando números aleatorios', value = 0, {
         incProgress(1/3, detail = "Realizando iteraciones")
@@ -14244,15 +14244,15 @@ shinyServer(function(input, output,session) {
             #calculo momentos
             a1 <- lmom.ub(rend[,i])
             #convierto valor anterior en parametros
-            b1 <- lmom2par(a1,type="nor") #normal   
+            b1 <- lmom2par(a1,type="nor") #normal
             #realizo simulacion
-            mat[,i] <- rlmomco(input$sim_varmc_el,b1) 
+            mat[,i] <- rlmomco(input$sim_varmc_el,b1)
           }else if(as.character(dist[,i])=="Exponential"){
             #n_rand <- rexp(n = input$sim_varmc_n,rate = as.numeric(fitdistr(rend[,i],"exponential")$estimate))
             #calculo momentos
             a1 <- lmom.ub(rend[,i])
             #convierto valor anterior en parametros
-            b1 <- lmom2par(a1,type="exp") #normal   
+            b1 <- lmom2par(a1,type="exp") #normal
             #realizo simulacion
             mat[,i] <- rlmomco(input$sim_varmc_el,b1)
           }else if(as.character(dist[,i])=="Cauchy"){
@@ -14260,7 +14260,7 @@ shinyServer(function(input, output,session) {
             #calculo momentos
             a1 <- lmom.ub(rend[,i])
             #convierto valor anterior en parametros
-            b1 <- lmom2par(a1,type="cau") #normal   
+            b1 <- lmom2par(a1,type="cau") #normal
             #realizo simulacion
             mat[,i] <- rlmomco(input$sim_varmc_el,b1)
           }else if(as.character(dist[,i])=="Logistic"){
@@ -14282,7 +14282,7 @@ shinyServer(function(input, output,session) {
             #calculo momentos
             a1 <- lmom.ub(rend[,i])
             #convierto valor anterior en parametros
-            b1 <- lmom2par(a1,type="gam") #normal   
+            b1 <- lmom2par(a1,type="gam") #normal
             #realizo simulacion
             mat[,i] <- rlmomco(input$sim_varmc_el,b1)
           }else if(as.character(dist[,i])=="Lognormal"){
@@ -14292,7 +14292,7 @@ shinyServer(function(input, output,session) {
             #calculo momentos
             a1 <- lmom.ub(rend[,i])
             #convierto valor anterior en parametros
-            b1 <- lmom2par(a1,type="wei") #normal   
+            b1 <- lmom2par(a1,type="wei") #normal
             #realizo simulacion
             mat[,i] <- rlmomco(input$sim_varmc_el,b1)
           }else if(as.character(dist[,i])=="F"){
@@ -14302,7 +14302,7 @@ shinyServer(function(input, output,session) {
             #calculo momentos
             a1 <- lmom.ub(rend[,i])
             #convierto valor anterior en parametros
-            b1 <- lmom2par(a1,type="st3") #normal   
+            b1 <- lmom2par(a1,type="st3") #normal
             #realizo simulacion
             mat[,i] <- rlmomco(input$sim_varmc_el,b1)
           }else if(as.character(dist[,i])=="Gompertz"){
@@ -14310,47 +14310,47 @@ shinyServer(function(input, output,session) {
           }else{
             mat[,i] <- rep(0,input$sim_varmc_el)
           }
-          
-          
+
+
         }
       })
-      
+
       #CALCULO MATRIZ DE CHOLESKY
       cholesky <- t(chol(cor(rend,use="complete.obs")))
-      
+
       #5) REALIZO PRODUCTO DE MATRIZ DE N ALEATORIOS*MAT CHOLESKY
       mrs <- mat%*%t(cholesky)
-      
+
       #6) calculo "incremento de precio"
       mrs1 <- mrs%*%p[,2]
-      
+
       #7) calculo "precio" (siempre positivo)
       mrs2 <- sum(p[,2])+mrs1
-      
-      
+
+
       #10) CALCULO CUANTIL, QUE ES EL VAR
       #quantile(gop2,  probs = c(0.05),type = 1)
       #ordeno columna "escenarios"
       mat1 <- mrs2[order(mrs2)]
-      
+
       #calculo valor de corte y VaR Monte Carlo
       #vc <- (mat1[length(mat1)*5/100])
       vc <- (mat1[length(mat1)*(1-as.numeric(sub(",",".",input$porVarmc_el)))])
       var_sm <- sum(p[,2])-vc
-      
+
       var[j,2] <- var_sm
-      
+
       }
-      
-      
+
+
     }#final for Vares
-    
+
     return(var)
     
   })
   
   #GENERO OUTPUT
-  output$historico_smc2 <- renderDataTable({
+  output$historico_smc2 <- DT::renderDataTable({
     #añado dependencia
     input$boton26
     
@@ -14404,10 +14404,10 @@ shinyServer(function(input, output,session) {
   })
   
   
-  output$datatable_back<-renderDataTable({
+  output$datatable_back<-DT::renderDataTable({
     if(is.null(data_back())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
-    datatable(data_back())
+    DT::datatable(data_back())
   })
   
   #PORCENTAJE DEL VAR
@@ -14586,10 +14586,10 @@ shinyServer(function(input, output,session) {
   })
   
   
-  output$datatable_back<-renderDataTable({
+  output$datatable_back<-DT::renderDataTable({
     if(is.null(data_back())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
-    datatable(data_back())
+    DT::datatable(data_back())
   })
   
   # REPORTE BACKTESTING 
@@ -14655,10 +14655,10 @@ shinyServer(function(input, output,session) {
   })
   
   
-  output$datatable_val<-renderDataTable({
+  output$datatable_val<-DT::renderDataTable({
     if(is.null(data_val())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
-    datatable(data_val())
+    DT::datatable(data_val())
   })
   
   #DATA PRECIOS PARA VALORACION ESTRESADA
@@ -14684,10 +14684,10 @@ shinyServer(function(input, output,session) {
   })
   
   
-  output$datatable_val_estres<-renderDataTable({
+  output$datatable_val_estres<-DT::renderDataTable({
     if(is.null(data_val_estres())){return()}
     #datatable(data()) %>% formatCurrency(1:3, 'Bs. ', mark = '.', dec.mark = ',')
-    datatable(data_val_estres())
+    DT::datatable(data_val_estres())
   })
   
   #advertencia
@@ -14710,7 +14710,7 @@ shinyServer(function(input, output,session) {
   })
   
   #resultados valoracion
-  output$result_val <- renderDataTable({
+  output$result_val <- DT::renderDataTable({
     if(is.null(data_val())){return()}
     a <- data_val()
     #convierto en numero diferentes columnas
@@ -14725,7 +14725,7 @@ shinyServer(function(input, output,session) {
     #calculo utilidad o perdida
     a$ut_per <- a$mtm*((a[,5]-a[,4])/100)
     
-    datatable(a, options = list(paging = FALSE))
+    DT::datatable(a, options = list(paging = FALSE))
   })
   
   #GRAFICO
@@ -14759,7 +14759,7 @@ shinyServer(function(input, output,session) {
   })
   
   #resultados portafolio
-  output$result_val_port <- renderDataTable({
+  output$result_val_port <- DT::renderDataTable({
     if(is.null(data_val())){return()}
     a <- data_val()
     #valor nominal
@@ -14807,7 +14807,7 @@ shinyServer(function(input, output,session) {
   })
   
   #resultados valoracion estresada
-  output$result_val_estres <- renderDataTable({
+  output$result_val_estres <- DT::renderDataTable({
     if(is.null(data_val()) | is.null(data_val_estres()) ){return()}
     a <- data_val()
     a[,3] <- as.numeric(as.character(a[,3]))
@@ -14831,7 +14831,7 @@ shinyServer(function(input, output,session) {
     #a$ut_per <- a$mtm-(a[,3]*a$precio_estres/100)
     a$ut_per1 <- a$mtm*((a[,5]-a[,4])/100)
     a$ut_per2 <- a$mtm*((a$precio_estres-a[,5])/100)
-    datatable(a, options = list(paging = FALSE))
+    DT::datatable(a, options = list(paging = FALSE))
   })
   
   #grafico estres
@@ -14877,7 +14877,7 @@ shinyServer(function(input, output,session) {
   
   
   #resultados prueba estres portafolio
-  output$result_val_estres_port <- renderDataTable({
+  output$result_val_estres_port <- DT::renderDataTable({
     if(is.null(data_val()) | is.null(data_val_estres()) ){return()}
     a <- data_val()
     a[,3] <- as.numeric(as.character(a[,3]))
