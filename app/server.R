@@ -2478,8 +2478,8 @@ shinyServer(function(input, output,session) {
   
   
   #FLEXTABLE
-  output$ta <- renderUI({
-    
+  output$ta <- DT::renderDataTable({
+
     Historico <- read.csv(paste0(getwd(),"/data/Historico_act.txt"), sep="")
 
     tif <- Historico[Historico$Tipo.Instrumento=="TIF",]
@@ -2541,32 +2541,37 @@ shinyServer(function(input, output,session) {
     mycolors <- col_palette[co]
 
     # flextable(rownames_to_column(pre_tif,"Fechas")) %>%
-    #   bg(bg = mycolors) %>%  autofit() %>% htmltools_value() 
+    #   bg(bg = mycolors) %>%  autofit() %>% htmltools_value()
 
-  
+
 
     #flextable(iris) %>% htmltools_value()
-    a1 <- datatable(pre_tif)
-    
-    
+    a1 <- DT::datatable(pre_tif,extensions = 'FixedColumns',
+                        options = list(
+                          scrollX = TRUE))
+
+
     #CREO FUNCION PARA OBTENER VALORES NO NULOS DE CADA COLUMNA
     indice_col <- function(i){
       z1 <- which(pre_tif[,i]!=0)
-      return(styleEqual(row.names(pre_tif)[z1], rep("red",length(z1))))
+      return(DT::styleEqual(row.names(pre_tif)[z1], rep("red",length(z1))))
     }
-    
-    
-    
-    for(i in c(1,2)){
-      a1 <- formatStyle(a1,
+
+
+
+    for(i in 1:ncol(pre_tif)){
+      a1 <- DT::formatStyle(a1,
                         columns = i,
                         valueColumns = 0,
                         target = 'cell',
                         backgroundColor = indice_col(i)
       )
     }
-    
+
     return(a1)
+    
+    
+   
     
   })
   
@@ -3094,9 +3099,9 @@ shinyServer(function(input, output,session) {
       fluidRow(id="backv2",
         box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_back'))
       ),
-      h1("Prueba flextable")
+      h1("Prueba DT"),
       #,
-      #uiOutput("ta")
+      DT::dataTableOutput("ta")
       
     )#final fluidpage
   })

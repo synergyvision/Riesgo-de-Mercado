@@ -396,8 +396,64 @@ write.table(Dtif,"precios_DL_tif_oct.txt")
 
 
 
+#####
+#####
+#####
+#PRUEBA HISTORICO DE PRECIOS CON NELSON Y SIEGEL
+#JULIO 2019
+# TIF
+
+Historico <- read.csv("~/Riesgo-de-Mercado/app/data/Historico_act.txt", sep="")
+
+tif <- Historico[Historico$Tipo.Instrumento=="TIF",]
+
+tit_tif <- as.factor(as.character(tif$Nombre))
+
+pre_tif <- as.data.frame(matrix(0,nrow = length(levels(as.factor(as.character(tif$Fecha.op)))),ncol = length(levels(tit_tif))))
+names(pre_tif) <- levels(tit_tif)
+row.names(pre_tif) <- levels(as.factor(as.character(tif$Fecha.op)))
 
 
+#leo caracteristicas
+ca <- Carac("C:/Users/Ecuad/Downloads/29-07-2019.xls")
+names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+               "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+               "Pago cupon 2","Cupon")
 
+tit <- levels(as.factor(as.character(ca$Nombre[ca$`Tipo Instrumento`=="TIF"])))
+
+#precios promedio nuevos
+Precio_prom_tif <- read.csv("~/Riesgo-de-Mercado/app/data/Precio_prom_tif.txt", encoding="UTF-8", sep="")
+
+#busco precio promedio
+pp <- pos1(tit,0,Precio_prom_tif)
+
+pp[which(pp==0)]
+
+#FECHAS
+jul <- c("01/07/2019","02/07/2019","03/07/2019","04/07/2019","05/07/2019",
+         "08/10/2018","09/10/2018","10/10/2018","11/10/2018","15/10/2018",
+         "16/10/2018","17/10/2018","18/10/2018","19/10/2018","22/10/2018",
+         "23/10/2018","24/10/2018","25/10/2018")
+
+
+#PRECIOS NELSON Y SIEGEL
+#TIF
+p <- Tabla.ns(fv=jul[1],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]]
+
+
+p2 <- rep(0,length(tit[-which(pp==0)])+1)
+
+for(i in 1:5){
+  print(i)
+  p1 <- Tabla.ns(fv=jul[i],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]]
+  p2 <- cbind.data.frame(p2,p1$Precios)
+}
+
+q <- p2[-nrow(p2),-1]
+names(q) <- c(jul[1:5])
+row.names(q) <- tit[-which(pp==0)]
+
+write.table(q,"precios_ns_tif_jul_19.txt")
 
 
