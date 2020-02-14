@@ -651,6 +651,39 @@ dic <- c("02/12/2019","03/12/2019","04/12/2019","05/12/2019","06/12/2019",
          "23/12/2019","24/12/2019","25/12/2019","26/12/2019","27/12/2019",
          "30/12/2019","31/12/2019")
 
+#leo caracteristicas
+ca <- Carac("C:/Users/Ecuad/Downloads/30-12-2019.xls")
+names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+               "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+               "Pago cupon 2","Cupon")
+
+tit <- levels(as.factor(as.character(ca$Nombre[ca$`Tipo Instrumento`=="TIF"])))
+
+#busco precio promedio
+pp <- pos1(tit,0,Precio_prom_tif)
+
+pp[which(pp==0)]
+
+
+#
+p <- Tabla.ns(fv=dic[1],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]]
+
+
+p2 <- rep(0,length(tit[-which(pp==0)])+1)
+
+for(i in 1:length(dic)){
+  print(i)
+  p1 <- Tabla.ns(fv=dic[i],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]]
+  p2 <- cbind.data.frame(p2,p1$Precios)
+}
+
+q <- p2[-nrow(p2),-1]
+names(q) <- dic
+row.names(q) <- tit[-which(pp==0)]
+q1 <- t(q)
+
+write.table(q1,"precios_ns_tif_dic_19.txt")
+
 
 #ENERO 2019
 ene <- c("01/01/2019","02/01/2019","03/01/2019","04/01/2019","07/01/2019",
@@ -659,11 +692,95 @@ ene <- c("01/01/2019","02/01/2019","03/01/2019","04/01/2019","07/01/2019",
          "22/01/2019","23/01/2019","24/01/2019","25/01/2019","28/01/2019",
          "29/01/2019","30/01/2019","31/01/2019")
 
+#leo caracteristicas
+ca <- Carac("C:/Users/Ecuad/Downloads/30-05-2019.xls")
+names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+               "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+               "Pago cupon 2","Cupon")
+
+tit <- levels(as.factor(as.character(ca$Nombre[ca$`Tipo Instrumento`=="TIF"])))
+
+#busco precio promedio
+pp <- pos1(tit,0,Precio_prom_tif)
+
+pp[which(pp==0)]
+
+
+#
+p <- Tabla.ns(fv=ene[1],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]]
+
+
+p2 <- rep(0,length(tit[-which(pp==0)])+1)
+
+for(i in 1:length(ene)){
+  print(i)
+  p1 <- try(Tabla.ns(fv=ene[i],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]])
+  
+  if(!is.null(p1)){
+    p2 <- cbind.data.frame(p2,p1$Precios)  
+  }else{
+    p1 <- rep(0,length(tit[-which(pp==0)])+1)
+    p2 <- cbind.data.frame(p2,p1) 
+  }
+  
+}
+
+q <- p2[-nrow(p2),-1]
+names(q) <- ene
+row.names(q) <- tit[-which(pp==0)]
+q1 <- t(q)
+
+write.table(q1,"precios_ns_tif_ene_19.txt")
+
+
+
 #FEBRERO 2019
 feb <- c("01/02/2019","04/02/2019","05/02/2019","06/02/2019","07/02/2019",
          "08/02/2019","11/02/2019","12/02/2019","13/02/2019","14/02/2019",
          "15/02/2019","18/02/2019","19/02/2019","20/02/2019","21/02/2019",
          "22/02/2019","25/02/2019","26/02/2019","27/02/2019","28/02/2019")
+
+#leo caracteristicas
+ca <- Carac("C:/Users/Ecuad/Downloads/30-05-2019.xls")
+names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+               "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+               "Pago cupon 2","Cupon")
+
+tit <- levels(as.factor(as.character(ca$Nombre[ca$`Tipo Instrumento`=="TIF"])))
+
+#busco precio promedio
+pp <- pos1(tit,0,Precio_prom_tif)
+
+pp[which(pp==0)]
+
+
+#
+p <- Tabla.ns(fv=feb[4],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]]
+
+
+p2 <- rep(0,length(tit[-which(pp==0)])+1)
+
+for(i in 1:length(feb)){
+  print(i)
+  p1 <- try(Tabla.ns(fv=feb[i],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]])
+  
+  if(!is.null(p1)){
+    p2 <- cbind.data.frame(p2,p1$Precios)  
+  }else{
+    p1 <- rep(0,length(tit[-which(pp==0)])+1)
+    p2 <- cbind.data.frame(p2,p1) 
+  }
+  
+}
+
+q <- p2[-nrow(p2),-1]
+names(q) <- feb
+row.names(q) <- tit[-which(pp==0)]
+q1 <- t(q)
+
+write.table(q1,"precios_ns_tif_feb_19.txt")
+
+
 
 
 #MARZO 2019
@@ -673,13 +790,81 @@ mar <- c("01/03/2019","04/03/2019","05/03/2019","06/03/2019","07/03/2019",
          "22/03/2019","25/03/2019","26/03/2019","27/03/2019","28/03/2019",
          "29/03/2019")
 
+#leo caracteristicas
+ca <- Carac("C:/Users/Ecuad/Downloads/30-05-2019.xls")
+names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+               "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+               "Pago cupon 2","Cupon")
+
+tit <- levels(as.factor(as.character(ca$Nombre[ca$`Tipo Instrumento`=="TIF"])))
+
+#busco precio promedio
+pp <- pos1(tit,0,Precio_prom_tif)
+
+pp[which(pp==0)]
+
+
+#
+p <- Tabla.ns(fv=mar[1],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]]
+
+
+p2 <- rep(0,length(tit[-which(pp==0)])+1)
+
+for(i in 1:length(mar)){
+  print(i)
+  p1 <- Tabla.ns(fv=mar[i],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]]
+  p2 <- cbind.data.frame(p2,p1$Precios)
+}
+
+q <- p2[-nrow(p2),-1]
+names(q) <- mar
+row.names(q) <- tit[-which(pp==0)]
+q1 <- t(q)
+
+write.table(q1,"precios_ns_tif_mar_19.txt")
+
+
 
 #ABRIL 2019
 abr <- c("01/04/2019","02/04/2019","03/04/2019","04/04/2019","05/04/2019",
          "08/04/2019","09/04/2019","10/04/2019","11/04/2019","12/04/2019",
          "15/04/2019","16/04/2019","17/04/2019","18/04/2019","19/04/2019",
          "22/04/2019","23/04/2019","24/04/2019","25/04/2019","26/04/2019",
-         "29/04/2019","30/04/2019","31/04/2019")
+         "29/04/2019","30/04/2019")
+
+#leo caracteristicas
+ca <- Carac("C:/Users/Ecuad/Downloads/30-05-2019.xls")
+names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+               "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+               "Pago cupon 2","Cupon")
+
+tit <- levels(as.factor(as.character(ca$Nombre[ca$`Tipo Instrumento`=="TIF"])))
+
+#busco precio promedio
+pp <- pos1(tit,0,Precio_prom_tif)
+
+pp[which(pp==0)]
+
+
+#
+p <- Tabla.ns(fv=abr[23],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]]
+
+
+p2 <- rep(0,length(tit[-which(pp==0)])+1)
+
+for(i in 1:length(abr)){
+  print(i)
+  p1 <- Tabla.ns(fv=abr[i],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]]
+  p2 <- cbind.data.frame(p2,p1$Precios)
+}
+
+q <- p2[-nrow(p2),-1]
+names(q) <- abr
+row.names(q) <- tit[-which(pp==0)]
+q1 <- t(q)
+
+write.table(q1,"precios_ns_tif_abr_19.txt")
+
 
 #MAYO 2019
 may <- c("01/05/2019","02/05/2019","03/05/2019","06/05/2019","07/05/2019",
@@ -689,10 +874,116 @@ may <- c("01/05/2019","02/05/2019","03/05/2019","06/05/2019","07/05/2019",
          "29/05/2019","30/05/2019","31/05/2019")
 
 
+#leo caracteristicas
+ca <- Carac("C:/Users/Ecuad/Downloads/30-05-2019.xls")
+names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+               "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+               "Pago cupon 2","Cupon")
+
+tit <- levels(as.factor(as.character(ca$Nombre[ca$`Tipo Instrumento`=="TIF"])))
+
+#busco precio promedio
+pp <- pos1(tit,0,Precio_prom_tif)
+
+pp[which(pp==0)]
+
+
+#
+p <- Tabla.ns(fv=may[1],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]]
+
+
+p2 <- rep(0,length(tit[-which(pp==0)])+1)
+
+for(i in 1:length(may)){
+  print(i)
+  p1 <- Tabla.ns(fv=may[i],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]]
+  p2 <- cbind.data.frame(p2,p1$Precios)
+}
+
+q <- p2[-nrow(p2),-1]
+names(q) <- may
+row.names(q) <- tit[-which(pp==0)]
+q1 <- t(q)
+
+write.table(q1,"precios_ns_tif_may_19.txt")
+
+
 #JUNIO 2019
 jun <- c("03/06/2019","04/06/2019","05/06/2019","06/06/2019","07/06/2019",
          "10/06/2019","11/06/2019","12/06/2019","13/06/2019","14/06/2019",
          "17/06/2019","18/06/2019","19/06/2019","20/06/2019","21/06/2019",
          "24/06/2019","25/06/2019","26/06/2019","27/06/2019","28/06/2019")
 
+#leo caracteristicas
+ca <- Carac("C:/Users/Ecuad/Downloads/30-05-2019.xls")
+names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+               "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+               "Pago cupon 2","Cupon")
 
+tit <- levels(as.factor(as.character(ca$Nombre[ca$`Tipo Instrumento`=="TIF"])))
+
+#busco precio promedio
+pp <- pos1(tit,0,Precio_prom_tif)
+
+pp[which(pp==0)]
+
+
+#
+p <- Tabla.ns(fv=jun[1],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]]
+
+
+p2 <- rep(0,length(tit[-which(pp==0)])+1)
+
+for(i in 1:length(jun)){
+  print(i)
+  p1 <- try(Tabla.ns(fv=jun[i],tit[-which(pp==0)],pos1(tit[-which(pp==0)],0,Precio_prom_tif),pa=c(1,1,1,1),ind=0,C=ca,fe2=1,fe3=0)[[3]])
+  
+  if(!is.null(p1)){
+    p2 <- cbind.data.frame(p2,p1$Precios)  
+  }else{
+    p1 <- rep(0,length(tit[-which(pp==0)])+1)
+    p2 <- cbind.data.frame(p2,p1) 
+  }
+  
+}
+
+q <- p2[-nrow(p2),-1]
+names(q) <- jun
+row.names(q) <- tit[-which(pp==0)]
+q1 <- t(q)
+
+write.table(q1,"precios_ns_tif_jun_19.txt")
+
+
+#JUNTO TODA LA DATA NS 2019
+#TIF
+ene_19 <- read.csv("~/Riesgo-de-Mercado/precios_ns_tif_ene_19.txt", sep="")
+feb_19 <- read.csv("~/Riesgo-de-Mercado/precios_ns_tif_feb_19.txt", sep="")
+mar_19 <- read.csv("~/Riesgo-de-Mercado/precios_ns_tif_mar_19.txt", sep="")
+abr_19 <- read.csv("~/Riesgo-de-Mercado/precios_ns_tif_abr_19.txt", sep="")
+may_19 <- read.csv("~/Riesgo-de-Mercado/precios_ns_tif_may_19.txt", sep="")
+jun_19 <- read.csv("~/Riesgo-de-Mercado/precios_ns_tif_jun_19.txt", sep="")
+jul_19 <- read.csv("~/Riesgo-de-Mercado/precios_ns_tif_jul_19.txt", sep="")
+ago_19 <- read.csv("~/Riesgo-de-Mercado/precios_ns_tif_agp_19.txt", sep="")
+sep_19 <- read.csv("~/Riesgo-de-Mercado/precios_ns_tif_sep_19.txt", sep="")
+oct_19 <- read.csv("~/Riesgo-de-Mercado/precios_ns_tif_oct_19.txt", sep="")
+nova_19 <- read.csv("~/Riesgo-de-Mercado/precios_ns_tif_nov_19a.txt", sep="")
+novb_19 <- read.csv("~/Riesgo-de-Mercado/precios_ns_tif_nov_19b.txt", sep="")
+dic_19 <- read.csv("~/Riesgo-de-Mercado/precios_ns_tif_dic_19.txt", sep="")
+
+
+NS_19 <- rbind.data.frame(ene_19,feb_19,mar_19,abr_19,may_19,jun_19,
+                          jul_19,ago_19,sep_19,oct_19,nova_19)
+
+#AGREGO COLUMNA DE 0 
+novb_19 <- cbind.data.frame(novb_19[,c(1:20)],0,novb_19[,c(21:25)])
+names(novb_19) <- names(nova_19)
+
+dic_19 <- cbind.data.frame(dic_19[,c(1:20)],0,dic_19[,c(21:25)])
+names(dic_19) <- names(nova_19)
+
+
+NS_19 <- rbind.data.frame(NS_19,novb_19,dic_19)
+
+
+write.table(NS_19,"HIST_NS_19.txt")
