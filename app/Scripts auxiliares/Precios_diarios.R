@@ -2224,5 +2224,171 @@ SP_19 <- rbind.data.frame(SP_19,novb_19[13:21,],dic_19)
 write.table(SP_19,"HIST_SP_19.txt")
 
 
+####
+####
+####
+####
+#CARGO HISTORICOS Y DEFINO FUNCION PRECIOS PROMEDIOS
+HIST_NS_19 <- read.csv("~/Riesgo-de-Mercado/HIST_NS_19.txt", sep="")
+HIST_sv_19 <- read.csv("~/Riesgo-de-Mercado/HIST_sv_19.txt", sep="")
+HIST_DL_19 <- read.csv("~/Riesgo-de-Mercado/HIST_DL_19.txt", sep="")
+HIST_SP_19 <- read.csv("~/Riesgo-de-Mercado/HIST_SP_19.txt", sep="")
 
 
+#HISTORICO PRECIOS 022
+Historico_act <- read.csv("~/Riesgo-de-Mercado/app/data/Historico_act.txt", sep="")
+Historico_act$Fecha.op <- as.Date(Historico_act$Fecha.op)
+
+Historico_act$year <- year(Historico_act$Fecha.op)
+Historico_act$month <- month(Historico_act$Fecha.op)
+
+fe <- as.character(row.names(HIST_SP_19))
+
+
+
+#TODOS LOS DF TIENEN LAS MISMAS COLUMNAS
+names(HIST_NS_19)==names(HIST_sv_19)
+names(HIST_sv_19)==names(HIST_DL_19)
+names(HIST_DL_19)==names(HIST_SP_19)
+
+
+tit <- names(HIST_NS_19)
+names(Historico_act)
+
+
+#CREO FUNCION PARA EXTRAER PRECIOS PROMEDIOS
+#SEGUN AÑO A PARTIR DEL HISTORICO DE LA 022
+pre_prom <- function(t,ind,data,year){
+  #caso tif
+  if(ind==0){
+    #tif <- read.csv(paste(getwd(),"data","Precio_prom_tif.txt",sep = "/"),sep="")
+    data$Nombre <- as.character(data$Nombre)
+    p <- c()
+    
+    #condicional de existencia
+    for(i in 1:length(t)){
+      if(length(which(t[i]==data$Nombre))!=0){
+        d <- data[which(t[i]==data$Nombre),]
+        
+        #BUSCO AÑO EN ESPECIFICO
+        y <- which(d$year==year)
+        
+        if(length(y)!=0){
+          p[i] <- mean(d$Pre.prom[y])
+        }else{
+          #print("título no sale en año considerado")
+          p[i] <- 0
+        }
+        
+        
+        
+      }else{
+        #print("Titulo no encontrado")
+        p[i] <- 0
+      }
+    }
+    
+    names(p) <- t
+    return(p)
+    
+    
+  } #final if tif
+  
+  
+  #caso veb
+  if(ind==1){
+    data$Nombre <- as.character(data$Nombre)
+    
+    p <- c()
+    #condicional de existencia
+    for(i in 1:length(t)){
+      if(length(which(t[i]==data$Nombre))!=0){
+        d <- data[which(t[i]==data$Nombre),]
+        
+        #BUSCO AÑO EN ESPECIFICO
+        y <- which(d$year==year)
+        
+        if(length(y)!=0){
+          p[i] <- mean(d$Pre.prom[y])
+        }else{
+          #print("título no sale en año considerado")
+          p[i] <- 0
+        }
+      }else{
+        #print("Titulo no encontrado")
+        p[i] <- 0
+      }
+    } 
+    
+    names(p) <- t
+    return(p)
+    
+  }
+  
+  
+  
+}#final funcion pos1
+
+pre_prom(t=tit[1],ind=0,data=Historico_act,year="2018")
+
+#UNA VEZ QUE LA FECHA ESTA FIJA SE PROCEDE A COMPARAR LOS PRECIOS 
+#DE CADA DF CON EL PROMEDIO Y VER CUAL ES EL QUE MAS SE ACERCA
+#ESTO ES PARA UNA FECHA Y UN INSTRUMENTO
+#CREO DF DONDE GUARDO RESULTADOS
+df_pre <- as.data.frame(matrix(0,nrow=230,ncol =ncol(HIST_NS_19) ))
+df_et <- as.data.frame(matrix(0,nrow=230,ncol =ncol(HIST_NS_19) ))
+names(df_pre) <- names(HIST_NS_19)
+names(df_et) <- names(HIST_NS_19)
+row.names(df_pre) <- row.names(HIST_NS_19)[1:230]
+row.names(df_et) <- row.names(HIST_NS_19)[1:230]
+
+#PARA UNA FECHA FIJA CALCULO MEJORES PRECIOS DE CADA COLUMNA
+for(j in 1:230){
+ 
+  #print(j)
+fecha <- fe[j]
+
+pre <- c()
+for (i in 1:ncol(HIST_NS_19)){
+ 
+a <- HIST_NS_19[fecha,i]
+b <- HIST_sv_19[fecha,i]
+c <- HIST_DL_19[fecha,i]
+d <- HIST_SP_19[fecha,i]
+
+v <- c(a,b,c,d)
+names(v) <- c("NS","SV","DL","SP")
+
+if(length(which(v==0))!=0){
+  v <- v[-which(v==0)]
+}
+
+
+#v
+p <- pre_prom(t=tit[i],ind=0,data=Historico_act,year="2018")
+#p
+
+if(names(HIST_NS_19)[i]==names(p)[1]){
+  #CONDICIONAL SI NO HAY PRECIO PROMEDIO
+  if(p!=0){
+  ind <- which.min((v-p)^2)
+  }else{
+    ind <- which.min(v)
+  }
+  #PRECIO SELECCIONADO PARA ESTE DIA Y PARA ESTE INSTRUMENTO
+  pre <- c(pre,v[ind])
+
+}else{
+  print("No hay comparacion posible")
+}
+
+
+}#FINAL FOR I
+  
+df_pre[j,] <- pre
+df_et[j,] <- names(pre)
+
+
+}#FINAL FOR J
+
+View(df_pre)
