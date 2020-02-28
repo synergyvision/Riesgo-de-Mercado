@@ -2343,6 +2343,7 @@ row.names(df_pre) <- row.names(HIST_NS_19)[1:230]
 row.names(df_et) <- row.names(HIST_NS_19)[1:230]
 
 #PARA UNA FECHA FIJA CALCULO MEJORES PRECIOS DE CADA COLUMNA
+#230  ES PORQ EN ESA FECHA SE VENCE UN TIF
 for(j in 1:230){
  
   #print(j)
@@ -2357,7 +2358,7 @@ c <- HIST_DL_19[fecha,i]
 d <- HIST_SP_19[fecha,i]
 
 v <- c(a,b,c,d)
-names(v) <- c("NS","SV","DL","SP")
+names(v) <- c("1","2","3","4")
 
 if(length(which(v==0))!=0){
   v <- v[-which(v==0)]
@@ -2392,3 +2393,120 @@ df_et[j,] <- names(pre)
 }#FINAL FOR J
 
 View(df_pre)
+
+#CALCULO MEJORES PRECIOS PARA EL CONJUNTO DE TIF SIN EL TIF VENCIDO
+df_pre1 <- as.data.frame(matrix(0,nrow=29,ncol =ncol(HIST_NS_19)-1 ))
+df_et1 <- as.data.frame(matrix(0,nrow=29,ncol =ncol(HIST_NS_19)-1 ))
+names(df_pre1) <- names(HIST_NS_19)[-21]
+names(df_et1) <- names(HIST_NS_19)[-21]
+row.names(df_pre1) <- row.names(HIST_NS_19)[231:259]
+row.names(df_et1) <- row.names(HIST_NS_19)[231:259]
+
+for(j in 1:29){
+  
+  #print(j)
+  fecha <- fe[230+j]
+  
+  pre <- c()
+  for (i in 1:(ncol(HIST_NS_19))){
+    
+    a <- HIST_NS_19[fecha,i]
+    b <- HIST_sv_19[fecha,i]
+    c <- HIST_DL_19[fecha,i]
+    d <- HIST_SP_19[fecha,i]
+    
+    v <- c(a,b,c,d)
+    names(v) <- c("1","2","3","4")
+    
+    if(length(which(v==0))!=0){
+      v <- v[-which(v==0)]
+    }
+    
+    
+    #v
+    p <- pre_prom(t=tit[i],ind=0,data=Historico_act,year="2018")
+    #p
+    
+    if(names(HIST_NS_19)[i]==names(p)[1]){
+      #CONDICIONAL SI NO HAY PRECIO PROMEDIO
+      if(p!=0){
+        ind <- which.min((v-p)^2)
+      }else{
+        ind <- which.min(v)
+      }
+      #PRECIO SELECCIONADO PARA ESTE DIA Y PARA ESTE INSTRUMENTO
+      pre <- c(pre,v[ind])
+      
+    }else{
+      print("No hay comparacion posible")
+    }
+    
+    
+  }#FINAL FOR I
+  
+  df_pre1[j,] <- pre
+  df_et1[j,] <- names(pre)
+  
+  
+}#FINAL FOR J
+
+View(df_pre1)
+
+#UNA VEZ TENGO LOS PRECIOS Y ETIQUETAS DE 25 COLUMNAS (df_pre1 y df_et1)
+#COMPLETO DF CON COLUMNA DE 0 Y ETIQUETA "VENC"
+#CON EL FIN DE UNIR LOS 4 DF
+
+df_pre1 <- cbind.data.frame(df_pre1[,c(1:20)],0,df_pre1[,c(21:25)])
+names(df_pre1)[21] <- "TIF112019"
+
+df_et1 <- cbind.data.frame(df_et1[,c(1:20)],"5",df_et1[,c(21:25)])
+names(df_et1)[21] <- "TIF112019"
+
+#UNO DATA!
+#DATA DE MEJORES PRECIOS TEORICOS 2019
+DF_PRE <- rbind.data.frame(df_pre,df_pre1)
+
+#ETIQUETA MEJORES PRECIOS TEORICOS 2019
+DF_ET <- rbind.data.frame(df_et,df_et1)
+
+#PONGO COLOR
+a1 <- DT::datatable(DF_PRE,extensions = 'FixedColumns',
+                    options = list(
+                      scrollX = TRUE))
+
+
+#CREO FUNCION PARA OBTENER VALORES NO NULOS DE CADA COLUMNA
+#COLOREO PRECIOS 
+#POR AHORA NS: AZUL, SV: VERDE, DL:AMARILLO, SP: NARANJA, VEN: MARRON
+indice_col <- function(i,data){
+  #FILAS DE LA COLi QUE TIENEN PRECIO NS
+  z1 <- which(data[,i]==1)
+  #FILAS DE LA COLi QUE TIENEN PRECIO SV
+  z2 <- which(data[,i]==2)
+  #FILAS DE LA COLi QUE TIENEN PRECIO SV
+  z3 <- which(data[,i]==3)
+  #FILAS DE LA COLi QUE TIENEN PRECIO SP
+  z4 <- which(data[,i]==4)
+  #FILAS DE LA COLi QUE TIENEN PRECIO VENCIDO
+  z5 <- which(data[,i]==5)
+  return(DT::styleEqual(c(row.names(data)[z1],row.names(data)[z2],
+                          row.names(data)[z3],row.names(data)[z4],
+                          row.names(data)[z5])
+                        , c(rep("blue",length(z1)),rep("green",length(z2)),
+                            rep("yellow",length(z3)),rep("orange",length(z4)),
+                            rep("brown",length(z5))
+                            ) ))
+}
+
+
+
+for(i in 1:ncol(DF_PRE)){
+  a1 <- DT::formatStyle(a1,
+                        columns = i,
+                        valueColumns = 0,
+                        target = 'cell',
+                        backgroundColor = indice_col(i,DF_ET)
+  )
+}
+
+a1
