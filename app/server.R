@@ -2465,8 +2465,10 @@ shinyServer(function(input, output,session) {
         ,
         #h2(" Fecha seleccionada"),
         box(width=6,verbatimTextOutput("fecha_elegida"),title = "Fecha Seleccionada")
-      )
-      
+      ),
+       h1("Historico TIF 2019"),
+       #,
+       DT::dataTableOutput("ta")
       #,
       #h2(" Nueva Data"),
       #box(width=12,style="overflow-x:scroll",status = "success",dataTableOutput("datatable1"))
@@ -2480,95 +2482,62 @@ shinyServer(function(input, output,session) {
   #FLEXTABLE
   output$ta <- DT::renderDataTable({
 
-    Historico <- read.csv(paste0(getwd(),"/data/Historico_act.txt"), sep="")
+    DF_PRE <- read.csv(paste0(getwd(),"/data/DF_PRE_TIF_19.txt"), sep="")
 
-    tif <- Historico[Historico$Tipo.Instrumento=="TIF",]
-
-    tit_tif <- as.factor(as.character(tif$Nombre))
-
-    pre_tif <- as.data.frame(matrix(0,nrow = length(levels(as.factor(as.character(tif$Fecha.op)))),ncol = length(levels(tit_tif))))
-    names(pre_tif) <- levels(tit_tif)
-    row.names(pre_tif) <- levels(as.factor(as.character(tif$Fecha.op)))
-
-    #pre_tif <- rownames_to_column(pre_tif,"Fechas")
-
-    #RELLENO INFORMACION CON HISTORICO 0-22
-    for(i in 1:nrow(pre_tif)){
-
-      a <- c()
-
-      for(j in 1:ncol(pre_tif)){
-        a1 <- which(row.names(pre_tif)[i]==tif$Fecha.op & names(pre_tif)[j]==tif$Nombre)
-
-        if(length(a1)!=0){
-          a[j] <- a1
-        }else{
-          a[j] <- 0
-        }
-
-      }
-
-      pre_tif[i,which(a!=0)] <- tif$Pre.prom[a]
-
-    }
-
-
+    DF_ET <- read.csv(paste0(getwd(),"/data/DF_ET_TIF_19.txt"), sep="")
+    
+    #ACTUALIZO COLORES
     #PONGO COLOR
-    #NO NULOS
-    z <- pre_tif
-
-    for(i in 1:nrow(pre_tif)){
-      z1 <- which(pre_tif[i,]!=0)
-      z[i,z1] <- 1
-    }
-
-    #
-
-    co <- c()
-
-    for(i in 1:ncol(z)){
-      c1 <- as.numeric(z[,i])
-      co <- c(co,c1)
-    }
-
-    co[co==0] <- 2
-
-    co <- c(rep(3,nrow(pre_tif)),co)
-
-    col_palette <- c("blue","white","red")
-
-
-    mycolors <- col_palette[co]
-
-    # flextable(rownames_to_column(pre_tif,"Fechas")) %>%
-    #   bg(bg = mycolors) %>%  autofit() %>% htmltools_value()
-
-
-
-    #flextable(iris) %>% htmltools_value()
-    a1 <- DT::datatable(pre_tif,extensions = 'FixedColumns',
+    a2 <- DT::datatable(DF_PRE,extensions = 'FixedColumns',
                         options = list(
                           scrollX = TRUE))
-
-
-    #CREO FUNCION PARA OBTENER VALORES NO NULOS DE CADA COLUMNA
-    indice_col <- function(i){
-      z1 <- which(pre_tif[,i]!=0)
-      return(DT::styleEqual(row.names(pre_tif)[z1], rep("red",length(z1))))
+    
+    indice_col_1 <- function(i,data){
+      #FILAS DE LA COLi QUE TIENEN PRECIO NS
+      z1 <- which(data[,i]==1)
+      #FILAS DE LA COLi QUE TIENEN PRECIO SV
+      z2 <- which(data[,i]==2)
+      #FILAS DE LA COLi QUE TIENEN PRECIO SV
+      z3 <- which(data[,i]==3)
+      #FILAS DE LA COLi QUE TIENEN PRECIO SP
+      z4 <- which(data[,i]==4)
+      #FILAS DE LA COLi QUE TIENEN PRECIO VENCIDO
+      z5 <- which(data[,i]==5)
+      #FILAS DE LA COLi QUE TIENEN PRECIO VENCIDO
+      z6 <- which(data[,i]==6)
+      if(length(z6)!=0){
+        return(DT::styleEqual(c(row.names(data)[z1],row.names(data)[z2],
+                                row.names(data)[z3],row.names(data)[z4],
+                                row.names(data)[z5],row.names(data)[z6])
+                              , c(rep("blue",length(z1)),rep("green",length(z2)),
+                                  rep("yellow",length(z3)),rep("orange",length(z4)),
+                                  rep("brown",length(z5)),rep("red",length(z6))
+                              ) ))
+      }else{
+        return(DT::styleEqual(c(row.names(data)[z1],row.names(data)[z2],
+                                row.names(data)[z3],row.names(data)[z4],
+                                row.names(data)[z5])
+                              , c(rep("blue",length(z1)),rep("green",length(z2)),
+                                  rep("yellow",length(z3)),rep("orange",length(z4)),
+                                  rep("brown",length(z5))
+                              ) ))
+        
+      }
     }
-
-
-
-    for(i in 1:ncol(pre_tif)){
-      a1 <- DT::formatStyle(a1,
-                        columns = i,
-                        valueColumns = 0,
-                        target = 'cell',
-                        backgroundColor = indice_col(i)
+    
+    
+    
+    for(i in 1:ncol(DF_PRE)){
+      a2 <- DT::formatStyle(a2,
+                            columns = i,
+                            valueColumns = 0,
+                            target = 'cell',
+                            backgroundColor = indice_col_1(i,DF_ET)
       )
     }
-
-    return(a1)
+    
+    
+    return(a2)
     
     
    
@@ -3098,10 +3067,10 @@ shinyServer(function(input, output,session) {
       ),
       fluidRow(id="backv2",
         box(width=12,style="overflow-x:scroll",status = "success",DT::dataTableOutput('datatable_back'))
-      ),
-      h1("Prueba DT"),
-      #,
-      DT::dataTableOutput("ta")
+      )
+      # h1("Prueba DT"),
+      # #,
+      # DT::dataTableOutput("ta")
       
     )#final fluidpage
   })

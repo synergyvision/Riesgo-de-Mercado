@@ -2465,9 +2465,12 @@ names(df_et1)[21] <- "TIF112019"
 #UNO DATA!
 #DATA DE MEJORES PRECIOS TEORICOS 2019
 DF_PRE <- rbind.data.frame(df_pre,df_pre1)
+row.names(DF_PRE) <- as.Date(row.names(DF_PRE),format="%d/%m/%Y")
 
 #ETIQUETA MEJORES PRECIOS TEORICOS 2019
 DF_ET <- rbind.data.frame(df_et,df_et1)
+row.names(DF_ET) <- as.Date(row.names(DF_ET),format="%d/%m/%Y")
+
 
 #PONGO COLOR
 a1 <- DT::datatable(DF_PRE,extensions = 'FixedColumns',
@@ -2510,3 +2513,112 @@ for(i in 1:ncol(DF_PRE)){
 }
 
 a1
+
+
+#BUSCO EN HISTORICO 022 LOS DIAS Y PRECIOS DE TIF DONDE HAY INFORMACION
+hist19 <-Historico_act[Historico_act$year==2019 & Historico_act$Tipo.Instrumento=="TIF",] 
+
+tit_19 <- levels(as.factor(as.character(hist19$Nombre)))
+table(as.character(hist19$Nombre))
+
+w1 <- c()
+
+w <- hist19[which(hist19$Nombre==tit_19[1]),c(3,12)]
+w$tit <- tit_19[1]
+
+for(i in 2:length(tit_19)){
+w1 <- hist19[which(hist19$Nombre==tit_19[i]),c(3,12)]
+w1$tit <- tit_19[i]
+
+w <- rbind.data.frame(w,w1)
+}
+
+w
+
+#BUSCO EN DF_PRE COLUMNAS DONDE DEBO SUSTITUIR PRECIOS
+col <- c()
+
+for(i in 1:length(tit_19)){
+  col <- c(col,which(tit_19[i]==names(DF_PRE)))
+}
+
+names(col) <- tit_19
+
+#SEGUN COLUMNA SELECCIONADA BUSCO FILA (FECHA)
+w$fila <- 0
+
+for(i in 1:nrow(w)){
+w$fila[i] <- which(w$Fecha.op[i]==row.names(DF_PRE))
+}
+
+w
+
+#PROCEDO A ASIGNAR VALORES
+#col[1]
+
+for(i in 1:length(col)){
+w2 <- w[w$tit==names(col)[i],]
+
+DF_PRE[w2$fila,col[i]] <- w2$Pre.prom
+DF_ET[w2$fila,col[i]] <- "6"
+}
+
+#EXPORTO DF
+write.table(DF_PRE,"DF_PRE_TIF_19.txt")
+write.table(DF_ET,"DF_ET_TIF_19.txt")
+
+#ACTUALIZO COLORES
+#PONGO COLOR
+a2 <- DT::datatable(DF_PRE,extensions = 'FixedColumns',
+                    options = list(
+                      scrollX = TRUE))
+
+indice_col_1 <- function(i,data){
+  #FILAS DE LA COLi QUE TIENEN PRECIO NS
+  z1 <- which(data[,i]==1)
+  #FILAS DE LA COLi QUE TIENEN PRECIO SV
+  z2 <- which(data[,i]==2)
+  #FILAS DE LA COLi QUE TIENEN PRECIO SV
+  z3 <- which(data[,i]==3)
+  #FILAS DE LA COLi QUE TIENEN PRECIO SP
+  z4 <- which(data[,i]==4)
+  #FILAS DE LA COLi QUE TIENEN PRECIO VENCIDO
+  z5 <- which(data[,i]==5)
+  #FILAS DE LA COLi QUE TIENEN PRECIO VENCIDO
+  z6 <- which(data[,i]==6)
+  if(length(z6)!=0){
+  return(DT::styleEqual(c(row.names(data)[z1],row.names(data)[z2],
+                          row.names(data)[z3],row.names(data)[z4],
+                          row.names(data)[z5],row.names(data)[z6])
+                        , c(rep("blue",length(z1)),rep("green",length(z2)),
+                            rep("yellow",length(z3)),rep("orange",length(z4)),
+                            rep("brown",length(z5)),rep("red",length(z6))
+                        ) ))
+  }else{
+    return(DT::styleEqual(c(row.names(data)[z1],row.names(data)[z2],
+                            row.names(data)[z3],row.names(data)[z4],
+                            row.names(data)[z5])
+                          , c(rep("blue",length(z1)),rep("green",length(z2)),
+                              rep("yellow",length(z3)),rep("orange",length(z4)),
+                              rep("brown",length(z5))
+                          ) ))
+    
+  }
+}
+
+
+
+for(i in 1:ncol(DF_PRE)){
+  a2 <- DT::formatStyle(a2,
+                        columns = i,
+                        valueColumns = 0,
+                        target = 'cell',
+                        backgroundColor = indice_col_1(i,DF_ET)
+  )
+}
+
+a2
+
+
+
+
