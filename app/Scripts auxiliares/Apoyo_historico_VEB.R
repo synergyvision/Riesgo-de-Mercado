@@ -185,7 +185,7 @@ q1 <- pre_veb(mar,ca)
 p2 <- q1
 
 q <- p2[-nrow(p2),-1]
-names(q) <- feb
+names(q) <- mar
 row.names(q) <- tit[-which(pp==0)]
 q1 <- t(q)
 
@@ -206,6 +206,13 @@ names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
 
 q1 <- pre_veb(abr,ca)
 
+p2 <- q1
+
+q <- p2[-nrow(p2),-1]
+names(q) <- abr
+row.names(q) <- tit[-which(pp==0)]
+q1 <- t(q)
+
 write.table(q1,"precios_ns_veb_abr_19.txt")
 
 
@@ -225,6 +232,13 @@ names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
 
 q1 <- pre_veb(may,ca)
 
+p2 <- q1
+
+q <- p2[-nrow(p2),-1]
+names(q) <- may
+row.names(q) <- tit[-which(pp==0)]
+q1 <- t(q)
+
 write.table(q1,"precios_ns_veb_may_19.txt")
 
 
@@ -242,6 +256,13 @@ names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
 
 
 q1 <- pre_veb(jun,ca)
+
+p2 <- q1
+
+q <- p2[-nrow(p2),-1]
+names(q) <- jun
+row.names(q) <- tit[-which(pp==0)]
+q1 <- t(q)
 
 write.table(q1,"precios_ns_veb_jun_19.txt")
 

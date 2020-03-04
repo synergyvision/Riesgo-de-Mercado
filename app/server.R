@@ -2367,12 +2367,16 @@ shinyServer(function(input, output,session) {
       #tabBox( width = 12, title = "Instrumentos", id = "precios_comp", height = "50px", 
       tabsetPanel(type="pills",       
               tabPanel("TIF",
-                       box(id="comp_pre_tif",style="overflow-x:scroll",width = 12,DT::dataTableOutput("comparativo_precios_tif"))
+                       box(id="comp_pre_tif",style="overflow-x:scroll",width = 12,DT::dataTableOutput("comparativo_precios_tif")),
+                       h3("Selección de metodologías:"),
+                       h3("Selección realizada:")
                        
               ),#final tabpanel
               tabPanel("VEBONO",
                        
-                       box(id="comp_pre_veb",style="overflow-x:scroll",width = 12,DT::dataTableOutput("comparativo_precios_veb"))
+                       box(id="comp_pre_veb",style="overflow-x:scroll",width = 12,DT::dataTableOutput("comparativo_precios_veb")),
+                       h3("Selección de metodologías:"),
+                       h3("Selección realizada:")
                        
               )#final tabpanel
       )#final tabbox
