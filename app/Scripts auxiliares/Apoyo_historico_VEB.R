@@ -266,6 +266,62 @@ q1 <- t(q)
 
 write.table(q1,"precios_ns_veb_jun_19.txt")
 
+#JULIO 2019
+jul <- c("01/07/2019","02/07/2019","03/07/2019","04/07/2019","05/07/2019",
+         "08/07/2019","09/07/2019","10/07/2019","11/07/2019","12/07/2019",
+         "15/07/2019","16/07/2019","17/07/2019","18/07/2019","19/07/2019",
+         "22/07/2019","23/07/2019","24/07/2019","25/07/2019","26/07/2019",
+         "29/07/2019","30/07/2019","31/07/2019")
+
+#leo caracteristicas
+ca <- Carac("C:/Users/Ecuad/Downloads/30-05-2019.xls")
+names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+               "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+               "Pago cupon 2","Cupon")
+
+tit <- levels(as.factor(as.character(ca$Nombre[ca$`Tipo Instrumento`=="VEBONO"])))
+
+q1 <- pre_veb(jul,ca)
+
+p2 <- q1
+
+q <- p2[-nrow(p2),-1]
+names(q) <- jul
+row.names(q) <- tit[-which(pp==0)]
+q1 <- t(q)
+
+write.table(q1,"precios_ns_veb_jul_19.txt")
+
+
+#AGOSTO 2019
+ago <- c("01/08/2019","02/08/2019","05/08/2019","06/08/2019","07/08/2019",
+         "08/08/2019","09/08/2019","12/08/2019","13/08/2019","14/08/2019",
+         "15/08/2019","16/08/2019","19/08/2019","20/08/2019","21/08/2019",
+         "22/08/2019","23/08/2019","26/08/2019","27/08/2019","28/08/2019",
+         "29/08/2019","30/08/2019")
+
+#leo caracteristicas
+ca <- Carac("C:/Users/Ecuad/Downloads/30-08-2019.xls")
+names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+               "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+               "Pago cupon 2","Cupon")
+
+
+tit <- levels(as.factor(as.character(ca$Nombre[ca$`Tipo Instrumento`=="VEBONO"])))
+
+#busco precio promedio
+pp <- pos1(tit,1,Precio_prom_veb)
+
+q1 <- pre_veb(ago,ca)
+
+p2 <- q1
+
+q <- p2[-nrow(p2),-1]
+names(q) <- ago
+row.names(q) <- tit[-which(pp==0)]
+q1 <- t(q)
+
+write.table(q1,"precios_ns_veb_ago_19.txt")
 
 ##############
 ##############
