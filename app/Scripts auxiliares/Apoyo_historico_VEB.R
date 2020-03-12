@@ -671,6 +671,97 @@ q1 <- t(q)
 
 write.table(q1,"precios_sven_veb_mar_19.txt")
 
+#ABRIL 2019
+abr <- c("01/04/2019","02/04/2019","03/04/2019","04/04/2019","05/04/2019",
+         "08/04/2019","09/04/2019","10/04/2019","11/04/2019","12/04/2019",
+         "15/04/2019","16/04/2019","17/04/2019","18/04/2019","19/04/2019",
+         "22/04/2019","23/04/2019","24/04/2019","25/04/2019","26/04/2019",
+         "29/04/2019","30/04/2019")
+
+#leo caracteristicas
+ca <- Carac("C:/Users/Ecuad/Downloads/30-05-2019.xls")
+names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+               "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+               "Pago cupon 2","Cupon")
+
+
+tit <- levels(as.factor(as.character(ca$Nombre[ca$`Tipo Instrumento`=="VEBONO"])))
+
+#busco precio promedio
+pp <- pos1(tit,1,Precio_prom_veb)
+
+
+q1 <- pre_veb_sv(abr,ca)
+
+p2 <- q1
+
+q <- p2[-nrow(p2),-1]
+names(q) <- abr
+row.names(q) <- tit[-which(pp==0)]
+q1 <- t(q)
+
+write.table(q1,"precios_sven_veb_abr_19.txt")
+
+#MAYO 2019
+may <- c("01/05/2019","02/05/2019","03/05/2019","06/05/2019","07/05/2019",
+         "08/05/2019","09/05/2019","10/05/2019","13/05/2019","14/05/2019",
+         "15/05/2019","16/05/2019","17/05/2019","20/05/2019","21/05/2019",
+         "22/05/2019","23/05/2019","24/05/2019","27/05/2019","28/05/2019",
+         "29/05/2019","30/05/2019","31/05/2019")
+
+
+#leo caracteristicas
+ca <- Carac("C:/Users/Ecuad/Downloads/30-05-2019.xls")
+names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+               "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+               "Pago cupon 2","Cupon")
+
+tit <- levels(as.factor(as.character(ca$Nombre[ca$`Tipo Instrumento`=="VEBONO"])))
+
+#busco precio promedio
+pp <- pos1(tit,1,Precio_prom_veb)
+
+
+q1 <- pre_veb_sv(may,ca)
+
+p2 <- q1
+
+q <- p2[-nrow(p2),-1]
+names(q) <- may
+row.names(q) <- tit[-which(pp==0)]
+q1 <- t(q)
+
+write.table(q1,"precios_sven_veb_may_19.txt")
+
+#JUNIO 2019
+jun <- c("03/06/2019","04/06/2019","05/06/2019","06/06/2019","07/06/2019",
+         "10/06/2019","11/06/2019","12/06/2019","13/06/2019","14/06/2019",
+         "17/06/2019","18/06/2019","19/06/2019","20/06/2019","21/06/2019",
+         "24/06/2019","25/06/2019","26/06/2019","27/06/2019","28/06/2019")
+
+#leo caracteristicas
+ca <- Carac("C:/Users/Ecuad/Downloads/30-05-2019.xls")
+names(ca) <- c("Tipo Instrumento","Nombre","Sicet","F.Emision",
+               "F.Vencimiento","Tipo tasa","Inicio","Pago cupon 1" ,
+               "Pago cupon 2","Cupon")
+
+tit <- levels(as.factor(as.character(ca$Nombre[ca$`Tipo Instrumento`=="VEBONO"])))
+
+#busco precio promedio
+pp <- pos1(tit,1,Precio_prom_veb)
+
+
+q1 <- pre_veb_sv(jun,ca)
+
+p2 <- q1
+
+q <- p2[-nrow(p2),-1]
+names(q) <- jun
+row.names(q) <- tit[-which(pp==0)]
+q1 <- t(q)
+
+write.table(q1,"precios_sven_veb_jun_19.txt")
+
 ##############
 ##############
 ##############
